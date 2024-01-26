@@ -1,0 +1,29 @@
+.card-resume .card
+{
+    border-radius: 33px;
+    padding: 10px;
+    padding-top: 70px;
+    height: 240px;
+    border: none;
+    box-shadow: 6px 6px 9px #519DD130;
+}
+
+.card-resume .card-img
+{
+    height: 150px;
+    display: block;
+    margin-bottom: -60px;
+    position: relative;
+    z-index: 1000;
+    text-align: center;
+}
+
+.card-resume .card-img .img-fluid
+{
+    height: 160px;
+}
+
+.card-resume .card-body
+{
+    padding-inline: 10px;
+}

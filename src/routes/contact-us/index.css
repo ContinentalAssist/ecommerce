@@ -1,0 +1,123 @@
+.bg-contact-us-option-1
+{
+    background-image: url("/assets/img/contact-us/continental-assist-bg-contact-us-1920x1080.webp");
+    background-size: 100% 100%;
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+
+.bg-contact-us-option-2
+{
+    background: linear-gradient(white, #DDF0FB);
+}
+
+.bg-contact-us-option-3
+{
+    background: linear-gradient(#DDF0FB, white);
+}
+
+.bg-contact-us-option-3 .card
+{
+    border-radius: 33px;
+}
+
+li
+{
+    list-style: none;
+}
+
+li::before
+{
+    content: "\2022";
+    color: var(--ca-light-blue) !important;
+    margin-right: 10px;
+}
+
+.bg-contact-us-option-1 .row
+{
+    margin-bottom: 40px !important;
+}
+
+.bg-contact-us-option-2 .row,
+.bg-contact-us-option-3 .row
+{
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+.bg-contact-us-option-3 .card .row
+{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.title h1
+{
+    background-color: white;
+    width: 70%;
+    margin-left: 50%;
+    transform: translate(-50%);
+}
+
+h3
+{
+    margin-top: -26px;
+}
+
+.title hr
+{
+    position: relative;
+    top: 66px;
+    opacity: inherit;
+    border: 2px solid var(--ca-yellow);
+    z-index: -1;
+}
+
+.line-dots-left
+{
+    position: relative;
+    top: -65%;
+    left: 52%;
+}
+
+/* .line-dots-right
+{
+    position: relative;
+    top: -65%;
+    right: 50%;
+} */
+
+@media (max-width: 575.98px) 
+{
+    .bg-contact-us-option-1
+    {
+        background-image: url("/assets/img/contact-us/continental-assist-bg-contact-us-1080x1920.webp");
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+    }
+
+    .line-dots-left,
+    .line-dots-right
+    {
+        display: none;
+    }
+
+    .align-items-end 
+    {
+        align-items: inherit !important;
+        margin-top: 120px;
+    }
+
+    .align-items-end.h-50
+    {
+        height: auto !important;
+    }
+}
+
+@media (min-width: 2560px)
+{
+    .align-items-end.h-50
+    {
+        height: 30vh !important;
+    }
+}

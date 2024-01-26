@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "continental assist",
+  "short_name": "ca",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Cotiza y compra tu asistencia de viaje."
+}

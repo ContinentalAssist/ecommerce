@@ -1,0 +1,194 @@
+.bg-search-voucher-header
+{
+    /* background-image: url('/assets/img/search-voucher/continental-assist-bg-search-voucher-1920x1080.webp'), url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp'); */
+    background-image: url("/assets/img/contact-us/continental-assist-bg-contact-us-1920x1080.webp");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: bottom, top;
+}
+
+.bg-search-voucher-header .card
+{
+    border: none;
+    /* background-color: rgba(255, 255, 255, 0.8); */
+    box-shadow: 6px 6px 6px #A5A5A557;
+    border-radius: 33px;
+    z-index: 1000;
+    /* margin-bottom: 120px; */
+}
+
+.btn
+{
+    position: relative;
+    bottom: -20px;
+}
+
+/* .modal-header
+{
+    background-image: url('/assets/img/quotes-engine/continental-assist-modal-header.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 250px;
+    border-top-left-radius: 33px;
+    border-top-right-radius: 33px;
+}
+
+.modal .btn-close
+{
+    background-color: var(--ca-light-blue);
+    border-radius: 50px;
+    color: white;
+}
+
+.modal .img-fluid
+{
+    width: 250px;
+    margin-top: 40px;
+}
+
+.modal-content
+{
+    border-radius: 33px;
+} */
+
+.table
+{
+    background-color: #fff;
+    border-radius: 20px;
+    border-spacing: 0;
+    border-collapse: separate;
+    font-size: 28px;
+}
+
+th
+{
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    background-color: var(--ca-blue);
+    color: white;
+    height: 60px;
+    padding: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+td
+{
+    border-bottom: 1px solid lightgray;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+th:first-child
+{
+    border-top-left-radius: 20px;
+}
+
+th:last-child
+{
+    border-top-right-radius: 20px;
+}
+
+tr:last-child td:first-child
+{
+    border-bottom-left-radius: 20px;
+}
+
+tr:last-child td:last-child 
+{
+    border-bottom-right-radius: 20px;
+}
+
+.table-benefits th
+{
+    background-color: var(--ca-light-blue);
+}
+
+.table-benefits td
+{
+    font-size: 16px;
+}
+
+.table-striped>tbody>tr>*
+{
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border: none;
+}
+
+.tr-title
+{
+    background-color: var(--ca-blue);
+    color: white !important;
+}
+
+.message-voucher
+{
+    font-size: 14px;
+    display: inline-flex;
+    align-items: inherit;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.img-not-mobile
+{
+    display: inherit;
+}
+
+.img-mobile
+{
+    display: none;
+}
+
+@media (max-width: 575.98px) 
+{
+
+    .bg-search-voucher-header
+    {
+        background-position: bottom left;
+        background-size: 250%;
+    }
+
+    .bg-search-voucher-header .card
+    {
+        margin-bottom: 120px;
+    }
+
+    .modal-body .table
+    {
+        font-size: 14px;
+    }
+
+    .modal-body th,
+    .modal-body td
+    {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .img-not-mobile
+    {
+        display: none;
+    }
+
+    .img-mobile
+    {
+        display: inherit;
+        margin-bottom: -30px;
+    }
+
+    .mt-xs
+    {
+        margin-top: 10px !important;
+    }
+}
+
+@media (min-width: 2560px)
+{
+    .align-items-end.h-50
+    {
+        height: 30vh !important;
+    }
+}

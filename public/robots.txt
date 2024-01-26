@@ -1,0 +1,8 @@
+User-agent: *
+
+Disallow: /api
+
+Allow: /
+Allow: /quotes-engine
+
+Sitemap: http://continentalassist.com/sitemap.xml
