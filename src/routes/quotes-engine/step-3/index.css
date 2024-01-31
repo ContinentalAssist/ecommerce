@@ -1,0 +1,41 @@
+.bg-step-5
+{
+    background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
+    background-repeat: no-repeat;
+    background-size: 100vw auto;
+}
+
+.card-pax
+{
+    margin-top: -10px;
+    border-radius: 0px 0px 33px 33px !important;
+}
+
+.card-title
+{
+    background-color: var(--ca-light-blue);
+    border-radius: 33px;
+    color: white;
+    /* padding-bottom: 6px; */
+}
+
+.form-control
+{
+    border-radius: 30px !important;
+    border: 2px solid lightgray;
+    margin-bottom: 6px;
+}
+
+.img-fluid
+{
+    height: 25px;
+    width: auto;
+}
+
+@media (max-width: 575.98px)
+{
+    .card-title
+    {
+        padding-top: 6px;
+    }
+}

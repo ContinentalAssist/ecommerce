@@ -1,0 +1,132 @@
+.bg-about-us
+{
+    background-image: url('/assets/img/about-us/continental-assist-city-1920x1080.webp'), url('/assets/img/about-us/continental-assist-clouds-1920x1080.webp'), linear-gradient(white, #DDF0FB);
+    background-size: 100vw auto;
+    background-position: bottom;
+    background-repeat: no-repeat, repeat-y;
+}
+
+.cards-benefits .card
+{
+    height: 240px !important;
+}
+
+.cards-benefits .card-title
+{
+    color: var(--ca-dark-blue) !important;
+}
+
+.cards-benefits .card-text
+{
+    color: var(--ca-dark-gray) !important;
+}
+
+.cards-directions .card
+{
+    background-color: transparent;
+    border: none;
+    border-radius: 33px;
+}
+
+.cards-directions .img-fluid
+{
+    width: 200px;
+}
+
+.cards-solutions .card
+{
+    height: 240px !important;
+}
+
+.bg-about-us-benefits .row,
+.bg-about-us-solutions .row
+{
+    margin-top: 40px !important;
+    margin-bottom: 40px !important;
+}
+
+.rotate-90
+{
+    transform: rotate(90deg);
+}
+
+.rotate-180
+{
+    transform: rotate(180deg);
+}
+
+.rotate-270
+{
+    transform: rotate(270deg);
+}
+
+.line-time
+{
+    margin-top: -28px;
+    margin-bottom: -28px;
+}
+
+.stick
+{
+    height: 100px;
+}
+
+@media (max-width: 575.98px)
+{
+    .bg-about-us
+    {
+        background-size: 350% auto;
+        background-position: bottom, left;
+    }
+
+    .cards-directions .card
+    {
+        text-align: center;
+    }
+
+    .img-line-vertical
+    {
+        width: 100px;
+        height: 100px;
+    }
+
+    img.rotate-90
+    {
+        height: 60px;
+        margin: 20px;
+        margin-right: -37px;
+    }
+
+    img.rotate-270
+    {
+        height: 60px;
+        margin: 20px;
+        margin-left: -49px;
+    }
+
+    .line-time
+    {
+        position: relative;
+        z-index: 1000;
+        margin-left: -5px;
+    }
+
+    .align-items-end 
+    {
+        align-items: inherit !important;
+        margin-top: 120px;
+    }
+
+    .align-items-end.h-50
+    {
+        height: auto !important;
+    }
+}
+
+@media (min-width: 2560px)
+{
+    .align-items-end.h-50
+    {
+        height: 30vh !important;
+    }
+}

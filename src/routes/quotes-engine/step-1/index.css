@@ -1,0 +1,117 @@
+.bg-step-3
+{
+    background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.cards .card
+{
+    border-radius: 33px;
+    box-shadow: 6px 6px 9px #519DD130;
+    border: none;
+    padding-bottom: 40px;
+    margin-bottom: 60px;
+}
+
+.cards .card .card-recommended
+{
+    position: absolute;
+    display: flex;
+    background-color: var(--ca-dark-blue);
+    /* width: 60px; */
+    font-size: 10px;
+    text-align: center;
+    padding: 4px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: white;
+    right: 30px;
+    box-shadow: 2px 2px var(--ca-light-blue);
+}
+
+.cards .card-body
+{
+    padding: 20px 10px 0px;
+}
+
+.cards .card .img-star
+{
+    width: 20px;
+    height: auto;
+}
+
+.cards .card .img-fluid
+{
+    max-height: 100px;
+    width: auto;
+}
+
+.cards button.btn-link
+{
+    background-color: transparent;
+    border: none;
+    position: relative;
+    top: -5px;
+}
+
+.cards .btn-outline-primary,
+.cards .btn-primary
+{
+    position: relative;
+    margin-bottom: -60px;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+li div
+{
+    max-width: 230px;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden !important;
+}
+
+.border-dark-blue
+{
+    border: 1px solid var(--ca-dark-blue) !important;
+}
+
+.table-striped>tbody>tr>*
+{
+    border-radius: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.tr-title
+{
+    background-color: var(--ca-light-blue);
+}
+
+ul
+{
+    padding-left: 24px;
+    font-size: 12px;
+    color: var(--ca-light-blue);
+    line-height: 16px;
+    min-height: 130px;
+}
+
+@media (max-width: 575.98px)
+{
+    .row-mobile .col-xs-3
+    {
+        width: calc((100% / 12) * 3);
+    }
+
+    .row-mobile .col-xs-9
+    {
+        width: calc((100% / 12) * 9);
+    }
+
+    .row-mobile .col-xs-6
+    {
+        width: calc((100% / 12) * 6);
+    }
+}

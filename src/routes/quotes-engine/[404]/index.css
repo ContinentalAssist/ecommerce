@@ -1,0 +1,27 @@
+.bg-404
+{
+    background-color: #DBF0FB;
+    background-image: url("/assets/img/[404]/continental-assist-bg-404-1920x1080.webp");
+}
+
+.img-caracter
+{
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    width: 430px;
+}
+
+.img-number
+{
+    width: 700px;
+}
+
+@media (max-width: 575.98px)
+{
+    .img-caracter
+    {
+        top: 30%;
+        width: 230px;
+    }
+}

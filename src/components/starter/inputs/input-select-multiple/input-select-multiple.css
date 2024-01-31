@@ -1,0 +1,53 @@
+.form-label
+{
+    color: var(--ca-dark-blue) !important;
+    margin-bottom: 4px !important;
+}
+
+.form-select
+{
+    border-radius: 50px;
+    border: 2px solid lightgray;
+    margin-bottom: 6px;
+}
+
+.select-multiple .dropdown-menu.show
+{
+    /* transform: inherit !important;
+    inset: auto auto auto 0px !important; */
+    max-height: 50vh;
+    overflow-x: auto;
+    border-radius: 20px;
+    padding-inline: 10px;
+}
+
+.select-multiple .dropdown-menu .dropdown-item
+{
+    border-radius: 20px;
+}
+
+.select-multiple .dropdown-menu .dropdown-item:hover
+{
+    background-color: lightgray;
+}
+
+.select-multiple .dropdown-menu .dropdown-item.active
+{
+    background-color: #f3f3f3;
+    color: black;
+}
+
+.select-multiple .dropdown-menu .form-check-input:checked 
+{
+    background-color: var(--ca-light-blue) !important;
+    border-color: var(--ca-light-blue) !important;
+}
+
+@media (max-width: 575.98px)
+{
+    .select-multiple .dropdown-menu.show
+    {
+        max-width: 80vw !important;
+        overflow-x: hidden !important;
+    }
+}

@@ -1,0 +1,14 @@
+User-agent: *
+User-agent: Googlebot
+User-agent: Googlebot-Image
+User-agent: Googlebot-News
+User-agent: Googlebot-Video
+User-agent: Googlebot-Mobile
+User-agent: Bingbot
+
+Disallow: /api
+
+Allow: /
+Allow: /quotes-engine
+
+Sitemap: https://continentalassist.com/sitemap.xml

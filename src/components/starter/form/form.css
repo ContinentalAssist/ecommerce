@@ -1,0 +1,27 @@
+.credit-card input[type=number]::-webkit-inner-spin-button, 
+.credit-card input[type=number]::-webkit-outer-spin-button 
+{ 
+    -webkit-appearance: none !important; 
+    margin: 0 !important; 
+}
+
+.form-label
+{
+    color: var(--ca-dark-blue) !important;
+    margin-bottom: 4px !important;
+}
+
+.form-control,
+.form-select
+{
+    border-radius: 30px !important;
+    border: 2px solid lightgray;
+    margin-bottom: 6px;
+}
+
+.is-invalid~.invalid-feedback
+{
+    position: absolute;
+    margin-top: -10px;
+    margin-left: 14px;
+}

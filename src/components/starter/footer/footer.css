@@ -1,0 +1,75 @@
+footer .bg-primary
+{
+    background-color: var(--ca-blue) !important;
+}
+
+footer .bg-secondary
+{
+    background-color: white !important;
+}
+
+footer .bg-secondary
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    color: var(--ca-blue);
+}
+
+footer i,
+footer img
+{
+    font-size: 50px;
+    color: white;
+    margin-top: 24px;
+}
+
+#icon-chat
+{
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    
+}
+
+#icon-chat img
+{
+    filter: drop-shadow(0 0 10px gray);
+}
+
+#icon-chat img:hover
+{
+    cursor: pointer;
+}
+
+#icon-chat .dropdown-menu
+{
+    border-radius: 20px;
+    padding-inline: 10px;
+}
+
+#icon-chat .dropdown-item
+{
+    border-radius: 20px;
+}
+
+#icon-chat .dropdown-item:hover
+{
+    background-color: lightgray;
+}
+
+@media(max-width: 575.98px)
+{
+    footer .bg-secondary p
+    {
+        font-size: 12px;
+        margin-bottom: 60px;
+    }
+
+    #icon-chat
+    {
+        position: fixed;
+        bottom: 10px;
+        right: 20px;
+        width: 60px;
+    }
+}

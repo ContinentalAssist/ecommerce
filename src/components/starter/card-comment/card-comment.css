@@ -1,0 +1,85 @@
+.card
+{
+    box-shadow: 0px 4px 17px #43D3FB6F;
+    margin-bottom: 30px;
+}
+
+.card-body
+{
+    height: 240px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.card h4
+{
+    /* font-size: 32px; */
+    margin-bottom: 0px;
+}
+
+.card-flag
+{
+    float: right;
+    width: 60px;
+}
+
+.card h5
+{
+    /* font-size: 30px; */
+    margin-bottom: 0px;
+}
+
+.card .fa-quote-left
+{
+    position: absolute;
+    font-size: 14px;
+    margin-top: -0px;
+    margin-left: -4px;
+    color: var(--ca-light-blue);
+    opacity: 0.5;
+}
+
+.card .fa-quote-right
+{
+    position: absolute;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: -4px;
+    color: var(--ca-light-blue);
+    opacity: 0.5;
+}
+
+/* @media (min-width: 992px) and (max-width: 1399.98px)
+{
+    .card
+    {
+        height: 200px;
+    }
+} */
+
+/* .card .card-body blockquote
+{
+    quotes: '\00AB' '\00BB' '\201E' '\201C';
+    color: #5F5F5E !important;
+    font-size: 17px !important;
+}
+
+.card .card-body blockquote::before 
+{ 
+    content: open-quote; 
+    color: #B3EBFF !important;
+    font-size: 40px;
+    position: absolute !important;
+    margin-top: -20px;
+    margin-left: -10px;
+}
+
+.card .card-body blockquote::after 
+{ 
+    content: close-quote; 
+    color: #B3EBFF !important;
+    font-size: 40px;
+    position: absolute;
+    margin-top: -20px;
+    margin-right: -10px;
+} */
