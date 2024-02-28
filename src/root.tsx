@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow,useTask$, $ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 import './global.css';
@@ -12,9 +12,15 @@ export default component$(() => {
 
     const resumeQuote = useSignal(obj)
     const so = useSignal('')
+    
 
     useContextProvider(WEBContext,resumeQuote)
-
+    useTask$(async() => {
+       // const ipResponse = await fetch('https://api.ipify.org?format=json').then(response => response.json());
+       // const ipAddress = ipResponse.ip; // La dirección IP del cliente
+        const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location').then((response) => {return(response.json())})
+        resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
+    });
     useOnWindow('load',$(() => {
         if(navigator.userAgent.includes('Windows'))
         {
@@ -107,6 +113,8 @@ export default component$(() => {
                 <RouterOutlet />
                 <script src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
+                <script type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+                <script type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
                 {/* <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> */}
                 <ServiceWorkerRegister />
             </body>

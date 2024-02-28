@@ -21,7 +21,11 @@ export const head: DocumentHead = {
         {rel:'canonical',href:'https://continentalassist.com/quotes-engine/step-4'},
     ],
 }
-
+declare global {
+    interface Window {
+      OpenPay: any;
+    }
+  }
 export default component$(() => {
     useStylesScoped$(styles)
 
@@ -32,6 +36,7 @@ export default component$(() => {
     const obj : {[key:string]:any} = {}
 
     const resume = useSignal(obj)
+    const openPayObj = useSignal(obj)
     const months = useSignal(array)
     const years = useSignal(array)
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
@@ -61,11 +66,33 @@ export default component$(() => {
         const actualYear = new Date().getFullYear()
         const futureYear = new Date(new Date().setFullYear(new Date().getFullYear()+15)).getFullYear()
 
-        for (let index = actualYear; index < futureYear; index++) {
-            newYears.push({value:String(index),label:String(index)})
-        }
+        console.log(stateContext.value.resGeo.country)
+        if(stateContext.value.resGeo.country == "MX")
+            for (let index = actualYear; index < futureYear; index++) 
+                newYears.push({value: String(index).slice(-2), label: String(index).slice(-2)})
+         
+        if(stateContext.value.resGeo.country == "US")
+            for (let index = actualYear; index < futureYear; index++) 
+                newYears.push({value:String(index),label:String(index)})
 
         years.value = newYears
+        const checkOpenPayLoaded = () => {
+            if (window.OpenPay) {
+                window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
+                window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
+                window.OpenPay.setSandboxMode(true);
+                const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
+                openPayObj.value = { ...openPayObj.value, devicesessionid: deviceSessionId}
+                console.log("OpenPay configurado. Device Session ID:", deviceSessionId);
+            } else {
+                console.log("Esperando a que OpenPay esté disponible...");
+                setTimeout(checkOpenPayLoaded, 100); 
+            }
+        };
+    
+        if (typeof window !== "undefined" && stateContext.value.resGeo.country == "MX") {
+            checkOpenPayLoaded();
+        }
     })
 
     useVisibleTask$(() => {
@@ -79,7 +106,8 @@ export default component$(() => {
             navigate('/quotes-engine/step-1')
         }
     })
-
+   
+    
     const getName$ = $((name:string) => {
         tdcname.value = name
     })
@@ -136,6 +164,34 @@ export default component$(() => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
+    const getOpenPayToken$ = $(async() =>  {
+        // Envolver la llamada a OpenPay en una Promesa
+        const promesaOpenPay = new Promise((resolve, reject) => {
+            const success_callback = (response: any) => {
+                console.log('Token creado con éxito:', response.data.id);
+                openPayObj.value = { ...openPayObj.value, sourceid: response.data.id}
+                resolve(response); // Resuelve la promesa con la respuesta en caso de éxito
+            };
+        
+            const error_callback = (error: any) => {
+                console.error('Error al crear el token:', error.data.description);
+                reject(error); // Rechaza la promesa con el error en caso de fallo
+            };
+        
+            window.OpenPay.token.extractFormAndCreate('form-payment-method', success_callback, error_callback);
+        });
+        
+        try {
+            // Esperar a que la promesa se resuelva para obtener la respuesta
+            const response = await promesaOpenPay;
+            console.log('Respuesta de OpenPay:', response);
+            // Continuar con el flujo después de obtener la respuesta
+        } catch (error) {
+            console.error('Error al procesar el formulario con OpenPay:', error);
+            // Manejar el error
+        }
+    });
+
     const getPayment$ = $(async() => {
         const bs = (window as any)['bootstrap']
         const modalSuccess = new bs.Modal('#modalConfirmation',{})
@@ -147,6 +203,8 @@ export default component$(() => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
+
+    
         let error = false
         let errorInvoicing = false
         
@@ -214,7 +272,7 @@ export default component$(() => {
             loading.value = true
 
             const newPaxs : any[] = []
-
+            let   idMethodPayment : number = 2
             resume.value.asegurados.map((pax:any,index:number) => {
                 
                 newPaxs.push(pax)
@@ -228,6 +286,18 @@ export default component$(() => {
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
+          
+            switch (stateContext.value.resGeo.country) {
+                case 'CO':
+                    idMethodPayment = 2
+                    break;
+                case 'MX':
+                    idMethodPayment = 6
+                    await  getOpenPayToken$()
+                    break; 
+                default:
+                    
+            }
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -250,7 +320,7 @@ export default component$(() => {
                     moneda:{
                         idmoneda:resume.value.plan.idmonedapago,
                     },
-                    idplataformapago:2,
+                    idplataformapago:idMethodPayment,
                     cupon:{
                         idcupon:resume.value.cupon.idcupon,
                         codigocupon:resume.value.cupon.codigocupon,
@@ -258,10 +328,17 @@ export default component$(() => {
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
-                    idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : ''
+                    idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
+                    sandbox:'t',
+                    paispago:'MX',
+                    openpay: {
+                        ...(openPayObj.value.sourceid ? { sourceid: openPayObj.value.sourceid } : {}), 
+                        ...(openPayObj.value.devicesessionid ? { devicesessionid: openPayObj.value.devicesessionid } : {}), 
+                    }
+
                 }
             )
-
+            //console.log(JSON.stringify(dataRequest))
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
                 dataRequest.facturacion = dataFormInvoicing
@@ -410,7 +487,7 @@ export default component$(() => {
 
         stateContext.value = {}
     })
-
+   
     return(
         <>
             {
@@ -448,13 +525,13 @@ export default component$(() => {
                                                         id='form-payment-method'
                                                         form={[
                                                             {row:[
-                                                                {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true'},
-                                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true},
+                                                                {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                             ]},
                                                             {row:[
-                                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)})},
-                                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)})},
-                                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true}
+                                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                             ]}
                                                         ]}
                                                     />

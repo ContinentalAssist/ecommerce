@@ -5,6 +5,12 @@ import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+
+import ImgContinentalAssistBagEssential from '~/media/img/icons/continental-assist-bag-essential.webp?jsx'
+import ImgContinentalAssistBagComplete from '~/media/img/icons/continental-assist-bag-complete.webp?jsx'
+import ImgContinentalAssistBagElite from '~/media/img/icons/continental-assist-bag-elite.webp?jsx'
+import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
+
 import styles from './index.css?inline'
 
 export const head: DocumentHead = {
@@ -70,10 +76,13 @@ export default component$(() => {
     })
 
     useVisibleTask$(async() => {
+       // console.log(stateContext.value.resGeo.country)
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
-            
+            let convertionRate: number;
+            let currency: string;
+
             if(prevResume.plan != undefined)
             {  
                 planSelected.value = prevResume.plan
@@ -92,6 +101,11 @@ export default component$(() => {
 
             const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
             const dataPlans = await resPlans.json()
+            // const Ubication = await fetch('https://api-bdc.net/data/ip-geolocation?ip='+stateContext.value.resGeo.ip_address+'&localityLanguage=en&key=bdc_b92b9bc4fec34300b6bade87b7fc1d1a')
+            //    .then((response) => {return(response.json())})
+            
+            const exchangeRate = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
+               .then((response) => {return(response.json())})
             
             error = dataPlans.error
             plans.value = dataPlans.resultado
@@ -100,6 +114,32 @@ export default component$(() => {
             {
                 if(plans.value.length > 0)
                 {
+                    
+                    switch (stateContext.value.resGeo.country) {
+                        case 'CO':
+                            convertionRate = exchangeRate.conversion_rates.COP
+                            currency = 'COP'
+                            break;
+                        case 'MX':
+                            convertionRate = exchangeRate.conversion_rates.MXN
+                            currency = 'MXN'
+                            break; 
+                        default:
+                            convertionRate = exchangeRate.conversion_rates.USD
+                            currency = 'USD'
+                    }
+                    //console.log( plans.value)
+                    plans.value.forEach((plan) => {
+                        //console.log(plan.precioindividual)
+                       // console.log("---------")
+                        let priceConvertionRateGroup = plan.precio_grupal * convertionRate
+                        let priceConvertionRateInd   = plan.precioindividual * convertionRate
+                        plan.precio_grupal      = priceConvertionRateGroup.toFixed(2);
+                        plan.precioindividual  = priceConvertionRateInd.toFixed(2);
+                        plan.codigomonedapago   = currency
+                        
+                    });
+                    //console.log(plans.value)
                     loading.value = false
                 }
             }
@@ -504,9 +544,9 @@ export default component$(() => {
                                                         <div class='container'>
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center align-center'>
-                                                                {plan.idplan == '2946' && <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' alt='continental-assist-icon-bag-essential'/>}
-                                                                {plan.idplan == '2964' && <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' alt='continental-assist-icon-bag-complete'/>}
-                                                                {plan.idplan == '2965' && <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' alt='continental-assist-icon-bag-elite'/>}
+                                                                {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                                {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                                {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                                 </div>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <h2 class='card-title text-semi-bold text-light-blue'>
@@ -615,9 +655,9 @@ export default component$(() => {
                                                                                 <div class='container'>
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center align-center'>
-                                                                                            {plan.idplan == '2946' && <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' alt='continental-assist-icon-bag-essential'/>}
-                                                                                            {plan.idplan == '2964' && <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' alt='continental-assist-icon-bag-complete'/>}
-                                                                                            {plan.idplan == '2965' && <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' alt='continental-assist-icon-bag-elite'/>}
+                                                                                            {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                                                            {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                                                            {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                                                         </div>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <h2 class='card-title text-semi-bold text-light-blue'>
@@ -707,9 +747,9 @@ export default component$(() => {
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            {benefitsPlan.value.idplan == '2946'&& <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-essential'/>}
-                            {benefitsPlan.value.idplan == '2964'&& <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-complete'/>}
-                            {benefitsPlan.value.idplan == '2965'&& <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-elite'/>}
+                            {benefitsPlan.value.idplan == '2946'&& <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                            {benefitsPlan.value.idplan == '2964'&& <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                            {benefitsPlan.value.idplan == '2965'&& <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                             <h2 class='text-semi-bold text-white'>
                                 {benefitsPlan.value.idplan == '2946' && 'Essential'}
                                 {benefitsPlan.value.idplan == '2964' && 'Complete'}
@@ -749,7 +789,7 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <img src='/assets/img/quotes-engine/continental-assist-group-plan.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-group-plan'/>
+                            <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan'/>
                             <h2 class='text-semi-bold text-drak-blue'>¡Genial!</h2>
                         </div>
                         <div class="modal-body">

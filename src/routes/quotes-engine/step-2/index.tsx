@@ -294,20 +294,21 @@ export default component$(() => {
                         idplan:resume.value.plan.idplan,
                         cantidaddias:resume.value.dias,
                         pasajeros:dataForm,
-                        fechadesde:resume.value.departure,
-                        fechahasta:resume.value.arrival,
+                        fechadesde:resume.value.desde,
+                        fechahasta:resume.value.hasta,
                         origenes:resume.value.origen,
-                        detinos:resume.value.destinos,
+                        destinos:resume.value.destinos,
                     },
                     ps:'www.continentalassist.com'
                 }
                 
                 let resValidPaxs : {[key:string]:any} = {}
-
+                
                 const resPaxs = await fetch("/api/getPaxValidation",{method:"POST",body:JSON.stringify(dataRequest)});
+             
                 const dataPaxs = await resPaxs.json()
                 resValidPaxs = dataPaxs
-    
+               
                 if(resValidPaxs.error == false)
                 {
                     const paxs: any[] = resValidPaxs.resultado

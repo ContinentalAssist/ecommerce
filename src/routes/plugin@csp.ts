@@ -25,7 +25,7 @@ export const onRequest: RequestHandler = event => {
         "frame-src 'self' https: https://td.doubleclick.net",
         "object-src 'none'",
         "base-uri 'self'",
-        "connect-src 'self' https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js https://ka-f.fontawesome.com https://analytics.google.com https://us-central1-db-service-01.cloudfunctions.net/get-location https://metrics.hotjar.io https://td.doubleclick.net https://stats.g.doubleclick.net https://vc.hotjar.io https://content.hotjar.io https://www.google.com/*",
+        "connect-src 'self' https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js https://ka-f.fontawesome.com https://analytics.google.com https://us-central1-db-service-01.cloudfunctions.net/get-location https://metrics.hotjar.io https://td.doubleclick.net https://stats.g.doubleclick.net https://vc.hotjar.io https://content.hotjar.io https://www.google.com/* https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD https://api-bdc.net/data/ip-geolocation https://sandbox-api.openpay.mx/",
     ];
  
     event.headers.set("Content-Security-Policy", csp.join("; "));

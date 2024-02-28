@@ -105,6 +105,8 @@ export const Form = component$((props:propsForm) => {
                             <div key={rIndex} class='row row-mobile'>
                                 {
                                     rowInput.row.map((columnInput,iIndex) => {
+                                        const dataAttributes = columnInput.dataAttributes ? { ...columnInput.dataAttributes } : {};
+
                                         if(columnInput.type === 'textarea')
                                         {
                                             return(
@@ -121,7 +123,7 @@ export const Form = component$((props:propsForm) => {
                                                             </>
                                                         } */}
                                                     </label>
-                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required}/>
+                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} {...dataAttributes}/>
                                                 </div>
                                             )
                                         }
@@ -138,6 +140,7 @@ export const Form = component$((props:propsForm) => {
                                                         required={columnInput.required}
                                                         value={columnInput.value}
                                                         onChange={columnInput.onChange}
+                                                        dataAttributes={columnInput.dataAttributes}
                                                     />
                                                 </div>
                                             )
@@ -156,7 +159,7 @@ export const Form = component$((props:propsForm) => {
                                                             </>
                                                         } */}
                                                     </label>
-                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}}>
+                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} {...dataAttributes}>
                                                         <option value='' selected={true} disabled={true}></option>
                                                         {
                                                             columnInput.options.map((option:any,index:number) => {
@@ -178,6 +181,7 @@ export const Form = component$((props:propsForm) => {
                                                         name={columnInput.name} 
                                                         required={columnInput.required}
                                                         value={columnInput.value}
+                                                        {...dataAttributes}
                                                     />
                                                 </div>
                                             )
@@ -193,6 +197,7 @@ export const Form = component$((props:propsForm) => {
                                                         required={columnInput.required}
                                                         options={columnInput.options}
                                                         value={columnInput.value}
+                                                        {...dataAttributes}
                                                     />
                                                 </div>
                                             )
@@ -236,6 +241,7 @@ export const Form = component$((props:propsForm) => {
                                                         }}
                                                         onBlur$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
                                                         value={columnInput.value}
+                                                        {...dataAttributes}
                                                         // onClick$={() => {(document.querySelector('input[id='+props.id+'-input-'+rIndex+'-'+iIndex+']') as HTMLInputElement).showPicker()}}
                                                     />
                                                 </div>
@@ -271,6 +277,7 @@ export const Form = component$((props:propsForm) => {
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
                                                         onBlur$={e=>valiadateBlur$(e.target)}
+                                                        {...dataAttributes}
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese un telefono valido.
@@ -308,6 +315,7 @@ export const Form = component$((props:propsForm) => {
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
                                                         onBlur$={e=>valiadateBlur$(e.target)}
+                                                        {...dataAttributes}
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese un correo valido.
@@ -345,6 +353,7 @@ export const Form = component$((props:propsForm) => {
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
                                                         onBlur$={e=>valiadateBlur$(e.target)}
+                                                        {...dataAttributes}
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese solamente numeros.
@@ -382,6 +391,7 @@ export const Form = component$((props:propsForm) => {
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
                                                         onKeyUp$={e=>valiadateKeyUp$(e.target)}
+                                                        {...dataAttributes}
                                                     />
                                                 </div>
                                             )
