@@ -4,6 +4,7 @@ import { RouterHead } from './components/router-head/router-head';
 import './global.css';
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
+import ServiceRequest from './utils/ServiceRequest';
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 
@@ -15,12 +16,42 @@ export default component$(() => {
     
 
     useContextProvider(WEBContext,resumeQuote)
+
     useTask$(async() => {
-       // const ipResponse = await fetch('https://api.ipify.org?format=json').then(response => response.json());
-       // const ipAddress = ipResponse.ip; // La dirección IP del cliente
-        const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location').then((response) => {return(response.json())})
+        let convertionRate: number;
+        let currency: string;
+
+        const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+            .then((response) => {
+                return(response.json())
+            })
+
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
+
+        let exchangeRate : any[] = []
+
+        await ServiceRequest('/bk_getTasasCambiosActual',{},(response) => {
+            exchangeRate = response.resultado
+        })
+
+        switch (geoData.country) 
+        {
+            case 'CO':
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'COP'}).valor || 0
+                currency = 'COP'
+                break;
+            case 'MX':
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'MXN'}).valor || 0
+                currency = 'MXN'
+                break; 
+            default:
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'USD'}).valor || 0
+                currency = 'USD'
+        }
+
+        resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
     });
+
     useOnWindow('load',$(() => {
         if(navigator.userAgent.includes('Windows'))
         {

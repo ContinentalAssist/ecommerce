@@ -12,6 +12,7 @@ import ImgContinentalAssistBagElite from '~/media/img/icons/continental-assist-b
 import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline'
+import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -76,12 +77,9 @@ export default component$(() => {
     })
 
     useVisibleTask$(async() => {
-       // console.log(stateContext.value.resGeo.country)
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
-            let convertionRate: number;
-            let currency: string;
 
             if(prevResume.plan != undefined)
             {  
@@ -90,22 +88,14 @@ export default component$(() => {
 
             const dataForm : {[key:string]:any} = {}
 
-            const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                .then((response) => {return(response.json())})
-
             Object.assign(dataForm,stateContext?.value)
             dataForm.idfuente = 2
-            dataForm.ip = resGeo.ip_address
+            dataForm.ip = stateContext.value.resGeo.ip_address
 
             let error = false
 
             const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
             const dataPlans = await resPlans.json()
-            // const Ubication = await fetch('https://api-bdc.net/data/ip-geolocation?ip='+stateContext.value.resGeo.ip_address+'&localityLanguage=en&key=bdc_b92b9bc4fec34300b6bade87b7fc1d1a')
-            //    .then((response) => {return(response.json())})
-            
-            const exchangeRate = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
-               .then((response) => {return(response.json())})
             
             error = dataPlans.error
             plans.value = dataPlans.resultado
@@ -114,32 +104,12 @@ export default component$(() => {
             {
                 if(plans.value.length > 0)
                 {
-                    
-                    switch (stateContext.value.resGeo.country) {
-                        case 'CO':
-                            convertionRate = exchangeRate.conversion_rates.COP
-                            currency = 'COP'
-                            break;
-                        case 'MX':
-                            convertionRate = exchangeRate.conversion_rates.MXN
-                            currency = 'MXN'
-                            break; 
-                        default:
-                            convertionRate = exchangeRate.conversion_rates.USD
-                            currency = 'USD'
-                    }
-                    //console.log( plans.value)
-                    plans.value.forEach((plan) => {
-                        //console.log(plan.precioindividual)
-                       // console.log("---------")
-                        let priceConvertionRateGroup = plan.precio_grupal * convertionRate
-                        let priceConvertionRateInd   = plan.precioindividual * convertionRate
-                        plan.precio_grupal      = priceConvertionRateGroup.toFixed(2);
-                        plan.precioindividual  = priceConvertionRateInd.toFixed(2);
-                        plan.codigomonedapago   = currency
-                        
-                    });
-                    //console.log(plans.value)
+                    plans.value.map((plan) => {
+                        plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                        plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                    })
+
+                    plans.value = plans.value
                     loading.value = false
                 }
             }
@@ -346,24 +316,38 @@ export default component$(() => {
                 {
                     newDataForm.planfamiliar = 'f'
                     resume.value = newDataForm
-                    stateContext.value = newDataForm
+                    stateContext.value = {...stateContext.value,...newDataForm}
                     
                     const dataForm : {[key:string]:any} = {}
 
-                    const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                        .then((response) => {return(response.json())})
-
-                    Object.assign(dataForm,stateContext.value)
+                    Object.assign(dataForm,stateContext?.value)
                     dataForm.idfuente = 2
-                    dataForm.ip = resGeo.ip_address
+                    dataForm.ip = stateContext.value.resGeo.ip_address
+
+                    let error = false
 
                     const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
+                    
+                    error = dataPlans.error
                     plans.value = dataPlans.resultado
 
-
-                    if(plans.value.length > 0)
+                    if(error == false)
                     {
+                        if(plans.value.length > 0)
+                        {
+                            plans.value.map((plan) => {
+                                plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                                plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                            })
+
+                            plans.value = plans.value
+                            loading.value = false
+                        }
+                    }
+                    else
+                    {
+                        plans.value = []
                         loading.value = false
                     }
                 }
@@ -610,7 +594,7 @@ export default component$(() => {
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <small>Precio</small>
-                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{plan.precio_grupal+' '+plan.codigomonedapago}</h2>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{(plan.precio_grupal_convertion ? plan.precio_grupal_convertion : plan.precio_grupal) +' '+ (plan.codigomonedapago_convertion ? plan.codigomonedapago_convertion : plan.codigomonedapago)}</h2>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -721,7 +705,7 @@ export default component$(() => {
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <small>Precio</small>
-                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{plan.precio_grupal+' '+plan.codigomonedapago}</h2>
+                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{(plan.precio_grupal_convertion ? plan.precio_grupal_convertion : plan.precio_grupal) +' '+ (plan.codigomonedapago_convertion ? plan.codigomonedapago_convertion : plan.codigomonedapago)}</h2>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
