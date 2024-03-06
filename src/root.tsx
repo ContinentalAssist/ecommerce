@@ -20,6 +20,7 @@ export default component$(() => {
     useTask$(async() => {
         let convertionRate: number;
         let currency: string;
+        let exchangeRate : any[] = []
 
         const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
             .then((response) => {
@@ -28,8 +29,6 @@ export default component$(() => {
 
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
-        let exchangeRate : any[] = []
-
         await ServiceRequest('/bk_getTasasCambiosActual',{},(response) => {
             exchangeRate = response.resultado
         })
@@ -37,15 +36,15 @@ export default component$(() => {
         switch (geoData.country) 
         {
             case 'CO':
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'COP'}).valor || 0
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'COP'})?.valor || 1
                 currency = 'COP'
                 break;
             case 'MX':
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'MXN'}).valor || 0
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'MXN'})?.valor || 1
                 currency = 'MXN'
                 break; 
             default:
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'USD'}).valor || 0
+                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'USD'})?.valor || 1
                 currency = 'USD'
         }
 

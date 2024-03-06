@@ -104,10 +104,10 @@ export default component$(() => {
             {
                 if(plans.value.length > 0)
                 {
-                    plans.value.map((plan) => {
-                        plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
-                        plan.codigomonedapago_convertion = stateContext.value.currentRate.code
-                    })
+                    // plans.value.map((plan) => {
+                    //     plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                    //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                    // })
 
                     plans.value = plans.value
                     loading.value = false
@@ -336,10 +336,10 @@ export default component$(() => {
                     {
                         if(plans.value.length > 0)
                         {
-                            plans.value.map((plan) => {
-                                plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
-                                plan.codigomonedapago_convertion = stateContext.value.currentRate.code
-                            })
+                            // plans.value.map((plan) => {
+                            //     plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                            //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                            // })
 
                             plans.value = plans.value
                             loading.value = false
@@ -594,7 +594,7 @@ export default component$(() => {
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <small>Precio</small>
-                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{(plan.precio_grupal_convertion ? plan.precio_grupal_convertion : plan.precio_grupal) +' '+ (plan.codigomonedapago_convertion ? plan.codigomonedapago_convertion : plan.codigomonedapago)}</h2>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -705,7 +705,7 @@ export default component$(() => {
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <small>Precio</small>
-                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{(plan.precio_grupal_convertion ? plan.precio_grupal_convertion : plan.precio_grupal) +' '+ (plan.codigomonedapago_convertion ? plan.codigomonedapago_convertion : plan.codigomonedapago)}</h2>
+                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

@@ -7,6 +7,7 @@ import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import styles from './index.css?inline'
 import { CalculateAge } from "~/utils/CalculateAge";
+import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Método de pago',
@@ -36,7 +37,8 @@ export default component$(() => {
     const obj : {[key:string]:any} = {}
 
     const resume = useSignal(obj)
-    const openPayObj = useSignal(obj)
+    const opSessionId = useSignal('')
+    const opToken = useSignal('')
     const months = useSignal(array)
     const years = useSignal(array)
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
@@ -47,6 +49,7 @@ export default component$(() => {
     const attempts = useSignal(0)
 
     useTask$(() => {
+        console.log(stateContext.value)
         months.value = [
             {value:'01',label:'01'},
             {value:'02',label:'02'},
@@ -66,26 +69,31 @@ export default component$(() => {
         const actualYear = new Date().getFullYear()
         const futureYear = new Date(new Date().setFullYear(new Date().getFullYear()+15)).getFullYear()
 
-        console.log(stateContext.value.resGeo.country)
-        if(stateContext.value.resGeo.country == "MX")
+        if(stateContext.value.resGeo.country == "MX" || stateContext.value.resGeo.country == "CO")
+        {
             for (let index = actualYear; index < futureYear; index++) 
+            {
                 newYears.push({value: String(index).slice(-2), label: String(index).slice(-2)})
-         
-        if(stateContext.value.resGeo.country == "US")
+            }
+        }
+        else
+        {
             for (let index = actualYear; index < futureYear; index++) 
+            {
                 newYears.push({value:String(index),label:String(index)})
-
+            }
+        }
+                
         years.value = newYears
+
         const checkOpenPayLoaded = () => {
             if (window.OpenPay) {
                 window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
                 window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
                 window.OpenPay.setSandboxMode(true);
                 const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
-                openPayObj.value = { ...openPayObj.value, devicesessionid: deviceSessionId}
-                console.log("OpenPay configurado. Device Session ID:", deviceSessionId);
+                opSessionId.value = deviceSessionId
             } else {
-                console.log("Esperando a que OpenPay esté disponible...");
                 setTimeout(checkOpenPayLoaded, 100); 
             }
         };
@@ -168,13 +176,11 @@ export default component$(() => {
         // Envolver la llamada a OpenPay en una Promesa
         const promesaOpenPay = new Promise((resolve, reject) => {
             const success_callback = (response: any) => {
-                console.log('Token creado con éxito:', response.data.id);
-                openPayObj.value = { ...openPayObj.value, sourceid: response.data.id}
+                opToken.value = response.data.id;
                 resolve(response); // Resuelve la promesa con la respuesta en caso de éxito
             };
         
             const error_callback = (error: any) => {
-                console.error('Error al crear el token:', error.data.description);
                 reject(error); // Rechaza la promesa con el error en caso de fallo
             };
         
@@ -184,10 +190,9 @@ export default component$(() => {
         try {
             // Esperar a que la promesa se resuelva para obtener la respuesta
             const response = await promesaOpenPay;
-            console.log('Respuesta de OpenPay:', response);
+            return response
             // Continuar con el flujo después de obtener la respuesta
         } catch (error) {
-            console.error('Error al procesar el formulario con OpenPay:', error);
             // Manejar el error
         }
     });
@@ -289,16 +294,17 @@ export default component$(() => {
           
             switch (stateContext.value.resGeo.country) {
                 case 'CO':
-                    idMethodPayment = 2
+                    idMethodPayment = 4
                     break;
                 case 'MX':
-                    idMethodPayment = 6
+                    idMethodPayment = 3
                     await  getOpenPayToken$()
                     break; 
                 default:
-                    
+                    idMethodPayment = 2
             }
 
+            console.log(idMethodPayment, opSessionId.value,  opToken.value);
             const dataRequest = Object.assign(
                 dataForm,
                 {
@@ -316,7 +322,10 @@ export default component$(() => {
                         nombreplan:resume.value.plan.nombreplan,
                         total:resume.value.plan.precio_grupal
                     },
-                    total:Number(resume.value.total.total),
+                    total:Number(ParseTwoDecimal(resume.value.total.total)),
+                    totalconversion:Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
+                    tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
+                    codigoconversion:stateContext.value.currentRate.code,
                     moneda:{
                         idmoneda:resume.value.plan.idmonedapago,
                     },
@@ -330,15 +339,11 @@ export default component$(() => {
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                     sandbox:'t',
-                    paispago:'MX',
-                    openpay: {
-                        ...(openPayObj.value.sourceid ? { sourceid: openPayObj.value.sourceid } : {}), 
-                        ...(openPayObj.value.devicesessionid ? { devicesessionid: openPayObj.value.devicesessionid } : {}), 
-                    }
-
+                    devicesessionid : opSessionId.value,
+                    sourceid : opToken.value,
                 }
             )
-            //console.log(JSON.stringify(dataRequest))
+            console.log(dataRequest)
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
                 dataRequest.facturacion = dataFormInvoicing
@@ -350,6 +355,7 @@ export default component$(() => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
+            console.log(dataPay);
             resPayment = dataPay
 
             if(resPayment.error == false)
