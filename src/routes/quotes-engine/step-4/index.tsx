@@ -39,6 +39,8 @@ export default component$(() => {
     const resume = useSignal(obj)
     const opSessionId = useSignal('')
     const opToken = useSignal('')
+    const wSeesionId = useSignal('')
+    const wToken = useSignal('')
     const months = useSignal(array)
     const years = useSignal(array)
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
@@ -49,7 +51,6 @@ export default component$(() => {
     const attempts = useSignal(0)
 
     useTask$(() => {
-        console.log(stateContext.value)
         months.value = [
             {value:'01',label:'01'},
             {value:'02',label:'02'},
@@ -292,19 +293,49 @@ export default component$(() => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
           
-            switch (stateContext.value.resGeo.country) {
+            switch (stateContext.value.resGeo.country) 
+            {
                 case 'CO':
                     idMethodPayment = 4
+                    const resAcceptance = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/merchants/'+import.meta.env.PUBLIC_API_WOMPI_KEY,{method: 'GET'})
+                        .then((res) => {
+                            return(res.json())
+                        })
+                        
+                    wSeesionId.value = resAcceptance?.data?.presigned_acceptance?.acceptance_token
+
+                    if(resAcceptance.data)
+                    {
+                        const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
+                            method: 'POST',
+                            headers: {
+                                'Content-type': 'application/json; charset=UTF-8',
+                                'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
+                            },
+                            body: JSON.stringify(
+                            {
+                                number: dataForm.tdcnumero,
+                                cvc: dataForm.tdccvv ,
+                                exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
+                                exp_year: String(dataForm.tdcanoexpiracion),
+                                card_holder: dataForm.tdctitular
+                            }
+                        )})
+                            .then((res) => {
+                                return(res.json())
+                            })
+
+                        wToken.value = resToken?.data?.id
+                    }
                     break;
                 case 'MX':
                     idMethodPayment = 3
-                    await  getOpenPayToken$()
+                    await getOpenPayToken$()
                     break; 
                 default:
                     idMethodPayment = 2
             }
 
-            console.log(idMethodPayment, opSessionId.value,  opToken.value);
             const dataRequest = Object.assign(
                 dataForm,
                 {
@@ -323,7 +354,7 @@ export default component$(() => {
                         total:resume.value.plan.precio_grupal
                     },
                     total:Number(ParseTwoDecimal(resume.value.total.total)),
-                    totalconversion:Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
+                    totalconversion:idMethodPayment == 4 ? Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)?.replace('.','')) : Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
                     tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                     codigoconversion:stateContext.value.currentRate.code,
                     moneda:{
@@ -341,9 +372,11 @@ export default component$(() => {
                     sandbox:'t',
                     devicesessionid : opSessionId.value,
                     sourceid : opToken.value,
+                    acceptanceToken : wSeesionId.value,
+                    tokenWompi : wToken.value
                 }
             )
-            console.log(dataRequest)
+            
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
                 dataRequest.facturacion = dataFormInvoicing
