@@ -78,6 +78,7 @@ h3
     position: relative;
     top: -65%;
     left: 52%;
+    width: 50px;
 }
 
 /* .line-dots-right
@@ -86,6 +87,12 @@ h3
     top: -65%;
     right: 50%;
 } */
+
+.img-contact
+{
+    width: 180px;
+    height: auto;
+}
 
 @media (max-width: 575.98px) 
 {

@@ -5,7 +5,14 @@ import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+
+import ImgContinentalAssistBagEssential from '~/media/img/icons/continental-assist-bag-essential.webp?jsx'
+import ImgContinentalAssistBagComplete from '~/media/img/icons/continental-assist-bag-complete.webp?jsx'
+import ImgContinentalAssistBagElite from '~/media/img/icons/continental-assist-bag-elite.webp?jsx'
+import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
+
 import styles from './index.css?inline'
+import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -73,7 +80,7 @@ export default component$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
-            
+
             if(prevResume.plan != undefined)
             {  
                 planSelected.value = prevResume.plan
@@ -81,12 +88,9 @@ export default component$(() => {
 
             const dataForm : {[key:string]:any} = {}
 
-            const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                .then((response) => {return(response.json())})
-
             Object.assign(dataForm,stateContext?.value)
             dataForm.idfuente = 2
-            dataForm.ip = resGeo.ip_address
+            dataForm.ip = stateContext.value.resGeo.ip_address
 
             let error = false
 
@@ -100,6 +104,12 @@ export default component$(() => {
             {
                 if(plans.value.length > 0)
                 {
+                    // plans.value.map((plan) => {
+                    //     plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                    //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                    // })
+
+                    plans.value = plans.value
                     loading.value = false
                 }
             }
@@ -306,24 +316,38 @@ export default component$(() => {
                 {
                     newDataForm.planfamiliar = 'f'
                     resume.value = newDataForm
-                    stateContext.value = newDataForm
+                    stateContext.value = {...stateContext.value,...newDataForm}
                     
                     const dataForm : {[key:string]:any} = {}
 
-                    const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                        .then((response) => {return(response.json())})
-
-                    Object.assign(dataForm,stateContext.value)
+                    Object.assign(dataForm,stateContext?.value)
                     dataForm.idfuente = 2
-                    dataForm.ip = resGeo.ip_address
+                    dataForm.ip = stateContext.value.resGeo.ip_address
+
+                    let error = false
 
                     const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
+                    
+                    error = dataPlans.error
                     plans.value = dataPlans.resultado
 
-
-                    if(plans.value.length > 0)
+                    if(error == false)
                     {
+                        if(plans.value.length > 0)
+                        {
+                            // plans.value.map((plan) => {
+                            //     plan.precio_grupal_convertion = ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate)
+                            //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
+                            // })
+
+                            plans.value = plans.value
+                            loading.value = false
+                        }
+                    }
+                    else
+                    {
+                        plans.value = []
                         loading.value = false
                     }
                 }
@@ -504,9 +528,9 @@ export default component$(() => {
                                                         <div class='container'>
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center align-center'>
-                                                                {plan.idplan == '2946' && <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' alt='continental-assist-icon-bag-essential'/>}
-                                                                {plan.idplan == '2964' && <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' alt='continental-assist-icon-bag-complete'/>}
-                                                                {plan.idplan == '2965' && <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' alt='continental-assist-icon-bag-elite'/>}
+                                                                {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                                {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                                {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                                 </div>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <h2 class='card-title text-semi-bold text-light-blue'>
@@ -570,7 +594,7 @@ export default component$(() => {
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <small>Precio</small>
-                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{plan.precio_grupal+' '+plan.codigomonedapago}</h2>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -615,9 +639,9 @@ export default component$(() => {
                                                                                 <div class='container'>
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center align-center'>
-                                                                                            {plan.idplan == '2946' && <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' alt='continental-assist-icon-bag-essential'/>}
-                                                                                            {plan.idplan == '2964' && <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' alt='continental-assist-icon-bag-complete'/>}
-                                                                                            {plan.idplan == '2965' && <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' alt='continental-assist-icon-bag-elite'/>}
+                                                                                            {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                                                            {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                                                            {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                                                         </div>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <h2 class='card-title text-semi-bold text-light-blue'>
@@ -681,7 +705,7 @@ export default component$(() => {
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <small>Precio</small>
-                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{plan.precio_grupal+' '+plan.codigomonedapago}</h2>
+                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -707,9 +731,9 @@ export default component$(() => {
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            {benefitsPlan.value.idplan == '2946'&& <img src='/assets/img/icons/continental-assist-bag-essential.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-essential'/>}
-                            {benefitsPlan.value.idplan == '2964'&& <img src='/assets/img/icons/continental-assist-bag-complete.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-complete'/>}
-                            {benefitsPlan.value.idplan == '2965'&& <img src='/assets/img/icons/continental-assist-bag-elite.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-bag-elite'/>}
+                            {benefitsPlan.value.idplan == '2946'&& <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                            {benefitsPlan.value.idplan == '2964'&& <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                            {benefitsPlan.value.idplan == '2965'&& <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                             <h2 class='text-semi-bold text-white'>
                                 {benefitsPlan.value.idplan == '2946' && 'Essential'}
                                 {benefitsPlan.value.idplan == '2964' && 'Complete'}
@@ -749,7 +773,7 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <img src='/assets/img/quotes-engine/continental-assist-group-plan.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-group-plan'/>
+                            <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan'/>
                             <h2 class='text-semi-bold text-drak-blue'>¡Genial!</h2>
                         </div>
                         <div class="modal-body">

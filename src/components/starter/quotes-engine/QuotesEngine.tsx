@@ -18,10 +18,11 @@ export const QuotesEngine = component$(() => {
         const resOrigins : any[] = []
         const resDestinations : any[] = []
 
-        await ServiceRequest('/bk_getSelectsPorDefectoCotizadorViajes',{},(response) => {
+        await ServiceRequest('/pw_getSelectsPorDefectoCotizadorViajes',{},(response) => {
+            //console.log(response)
             res = response.resultado[0]
         })
-
+        //console.log(res)
         res.origenes.map((origen) => {
             resOrigins.push({value:origen.idpais,label:origen.nombrepais})
         })

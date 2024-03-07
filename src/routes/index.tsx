@@ -8,6 +8,20 @@ import { CardResume } from '~/components/starter/card-resume/CardResume';
 import { CardComment } from '~/components/starter/card-comment/CardComment';
 import { WEBContext } from '~/root';
 import { BoardSolari } from '~/components/starter/board-solari/BoardSolari';
+
+import ImgContinentalAssistBagEssential from '~/media/img/icons/continental-assist-bag-essential.webp?jsx'
+import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
+import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
+import ImgContinentalAssistDoctor from '~/media/icons/continental-assist-doctor.webp?jsx'
+import ImgContinentalAssistTravel from '~/media/icons/continental-assist-travel.webp?jsx'
+import ImgContinentalAssistHeadphones from '~/media/icons/continental-assist-headphones.webp?jsx'
+import ImgContinentalAssistPets from  '~/media/icons/continental-assist-pets.webp?jsx'
+import ImgContinentalAssistShoppingCar from '~/media/icons/continental-assist-shopping-car.webp?jsx'
+import ImgContinentalAssistRegister from '~/media/icons/continental-assist-register.webp?jsx'
+import ImgContinentalAssistProtection from '~/media/icons/continental-assist-protection.webp?jsx'
+import ImgContinentalAssistDots from '~/media/icons/continental-assist-dots.png?jsx'
+
+
 import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
 import styles from './index.css?inline';
 
@@ -1233,7 +1247,7 @@ export default component$(() => {
                     <div class="modal-content">
                         <div class="modal-header">
                             {/* <img src='/assets/img/icons/continental-assist-group-plan.webp' class='img-fluid' width={350} height={278} alt='continental-assist-icon-group-plan' title='continental-assist-icon-group-plan'/> */}
-                            <ImgContinentalAssistGroupPlan class='img-fluid' />
+                            <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan' />
                             <h2 class='text-semi-bold text-white'>¡Genial!</h2>
                         </div>
                         <div class="modal-body">

@@ -92,6 +92,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                         e.target.classList.remove('is-valid')
                     }
                 }}
+                {...props.dataAttributes}
             />
             <ul id={'drodown-'+props.id} class='dropdown-menu'>
                 <li value=''></li>

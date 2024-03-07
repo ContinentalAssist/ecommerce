@@ -3,6 +3,12 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import styles from './index.css?inline'
+import ImgContinentalAssistDots from '~/media/img/icons/continental-assist-dots.png?jsx'
+import ImgContinentalAssistQrPhone from '~/media/img/icons/continental-assist-qr-phone.webp?jsx'
+import ImgContinentalAssistPhone from '~/media/img/icons/continental-assist-phone.webp?jsx'
+import ImgContinentalAssistMail from '~/media/img/icons/continental-assist-mail.webp?jsx'
+
+
 
 export const head: DocumentHead = {
     title: 'Continental Assist | Contactanos',
@@ -141,24 +147,24 @@ export default component$(() => {
                             <div class='row mt-4'>
                                 <div class='col-lg-4 text-center mb-5'>
                                     <a title='QR' href='https://wa.me/18602187561?text=¡Hola!%20Necesito%20asistencia' target="_blank">
-                                        <img src='/assets/img/icons/continental-assist-qr-phone.webp' width={180} height={144} alt='continental-assist-icon-qr-phone' style={{margin:'20px'}}/>
+                                        <ImgContinentalAssistQrPhone style={{margin:'20px'}} class='img-contact' title='continental-assist-qr-phone' alt='continental-assist-qr-phone'/>
                                     </a>
                                     <h3 class='text-semi-bold text-blue'>WhatsApp</h3>
                                     <p class='text-dark-blue'><span class='text-semi-bold'>Escanea o cliquea</span> este QR para<br/>contactarnos al número:</p>
                                     <a title='WhatsApp Asistencia' class='text-mark text-semi-bold' href='https://wa.me/18602187561?text=¡Hola!%20Necesito%20asistencia' target="_blank">+18602187561</a>
                                     <br/>
-                                    <img src='/assets/img/icons/continental-assist-dots.png' class='img-fluid line-dots-left' width={50} height={11} alt='continental-assist-icon-dots'/>
+                                    <ImgContinentalAssistDots class='img-fluid line-dots-left' title='continental-assist-dots' alt='continental-assist-dots'/>
                                 </div>
                                 <div class='col-lg-4 text-center mb-5'>
-                                    <img src='/assets/img/icons/continental-assist-phone.webp' width={180} height={180} alt='continental-assist-icon-phone'/>
+                                    <ImgContinentalAssistPhone class='img-contact' title='continental-assist-phone' alt='continental-assist-phone'/>
                                     <h3 class='text-semi-bold text-blue'>Llamada</h3>
                                     <p class='text-dark-blue'><span class='text-semi-bold'>Llámanos</span> a la línea<br/>internacional:</p>
                                     <a title="Telefono Asistencia" class='text-mark text-semi-bold' href="tel:1-305-722-5824">1-305-722-5824</a>
                                     <br/>
-                                    <img src='/assets/img/icons/continental-assist-dots.png' class='img-fluid line-dots-left' width={50} height={11} alt='continental-assist-icon-dots'/>
+                                    <ImgContinentalAssistDots class='img-fluid line-dots-left' title='continental-assist-dots' alt='continental-assist-dots'/>
                                 </div>
                                 <div class='col-lg-4 text-center mb-5'>
-                                    <img src='/assets/img/icons/continental-assist-mail.webp' width={180} height={180} alt='continental-assist-icon-mail'/>
+                                    <ImgContinentalAssistMail class='img-contact' title='continental-assist-mail' alt='continental-assist-mail'/>
                                     <h3 class='text-semi-bold text-blue'>Correo</h3>
                                     <br/>
                                     <p class='text-semi-bold text-dark-blue'>Envíanos un correo a:</p>

@@ -7,6 +7,7 @@ import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngi
 import { WEBContext } from "~/root";
 import styles from './index.css?inline'
 import DateFormat from "~/utils/DateFormat";
+import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Tus datos y complementos',
@@ -58,8 +59,8 @@ export default component$(() => {
                 totalPay.value = {divisa:resume.value.plan.codigomonedapago,total:Number(resume.value.plan.precio_grupal)}
                 let newRes: any[] = []
 
-                const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                    .then((response) => {return(response.json())})
+                // const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+                //     .then((response) => {return(response.json())})
                 const newAges : any[] = []
 
                 resume.value.edades.map((age:any) => {
@@ -78,7 +79,7 @@ export default component$(() => {
                     dias:resume.value.dias,
                     edades:resume.value.edades,
                     // edades:newAges,
-                    ip:resGeo.ip_address,
+                    ip:stateContext.value.resGeo.ip_address,
                 }
 
                 const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
@@ -294,20 +295,21 @@ export default component$(() => {
                         idplan:resume.value.plan.idplan,
                         cantidaddias:resume.value.dias,
                         pasajeros:dataForm,
-                        fechadesde:resume.value.departure,
-                        fechahasta:resume.value.arrival,
+                        fechadesde:resume.value.desde,
+                        fechahasta:resume.value.hasta,
                         origenes:resume.value.origen,
-                        detinos:resume.value.destinos,
+                        destinos:resume.value.destinos,
                     },
                     ps:'www.continentalassist.com'
                 }
                 
                 let resValidPaxs : {[key:string]:any} = {}
-
+                
                 const resPaxs = await fetch("/api/getPaxValidation",{method:"POST",body:JSON.stringify(dataRequest)});
+             
                 const dataPaxs = await resPaxs.json()
                 resValidPaxs = dataPaxs
-    
+               
                 if(resValidPaxs.error == false)
                 {
                     const paxs: any[] = resValidPaxs.resultado
@@ -645,7 +647,7 @@ export default component$(() => {
                                                             {benefit.idbeneficioadicional == '37' && <p class="card-text text-gray">Protegemos a madres gestantes, <br/> de hasta 32 semanas.</p>}
                                                             {benefit.idbeneficioadicional == '36' && <p class="card-text text-gray">Contigo, en experiencias recreativas.</p>}
                                                             {benefit.idbeneficioadicional == '35' && <p class="card-text text-gray">Perfecto para tus condiciones medicas previas.</p>}
-                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">{benefit.codigomonedapago+' '+benefit.precio}</h4>
+                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">{(stateContext.value.currentRate.code ? stateContext.value.currentRate.code : benefit.codigomonedapago) +' '+ ParseTwoDecimal(benefit.precio*stateContext.value.currentRate.rate)}</h4>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class='d-grid gap-2'>

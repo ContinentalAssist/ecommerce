@@ -281,7 +281,7 @@ export default component$(() => {
                                                                                                         </div>
                                                                                                         <div class='col-lg-4 text-start'>
                                                                                                             <p class='text-gray mb-0' style={{fontSize:'12px'}}>Subtotal</p>
-                                                                                                            <p class='text-semi-bold text-blue mb-0'>{ParseTwoDecimal(resume.value.plan.precioindividual)} {resume.value.plan.codigomonedapago}</p>
+                                                                                                            <p class='text-semi-bold text-blue mb-0'>{ParseTwoDecimal(resume.value.plan.precioindividual * stateContext.value.currentRate.rate)} {stateContext.value.currentRate.code ? stateContext.value.currentRate.code : resume.value.plan.codigomonedapago}</p>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <hr/>
@@ -294,7 +294,7 @@ export default component$(() => {
                                                                                                                 {
                                                                                                                     pax.beneficiosadicionales.map((benefit:any) => {
                                                                                                                         return(
-                                                                                                                            <li class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{benefit.precio} {benefit.codigomonedapago}</span></li>
+                                                                                                                            <li class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{ParseTwoDecimal(benefit.precio * stateContext.value.currentRate.rate)} {stateContext.value.currentRate.code ? stateContext.value.currentRate.code : benefit.codigomonedapago}</span></li>
                                                                                                                         )
                                                                                                                     })
                                                                                                                 }
@@ -382,7 +382,7 @@ export default component$(() => {
                                                         <div class='row align-items-end'>
                                                             <div class='col-lg-8'>
                                                                 <p class='text-regular text-blue mb-0'>Total</p>
-                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>{resume.value.total && ParseTwoDecimal(resume.value.total.total)} {resume.value.total && resume.value.total.divisa}</h3>
+                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>{resume.value.total && ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)} {resume.value.total && (stateContext.value.currentRate.code ?  stateContext.value.currentRate.code : resume.value.total.divisa)}</h3>
                                                             </div>
                                                             <div class='col-lg-4'>
                                                                 <div class='d-grid gap-2'>
