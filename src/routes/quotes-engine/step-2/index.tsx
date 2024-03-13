@@ -40,11 +40,13 @@ export default component$(() => {
     const contact = useSignal(objectResume)
     const prevTotal = useSignal(0)
     const loading = useSignal(true)
+    const divisaManual = useSignal(stateContext.value.divisaManual)
 
     useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
+            console.log(stateContext.value)
 
             if(prevResume.asegurados != undefined)
             {
@@ -647,7 +649,7 @@ export default component$(() => {
                                                             {benefit.idbeneficioadicional == '37' && <p class="card-text text-gray">Protegemos a madres gestantes, <br/> de hasta 32 semanas.</p>}
                                                             {benefit.idbeneficioadicional == '36' && <p class="card-text text-gray">Contigo, en experiencias recreativas.</p>}
                                                             {benefit.idbeneficioadicional == '35' && <p class="card-text text-gray">Perfecto para tus condiciones medicas previas.</p>}
-                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">{(stateContext.value.currentRate.code ? stateContext.value.currentRate.code : benefit.codigomonedapago) +' '+ ParseTwoDecimal(benefit.precio*stateContext.value.currentRate.rate)}</h4>
+                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">{(divisaManual.value == true ? benefit.codigomonedapago : stateContext.value.currentRate.code ) +' '+ ParseTwoDecimal(divisaManual.value == true ? benefit.precio : Math.ceil(benefit.precio * stateContext.value.currentRate.rate))}</h4>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class='d-grid gap-2'>

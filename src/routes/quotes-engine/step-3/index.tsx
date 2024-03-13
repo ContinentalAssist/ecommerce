@@ -33,6 +33,7 @@ export default component$(() => {
     const resume = useSignal(objectResume)
     const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}})
     const loading = useSignal(true)
+    const divisaManual = useSignal(stateContext.value.divisaManual)
 
     useVisibleTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -230,7 +231,7 @@ export default component$(() => {
                                                                 &&
                                                                 resume.value.asegurados.map((pax:any,index:number) => {
                                                                     return(
-                                                                        <button type="button" data-bs-target="#carouselPaxs" data-bs-slide-to={index} class={index == 0 ? "active" : ''}></button>
+                                                                        <button key={index} type="button" data-bs-target="#carouselPaxs" data-bs-slide-to={index} class={index == 0 ? "active" : ''}></button>
                                                                     )
                                                                 })
                                                             }
@@ -281,7 +282,7 @@ export default component$(() => {
                                                                                                         </div>
                                                                                                         <div class='col-lg-4 text-start'>
                                                                                                             <p class='text-gray mb-0' style={{fontSize:'12px'}}>Subtotal</p>
-                                                                                                            <p class='text-semi-bold text-blue mb-0'>{ParseTwoDecimal(resume.value.plan.precioindividual * stateContext.value.currentRate.rate)} {stateContext.value.currentRate.code ? stateContext.value.currentRate.code : resume.value.plan.codigomonedapago}</p>
+                                                                                                            <p class='text-semi-bold text-blue mb-0'>{ParseTwoDecimal(divisaManual.value == true ? resume.value.plan.precioindividual : Math.ceil(resume.value.plan.precioindividual * stateContext.value.currentRate.rate))} {divisaManual.value == true ? resume.value.plan.codigomonedapago : stateContext.value.currentRate.code}</p>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <hr/>
@@ -292,9 +293,9 @@ export default component$(() => {
                                                                                                             <br/>
                                                                                                             <ul style={{height:'60px'}}>
                                                                                                                 {
-                                                                                                                    pax.beneficiosadicionales.map((benefit:any) => {
+                                                                                                                    pax.beneficiosadicionales.map((benefit:any,iBenefit:number) => {
                                                                                                                         return(
-                                                                                                                            <li class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{ParseTwoDecimal(benefit.precio * stateContext.value.currentRate.rate)} {stateContext.value.currentRate.code ? stateContext.value.currentRate.code : benefit.codigomonedapago}</span></li>
+                                                                                                                            <li key={iBenefit} class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{ParseTwoDecimal(divisaManual.value == true ? benefit.precio : Math.ceil(benefit.precio * stateContext.value.currentRate.rate))} {divisaManual.value == true ? benefit.codigomonedapago : stateContext.value.currentRate.code}</span></li>
                                                                                                                         )
                                                                                                                     })
                                                                                                                 }
@@ -382,7 +383,7 @@ export default component$(() => {
                                                         <div class='row align-items-end'>
                                                             <div class='col-lg-8'>
                                                                 <p class='text-regular text-blue mb-0'>Total</p>
-                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>{resume.value.total && ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)} {resume.value.total && (stateContext.value.currentRate.code ?  stateContext.value.currentRate.code : resume.value.total.divisa)}</h3>
+                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>{resume.value.total && ParseTwoDecimal(divisaManual.value == true ? resume.value.total.total : Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))} {resume.value.total && (divisaManual.value == true ? resume.value.total.divisa : stateContext.value.currentRate.code)}</h3>
                                                             </div>
                                                             <div class='col-lg-4'>
                                                                 <div class='d-grid gap-2'>

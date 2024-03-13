@@ -49,58 +49,72 @@ export default component$(() => {
     const loading = useSignal(true)
     const urlvoucher = useSignal(array)
     const attempts = useSignal(0)
+    const divisaManual = useSignal(stateContext.value.divisaManual)
 
     useTask$(() => {
-        months.value = [
-            {value:'01',label:'01'},
-            {value:'02',label:'02'},
-            {value:'03',label:'03'},
-            {value:'04',label:'04'},
-            {value:'05',label:'05'},
-            {value:'06',label:'06'},
-            {value:'07',label:'07'},
-            {value:'08',label:'08'},
-            {value:'09',label:'09'},
-            {value:'10',label:'10'},
-            {value:'11',label:'11'},
-            {value:'12',label:'12'}
-        ]
-
-        const newYears = []
-        const actualYear = new Date().getFullYear()
-        const futureYear = new Date(new Date().setFullYear(new Date().getFullYear()+15)).getFullYear()
-
-        if(stateContext.value.resGeo.country == "MX" || stateContext.value.resGeo.country == "CO")
+        if(Object.keys(stateContext.value).length > 0)
         {
-            for (let index = actualYear; index < futureYear; index++) 
-            {
-                newYears.push({value: String(index).slice(-2), label: String(index).slice(-2)})
-            }
-        }
-        else
-        {
-            for (let index = actualYear; index < futureYear; index++) 
-            {
-                newYears.push({value:String(index),label:String(index)})
-            }
-        }
-                
-        years.value = newYears
-
-        const checkOpenPayLoaded = () => {
-            if (window.OpenPay) {
-                window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
-                window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
-                window.OpenPay.setSandboxMode(true);
-                const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
-                opSessionId.value = deviceSessionId
-            } else {
-                setTimeout(checkOpenPayLoaded, 100); 
-            }
-        };
+            months.value = [
+                {value:'01',label:'01'},
+                {value:'02',label:'02'},
+                {value:'03',label:'03'},
+                {value:'04',label:'04'},
+                {value:'05',label:'05'},
+                {value:'06',label:'06'},
+                {value:'07',label:'07'},
+                {value:'08',label:'08'},
+                {value:'09',label:'09'},
+                {value:'10',label:'10'},
+                {value:'11',label:'11'},
+                {value:'12',label:'12'}
+            ]
     
-        if (typeof window !== "undefined" && stateContext.value.resGeo.country == "MX") {
-            checkOpenPayLoaded();
+            const newYears = []
+            const actualYear = new Date().getFullYear()
+            const futureYear = new Date(new Date().setFullYear(new Date().getFullYear()+15)).getFullYear()
+    
+            if(stateContext.value.resGeo.country == "MX" || stateContext.value.resGeo.country == "CO")
+            {
+                if(divisaManual.value == true)
+                {
+                    for (let index = actualYear; index < futureYear; index++) 
+                    {
+                        newYears.push({value:String(index),label:String(index)})
+                    }
+                }
+                else
+                {
+                    for (let index = actualYear; index < futureYear; index++) 
+                    {
+                        newYears.push({value: String(index).slice(-2), label: String(index).slice(-2)})
+                    }
+                }
+            }
+            else
+            {
+                for (let index = actualYear; index < futureYear; index++) 
+                {
+                    newYears.push({value:String(index),label:String(index)})
+                }
+            }
+                    
+            years.value = newYears
+    
+            const checkOpenPayLoaded = () => {
+                if (window.OpenPay) {
+                    window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
+                    window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
+                    window.OpenPay.setSandboxMode(true);
+                    const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
+                    opSessionId.value = deviceSessionId
+                } else {
+                    setTimeout(checkOpenPayLoaded, 100); 
+                }
+            };
+        
+            if (typeof window !== "undefined" && stateContext.value.resGeo.country == "MX") {
+                checkOpenPayLoaded();
+            }
         }
     })
 
@@ -293,47 +307,68 @@ export default component$(() => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
           
-            switch (stateContext.value.resGeo.country) 
+            if(divisaManual.value == true)
             {
-                case 'CO':
-                    idMethodPayment = 4
-                    const resAcceptance = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/merchants/'+import.meta.env.PUBLIC_API_WOMPI_KEY,{method: 'GET'})
-                        .then((res) => {
-                            return(res.json())
-                        })
-                        
-                    wSeesionId.value = resAcceptance?.data?.presigned_acceptance?.acceptance_token
-
-                    if(resAcceptance.data)
-                    {
-                        const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
-                            method: 'POST',
-                            headers: {
-                                'Content-type': 'application/json; charset=UTF-8',
-                                'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
-                            },
-                            body: JSON.stringify(
-                            {
-                                number: dataForm.tdcnumero,
-                                cvc: dataForm.tdccvv ,
-                                exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
-                                exp_year: String(dataForm.tdcanoexpiracion),
-                                card_holder: dataForm.tdctitular
-                            }
-                        )})
+                idMethodPayment = 2
+            }
+            else
+            {
+                switch (stateContext.value.resGeo.country) 
+                {
+                    case 'CO':
+                        idMethodPayment = 4
+                        const resAcceptance = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/merchants/'+import.meta.env.PUBLIC_API_WOMPI_KEY,{method: 'GET'})
                             .then((res) => {
                                 return(res.json())
                             })
+                            
+                        wSeesionId.value = resAcceptance?.data?.presigned_acceptance?.acceptance_token
 
-                        wToken.value = resToken?.data?.id
-                    }
-                    break;
-                case 'MX':
-                    idMethodPayment = 3
-                    await getOpenPayToken$()
-                    break; 
-                default:
-                    idMethodPayment = 2
+                        if(resAcceptance.data)
+                        {
+                            const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
+                                method: 'POST',
+                                headers: {
+                                    'Content-type': 'application/json; charset=UTF-8',
+                                    'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
+                                },
+                                body: JSON.stringify(
+                                {
+                                    number: dataForm.tdcnumero,
+                                    cvc: dataForm.tdccvv ,
+                                    exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
+                                    exp_year: String(dataForm.tdcanoexpiracion),
+                                    card_holder: dataForm.tdctitular
+                                }
+                            )})
+                                .then((res) => {
+                                    return(res.json())
+                                })
+
+                            wToken.value = resToken?.data?.id
+                        }
+                        break;
+                    case 'MX':
+                        idMethodPayment = 3
+                        await getOpenPayToken$()
+                        break; 
+                    default:
+                        idMethodPayment = 2
+                }
+            }
+
+            let total_conversion = 0
+            let codigo_conversion = ''
+            
+            if(divisaManual.value == true)
+            {
+                total_conversion = resume.value.total.total
+                codigo_conversion = resume.value.total.divisa
+            }
+            else
+            {
+                total_conversion = idMethodPayment == 4 ? Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')) : Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate)))
+                codigo_conversion = stateContext.value.currentRate.code
             }
 
             const dataRequest = Object.assign(
@@ -354,9 +389,9 @@ export default component$(() => {
                         total:resume.value.plan.precio_grupal
                     },
                     total:Number(ParseTwoDecimal(resume.value.total.total)),
-                    totalconversion:idMethodPayment == 4 ? Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)?.replace('.','')) : Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
+                    totalconversion: total_conversion,
                     tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
-                    codigoconversion:stateContext.value.currentRate.code,
+                    codigoconversion:codigo_conversion,
                     moneda:{
                         idmoneda:resume.value.plan.idmonedapago,
                     },

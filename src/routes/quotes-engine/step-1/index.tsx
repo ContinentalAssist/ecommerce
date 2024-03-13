@@ -50,6 +50,7 @@ export default component$(() => {
     const benefitsPlan = useSignal(objectBenefitsPlan)
     const planSelected = useSignal(objectPlanSelected)
     const loading = useSignal(true)
+    const divisaManual = useSignal(false)
 
     useVisibleTask$(async() => {
         let res : {[key:string]:any[]} = {}
@@ -109,7 +110,7 @@ export default component$(() => {
                     //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
                     // })
 
-                    plans.value = plans.value
+                    // plans.value = plans.value
                     loading.value = false
                 }
             }
@@ -294,12 +295,12 @@ export default component$(() => {
 
                     const dataForm : {[key:string]:any} = {}
 
-                    const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                        .then((response) => {return(response.json())})
+                    // const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+                    //     .then((response) => {return(response.json())})
 
                     Object.assign(dataForm,stateContext.value)
                     dataForm.idfuente = 2
-                    dataForm.ip = resGeo.ip_address
+                    dataForm.ip = stateContext.value.resGeo.ip_address
 
                     const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
@@ -341,7 +342,7 @@ export default component$(() => {
                             //     plan.codigomonedapago_convertion = stateContext.value.currentRate.code
                             // })
 
-                            plans.value = plans.value
+                            // plans.value = plans.value
                             loading.value = false
                         }
                     }
@@ -384,6 +385,19 @@ export default component$(() => {
                     }
                 })
             },500) 
+        }
+    })
+
+    const changeDivisa$ = $((divisa:string) => {
+        if(divisa == 'base')
+        {
+            divisaManual.value = true
+            stateContext.value.divisaManual = true
+        }
+        else if(divisa == 'local')
+        {
+            divisaManual.value = false
+            stateContext.value.divisaManual = false
         }
     })
 
@@ -493,21 +507,43 @@ export default component$(() => {
                 <div class='row bg-step-3'>
                     <div class='col-lg-12'>
                         <div class='container'>
-                            <div class='row'>
-                                <div class='col-lg-12 text-center mt-5 mb-5'>
-                                    <h1 class='text-semi-bold text-dark-blue'>
-                                        <span class='text-tin'>Elige </span> tu plan
-                                    </h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-blue'>Tenemos uno ideal para ti</h5>
-                                </div>
+                            <div class='row justify-content-center'>
                                 {
                                     plans.value.length == 0
-                                    &&
+                                    ?
                                     <div class='col-lg-12 text-center mt-5 mb-5'>
                                         <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
                                         <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
                                     </div>
+                                    :
+                                    <>
+                                        <div class='col-lg-12 text-center mt-5 mb-0'>
+                                            <h1 class='text-semi-bold text-dark-blue'>
+                                                <span class='text-tin'>Elige </span> tu plan
+                                            </h1>
+                                            <hr class='divider my-3'/>
+                                            <h5 class='text-dark-blue'>Tenemos uno ideal para ti</h5>
+                                        </div>
+                                        <div class='col-lg-2 text-center mb-1'>
+                                            <Form
+                                                id='form-divisa'
+                                                form={[
+                                                    {row:[{
+                                                        size:'col-lg-12',
+                                                        type:'select',
+                                                        label:'Divisa',
+                                                        name:'divisa_manual',
+                                                        options:[
+                                                            {value:'base',label:'USD'},
+                                                            {value:'local',label:stateContext.value?.currentRate?.code},
+                                                        ],
+                                                        value:'local',
+                                                        onChange:$((e:any) => {changeDivisa$(e.value)})},
+                                                    ]}
+                                                ]}
+                                            />
+                                        </div>
+                                    </>
                                 }
                             </div>
                             <div class='row justify-content-center cards not-mobile'>
@@ -594,7 +630,7 @@ export default component$(() => {
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <small>Precio</small>
-                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(divisaManual.value == true ? plan.precio_grupal : Math.ceil(plan.precio_grupal * stateContext.value.currentRate.rate)) +' '+ (divisaManual.value == true ? plan.codigomonedapago : stateContext.value.currentRate.code)}</h2>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -705,7 +741,7 @@ export default component$(() => {
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <small>Precio</small>
-                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(plan.precio_grupal * stateContext.value.currentRate.rate) +' '+ (stateContext.value.currentRate.code)}</h2>
+                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(divisaManual.value == true ? plan.precio_grupal : Math.ceil(plan.precio_grupal * stateContext.value.currentRate.rate)) +' '+ (divisaManual.value == true ? plan.codigomonedapago : stateContext.value.currentRate.code)}</h2>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
