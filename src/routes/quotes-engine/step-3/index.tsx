@@ -6,7 +6,7 @@ import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngi
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import styles from './index.css?inline'
-import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
+import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Resumen de compra',
@@ -282,7 +282,11 @@ export default component$(() => {
                                                                                                         </div>
                                                                                                         <div class='col-lg-4 text-start'>
                                                                                                             <p class='text-gray mb-0' style={{fontSize:'12px'}}>Subtotal</p>
-                                                                                                            <p class='text-semi-bold text-blue mb-0'>{ParseTwoDecimal(divisaManual.value == true ? resume.value.plan.precioindividual : Math.ceil(resume.value.plan.precioindividual * stateContext.value.currentRate.rate))} {divisaManual.value == true ? resume.value.plan.codigomonedapago : stateContext.value.currentRate.code}</p>
+                                                                                                            <p class='text-semi-bold text-blue mb-0'>
+                                                                                                                {
+                                                                                                                    divisaManual.value == true ? CurrencyFormatter(resume.value.plan.codigomonedapago,resume.value.plan.precioindividual) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.plan.precioindividual * stateContext.value.currentRate.rate)
+                                                                                                                }
+                                                                                                            </p>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <hr/>
@@ -295,7 +299,13 @@ export default component$(() => {
                                                                                                                 {
                                                                                                                     pax.beneficiosadicionales.map((benefit:any,iBenefit:number) => {
                                                                                                                         return(
-                                                                                                                            <li key={iBenefit} class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{ParseTwoDecimal(divisaManual.value == true ? benefit.precio : Math.ceil(benefit.precio * stateContext.value.currentRate.rate))} {divisaManual.value == true ? benefit.codigomonedapago : stateContext.value.currentRate.code}</span></li>
+                                                                                                                            <li key={iBenefit} class='text-semi-bold text-blue' style={{fontSize:'14px'}}>{benefit.nombrebeneficioadicional} 
+                                                                                                                                <span style={{float:'right'}}>
+                                                                                                                                    {
+                                                                                                                                        divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)
+                                                                                                                                    }
+                                                                                                                                </span>
+                                                                                                                            </li>
                                                                                                                         )
                                                                                                                     })
                                                                                                                 }
@@ -383,7 +393,11 @@ export default component$(() => {
                                                         <div class='row align-items-end'>
                                                             <div class='col-lg-8'>
                                                                 <p class='text-regular text-blue mb-0'>Total</p>
-                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>{resume.value.total && ParseTwoDecimal(divisaManual.value == true ? resume.value.total.total : Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))} {resume.value.total && (divisaManual.value == true ? resume.value.total.divisa : stateContext.value.currentRate.code)}</h3>
+                                                                <h3 class='h1 text-semi-bold text-blue mb-0'>
+                                                                    {
+                                                                        resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
+                                                                    }
+                                                                </h3>
                                                             </div>
                                                             <div class='col-lg-4'>
                                                                 <div class='d-grid gap-2'>
@@ -498,7 +512,11 @@ export default component$(() => {
                                                                                                         </div>
                                                                                                         <div class='col-lg-4 col-4 text-start'>
                                                                                                             <p class='text-gray mb-0' style={{fontSize:'10px'}}>Subtotal</p>
-                                                                                                            <p class='text-semi-bold text-blue mb-0' style={{fontSize:'14px'}}>{ParseTwoDecimal(resume.value.plan.precioindividual)} {resume.value.plan.codigomonedapago}</p>
+                                                                                                            <p class='text-semi-bold text-blue mb-0' style={{fontSize:'14px'}}>
+                                                                                                                {
+                                                                                                                    divisaManual.value == true ? CurrencyFormatter(resume.value.plan.codigomonedapago,resume.value.plan.precioindividual) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.plan.precioindividual * stateContext.value.currentRate.rate)
+                                                                                                                }
+                                                                                                            </p>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                     <hr/>
@@ -509,9 +527,15 @@ export default component$(() => {
                                                                                                             <br/>
                                                                                                             <ul style={{height:'60px'}}>
                                                                                                                 {
-                                                                                                                    pax.beneficiosadicionales.map((benefit:any) => {
+                                                                                                                    pax.beneficiosadicionales.map((benefit:any,iBenefit:number) => {
                                                                                                                         return(
-                                                                                                                            <li class='text-semi-bold text-blue' style={{fontSize:'12px'}}>{benefit.nombrebeneficioadicional} <span style={{float:'right'}}>{benefit.precio} {benefit.codigomonedapago}</span></li>
+                                                                                                                            <li key={iBenefit} class='text-semi-bold text-blue' style={{fontSize:'12px'}}>{benefit.nombrebeneficioadicional} 
+                                                                                                                                <span style={{float:'right'}}>
+                                                                                                                                    {
+                                                                                                                                        divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)
+                                                                                                                                    }
+                                                                                                                                </span>
+                                                                                                                            </li>
                                                                                                                         )
                                                                                                                     })
                                                                                                                 }
@@ -577,7 +601,11 @@ export default component$(() => {
                                                         <div class='row align-items-end justify-content-center'>
                                                             <div class='col-lg-8 col-10 text-start'>
                                                                 <p class='text-regular text-blue mb-0'>Total</p>
-                                                                <h3 class='h1 text-semi-bold text-blue mb-4'>{resume.value.total && ParseTwoDecimal(resume.value.total.total)} {resume.value.total && resume.value.total.divisa}</h3>
+                                                                <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                                                    {
+                                                                        resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
+                                                                    }
+                                                                </h3>
                                                             </div>
                                                             <div class='col-lg-4 col-10'>
                                                                 <div class='d-grid gap-2'>

@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import ServiceRequest from "~/utils/ServiceRequest";
 import { Form } from "../form/Form";
 import styles from './quotes-engine.css?inline'
@@ -33,6 +33,11 @@ export const QuotesEngine = component$(() => {
 
         origins.value = resOrigins
         destinations.value = resDestinations
+        // dateStart.value = new Date().toISOString().substring(0, 10)
+        // dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
+    })
+
+    useVisibleTask$(() => {
         dateStart.value = new Date().toISOString().substring(0, 10)
         dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
     })

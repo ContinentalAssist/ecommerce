@@ -12,7 +12,7 @@ import ImgContinentalAssistBagElite from '~/media/img/icons/continental-assist-b
 import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline'
-import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
+import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -537,7 +537,7 @@ export default component$(() => {
                                                             {value:'base',label:'USD'},
                                                             {value:'local',label:stateContext.value?.currentRate?.code},
                                                         ],
-                                                        value:'local',
+                                                        value:stateContext.value.divisaManual ? 'base' : 'local',
                                                         onChange:$((e:any) => {changeDivisa$(e.value)})},
                                                     ]}
                                                 ]}
@@ -630,7 +630,11 @@ export default component$(() => {
                                                             <div class='row'>
                                                                 <div class='col-lg-12 text-center'>
                                                                     <small>Precio</small>
-                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(divisaManual.value == true ? plan.precio_grupal : Math.ceil(plan.precio_grupal * stateContext.value.currentRate.rate)) +' '+ (divisaManual.value == true ? plan.codigomonedapago : stateContext.value.currentRate.code)}</h2>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
+                                                                        {
+                                                                            divisaManual.value == true ? CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal) : CurrencyFormatter(stateContext.value.currentRate.code,plan.precio_grupal * stateContext.value.currentRate.rate)
+                                                                        }
+                                                                    </h2>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -741,7 +745,11 @@ export default component$(() => {
                                                                                     <div class='row'>
                                                                                         <div class='col-lg-12 text-center'>
                                                                                             <small>Precio</small>
-                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>{ParseTwoDecimal(divisaManual.value == true ? plan.precio_grupal : Math.ceil(plan.precio_grupal * stateContext.value.currentRate.rate)) +' '+ (divisaManual.value == true ? plan.codigomonedapago : stateContext.value.currentRate.code)}</h2>
+                                                                                            <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
+                                                                                                {
+                                                                                                    divisaManual.value == true ? CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal) : CurrencyFormatter(stateContext.value.currentRate.code,plan.precio_grupal * stateContext.value.currentRate.rate)
+                                                                                                }
+                                                                                            </h2>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
