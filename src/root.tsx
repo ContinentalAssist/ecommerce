@@ -29,7 +29,7 @@ export default component$(() => {
 
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
-        const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({idplan:2946})});
+        const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
         const dataRates = await resRates.json()
         exchangeRate = dataRates.resultado
 

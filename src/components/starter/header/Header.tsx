@@ -100,7 +100,6 @@ export const Header = component$(() => {
                         <i class="fas fa-bars"></i>
                     </button>
                     <a class="navbar-brand" href="/" title="Inicio" >
-                        {/* <img src='/assets/img/ca/continental-assist-logotipo.webp' width={180} height={58} alt='continental-assist-logotipo' title='continental-assist-logotipo'/> */}
                         <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
                     </a>
                     <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">

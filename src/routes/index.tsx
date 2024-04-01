@@ -1291,52 +1291,6 @@ export default component$(() => {
                     }
                 </div>
             }
-            <script type='application/ld+json'>
-                {
-                    JSON.stringify({
-                        "@context" : "https://schema.org",
-                        "@type": "WebPage",
-                        "name": "Continental Asisst",
-                        "description": "Viaja internacionalmente con tranquilidad.",
-                        "url": "https://continentalassist.com",
-                        "breadcrumb": {
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Nosotros",
-                                    "item": "https://continentalassist.com/about-us"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Contactanos",
-                                    "item": "https://continentalassist.com/contact-us"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 3,
-                                    "name": "Buscar voucher",
-                                    "item": "https://continentalassist.com/search-voucher"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 4,
-                                    "name": "Condiciones Generales",
-                                    "item": "https://continentalassist.com/general-conditions"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 5,
-                                    "name": "Tratamiento de la Informacion",
-                                    "item": "https://continentalassist.com/information-treatment-privacy-policies"
-                                },
-                            ]
-                        }
-                    })
-                }
-            </script>
         </div>
     );
 });

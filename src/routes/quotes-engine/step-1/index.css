@@ -38,6 +38,7 @@
 .cards .card .img-fluid
 {
     max-height: 100px;
+    width: auto;
 }
 
 .cards button.btn-link

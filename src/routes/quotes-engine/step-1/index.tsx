@@ -5,14 +5,14 @@ import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+import CurrencyFormatter from "~/utils/CurrencyFormater";
 
-import ImgContinentalAssistBagEssential from '~/media/img/icons/continental-assist-bag-essential.webp?jsx'
-import ImgContinentalAssistBagComplete from '~/media/img/icons/continental-assist-bag-complete.webp?jsx'
-import ImgContinentalAssistBagElite from '~/media/img/icons/continental-assist-bag-elite.webp?jsx'
-import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
+import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
+import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
+import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
+import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline'
-import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
