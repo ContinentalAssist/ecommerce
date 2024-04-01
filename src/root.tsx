@@ -1,10 +1,9 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow,useTask$, $, useVisibleTask$ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 import './global.css';
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
-import ServiceRequest from './utils/ServiceRequest';
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 
