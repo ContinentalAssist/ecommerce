@@ -25,7 +25,7 @@ export default component$(() => {
             .then((response) => {
                 return(response.json())
             })
-
+	console.log(geoData)
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
         const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
