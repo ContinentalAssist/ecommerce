@@ -2,6 +2,20 @@ import { $, component$, useOnWindow, useSignal, useStylesScoped$ } from '@builde
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { CardResume } from '~/components/starter/card-resume/CardResume';
 import { Loading } from '~/components/starter/loading/Loading';
+
+import ImgContinentalAssistMisionVision from '~/media/icons/continental-assist-mision-vision.webp?jsx'
+import ImgContinentalAssistMisionVisionVertical from '~/media/icons/continental-assist-mision-vision-vertical.webp?jsx'
+import ImgContinentalAssistConversation from '~/media/icons/continental-assist-conversation.webp?jsx'
+import ImgContinentalAssistIdeas from '~/media/icons/continental-assist-ideas.webp?jsx'
+import ImgContinentalAssistStarBall from '~/media/icons/continental-assist-star-ball.webp?jsx'
+import ImgContinentalAssistMap from '~/media/icons/continental-assist-map.webp?jsx'
+import ImgContinentalAssistLine from '~/media/icons/continental-assist-line.webp?jsx'
+import ImgContinentalAssistStick from '~/media/icons/continental-assist-stick.webp?jsx'
+import ImgContinentalAssistLineVertical from '~/media/icons/continental-assist-line-vertical.webp?jsx'
+import ImgContinentalAssistAmbulance from '~/media/icons/continental-assist-ambulance.webp?jsx'
+import ImgContinentalAssistGlobal from '~/media/icons/continental-assist-global.webp?jsx'
+import ImgContinentalAssistLegal from '~/media/icons/continental-assist-legal.webp?jsx'
+
 import styles from './index.css?inline'
 
 export const head: DocumentHead = {
@@ -67,7 +81,7 @@ export default component$(() => {
                                     <h2 class='h1 card-title text-bold text-dark-blue'>En dónde estamos</h2>
                                 </div>
                                 <div class='col-lg-6'>
-                                    <img class='img-fluid' src='/assets/img/icons/continental-assist-mision-vision.webp' width={741} height={300} alt='continental-assist-mision-vision'/>
+                                    <ImgContinentalAssistMisionVision class='img-fluid' title='continental-assist-mision-vision' alt='continental-assist-mision-vision'/>
                                 </div>
                                 <div class='col-lg-2 text-end'>
                                     <h2 class='h1 card-title text-bold text-dark-blue'>Hacia dónde vamos</h2>
@@ -100,7 +114,7 @@ export default component$(() => {
                             </div>
                             <div class='row align-items-center'>
                                 <div class='col-xs-5 text-center'>
-                                    <img class='img-fluid' src='/assets/img/icons/continental-assist-mision-vision-vertical.webp' width={300} height={741} alt='continental-assist-mision-vision-vertical'/>
+                                    <ImgContinentalAssistMisionVisionVertical class='img-fluid' title='continental-assist-mision-vision-vertical' alt='continental-assist-mision-vision-vertical'/>
                                 </div>
                                 <div class='col-xs-7 text-center'>
                                     <h3>Misión</h3>
@@ -143,37 +157,37 @@ export default component$(() => {
                                     <p class='mb-5'>Tenemos + de 40 soluciones disponibles para ti.</p>
                                 </div>
                                 <div class='col-lg-3'>
-                                    <img src='/assets/img/icons/continental-assist-conversation.webp' width={150} height={150} alt='continental-assist-icon-conversation'/>
+                                    <ImgContinentalAssistConversation title='continental-assist-conversation' alt='continental-assist-conversation'/>
                                     <br/>
-                                    <img class='stick rotate-180' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                    <ImgContinentalAssistStick class='stick rotate-180' title='continental-assist-stick' alt='continental-assist-stick'/>
                                 </div>
                                 <div class='col-lg-3'>
                                     <h2 class='text-semi-bold text-dark-blue'>Alcance</h2>
                                     <p class='mb-5'>Nuestro servicio de asistencia opera de manera global.</p>
                                 </div>
                                 <div class='col-lg-3'>
-                                    <img src='/assets/img/icons/continental-assist-ideas.webp' width={150} height={150} alt='continental-assist-icon-ideas'/>
+                                    <ImgContinentalAssistIdeas title='continental-assist-ideas' alt='continental-assist-ideas'/>
                                     <br/>
-                                    <img class='stick rotate-180' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                    <ImgContinentalAssistStick class='stick rotate-180' title='continental-assist-stick' alt='continental-assist-stick'/>
                                 </div>
                             </div>
                         </div>
-                        <img src='/assets/img/icons/continental-assist-line.webp' class='img-fluid line-time' width={1980} height={135} alt='continental-assist-icon-line'/>
+                        <ImgContinentalAssistLine class='img-fluid line-time' title='continental-assist-line' alt='continental-assist-line'/>
                         <div class='container p-0'>
                             <div class='row'>
                                 <div class='col-lg-3'>
-                                    <img class='stick' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                    <ImgContinentalAssistStick class='stick' title='continental-assist-stick' alt='continental-assist-stick'/>
                                     <br/>
-                                    <img src='/assets/img/icons/continental-assist-star-ball.webp' width={150} height={150} alt='continental-assist-icon-star-ball'/>
+                                    <ImgContinentalAssistStarBall title='continental-assist-star-ball' alt='continental-assist-star-ball'/>
                                 </div>
                                 <div class='col-lg-3'>
                                     <h2 class='text-semi-bold text-dark-blue mt-5'>Operadores 24/7</h2>
                                     <p>Contamos con equipo multilingüe y de operación continua.</p>
                                 </div>
                                 <div class='col-lg-3'>
-                                    <img class='stick' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                    <ImgContinentalAssistStick class='stick' title='continental-assist-stick' alt='continental-assist-stick'/>
                                     <br/>
-                                    <img src='/assets/img/icons/continental-assist-map.webp' width={150} height={150} alt='continental-assist-icon-map'/>
+                                    <ImgContinentalAssistMap title='continental-assist-map' alt='continental-assist-map'/>
                                 </div>
                                 <div class='col-lg-3'>
                                     <h2 class='text-semi-bold text-dark-blue mt-5'>Tecnología</h2>
@@ -189,16 +203,16 @@ export default component$(() => {
                             <div class='row align-items-center'>
                                 <div class='col-xs-5 text-center p-2'>
                                     <div class='mt-4'>
-                                        <img src='/assets/img/icons/continental-assist-star-ball.webp' width={100} height={100} alt='continental-assist-icon-star-ball'/>
-                                        <img class='stick rotate-90' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                        <ImgContinentalAssistStarBall class='img-line-vertical' title='continental-assist-star-ball' alt='continental-assist-star-ball'/>
+                                        <ImgContinentalAssistStick class='stick rotate-90' title='continental-assist-stick' alt='continental-assist-stick'/>
                                     </div>
                                     <div class='mt-4'>
                                         <h2 class='h6 text-semi-bold text-dark-blue'>Operadores 24/7</h2>
                                         <p style={{fontSize:'10px'}}>Contamos con equipo multilingüe y de operación continua.</p>
                                     </div>
                                     <div class='mt-4'>
-                                        <img src='/assets/img/icons/continental-assist-map.webp' width={100} height={100} alt='continental-assist-icon-map'/>
-                                        <img class='stick rotate-90' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
+                                        <ImgContinentalAssistMap class='img-line-vertical' title='continental-assist-map' alt='continental-assist-map'/>
+                                        <ImgContinentalAssistStick class='stick rotate-90' title='continental-assist-stick' alt='continental-assist-stick'/>
                                     </div>
                                     <div class='mt-4'>
                                         <h2 class='h6 text-semi-bold text-dark-blue'>Tecnología</h2>
@@ -206,7 +220,7 @@ export default component$(() => {
                                     </div>
                                 </div>
                                 <div class='col-xs-2 text-center'>
-                                    <img src='/assets/img/icons/continental-assist-line-vertical.webp' class='img-fluid line-time' width={135} height={1980} alt='continental-assist-icon-line-vertical'/>
+                                    <ImgContinentalAssistLineVertical class='img-fluid line-time' title='continental-assist-line-vertical' alt='continental-assist-line-vertical'/>
                                 </div>
                                 <div class='col-xs-5 text-center'>
                                     <div class='mt-4'>
@@ -214,16 +228,16 @@ export default component$(() => {
                                         <p style={{fontSize:'10px'}}>Tenemos + de 40 soluciones disponibles para ti.</p>
                                     </div>
                                     <div class='mt-4'>
-                                        <img class='stick rotate-270' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
-                                        <img src='/assets/img/icons/continental-assist-conversation.webp' width={100} height={100} alt='continental-assist-icon-conversation'/>
+                                        <ImgContinentalAssistStick class='stick rotate-270' title='continental-assist-stick' alt='continental-assist-stick'/>
+                                        <ImgContinentalAssistConversation class='img-line-vertical' title='continental-assist-conversation' alt='continental-assist-conversation'/>
                                     </div>
                                     <div class='mt-4'>
                                         <h2 class='h6 text-semi-bold text-dark-blue'>Alcance</h2>
                                         <p style={{fontSize:'10px'}}>Nuestro servicio de asistencia opera de manera global.</p>
                                     </div>
                                     <div class='mt-4'>
-                                        <img class='stick rotate-270' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick'/>
-                                        <img src='/assets/img/icons/continental-assist-ideas.webp' width={100} height={100} alt='continental-assist-icon-ideas'/>
+                                        <ImgContinentalAssistStick class='stick rotate-270' title='continental-assist-stick' alt='continental-assist-stick'/>
+                                        <ImgContinentalAssistIdeas class='img-line-vertical' title='continental-assist-ideas' alt='continental-assist-ideas'/>
                                     </div>
                                 </div>
                             </div>
@@ -253,24 +267,27 @@ export default component$(() => {
                             <div class='row mt-4 mb-5 not-mobile'>
                                 <div class='col-xl-4 col-md-6'>
                                     <CardResume
-                                        img='/assets/img/icons/continental-assist-ambulance.webp'
                                         title='Acompañamiento médico'
                                         description='Gastos, traslados, medicamentos, telemedicina, asistencia funeraria y mucho más.'
-                                    />
+                                    >
+                                        <ImgContinentalAssistAmbulance title='continental-assist-ambulance' alt='continental-assist-ambulance'/>
+                                    </CardResume>
                                 </div>
                                 <div class='col-xl-4 col-md-6'>
                                     <CardResume
-                                        img='/assets/img/icons/continental-assist-global.webp'
                                         title='Acompañamiento en viaje'
                                         description='Pérdida de documentos, equipaje y vuelos. Compensaciones, orientación telefónica, entre otros.'
-                                    />
+                                    >
+                                        <ImgContinentalAssistGlobal title='continental-assist-global' alt='continental-assist-global'/>
+                                    </CardResume>
                                 </div>
                                 <div class='col-xl-4 col-md-6'>
                                     <CardResume
-                                        img='/assets/img/icons/continental-assist-legal.webp'
                                         title='Servicio'
                                         description='Asistencia remota con equipo especializado para temas legales, consultas y transferencias.'
-                                    />
+                                    >
+                                        <ImgContinentalAssistLegal title='continental-assist-legal' alt='continental-assist-legal'/>
+                                    </CardResume>
                                 </div>
                             </div>
                             <div class='row mobile'>
@@ -287,10 +304,11 @@ export default component$(() => {
                                                     <div class='row justify-content-center'>
                                                         <div class='col-sm-6'>
                                                             <CardResume
-                                                                img='/assets/img/icons/continental-assist-ambulance.webp'
                                                                 title='Acompañamiento médico y funerario'
                                                                 description='Gastos, traslados, medicamentos, telemedicina y más.'
-                                                            />
+                                                            >
+                                                                <ImgContinentalAssistAmbulance title='continental-assist-ambulance' alt='continental-assist-ambulance'/>
+                                                            </CardResume>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -300,10 +318,11 @@ export default component$(() => {
                                                     <div class='row justify-content-center'>
                                                         <div class='col-sm-6'>
                                                             <CardResume
-                                                                img='/assets/img/icons/continental-assist-global.webp'
                                                                 title='Acompañamiento en viaje'
                                                                 description='Pérdida de documentos, equipaje y vuelos. Compensaciones, orientación telefónica, entre otros.'
-                                                            />
+                                                            >
+                                                                <ImgContinentalAssistGlobal title='continental-assist-global' alt='continental-assist-global'/>
+                                                            </CardResume>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,10 +332,11 @@ export default component$(() => {
                                                     <div class='row justify-content-center'>
                                                         <div class='col-sm-6'>
                                                             <CardResume
-                                                                img='/assets/img/icons/continental-assist-legal.webp'
                                                                 title='Servicio'
                                                                 description='Asistencia remota con equipo especializado para temas legales, consultas y transferencias.'
-                                                            />
+                                                            >
+                                                                <ImgContinentalAssistLegal title='continental-assist-legal' alt='continental-assist-legal'/>
+                                                            </CardResume>
                                                         </div>
                                                     </div>
                                                 </div>

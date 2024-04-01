@@ -5,8 +5,14 @@ import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
-import styles from './index.css?inline'
 import CurrencyFormatter from "~/utils/CurrencyFormater";
+
+import ImgContinentalAssistPrintTicket from '~/media/quotes-engine/continental-assist-print-ticket.webp?jsx'
+import ImgContinentalAssistTicket from '~/media/icons/continental-assist-ticket.webp?jsx'
+import ImgContinentalAssistCalendar from '~/media/icons/continental-assist-calendar.webp?jsx'
+import ImgContinentalAssistPosition from '~/media/icons/continental-assist-position.webp?jsx'
+
+import styles from './index.css?inline'
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Resumen de compra',
@@ -246,10 +252,7 @@ export default component$(() => {
                                                                             <div class='container'>
                                                                                 <div class='row justify-content-center'>
                                                                                     <div class='col-lg-12 text-center'>
-                                                                                        <img  
-                                                                                            src="/assets/img/quotes-engine/continental-assist-print-ticket.webp"
-                                                                                            style={{width:'100%',height:'20px'}}
-                                                                                        />
+                                                                                        <ImgContinentalAssistPrintTicket style={{width:'100%',height:'20px'}} title='continental-assist-print-ticket' alt='continental-assist-print-ticket'/>
                                                                                         <div class='card-pax card mb-5 mx-4 shadow-lg'>
                                                                                             <div class='card-body'>
                                                                                                 <div class='container'>
@@ -266,12 +269,7 @@ export default component$(() => {
                                                                                                     <div class='row row-mobile'>
                                                                                                         <div class='col-lg-8 text-start'>
                                                                                                             <div class='d-flex' style={{alignItems:'center'}}>
-                                                                                                                <img 
-                                                                                                                    src='/assets/img/icons/continental-assist-icon-01.webp' 
-                                                                                                                    class='img-fluid' 
-                                                                                                                    alt='continental-assist-icon-01'
-                                                                                                                    style={{height:'45px'}}
-                                                                                                                />
+                                                                                                                <ImgContinentalAssistTicket style={{height:'45px',width:'auto'}} title='continental-assist-ticket' alt='continental-assist-ticket'/>
                                                                                                                 <div>
                                                                                                                     <p class='m-0 text-gray' style={{fontSize:'12px'}}>Plan</p>
                                                                                                                     <p class='m-0 text-semi-bold text-blue' style={{fontSize:'20px'}}>
@@ -330,7 +328,8 @@ export default component$(() => {
                                                         <div class='row mb-4'>
                                                             <div class='col-lg-6 col-sm-6 col-12'>
                                                                 <span class='text-semi-bold text-dark-blue'>
-                                                                    <img src='/assets/img/icons/continental-assist-icon-02.webp' class='img-fluid' alt='continental-assist-icon-02'/> Fechas de tu viaje
+                                                                    <ImgContinentalAssistCalendar class='img-fluid' title='continental-assist-calendar' alt='continental-assist-calendar'/> 
+                                                                    Fechas de tu viaje
                                                                 </span>
                                                                 <h6>
                                                                     <span class='text-dark-gray'>{resume.value.desde}</span>
@@ -340,7 +339,8 @@ export default component$(() => {
                                                             </div>
                                                             <div class='col-lg-6 col-sm-6 col-12'>
                                                                 <span class='text-semi-bold text-dark-blue'>
-                                                                <img src='/assets/img/icons/continental-assist-icon-03.webp' class='img-fluid' alt='continental-assist-icon-03'/> Ubicación de tu viaje
+                                                                    <ImgContinentalAssistPosition class='img-fluid' title='continental-assist-position' alt='continental-assist-position'/> 
+                                                                    Ubicación de tu viaje
                                                                 </span>
                                                                 <h6>
                                                                     <span class='text-dark-gray'>{resume.value.paisorigen} <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',',', ')}</span>
@@ -350,7 +350,8 @@ export default component$(() => {
                                                         <div class='row mb-4'>
                                                             <div class='col-lg-12'>
                                                                 <span class='form-label text-semi-bold text-dark-blue'>
-                                                                    <img src='/assets/img/icons/continental-assist-icon-01.webp' class='img-fluid' style={{transform:'rotate(90deg)'}} alt='continental-assist-icon-01'/> ¿Tienes algún cupón de descuento?
+                                                                    <ImgContinentalAssistTicket class='img-fluid' style={{transform:'rotate(90deg)'}} title='continental-assist-ticket' alt='continental-assist-ticket'/> 
+                                                                    ¿Tienes algún cupón de descuento?
                                                                 </span>
                                                                 <div class='container p-0'>
                                                                     <div class='row row-mobile'>
@@ -432,11 +433,8 @@ export default component$(() => {
                                                         <div class='row mb-4 justify-content-center'>
                                                             <div class='col-lg-6 col-sm-6 col-10 mb-3'>
                                                                 <span class='text-semi-bold text-dark-blue'>
-                                                                    <img 
-                                                                        src='/assets/img/icons/continental-assist-icon-02.webp' 
-                                                                        class='img-fluid' 
-                                                                        alt='icon-02'
-                                                                    /> Fechas de tu viaje
+                                                                    <ImgContinentalAssistCalendar class='img-fluid' title='continental-assist-calendar' alt='continental-assist-calendar'/> 
+                                                                    Fechas de tu viaje
                                                                 </span>
                                                                 <h6>
                                                                     <span class='text-dark-gray'>{resume.value.desde}</span>
@@ -446,7 +444,8 @@ export default component$(() => {
                                                             </div>
                                                             <div class='col-lg-6 col-sm-6 col-10'>
                                                                 <span class='text-semi-bold text-dark-blue'>
-                                                                <img src='/assets/img/icons/continental-assist-icon-03.webp' class='img-fluid' alt='continental-assist-icon-03'/> Ubicación de tu viaje
+                                                                    <ImgContinentalAssistPosition class='img-fluid' title='continental-assist-position' alt='continental-assist-position'/> 
+                                                                    Ubicación de tu viaje
                                                                 </span>
                                                                 <h6>
                                                                     <span class='text-dark-gray'>{resume.value.paisorigen} <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino}</span>
@@ -476,10 +475,7 @@ export default component$(() => {
                                                                             <div class='container p-0'>
                                                                                 <div class='row justify-content-center'>
                                                                                     <div class='col-lg-12 text-center'>
-                                                                                        <img  
-                                                                                            src="/assets/img/quotes-engine/continental-assist-print-ticket.webp"
-                                                                                            style={{width:'100%',height:'20px'}}
-                                                                                        />
+                                                                                        <ImgContinentalAssistTicket class='img-fluid' style={{width:'100%',height:'20px'}} title='continental-assist-ticket' alt='continental-assist-ticket'/> 
                                                                                         <div class='card-pax card mb-5 mx-2 shadow-lg'>
                                                                                             <div class='card-body'>
                                                                                                 <div class='container'>
@@ -496,12 +492,7 @@ export default component$(() => {
                                                                                                     <div class='row row-mobile'>
                                                                                                         <div class='col-lg-8 col-8 text-start'>
                                                                                                             <div class='d-flex' style={{alignItems:'center'}}>
-                                                                                                                <img 
-                                                                                                                    src='/assets/img/icons/continental-assist-icon-01.webp' 
-                                                                                                                    class='img-fluid' 
-                                                                                                                    alt='continental-assist-icon-01'
-                                                                                                                    style={{height:'30px'}}
-                                                                                                                />
+                                                                                                                <ImgContinentalAssistTicket class='img-fluid' style={{height:'30px'}} title='continental-assist-ticket' alt='continental-assist-ticket'/>
                                                                                                                 <div>
                                                                                                                     <p class='m-0 text-gray' style={{fontSize:'10px'}}>Plan</p>
                                                                                                                     <p class='m-0 text-semi-bold text-blue' style={{fontSize:'14px'}}>
@@ -561,7 +552,8 @@ export default component$(() => {
                                                             <div class='col-lg-12'>
                                                                 <div class='container'>
                                                                     <span class='form-label text-semi-bold text-dark-blue' style={{fontSize:'12px'}}>
-                                                                        <img src='/assets/img/icons/continental-assist-icon-01.webp' class='img-fluid' style={{transform:'rotate(90deg)'}} alt='continental-assist-icon-01'/> ¿Tienes algún cupón de descuento?
+                                                                    <ImgContinentalAssistTicket class='img-fluid' style={{transform:'rotate(90deg)'}} title='continental-assist-ticket' alt='continental-assist-ticket'/>
+                                                                        ¿Tienes algún cupón de descuento?
                                                                     </span>
                                                                     <div class='row row-mobile'>
                                                                         <div class='col-xl-12 col-sm-12 col-12'>

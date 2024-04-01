@@ -9,4 +9,19 @@
     position: absolute;
     top: 80px;
     left: 0px;
+    width: 430px;
+}
+
+.img-number
+{
+    width: 700px;
+}
+
+@media (max-width: 575.98px)
+{
+    .img-caracter
+    {
+        top: 30%;
+        width: 230px;
+    }
 }

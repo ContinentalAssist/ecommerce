@@ -115,13 +115,6 @@ export const Form = component$((props:propsForm) => {
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}>
                                                         {columnInput.label} 
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} {...dataAttributes}/>
                                                 </div>
@@ -151,13 +144,6 @@ export const Form = component$((props:propsForm) => {
                                                 <div key={rowInput+'-'+iIndex} class={columnInput.size}>
                                                     <label class='form-label text-regular text-dark-blue'>
                                                         {columnInput.label} 
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} {...dataAttributes}>
                                                         <option value='' selected={true} disabled={true}></option>
@@ -211,13 +197,6 @@ export const Form = component$((props:propsForm) => {
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
                                                     >
                                                         {columnInput.label}
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <input class='form-control' 
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
@@ -256,13 +235,6 @@ export const Form = component$((props:propsForm) => {
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
                                                     >
                                                         {columnInput.label} 
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <input class='form-control' 
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
@@ -294,13 +266,6 @@ export const Form = component$((props:propsForm) => {
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
                                                     >
                                                         {columnInput.label} 
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <input class='form-control' 
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
@@ -332,13 +297,6 @@ export const Form = component$((props:propsForm) => {
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
                                                     >
                                                         {columnInput.label} 
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        } */}
                                                     </label>
                                                     <input class='form-control' 
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
@@ -370,13 +328,6 @@ export const Form = component$((props:propsForm) => {
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
                                                     >
                                                         {columnInput.label}
-                                                        {/* {
-                                                            columnInput.required
-                                                            &&
-                                                            <>
-                                                                {' '}<img src='/assets/img/icons/continental-assist-icon-star.webp' class='img-fluid' width={16} height={16} alt='continental-assist-icon-star'/>
-                                                            </>
-                                                        }  */}
                                                     </label>
                                                     <input class='form-control' 
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 

@@ -4,10 +4,15 @@ import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
-import styles from './index.css?inline'
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
+
+import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
+import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
+import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
+
+import styles from './index.css?inline'
 
 export interface propsOP {
     loading : PropFunction<() => void>
@@ -570,7 +575,7 @@ export default component$((props:propsOP) => {
                                                 <div class='card-name'>{tdcname.value}</div>
                                                 <div class='card-number'>{tdcnumber.value}</div>
                                                 <div class='card-expiration'>{tdcexpiration.value}</div>
-                                                <img src='/assets/img/icons/continental-assist-card.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-card'/>
+                                                <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/>
                                             </div>
                                         </div>
                                         <div class='col-lg-4 offset-lg-1'>
@@ -669,8 +674,6 @@ export default component$((props:propsOP) => {
                                     &&
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-4 mb-3'>
-                                            {/* <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3> */}
                                             <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
                                             <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('MXN',bank.value.total)}</h3>
                                         </div>
@@ -689,7 +692,6 @@ export default component$((props:propsOP) => {
                                                 </tr>
                                             </table>
                                             <div class='img-card text-center'>
-                                                {/* <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/> */}
                                                 <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
                                             </div>
                                         </div>
@@ -704,7 +706,7 @@ export default component$((props:propsOP) => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border border-success">
                         <div class='modal-header text-center' style={{display:'block'}}>
-                            <img src='/assets/img/icons/continental-assist-success.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-success'/>
+                            <ImgContinentalAssistSuccess class='img-fluid' title='continental-assist-icon-success' alt='continental-assist-icon-success'/>
                         </div>
                         <div class="modal-body text-center">
                             <h2 class='h1'>¡Compra exitosa!</h2>
@@ -759,7 +761,7 @@ export default component$((props:propsOP) => {
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content border border-danger">
                         <div class='modal-header text-center' style={{display:'block'}}>
-                            <img src='/assets/img/icons/continental-assist-error.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-error'/>
+                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
                         </div>
                         <div class="modal-body text-center">
                             <h2 class='h1'>¡Pago rechazado!</h2>
@@ -782,7 +784,7 @@ export default component$((props:propsOP) => {
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content border border-danger">
                         <div class='modal-header text-center' style={{display:'block'}}>
-                            <img src='/assets/img/icons/continental-assist-error.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-error'/>
+                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
                         </div>
                         <div class="modal-body text-center">
                             <h2 class='h1'>¡Voucher activo!</h2>
@@ -805,7 +807,7 @@ export default component$((props:propsOP) => {
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content border border-danger">
                         <div class='modal-header text-center' style={{display:'block'}}>
-                            <img src='/assets/img/icons/continental-assist-error.webp' class='img-fluid' width={0} height={0} alt='continental-assist-icon-error'/>
+                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
                         </div>
                         <div class="modal-body text-center">
                             <h2 class='h1'>¡Has realizado tres intentos!</h2>

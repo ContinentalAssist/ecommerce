@@ -38,17 +38,7 @@
     background-repeat: no-repeat;
 }
 
-.bg-home-blue-access .img-blue-access
-{
-    width: 350px;
-}
-
-.bg-home-blue-access .img-bullets
-{
-    width: 50px;
-}
-
-/* .bg-home-blue-access .card-resume .card
+.bg-home-blue-access .card-resume .card
 {
     height: 170px !important;
 }
@@ -65,13 +55,6 @@
     width: 80px;
     height: 12px;
     margin-top: 15%;
-} */
-
-.bg-home-testimonials .card .img-fluid
-{
-    float: right;
-    max-width: 60px !important;
-    height: 28px !important;
 }
 
 .bg-home-faqs
@@ -273,21 +256,6 @@
     .bg-home-header #container-quote h5
     {
         font-size: 12px !important;
-    }
-
-    .bg-home-benefits
-    {
-        background-image: url("/assets/img/home/continental-assist-bg-benefits-1080x1920.webp");
-    }
-
-    .bg-home-complements
-    {
-        background-image: url("/assets/img/home/continental-assist-bg-benefits-1080x1920.webp");
-    }
-
-    .bg-home-faqs
-    {
-        background-image: url("/assets/img/home/continental-assist-bg-benefits-1080x1920.webp");
     }
 
     .bg-counter

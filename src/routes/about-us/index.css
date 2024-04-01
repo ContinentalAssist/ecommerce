@@ -68,8 +68,7 @@
 
 .stick
 {
-    height: 100px !important;
-    width: 38px;
+    height: 100px;
 }
 
 @media (max-width: 575.98px)
@@ -83,6 +82,12 @@
     .cards-directions .card
     {
         text-align: center;
+    }
+
+    .img-line-vertical
+    {
+        width: 100px;
+        height: 100px;
     }
 
     img.rotate-90
