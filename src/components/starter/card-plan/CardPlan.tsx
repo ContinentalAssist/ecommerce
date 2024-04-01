@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, Slot, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './card-plan.css?inline'
 
 export interface propsCardPlan {
@@ -7,26 +7,14 @@ export interface propsCardPlan {
 
 export const CardPlan = component$((props:propsCardPlan) => {
     useStylesScoped$(styles)
-
-    const img = useSignal('')
-    const altText = useSignal('')
+    
     const benefits = useSignal([])
 
     useTask$(() => {
-        img.value = props.img 
-
-        const newArray = img.value.split('/')
-        altText.value = img.value.split('/')[newArray.length-1].split('.')[0]
-
         benefits.value = props.benefits
     })
 
     useVisibleTask$(() => {
-        img.value = props.img 
-
-        const newArray = img.value.split('/')
-        altText.value = img.value.split('/')[newArray.length-1].split('.')[0]
-
         benefits.value = props.benefits
     })
 
@@ -65,7 +53,7 @@ export const CardPlan = component$((props:propsCardPlan) => {
             <div class='card text-center shadow-lg'>
                 <div class='card-body'>
                     <div class='card-img'>
-                        <img src={img.value} class="img-fluid" width={300} height={314} alt={altText.value} title={altText.value}/>
+                        <Slot/>
                     </div>
                     <h2 class="h1 text-semi-bold text-light-blue">{props.title}</h2>
                     <p class="card-text fs-5 text-dark-gray mb-4">{props.description}</p>
@@ -78,7 +66,7 @@ export const CardPlan = component$((props:propsCardPlan) => {
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <img src={img.value} class="img-fluid" width={300} height={314} alt={altText.value} title={altText.value} />
+                            <Slot/>
                             <h2 class='text-semi-bold text-white'>
                                 {props.title}
                             </h2>

@@ -38,7 +38,17 @@
     background-repeat: no-repeat;
 }
 
-.bg-home-blue-access .card-resume .card
+.bg-home-blue-access .img-blue-access
+{
+    width: 350px;
+}
+
+.bg-home-blue-access .img-bullets
+{
+    width: 50px;
+}
+
+/* .bg-home-blue-access .card-resume .card
 {
     height: 170px !important;
 }
@@ -55,6 +65,13 @@
     width: 80px;
     height: 12px;
     margin-top: 15%;
+} */
+
+.bg-home-testimonials .card .img-fluid
+{
+    float: right;
+    max-width: 60px !important;
+    height: 28px !important;
 }
 
 .bg-home-faqs
@@ -66,7 +83,7 @@
 .bg-vibe
 {
     width: 1140px;
-    min-height: 600px;
+    height: auto;
 }
 
 .bg-vibe .col-lg-4
@@ -104,21 +121,27 @@
     margin-top: 80px;
 }
 
+.stick
+{
+    width: auto;
+    height: 100px;
+}
+
 .bg-vibe .stick-left
 {
     position: relative;
     top: 80px;
     margin-left: 85px;
-    height: 100px !important;
-    width: 38px;
+    width: auto;
+    height: 100px;
 }
 
 .bg-vibe .stick-center
 {
     position: relative;
     top: 80px;
-    height: 100px !important;
-    width: 38px;
+    width: auto;
+    height: 100px;
 }
 
 .bg-vibe .stick-right
@@ -126,8 +149,8 @@
     position: relative;
     top: 80px;
     margin-right: 85px;
-    height: 100px !important;
-    width: 38px;
+    width: auto;
+    height: 100px;
 }
 
 .bg-vibe p
@@ -139,6 +162,7 @@
 .bg-vibe p.left
 {
     margin-left: 90px;
+    width: 250px;
 }
 
 .bg-vibe .img-fluid.center,
@@ -146,12 +170,14 @@
 {
     margin-right: 45px;
     margin-left: 45px;
+    width: 250px;
 }
 
 .bg-vibe .img-fluid.right,
 .bg-vibe p.right
 {
     margin-right: 90px;
+    width: 250px;
 }
 
 .bg-vibe small.left

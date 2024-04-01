@@ -1,10 +1,9 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow,useTask$, $ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 import './global.css';
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
-import ServiceRequest from './utils/ServiceRequest';
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 
@@ -17,7 +16,7 @@ export default component$(() => {
 
     useContextProvider(WEBContext,resumeQuote)
 
-    useTask$(async() => {
+    useVisibleTask$(async() => {
         let convertionRate: number;
         let currency: string;
         let exchangeRate : any[] = []
@@ -29,9 +28,9 @@ export default component$(() => {
 
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
-        await ServiceRequest('/bk_getTasasCambiosActual',{},(response) => {
-            exchangeRate = response.resultado
-        })
+        const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
+        const dataRates = await resRates.json()
+        exchangeRate = dataRates.resultado
 
         switch (geoData.country) 
         {

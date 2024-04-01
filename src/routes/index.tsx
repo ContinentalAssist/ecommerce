@@ -9,20 +9,32 @@ import { CardComment } from '~/components/starter/card-comment/CardComment';
 import { WEBContext } from '~/root';
 import { BoardSolari } from '~/components/starter/board-solari/BoardSolari';
 
-import ImgContinentalAssistBagEssential from '~/media/img/icons/continental-assist-bag-essential.webp?jsx'
+import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
 import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
 import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
 import ImgContinentalAssistDoctor from '~/media/icons/continental-assist-doctor.webp?jsx'
 import ImgContinentalAssistTravel from '~/media/icons/continental-assist-travel.webp?jsx'
 import ImgContinentalAssistHeadphones from '~/media/icons/continental-assist-headphones.webp?jsx'
 import ImgContinentalAssistPets from  '~/media/icons/continental-assist-pets.webp?jsx'
-import ImgContinentalAssistShoppingCar from '~/media/icons/continental-assist-shopping-car.webp?jsx'
-import ImgContinentalAssistRegister from '~/media/icons/continental-assist-register.webp?jsx'
-import ImgContinentalAssistProtection from '~/media/icons/continental-assist-protection.webp?jsx'
-import ImgContinentalAssistDots from '~/media/icons/continental-assist-dots.png?jsx'
+import ImgContinentalAssistBlueAccess from '~/media/home/continental-assist-blue-access.webp?jsx'
+import ImgContinentalAssistBullets from '~/media/icons/continental-assist-bullets.webp?jsx'
+import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
+import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
+import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
+import ImgContinentalAssistTickets from '~/media/icons/continental-assist-tickets.webp?jsx'
+import ImgContinentalAssistStars from '~/media/icons/continental-assist-icon-stars.webp?jsx'
+import ImgContinentalAssistVenezuela from '~/media/flags/continental-assist-colombia.webp?jsx'
+import ImgContinentalAssistColombia from '~/media/flags/continental-assist-colombia.webp?jsx'
+import ImgContinentalAssistCostaRica from '~/media/flags/continental-assist-costa-rica.webp?jsx'
+import ImgContinentalAssistMexico from '~/media/flags/continental-assist-mexico.webp?jsx'
+import ImgContinentalAssistSuiza from '~/media/flags/continental-assist-suiza.webp?jsx'
+import ImgContinentalAssistVibe from '~/media/icons/continental-assist-vibe.webp?jsx'
+import ImgContinentalAssistCovid19 from '~/media/icons/continental-assist-covid-19.webp?jsx'
+import ImgContinentalAssistStick from '~/media/icons/continental-assist-stick.webp?jsx'
+import ImgContinentalAssistAttendance from '~/media/icons/continental-assist-attendance.webp?jsx'
+import ImgContinentalAssistContact from '~/media/icons/continental-assist-contact.webp?jsx'
+import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 
-
-import ImgContinentalAssistGroupPlan from '~/media/img/icons/continental-assist-group-plan.webp?jsx'
 import styles from './index.css?inline';
 
 export const head: DocumentHead = {
@@ -440,35 +452,38 @@ export default component$(() => {
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
                                                 id='Essential'
-                                                img='/assets/img/icons/continental-assist-bag-essential.webp'
                                                 title='Essential'
                                                 description='Con lo necesario para tus aventuras.'
                                                 btnLabel='USD 35K'
                                                 footer='Cubre hasta'
                                                 benefits={benefits.value[0].beneficiosasignados}
-                                            />
+                                            >
+                                                <ImgContinentalAssistBagEssential class="img-fluid" title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>
+                                            </CardPlan>
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
                                                 id='Complete'
-                                                img='/assets/img/icons/continental-assist-bag-complete.webp'
                                                 title='Complete'
                                                 description='El ideal para conectar con tu tranquilidad.'
                                                 btnLabel='USD 60K'
                                                 footer='Cubre hasta'
                                                 benefits={benefits.value[1].beneficiosasignados}
-                                            />
+                                            >
+                                                <ImgContinentalAssistBagComplete class="img-fluid" title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>
+                                            </CardPlan>
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
                                                 id='Elite'
-                                                img='/assets/img/icons/continental-assist-bag-elite.webp'
                                                 title='Elite'
                                                 description='El que te conecta con la máxima cobertura.'
                                                 btnLabel='USD 100K'
                                                 footer='Cubre hasta'
                                                 benefits={benefits.value[2].beneficiosasignados}
-                                            />
+                                            >
+                                                <ImgContinentalAssistBagElite class="img-fluid" title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>
+                                            </CardPlan>
                                         </div>
                                     </div>
                                     <div class='row mobile'>
@@ -486,13 +501,14 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='EssentialCarousel'
-                                                                        img='/assets/img/icons/continental-assist-bag-essential.webp'
                                                                         title='Essential'
                                                                         description='Con lo necesario para tus aventuras.'
                                                                         btnLabel='USD 35K'
                                                                         footer='Cubre hasta'
                                                                         benefits={benefits.value[0].beneficiosasignados}
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistBagEssential class="img-fluid" title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>
+                                                                    </CardPlan>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -503,13 +519,14 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='CompleteCarousel'
-                                                                        img='/assets/img/icons/continental-assist-bag-complete.webp'
                                                                         title='Complete'
                                                                         description='El ideal para conectar con tu tranquilidad.'
                                                                         btnLabel='USD 60K'
                                                                         footer='Cubre hasta'
                                                                         benefits={benefits.value[1].beneficiosasignados}
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistBagComplete class="img-fluid" title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>
+                                                                    </CardPlan>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -520,13 +537,14 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='EliteCarousel'
-                                                                        img='/assets/img/icons/continental-assist-bag-elite.webp'
                                                                         title='Elite'
                                                                         description='El que te conecta con la máxima cobertura.'
                                                                         btnLabel='USD 100K'
                                                                         footer='Cubre hasta'
                                                                         benefits={benefits.value[2].beneficiosasignados}
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistBagElite class="img-fluid" title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>
+                                                                    </CardPlan>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -561,28 +579,36 @@ export default component$(() => {
                                                 img='/assets/img/icons/continental-assist-doctor.webp'
                                                 title='Acompañamiento médico'
                                                 description='Antes, durante y después de tu viaje.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistDoctor class='img-fluid' title='continental-assist-doctor' alt='continental-assist-doctor'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-xl-3 col-md-6'>
                                             <CardResume
                                                 img='/assets/img/icons/continental-assist-travel.webp'
                                                 title='Entre trayectos'
                                                 description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistTravel class='img-fluid' title='continental-assist-travel' alt='continental-assist-travel'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-xl-3 col-md-6'>
                                             <CardResume
                                                 img='/assets/img/icons/continental-assist-headphones.webp'
                                                 title='Línea de información'
                                                 description='Estamos 24 horas para ti y los tuyos, todo el año.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistHeadphones class='img-fluid' title='continental-assist-headphones' alt='continental-assist-headphones'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-xl-3 col-md-6'>
                                             <CardResume
                                                 img='/assets/img/icons/continental-assist-pets.webp'
                                                 title='Mascotas protegidas'
                                                 description='Contamos con orientación para viaje con mascotas y servicios clave.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistPets class='img-fluid' title='continental-assist-pets' alt='continental-assist-pets'/>
+                                            </CardResume>
                                         </div>
                                     </div>
                                     <div class='row mobile'>
@@ -603,7 +629,9 @@ export default component$(() => {
                                                                         img='/assets/img/icons/continental-assist-doctor.webp'
                                                                         title='Acompañamiento médico'
                                                                         description='Antes, durante y después de tu viaje.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistDoctor class='img-fluid' title='continental-assist-doctor' alt='continental-assist-doctor'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -616,7 +644,9 @@ export default component$(() => {
                                                                         img='/assets/img/icons/continental-assist-travel.webp'
                                                                         title='Entre trayectos'
                                                                         description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistTravel class='img-fluid' title='continental-assist-travel' alt='continental-assist-travel'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -629,7 +659,9 @@ export default component$(() => {
                                                                         img='/assets/img/icons/continental-assist-headphones.webp'
                                                                         title='Línea de información'
                                                                         description='Estamos 24 horas para ti y los tuyos, todo el año.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistHeadphones class='img-fluid' title='continental-assist-headphones' alt='continental-assist-headphones'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -642,7 +674,9 @@ export default component$(() => {
                                                                         img='/assets/img/icons/continental-assist-pets.webp'
                                                                         title='Mascotas protegidas'
                                                                         description='Contamos con orientación para viaje con mascotas y servicios clave.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistPets class='img-fluid' title='continental-assist-pets' alt='continental-assist-pets'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -711,92 +745,37 @@ export default component$(() => {
                                 <div class='container'>
                                     <div class='row justify-content-center'>
                                         <div class='col-xl-8 text-center'>
-                                            <h2 class='h1 text-semi-bold text-blue mt-5'>Blue Access</h2>
-                                            <h3 class='h5 text-dark-gray'>Servicio VIP exclusivo de Continental Assist,<br class='mobile'/> sin costo extra.</h3>
-                                            <hr class='divider my-3'/>
-                                            <p class='text-blue mb-5'>
-                                                Dile adiós a los dolores de cabeza por causa de los vuelos demorados. 
-                                                Te abrimos la puerta a cientos de salas VIP alrededor del mundo, para transformar vuelos retrasados, 
-                                                en experiencias de espera confortables y exclusivas. 
+                                            <ImgContinentalAssistBlueAccess class='img-fluid img-blue-access mt-5' title='continental-assist-blue-access-logo' alt='continental-assist-blue-access-logo'/>
+                                            <h3 class='h5 text-semi-bold text-white'>Tu acceso a salas VIP internacionales.</h3>
+                                            <p class='text-white'>
+                                                Por la compra de un plan de asistencia, podrás proteger tus vuelos en caso de demora,
+                                                con un beneficio que te abre las puertas a salas exclusivas. 
                                             </p>
                                         </div>
                                     </div>
-                                    <div class='row justify-content-center not-mobile'>
-                                        <div class='col-lg-3'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-shopping-car.webp'
-                                                description='Compra el plan de asistencia que más se ajuste a tu viaje.'
-                                            />
+                                    <div class='row justify-content-center mt-4 mb-5'>
+                                        <div class='col-sm-2 col-5 text-end d-grid align-content-between'>
+                                            <div>
+                                                <h2 class='h6 text-semi-bold text-white'>Compra tu plan de asistencia</h2>
+                                            </div>
+                                            <div>
+                                                <h2 class='h6 text-semi-bold text-white'>Accede en caso de retraso</h2>
+                                            </div>
                                         </div>
-                                        <img src='/assets/img/icons/continental-assist-dots.png' class='img-fluid line-dots-left' width={150} height={33} alt='continental-assist-icon-dots' title='continental-assist-icon-dots' />
-                                        <div class='col-lg-3'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-register.webp'
-                                                description='Registra tu vuelo para monitorearlo en tiempo real.'
-                                            />
+                                        <div class='col-sm-1 col-2 text-center'>
+                                            <ImgContinentalAssistBullets class='img-fluid img-bullets' title='continental-assist-bullets' alt='continental-assist-bullets'/>
                                         </div>
-                                        <img src='/assets/img/icons/continental-assist-dots.png' class='img-fluid line-dots-left' width={150} height={33} alt='continental-assist-icon-dots' title='continental-assist-icon-dots' />
-                                        <div class='col-lg-3'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-protection.webp'
-                                                description='Ingresa a los espacios exclusivos en caso de un retraso.'
-                                            />
-                                        </div>
-                                    </div>
-                                    <div class='row mobile'>
-                                        <div class='col-xl-12'>
-                                            <div id="carouselAdditionals" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-touch="true">
-                                                <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselAdditionals" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselAdditionals" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselAdditionals" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                    <button type="button" data-bs-target="#carouselAdditionals" data-bs-slide-to="3" aria-label="Slide 4"></button>
-                                                </div>
-                                                <div class="carousel-inner">
-                                                    <div class="carousel-item active">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6 mb-5'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-shopping-car.webp'
-                                                                        description='Compra el plan de asistencia que más se ajuste a tu viaje.'
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6 mb-5'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-register.webp'
-                                                                        description='Registra tu vuelo para monitorearlo en tiempo real.'
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6 mb-5'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-protection.webp'
-                                                                        description='Ingresa a los espacios exclusivos en caso de un retraso.'
-                                                                    />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                        <div class='col-sm-2 col-5 d-grid align-content-center'>
+                                            <div>
+                                                <h2 class='h6 text-semi-bold text-white'>Registra tu vuelo en Blue Access</h2>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class='row'>
-                                        <div class='col-lg-12 text-center mb-5 py-4'>
-                                            <h4 class='text-semi-bold text-blue'>Activa el plan y adquiere tu cobertura.</h4>
-                                            <small class='text-blue fst-italic'>Aplican Términos y Condiciones.</small>
+                                    <div class='row mb-5'>
+                                        <div class='col-lg-12 text-center'>
+                                            <btn class='btn btn-primary mb-3'>Comprar plan de asistencia</btn>
+                                            <br/>
+                                            <small class='text-white fst-italic' style={{fontSize:'10px'}}>Aplican Términos y Condiciones.</small>
                                         </div>
                                     </div>
                                 </div>
@@ -823,31 +802,35 @@ export default component$(() => {
                                     <div class='row not-mobile'>
                                         <div class='col-lg-3'>
                                             <CardResume
-                                                img='/assets/img/icons/continental-assist-medicine.webp'
                                                 title='Preexistencias'
                                                 description='El beneficio perfecto para tus condiciones médicas previas.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistMedicine class='img-fluid' title='continental-assist-medicine' alt='continental-assist-medicine'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-lg-3'>
                                             <CardResume
-                                                img='/assets/img/icons/continental-assist-pregnancy.webp'
                                                 title='Futura mamá'
                                                 description='Protegemos a madres gestantes, de hasta 32 semanas.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistPregnancy class='img-fluid' title='continental-assist-pregnancy' alt='continental-assist-pregnancy'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-lg-3'>
                                             <CardResume
-                                                img='/assets/img/icons/continental-assist-sports.webp'
                                                 title='Práctica deportiva'
                                                 description='Estamos contigo, en experiencias deportivas para aficionados.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistSports class='img-fluid' title='continental-assist-sports' alt='continental-assist-sports'/>
+                                            </CardResume>
                                         </div>
                                         <div class='col-lg-3'>
                                             <CardResume
-                                                img='/assets/img/icons/continental-assist-tickets.webp'
                                                 title='Modificación de viaje'
                                                 description='Protege la inversión en tus viajes por cancelación multicausa.'
-                                            />
+                                            >
+                                                <ImgContinentalAssistTickets class='img-fluid' title='continental-assist-tickets' alt='continental-assist-tickets'/>
+                                            </CardResume>
                                         </div>
                                     </div>
                                     <div class='row mobile'>
@@ -865,11 +848,11 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6 mb-5'>
                                                                     <CardResume
-                                                                        img='/assets/img/icons/continental-assist-medicine.webp'
                                                                         title='Enfermedades preexistentes'
-                                                                        subTitle={undefined}
                                                                         description='El beneficio perfecto para tus condiciones médicas previas.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistMedicine class='img-fluid' title='continental-assist-medicine' alt='continental-assist-medicine'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -879,11 +862,11 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6 mb-5'>
                                                                     <CardResume
-                                                                        img='/assets/img/icons/continental-assist-pregnancy.webp'
                                                                         title='Futura mamá'
-                                                                        subTitle={undefined}
                                                                         description='Protegemos a madres gestantes, de hasta 32 semanas.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistPregnancy class='img-fluid' title='continental-assist-pregnancy' alt='continental-assist-pregnancy'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -893,11 +876,11 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6 mb-5'>
                                                                     <CardResume
-                                                                        img='/assets/img/icons/continental-assist-sports.webp'
                                                                         title='Práctica deportiva'
-                                                                        subTitle={undefined}
                                                                         description='Estamos contigo, en experiencias deportivas para aficionados.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistSports class='img-fluid' title='continental-assist-sports' alt='continental-assist-sports'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -907,11 +890,11 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6 mb-5'>
                                                                     <CardResume
-                                                                        img='/assets/img/icons/continental-assist-tickets.webp'
                                                                         title='Modificación de viaje multicausa'
-                                                                        subTitle={undefined}
                                                                         description='Protege la inversión en tus viajes por cancelación multicausa.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistTickets class='img-fluid' title='continental-assist-tickets' alt='continental-assist-tickets'/>
+                                                                    </CardResume>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -934,7 +917,7 @@ export default component$(() => {
                                 <div class='container' >
                                     <div class='row justify-content-center'>
                                         <div class='col-xl-8 col-md-7 text-center'>
-                                            <img class='img-fluid' src='/assets/img/icons/continental-assist-icon-stars.webp' width={955} height={167} alt='continental-assist-icon-stars' title='continental-assist-icon-stars'/>
+                                            <ImgContinentalAssistStars class='img-fluid' title='continental-assist-icon-stars' alt='continental-assist-icon-stars'/>
                                         </div>
                                     </div>
                                     <div class='row justify-content-center'>
@@ -965,23 +948,27 @@ export default component$(() => {
                                                                         subTitle='Venezuela'
                                                                         flag='/assets/img/flags/continental-assist-colombia.webp'
                                                                         description='Muchas gracias por la solución a la solicitud. El servicio prestado fue tan efectivo, que me generó mayor confianza ante el inconveniente.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistVenezuela class='img-fluid' title='continental-assist-venezuela' alt='continental-assist-venezuela'/>
+                                                                    </CardComment>
                                                                 </div>
                                                                 <div class="col-lg-4">
                                                                     <CardComment
                                                                         title='Ramiro'
                                                                         subTitle='Costa Rica'
-                                                                        flag='/assets/img/flags/continental-assist-costa-rica.webp'
                                                                         description='Mi familia y amigos están muy agradecidos por su ayuda y acompañamiento. Nos enorgullece recomendarlos.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistCostaRica class='img-fluid' title='continental-assist-costa-rica' alt='continental-assist-costa-rica'/>
+                                                                    </CardComment>
                                                                 </div>
                                                                 <div class="col-lg-4">
                                                                     <CardComment
                                                                         title='Sandra'
                                                                         subTitle='Colombia'
-                                                                        flag='/assets/img/flags/continental-assist-colombia.webp'
                                                                         description='El servicio es excelente, la comunicación y el control que se hace a través de las llamadas es muy bueno.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistColombia class='img-fluid' title='continental-assist-colombia' alt='continental-assist-colombia'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -993,25 +980,28 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Damaria'
                                                                         subTitle='Suiza'
-                                                                        flag='/assets/img/flags/continental-assist-suiza.webp'
                                                                         description='Elegí una empresa seria y que cumple lo que promete. Muchas gracias.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistSuiza class='img-fluid' title='continental-assist-suiza' alt='continental-assist-suiza'/>
+                                                                    </CardComment>
                                                                 </div>
                                                                 <div class="col-lg-4">
                                                                     <CardComment
                                                                         title='Oswaldo'
                                                                         subTitle='México'
-                                                                        flag='/assets/img/flags/continental-assist-mexico.webp'
                                                                         description='Siempre que salgo de vacaciones o de trabajo, siempre salgo seguro y tranquilo porque CONTINENTAL ASSIST me da lo que necesito.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistMexico class='img-fluid' title='continental-assist-mexico' alt='continental-assist-mexico'/>
+                                                                    </CardComment>
                                                                 </div>
                                                                 <div class="col-lg-4">
                                                                     <CardComment
                                                                         title='Fernando'
                                                                         subTitle='Costa Rica'
-                                                                        flag='/assets/img/flags/continental-assist-costa-rica.webp'
                                                                         description='Me fue súper, muy agradecido. Muy ágil el servicio. Y muy atinado el diagnóstico del especialista que me atendió.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistCostaRica class='img-fluid' title='continental-assist-costa-rica' alt='continental-assist-costa-rica'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1039,9 +1029,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Luisa'
                                                                         subTitle='Venezuela'
-                                                                        flag='/assets/img/flags/continental-assist-colombia.webp'
                                                                         description='Muchas gracias por la solución a la solicitud. El servicio prestado fue tan efectivo, que me generó mayor confianza ante el inconveniente.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistVenezuela class='img-fluid' title='continental-assist-venezuela' alt='continental-assist-venezuela'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1053,9 +1044,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Ramiro'
                                                                         subTitle='Costa Rica'
-                                                                        flag='/assets/img/flags/continental-assist-costa-rica.webp'
                                                                         description='Mi familia y amigos están muy agradecidos por su ayuda y acompañamiento. Nos enorgullece recomendarlos.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistCostaRica class='img-fluid' title='continental-assist-costa-rica' alt='continental-assist-costa-rica'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1067,9 +1059,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Sandra'
                                                                         subTitle='Colombia'
-                                                                        flag='/assets/img/flags/continental-assist-colombia.webp'
                                                                         description='El servicio es excelente, la comunicación y el control que se hace a través de las llamadas es muy bueno.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistColombia class='img-fluid' title='continental-assist-colombia' alt='continental-assist-colombia'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1081,9 +1074,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Damaria'
                                                                         subTitle='Suiza'
-                                                                        flag='/assets/img/flags/continental-assist-suiza.webp'
                                                                         description='Elegí una empresa seria y que cumple lo que promete. Muchas gracias.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistSuiza class='img-fluid' title='continental-assist-suiza' alt='continental-assist-suiza'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1095,9 +1089,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Oswaldo'
                                                                         subTitle='México'
-                                                                        flag='/assets/img/flags/continental-assist-mexico.webp'
                                                                         description='Siempre que salgo de vacaciones o de trabajo, siempre salgo seguro y tranquilo porque CONTINENTAL ASSIST me da lo que necesito.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistMexico class='img-fluid' title='continental-assist-mexico' alt='continental-assist-mexico'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1109,9 +1104,10 @@ export default component$(() => {
                                                                     <CardComment
                                                                         title='Fernando'
                                                                         subTitle='Costa Rica'
-                                                                        flag='/assets/img/flags/continental-assist-costa-rica.webp'
                                                                         description='Me fue súper, muy agradecido. Muy ágil el servicio. Y muy atinado el diagnóstico del especialista que me atendió.'
-                                                                    />
+                                                                    >
+                                                                        <ImgContinentalAssistCostaRica class='img-fluid' title='continental-assist-costa-rica' alt='continental-assist-costa-rica'/>
+                                                                    </CardComment>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1142,22 +1138,22 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='row bg-vibe not-mobile'>
-                                        <img src='/assets/img/icons/continental-assist-vibe.webp' class='img-fluid' alt='continental-assist-vibe' width={1140} height={621} title='continental-assist-vibe'/>
+                                        <ImgContinentalAssistVibe class='bg-vibe' title='continental-assist-vibe' alt='continental-assist-vibe'/>
                                         <div class='col-lg-4 text-center'>
-                                            <img src='/assets/img/icons/continental-assist-covid-19.webp' class='img-fluid left' width={250} height={250} alt='continental-assist-icon-covid-19' title='continental-assist-covid-19' />
-                                            <img class='stick-left' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                            <ImgContinentalAssistCovid19 class='img-fluid left' title='continental-assist-covid-19' alt='continental-assist-covid-19'/>
+                                            <ImgContinentalAssistStick class='stick-left' title='continental-assist-stick' alt='continental-assist-stick'/>
                                             <p class='text-semi-bold text-dark-blue left'>¿Los planes tienen cobertura para casos de Covid-19?</p>
                                             <small class='text-semi-bold text-dark-gray left'>Cualquiera de nuestros planes te acompañará, si se llegase a presentar un caso positivo. Consulta nuestros límites de edad al momento de realizar tu compra.</small>
                                         </div>
                                         <div class='col-lg-4 text-center'>
-                                            <img src='/assets/img/icons/continental-assist-attendance.webp'class='img-fluid center' width={250} height={250} alt='continental-assist-icon-attendance' title='continental-assist-icon-attendance'/>
-                                            <img class='stick-center' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                            <ImgContinentalAssistAttendance class='img-fluid center' title='continental-assist-attendance' alt='continental-assist-attendance'/>
+                                            <ImgContinentalAssistStick class='stick-center' title='continental-assist-stick' alt='continental-assist-stick'/>
                                             <p class='text-semi-bold text-dark-blue center'>¿Qué países exigen contar con una asistencia médica en viaje?</p>
                                             <small  class='text-semi-bold text-dark-gray center'>Los países cambian constantemente sus regulaciones, por lo que te sugerimos consultar el <a title='IATA' class='text-semi-bold' href='https://www.iatatravelcentre.com/world.php' target='_black'>mapa interactivo del portal de la IATA.</a></small>
                                         </div>
                                         <div class='col-lg-4 text-center'>
-                                            <img src='/assets/img/icons/continental-assist-contact.webp' class='img-fluid right' width={250} height={250} alt='continental-assist-icon-contact' title='continental-assist-icon-contact'/>
-                                            <img class='stick-right' src='/assets/img/icons/continental-assist-stick.webp' width={113} height={300} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                            <ImgContinentalAssistContact class='img-fluid right' title='continental-assist-contact' alt='continental-assist-contact'/>
+                                            <ImgContinentalAssistStick class='stick-right' title='continental-assist-stick' alt='continental-assist-stick'/>
                                             <p class='text-semi-bold text-dark-blue right'>¿Tienes una emergencia?<br/>¡Estamos contigo!</p>
                                             <small class='text-semi-bold text-dark-gray right'>Operamos 24 horas, los 7 días de la semana, todo el año. Si necesitas de nosotros, llámanos o escríbenos vía WhatsApp al <a title='WhatsApp' class='text-semi-bold' href='tel:+18602187561'>+18602187561.</a></small>
                                         </div>
@@ -1175,9 +1171,9 @@ export default component$(() => {
                                                         <div class='container'>
                                                             <div class='row justify-content-center' style={{height:'550px'}}>
                                                                 <div class='col-sm-6 text-center'>
-                                                                    <img src='/assets/img/icons/continental-assist-covid-19.webp' class='img-fluid'width={250} height={250} alt='continental-assist-icon-covid-19' title='continental-assist-covid-19' />
+                                                                    <ImgContinentalAssistCovid19 class='img-fluid' title='continental-assist-covid-19' alt='continental-assist-covid-19'/>
                                                                     <br/>
-                                                                    <img src='/assets/img/icons/continental-assist-stick.webp' width={38} height={100} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                                                    <ImgContinentalAssistStick class='stick' title='continental-assist-stick' alt='continental-assist-stick'/>
                                                                     <p class='text-semi-bold text-dark-blue left'>¿Los planes tienen cobertura para casos de Covid-19?</p>
                                                                     <small class='text-semi-bold text-dark-gray left'>
                                                                         Cualquiera de nuestros planes te acompañará, si se llegase a presentar un caso positivo. 
@@ -1191,9 +1187,9 @@ export default component$(() => {
                                                         <div class='container'>
                                                             <div class='row justify-content-center' style={{height:'550px'}}>
                                                                 <div class='col-sm-6 text-center'>
-                                                                    <img src='/assets/img/icons/continental-assist-attendance.webp' class='img-fluid'width={250} height={250} alt='continental-assist-icon-attendance' title='continental-assist-icon-attendance'/>
+                                                                    <ImgContinentalAssistAttendance class='img-fluid' title='continental-assist-attendance' alt='continental-assist-attendance'/>
                                                                     <br/>
-                                                                    <img src='/assets/img/icons/continental-assist-stick.webp' width={38} height={100} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                                                    <ImgContinentalAssistStick class='stick' title='continental-assist-stick' alt='continental-assist-stick'/>
                                                                     <p class='text-semi-bold text-dark-blue center'>¿Qué países exigen contar con una asistencia médica en viaje?</p>
                                                                     <small  class='text-semi-bold text-dark-gray center'>
                                                                         Los países cambian constantemente sus regulaciones, 
@@ -1207,9 +1203,9 @@ export default component$(() => {
                                                         <div class='container'>
                                                             <div class='row justify-content-center'style={{height:'550px'}}>
                                                                 <div class='col-sm-6 text-center'>
-                                                                    <img src='/assets/img/icons/continental-assist-contact.webp' class='img-fluid'width={250} height={250} alt='continental-assist-icon-contact' title='continental-assist-icon-contact'/>
+                                                                    <ImgContinentalAssistContact class='img-fluid' title='continental-assist-contact' alt='continental-assist-contact'/>
                                                                     <br/>
-                                                                    <img src='/assets/img/icons/continental-assist-stick.webp' width={38} height={100} alt='continental-assist-icon-stick' title='continental-assist-icon-stick'/>
+                                                                    <ImgContinentalAssistStick class='stick' title='continental-assist-stick' alt='continental-assist-stick'/>
                                                                     <p class='text-semi-bold text-dark-blue right'>¿Tienes una emergencia?<br/>¡Estamos contigo!</p>
                                                                     <small class='text-semi-bold text-dark-gray right'>
                                                                         Operamos 24 horas, los 7 días de la semana, todo el año. 
@@ -1246,7 +1242,6 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            {/* <img src='/assets/img/icons/continental-assist-group-plan.webp' class='img-fluid' width={350} height={278} alt='continental-assist-icon-group-plan' title='continental-assist-icon-group-plan'/> */}
                             <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan' />
                             <h2 class='text-semi-bold text-white'>¡Genial!</h2>
                         </div>
@@ -1296,52 +1291,6 @@ export default component$(() => {
                     }
                 </div>
             }
-            <script type='application/ld+json'>
-                {
-                    JSON.stringify({
-                        "@context" : "https://schema.org",
-                        "@type": "WebPage",
-                        "name": "Continental Asisst",
-                        "description": "Viaja internacionalmente con tranquilidad.",
-                        "url": "https://continentalassist.com",
-                        "breadcrumb": {
-                            "@type": "BreadcrumbList",
-                            "itemListElement": [
-                                {
-                                    "@type": "ListItem",
-                                    "position": 1,
-                                    "name": "Nosotros",
-                                    "item": "https://continentalassist.com/about-us"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 2,
-                                    "name": "Contactanos",
-                                    "item": "https://continentalassist.com/contact-us"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 3,
-                                    "name": "Buscar voucher",
-                                    "item": "https://continentalassist.com/search-voucher"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 4,
-                                    "name": "Condiciones Generales",
-                                    "item": "https://continentalassist.com/general-conditions"
-                                },
-                                {
-                                    "@type": "ListItem",
-                                    "position": 5,
-                                    "name": "Tratamiento de la Informacion",
-                                    "item": "https://continentalassist.com/information-treatment-privacy-policies"
-                                },
-                            ]
-                        }
-                    })
-                }
-            </script>
         </div>
     );
 });

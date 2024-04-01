@@ -7,7 +7,7 @@ import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngi
 import { WEBContext } from "~/root";
 import styles from './index.css?inline'
 import DateFormat from "~/utils/DateFormat";
-import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
+import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Tus datos y complementos',
@@ -40,11 +40,13 @@ export default component$(() => {
     const contact = useSignal(objectResume)
     const prevTotal = useSignal(0)
     const loading = useSignal(true)
+    const divisaManual = useSignal(stateContext.value.divisaManual)
 
     useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
+            console.log(stateContext.value)
 
             if(prevResume.asegurados != undefined)
             {
@@ -450,16 +452,17 @@ export default component$(() => {
                     <div class='col-xl-12'>
                         <div class='container'>
                             <div class='row align-content-center justify-content-center'>
-                                <div class='col-xl-10 text-center mb-3 mt-5'>
-                                    <h1 class='text-semi-bold text-blue'>
-                                        <span class='text-tin'>Tus datos</span> <br class='mobile'/> y complementos
-                                    </h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-blue'>Ingresa la información de los viajeros <br class='mobile'/> y elige beneficios opcionales</h5>
-                                </div>
                                 {
-                                    additionalsBenefits.value.length == 0
-                                    &&
+                                    additionalsBenefits.value.length > 0
+                                    ?
+                                    <div class='col-xl-10 text-center mb-3 mt-5'>
+                                        <h1 class='text-semi-bold text-blue'>
+                                            <span class='text-tin'>Tus datos</span> <br class='mobile'/> y complementos
+                                        </h1>
+                                        <hr class='divider my-3'/>
+                                        <h5 class='text-dark-blue'>Ingresa la información de los viajeros <br class='mobile'/> y elige beneficios opcionales</h5>
+                                    </div>
+                                    :
                                     <div class='col-lg-12 text-center mt-5 mb-5'>
                                         <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
                                         <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
@@ -647,7 +650,11 @@ export default component$(() => {
                                                             {benefit.idbeneficioadicional == '37' && <p class="card-text text-gray">Protegemos a madres gestantes, <br/> de hasta 32 semanas.</p>}
                                                             {benefit.idbeneficioadicional == '36' && <p class="card-text text-gray">Contigo, en experiencias recreativas.</p>}
                                                             {benefit.idbeneficioadicional == '35' && <p class="card-text text-gray">Perfecto para tus condiciones medicas previas.</p>}
-                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">{(stateContext.value.currentRate.code ? stateContext.value.currentRate.code : benefit.codigomonedapago) +' '+ ParseTwoDecimal(benefit.precio*stateContext.value.currentRate.rate)}</h4>
+                                                            <h4 class="card-text text-semi-bold text-dark-blue mb-4">
+                                                                {
+                                                                    divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)
+                                                                }
+                                                            </h4>
                                                         </div>
                                                         <div class="col-md-3">
                                                             <div class='d-grid gap-2'>
