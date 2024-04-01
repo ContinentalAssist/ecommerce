@@ -24,8 +24,10 @@ export default component$(() => {
     // // const navigate = useNavigate()
     const location = useLocation()
 
+    const obj : {[key:string]:any} = {}
+
     const loading = useSignal(true)
-    const voucher = useSignal('')
+    const voucher = useSignal(obj)
 
     useVisibleTask$(async() => {
         if(location.url.search.includes('id') && !location.url.search.includes('env'))
@@ -33,9 +35,13 @@ export default component$(() => {
             const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:location.url.searchParams.get('id')})});
             const dataValidation = await resValidation.json()
 
-            if(dataValidation.resultado.status)
+            if(dataValidation.resultado.status == 'completed')
             {
-                voucher.value = dataValidation.resultado.order_id
+                voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
+            }
+            else
+            {
+                voucher.value = {error:true,message:'Hubo un error en tu transaccion'}
             }
         }
         else
@@ -43,9 +49,13 @@ export default component$(() => {
             const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:location.url.searchParams.get('id')})});
             const dataValidation = await resValidation.json()
 
-            if(dataValidation.resultado.status)
+            if(dataValidation.resultado.status == 'APPROVED')
             {
-                voucher.value = dataValidation.resultado.reference
+                voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.reference}
+            }
+            else
+            {
+                voucher.value = {error:true,message:dataValidation.resultado.status_message}
             }
         }
 
@@ -64,11 +74,21 @@ export default component$(() => {
                     <div class='col-lg-12'>
                         <div class='container p-0'>
                             <div class='row align-content-center justify-content-center h-75'>
-                                <div class='col-lg-10 text-center mt-5'>
-                                    <h1 class='text-semi-bold text-blue'>Gracias por tu compra!</h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-gray mb-4'>Tu codigo de vocuher es : {voucher.value}</h5>
-                                </div>
+                                {
+                                    voucher.value.error == true
+                                    ?
+                                    <div class='col-lg-10 text-center mt-5'>
+                                        <h1 class='text-semi-bold text-blue'>Lo sentimos!</h1>
+                                        <hr class='divider my-3'/>
+                                        <h5 class='text-dark-gray mb-4'>{voucher.value.message}</h5>
+                                    </div>
+                                    :
+                                    <div class='col-lg-10 text-center mt-5'>
+                                        <h1 class='text-semi-bold text-blue'>Gracias por tu compra!</h1>
+                                        <hr class='divider my-3'/>
+                                        <h5 class='text-dark-gray mb-4'>{voucher.value.message}</h5>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
