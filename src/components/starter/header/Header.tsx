@@ -1,6 +1,9 @@
 import { $, component$, useOnWindow, useSignal, useStyles$, useTask$ } from '@builder.io/qwik';
-import styles from './header.css?inline';
 import { useLocation } from '@builder.io/qwik-city';
+
+import ImgContinentalAssistLogotipo from '~/media/ca/continental-assist-logotipo.webp?jsx'
+
+import styles from './header.css?inline';
 
 export const Header = component$(() => {
     useStyles$(styles);
@@ -97,7 +100,7 @@ export const Header = component$(() => {
                         <i class="fas fa-bars"></i>
                     </button>
                     <a class="navbar-brand" href="/" title="Inicio" >
-                        <img src='/assets/img/ca/continental-assist-logotipo.webp' width={180} height={58} alt='continental-assist-logotipo' title='continental-assist-logotipo'/>
+                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
                     </a>
                     <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
                         <div class="offcanvas-header">

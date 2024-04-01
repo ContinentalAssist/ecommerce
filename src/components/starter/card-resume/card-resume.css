@@ -20,7 +20,8 @@
 
 .card-resume .card-img .img-fluid
 {
-    height: 160px;
+    width: 150px;
+    height: 150px;
 }
 
 .card-resume .card-body

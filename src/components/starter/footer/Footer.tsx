@@ -1,4 +1,8 @@
 import { component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+
+import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
+import ImgContinentalAssistLogo from '~/media/ca/continental-assist-logo.webp?jsx';
+
 import styles from './footer.css?inline'
 
 export const Footer = component$(() => {
@@ -47,7 +51,7 @@ export const Footer = component$(() => {
                 <img  src='/assets/img/icons/continental-assist-whatsapp-chat.png'/>
             </a> */}
             <div id='icon-chat' class="dropup-end dropup">
-                <img alt='continental-assist-whatsapp-assistence' width={75} height={75} src='/assets/img/icons/continental-assist-whatsapp-chat.png' data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-assistence'/>
+                <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
                 <ul class="dropdown-menu">
                     <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
                     <li>
@@ -98,7 +102,7 @@ export const Footer = component$(() => {
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-3 col-sm-12 col-xs-12 text-center mb-3'>
                                             <a title='Inicio' href="/">
-                                                <img src='/assets/img/ca/continental-assist-logo.webp' width={100} height={50} alt='continental-assist-logo' title='continental-assist-logo'/>
+                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo'/>
                                             </a>
                                         </div>
                                         <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>

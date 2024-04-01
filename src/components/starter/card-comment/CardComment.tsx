@@ -1,4 +1,4 @@
-import { component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { Slot, component$, useStylesScoped$ } from "@builder.io/qwik";
 import styles from './card-comment.css?inline'
 
 interface propsCardComment {
@@ -7,29 +7,12 @@ interface propsCardComment {
 
 export const CardComment = component$((props:propsCardComment) => {
     useStylesScoped$(styles)
-
-    const flag = useSignal('')
-    const altText = useSignal('')
-
-    useTask$(() => {
-        flag.value = props.flag
-
-        const newArray = flag.value.split('/')
-        altText.value = flag.value.split('/')[newArray.length-1].split('.')[0]
-    })
-
-    useVisibleTask$(() => {
-        flag.value = props.flag
-
-        const newArray = flag.value.split('/')
-        altText.value = flag.value.split('/')[newArray.length-1].split('.')[0]
-    })
     
     return(
         <div class='card'>
             <div class='card-body'>
                 <h4 class='text-dark-gray'>{props.title} 
-                    <img src={flag.value} alt={altText.value} width={60} height={28} title={altText.value}/>
+                    <Slot/>
                 </h4>
                 <h5 class='text-bold text-dark-blue mb-4'>{props.subTitle}</h5>
                 <p class='card-text'>

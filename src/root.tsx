@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow,useTask$,useVisibleTask$, $ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow,useTask$, $, useVisibleTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 import './global.css';
@@ -29,9 +29,9 @@ export default component$(() => {
 	console.log(geoData)
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
-        await ServiceRequest('/bk_getTasasCambiosActual',{},(response) => {
-            exchangeRate = response.resultado
-        })
+        const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
+        const dataRates = await resRates.json()
+        exchangeRate = dataRates.resultado
 
         switch (geoData.country) 
         {
