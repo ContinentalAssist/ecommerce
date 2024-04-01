@@ -3,10 +3,10 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import styles from './index.css?inline'
-import ImgContinentalAssistDots from '~/media/img/icons/continental-assist-dots.png?jsx'
-import ImgContinentalAssistQrPhone from '~/media/img/icons/continental-assist-qr-phone.webp?jsx'
-import ImgContinentalAssistPhone from '~/media/img/icons/continental-assist-phone.webp?jsx'
-import ImgContinentalAssistMail from '~/media/img/icons/continental-assist-mail.webp?jsx'
+import ImgContinentalAssistDots from '~/media/icons/continental-assist-dots.png?jsx'
+import ImgContinentalAssistQrPhone from '~/media/icons/continental-assist-qr-phone.webp?jsx'
+import ImgContinentalAssistPhone from '~/media/icons/continental-assist-phone.webp?jsx'
+import ImgContinentalAssistMail from '~/media/icons/continental-assist-mail.webp?jsx'
 
 
 
