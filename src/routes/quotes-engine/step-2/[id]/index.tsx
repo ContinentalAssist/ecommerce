@@ -5,8 +5,13 @@ import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
-import styles from '../index.css?inline'
 import DateFormat from "~/utils/DateFormat";
+
+import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
+import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
+import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
+
+import styles from '../index.css?inline'
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Tus datos y complementos',
@@ -870,9 +875,9 @@ export default component$(() => {
                                                 <div class='container'>
                                                     <div class="row g-0 align-items-center">
                                                         <div class="col-md-2 text-center" style={{paddingRight:'10px'}}>
-                                                            {benefit.idbeneficioadicional == '37' && <img src='/assets/img/icons/continental-assist-pregnancy.webp' class="img-fluid" alt="icon-pregnancy"/>}
-                                                            {benefit.idbeneficioadicional == '36' && <img src='/assets/img/icons/continental-assist-sports.webp' class="img-fluid" alt="icon-sports"/>}
-                                                            {benefit.idbeneficioadicional == '35' && <img src='/assets/img/icons/continental-assist-medicine.webp' class="img-fluid" alt="icon-medicine"/>}
+                                                            {benefit.idbeneficioadicional == '37' && <ImgContinentalAssistPregnancy class='img-fluid' title='continental-assist-pregnancy' alt='continental-assist-pregnancy'/>}
+                                                            {benefit.idbeneficioadicional == '36' && <ImgContinentalAssistSports class='img-fluid' title='continental-assist-sports' alt='continental-assist-sports'/>}
+                                                            {benefit.idbeneficioadicional == '35' && <ImgContinentalAssistMedicine class='img-fluid' title='continental-assist-medicine' alt='continental-assist-medicine'/>}
                                                         </div>
                                                         <div class="col-md-7">
                                                             <h5 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h5>

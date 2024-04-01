@@ -29,6 +29,7 @@
 .img-fluid
 {
     height: 25px;
+    width: auto;
 }
 
 @media (max-width: 575.98px)

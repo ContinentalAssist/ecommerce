@@ -47,9 +47,6 @@ export const Footer = component$(() => {
 
     return(
         <footer class='container-fluid'>
-            {/* <a id='icon-chat' href="https://wa.me/18602187561?text=¡Hola!%20Necesito%20asistencia" target="_blank">
-                <img  src='/assets/img/icons/continental-assist-whatsapp-chat.png'/>
-            </a> */}
             <div id='icon-chat' class="dropup-end dropup">
                 <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
                 <ul class="dropdown-menu">

@@ -7,6 +7,7 @@ import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngi
 import { WEBContext } from "~/root";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 
+import ImgContinentalAssistStar from '~/media/icons/continental-assist-star.webp?jsx';
 import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
 import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
 import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
@@ -419,7 +420,7 @@ export default component$(() => {
                                 <div class='row'>
                                     <div class='col-lg-3 col-sm-6 col-xs-12 text-center mb-4 mb-sm-0'>
                                         <span class='text-semi-bold text-dark-blue'>
-                                            <img src='/assets/img/icons/continental-assist-icon-02.webp' class='img-fluid' width='20' alt='continental-assist-icon-02'/> Fechas de tu viaje
+                                            Fechas de tu viaje
                                         </span>
                                         <div>
                                             <span class='text-dark-gray'>{resume.value.desde}</span>
@@ -429,7 +430,7 @@ export default component$(() => {
                                     </div>
                                     <div class='col-lg-5 col-sm-6 col-xs-12 text-center mb-4 mb-sm-0'>
                                         <span class='text-semi-bold text-dark-blue'>
-                                            <img src='/assets/img/icons/continental-assist-icon-03.webp' class='img-fluid' width='20' alt='continental-assist-icon-03'/> Ubicacion de tu viaje
+                                            Ubicacion de tu viaje
                                         </span>
                                         <div>
                                             <span class='text-dark-gray'>{resume.value.paisorigen} <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',',', ')}</span>
@@ -437,7 +438,7 @@ export default component$(() => {
                                     </div>
                                     <div class='col-lg-3 col-sm-6 col-xs-12 text-center mb-4 mb-sm-0'>
                                         <span class='text-semi-bold text-dark-blue'>
-                                            <img src='/assets/img/icons/continental-assist-icon-03.webp' class='img-fluid' width='20' alt='continental-assist-icon-03'/> Viajeros
+                                            Viajeros
                                         </span>
                                         <div>
                                             <span class='text-dark-gray'>{resume.value.pasajeros}</span>
@@ -556,7 +557,7 @@ export default component$(() => {
                                                         plan.idplan == '2964'
                                                         &&
                                                         <span class='card-recommended'>
-                                                            <img class='mt-0 me-2' src='/assets/img/icons/continental-assist-icon-star.webp' width='20' alt='continental-assist-icon-star'/>
+                                                            <ImgContinentalAssistStar class='img-star mt-0 me-2' title='continental-assist-star' alt='continental-assist-star'/>
                                                             <p class='mb-0'>+ vendido</p>
                                                         </span>
                                                     }
@@ -671,7 +672,7 @@ export default component$(() => {
                                                                                 plan.idplan == '2964'
                                                                                 &&
                                                                                 <span class='card-recommended'>
-                                                                                    <img class='mt-0 me-2' src='/assets/img/icons/continental-assist-icon-star.webp' width='20' alt='continental-assist-icon-star'/>
+                                                                                    <ImgContinentalAssistStar class='img-star mt-0 me-2' title='continental-assist-star' alt='continental-assist-star'/>
                                                                                     <p class='mb-0'>+ vendido</p>
                                                                                 </span>
                                                                             }

@@ -2,6 +2,9 @@ import { $, Fragment, component$, useOnWindow, useSignal, useStylesScoped$ } fro
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
+
+import ImgContinentalAssistPlane from '~/media/icons/continental-assist-plane.webp?jsx'
+
 import styles from './index.css?inline'
 
 export const head: DocumentHead = {
@@ -137,7 +140,7 @@ export default component$(() => {
                     <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <img src='/assets/img/icons/continental-assist-plane.webp' class='img-fluid' alt='continental-assist-icon-plane'/>
+                                <ImgContinentalAssistPlane class='img-fluid' title='continental-assist-plane' alt='continental-assist-plane'/>
                                 <h2 class='text-semi-bold text-white'>{voucher.value.codigovoucher}</h2>
                             </div>
                             <div class="modal-body">
@@ -304,9 +307,9 @@ export default component$(() => {
                                                                 <div class='container'>
                                                                     <div class="row g-0 align-items-center">
                                                                         <div class="col-md-2 text-center" style={{paddingRight:'10px'}}>
-                                                                            {benefit.idbeneficioadicional == '37' && <img src='/assets/img/ca-icon-06.webp' class="img-fluid" alt="continental-assist-icon-06"/>}
+                                                                            {/* {benefit.idbeneficioadicional == '37' && <img src='/assets/img/ca-icon-06.webp' class="img-fluid" alt="continental-assist-icon-06"/>}
                                                                             {benefit.idbeneficioadicional == '36' && <img src='/assets/img/ca-icon-07.webp' class="img-fluid" alt="continental-assist-icon-07"/>}
-                                                                            {benefit.idbeneficioadicional == '35' && <img src='/assets/img/ca-icon-05.webp' class="img-fluid" alt="continental-assist-icon-08"/>}
+                                                                            {benefit.idbeneficioadicional == '35' && <img src='/assets/img/ca-icon-05.webp' class="img-fluid" alt="continental-assist-icon-08"/>} */}
                                                                         </div>
                                                                         <div class="col-md-7">
                                                                             <h5 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h5>
