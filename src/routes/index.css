@@ -38,23 +38,14 @@
     background-repeat: no-repeat;
 }
 
-.bg-home-blue-access .card-resume .card
+.bg-home-blue-access .img-blue-access
 {
-    height: 170px !important;
+    width: 300px !important; 
 }
 
-.bg-home-blue-access .card-resume .card-body
+.bg-home-blue-access .img-bullets
 {
-    padding-inline: 20px !important;
-    padding-top: 0px;
-}
-
-.bg-home-blue-access .line-dots-left
-{
-    position: relative;
-    width: 80px;
-    height: 12px;
-    margin-top: 15%;
+    width: 50px;
 }
 
 .bg-home-faqs
