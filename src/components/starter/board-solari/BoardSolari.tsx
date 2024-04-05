@@ -1,4 +1,4 @@
-import { $, Fragment, component$, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik"
+import { $, Fragment, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik"
 import styles from './board-solari.css?inline'
 
 interface propsBoardSolari {
@@ -11,7 +11,7 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
     const word = useSignal(props.words[0])
     const wordPosition = useSignal(1)
 
-    useVisibleTask$(({ track }) => {
+    useTask$(({ track }) => {
         track(() => {
             wordPosition.value
         })
@@ -21,12 +21,56 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
        const table = document.querySelector('#board-solari-'+props.id);
        setInterval(() => {
             (table as HTMLDivElement).click()   
-       },5000)
+       },6000)
     })
 
     const randomRotation$ = $(() => {
         const rotationClass = Math.random() < 0.5 ? 'rotate-180' : 'rotate';
         return rotationClass;
+    })
+
+    const fadeDescription$ = $(() => {
+        const panels = document.querySelector('#panels-'+props.id) as HTMLDivElement
+        const description = document.querySelector('#description-'+props.id) as HTMLHeadingElement
+
+        const prevPosition = props.words[wordPosition.value - 1].position
+
+        if(word.value.position == 'bottom')
+        {
+            if(prevPosition == 'top')
+            {
+                panels.classList.add('panel-fade-in-bottom')
+
+                setTimeout(() => {
+                    panels.classList.remove('panel-fade-in-bottom')
+                },600)
+            }
+
+            description.classList.add('fade-in-top')
+
+            setTimeout(() => {
+                description.classList.remove('fade-in-top')
+            },600)
+
+            
+        }
+        else
+        {
+            description.classList.add('fade-in-bottom')
+
+            setTimeout(() => {
+                description.classList.remove('fade-in-bottom')
+            },600)
+            
+            if(prevPosition == 'bottom')
+            {
+                panels.classList.add('panel-fade-in-top')
+
+                setTimeout(() => {
+                    panels.classList.remove('panel-fade-in-top')
+                },600)
+            }
+        }
     })
 
     const boardSolari$ = $(() => {
@@ -59,32 +103,7 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
                 },600)
             },600)
         })
-    })
 
-    const fadeDescription$ = $(() => {
-        const panels = document.querySelector('#panels-'+props.id) as HTMLDivElement
-        const description = document.querySelector('#description-'+props.id) as HTMLHeadingElement
-
-        if(word.value.position == 'bottom')
-        {
-            description.classList.add('fade-in-top')
-
-            setTimeout(() => {
-                description.classList.remove('fade-in-top')
-            },600)
-        }
-        else if(word.value.position == 'top')
-        {
-            panels.classList.add('order-2')
-
-            setTimeout(() => {
-                panels.classList.remove('order-2')
-            },4000)
-        }
-    })
-
-    const update$ = $(() => {
-        boardSolari$()
         setTimeout(() => {
             if(wordPosition.value < props.words.length)
             {
@@ -99,6 +118,32 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
                 wordPosition.value = 1
             }
         },900)
+    })
+
+    // const fadeDescription$ = $(() => {
+    //     const panels = document.querySelector('#panels-'+props.id) as HTMLDivElement
+    //     const description = document.querySelector('#description-'+props.id) as HTMLHeadingElement
+
+    //     if(word.value.position == 'bottom')
+    //     {
+    //         description.classList.add('fade-in-top')
+
+    //         setTimeout(() => {
+    //             description.classList.remove('fade-in-top')
+    //         },600)
+    //     }
+    //     else if(word.value.position == 'top')
+    //     {
+    //         panels.classList.add('order-2')
+
+    //         setTimeout(() => {
+    //             panels.classList.remove('order-2')
+    //         },4000)
+    //     }
+    // })
+
+    const update$ = $(() => {
+        boardSolari$()
     })
 
     return(

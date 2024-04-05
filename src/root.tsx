@@ -19,7 +19,7 @@ export default component$(() => {
     useVisibleTask$(async() => {
         let convertionRate: number;
         let currency: string;
-        let exchangeRate : any[] = []
+        // let exchangeRate : any[] = []
 
         const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
             .then((response) => {
@@ -28,22 +28,42 @@ export default component$(() => {
 	console.log(geoData)
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
-        const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
-        const dataRates = await resRates.json()
-        exchangeRate = dataRates.resultado
+        // const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});
+        // const dataRates = await resRates.json()
+        // exchangeRate = dataRates.resultado
+
+        // switch (geoData.country) 
+        // {
+        //     case 'CO':
+        //         convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'COP'})?.valor || 1
+        //         currency = 'COP'
+        //         break;
+        //     case 'MX':
+        //         convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'MXN'})?.valor || 1
+        //         currency = 'MXN'
+        //         break; 
+        //     default:
+        //         convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'USD'})?.valor || 1
+        //         currency = 'USD'
+        // }
+
+        const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
+            .then((response) => {
+                return(response.json())
+            })
 
         switch (geoData.country) 
         {
             case 'CO':
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'COP'})?.valor || 1
+                convertionRate = resRates.conversion_rates.COP
                 currency = 'COP'
                 break;
             case 'MX':
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'MXN'})?.valor || 1
+                convertionRate = resRates.conversion_rates.MXN
                 currency = 'MXN'
                 break; 
             default:
-                convertionRate = exchangeRate.find((rate) => {return rate.moneda == 'USD'})?.valor || 1
+                convertionRate = resRates.conversion_rates.USD
                 currency = 'USD'
         }
 
