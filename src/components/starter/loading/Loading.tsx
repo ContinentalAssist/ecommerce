@@ -9,6 +9,7 @@ export const Loading = component$(() => {
 
     return(
         <div class={'loading'}>
+            <div class="loader"></div>
             <img 
                 src='/assets/img/ca/continental-assist-loading.webp' 
                 class='img-fluid' 
