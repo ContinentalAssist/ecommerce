@@ -70,16 +70,16 @@ export default component$(() => {
         resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
     });
 
-    useOnWindow('load',$(() => {
+    useOnWindow('load',$(async() => {
         if(navigator.userAgent.includes('Windows'))
         {
             so.value = 'windows'
         }
 
         (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-        gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
-        gtag('js', new Date()); 
-        gtag('config', 'AW-11397008041'); 
+        await gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
+        await gtag('js', new Date()); 
+        await gtag('config', 'AW-11397008041'); 
     }))
 
     return (
