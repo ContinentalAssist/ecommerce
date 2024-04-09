@@ -1,9 +1,12 @@
 import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
-import './global.css';
+
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
+
+import './global.css';
+import { QwikPartytown } from './components/partytown/partytown';
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 
@@ -13,7 +16,6 @@ export default component$(() => {
     const resumeQuote = useSignal(obj)
     const so = useSignal('')
     
-
     useContextProvider(WEBContext,resumeQuote)
 
     useVisibleTask$(async() => {
@@ -85,7 +87,8 @@ export default component$(() => {
     return (
         <QwikCityProvider>
             <head>
-                <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
+                <QwikPartytown forward={['dataLayer.push']} />
+                <script async type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
                 <meta name="keywords" content='
                     seguro, 
                     seguro viajes,

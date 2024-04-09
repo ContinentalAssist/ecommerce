@@ -4,11 +4,11 @@ const path = require('path');
 // Tus rutas y prioridades
 const routes = [
   { loc: 'https://continentalassist.com', priority: '1.00' },
-  { loc: 'https://continentalassist.com/about-us', priority: '0.80' },
-  { loc: 'https://continentalassist.com/contact-us', priority: '0.80' },
-  { loc: 'https://continentalassist.com/search-voucher', priority: '0.80' },
-  { loc: 'https://continentalassist.com/general-conditions', priority: '0.80' },
-  { loc: 'https://continentalassist.com/information-treatment-privacy-policies', priority: '0.80' },
+  { loc: 'https://continentalassist.com/about-us', priority: '0.90' },
+  { loc: 'https://continentalassist.com/contact-us', priority: '0.90' },
+  { loc: 'https://continentalassist.com/search-voucher', priority: '0.90' },
+  { loc: 'https://continentalassist.com/general-conditions', priority: '0.90' },
+  { loc: 'https://continentalassist.com/information-treatment-privacy-policies', priority: '0.90' },
 ];
 
 const generateSitemap = () => {
