@@ -184,6 +184,8 @@ export default component$(() => {
             'page': 'Home'
         })
 
+        console.log((window as any)['dataLayer'])
+
         const bs = (window as any)['bootstrap']
         const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
         const collapse = new bs.Collapse('#collapseQuotesEngine',{})
