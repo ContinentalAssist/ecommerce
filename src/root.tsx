@@ -163,10 +163,10 @@ export default component$(() => {
                     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
                 </noscript>
                 <RouterOutlet />
-                <script src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
-                <script type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
-                <script type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
+                <script async src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script>
+                <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
+                <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+                <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
                 {/* <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> */}
                 <ServiceWorkerRegister />
             </body>
