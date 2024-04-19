@@ -38,7 +38,6 @@ export default component$((props:propsWompi) => {
     const loading = useSignal(true)
     const urlvoucher = useSignal(array)
     const attempts = useSignal(0)
-    const divisaManual = useSignal(stateContext.value.divisaManual)
     const formPayment = useSignal('')
     const qr = useSignal(obj)
     const cash = useSignal(obj)
@@ -415,7 +414,27 @@ export default component$((props:propsWompi) => {
 
         if(error == false)
         {
-            let   idMethodPayment : number = 2
+            const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                    'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
+                },
+                body: JSON.stringify(
+                {
+                    number: dataForm.tdcnumero,
+                    cvc: dataForm.tdccvv ,
+                    exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
+                    exp_year: String(dataForm.tdcanoexpiracion),
+                    card_holder: dataForm.tdctitular
+                }
+            )})
+                .then((res) => {
+                    return(res.json())
+                })
+
+            console.log(resToken)
+            wToken.value = resToken?.data?.id
 
             const newPaxs : any[] = []
             
@@ -432,50 +451,8 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
-          
-            if(divisaManual.value == true)
-            {
-                idMethodPayment = 2
-            }
-            else
-            {
-                idMethodPayment = 4
-                const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json; charset=UTF-8',
-                        'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
-                    },
-                    body: JSON.stringify(
-                    {
-                        number: dataForm.tdcnumero,
-                        cvc: dataForm.tdccvv ,
-                        exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
-                        exp_year: String(dataForm.tdcanoexpiracion),
-                        card_holder: dataForm.tdctitular
-                    }
-                )})
-                    .then((res) => {
-                        return(res.json())
-                    })
 
-                console.log(resToken)
-                wToken.value = resToken?.data?.id
-            }
-
-            let total_conversion = 0
-            let codigo_conversion = ''
-            
-            if(divisaManual.value == true)
-            {
-                total_conversion = resume.value.total.total
-                codigo_conversion = resume.value.total.divisa
-            }
-            else
-            {
-                total_conversion = Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.',''))
-                codigo_conversion = stateContext.value.currentRate.code
-            }
+            console.log(resume.value.asegurados)
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -495,13 +472,13 @@ export default component$((props:propsWompi) => {
                         total:resume.value.plan.precio_grupal
                     },
                     total:Number(ParseTwoDecimal(resume.value.total.total)),
-                    totalconversion: total_conversion,
+                    totalconversion:Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
                     tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
-                    codigoconversion:codigo_conversion,
+                    codigoconversion:stateContext.value.currentRate.code,
                     moneda:{
                         idmoneda:resume.value.plan.idmonedapago,
                     },
-                    idplataformapago:idMethodPayment,
+                    idplataformapago:4,
                     cupon:{
                         idcupon:resume.value.cupon.idcupon,
                         codigocupon:resume.value.cupon.codigocupon,
