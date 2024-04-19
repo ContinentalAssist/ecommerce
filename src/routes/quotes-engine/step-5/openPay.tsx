@@ -134,7 +134,7 @@ export default component$((props:propsOP) => {
                     total:resume.value.plan.precio_grupal
                 },
                 total:Number(ParseTwoDecimal(resume.value.total.total)),
-                totalconversion: Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))),
+                totalconversion:Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
                 tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                 codigoconversion:stateContext.value.currentRate.code,
                 moneda:{
@@ -444,7 +444,7 @@ export default component$((props:propsOP) => {
                         total:resume.value.plan.precio_grupal
                     },
                     total:Number(ParseTwoDecimal(resume.value.total.total)),
-                    totalconversion: Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))),
+                    totalconversion:Number(ParseTwoDecimal(resume.value.total.total * stateContext.value.currentRate.rate)),
                     tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                     codigoconversion:stateContext.value.currentRate.code,
                     moneda:{

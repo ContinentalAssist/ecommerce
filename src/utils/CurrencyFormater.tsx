@@ -6,20 +6,31 @@ export default function CurrencyFormatter(currency:string,value:number)
     {
         fractionDigits = 2
     }
+    else
+    {
+        // value = Math.ceil(value)
+        // value = Number(String(value).replace(/\.00$/, ''))
+    }
 
-    return(
-        // Math.ceil(total).toLocaleString('es-LA',{
+    // Math.ceil(total).toLocaleString('es-LA',{
         //     style:'currency',
         //     currency:currency,
         //     minimumFractionDigits:fractionDigits,
         //     maximumFractionDigits:fractionDigits
         // })
-        Intl.NumberFormat('es',{
-            style:'currency',
-            minimumFractionDigits:fractionDigits,
-            maximumFractionDigits:fractionDigits,
-            currencyDisplay:'code',
-            currency:currency
-        }).format(Math.ceil(value))
-    )
+
+    let newValue = Intl.NumberFormat('es-MX',{
+        style:'currency',
+        minimumFractionDigits:fractionDigits,
+        maximumFractionDigits:fractionDigits,
+        currencyDisplay:'code',
+        currency:currency
+    }).format(value)
+
+    newValue = newValue.replace(/[a-z]{3}/i, "").trim()
+    newValue = newValue.replace(/\.00$/, '')
+
+    newValue = '$ '+newValue+' '+currency
+
+    return(newValue)
 }

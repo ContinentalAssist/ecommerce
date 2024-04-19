@@ -198,6 +198,8 @@ export default component$(() => {
        
         if(toggle == true)
         {
+            document.documentElement.scrollTo({top:0,behavior:'smooth'})
+            
             collapseBtn.hide()
             collapse.show()
             buttonDown.classList.add('d-none');
@@ -775,7 +777,7 @@ export default component$(() => {
                                     </div>
                                     <div class='row mb-5'>
                                         <div class='col-lg-12 text-center'>
-                                            <btn class='btn btn-primary mb-3'>Comprar plan de asistencia</btn>
+                                            <btn class='btn btn-primary mb-3' onClick$={() => {openQuotesEngine$(true)}}>Comprar plan de asistencia</btn>
                                             <br/>
                                             <small class='text-white fst-italic' style={{fontSize:'10px'}}>Aplican Términos y Condiciones.</small>
                                         </div>
