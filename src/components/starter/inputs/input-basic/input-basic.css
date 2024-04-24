@@ -41,6 +41,21 @@
     padding-left: inherit;
 }
 
+.input-basic hr
+{
+    position: relative;
+    width: calc(100% - 50px);
+    align-content: normal;
+    display: inline-grid;
+    top: -21px;
+    color: #61C6F0;
+    border-width: 2px;
+    opacity: 1;
+    z-index: 4000;
+    margin: 0px;
+    opacity: 0;
+}
+
 .input-basic input[type="date"].form-control-date::-webkit-calendar-picker-indicator
 {
     display: none;

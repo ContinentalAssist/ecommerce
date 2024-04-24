@@ -21,7 +21,14 @@ export const InputDate = (props:propsInputDate) => {
                 {
                     props.icon
                     &&
-                    <span class="input-group-text text-dark-blue" onClick$={() => {(document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker()}}>
+                    <span 
+                        class="input-group-text text-dark-blue" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
                         <i class={'fa-solid fa-'+props.icon} />
                     </span>
                 }
@@ -47,12 +54,18 @@ export const InputDate = (props:propsInputDate) => {
                                 props.onChange && props.onChange(e)
                             }
                         }}
-                        onBlur$={(e) => {props.onChange && props.onChange(e)}}
+                        onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                        onBlur$={(e) => {
+                                props.onChange && props.onChange(e);
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'
+                            }
+                        }
                         value={props.value}
                     />
                     <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                 </div>
             </div>
+            <hr id={props.id}/>
         </div>
     )
 }
@@ -167,25 +180,6 @@ export const Form = component$((props:propsForm) => {
                                                 </div>
                                             )
                                         }
-                                        else if(columnInput.type === 'select')
-                                        {
-                                            return(
-                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
-                                                    <InputSelect
-                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
-                                                        name={columnInput.name}
-                                                        label={columnInput.label}
-                                                        options={columnInput.options}
-                                                        readOnly={columnInput.readOnly}
-                                                        required={columnInput.required}
-                                                        value={columnInput.value}
-                                                        onChange={columnInput.onChange}
-                                                        icon={columnInput.icon}
-                                                        // dataAttributes={columnInput.dataAttributes}
-                                                    />
-                                                </div>
-                                            )
-                                        }
                                         else if(columnInput.type === 'select-native')
                                         {
                                             return(
@@ -220,18 +214,24 @@ export const Form = component$((props:propsForm) => {
                                                 </div>
                                             )
                                         }
+                                        else if(columnInput.type === 'select')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <InputSelect
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
                                         else if(columnInput.type === 'select-multiple')
                                         {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                      <InputSelectMultiple
-                                                        label={columnInput.label}
                                                         id={props.id+'-select-'+rIndex+'-'+iIndex}
-                                                        name={columnInput.name}
-                                                        required={columnInput.required}
-                                                        options={columnInput.options}
-                                                        value={columnInput.value}
-                                                        icon={columnInput.icon}
+                                                        {...columnInput}
                                                     />
                                                 </div>
                                             )

@@ -66,7 +66,7 @@ export const InputSelect = component$((props:propInputSelect) => {
     })
 
     return(
-        <div class='dropdown drop-select'>
+        <div class='dropdown drop-select text-center'>
             <div class="dropdown-toggle"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
@@ -104,14 +104,24 @@ export const InputSelect = component$((props:propInputSelect) => {
                                     e.target.classList.remove('is-valid')
                                 }
                             }}
+                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                         />
                         <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <hr/>
-            <div id={'dropdown-'+props.id} class='dropdown-menu p-4' aria-labelledby={props.id}>
+            <hr id={props.id}/>
+            <div 
+                id={'dropdown-'+props.id} 
+                class='dropdown-menu p-4' 
+                aria-labelledby={props.id} 
+                style={{
+                        width:props.menuSize ? props.menuSize.width : 'auto',
+                        height:props.menuSize ? props.menuSize.height : 'auto'
+                    }}
+                >
                 <div class='row'>
                     <div class='col-6'>
                         <ul class='list-group list-group-flush'>

@@ -46,6 +46,7 @@ export const InputDate = component$((props:propsInputDate) => {
                     <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                 </div>
             </div>
+            <hr/>
         </div>
     )
 })

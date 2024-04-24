@@ -102,7 +102,8 @@ export const QuotesEngine = component$(() => {
                                     name:'origen',
                                     options:origins.value,required:true,
                                     onChange:$((e:any) => {changeOrigin$(e)}),
-                                    icon:'plane-departure'
+                                    icon:'plane-departure',
+                                    menuSize:{width:'608px', height:'394px'}
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-6',
@@ -111,7 +112,8 @@ export const QuotesEngine = component$(() => {
                                     name:'destinos',
                                     options:destinations.value,
                                     required:true,
-                                    icon:'plane-arrival'
+                                    icon:'plane-arrival',
+                                    menuSize:{width:'608px', height:'394px'}
                                 }
                             ]}
                         ]}
