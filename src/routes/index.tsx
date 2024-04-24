@@ -184,8 +184,6 @@ export default component$(() => {
             'page': 'Home'
         })
 
-        console.log((window as any)['dataLayer'])
-
         const bs = (window as any)['bootstrap']
         const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
         const collapse = new bs.Collapse('#collapseQuotesEngine',{})
@@ -242,7 +240,7 @@ export default component$(() => {
 
         forms.map((form,index) => {
             inputs.map((input) => {
-                if(input.classList.value.includes('form-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
+                if(input.classList.value.includes('form-control-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
                 {
                     (input as HTMLInputElement).classList.add('is-invalid')
                     error[0] = true
@@ -279,11 +277,11 @@ export default component$(() => {
                 {
                     newDataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
     
-                    if(input.classList.value.includes('form-select-multiple'))
+                    if(input.classList.value.includes('form-control-select-multiple'))
                     {
                         newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value).split(',')
                     }
-                    else if(input.classList.value.includes('form-select'))
+                    else if(input.classList.value.includes('form-control-select'))
                     {
                         newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value)
                     }

@@ -117,67 +117,68 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
     })
 
     return(
-        <div class='select-multiple dropdown'>
-            <label class='form-label text-regular text-dark-blue' for={props.id}>{props.label}</label>
-            <input 
-                type='text'
-                name={props.name}
-                class='form-select form-select-multiple dropdown-toggle' 
-                id={props.id}
-                value={defaultValue.value}  
-                data-value={datasetValue.value} 
-                placeholder={props.placeholder}
-                data-bs-toggle="dropdown" 
-                data-bs-auto-close="outside" 
-                data-bs-reference="toggle" 
-                required={props.required}
-                onKeyUp$={(e) => geFiltertList$(e)}
-                readOnly={readOnly.value}
-                onFocusin$={getLastOption$}
-                onChange$={(e) => {
-                    if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
-                    {
-                        e.target.classList.remove('is-invalid')
-                        e.target.classList.add('is-valid')
-                    }
-                    else
-                    {
-                        e.target.classList.remove('is-valid')
-                    }
-                }}
-                // onFocus$={getLastOption$}
-            />
-            <ul id={'drodown-'+props.id} class='dropdown-menu'>
-                {
-                    options.value.map((option,iOption) => {
-                        return(
-                            <li 
-                                key={iOption+1}
-                                class={datasetValue.value.includes(option.value) ? 'dropdown-item active' : 'dropdown-item'}
-                                value={option.value} 
-                                // onClick$={() => getOptions$(option)}
-                            >
-                                <div class="form-check">
-                                    <input 
-                                        class="form-check-input" 
-                                        type="checkbox" 
-                                        id={"check-"+iOption} 
-                                        checked={datasetValue.value.includes(option.value)}
-                                        onClick$={() => getOptions$(option)}
-                                    />
-                                    <label 
-                                        class="form-check-label" 
-                                        // for={"check-"+iOption} 
-                                        onClick$={() => getOptions$(option)}
-                                    >
-                                        {option.label}
-                                    </label>
-                                </div>
-                            </li>
-                        )
-                    })
-                }
-            </ul>
-        </div>
+        <></>
+        // <div class='select-multiple dropdown'>
+        //     <label class='form-label text-regular text-dark-blue' for={props.id}>{props.label}</label>
+        //     <input 
+        //         type='text'
+        //         name={props.name}
+        //         class='form-select form-select-multiple dropdown-toggle' 
+        //         id={props.id}
+        //         value={defaultValue.value}  
+        //         data-value={datasetValue.value} 
+        //         placeholder={props.placeholder}
+        //         data-bs-toggle="dropdown" 
+        //         data-bs-auto-close="outside" 
+        //         data-bs-reference="toggle" 
+        //         required={props.required}
+        //         onKeyUp$={(e) => geFiltertList$(e)}
+        //         readOnly={readOnly.value}
+        //         onFocusin$={getLastOption$}
+        //         onChange$={(e) => {
+        //             if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
+        //             {
+        //                 e.target.classList.remove('is-invalid')
+        //                 e.target.classList.add('is-valid')
+        //             }
+        //             else
+        //             {
+        //                 e.target.classList.remove('is-valid')
+        //             }
+        //         }}
+        //         // onFocus$={getLastOption$}
+        //     />
+        //     <ul id={'drodown-'+props.id} class='dropdown-menu'>
+        //         {
+        //             options.value.map((option,iOption) => {
+        //                 return(
+        //                     <li 
+        //                         key={iOption+1}
+        //                         class={datasetValue.value.includes(option.value) ? 'dropdown-item active' : 'dropdown-item'}
+        //                         value={option.value} 
+        //                         // onClick$={() => getOptions$(option)}
+        //                     >
+        //                         <div class="form-check">
+        //                             <input 
+        //                                 class="form-check-input" 
+        //                                 type="checkbox" 
+        //                                 id={"check-"+iOption} 
+        //                                 checked={datasetValue.value.includes(option.value)}
+        //                                 onClick$={() => getOptions$(option)}
+        //                             />
+        //                             <label 
+        //                                 class="form-check-label" 
+        //                                 // for={"check-"+iOption} 
+        //                                 onClick$={() => getOptions$(option)}
+        //                             >
+        //                                 {option.label}
+        //                             </label>
+        //                         </div>
+        //                     </li>
+        //                 )
+        //             })
+        //         }
+        //     </ul>
+        // </div>
     )
 })

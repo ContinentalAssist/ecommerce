@@ -1,4 +1,4 @@
-.form-label
+/* .form-label
 {
     color: var(--ca-dark-blue) !important;
     margin-bottom: 4px !important;
@@ -15,7 +15,7 @@
 {
     /* transform: inherit !important;
     inset: auto auto auto 0px !important; */
-    max-height: 50vh;
+    /* max-height: 50vh;
     overflow-x: auto;
     border-radius: 20px;
     padding-inline: 10px;
@@ -60,4 +60,4 @@
         transform: inherit !important;
         inset: auto auto auto 0px !important;
     }
-}
+} */

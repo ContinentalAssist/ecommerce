@@ -6,8 +6,11 @@
     --ca-ultra-light-blue: #DBF0FB;
     --ca-yellow: #FEDF84;
     --ca-dark-yellow: #FEDF8361;
-    --ca-gray: #ADADAD;
-    --ca-dark-gray: #5F5F5E;
+    /* --ca-gray: #ADADAD; */
+    --ca-gray: #D3D3D3;
+    /* --ca-dark-gray: #5F5F5E; */
+    --ca-dark-gray: #656565;
+    --ca-light-gray: #EFEFEF;
 }
 
 /* fuentes */

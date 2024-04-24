@@ -1,4 +1,52 @@
-.drop-paxs .form-floating>.form-control
+.input-basic .form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+.input-basic .input-group-text~.form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: revert;
+}
+
+.input-basic .form-control:focus
+{
+    box-shadow: none;
+}
+
+.input-basic .input-group-text 
+{
+    border: 2px solid var(--ca-gray);
+    border-right: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: transparent;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.input-basic .form-floating>.form-label
+{
+    margin-bottom: 0px;
+    padding-left: 20px;
+}
+
+.input-basic .input-group-text~.form-floating>.form-label
+{
+    padding-left: inherit;
+}
+
+.input-basic input[type="date"].form-control-date::-webkit-calendar-picker-indicator
+{
+    display: none;
+}
+
+/* .drop-paxs .form-floating>.form-control
 {
     border: 2px solid var(--ca-gray);
     border-left: 0px;
@@ -85,65 +133,3 @@
     background-color: transparent;
     border: none;
 }
-
-/* .form-label
-{
-    color: var(--ca-dark-blue) !important;
-    margin-bottom: 4px !important;
-}
-
-.form-control
-{
-    border-radius: 50px;
-    border: 2px solid lightgray;
-    padding-top: 2px;
-    margin-bottom: 6px;
-}
-
-.form-control.is-invalid
-{
-    border: 2px solid var(--bs-danger) !important;
-}
-
-.form-control.is-valid
-{
-    border: 2px solid var(--bs-success) !important;
-}
-
-.select-paxs.dropdown-menu.show
-{
-    transform: none !important;
-    inset: auto -50px auto -50px !important;
-    border-radius: 20px !important;
-}
-
-.select-paxs .btn-icon
-{
-    background-color: transparent;
-    border: none;
-}
-
-.select-paxs .input-number-group
-{
-    display: flex;
-}
-
-
-input[type=number]
-{
-    text-align: center;
-}
-
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-}
-
-@media (max-width: 575.98px)
-{
-    .select-paxs.dropdown-menu.show
-    {
-        inset: auto 0px auto 0px !important;
-    }
-} */

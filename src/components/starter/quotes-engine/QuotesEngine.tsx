@@ -19,10 +19,9 @@ export const QuotesEngine = component$(() => {
         const resDestinations : any[] = []
 
         await ServiceRequest('/pw_getSelectsPorDefectoCotizadorViajes',{},(response) => {
-            //console.log(response)
             res = response.resultado[0]
         })
-        //console.log(res)
+        
         res.origenes.map((origen) => {
             resOrigins.push({value:origen.idpais,label:origen.nombrepais})
         })
@@ -33,8 +32,6 @@ export const QuotesEngine = component$(() => {
 
         origins.value = resOrigins
         destinations.value = resDestinations
-        // dateStart.value = new Date().toISOString().substring(0, 10)
-        // dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
     })
 
     useVisibleTask$(() => {
@@ -46,11 +43,11 @@ export const QuotesEngine = component$(() => {
         const form = document.querySelector('#form-step-1-0') as HTMLFormElement
         const inputOrigin = form.querySelector('#form-step-1-0-select-0-0') as HTMLInputElement
         const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
-        const listDestinations = form.querySelector('#drodown-form-step-1-0-select-0-1') as HTMLInputElement
+        const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLInputElement
         const list = Array.from(listDestinations.querySelectorAll('li'))
 
         const bs = (window as any)['bootstrap']
-        const dropdownOrigin = bs.Dropdown.getInstance('#'+inputOrigin.id,{})
+        const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputOrigin.id,{})
         dropdownOrigin.hide()
 
         list.map((item) => {
@@ -64,7 +61,7 @@ export const QuotesEngine = component$(() => {
             }
         })
         
-        const dropdownDestinations = new bs.Dropdown('#'+inputDestinations.id,{})
+        const dropdownDestinations = new bs.Dropdown('#dropdown-toggle-'+inputDestinations.id,{})
         dropdownDestinations.show()
     })
 
@@ -93,36 +90,76 @@ export const QuotesEngine = component$(() => {
         <div class='container' id='quotes-engine'>
             <div class='row'>
                 <div class='col-lg-4'>
-                    <h4 class='text-semi-bold mb-sm-4'>¿A dónde viajas?</h4>
+                    <h3 class='text-semi-bold mb-sm-4'>¿A dónde viajas?</h3>
                     <Form
                         id='form-step-1-0'
                         form={[
                             {row:[
-                                {size:'col-lg-6 col-sm-6 col-xs-6',type:'select',label:'Origen',name:'origen',options:origins.value,required:true,onChange:$((e:any) => {changeOrigin$(e)})},
-                                {size:'col-lg-6 col-sm-6 col-xs-6',type:'select-multiple',label:'Destino(s)',name:'destinos',options:destinations.value,required:true}
+                                {
+                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    type:'select',
+                                    label:'Origen',
+                                    name:'origen',
+                                    options:origins.value,required:true,
+                                    onChange:$((e:any) => {changeOrigin$(e)}),
+                                    icon:'plane-departure'
+                                },
+                                {
+                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    type:'select-multiple',
+                                    label:'Destino(s)',
+                                    name:'destinos',
+                                    options:destinations.value,
+                                    required:true,
+                                    icon:'plane-arrival'
+                                }
                             ]}
                         ]}
                     />
                 </div>
                 <div class='col-lg-5'>
-                    <h4 class='text-semi-bold mb-sm-4'>¿Cuándo viajas?</h4>
+                    <h3 class='text-semi-bold mb-sm-4'>¿Cuándo viajas?</h3>
                     <Form
                         id='form-step-1-1'
                         form={[
                             {row:[
-                                {size:'col-lg-6 col-sm-6 col-xs-6',type:'date',label:'Desde',name:'desde',min:dateStart.value,onChange:changeDateStart$,required:true},
-                                {size:'col-lg-6 col-sm-6 col-xs-6',type:'date',label:'Hasta',name:'hasta',min:dateEnd.value,onChange:changeDateEnd$,required:true}
+                                {
+                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    type:'date',
+                                    label:'Desde',
+                                    name:'desde',
+                                    min:dateStart.value,
+                                    onChange:changeDateStart$,
+                                    required:true,
+                                    icon:'calendar'
+                                },
+                                {
+                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    type:'date',
+                                    label:'Hasta',
+                                    name:'hasta',
+                                    min:dateEnd.value,
+                                    onChange:changeDateEnd$,
+                                    required:true,
+                                    icon:'calendar'
+                                }
                             ]}
                         ]}
                     />
                 </div>
                 <div class='col-lg-3'>
-                    <h4 class='text-semi-bold mb-sm-4'>¿Cuántos viajan?</h4>
+                    <h3 class='text-semi-bold mb-sm-4'>¿Cuántos viajan?</h3>
                     <Form
                         id='form-step-1-2'
                         form={[
                             {row:[
-                                {size:'col-lg-12',type:'paxs',name:'pasajeros',required:true}
+                                {
+                                    size:'col-lg-12',
+                                    type:'paxs',
+                                    name:'pasajeros',
+                                    required:true,
+                                    icon:'user-plus'
+                                }
                             ]}
                         ]}
                     />

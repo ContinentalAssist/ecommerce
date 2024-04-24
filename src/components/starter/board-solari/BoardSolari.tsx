@@ -17,12 +17,15 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
         })
     })
 
-    useVisibleTask$(() => {
-       const table = document.querySelector('#board-solari-'+props.id);
-       setInterval(() => {
-            (table as HTMLDivElement).click()   
-       },6000)
-    })
+    // useVisibleTask$(() => {
+    // //    const table = document.querySelector('#board-solari-'+props.id);
+    // //    setInterval(() => {
+    // //         (table as HTMLDivElement).click()   
+    // //    },6000)
+
+   
+        
+    // })
 
     const randomRotation$ = $(() => {
         const rotationClass = Math.random() < 0.5 ? 'rotate-180' : 'rotate';
@@ -144,6 +147,12 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
 
     const update$ = $(() => {
         boardSolari$()
+    })
+
+    useVisibleTask$(() => {
+        setInterval(() => {
+            update$() 
+        },6000)
     })
 
     return(

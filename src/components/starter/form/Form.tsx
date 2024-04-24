@@ -1,16 +1,65 @@
 import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { InputPaxs } from "../inputs/input-paxs/InputPaxs";
-import { InputSelectMultiple } from "../inputs/input-select-multiple/InputSelectMultiple";
+import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple";
 import { InputSelect } from "../inputs/input-select/InputSelect";
 import styles from './form.css?inline'
+import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
 
 interface propsForm {
     [key:string] : any,
     form : any[]
 }
 
+interface propsInputDate {
+    [key:string] : any
+}
+
+export const InputDate = (props:propsInputDate) => {
+    return(
+        <div class='input-basic'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span class="input-group-text text-dark-blue" onClick$={() => {(document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker()}}>
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                <div class="form-floating">
+                    <input 
+                        type="date" 
+                        id={props.id}
+                        class={props.icon ? "form-control form-control-date text-bold text-dark-blue" : "form-control text-bold text-dark-blue"}  
+                        name={props.name}
+                        placeholder={props.label}
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        onKeyPress$={(e:any) => {
+                            if(e.keyCode == 13)
+                            {
+                                props.onChange && props.onChange(e)
+                            }
+                        }}
+                        onChange$={(e:any) => {
+                            if(new Date(e.target.value).getFullYear() > 1000)
+                            {
+                                props.onChange && props.onChange(e)
+                            }
+                        }}
+                        onBlur$={(e) => {props.onChange && props.onChange(e)}}
+                        value={props.value}
+                    />
+                    <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
+                </div>
+            </div>
+        </div>
+    )
+}
+
 export const Form = component$((props:propsForm) => {
     useStylesScoped$(styles)
+    useStylesScoped$(stylesInputBasic)
 
     const forms : {row:[{[key:string]:any,options:any[]}]}[] = []
 
@@ -24,7 +73,7 @@ export const Form = component$((props:propsForm) => {
         form.value = props.form
     })
 
-    const valiadateKeyUp$= $((target: any)=>{
+    const validateKeyUp$= $((target: any)=>{
         
         if ((target.type == 'text') && (target.dataset.textonly === 'true')) 
         {
@@ -43,7 +92,7 @@ export const Form = component$((props:propsForm) => {
         }
     }) 
 
-    const valiadateBlur$= $((target: any)=>{
+    const validateBlur$= $((target: any)=>{
         const input = document.querySelector('#'+target.id) as HTMLInputElement
 
          if(input.type === 'tel')
@@ -105,25 +154,23 @@ export const Form = component$((props:propsForm) => {
                             <div key={rIndex} class='row row-mobile'>
                                 {
                                     rowInput.row.map((columnInput,iIndex) => {
-                                        const dataAttributes = columnInput.dataAttributes ? { ...columnInput.dataAttributes } : {};
-
                                         if(columnInput.type === 'textarea')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}>
                                                         {columnInput.label} 
                                                     </label>
-                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} {...dataAttributes}/>
+                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} />
                                                 </div>
                                             )
                                         }
                                         else if(columnInput.type === 'select')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <InputSelect
                                                         id={props.id+'-select-'+rIndex+'-'+iIndex}
                                                         name={columnInput.name}
@@ -133,7 +180,8 @@ export const Form = component$((props:propsForm) => {
                                                         required={columnInput.required}
                                                         value={columnInput.value}
                                                         onChange={columnInput.onChange}
-                                                        dataAttributes={columnInput.dataAttributes}
+                                                        icon={columnInput.icon}
+                                                        // dataAttributes={columnInput.dataAttributes}
                                                     />
                                                 </div>
                                             )
@@ -141,11 +189,11 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'select-native')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label class='form-label text-regular text-dark-blue'>
                                                         {columnInput.label} 
                                                     </label>
-                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} {...dataAttributes}>
+                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} >
                                                         <option value='' selected={true} disabled={true}></option>
                                                         {
                                                             columnInput.options.map((option:any,index:number) => {
@@ -161,13 +209,13 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'paxs')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <InputPaxs
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
                                                         name={columnInput.name} 
                                                         required={columnInput.required}
                                                         value={columnInput.value}
-                                                        {...dataAttributes}
+                                                        icon={columnInput.icon}
                                                     />
                                                 </div>
                                             )
@@ -175,7 +223,7 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'select-multiple')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                      <InputSelectMultiple
                                                         label={columnInput.label}
                                                         id={props.id+'-select-'+rIndex+'-'+iIndex}
@@ -183,7 +231,7 @@ export const Form = component$((props:propsForm) => {
                                                         required={columnInput.required}
                                                         options={columnInput.options}
                                                         value={columnInput.value}
-                                                        {...dataAttributes}
+                                                        icon={columnInput.icon}
                                                     />
                                                 </div>
                                             )
@@ -191,37 +239,10 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'date')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label}
-                                                    </label>
-                                                    <input class='form-control' 
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <InputDate
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'date'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onKeyPress$={(e:any) => {
-                                                            if(e.keyCode == 13)
-                                                            {
-                                                                columnInput.onChange && columnInput.onChange(e)
-                                                            }
-                                                        }}
-                                                        onChange$={(e:any) => {
-                                                            if(new Date(e.target.value).getFullYear() > 1000)
-                                                            {
-                                                                columnInput.onChange && columnInput.onChange(e)
-                                                            }
-                                                        }}
-                                                        onBlur$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        {...dataAttributes}
-                                                        // onClick$={() => {(document.querySelector('input[id='+props.id+'-input-'+rIndex+'-'+iIndex+']') as HTMLInputElement).showPicker()}}
+                                                        {...columnInput}
                                                     />
                                                 </div>
                                             )
@@ -229,7 +250,7 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'phone')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
@@ -248,8 +269,8 @@ export const Form = component$((props:propsForm) => {
                                                         value={columnInput.value}
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
+                                                        onBlur$={e=>validateBlur$(e.target)}
+                                                        
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese un telefono valido.
@@ -260,7 +281,7 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'email')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
@@ -279,8 +300,8 @@ export const Form = component$((props:propsForm) => {
                                                         value={columnInput.value}
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
+                                                        onBlur$={e=>validateBlur$(e.target)}
+                                                        
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese un correo valido.
@@ -291,7 +312,7 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'number')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
@@ -310,8 +331,8 @@ export const Form = component$((props:propsForm) => {
                                                         value={columnInput.value}
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
+                                                        onBlur$={e=>validateBlur$(e.target)}
+                                                        
                                                     />
                                                     <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
                                                         Por favor ingrese solamente numeros.
@@ -322,7 +343,7 @@ export const Form = component$((props:propsForm) => {
                                         else
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
                                                         class='form-label text-regular text-dark-blue' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}
@@ -341,8 +362,8 @@ export const Form = component$((props:propsForm) => {
                                                         value={columnInput.value}
                                                         placeholder={columnInput.placeholder}
                                                         data-textonly={columnInput.textOnly}
-                                                        onKeyUp$={e=>valiadateKeyUp$(e.target)}
-                                                        {...dataAttributes}
+                                                        onKeyUp$={e=>validateKeyUp$(e.target)}
+                                                        
                                                     />
                                                 </div>
                                             )

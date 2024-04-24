@@ -1,4 +1,114 @@
-.form-label
+.drop-select .form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+.drop-select .input-group-text~.form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: revert;
+}
+
+.drop-select .form-control:focus
+{
+    box-shadow: none;
+}
+
+.drop-select .input-group-text 
+{
+    border: 2px solid var(--ca-gray);
+    border-right: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: transparent;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.drop-select .form-floating>.form-label
+{
+    margin-bottom: 0px;
+    padding-left: 20px;
+}
+
+.drop-select .input-group-text~.form-floating>.form-label
+{
+    padding-left: inherit;
+}
+
+.drop-select hr
+{
+    position: relative;
+    width: calc(100% - 50px);
+    align-content: normal;
+    display: inline-grid;
+    top: -21px;
+    color: #61C6F0;
+    border-width: 2px;
+    opacity: 1;
+    z-index: 4000;
+    margin: 0px;
+    opacity: 0;
+}
+
+.drop-select .dropdown-toggle.show+hr
+{
+    opacity: 1;
+}
+
+.drop-select .dropdown-toggle::after 
+{
+    display: none;
+}
+
+.drop-select .dropdown-toggle>i
+{
+    position: absolute;
+    right: 20px;
+    top: 22px;
+    color: var(--ca-dark-gray);
+    z-index: 3000;
+}
+
+.drop-select .dropdown-menu
+{
+    width: 608px;
+    height: 394px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 30px;
+    border: 2px solid var(--ca-gray);
+}
+
+.drop-select .list-group
+{
+    padding-left: 0px;
+}
+
+.drop-select .list-group-item
+{
+    border-color: var(--ca-light-gray);
+}
+
+.drop-select .list-group-item:hover
+{
+    cursor: pointer;
+}
+
+.drop-select .list-group-item.active
+{
+    background-color: var(--ca-gray);
+    border-color: var(--ca-gray);
+    border-radius: 50px;
+    color: inherit;
+}
+
+/* .form-label
 {
     color: var(--ca-dark-blue) !important;
     margin-bottom: 4px !important;
@@ -13,8 +123,6 @@
 
 .select .dropdown-menu.show
 {
-    /* transform: inherit !important;
-    inset: auto auto auto 0px !important; */
     max-height: 50vh;
     overflow-x: auto;
     border-radius: 20px;
@@ -53,4 +161,4 @@
         transform: inherit !important;
         inset: auto auto auto 0px !important;
     }
-}
+} */
