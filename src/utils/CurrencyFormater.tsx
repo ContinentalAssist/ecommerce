@@ -30,7 +30,9 @@ export default function CurrencyFormatter(currency:string,value:number)
     newValue = newValue.replace(/[a-z]{3}/i, "").trim()
     newValue = newValue.replace(/\.00$/, '')
 
-    newValue = '$ '+newValue+' '+currency
+    // newValue = '$'+newValue+' '+currency
 
-    return(newValue)
+    return(
+        <span class='divisa'>{'$'+newValue.split(/\.|,/)[0]+'.'}<small>{newValue.split(/\.|,/)[1]+' '+currency}</small></span>
+    )
 }

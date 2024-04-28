@@ -117,9 +117,16 @@ header .navbar-brand
 
 @media (min-width: 720px)
 {
-    header .navbar-brand
+    header .navbar-brand-center
     {
         position: absolute;
-        left: calc(50vw - 96px);
+        /* margin-left: 60px; */
+        left: calc(50vw - 106px);
+    }
+
+    header .navbar-brand-start
+    {
+        position: absolute;
+        margin-left: 50px;
     }
 }

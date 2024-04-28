@@ -1,4 +1,84 @@
-.bg-step-3
+.resume .input-group-text
+{
+    font-size: 18px;
+}
+
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
+.steps-float,
+.steps-float>.row,
+.steps-float>.row>.col-12,
+.steps-float>.row>.col-12>.container,
+.steps-float>.row>.col-12>.container>.row
+{
+    height: 0px;
+}
+
+.cards .card-img-top
+{
+    width: 148px;
+    height: auto;
+    align-self: center;
+    margin-top: 40px;
+}
+
+.cards h2
+{
+    font-size: 47px;
+}
+
+.cards .divisa small
+{
+    font-size: 28px;
+}
+
+.cards ul 
+{
+    color: var(--ca-light-blue);
+    padding-left: 24px;
+}
+
+.cards ul li
+{
+    font-size: 13px;
+}
+
+.cards .btn-outline-primary,
+.cards .btn-primary
+{
+    position: relative;
+    margin-bottom: -24px;
+    margin-left: 60px;
+    margin-right: 60px;
+    font-size: 27px;
+    border-width: 4px;
+}
+
+.border-dark-blue
+{
+    border: 2px solid var(--ca-light-blue) !important;
+}
+
+.cards .card .card-recommended
+{
+    position: absolute;
+    align-self: center;
+    width: 130px;
+    background-color: var(--ca-light-blue);
+    font-size: 12px;
+    text-align: center;
+    padding: 8px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    color: white;
+}
+
+/* .bg-step-3
 {
     background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
     background-repeat: no-repeat;
@@ -19,7 +99,6 @@
     position: absolute;
     display: flex;
     background-color: var(--ca-dark-blue);
-    /* width: 60px; */
     font-size: 10px;
     text-align: center;
     padding: 4px;
@@ -114,4 +193,4 @@ ul
     {
         width: calc((100% / 12) * 6);
     }
-}
+} */

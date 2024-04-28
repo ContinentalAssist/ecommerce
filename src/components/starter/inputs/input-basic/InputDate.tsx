@@ -9,7 +9,7 @@ export const InputDate = component$((props:propsInputDate) => {
     useStylesScoped$(styles)
 
     return(
-        <div class='input-basic'>
+        <div class='input-basic text-center'>
             <div class='input-group'>
                 {
                     props.icon

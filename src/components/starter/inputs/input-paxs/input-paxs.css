@@ -44,10 +44,10 @@
     opacity: 0;
 }
 
-.drop-paxs .dropdown-toggle.show+hr
+/* .drop-paxs .dropdown-toggle.show+hr
 {
     opacity: 1;
-}
+} */
 
 .drop-paxs .dropdown-toggle::after 
 {

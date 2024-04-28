@@ -86,7 +86,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     })
 
     return(
-        <div class='dropdown drop-paxs'>
+        <div class='dropdown drop-paxs text-center'>
             <div class="dropdown-toggle"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
@@ -118,12 +118,14 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                     e.target.classList.remove('is-valid')
                                 }
                             }}
+                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                         />
                         <label class='form-label text-semi-bold text-dark-gray' for={props.id}>Viajeros</label>
                     </div>
                 </div>
             </div>
-            <hr/>
+            <hr id={props.id}/>
             <div id={'dropdown-'+props.id} class='dropdown-menu p-4' aria-labelledby={props.id}>
                 <div class='container'>
                     <div class='row mb-4 align-items-center'>

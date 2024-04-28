@@ -66,7 +66,7 @@
     display: none;
 }
 
-.drop-select .dropdown-toggle>i
+.drop-select .dropdown-toggle>svg
 {
     position: absolute;
     right: 20px;

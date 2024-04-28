@@ -16,7 +16,7 @@ interface propsInputDate {
 
 export const InputDate = (props:propsInputDate) => {
     return(
-        <div class='input-basic'>
+        <div class='input-basic text-center'>
             <div class='input-group'>
                 {
                     props.icon

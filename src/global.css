@@ -238,6 +238,17 @@ a:hover
 }
 
 /* modales */
+
+.fade
+{
+    z-index: 2500 !important;
+}
+
+.modal 
+{
+    z-index: 3000 !important;
+}
+
 .modal-dialog
 {
     margin-top: 50px;

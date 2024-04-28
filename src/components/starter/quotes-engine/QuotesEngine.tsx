@@ -96,7 +96,7 @@ export const QuotesEngine = component$(() => {
                         form={[
                             {row:[
                                 {
-                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    size:'col-lg-6 col-sm-6 col-6',
                                     type:'select',
                                     label:'Origen',
                                     name:'origen',
@@ -106,7 +106,7 @@ export const QuotesEngine = component$(() => {
                                     menuSize:{width:'608px', height:'394px'}
                                 },
                                 {
-                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    size:'col-lg-6 col-sm-6 col-6',
                                     type:'select-multiple',
                                     label:'Destino(s)',
                                     name:'destinos',
@@ -126,7 +126,7 @@ export const QuotesEngine = component$(() => {
                         form={[
                             {row:[
                                 {
-                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    size:'col-lg-6 col-sm-6 col-6',
                                     type:'date',
                                     label:'Desde',
                                     name:'desde',
@@ -136,7 +136,7 @@ export const QuotesEngine = component$(() => {
                                     icon:'calendar'
                                 },
                                 {
-                                    size:'col-lg-6 col-sm-6 col-xs-6',
+                                    size:'col-lg-6 col-sm-6 col-6',
                                     type:'date',
                                     label:'Hasta',
                                     name:'hasta',
@@ -156,7 +156,7 @@ export const QuotesEngine = component$(() => {
                         form={[
                             {row:[
                                 {
-                                    size:'col-lg-12',
+                                    size:'col-12',
                                     type:'paxs',
                                     name:'pasajeros',
                                     required:true,

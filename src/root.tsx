@@ -14,6 +14,7 @@ export default component$(() => {
 
     const resumeQuote = useSignal(obj)
     const so = useSignal('')
+    const device = useSignal('desktop')
     
     useContextProvider(WEBContext,resumeQuote)
 
@@ -75,6 +76,11 @@ export default component$(() => {
         if(navigator.userAgent.includes('Windows'))
         {
             so.value = 'windows'
+        }
+
+        if(navigator.userAgent.includes('Mobile'))
+        {
+            device.value = 'mobile'
         }
 
         (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
@@ -156,13 +162,14 @@ export default component$(() => {
                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin="anonymous"/>
                 <RouterHead />
             </head>
-            <body data-so={so.value}>
+            <body data-so={so.value} data-device={device.value}>
                 <noscript>
                     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
                 </noscript>
                 <RouterOutlet />
-                <script async src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script>
-                <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
+                {/* <script async src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script> */}
+                <script async type="text/javascript" src='/assets/icons/all.min.js'/>
+                <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
                 <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
                 <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
                 {/* <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> */}

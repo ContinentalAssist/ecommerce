@@ -1,9 +1,27 @@
-.card-breadcrumb
+/* .progressbar
+{
+    position: absolute;
+    top: 20px;
+    z-index: 2000;
+} */
+
+.progressbar .progress
+{
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+}
+
+.progressbar .progress-bar
+{
+    background-color: var(--ca-light-blue);
+    border-radius: 30px;
+}
+
+/* .card-breadcrumb
 {
     background-color: #f3f3f3;
     color: var(--ca-dark-blue);
     padding: 6px !important;
-    margin-top: 78px;
 }
 
 .card-breadcrumb .btn-step
@@ -52,7 +70,7 @@
     .card-breadcrumb hr
     {
         /* margin-top: -40px; */
-        opacity: inherit;
+        /* opacity: inherit;
         border: 1px solid var(--ca-dark-blue);
     }
 
@@ -74,4 +92,4 @@
     {
         font-size: 22px;
     }
-}
+} */

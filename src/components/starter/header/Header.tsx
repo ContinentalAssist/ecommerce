@@ -95,11 +95,12 @@ export const Header = component$(() => {
     return (
         <header>
             <nav class={location.url.pathname === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
-                <div class="container pt-2 pb-2">
+                <div class={"container pt-2 pb-2"}>
                     <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
                         <i class="fas fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="/" title="Inicio" >
+                    <a class={!location.url.pathname.includes('/quotes-engine/') ? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
+                    >
                         <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
                     </a>
                     <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
