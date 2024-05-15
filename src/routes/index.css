@@ -409,3 +409,10 @@
     }
 }
 
+#list-pax li{
+    display: inline;
+    list-style-type: none;
+    border: none;
+   
+}
+

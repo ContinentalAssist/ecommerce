@@ -13,6 +13,7 @@ import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-preg
 import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
 
 import styles from './index.css?inline'
+import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Tus datos y complementos',
@@ -26,6 +27,198 @@ export const head: DocumentHead = {
     links: [
         {rel:'canonical',href:'https://continentalassist.com/quotes-engine/step-2'},
     ],
+}
+
+interface propsQuotesEngineResume
+{
+    [key:string] : any
+}
+
+export const QuotesEngineResume = (props:propsQuotesEngineResume) => {    
+    return(
+        <div class='container' id='quotes-engine'>
+            {
+                props.showForm !== true
+                ?
+                <div class='row resume'>
+                    <div class='col-3 col-xs-12'>
+                        <div class="input-group">
+                            <span class="input-group-text border border-0 bg-white">
+                                <i class="fa-solid fa-plane-departure"/>
+                            </span>
+                            <div class="form-floating">
+                                <input 
+                                    type="text" 
+                                    readOnly 
+                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
+                                    id="fechas" 
+                                    placeholder="Origen / Destino(s)"
+                                    value={props.resume.paisorigen != undefined ? (props.resume.paisorigen+' a '+String(props.resume.paisesdestino).replaceAll(',',', ')): ''}
+                                />
+                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Origen / Destino(s)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-3 col-xs-12'>
+                        <div class="input-group">
+                            <span class="input-group-text border border-0 bg-white">
+                                <i class="far fa-calendar"></i>
+                            </span>
+                            <div class="form-floating">
+                                <input 
+                                    type="text" 
+                                    readOnly 
+                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
+                                    id="fechas" 
+                                    placeholder="Fechas de tu viaje"
+                                    value={props.resume.desde != undefined ? (props.resume.desde+' al '+props.resume.hasta) : ''}
+                                />
+                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Fechas de tu viaje</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-3 col-xs-12'>
+                        <div class="input-group">
+                            <span class="input-group-text border border-0 bg-white">
+                                <i class="fa-solid fa-user-plus"/>
+                            </span>
+                            <div class="form-floating">
+                                <input 
+                                    type="text" 
+                                    readOnly 
+                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
+                                    id="fechas" 
+                                    placeholder="Viajeros"
+                                    value={props.resume.pasajeros}
+                                />
+                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Viajeros</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-2 col-xs-6'>
+                        <div class="input-group">
+                            <span class="input-group-text border border-0 bg-white">
+                                <i class="fa-solid fa-clipboard-check"/>
+                            </span>
+                            <div class="form-floating">
+                            <input 
+                                    type="text" 
+                                    readOnly 
+                                    class="form-control-plaintext text-bold text-light-blue ps-0" 
+                                    id="plan" 
+                                    placeholder="Plan"
+                                    value={props.resume.plan?.nombreplan}
+                                />
+                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Plan</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='col-lg-1  col-xs-6 text-end '/* align-items-end */>
+                        {/* <div class='d-grid gap-2'> */}
+                            <button type='button' class='btn btn-link text-regular text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
+                        {/* </div> */}
+                    </div>
+                </div>
+                :
+                <>
+                    <div class='row'>
+                        <div class='col-lg-4 mt-3'>
+                            <Form
+                                id='form-step-1-0'
+                                form={[
+                                    {row:[
+                                        {
+                                            size:'col-lg-6 col-sm-6 col-6',
+                                            type:'select',
+                                            label:'Origen',
+                                            name:'origen',
+                                            options:props.origins,
+                                            required:true,
+                                            value:props.resume.origen,
+                                            onChange:$((e:any) => {props.changeOrigin(e)}),
+                                            icon:'plane-departure',
+                                            menuSize:{width:'608px', height:'394px'}
+                                        },
+                                        {
+                                            size:'col-lg-6 col-sm-6 col-6',
+                                            type:'select-multiple',
+                                            label:'Destino(s)',
+                                            name:'destinos',
+                                            options:props.destinations,
+                                            required:true,
+                                            value:props.resume.destinos,
+                                            icon:'plane-arrival',
+                                            menuSize:{width:'608px', height:'394px'}
+                                        }
+                                    ]}
+                                ]}
+                            />
+                        </div>
+                        <div class='col-lg-5 mt-3'>
+                            <Form
+                                id='form-step-1-1'
+                                form={[
+                                    {row:[
+                                        {
+                                            size:'col-lg-6 col-sm-6 col-6',
+                                            type:'date',
+                                            label:'Desde',
+                                            name:'desde',
+                                            min:props.dateStart,
+                                            onChange:props.changeDateStart,
+                                            required:true,
+                                            value:props.resume.desde,
+                                            icon:'calendar'
+                                        },
+                                        {
+                                            size:'col-lg-6 col-sm-6 col-6',
+                                            type:'date',
+                                            label:'Hasta',
+                                            name:'hasta',
+                                            min:props.dateEnd,
+                                            onChange:props.changeDateEnd,
+                                            required:true,
+                                            value:props.resume.hasta,
+                                            icon:'calendar'
+                                        }
+                                    ]}
+                                ]}
+                            />
+                        </div>
+                        <div class='col-lg-3 mt-3'>
+                            <Form
+                                id='form-step-1-2'
+                                form={[
+                                    {row:[
+                                        {
+                                            size:'col-lg-12',
+                                            type:'paxs',
+                                            name:'pasajeros',
+                                            required:true,
+                                            value:{[22]:props.resume[22]||0,[70]:props.resume[70]||0,[85]:props.resume[85]||0},
+                                            icon:'user-plus'
+                                        }
+                                    ]}
+                                ]}
+                            />
+                        </div>
+                    </div>
+                    <div class='row justify-content-center mt-2'>
+                        <div class='col-lg-2 col-6'>
+                            <div class='d-grid gap-2'>
+                                <button type='button' class='btn btn-primary mb-3' onClick$={props.openEdit}>Cerrar</button>
+                            </div>
+                        </div>
+                        <div class='col-lg-2 col-6'>
+                            <div class='d-grid gap-2'>
+                                <button type='button' class='btn btn-primary' onClick$={props.getQuotesEngine}>Buscar</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
+        </div>
+    )
 }
 
 export default component$(() => {
@@ -46,6 +239,29 @@ export default component$(() => {
     const prevTotal = useSignal(0)
     const loading = useSignal(true)
     const divisaManual = useSignal(stateContext.value.divisaManual)
+
+    const array : any[] = []
+    const arrayPlans: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]}[] = []
+    const objectBenefitsPlan: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]} = {beneficiosasignados:[{beneficios:[]}]}
+    const objectPlanSelected: {[key:string]:any} = {}
+
+    const origins = useSignal(array)
+    const destinations = useSignal(array)
+    const showForm = useSignal(false)
+    const dateStart = useSignal('')
+    const dateEnd = useSignal('')
+    const plans = useSignal(arrayPlans)
+    const benefitsPlan = useSignal(objectBenefitsPlan)
+    const planSelected = useSignal(objectPlanSelected)
+
+    const desktop = useSignal(false)
+
+    useVisibleTask$(() => {
+        if(!navigator.userAgent.includes('Mobile'))
+        {
+            desktop.value = true
+        }
+    })
 
     useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -444,19 +660,292 @@ export default component$(() => {
         }
     })
 
+    const openEdit$ = $(() => {
+        showForm.value = !showForm.value
+
+        if(showForm.value === true)
+        {
+            if(Object.keys(stateContext.value).length > 0)
+            {
+                setTimeout(() => {
+                    const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+    
+                    const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLDListElement
+                    const list = Array.from(listDestinations.querySelectorAll('li'))
+    
+                    list.map((item) => {
+                        if(item.value === Number(stateContext.value.origen) && stateContext.value.origen !== 11)
+                        {
+                            item.style.display = 'none';
+                        }
+                        else
+                        {
+                            item.style.display = 'inherit';
+                        }
+                    })
+                },500) 
+            }
+        }
+    })
+
+    const changeOrigin$ = $((e:any) => {
+        const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+        const inputOrigin = form.querySelector('#form-step-1-0-select-0-0') as HTMLInputElement
+        const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLInputElement
+        const list = Array.from(listDestinations.querySelectorAll('li'))
+
+        const bs = (window as any)['bootstrap']
+        const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputOrigin.id,{})
+        dropdownOrigin.hide()
+
+        list.map((item) => {
+            if(item.value === Number(e.value) && e.value !== 11)
+            {
+                item.style.display = 'none';
+            }
+            else
+            {
+                item.style.display = 'inherit';
+            }
+        })
+    })
+
+    const changeDateStart$ = $(() => {
+        const form = document.querySelector('#form-step-1-1') as HTMLFormElement
+        const inputDateStart = form.querySelector('input[name=desde]') as HTMLInputElement
+        const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement
+      
+        const formatDateStart = inputDateStart.value.replaceAll('-','/')
+
+        inputDateEnd.min = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+2)).toISOString().substring(0,10)
+        inputDateEnd.max = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+365)).toISOString().substring(0,10)
+        
+        // inputDateEnd.focus()
+        // inputDateEnd.showPicker()
+    })
+
+    const changeDateEnd$ = $(() => {
+        const form = document.querySelector('#form-step-1-1') as HTMLFormElement
+        const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement
+
+        dateEnd.value = inputDateEnd.value
+    })
+
+    const getQuotesEngine$ = $(async() => {
+        const bs = (window as any)['bootstrap']
+        const modal = new bs.Modal('#modalGroupPlan',{})
+        const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
+        const forms = Array.from(quotesEngine.querySelectorAll('form'))
+        const inputs = Array.from(document.querySelectorAll('input,select'))
+
+        const error = [false,false,false]
+        const newDataForm : {[key:string]:any} = {}
+        newDataForm.edades = []
+        newDataForm.paisesdestino = []
+
+        forms.map((form,index) => {
+            if(!form.checkValidity())
+            {
+                form.classList.add('was-validated')
+                error[index] = true
+            }
+            else
+            {
+                form.classList.remove('was-validated')
+            }
+        })
+
+        if(!error.includes(true))
+        {
+            loading.value = true
+            
+            inputs.map((input) => {
+                newDataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+    
+                if(input.classList.value.includes('form-control-select-multiple'))
+                {
+                    newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value).split(',')
+                }
+                else if(input.classList.value.includes('form-control-select'))
+                {
+                    newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value)
+                }
+                else if((input as HTMLInputElement).type == 'number')
+                {
+                    newDataForm[(input as HTMLInputElement).name] = Number((input as HTMLInputElement).value)
+
+                    for (let index = 0; index < newDataForm[(input as HTMLInputElement).name]; index++) 
+                    {
+                        newDataForm.edades.push(Number((input as HTMLInputElement).name))
+                    }
+                }
+            })
+
+            newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
+
+            origins.value.map(origin => {
+                if(origin.value == newDataForm.origen)
+                {
+                    newDataForm.paisorigen = origin.label
+                }
+            }) 
+            
+            destinations.value.map(destination => {
+                newDataForm.destinos.map((destino:any) => {
+                    if(destination.value == destino)
+                    {
+                        newDataForm.paisesdestino.push(destination.label)
+                    }
+                })
+            }) 
+
+            newDataForm.origen = Number(newDataForm.origen)
+
+            if(newDataForm.edades.length > 0)
+            {
+                if(newDataForm[22] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
+                {
+                    newDataForm.planfamiliar = 't'
+                    stateContext.value = newDataForm
+                    resume.value = newDataForm
+
+                    const dataForm : {[key:string]:any} = {}
+
+                    Object.assign(dataForm,stateContext.value)
+                    dataForm.idfuente = 2
+                    dataForm.ip = stateContext.value.resGeo.ip_address
+
+                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const dataPlans = await resPlans.json()
+                    plans.value = dataPlans.resultado
+
+                    if(plans.value.length > 0)
+                    {
+                        loading.value = false
+                    }
+
+                    modal.show()
+                }
+                else
+                {
+                    newDataForm.planfamiliar = 'f'
+                    resume.value = newDataForm
+                    stateContext.value = {...stateContext.value,...newDataForm}
+                    
+                    const dataForm : {[key:string]:any} = {}
+
+                    Object.assign(dataForm,stateContext?.value)
+                    dataForm.idfuente = 2
+                    dataForm.ip = stateContext.value.resGeo.ip_address
+
+                    let error = false
+
+                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const dataPlans = await resPlans.json()
+                    
+                    error = dataPlans.error
+                    plans.value = dataPlans.resultado
+
+                    if(error == false)
+                    {
+                        if(plans.value.length > 0)
+                        {
+                            showForm.value = false
+                            loading.value = false
+                        }
+                    }
+                    else
+                    {
+                        plans.value = []
+                        loading.value = false
+                    }
+                }
+            }
+        }
+    })
+
+    const changeDivisa$ = $((divisa:string) => {
+        if(divisa == 'base')
+        {
+            divisaManual.value = true
+            stateContext.value.divisaManual = true
+        }
+        else if(divisa == 'local')
+        {
+            divisaManual.value = false
+            stateContext.value.divisaManual = false
+        }
+    })
+
     return(
-        <>
+        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
             {
                 loading.value === true
                 &&
                 <Loading/>
             }
-            <QuotesEngineSteps active={2} hideForm/>
+            <div class='row mt-4'>
+                <div class='col-12'>
+                    <QuotesEngineResume 
+                        resume={resume.value}
+                        openEdit={openEdit$}
+                        showForm={showForm.value}
+                        origins={origins.value}
+                        destinations={destinations.value}
+                        dateStart={dateStart.value}
+                        dateEnd={dateEnd.value}
+                        changeOrigin={changeOrigin$}
+                        changeDateStart={changeDateStart$}
+                        changeDateEnd={changeDateEnd$}
+                        getQuotesEngine={getQuotesEngine$}
+                    />
+                </div>
+            </div>
+            
+            <div class='row not-mobile'>
+                <div class='col-12'>
+                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <div class='container'>
+                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
+                                        <div class='col-md-3 text-end'>
+                                            <QuotesEngineSteps active={2} name={'Complementos'} steps={5}/>
+                                        </div>
+                                        <div class='col-md-2 text-end'>
+                                            <SwitchDivisa
+                                                labels={['USD',stateContext.value?.currentRate?.code]}
+                                                value={stateContext.value.divisaManual ? 'base' : 'local'}
+                                                onChange={$((e:any) => {changeDivisa$(e)})}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row mobile  text-center' >
+            <hr class='m-0' />
+                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
+                    <QuotesEngineSteps active={1} name={'Planes'} steps={5}/>
+                </div>
+                <div class='col-xs-12 ' style={{padding:'20px'}}>
+                    <SwitchDivisa
+                        labels={['USD',stateContext.value?.currentRate?.code]}
+                        value={stateContext.value.divisaManual ? 'base' : 'local'}
+                        onChange={$((e:any) => {changeDivisa$(e)})}
+                    />
+                </div>
+              
+            </div>
             <div class='container-fluid'>
                 <div class='row bg-step-4'>
                     <div class='col-xl-12'>
                         <div class='container'>
-                            <div class='row align-content-center justify-content-center'>
+                            <div class='row  justify-content-center'>
                                 {
                                     additionalsBenefits.value.length > 0
                                     ?
@@ -474,8 +963,8 @@ export default component$(() => {
                                     </div>
                                 }
                             </div>
-                            <div class='row mb-5'>
-                                <div class='col-xl-12'>
+                            <div class='row'>
+                                <div class='col-lg-12'>
                                     <div class='cards-paxs'>
                                         {
                                             additionalsBenefits.value.map((addBenefit,index) => {
@@ -515,24 +1004,24 @@ export default component$(() => {
                                                         </div>
                                                         <div class={index == 0 ? "collapse show" : "collapse"} id={"collapseExample-"+index}>
                                                             <hr class='m-0' />
+
                                                             <div class='card-body px-5 text-start'>
                                                                 <div class='container'>
-                                                                    <div class="row align-items-center">
-                                                                        <div class="col-xl-12">  
-                                                                            <Form
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">  
+                                                                        <Form
                                                                                 id={'form-pax-'+(index+1)}
                                                                                 form={[
                                                                                     {row:[
-                                                                                        {size:'col-xl-4',type:'text',label:'Nombre(s)',name:'nombres',required:true,value:addBenefit.nombres,textOnly:'true'},
-                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:addBenefit.apellidos,textOnly:'true'},
-                                                                                        {size:'col-xl-4',type:'date',label:'Nacimiento',name:'fechanacimiento',min:addBenefit.minDate,max:addBenefit.maxDate,required:true,value:addBenefit.fechanacimiento},
+                                                                                        {size:'col-xl-4',type:'text',label:'Nombre(s)',name:'nombres',required:true,value:addBenefit.nombres,textOnly:'true',placeholder:'Nombre(s)'},
+                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:addBenefit.apellidos,textOnly:'true',placeholder:'Apellido(s)'},                                                                                        
+                                                                                        {size:'col-xl-4',type:'text',label:'Identificación / Pasaporte',name:'documentacion',required:true,value:addBenefit.documentacion,placeholder:'Identificación / Pasaporte'},
+                                                                                        {size:'col-xl-4',type:'date',label:'Nacimiento',name:'fechanacimiento',min:addBenefit.minDate,max:addBenefit.maxDate,required:true,value:addBenefit.fechanacimiento,placeholder:'Nacimiento'},
+                                                                                        {size:'col-xl-4',type:'email',label:'Correo',name:'correo',required:true,value:addBenefit.correo,placeholder:'Correo'},
+                                                                                        {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:addBenefit.telefono,placeholder:'Teléfono'},
+
                                                                                     ]},
-                                                                                    {row:[
-                                                                                        {size:'col-xl-4',type:'text',label:'Identificación / Pasaporte',name:'documentacion',required:true,value:addBenefit.documentacion},
-                                                                                        {size:'col-xl-4',type:'email',label:'Correo',name:'correo',required:true,value:addBenefit.correo},
-                                                                                        {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:addBenefit.telefono},
                                                                                     ]}
-                                                                                ]}
                                                                             />   
                                                                             <div id={'card-message-'+addBenefit.idpasajero} class='container d-none'>
                                                                                 <div class='row'>
@@ -574,6 +1063,7 @@ export default component$(() => {
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            <hr class='m-0' />
                                                             <div class='card-body px-5 text-start'>
                                                                 <div class='container'>
                                                                     <div class='row'>
@@ -582,14 +1072,15 @@ export default component$(() => {
                                                                                 id={'form-pax-contact'}
                                                                                 form={[
                                                                                     {row:[
-                                                                                        {size:'col-xl-6',type:'text',label:'Nombre(s)',name:'nombres',required:true,textOnly:'true',value:contact.value.nombres},
-                                                                                        {size:'col-xl-6',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:contact.value.apellidos},
+                                                                                        {size:'col-xl-4',type:'text',label:'Nombre(s)',name:'nombres',required:true,textOnly:'true',value:contact.value.nombres,placeholder:'Nombre(s)'},
+                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:contact.value.apellidos,placeholder:'Apellido(s)'},      
+                                                                                        {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:contact.value.telefono,placeholder:'Teléfono(s)'},
                                                                                     ]},
                                                                                     {row:[
-                                                                                        {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:contact.value.telefono},
-                                                                                        {size:'col-xl-8',type:'email',label:'Correo',name:'correo',required:true,value:contact.value.correo},
+                                                                                        {size:'col-xl-4',type:'email',label:'Correo',name:'correo',required:true,value:contact.value.correo,placeholder:'Correo(s)'},
                                                                                     ]}
                                                                                 ]}
+                                                                                
                                                                             />   
                                                                         </div>
                                                                     </div>
@@ -704,6 +1195,6 @@ export default component$(() => {
                     </div>
                 </div>
             </div> 
-        </>
+        </div>
     )
 })

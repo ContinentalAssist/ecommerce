@@ -42,7 +42,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                 props.showForm !== true
                 ?
                 <div class='row resume'>
-                    <div class='col-3'>
+                    <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
                                 <i class="fa-solid fa-plane-departure"/>
@@ -60,10 +60,10 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             </div>
                         </div>
                     </div>
-                    <div class='col-3'>
+                    <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-plane-arrival"/>
+                                <i class="far fa-calendar"></i>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -78,7 +78,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             </div>
                         </div>
                     </div>
-                    <div class='col-3'>
+                    <div class='col-3 col-xs-6'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
                                 <i class="fa-solid fa-user-plus"/>
@@ -96,7 +96,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             </div>
                         </div>
                     </div>
-                    <div class='col-lg-3 text-end align-items-end'>
+                    <div class='col-lg-3  col-xs-6 text-end '/* align-items-end */>
                         {/* <div class='d-grid gap-2'> */}
                             <button type='button' class='btn btn-link text-regular text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
                         {/* </div> */}
@@ -597,7 +597,7 @@ export default component$(() => {
                     />
                 </div>
             </div>
-            <div class='row'>
+            <div class='row not-mobile'>
                 <div class='col-12'>
                     <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
                         <div class='row'>
@@ -621,6 +621,21 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
+            <div class='row mobile  text-center' >
+            <hr class='m-0' />
+                <div class='col-xs-12 d-flex justify-content-center align-items-center ' style={{padding:'20px'}} >
+                    <QuotesEngineSteps active={1} name={'Planes'} steps={5}/>
+                </div>
+                <div class='col-xs-12 ' style={{padding:'20px'}}>
+                    <SwitchDivisa
+                        labels={['USD',stateContext.value?.currentRate?.code]}
+                        value={stateContext.value.divisaManual ? 'base' : 'local'}
+                        onChange={$((e:any) => {changeDivisa$(e)})}
+                    />
+                </div>
+              
+            </div>
+             
             <div class='row bg-step-3'>
                 <div class='col-lg-12'>
                     <div class='container'>
@@ -642,7 +657,7 @@ export default component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class='row justify-content-between cards not-mobile'>
+                        <div class='row justify-content-between cards '/* not-mobile */>
                             {
                                 plans.value.map((plan,index) => {
                                     return(
@@ -757,127 +772,7 @@ export default component$(() => {
                                 })
                             }
                         </div>
-                        <div class='row cards mobile'>
-                            <div class='col-xl-12'>
-                                <div id="carouselPlans" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-touch="true" data-bs-interval='5200'>
-                                    <div class="carousel-indicators">
-                                        {
-                                            plans.value.map((plan,index) => {
-                                                return(
-                                                    <button key={index+1} type="button" data-bs-target="#carouselPlans" data-bs-slide-to={index} class={index == 0 ? "active" : ''}></button>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                    <div class="carousel-inner">
-                                        {
-                                            plans.value.map((plan,index) => {
-                                                return(
-                                                    <div key={index+1} class={index == 0 ? "carousel-item active" : "carousel-item"}>
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-md-6 col-sm-9 col-xs-10'>
-                                                                    <div class={plan.idplan == '2964' ? 'card border-dark-blue' : 'card border'}>
-                                                                        {
-                                                                            plan.idplan == '2964'
-                                                                            &&
-                                                                            <span class='card-recommended'>
-                                                                                <ImgContinentalAssistStar class='img-star mt-0 me-2' title='continental-assist-star' alt='continental-assist-star'/>
-                                                                                <p class='mb-0'>+ vendido</p>
-                                                                            </span>
-                                                                        }
-                                                                        <div class='card-body'>
-                                                                            <div class='container'>
-                                                                                <div class='row'>
-                                                                                    <div class='col-lg-12 text-center align-center'>
-                                                                                        {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                                                                                        {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                                                                                        {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
-                                                                                    </div>
-                                                                                    <div class='col-lg-12 text-center'>
-                                                                                        <h2 class='card-title text-semi-bold text-light-blue'>
-                                                                                            {plan.idplan == '2946' && 'Essential'}
-                                                                                            {plan.idplan == '2964' && 'Complete'}
-                                                                                            {plan.idplan == '2965' && 'Elite'}
-                                                                                            {/* {plan.nombreplan} */}
-                                                                                        </h2>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='row'> 
-                                                                                    <div class='col-lg-12 text-center'>
-                                                                                        <small>Cubre hasta</small>
-                                                                                        <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0' style={{marginTop:'-10px'}}>
-                                                                                            {plan.idplan == '2946' && '35K USD'}
-                                                                                            {plan.idplan == '2964' && '60K USD'}
-                                                                                            {plan.idplan == '2965' && '100K USD'}
-                                                                                        </h2>
-                                                                                        <button type='button' class='btn-link text-regular text-light-blue mb-2' onClick$={() => {getBenefits$(index)}} data-bs-toggle="modal" data-bs-target="#modalBenefits">Ver más</button> 
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='row mt-3 mb-4'>
-                                                                                    <div class='col-lg-12 text-center' style={{lineHeight:'16px',height:'160px'}}>
-                                                                                        {/* {plan.idplan == '2946' && <small>Te protegemos con lo necesario para que disfrutes de tus aventuras.</small>} */}
-                                                                                        {
-                                                                                            plan.idplan == '2946' 
-                                                                                            &&
-                                                                                            <ul class='text-start'>
-                                                                                                <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>35.000 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos médicos por enfermedad preexistente: </span><span class='text-semi-bold text-blue'>500 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos odontológicos por emergencia: </span><span class='text-semi-bold text-blue'>500 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>100 USD.</span></li>
-                                                                                            </ul>
-                                                                                        }
-                                                                                        {/* {plan.idplan == '2964' && <small>El que más compran nuestros clientes porque tiene la cobertura ideal.</small>} */}
-                                                                                        {
-                                                                                            plan.idplan == '2964' 
-                                                                                            &&
-                                                                                            <ul class='text-start'>
-                                                                                                <li><span class='text-dark-gray'>Telemedicina pre y post viaje.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>60.000 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos médicos por enfermedad preexistente: </span><span class='text-semi-bold text-blue'>1.000 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos odontológicos por emergencia: </span><span class='text-semi-bold text-blue'>800 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>150 USD.</span></li>
-                                                                                            </ul>
-                                                                                        }
-                                                                                        {/* {plan.idplan == '2965' && <small>Maximizamos lo necesario para quienes buscan mayor protección.</small>} */}
-                                                                                        {
-                                                                                            plan.idplan == '2965' 
-                                                                                            &&
-                                                                                            <ul class='text-start'>
-                                                                                                <li><span class='text-dark-gray'>Telemedicina pre y post viaje.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>100.000 USD.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Compensación por pérdida de equipaje en crucero.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Auxilio para cremación de mascota fallecida en viaje.</span></li>
-                                                                                                <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>200 USD.</span></li>
-                                                                                            </ul>
-                                                                                        }
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class='row'>
-                                                                                    <div class='col-lg-12 text-center'>
-                                                                                        <small>Precio</small>
-                                                                                        <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
-                                                                                            {
-                                                                                                divisaManual.value == true ? CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal) : CurrencyFormatter(stateContext.value.currentRate.code,plan.precio_grupal * stateContext.value.currentRate.rate)
-                                                                                            }
-                                                                                        </h2>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div> 
-                                                                        <button class={planSelected.value.idplan == plan.idplan ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'} onClick$={() => {getPlan$(plan)}}>Seleccionar</button> 
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
             </div>

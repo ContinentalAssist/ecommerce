@@ -1,8 +1,30 @@
 .bg-step-4
 {
-    background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
+   /*  background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
     background-repeat: no-repeat;
-    background-size: 100vw auto;
+    background-size: 100vw auto; */
+    background-color: #FAFAFA;
+}
+
+.resume .input-group-text
+{
+    font-size: 18px;
+}
+
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
+.steps-float,
+.steps-float>.row,
+.steps-float>.row>.col-12,
+.steps-float>.row>.col-12>.container,
+.steps-float>.row>.col-12>.container>.row
+{
+    height: 0px;
 }
 
 .card

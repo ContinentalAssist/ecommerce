@@ -102,24 +102,24 @@ export const Footer = component$(() => {
                                                 <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo'/>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
-                                            <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
-                                                <i class="fab fa-linkedin"></i>
+                                        <div class='col-lg-2 col-sm-12 col-xs-2 text-center align-content-center'>
+                                        <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
+                                                <i class="fab fa-linkedin text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Instagram' href="https://instagram.com/continentalassist" rel="noopener" target="_blank">
-                                                <i class="fab fa-instagram-square"></i>
+                                                <i class="fab fa-instagram-square text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Facebook' href='https://www.facebook.com/continentalassist' rel="noopener" target="_blank">
-                                                <i class="fab fa-facebook-square"></i>
+                                                <i class="fab fa-facebook-square text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Youtube' href="https://www.youtube.com/channel/UCzEhpTYaKckVnVKIR_thZHg" rel="noopener" target="_blank">
-                                                <i class="fab fa-youtube-square"></i>
+                                                <i class="fab fa-youtube-square text-white fa-3x"></i>
                                             </a>
                                         </div>
                                     </div>

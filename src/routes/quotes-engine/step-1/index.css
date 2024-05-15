@@ -1,3 +1,11 @@
+.bg-step-3
+{
+   /*  background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
+    background-repeat: no-repeat;
+    background-size: 100%; */
+    background-color: #FAFAFA;
+}
+
 .resume .input-group-text
 {
     font-size: 18px;

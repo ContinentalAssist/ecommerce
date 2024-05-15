@@ -103,7 +103,7 @@ export const Header = component$(() => {
                     >
                         <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
                     </a>
-                    <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
+                    <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel" style={{zIndex:3000}}>
                         <div class="offcanvas-header">
                             <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
                             <button title='Menu' aria-label="Menu" type='button' class="navbar-toggler" data-bs-dismiss="offcanvas">
