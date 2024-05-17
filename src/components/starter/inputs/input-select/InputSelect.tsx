@@ -119,7 +119,9 @@ export const InputSelect = component$((props:propInputSelect) => {
                 aria-labelledby={props.id} 
                 style={{
                         width:props.menuSize ? props.menuSize.width : 'auto',
-                        height:props.menuSize ? props.menuSize.height : 'auto'
+                        height:props.menuSize ? props.menuSize.height : 'auto',
+                        zIndex: '3001 !important',
+
                     }}
                 >
                 <div class='row'>

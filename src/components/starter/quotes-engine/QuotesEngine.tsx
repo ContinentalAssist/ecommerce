@@ -35,6 +35,8 @@ export const QuotesEngine = component$(() => {
     })
 
     useVisibleTask$(() => {
+        console.log(navigator.userAgent);
+        
         dateStart.value = new Date().toISOString().substring(0, 10)
         dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
     })
@@ -96,24 +98,24 @@ export const QuotesEngine = component$(() => {
                         form={[
                             {row:[
                                 {
-                                    size:'col-lg-6 col-sm-6 col-6',
+                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                     type:'select',
                                     label:'Origen',
                                     name:'origen',
                                     options:origins.value,required:true,
                                     onChange:$((e:any) => {changeOrigin$(e)}),
                                     icon:'plane-departure',
-                                    menuSize:{width:'608px', height:'394px'}
+                                    menuSize:{width:'549px', height:'394px'}
                                 },
                                 {
-                                    size:'col-lg-6 col-sm-6 col-6',
+                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                     type:'select-multiple',
                                     label:'Destino(s)',
                                     name:'destinos',
                                     options:destinations.value,
                                     required:true,
                                     icon:'plane-arrival',
-                                    menuSize:{width:'608px', height:'394px'}
+                                    menuSize:{width:'549px', height:'394px'}
                                 }
                             ]}
                         ]}
@@ -126,7 +128,7 @@ export const QuotesEngine = component$(() => {
                         form={[
                             {row:[
                                 {
-                                    size:'col-lg-6 col-sm-6 col-6',
+                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                     type:'date',
                                     label:'Desde',
                                     name:'desde',
@@ -136,7 +138,7 @@ export const QuotesEngine = component$(() => {
                                     icon:'calendar'
                                 },
                                 {
-                                    size:'col-lg-6 col-sm-6 col-6',
+                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                     type:'date',
                                     label:'Hasta',
                                     name:'hasta',

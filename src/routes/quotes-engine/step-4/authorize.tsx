@@ -11,6 +11,7 @@ import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-succes
 import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
 
 import styles from './index.css?inline'
+import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export default component$(() => {
     useStylesScoped$(styles)
@@ -430,89 +431,80 @@ export default component$(() => {
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
-                        <div class='card card-body shadow-lg'>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4 mb-3'>
-                                        <div class='img-card'>
-                                            <div class='card-name'>{tdcname.value}</div>
-                                            <div class='card-number'>{tdcnumber.value}</div>
-                                            <div class='card-expiration'>{tdcexpiration.value}</div>
-                                            <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/>
-                                        </div>
-                                    </div>
-                                    <div class='col-lg-4 offset-lg-1'>
-                                        <Form
-                                            id='form-payment-method'
-                                            form={[
-                                                {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                ]}
+                        <CardPaymentResume>
+                             <div class='row justify-content-center'>
+                                <div class='col-lg-12'>
+                                    <Form
+                                        id='form-payment-method'
+                                        form={[
+                                            {row:[
+                                                {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                            ]},
+                                            {row:[
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                             ]}
-                                        />
-                                        <div class='container'>
-                                            <div class='row'>
-                                                <div class='col-12'>
-                                                    <div class="form-check form-check-inline my-3">
-                                                        <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
-                                                        <label class="form-check-label" for={"invoicing"}>
-                                                            Requiero factura personalizada.
-                                                        </label>
-                                                    </div>
+                                        ]}
+                                    />
+                                    <div class='container'>
+                                        <div class='row'>
+                                            <div class='col-12'>
+                                                <div class="form-check form-check-inline my-3">
+                                                    <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
+                                                    <label class="form-check-label" for={"invoicing"}>
+                                                        Requiero factura personalizada.
+                                                    </label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class='d-none' id='invoice'>
-                                            <Form
-                                                id='form-invoicing'
-                                                form={[
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                    </div>
+                                    <div class='d-none' id='invoice'>
+                                        <Form
+                                            id='form-invoicing'
+                                            form={[
+                                                {row:[
+                                                    {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
+                                                        {value:'RFC',label:'RFC'},
+                                                        {value:'CC',label:'CC'},
+                                                        {value:'PASAPORTE',label:'Pasaporte'},
+                                                        {value:'NIT',label:'NIT'}
                                                     ]},
-                                                    {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
-                                                            {value:'RFC',label:'RFC'},
-                                                            {value:'CC',label:'CC'},
-                                                            {value:'PASAPORTE',label:'Pasaporte'},
-                                                            {value:'NIT',label:'NIT'}
-                                                        ]},
-                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
-                                                        
-                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
-                                                    ]}
+                                                    {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
+                                                    
+                                                    {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
                                                 ]}
-                                            />
-                                        </div>
-                                        <div class='container'>
-                                            <div class='row justify-content-center'>
-                                                <div class='col-lg-6'>
-                                                    <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                        {
-                                                            attempts.value > 0
-                                                            &&
-                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                        }
-                                                    </div>
+                                            ]}
+                                        />
+                                    </div>
+                                    <div class='container'>
+                                        <div class='row justify-content-center'>
+                                            <div class='col-lg-6'>
+                                                <div class='d-grid gap-2 mt-4'>
+                                                    <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
+                                                    {
+                                                        attempts.value > 0
+                                                        &&
+                                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </CardPaymentResume>
+
                     </div>
                 </div>
             </div>

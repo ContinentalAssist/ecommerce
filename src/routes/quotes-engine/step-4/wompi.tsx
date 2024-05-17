@@ -13,6 +13,7 @@ import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-succes
 import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
 
 import styles from './index.css?inline'
+import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsWompi {
     loading : PropFunction<() => void>
@@ -151,7 +152,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-6',
+                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
                     wompiSandboxStatus : "APPROVED"
                 }
 
@@ -161,8 +162,10 @@ export default component$((props:propsWompi) => {
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
+                console.log('dataPay', dataPay);
                 
-                if(dataPay.resultado[0].wompiIdTransaccion)
+                
+                if(dataPay?.resultado[0].wompiIdTransaccion)
                 {
                     const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
                     const dataValidation = await resValidation.json()
@@ -182,7 +185,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-6',
+                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
                     wompiSandboxStatus : "APPROVED",
                     wompiUserTipePSE:0
                 }
@@ -247,7 +250,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-6',
+                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
                     wompiSandboxStatus : "APPROVED"
                 }
 
@@ -663,7 +666,7 @@ export default component$((props:propsWompi) => {
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-6',
+                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
                 wompiSandboxStatus : "APPROVED",
                 wompiPhoneNumberNequi : dataForm.phone_number
             }
@@ -770,7 +773,7 @@ export default component$((props:propsWompi) => {
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-6',
+                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
                 wompiSandboxStatus : "APPROVED",
                 wompiUserTipePSE : 0,
                 wompiUserLegalIDPSE : dataForm.document,
@@ -811,147 +814,164 @@ export default component$((props:propsWompi) => {
                 &&
                 <Loading/>
             } */}
-            <div class='container-fluid'>
+             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
-                        <div class='card card-body shadow-lg'>
-                            <div class='container'>
-                                {
-                                    formPayment.value == 'CARD'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <div class='img-card'>
-                                                <div class='card-name'>{tdcname.value}</div>
-                                                <div class='card-number'>{tdcnumber.value}</div>
-                                                <div class='card-expiration'>{tdcexpiration.value}</div>
-                                                <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/> 
+                        <CardPaymentResume>
+                            {
+                                formPayment.value == 'CARD'
+                                &&
+                                <div class='row justify-content-center'>
+                                        <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+
+                                    <div class='col-lg-12'>
+                                        <Form
+                                            id='form-payment-method'
+                                            form={[
+                                                {row:[
+                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                ]}
+                                            ]}
+                                        />
+                                        <div class='container'>
+                                            <div class='row'>
+                                                <div class='col-12'>
+                                                    <div class="form-check form-check-inline my-3">
+                                                        <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
+                                                        <label class="form-check-label" for={"invoicing"}>
+                                                            Requiero factura personalizada.
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class='col-lg-4 offset-lg-1'>
+                                        <div class='d-none' id='invoice'>
                                             <Form
-                                                id='form-payment-method'
+                                                id='form-invoicing'
                                                 form={[
                                                     {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                        {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                        {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
+                                                            {value:'RFC',label:'RFC'},
+                                                            {value:'CC',label:'CC'},
+                                                            {value:'PASAPORTE',label:'Pasaporte'},
+                                                            {value:'NIT',label:'NIT'}
+                                                        ]},
+                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
+                                                    ]},
+                                                    {row:[
+                                                        {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
+                                                    ]},
+                                                    {row:[
+                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
+                                                        
+                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
                                                     ]}
                                                 ]}
                                             />
-                                            <div class='container'>
-                                                <div class='row'>
-                                                    <div class='col-12'>
-                                                        <div class="form-check form-check-inline my-3">
-                                                            <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
-                                                            <label class="form-check-label" for={"invoicing"}>
-                                                                Requiero factura personalizada.
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class='d-none' id='invoice'>
-                                                <Form
-                                                    id='form-invoicing'
-                                                    form={[
-                                                        {row:[
-                                                            {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
-                                                                {value:'RFC',label:'RFC'},
-                                                                {value:'CC',label:'CC'},
-                                                                {value:'PASAPORTE',label:'Pasaporte'},
-                                                                {value:'NIT',label:'NIT'}
-                                                            ]},
-                                                            {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
-                                                            
-                                                            {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
-                                                        ]}
-                                                    ]}
-                                                />
-                                            </div>
-                                            <div class='container'>
-                                                <div class='row justify-content-center'>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                            {
-                                                                attempts.value > 0
-                                                                &&
-                                                                <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                            }
-                                                        </div>
+                                        </div>
+                                        <div class='container'>
+                                            <div class='row justify-content-center'>
+                                                <div class='col-lg-6'>
+                                                    <div class='d-grid gap-2 mt-4'>
+                                                        <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
+                                                        {
+                                                            attempts.value > 0
+                                                            &&
+                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
-                                {
-                                    formPayment.value == 'BANCOLOMBIA_QR'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            {/* <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3> */}
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',qr.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <div class='img-card'>
-                                                <img src={'data:image/svg+xml;base64,'+qr.value.qr} class='img-fluid' width={0} height={0} alt='continental-assist-qr-wompi'/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    formPayment.value == 'BANCOLOMBIA_COLLECT'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            {/* <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{cash.value.voucher}</h3> */}
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',cash.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <table class="table table-bordered">
-                                                <tr>
-                                                    <th class='text-center' colSpan={2}>Datos para el pago:</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Número de convenio</td>
-                                                    <td>{cash.value.code}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Referencia de pago</td>
-                                                    <td>{cash.value.intention}</td>
-                                                </tr>
-                                            </table>
+                                    {/* <div class='col-lg-12 col-10 text-end'>
+                                        <p class='text-regular text-blue mb-0'>Total</p>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                            {
+                                                //CurrencyFormatter('COP',qr.value.total)
+                                                CurrencyFormatter(resume.value.total.divisa,resume.value.total.total)
+                                            }
+                                        </h3>
+                                    </div> */}
+                                </div>
+                            }
+                            {
+                                formPayment.value == 'BANCOLOMBIA_QR'
+                                &&
+                                <div class='row justify-content-center'>
+                                    {/* <div class='col-lg-4 mb-3'>
+                                        <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3>
+                                        <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',qr.value.total)}</h3>
+                                    </div> */}
+                                    <div class='col-lg-6 offset-lg-1'>
+                                        <div class='img-card'>
+                                            <img src={'data:image/svg+xml;base64,'+qr.value.qr} class='img-fluid' width={0} height={0} alt='continental-assist-qr-wompi'/>
                                         </div>
                                     </div>
-                                }
-                                {
+                                    <br/>
+                                    <div class='col-lg-12 col-10 text-end'>
+                                        <p class='text-regular text-blue mb-0'>Total</p>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                            {
+                                                CurrencyFormatter('COP',qr.value.total)
+                                            }
+                                        </h3>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                formPayment.value == 'BANCOLOMBIA_COLLECT'
+                                &&
+                                <div class='row justify-content-center'>
+                                    {/* <div class='col-lg-4 mb-3'>
+                                        <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{cash.value.voucher}</h3>
+                                        <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',cash.value.total)}</h3>
+                                    </div> */}
+                                    <div class='col-lg-12'>
+                                        <table class="table table-bordered">
+                                            <tr>
+                                                <th class='text-center' colSpan={2}>Datos para el pago:</th>
+                                            </tr>
+                                            <tr>
+                                                <td>Número de convenio</td>
+                                                <td>{cash.value.code}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Referencia de pago</td>
+                                                <td>{cash.value.intention}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <br/>
+                                    <div class='col-lg-12 col-10 text-end'>
+                                        <p class='text-regular text-blue mb-0'>Total</p>
+                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                            {
+                                                CurrencyFormatter('COP',cash.value.total)
+                                            }
+                                        </h3>
+                                    </div>
+                                </div>
+                            }
+                            {
                                     formPayment.value == 'NEQUI'
                                     &&
                                     <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',nequi.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
+                                    
+                                        <div class='col-lg-12'>
                                             {
                                                 nequi.value.phone
                                                 ?
@@ -984,17 +1004,25 @@ export default component$((props:propsWompi) => {
                                                 </>
                                             }
                                         </div>
+                                        <div class='col-lg-12 col-10 text-end'>
+                                            <p class='text-regular text-blue mb-0'>Total</p>
+                                            <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                                {
+                                                    CurrencyFormatter('COP',nequi.value.total)
+                                                }
+                                            </h3>
+                                        </div>
                                     </div>
                                 }
                                 {
                                     formPayment.value == 'PSE'
                                     &&
                                     <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
+                                        {/* <div class='col-lg-4 mb-3'>
                                             <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
                                             <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',pse.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
+                                        </div> */}
+                                        <div class='col-lg-12 '>
                                             <Form
                                                 id='form-pse'
                                                 form={[
@@ -1002,11 +1030,11 @@ export default component$((props:propsWompi) => {
                                                         {size:'col-xl-12',type:'select',label:'Banco',name:'institution',required:true,options:institutions.value},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-4',type:'select',label:'Tipo de documento',name:'document_type',required:true,options:[
+                                                        {size:'col-xl-6',type:'select',label:'Tipo de documento',name:'document_type',required:true,options:[
                                                             {value:'CC',label:'CC - Cedula de ciudadania'},
                                                             {value:'CE',label:'CE - Cedula de extranjenria'},
                                                         ]},
-                                                        {size:'col-xl-8',type:'text',label:'Documento',name:'document',required:true}
+                                                        {size:'col-xl-6',type:'text',label:'Documento',name:'document',required:true}
                                                     ]}
                                                 ]}
                                             />
@@ -1020,10 +1048,18 @@ export default component$((props:propsWompi) => {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class='col-lg-12 col-10 text-end'>
+                                            <p class='text-regular text-blue mb-0'>Total</p>
+                                            <h3 class='h1 text-semi-bold text-blue mb-4'>
+                                                {
+                                                    CurrencyFormatter('COP',pse.value.total)
+                                                }
+                                            </h3>
+                                        </div>
                                     </div>
-                                }
-                            </div>
-                        </div>
+                                }    
+
+                       </CardPaymentResume>
                     </div>
                 </div>
             </div>

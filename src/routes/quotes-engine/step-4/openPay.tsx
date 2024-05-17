@@ -13,6 +13,7 @@ import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-succes
 import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
 
 import styles from './index.css?inline'
+import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsOP {
     loading : PropFunction<() => void>
@@ -156,7 +157,7 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
+                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
@@ -166,7 +167,7 @@ export default component$((props:propsOP) => {
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
-                if(dataPay.resultado[0].openPayTransaccion)
+                if(dataPay?.resultado[0].openPayTransaccion)
                 {
                     redirect.value = {
                         url:dataPay.resultado[0].openPayTransaccion.payment_method.url
@@ -181,19 +182,18 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
+                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
-                console.log(dataRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
-                if(dataPay.resultado[0].openPayTransaccion)
+                if(dataPay?.resultado[0]?.openPayTransaccion)
                 {
                     store.value = {
                         barcode:dataPay.resultado[0].openPayTransaccion.payment_method.barcode_url,
@@ -211,19 +211,18 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
+                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
-                console.log(dataRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
-
-                if(dataPay.resultado[0].openPayTransaccion)
+ 
+                if(dataPay?.resultado[0]?.openPayTransaccion)
                 {
                     bank.value = {
                         bank:dataPay.resultado[0].openPayTransaccion.payment_method.bank,
@@ -477,7 +476,6 @@ export default component$((props:propsOP) => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            console.log(dataPay);
             resPayment = dataPay
 
             if(resPayment.error == false)
@@ -564,21 +562,13 @@ export default component$((props:propsOP) => {
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
-                        <div class='card card-body shadow-lg'>
-                            <div class='container'>
-                                {
-                                    formPayment.value == 'CARD'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <div class='img-card'>
-                                                <div class='card-name'>{tdcname.value}</div>
-                                                <div class='card-number'>{tdcnumber.value}</div>
-                                                <div class='card-expiration'>{tdcexpiration.value}</div>
-                                                <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/>
-                                            </div>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
+                        <CardPaymentResume>
+                        {
+                             formPayment.value == 'CARD'
+                             &&
+                             <div class='row'>
+                                       <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+
                                             <Form
                                                 id='form-payment-method'
                                                 form={[
@@ -646,59 +636,48 @@ export default component$((props:propsOP) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    formPayment.value == 'STORE'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            {/* <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3> */}
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('MXN',store.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <div class='img-card text-center'>
-                                                <img src={store.value.barcode} class='img-fluid' width={0} height={0} alt='continental-assist-barcode-paynet'/>
-                                                <small>{store.value.intention}</small>
-                                                <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/>
-                                                <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    formPayment.value == 'BANK_ACCOUNT'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('MXN',bank.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <table class="table table-bordered">
-                                                <tr>
-                                                    <th class='text-center' colSpan={2}>Datos para el pago: {bank.value.bank}</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Número de convenio</td>
-                                                    <td>{bank.value.agreement}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Referencia de pago</td>
-                                                    <td>{bank.value.intention}</td>
-                                                </tr>
-                                            </table>
-                                            <div class='img-card text-center'>
-                                                <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
+                             </div>                             
+                        }
+                        {
+                             formPayment.value == 'STORE'
+                             &&
+                             <div class="row">
+                                <div class='img-card text-center'>
+                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} alt='continental-assist-barcode-paynet'/>
+                                    <small>{store.value.intention}</small>
+                                    <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/>
+                                    <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
+                                </div>
+                             </div>
+                            
+                        }
+
+{
+                             formPayment.value == 'BANK_ACCOUNT'
+                             &&
+                             <div class="row">
+                                
+                                <table class="table table-bordered">
+                                    <tr>
+                                        <th class='text-center' colSpan={2}>Datos para el pago: {bank.value.bank}</th>
+                                    </tr>
+                                    <tr>
+                                        <td>Número de convenio</td>
+                                        <td>{bank.value.agreement}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Referencia de pago</td>
+                                        <td>{bank.value.intention}</td>
+                                    </tr>
+                                </table>
+                                <div class='img-card text-center'>
+                                    <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
+                                </div>
+                                      
+                             </div>
+                            
+                        }
+                        </CardPaymentResume>
                     </div>
                 </div>
             </div>

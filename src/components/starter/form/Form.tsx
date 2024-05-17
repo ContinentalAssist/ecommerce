@@ -37,7 +37,7 @@ export const Input = (props:propsInput) => {
                     props.icon
                     &&
                     <span 
-                        class="input-group-text text-" 
+                        class="input-group-text text-dark-blue" 
                         onClick$={() => {
                                 (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
                                 (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
@@ -48,7 +48,7 @@ export const Input = (props:propsInput) => {
                     </span>
                 }
                  <div class="form-floating">
-                    <input class='form-control text-bold text-' 
+                    <input class='form-control text-bold text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type='text'
@@ -285,6 +285,79 @@ export const InputPhone = (props:propsInputPhone) => {
     )
 }
 
+interface propsInputNumber
+{
+    [key:string] : any
+}
+
+export const InputNumber = (props:propsInputNumber) => {
+    const validateKeyUp$= $((target: any) => {
+        
+        if ((target.type == 'number') ) 
+        {
+            const input = document.querySelector('#'+target.id) as HTMLInputElement
+            input.value = String(input.value);
+            /* const regex = new RegExp(/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g)
+            
+            if(regex.test(input.value)){
+                input.value = String(input.value);
+            }else{
+                let str= input.value;
+                str = str.slice(0, -1);
+                input.value= str;
+
+            } */
+        }
+    }) 
+
+    return(
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span 
+                        class="input-group-text text-dark-blue" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                 <div class="form-floating">
+                    <input class='form-control text-bold text-dark-blue' 
+                        id={props.id} 
+                        name={props.name} 
+                        type={'number'}
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        maxLength={props.maxLength} 
+                        onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onKeyUp$={e=>validateKeyUp$(e.target)}
+                    />
+                    <label 
+                        class='form-label text-bold text-dark-gray' 
+                        for={props.id}
+                    >
+                        {props.label}
+                    </label>
+                    <div id={props.id+'-feedback'} class="invalid-feedback">
+                         Por favor ingrese solamente numeros.
+                    </div>
+                 </div>
+            </div>
+        </div>                                            
+    )
+}
+
+
 interface propsForm {
     [key:string] : any,
     form : any[]
@@ -493,30 +566,10 @@ export const Form = component$((props:propsForm) => {
                                         {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
-                                                    <label 
-                                                        class='form-label text-regular text-' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label} 
-                                                    </label>
-                                                    <input class='form-control' 
-                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'number'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onChange$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        placeholder={columnInput.placeholder}
-                                                        data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>validateBlur$(e.target)}
-                                                        
-                                                    />
-                                                    <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
-                                                        Por favor ingrese solamente numeros.
-                                                    </div>
+                                                   <InputNumber
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    /> 
                                                 </div>
                                             )
                                         }

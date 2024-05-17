@@ -264,11 +264,34 @@ export default component$(() => {
     })
 
     useVisibleTask$(async() => {
+        let res : {[key:string]:any[]} = {}
+        const resOrigins : any[] = []
+        const resDestinations : any[] = []
+
+        const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
+        const dataDefaults = await resDefaults.json()
+        res = dataDefaults.resultado[0]
+
+        res.origenes.map((origen) => {
+            resOrigins.push({value:origen.idpais,label:origen.nombrepais})
+        })
+
+        res.destinos.map((destino) => {
+            resDestinations.push({value:destino.idpais,label:destino.nombrepais})
+        })
+
+        origins.value = resOrigins
+        destinations.value = resDestinations
+        dateStart.value = new Date().toISOString().substring(0,10)
+        dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0,10)
+
+        resume.value = stateContext.value
+    })
+
+    useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
-            console.log(stateContext.value)
-
             if(prevResume.asegurados != undefined)
             {
                 resume.value = stateContext.value
@@ -733,7 +756,7 @@ export default component$(() => {
 
     const getQuotesEngine$ = $(async() => {
         const bs = (window as any)['bootstrap']
-        const modal = new bs.Modal('#modalGroupPlan',{})
+        //const modal = new bs.Modal('#modalGroupPlan',{})
         const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
         const forms = Array.from(quotesEngine.querySelectorAll('form'))
         const inputs = Array.from(document.querySelectorAll('input,select'))
@@ -824,7 +847,7 @@ export default component$(() => {
                         loading.value = false
                     }
 
-                    modal.show()
+                   // modal.show()
                 }
                 else
                 {

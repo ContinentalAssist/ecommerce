@@ -227,6 +227,8 @@ export default component$(() => {
     })
 
     const getQuotesEngine$ = $(async() => {    
+        console.log("buscar 1");
+        
         const bs = (window as any)['bootstrap']
         const modal = new bs.Modal('#modalGroupPlan',{})
         const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement

@@ -1,12 +1,7 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
-import type { DocumentHead } from "@builder.io/qwik-city";
-import { Loading } from "~/components/starter/loading/Loading";
-import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
-import { WEBContext } from "~/root";
+import { component$, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik";
+import { useLocation, type DocumentHead } from "@builder.io/qwik-city";
 import styles from './index.css?inline'
-import Wompi from "./wompi";
-import OpenPay from "./openPay";
-import Authorize from "./authorize";
+import { Loading } from "~/components/starter/loading/Loading";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Método de pago',
@@ -25,47 +20,45 @@ export const head: DocumentHead = {
 export default component$(() => {
     useStylesScoped$(styles)
 
-    const stateContext = useContext(WEBContext)
-    // const navigate = useNavigate()
+    // const stateContext = useContext(WEBContext)
+    // // const navigate = useNavigate()
+    const location = useLocation()
 
-    const formPayment = useSignal('')
-    const divisaManual = useSignal(stateContext.value.divisaManual)
+    const obj : {[key:string]:any} = {}
+
     const loading = useSignal(true)
+    const voucher = useSignal(obj)
 
-    useTask$(() => {
-        if(Object.keys(stateContext.value).length > 0)
+    useVisibleTask$(async() => {
+        if(location.url.search.includes('id') && !location.url.search.includes('env'))
         {
-            if(divisaManual.value == true)
+            const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:location.url.searchParams.get('id')})});
+            const dataValidation = await resValidation.json()
+
+            if(dataValidation.resultado.status == 'completed')
             {
-                formPayment.value = 'authorize' 
+                voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
             }
             else
             {
-                if(stateContext.value.resGeo.country == 'CO')
-                {
-                    formPayment.value = 'wompi' 
-                }
-                else if(stateContext.value.resGeo.country == 'MX')
-                {
-                    formPayment.value = 'openPay' 
-                }
-                else
-                {
-                    formPayment.value = 'authorize' 
-                }
+                voucher.value = {error:true,message:'Hubo un error en tu transaccion'}
             }
         }
-    })
+        else
+        {
+            const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:location.url.searchParams.get('id')})});
+            const dataValidation = await resValidation.json()
 
-    // const closeQuote$ = $(() => {
-    //     const bs = (window as any)['bootstrap']
-    //     const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-    //     modalErrorAttemps.hide()
+            if(dataValidation.resultado.status == 'APPROVED')
+            {
+                voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.reference}
+            }
+            else
+            {
+                voucher.value = {error:true,message:dataValidation.resultado.status_message}
+            }
+        }
 
-    //     stateContext.value = {}
-    // })
-
-    const getLoading$ = $(() => {
         loading.value = false
     })
    
@@ -76,33 +69,27 @@ export default component$(() => {
                 &&
                 <Loading/>
             }
-            <QuotesEngineSteps active={4} hideForm/>
             <div class='container-fluid'>
-                <div class='row bg-step-6'>
+                <div class='row bg-step-5'>
                     <div class='col-lg-12'>
                         <div class='container p-0'>
-                            <div class='row align-content-center justify-content-center'>
-                                <div class='col-lg-10 text-center mt-5'>
-                                    <h1 class='text-semi-bold text-blue'>Método de pago</h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-gray mb-4'>Ingresa la información de tu tarjeta</h5>
-                                </div>
+                            <div class='row align-content-center justify-content-center h-75'>
+                                {
+                                    voucher.value.error == true
+                                    ?
+                                    <div class='col-lg-10 text-center mt-5'>
+                                        <h1 class='text-semi-bold text-blue'>Lo sentimos!</h1>
+                                        <hr class='divider my-3'/>
+                                        <h5 class='text-dark-gray mb-4'>{voucher.value.message}</h5>
+                                    </div>
+                                    :
+                                    <div class='col-lg-10 text-center mt-5'>
+                                        <h1 class='text-semi-bold text-blue'>Gracias por tu compra!</h1>
+                                        <hr class='divider my-3'/>
+                                        <h5 class='text-dark-gray mb-4'>{voucher.value.message}</h5>
+                                    </div>
+                                }
                             </div>
-                            {
-                                formPayment.value == 'wompi'
-                                &&
-                                <Wompi loading={getLoading$}/>
-                            }
-                            {
-                                formPayment.value == 'openPay'
-                                &&
-                                <OpenPay loading={getLoading$}/>
-                            }
-                            {
-                                formPayment.value == 'authorize'
-                                &&
-                                <Authorize/>
-                            }
                         </div>
                     </div>
                 </div>
