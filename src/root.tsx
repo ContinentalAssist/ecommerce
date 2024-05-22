@@ -30,7 +30,7 @@ export default component$(() => {
             /* const geoData ={
                 ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
                 country: "CO"
-            }    */
+            } */   
         resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
 
         // const resRates = await fetch("/api/getCurrentRates",{method:"POST",body:JSON.stringify({})});

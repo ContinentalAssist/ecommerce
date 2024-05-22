@@ -1,11 +1,8 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$, useTask$,Slot } from "@builder.io/qwik";
-//import styles from './card-payment-resume.css';
-import { useNavigate } from '@builder.io/qwik-city';
+import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$,Slot } from "@builder.io/qwik";
 import { WEBContext } from "~/root"; 
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
 import styles from './card-payment-resume.css?inline'
 import ImgContinentalAssistPrintTicket from '../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx'
-//~/media/quotes-engine/continental-assist-print-ticket.webp?jsx
 
 interface propsCardPaymentResume {
     [key:string]:any
@@ -18,8 +15,6 @@ export const CardPaymentResume = component$((props:propsCardPaymentResume) => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
-    const navigate = useNavigate()
-
     const objectResume : {[key:string]:any} = {}
 
     const resume = useSignal(objectResume)
@@ -35,10 +30,7 @@ export const CardPaymentResume = component$((props:propsCardPaymentResume) => {
             resume.value = stateContext.value
             loading.value = false            
         }
-        /* else
-        {
-            navigate('/quotes-engine/step-1')
-        } */
+      
     })
 
     const openCollapsPax$ =$(( key:string)=>{

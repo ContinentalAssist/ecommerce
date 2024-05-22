@@ -8,15 +8,13 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 
-import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
-import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
-import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
-
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import { Loading } from "~/components/starter/loading/Loading";
 
 export interface propsOP {
-    loading : PropFunction<() => void>
+    setLoading: (loading: boolean) => void;
+   
 }
 
 export default component$((props:propsOP) => {
@@ -36,9 +34,8 @@ export default component$((props:propsOP) => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const loading = useSignal(true)
     const urlvoucher = useSignal(array)
-    const attempts = useSignal(0)
+    const attempts = useSignal(stateContext.value.attempts|| 0)
     const formPayment = useSignal('')
     const redirect = useSignal(obj)
     const store = useSignal(obj)
@@ -93,7 +90,7 @@ export default component$((props:propsOP) => {
 
                 formPayment.value = 'CARD'
 
-                props.loading()
+                props.setLoading(false)
             }
         }
     })
@@ -204,7 +201,7 @@ export default component$((props:propsOP) => {
 
                 formPayment.value = 'STORE'
 
-                props.loading()
+                props.setLoading(false)
                 // navigate(redirect.value.url)
             }
             else if(stateContext.value.openPayTipo == 'BANK_ACCOUNT')
@@ -237,7 +234,7 @@ export default component$((props:propsOP) => {
 
                 formPayment.value = 'BANK_ACCOUNT'
 
-                props.loading()
+                props.setLoading(false)
                 // navigate(bank.value.url)
             }
         }
@@ -330,17 +327,17 @@ export default component$((props:propsOP) => {
 
     const getPayment$ = $(async() => {
         const bs = (window as any)['bootstrap']
-        const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        const modalError = new bs.Modal('#modalError',{})
+        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
+        //const modalError = new bs.Modal('#modalError',{})
         // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        //const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
-
-    
+        ///loading.value = true
+        props.setLoading(true)
         let error = false
         let errorInvoicing = false
         
@@ -405,7 +402,7 @@ export default component$((props:propsOP) => {
 
         if(error == false)
         {
-            loading.value = true
+          
 
             const newPaxs : any[] = []
 
@@ -480,8 +477,9 @@ export default component$((props:propsOP) => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado
-                loading.value = false;
+                urlvoucher.value = resPayment.resultado;
+                //loading.value = false;
+                props.setLoading(false);
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -504,24 +502,31 @@ export default component$((props:propsOP) => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-                modalSuccess.show()
+               // modalSuccess.show()
+                stateContext.value.urlvoucher =urlvoucher.value
+                stateContext.value.typeMessage = 1
+                await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
-                    loading.value = false;
-
-                    modalError.show()
+                    //props.setLoading(true);
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
+                  //  modalError.show()
                 }
                 else
                 {
-                    loading.value = false;
+                    //loading.value  =true;
+                    stateContext.value.typeMessage = 3
+                    await navigate('/quotes-engine/message')
 
-                    modalErrorAttemps.show()
+                 ///   modalErrorAttemps.show()
                 }
 
                 attempts.value = (attempts.value + 1)
+                stateContext.value.attempts =attempts.value
             }
         }
     })
@@ -559,6 +564,11 @@ export default component$((props:propsOP) => {
    
     return(
         <>
+            {/* {
+                loading.value === true
+                &&
+                <Loading/>
+            } */}
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
@@ -681,7 +691,7 @@ export default component$((props:propsOP) => {
                     </div>
                 </div>
             </div>
-            <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
+            {/*<div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border border-success">
                         <div class='modal-header text-center' style={{display:'block'}}>
@@ -736,7 +746,7 @@ export default component$((props:propsOP) => {
                     </div>
                 </div>
             </div>
-            <div id='modalError' class="modal fade" data-bs-backdrop="static">
+             <div id='modalError' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content border border-danger">
                         <div class='modal-header text-center' style={{display:'block'}}>
@@ -759,7 +769,7 @@ export default component$((props:propsOP) => {
                     </div>
                 </div>
             </div>
-            <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
+             <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-md modal-dialog-centered">
                     <div class="modal-content border border-danger">
                         <div class='modal-header text-center' style={{display:'block'}}>
@@ -804,7 +814,7 @@ export default component$((props:propsOP) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */} 
         </>
     )
 })

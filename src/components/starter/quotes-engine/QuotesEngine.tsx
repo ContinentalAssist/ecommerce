@@ -35,7 +35,6 @@ export const QuotesEngine = component$(() => {
     })
 
     useVisibleTask$(() => {
-        console.log(navigator.userAgent);
         
         dateStart.value = new Date().toISOString().substring(0, 10)
         dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)

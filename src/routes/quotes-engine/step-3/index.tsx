@@ -422,26 +422,23 @@ export default component$(() => {
                                                             
                                                             return(
                                                                
-                                                                            <div key={index}class='col-md-3 g-0 align-self-center text-center'>
-                                                                                <p class="text-decoration-none text-dark-blue">{payment.title}</p> 
-                                                                                <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
-                                                                                {
-                                                                                    payment.icons.length>0 
-                                                                                    &&
-                                                                                    payment.icons.map((icon:any,iIcon:number) => {
-                                                                                        return(<img key={index+'-'+iIcon} /* class='img-fluid' */ src={icon} width={'40'} height={'20'} />)
-                                                                                    })
-                                                                                }
-                                                                                {
-                                                                                    'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                                    <i class={payment.fontawesome}/>
-                                                                                }
-                                                                            </div>                                                                                      
-                                                                            </div>
-
-                                                                            
-                                                                            
-                                                                  
+                                                            <div key={index}class='col-md-3 g-0 align-self-center text-center'>
+                                                                <p class="text-decoration-none text-dark-blue">{payment.title}</p> 
+                                                                <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                                    {
+                                                                        payment.icons.length>0 
+                                                                        &&
+                                                                        payment.icons.map((icon:any,iIcon:number) => {
+                                                                            return(<img key={index+'-'+iIcon} /* class='img-fluid' */ src={icon} width={'40'} height={'20'} />)
+                                                                        })
+                                                                    }
+                                                                    {
+                                                                        'fontawesome'in payment && payment.fontawesome.length>0 &&
+                                                                        <i class={payment.fontawesome}/>
+                                                                    }
+                                                                </div>                                                                                      
+                                                            </div>
+      
                                                             )
                                                         })
                                                     }

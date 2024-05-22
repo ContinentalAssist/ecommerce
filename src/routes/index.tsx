@@ -227,7 +227,6 @@ export default component$(() => {
     })
 
     const getQuotesEngine$ = $(async() => {    
-        console.log("buscar 1");
         
         const bs = (window as any)['bootstrap']
         const modal = new bs.Modal('#modalGroupPlan',{})
@@ -724,8 +723,8 @@ export default component$(() => {
                                                         {panel:' MULTILINGUES ',position:'top',description:'Tenemos operadores'}
                                                     ]}/>
                                                 </div>
-                                                <div id={'table-mobile'} class='mobile'>
-                                                    <BoardSolari mobile words={[
+                                                <div id={'table-mobile'} class='mobile' style={{marginLeft:'-1px'}}>
+                                                    <BoardSolari  id={'table-mobile'} mobile words={[
                                                         {panel:['  +DE  ','   9M  '],position:'bottom',description:'de personas protegidas por nuestros planes'},
                                                         {panel:['  +DE  ','  25K  '],position:'bottom',description:'aliados en todo el mundo para atendere y acompañarte'},
                                                         {panel:['  +DE  ',' 4.5K  '],position:'bottom',description:'empresas confían en nosotros'},

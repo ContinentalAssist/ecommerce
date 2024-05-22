@@ -7,16 +7,12 @@ import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
-
-import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
-import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
-import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
-
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsWompi {
-    loading : PropFunction<() => void>
+    setLoading: (loading: boolean) => void;
+
 }
 
 export default component$((props:propsWompi) => {
@@ -36,9 +32,8 @@ export default component$((props:propsWompi) => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const loading = useSignal(true)
     const urlvoucher = useSignal(array)
-    const attempts = useSignal(0)
+    const attempts = useSignal(stateContext.value.attempts||0)
     const formPayment = useSignal('')
     const qr = useSignal(obj)
     const cash = useSignal(obj)
@@ -46,6 +41,7 @@ export default component$((props:propsWompi) => {
     const transfers = useSignal(obj)
     const pse = useSignal(obj)
     const institutions = useSignal(array)
+
 
     useTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -87,7 +83,7 @@ export default component$((props:propsWompi) => {
                 
                 formPayment.value = 'CARD'
 
-                props.loading()
+                props.setLoading(false)
             }
         }
     })
@@ -162,7 +158,6 @@ export default component$((props:propsWompi) => {
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
-                console.log('dataPay', dataPay);
                 
                 
                 if(dataPay?.resultado[0].wompiIdTransaccion)
@@ -178,7 +173,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'BANCOLOMBIA_QR'
-                props.loading()
+                props.setLoading(false)
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_TRANSFER')
             {
@@ -220,7 +215,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'NEQUI'
-                props.loading()
+                props.setLoading(false)
             }
             else if(stateContext.value.wompiTipo == 'PSE')
             {
@@ -242,7 +237,7 @@ export default component$((props:propsWompi) => {
                     }
 
                     formPayment.value = 'PSE'
-                    props.loading()
+                    props.setLoading(false)
                 }
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_COLLECT')
@@ -275,7 +270,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'BANCOLOMBIA_COLLECT'
-                props.loading()
+                props.setLoading(false)
             }
         }
         else
@@ -343,16 +338,17 @@ export default component$((props:propsWompi) => {
 
     const getPayment$ = $(async() => {
         const bs = (window as any)['bootstrap']
-        const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        const modalError = new bs.Modal('#modalError',{})
+        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
+        //const modalError = new bs.Modal('#modalError',{})
         // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        //const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
+        props.setLoading(true);
         let error = false
         let errorInvoicing = false
         
@@ -436,7 +432,6 @@ export default component$((props:propsWompi) => {
                     return(res.json())
                 })
 
-            console.log(resToken)
             wToken.value = resToken?.data?.id
 
             const newPaxs : any[] = []
@@ -455,7 +450,6 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
 
-            console.log(resume.value.asegurados)
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -508,13 +502,14 @@ export default component$((props:propsWompi) => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            console.log(dataPay);
+            
             resPayment = dataPay
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado
-                loading.value = false;
+                urlvoucher.value = resPayment.resultado;
+                //loading.value = false;
+                props.setLoading(false);
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -537,25 +532,33 @@ export default component$((props:propsWompi) => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-                modalSuccess.show()
+               // modalSuccess.show()
+               stateContext.value.urlvoucher =urlvoucher.value
+               stateContext.value.typeMessage = 1
+               await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
-                    loading.value = false;
-                    modalError.show()
+                    //loading.value = false;
+                    //modalError.show()
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
                 }
                 else
                 {
-                    loading.value = false;
-                    modalErrorAttemps.show()
+                   // loading.value = false;
+                    //modalErrorAttemps.show()
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)
+                stateContext.value.attempts =attempts.value
             }
 
-            loading.value = true
+            //loading.value = true
         }
     })
 
@@ -781,7 +784,6 @@ export default component$((props:propsWompi) => {
                 wompiFinancialInstitutionCodePSE : dataForm.institution
             }
 
-            console.log(wompiRequest)
 
             Object.assign(dataRequest,wompiRequest)
 
@@ -1063,7 +1065,7 @@ export default component$((props:propsWompi) => {
                     </div>
                 </div>
             </div>
-            <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
+            {/* <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border border-success">
                         <div class='modal-header text-center' style={{display:'block'}}>
@@ -1186,7 +1188,7 @@ export default component$((props:propsWompi) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 })

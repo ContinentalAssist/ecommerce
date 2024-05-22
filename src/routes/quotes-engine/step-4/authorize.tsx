@@ -1,23 +1,24 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-// import { useNavigate } from "@builder.io/qwik-city";
+import type { PropFunction } from '@builder.io/qwik'
+import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
-import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
-import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
-import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
-
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
-export default component$(() => {
+export interface propsAuthorize {
+    setLoading: (loading: boolean) => void;
+}
+
+export default component$((props:propsAuthorize) => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
-    // const navigate = useNavigate()
+     const navigate = useNavigate()
 
     const array : any[] = []
     const obj : {[key:string]:any} = {}
@@ -32,9 +33,8 @@ export default component$(() => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const loading = useSignal(true)
     const urlvoucher = useSignal(array)
-    const attempts = useSignal(0)
+    const attempts = useSignal(stateContext.value.attempts|| 0)
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -62,20 +62,24 @@ export default component$(() => {
             {
                 newYears.push({value:String(index),label:String(index)})
             }
-                    
+            
             years.value = newYears
+            props.setLoading(false)
         }
+       // props.loading()        
     })
 
-    useVisibleTask$(() => {
-        if(Object.keys(stateContext.value).length > 0)
+    useVisibleTask$(() => {        
+        if(Object.keys(stateContext?.value).length > 0)
         {
             resume.value = stateContext.value
-            loading.value = false
+            //loading.value = false
+            props.setLoading(false)
         }
         else
         {
-            loading.value = false
+           // loading.value = false
+            props.setLoading(false)
             // navigate('/quotes-engine/step-1')
         }
     })
@@ -139,17 +143,17 @@ export default component$(() => {
 
     const getPayment$ = $(async() => {
         const bs = (window as any)['bootstrap']
-        const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        const modalError = new bs.Modal('#modalError',{})
+        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
+        //const modalError = new bs.Modal('#modalError',{})
         // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        ///const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
-    
+        props.setLoading(true)
         let error = false
         let errorInvoicing = false
         
@@ -214,7 +218,7 @@ export default component$(() => {
 
         if(error == false)
         {
-            loading.value = true
+           // loading.value = true
 
             const newPaxs : any[] = []
 
@@ -287,8 +291,8 @@ export default component$(() => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado
-                loading.value = false;
+                urlvoucher.value = resPayment.resultado;
+                props.setLoading(false);
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -311,7 +315,10 @@ export default component$(() => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-                modalSuccess.show()
+               // modalSuccess.show()
+               stateContext.value.urlvoucher =urlvoucher.value
+               stateContext.value.typeMessage = 1
+               await navigate('/quotes-engine/message')
             }
             else
             {
@@ -341,7 +348,7 @@ export default component$(() => {
                     // }
                     // else
                     // {
-                        loading.value = false;
+                        //props.setLoading(false)
 
                         // (window as any)['dataLayer'].push({
                         //     'event': 'TrackEvent',
@@ -359,12 +366,14 @@ export default component$(() => {
                         //     'Método de pago': dataForm.tdcnumero
                         // });
         
-                        modalError.show()
+                        //modalError.show()
+                        stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
                     // }
                 }
                 else
                 {
-                    loading.value = false;
+                   // props.setLoading(false)
 
                     // (window as any)['dataLayer'].push({
                     //     'event': 'TrackEvent',
@@ -382,10 +391,13 @@ export default component$(() => {
                     //     'Método de pago': dataForm.tdcnumero
                     // });
 
-                    modalErrorAttemps.show()
+                    //modalErrorAttemps.show()
+                    stateContext.value.typeMessage = 3
+                    await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)
+                stateContext.value.attempts =attempts.value
             }
         }
     })
@@ -434,6 +446,8 @@ export default component$(() => {
                         <CardPaymentResume>
                              <div class='row justify-content-center'>
                                 <div class='col-lg-12'>
+                                <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+
                                     <Form
                                         id='form-payment-method'
                                         form={[
@@ -508,7 +522,7 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-            <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
+            {/* <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border border-success">
                         <div class='modal-header text-center' style={{display:'block'}}>
@@ -631,7 +645,7 @@ export default component$(() => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 })

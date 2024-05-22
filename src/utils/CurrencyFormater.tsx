@@ -19,12 +19,13 @@ export default function CurrencyFormatter(currency:string,value:number)
         //     maximumFractionDigits:fractionDigits
         // })
 
+
     let newValue = Intl.NumberFormat('es-MX',{
         style:'currency',
         minimumFractionDigits:fractionDigits,
         maximumFractionDigits:fractionDigits,
         currencyDisplay:'code',
-        currency:currency
+        currency:currency||'USD'
     }).format(value)
 
     newValue = newValue.replace(/[a-z]{3}/i, "").trim()

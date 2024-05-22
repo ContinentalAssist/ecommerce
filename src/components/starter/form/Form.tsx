@@ -11,6 +11,8 @@ interface propsInput
 }
 
 export const Input = (props:propsInput) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
     const validateKeyUp$= $((target: any) => {
         
         if ((target.type == 'text') && (target.dataset.textonly === 'true')) 
@@ -61,6 +63,7 @@ export const Input = (props:propsInput) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onKeyUp$={e=>validateKeyUp$(e.target)}
+                        {...dataAttributes}
                     />
                     <label 
                         class='form-label text-bold text-dark-gray' 
@@ -79,6 +82,8 @@ interface propsInputDate {
 }
 
 export const InputDate = (props:propsInputDate) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
     return(
         <div class='input-basic text-center'>
             <div class='input-group'>
@@ -125,6 +130,7 @@ export const InputDate = (props:propsInputDate) => {
                             }
                         }
                         value={props.value}
+                        {...dataAttributes}
                     />
                     <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                 </div>
@@ -140,6 +146,8 @@ interface propsInputMail
 }
 
 export const InputMail = (props:propsInputMail) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
     const validateBlur$= $((target: any)=>{
         const input = document.querySelector('#'+target.id) as HTMLInputElement
 
@@ -192,6 +200,7 @@ export const InputMail = (props:propsInputMail) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onBlur$={e=>validateBlur$(e.target)}
+                        {...dataAttributes}
                         
                     />
                     <label 
@@ -215,6 +224,8 @@ interface propsInputPhone
 }
 
 export const InputPhone = (props:propsInputPhone) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
     const validateBlur$= $((target: any)=>{
         const input = document.querySelector('#'+target.id) as HTMLInputElement
 
@@ -267,7 +278,7 @@ export const InputPhone = (props:propsInputPhone) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onBlur$={e=>validateBlur$(e.target)}
-                        
+                        {...dataAttributes}
                     />
                     
                     <label 
@@ -291,22 +302,19 @@ interface propsInputNumber
 }
 
 export const InputNumber = (props:propsInputNumber) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
     const validateKeyUp$= $((target: any) => {
         
         if ((target.type == 'number') ) 
         {
             const input = document.querySelector('#'+target.id) as HTMLInputElement
             input.value = String(input.value);
-            /* const regex = new RegExp(/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g)
-            
-            if(regex.test(input.value)){
-                input.value = String(input.value);
-            }else{
-                let str= input.value;
-                str = str.slice(0, -1);
-                input.value= str;
-
-            } */
+        }
+        else
+        {
+            const input = document.querySelector('#'+target.id) as HTMLInputElement
+            input.classList.add('is-invalid')
+            input.focus()
         }
     }) 
 
@@ -341,6 +349,7 @@ export const InputNumber = (props:propsInputNumber) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onKeyUp$={e=>validateKeyUp$(e.target)}
+                        {...dataAttributes}
                     />
                     <label 
                         class='form-label text-bold text-dark-gray' 
@@ -398,7 +407,7 @@ export const Form = component$((props:propsForm) => {
         }
     })  */
 
-    const validateBlur$= $((target: any)=>{
+    /* const validateBlur$= $((target: any)=>{
         const input = document.querySelector('#'+target.id) as HTMLInputElement
 
          if(input.type === 'tel')
@@ -449,7 +458,7 @@ export const Form = component$((props:propsForm) => {
             }
         }
 
-    })
+    }) */
 
     return(
         <form id={props.id} class='needs-validation' noValidate autoComplete='off'>
@@ -460,6 +469,7 @@ export const Form = component$((props:propsForm) => {
                             <div key={rIndex} class='row row-mobile'>
                                 {
                                     rowInput.row.map((columnInput,iIndex) => {
+                                        const dataAttributes = columnInput.dataAttributes ? { ...columnInput.dataAttributes } : {};
                                         if(columnInput.type === 'textarea')
                                         {
                                             return(
@@ -480,7 +490,7 @@ export const Form = component$((props:propsForm) => {
                                                     <label class='form-label text-regular text-'>
                                                         {columnInput.label} 
                                                     </label>
-                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} >
+                                                    <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} {...dataAttributes}>
                                                         <option value='' selected={true} disabled={true}></option>
                                                         {
                                                             columnInput.options.map((option:any,index:number) => {

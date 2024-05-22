@@ -65,8 +65,8 @@ export default component$(() => {
     //     stateContext.value = {}
     // })
 
-    const getLoading$ = $(() => {
-        loading.value = false
+    const getLoading$ = $((status:boolean) => {        
+        loading.value = status
     })
    
     return(
@@ -85,23 +85,22 @@ export default component$(() => {
                                 <div class='col-lg-10 text-center mt-5'>
                                     <h1 class='text-semi-bold text-blue'>Método de pago</h1>
                                     <hr class='divider my-3'/>
-                                   {/*  <h5 class='text-dark-gray mb-4'>Ingresa la información de tu tarjeta</h5> */}
                                 </div>
                             </div>
                             {
                                 formPayment.value == 'wompi'
                                 &&
-                                <Wompi loading={getLoading$}/>
+                                <Wompi setLoading={getLoading$}/>
                             }
                             {
                                 formPayment.value == 'openPay'
                                 &&
-                                <OpenPay loading={getLoading$}/>
+                                <OpenPay setLoading={getLoading$}/>
                             }
                             {
                                 formPayment.value == 'authorize'
                                 &&
-                                <Authorize/>
+                                <Authorize setLoading={getLoading$}/>
                             }
                         </div>
                     </div>

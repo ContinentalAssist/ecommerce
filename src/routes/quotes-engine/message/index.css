@@ -1,0 +1,32 @@
+.bg-message{
+    background-color: #FAFAFA;
+}
+/* Override for small devices */
+@media  (max-width: 767.98px) {
+    .img-ticket{
+        margin-top: 0px;
+        margin-left: -15px;
+        width: 108%;
+        min-width: 305px;
+    }
+    #card-pax
+    {
+        margin-top: -20px;
+    }
+   }
+
+
+/* Override for large devices */
+@media (min-width: 768px) {
+    .img-ticket{
+      
+        width: 100%;
+    }
+
+    #card-pax
+    {
+        margin-top: -20px;
+        max-width: 90%;
+        margin-left: 30px;
+    }
+   }

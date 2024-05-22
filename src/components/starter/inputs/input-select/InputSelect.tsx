@@ -106,6 +106,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                             }}
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
+                            {...props.dataAttributes}
                         />
                         <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                     </div>

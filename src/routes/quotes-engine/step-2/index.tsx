@@ -113,11 +113,11 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             </div>
                         </div>
                     </div>
-                    <div class='col-lg-1  col-xs-6 text-end '/* align-items-end */>
-                        {/* <div class='d-grid gap-2'> */}
+{/*                     <div class='col-lg-1  col-xs-6 text-end align-items-end'>
+                        <div class='d-grid gap-2'>
                             <button type='button' class='btn btn-link text-regular text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
-                        {/* </div> */}
-                    </div>
+                        </div>
+                    </div> */}
                 </div>
                 :
                 <>
@@ -288,7 +288,7 @@ export default component$(() => {
         resume.value = stateContext.value
     })
 
-    useVisibleTask$(async() => {
+    useVisibleTask$(async() => {        
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
@@ -932,8 +932,19 @@ export default component$(() => {
                             <div class='col-12'>
                                 <div class='container'>
                                     <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
-                                        <div class='col-md-3 text-end'>
+                                        
+                                        <div class='col-md-3'>
                                             <QuotesEngineSteps active={2} name={'Complementos'} steps={5}/>
+                                        </div>
+                                        <div class='col-md-2 align-self-center text-center'>
+                                            <div class='icons' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px',margin:'0px'}} >
+                                                <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'10px'}}/>
+                                                <span class='text-bold text-dark-blue'>                                                 
+                                                {
+                                                totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
+                                                }
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class='col-md-2 text-end'>
                                             <SwitchDivisa
@@ -950,17 +961,31 @@ export default component$(() => {
                 </div>
             </div>
 
-            <div class='row mobile  text-center' >
+            <div class='row mobile  text-center justify-content-center align-items-center' >
             <hr class='m-0' />
                 <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
                     <QuotesEngineSteps active={1} name={'Planes'} steps={5}/>
                 </div>
-                <div class='col-xs-12 ' style={{padding:'20px'}}>
+                <div class="col-xs-12 d-flex justify-content-center align-items-center">
+
+                <div class='col-xs-5' >
+                    <div class="icons" style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px',margin:'0px'}} >
+
+                    <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'10px'}}/>
+                    <span class='text-bold text-dark-blue'>                                                 
+                    {
+                    totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
+                    }
+                    </span>
+                    </div>
+                </div>
+                <div class='col-xs-5' >
                     <SwitchDivisa
                         labels={['USD',stateContext.value?.currentRate?.code]}
                         value={stateContext.value.divisaManual ? 'base' : 'local'}
                         onChange={$((e:any) => {changeDivisa$(e)})}
                     />
+                </div>
                 </div>
               
             </div>
