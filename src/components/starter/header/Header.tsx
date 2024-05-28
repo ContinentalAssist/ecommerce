@@ -13,15 +13,21 @@ export const Header = component$(() => {
     const showBtn = useSignal(false)
     const showLink = useSignal(false)
 
-    useTask$(() => {
+    useTask$(() => {        
         if(location.url.pathname != '/' && !location.url.pathname.includes('quotes-engine'))
         {
             showLink.value = true
         }
+        else
+        {
+            showBtn.value = false
+            showLink.value = false
+        }
     })
 
     useOnWindow('scroll',$(() => {
-        if(location.url.pathname == '/')
+        
+        if(location.url.pathname == '/'&& !location.url.pathname.includes('quotes-engine'))
         {
             const navbar = document.querySelector('.navbar') as HTMLElement
             const page = document.querySelector('body') as HTMLElement
@@ -43,6 +49,9 @@ export const Header = component$(() => {
             {
                 showBtn.value = false
             }
+        }else{
+            showBtn.value = false
+            showLink.value = false
         }
     }))
 

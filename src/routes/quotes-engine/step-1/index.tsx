@@ -15,6 +15,7 @@ import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-e
 import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline'
+import { QuotesEngine } from "~/components/starter/quotes-engine/QuotesEngine";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -104,7 +105,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                 </div>
                 :
                 <>
-                    <div class='row'>
+                    {/* <div class='row'>
                         <div class='col-lg-4 mt-3'>
                             <Form
                                 id='form-step-1-0'
@@ -185,7 +186,8 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                 ]}
                             />
                         </div>
-                    </div>
+                    </div> */}
+                    <QuotesEngine setLoading={props.loading}/>
                     <div class='row justify-content-center mt-2'>
                         <div class='col-lg-2 col-6'>
                             <div class='d-grid gap-2'>
@@ -530,7 +532,8 @@ export default component$(() => {
 
         if(showForm.value === true)
         {
-            if(Object.keys(stateContext.value).length > 0)
+            loading.value= true
+/*             if(Object.keys(stateContext.value).length > 0)
             {
                 setTimeout(() => {
                     const form = document.querySelector('#form-step-1-0') as HTMLFormElement
@@ -549,7 +552,7 @@ export default component$(() => {
                         }
                     })
                 },500) 
-            }
+            } */
         }
     })
 
@@ -573,6 +576,11 @@ export default component$(() => {
         }
     })
 
+    const getLoading$ = $((status:boolean) => {        
+        loading.value = status
+    })
+   
+
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
             {
@@ -594,6 +602,7 @@ export default component$(() => {
                         changeDateStart={changeDateStart$}
                         changeDateEnd={changeDateEnd$}
                         getQuotesEngine={getQuotesEngine$}
+                        loading={getLoading$}
                     />
                 </div>
             </div>

@@ -662,7 +662,7 @@ export default component$((props:propsOP) => {
                             
                         }
 
-{
+                        {
                              formPayment.value == 'BANK_ACCOUNT'
                              &&
                              <div class="row">

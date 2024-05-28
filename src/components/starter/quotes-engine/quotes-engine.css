@@ -95,3 +95,13 @@
         font-size: 22px;
     }
 } */
+
+@media  (max-width: 767.98px) {
+    .drop-paxs .dropdown-menu{
+        border: none !important;
+    }
+    .drop-select .dropdown-menu{
+        border: none !important;
+    }
+   }
+  

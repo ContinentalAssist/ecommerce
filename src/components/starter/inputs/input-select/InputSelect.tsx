@@ -19,17 +19,22 @@ export const InputSelect = component$((props:propInputSelect) => {
 
     useTask$(() => {
         prevOptions.value = props.options
-        options.value = props.options
+        options.value = props.options      
     })
 
     const getOptions$ = $((value:any) => {
-        props.options.map(item => {
+        const arrayObjects= [...props.options]
+        arrayObjects.map(item => {
             if(item.value == value)
             {
                 defaultValue.value = item.label
                 datasetValue.value = item.value
             }
         })
+       
+      /*   const findItem= arrayObjects.find(item=> item.value == value)
+        defaultValue.value = findItem.label
+        datasetValue.value = findItem.value */
     })
 
     useVisibleTask$(() => {
@@ -90,8 +95,9 @@ export const InputSelect = component$((props:propInputSelect) => {
                             required={props.required} 
                             value={defaultValue.value}
                             data-value={datasetValue.value}
+//                            data-label={defaultValue.value}
                             onKeyUp$={(e) => getFiltertList$(e)}
-                            readOnly={readOnly.value}
+                            //readOnly={readOnly.value}
                             placeholder={props.label}
                             onChange$={(e) => {
                                 if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))

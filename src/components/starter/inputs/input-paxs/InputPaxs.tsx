@@ -15,7 +15,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
 
     useVisibleTask$(() => {
         if(props.value)
-        {
+        {            
             const newTotalstring = (props.value[22] > 0 ? props.value[22] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
             totalPaxsString.value = newTotalstring
             totalPaxsNumber.value = props.value
@@ -55,7 +55,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         const newTotalstring = (totalString[0] > 0 ? totalString[0]+' Niño(s) y joven(es) ' : '') + (totalString[1] > 0 ? totalString[1]+' Adulto(s) ' : '') + (totalString[2] > 0 ? totalString[2]+' Adulto(s) mayor(es) ' : '')
         totalPaxsString.value = newTotalstring
         totalPaxsNumber.value = totalNumber
-
+        
+        props.onChange !== undefined && props.onChange({label:totalPaxsString.value, value:totalPaxsNumber.value});
         // dropdown.hide()
     })
 

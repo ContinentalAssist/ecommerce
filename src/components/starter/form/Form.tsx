@@ -59,6 +59,7 @@ export const Input = (props:propsInput) => {
                         max={props.max} 
                         maxLength={props.maxLength} 
                         onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        onClick$={(e) => {props.onClick && props.onClick(e)}}
                         value={props.value}
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
@@ -509,10 +510,7 @@ export const Form = component$((props:propsForm) => {
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <InputPaxs
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        required={columnInput.required}
-                                                        value={columnInput.value}
-                                                        icon={columnInput.icon}
+                                                         {...columnInput}
                                                     />
                                                 </div>
                                             )
@@ -577,7 +575,7 @@ export const Form = component$((props:propsForm) => {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
                                                    <InputNumber
-                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     /> 
                                                 </div>
@@ -588,7 +586,7 @@ export const Form = component$((props:propsForm) => {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
                                                     <Input
-                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     />                                                   
                                                 </div>
