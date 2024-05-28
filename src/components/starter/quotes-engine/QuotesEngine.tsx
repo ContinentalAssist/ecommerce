@@ -5,7 +5,7 @@ import styles from './quotes-engine.css?inline'
 import { WEBContext } from "~/root";
 
 export interface propsQE {
-    setLoading: (loading: boolean) => void;
+    [key:string] : any
 }
 
 export const QuotesEngine = component$((props:propsQE) => {

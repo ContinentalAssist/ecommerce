@@ -379,6 +379,10 @@ export default component$(() => {
         });
     })
 
+    const getLoading$ = $((status:boolean) => {        
+        //loading.value = status
+    })
+
     return (
         <div class='container-fluid p-0'>
             {
