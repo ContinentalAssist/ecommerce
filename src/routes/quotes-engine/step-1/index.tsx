@@ -1,14 +1,11 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
-import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
 import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
-
-import ImgContinentalAssistStar from '~/media/icons/continental-assist-star.webp?jsx';
 import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
 import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
 import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
@@ -187,7 +184,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             />
                         </div>
                     </div> */}
-                    <QuotesEngine setLoading={props.loading}/>
+                    <QuotesEngine setLoading={props.loading} isMobile={props.isMobile}/>
                     <div class='row justify-content-center mt-2'>
                         <div class='col-lg-2 col-6'>
                             <div class='d-grid gap-2'>
@@ -407,6 +404,11 @@ export default component$(() => {
         newDataForm.paisesdestino = []
 
         forms.map((form,index) => {
+            inputs.map((input) => {
+                if ((input as HTMLInputElement).readOnly == true) {
+                    (input as HTMLInputElement).removeAttribute('readonly');
+                    //input.setAttribute('readonly', '');
+                }})
             if(!form.checkValidity())
             {
                 form.classList.add('was-validated')
@@ -603,6 +605,7 @@ export default component$(() => {
                         changeDateEnd={changeDateEnd$}
                         getQuotesEngine={getQuotesEngine$}
                         loading={getLoading$}
+                        isMobile={stateContext.value.isMobile}
                     />
                 </div>
             </div>

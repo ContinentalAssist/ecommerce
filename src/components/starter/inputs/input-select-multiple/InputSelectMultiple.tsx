@@ -71,7 +71,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         }
     })
 
-    const getLastOption$ = $(() => {
+/*     const getLastOption$ = $(() => {
         if(defaultValue.value.length > 0)
         {
             defaultValue.value.map((val,iVal) => {
@@ -83,9 +83,9 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
 
             defaultValue.value.push('')
         }
-    })
+    }) */
 
-    const geFiltertList$ = $((e:any) => {
+    /* const geFiltertList$ = $((e:any) => {
         if(e.target.value == '')
         {
             options.value = prevOptions.value
@@ -114,7 +114,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 options.value = newList
             }
         }
-    })
+    }) */
 
     return(
         <></>

@@ -1,5 +1,4 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import type { PropFunction } from '@builder.io/qwik'
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
@@ -337,7 +336,7 @@ export default component$((props:propsWompi) => {
     })
 
     const getPayment$ = $(async() => {
-        const bs = (window as any)['bootstrap']
+        //const bs = (window as any)['bootstrap']
         //const modalSuccess = new bs.Modal('#modalConfirmation',{})
         //const modalError = new bs.Modal('#modalError',{})
         // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
@@ -585,13 +584,13 @@ export default component$((props:propsWompi) => {
         }
     })
 
-    const closeQuote$ = $(() => {
+  /*   const closeQuote$ = $(() => {
         const bs = (window as any)['bootstrap']
         const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
         modalErrorAttemps.hide()
 
         stateContext.value = {}
-    })
+    }) */
 
     const getPhoneNequi$ = $(async() => {
         let error = false

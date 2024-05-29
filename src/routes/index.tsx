@@ -1,4 +1,4 @@
-import { $, component$, useContext, useOnDocument, useSignal, useStylesScoped$, useVisibleTask$ } from '@builder.io/qwik';
+import { $, component$, useContext, useOnDocument, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { useLocation, useNavigate } from '@builder.io/qwik-city';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
@@ -68,6 +68,7 @@ export default component$(() => {
     const destinations = useSignal(array)
     const loading = useSignal(true)
     const terms = useSignal(false)
+    const isMobile=useSignal(false)
     const benefits = useSignal([
         {
             "idplan": 2946,
@@ -85,8 +86,11 @@ export default component$(() => {
             "beneficiosasignados": []
         }
     ])
+    useVisibleTask$(()=>{
+        isMobile.value = stateContext.value.isMobile
+    })
 
-    useVisibleTask$(async() => {
+    useVisibleTask$(async() => {    
         if(location.url.search != '')
         {
             stateContext.value.ux = location.url.search.split('=')[1]
@@ -233,14 +237,17 @@ export default component$(() => {
         const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
         const forms = Array.from(quotesEngine.querySelectorAll('form'))
         const inputs = Array.from(document.querySelectorAll('input,select'))
-
         const error = [false,false,false]
         const newDataForm : {[key:string]:any} = {}
         newDataForm.edades = []
         newDataForm.paisesdestino = []
 
         forms.map((form,index) => {
-            inputs.map((input) => {
+            inputs.map((input) => {                
+                if ((input as HTMLInputElement).readOnly == true) {
+                    (input as HTMLInputElement).removeAttribute('readonly');
+                    //input.setAttribute('readonly', '');
+                }
                 if(input.classList.value.includes('form-control-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
                 {
                     (input as HTMLInputElement).classList.add('is-invalid')
@@ -379,9 +386,6 @@ export default component$(() => {
         });
     })
 
-    const getLoading$ = $((status:boolean) => {        
-        //loading.value = status
-    })
 
     return (
         <div class='container-fluid p-0'>
@@ -410,7 +414,7 @@ export default component$(() => {
                                 </h2>
                                 <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
-                                    <QuotesEngine/>
+                                    <QuotesEngine isMobile={isMobile.value}/>
                                     <div class='container mt-3'>
                                         <div class='row row-mobile justify-content-center'>
                                             <div class='col-lg-3 col-sm-6 col-xs-6'>

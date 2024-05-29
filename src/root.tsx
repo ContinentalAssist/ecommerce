@@ -18,6 +18,14 @@ export default component$(() => {
     
     useContextProvider(WEBContext,resumeQuote)
 
+    useVisibleTask$(()=>{
+        if (/mobile/i.test(navigator.userAgent)) {
+            resumeQuote.value = { ...resumeQuote.value, isMobile: true }
+        }else{
+            resumeQuote.value = { ...resumeQuote.value, isMobile: false }
+        }
+    })
+
     useVisibleTask$(async() => {
         let convertionRate: number;
         let currency: string;

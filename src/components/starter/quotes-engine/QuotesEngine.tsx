@@ -17,7 +17,6 @@ export const QuotesEngine = component$((props:propsQE) => {
     const destinations = useSignal(array)
     const dateStart = useSignal('')
     const dateEnd = useSignal('')
-    const isMobile = useSignal(false)
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)
 
@@ -48,13 +47,9 @@ export const QuotesEngine = component$((props:propsQE) => {
     })
 
     useVisibleTask$(() => {
-        
         dateStart.value = new Date().toISOString().substring(0, 10)
         dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
 
-        if(navigator.userAgent.includes('Mobile')){
-            isMobile.value = true
-        }
         resume.value = stateContext.value
       
         
@@ -69,7 +64,10 @@ export const QuotesEngine = component$((props:propsQE) => {
 
         const bs = (window as any)['bootstrap']
         const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputOrigin.id,{})
-        dropdownOrigin.hide()
+        if (dropdownOrigin != null) {
+            dropdownOrigin.hide()
+        }
+       
 
         list.map((item) => {
             if(item.value === Number(e.value) && e.value !== 11)
@@ -84,8 +82,7 @@ export const QuotesEngine = component$((props:propsQE) => {
         
         const dropdownDestinations = new bs.Dropdown('#dropdown-toggle-'+inputDestinations.id,{})
         dropdownDestinations.show()
-
-        if (isMobile.value == true) {
+        if (props.isMobile == true) {
             const formPrev = document.querySelector('#form-step-prev-1-0') as HTMLFormElement
             const inputPrevOrigin = formPrev.querySelector('#form-step-prev-1-0-input-0-0') as HTMLInputElement
             inputPrevOrigin.value = e.label;
@@ -96,19 +93,22 @@ export const QuotesEngine = component$((props:propsQE) => {
     const changeDateStart$ = $(() => {
         const form = document.querySelector('#form-step-1-1') as HTMLFormElement
         const inputDateStart = form.querySelector('input[name=desde]') as HTMLInputElement
-        const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement
-      
+        const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement       
         const formatDateStart = inputDateStart.value.replaceAll('-','/')
-
+        if (formatDateStart !== '') {
         inputDateEnd.min = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+2)).toISOString().substring(0,10)
         inputDateEnd.max = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+365)).toISOString().substring(0,10)
         
         inputDateEnd.focus()
         inputDateEnd.showPicker()
-        if (isMobile.value) {
+        }
+        
+       
+        
+        if (props.isMobile) {
             const formPrev = document.querySelector('#form-step-prev-1-1') as HTMLFormElement
             const inputPrevDateStart = formPrev.querySelector('#form-step-prev-1-1-input-0-0') as HTMLInputElement
-            inputPrevDateStart.value = String(formatDateStart);
+            inputPrevDateStart.value = String(formatDateStart)||'';
         }
     })
 
@@ -119,7 +119,7 @@ export const QuotesEngine = component$((props:propsQE) => {
 
         dateEnd.value = inputDateEnd.value
 
-        if (isMobile.value) {
+        if (props.isMobile == true) {
             const formPrev = document.querySelector('#form-step-prev-1-1') as HTMLFormElement
             const inputPrevDateEnd = formPrev.querySelector('#form-step-prev-1-1-input-0-1') as HTMLInputElement
             inputPrevDateEnd.value = String(formatDateEnd);
@@ -150,7 +150,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     })
 
     const changeDestinations$=$((e:any)=>{
-        if (isMobile.value) {
+        if (props.isMobile) {
             const formPrev = document.querySelector('#form-step-prev-1-0') as HTMLFormElement
             const inputPrevOrigin = formPrev.querySelector('#form-step-prev-1-0-input-0-1') as HTMLInputElement
             inputPrevOrigin.value = e.label.join(",");
@@ -158,7 +158,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     })
 
     const changePax$=$((e:any)=>{
-        if (isMobile.value) {
+        if (props.isMobile) {
             const formPrev = document.querySelector('#form-step-prev-1-2') as HTMLFormElement
             const inputPrevPax = formPrev.querySelector('#form-step-prev-1-2-input-0-0') as HTMLInputElement
             inputPrevPax.value = e.label;
@@ -170,7 +170,7 @@ export const QuotesEngine = component$((props:propsQE) => {
         <div class='container' id='quotes-engine'>
             <div class='row'>
                 {
-                isMobile.value == false&&
+                props.isMobile == false&&
                 <>
                 <div class='col-lg-4'>
                     <h3 class='text-semi-bold mb-sm-4'>¿A dónde viajas?</h3>
@@ -258,7 +258,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                 }
 
                 {
-                isMobile.value == true&&
+                props.isMobile == true&&
                 <>
                 <div class='col-lg-4'>
                     <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿A dónde viajas?</h3>
@@ -304,7 +304,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     required:true,
                                     icon:'calendar',
                                     onClick:onClickInput$,
-                                    value:resume.value.desdeprev
+                                    value:resume.value.desdeprev,
+                                    readOnly:true,
+                                    tabIndex:-1
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
@@ -314,8 +316,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     required:true,
                                     icon:'calendar',
                                     onClick:onClickInput$,
-                                    value:resume.value.hastaprev
-                                }
+                                    value:resume.value.hastaprev,
+                                    readOnly:true,
+                                    tabIndex:-1
+                                },
                             ]}
                         ]}
                     />
@@ -334,7 +338,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     onClick:onClickInput$,
                                     required:true,
                                     icon:'plane-departure',   
-                                    value:resume.value.pasajerosprev                            
+                                    value:resume.value.pasajerosprev,
+                                    readOnly:true,                          
                                 },
                             ]}
                         ]}
@@ -345,7 +350,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             </div>
 
             {
-            isMobile.value == true&&
+            props.isMobile == true&&
             <div id="modal-mobile-travel" class="modal fade modal-fullscreen-xs-down" >
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
@@ -397,7 +402,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             }
 
             {
-            isMobile.value == true&&
+            props.isMobile == true&&
             <div id="modal-mobile-dates" class="modal fade modal-fullscreen-xs-down" >
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
@@ -448,7 +453,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             }
 
             {
-            isMobile.value == true&&
+            props.isMobile == true&&
             <div id="modal-mobile-pax" class="modal fade modal-fullscreen-xs-down" >
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
@@ -471,7 +476,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         icon:'user-plus',
                                         onChange:$((e:any) => {changePax$(e)}),
                                         value:{[22]:resume.value[22]||0,[70]:resume.value[70]||0,[85]:resume.value[85]||0},
-                                
+                                        readOnly:true
                                     }
                                 ]}
                             ]}

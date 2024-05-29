@@ -1,7 +1,6 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
-import { useLocation } from '@builder.io/qwik-city';
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
@@ -23,18 +22,12 @@ export const head: DocumentHead = {
         {rel:'canonical',href:'https://continentalassist.com/quotes-engine/message'},
     ],
 }
-interface propsMessage {
-    [typeMessage:string]:any
-}
 
-export default component$((props:propsMessage) => {
+
+export default component$(() => {
     useStylesScoped$(styles)
-    const loc = useLocation();
     const stateContext = useContext(WEBContext)
     const navigate = useNavigate()
-
-    const typeMessage = useSignal(0)
-    const divisaManual = useSignal(stateContext.value.divisaManual)
     const loading = useSignal(false)
     const obj : {[key:string]:any} = {}
     const resume = useSignal(obj)
@@ -69,9 +62,9 @@ export default component$((props:propsMessage) => {
     })
 
 
-    const getLoading$ = $(() => {
+  /*   const getLoading$ = $(() => {
         loading.value = false
-    })
+    }) */
 
     const redirectHome$ = $(() => {
         navigate('/');

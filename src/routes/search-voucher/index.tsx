@@ -41,7 +41,7 @@ export default component$(() => {
         const inputs = Array.from(form.querySelectorAll('input,select'))
         const dataForm : {[key:string]:any} = {}
         let error = false
-        
+        voucher.value=objVoucher
         if(!(form).checkValidity())
         {
             form.classList.add('was-validated')
@@ -138,12 +138,12 @@ export default component$(() => {
                 </div>
                 <div id='modalVoucher' class="modal fade">
                     <div class="modal-dialog modal-xl modal-dialog-scrollable modal-dialog-centered">
-                        <div class="modal-content">
+                        <div class="modal-content" style={{ height:'90vh', maxHeight:'90vh'}}>
                             <div class="modal-header">
                                 <ImgContinentalAssistPlane class='img-fluid' title='continental-assist-plane' alt='continental-assist-plane'/>
                                 <h2 class='text-semi-bold text-white'>{voucher.value.codigovoucher}</h2>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style={{height:'90vh' ,maxHeight:'90vh'}}>
                                 <div class='container p-0'>
                                     <div class='row'>
                                         <div class='col-lg-12'>
@@ -237,6 +237,8 @@ export default component$(() => {
                                             </div>
                                         </div>
                                     </div>
+                                    {
+                                    voucher.value.contactos.length>0&&
                                     <div class='row'>
                                         <div class='col-lg-12'>
                                             <div class='table-responsive'>
@@ -249,7 +251,7 @@ export default component$(() => {
                                                     <tbody>
                                                         <tr>
                                                             <td class='text-dark-gray' colSpan={3}>
-                                                                <span class='text-semi-bold text-blue'>{voucher.value.contactos[0].nombrecontacto} </span>
+                                                                <span class='text-semi-bold text-blue'>{voucher.value?.contactos[0].nombrecontacto} </span>
                                                                 {voucher.value.contactos[0].apellidobcontacto}
                                                             </td>
                                                         </tr>
@@ -262,6 +264,7 @@ export default component$(() => {
                                             </div>
                                         </div>
                                     </div>
+                                    }
                                     <div class='row table-benefits'>
                                         <div class='col-lg-12'>
                                             <div class='table-responsive'>

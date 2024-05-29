@@ -4,11 +4,8 @@ import CurrencyFormatter from "../../../utils/CurrencyFormater";
 import styles from './card-payment-resume.css?inline'
 import ImgContinentalAssistPrintTicket from '../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx'
 
-interface propsCardPaymentResume {
-    [key:string]:any
-}
 
-export const CardPaymentResume = component$((props:propsCardPaymentResume) => {
+export const CardPaymentResume = component$(() => {
 
     //useStyles$(styles)
 
@@ -20,7 +17,6 @@ export const CardPaymentResume = component$((props:propsCardPaymentResume) => {
     const resume = useSignal(objectResume)
     const loading = useSignal(true)
     const divisaManual = useSignal(stateContext.value.divisaManual)
-    const desktop = useSignal(false)
 
     useVisibleTask$(() => {
         

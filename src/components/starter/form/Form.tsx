@@ -10,7 +10,7 @@ interface propsInput
     [key:string] : any
 }
 
-export const Input = (props:propsInput) => {
+export const Input = (props:propsInput) => {    
     const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
 
     const validateKeyUp$= $((target: any) => {
@@ -64,7 +64,10 @@ export const Input = (props:propsInput) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onKeyUp$={e=>validateKeyUp$(e.target)}
+                        readOnly={props.readOnly}
+                        tabIndex={props.tabIndex}
                         {...dataAttributes}
+                        
                     />
                     <label 
                         class='form-label text-bold text-dark-gray' 

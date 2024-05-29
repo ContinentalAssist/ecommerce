@@ -1,5 +1,4 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import type { PropFunction } from '@builder.io/qwik'
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";

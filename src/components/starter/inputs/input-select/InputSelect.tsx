@@ -23,18 +23,20 @@ export const InputSelect = component$((props:propInputSelect) => {
     })
 
     const getOptions$ = $((value:any) => {
-        const arrayObjects= [...props.options]
-        arrayObjects.map(item => {
+        const arrayObjects= [...props.options]        
+        /* arrayObjects.map(item => {
             if(item.value == value)
             {
                 defaultValue.value = item.label
                 datasetValue.value = item.value
             }
-        })
+        }) */
        
-      /*   const findItem= arrayObjects.find(item=> item.value == value)
-        defaultValue.value = findItem.label
-        datasetValue.value = findItem.value */
+        const findItem= arrayObjects.find(item=> item.value == value)
+        defaultValue.value = findItem?.label||''
+        datasetValue.value = findItem?.value||''
+
+        props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
     useVisibleTask$(() => {
@@ -109,6 +111,9 @@ export const InputSelect = component$((props:propInputSelect) => {
                                 {
                                     e.target.classList.remove('is-valid')
                                 }
+                                getOptions$(e.target.value);
+                                //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
+                                
                             }}
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
@@ -146,7 +151,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                             value={option.value} 
                                             onClick$={() => {
                                                 getOptions$(option.value);
-                                                props.onChange !== undefined && props.onChange(option);
+                                                //props.onChange !== undefined && props.onChange(option);
                                                 options.value = prevOptions.value
                                             }}
                                         >
@@ -170,7 +175,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                             value={option.value} 
                                             onClick$={() => {
                                                 getOptions$(option.value);
-                                                props.onChange !== undefined && props.onChange(option);
+                                                //props.onChange !== undefined && props.onChange(option);
                                                 options.value = prevOptions.value
                                             }}
                                         >

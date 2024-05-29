@@ -1,16 +1,12 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import type { PropFunction } from '@builder.io/qwik'
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
-import CurrencyFormatter from "~/utils/CurrencyFormater";
-
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
-import { Loading } from "~/components/starter/loading/Loading";
 
 export interface propsOP {
     setLoading: (loading: boolean) => void;
