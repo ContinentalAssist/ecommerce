@@ -133,6 +133,11 @@ export const InputDate = (props:propsInputDate) => {
                                 (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'
                             }
                         }
+                        onClick$={() => {
+                            (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                            (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                             }
+                         }
                         value={props.value}
                         {...dataAttributes}
                     />

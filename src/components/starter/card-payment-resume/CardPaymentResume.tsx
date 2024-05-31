@@ -131,7 +131,7 @@ export const CardPaymentResume = component$(() => {
                                                                 <i class="fa-solid fa-clipboard-check"/>
                                                             </span>
                                                             <p style={{textAlign:'left'}}>
-                                                            <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Plan</span><br/>
+                                                            <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Planes</span><br/>
                                                                 <span class="text-bold text-light-blue" style={{fontSize:'12px'}}>{resume.value.plan.nombreplan}
                                                             </span>
                                                             </p>                                                            
@@ -139,7 +139,7 @@ export const CardPaymentResume = component$(() => {
                                                     </div>
                                                     <div class="col-6">
                                                         <p class="text-semi-bold text-dark-blue text-end">{
-                                                            divisaManual.value == true ? CurrencyFormatter(stateContext.value.currentRate.code,resume.value.plan.precioindividual) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.plan.precioindividual * stateContext.value.currentRate.rate)
+                                                            divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.plan.precioindividual) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.plan.precioindividual * stateContext.value.currentRate.rate)
                                         
                                                         }</p>
                                                     </div>
