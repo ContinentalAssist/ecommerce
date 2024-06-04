@@ -61,7 +61,11 @@ export const QuotesEngine = component$((props:propsQE) => {
         const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
         const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLInputElement
         const list = Array.from(listDestinations.querySelectorAll('li'))
-
+        const clickEvent = new MouseEvent('click', {
+            bubbles: true, // Whether the event should bubble up through the DOM
+            cancelable: true, // Whether the event's propagation can be canceled
+            view: window // The Window object to associate with the event
+        });
         const bs = (window as any)['bootstrap']
         const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputOrigin.id,{})
         if (dropdownOrigin != null) {
@@ -79,9 +83,17 @@ export const QuotesEngine = component$((props:propsQE) => {
                 item.style.display = 'inherit';
             }
         })
+        //const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+        //const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
+        if (inputDestinations) {
+            setTimeout(() => {
+                inputDestinations.dispatchEvent(clickEvent)
+                inputDestinations.focus();
+            }, 200);
         
-        const dropdownDestinations = new bs.Dropdown('#dropdown-toggle-'+inputDestinations.id,{})
-        dropdownDestinations.show()
+        }
+    /*     const dropdownDestinations = new bs.Dropdown('#dropdown-toggle-'+inputDestinations.id,{})
+        dropdownDestinations.show() */
         if (props.isMobile == true) {
             const formPrev = document.querySelector('#form-step-prev-1-0') as HTMLFormElement
             const inputPrevOrigin = formPrev.querySelector('#form-step-prev-1-0-input-0-0') as HTMLInputElement
