@@ -11,9 +11,15 @@ export const CardComment = component$((props:propsCardComment) => {
     return(
         <div class='card'>
             <div class='card-body'>
-                <h4 class='text-dark-gray'>{props.title} 
+                <div class="row">
+                    <div class="col-6">
+                    <h4 class='text-dark-gray'>{props.title}</h4>
+                    </div>
+                    <div class="col-6 text-end">
                     <Slot/>
-                </h4>
+                    </div>
+                </div>
+                
                 <h5 class='text-bold text-dark-blue mb-4'>{props.subTitle}</h5>
                 <p class='card-text'>
                     <i class="fas fa-quote-left"></i>

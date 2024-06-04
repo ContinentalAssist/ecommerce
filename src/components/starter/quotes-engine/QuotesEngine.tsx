@@ -129,10 +129,44 @@ export const QuotesEngine = component$((props:propsQE) => {
     const onClickInput$ =$((e:any)=>{
         const bs = (window as any)['bootstrap']
         const name =e.target.name
+       // Create a new MouseEvent object
+        const clickEvent = new MouseEvent('click', {
+            bubbles: true, // Whether the event should bubble up through the DOM
+            cancelable: true, // Whether the event's propagation can be canceled
+            view: window // The Window object to associate with the event
+        });
+
        if (name =='origenprev'||name =='destinosprev') {
+
+             
         const modal = new bs.Modal('#modal-mobile-travel',{})
         modal.show()
+        if (name =='origenprev') {
+            const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+            const inputOrigin = form.querySelector('#form-step-1-0-select-0-0') as HTMLInputElement
+            if (inputOrigin) {
+                setTimeout(() => {
+                        inputOrigin.dispatchEvent(clickEvent)
+                        inputOrigin.focus();
+                }, 200);
+            
+            }
+           }
+
+        if (name =='destinosprev') {
+            const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+            const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
+            if (inputDestinations) {
+                setTimeout(() => {
+                    inputDestinations.dispatchEvent(clickEvent)
+                    inputDestinations.focus();
+                }, 200);
+            
+            }
+        }   
        }
+       
+
        
         
        if (name =='desdeprev'||name =='hastaprev') {
@@ -143,6 +177,17 @@ export const QuotesEngine = component$((props:propsQE) => {
        if (name =='pasajerosprev') {
         const modal = new bs.Modal('#modal-mobile-pax',{})
         modal.show()
+
+       
+        const form = document.querySelector('#form-step-1-2') as HTMLFormElement
+            const inputPax = form.querySelector('#form-step-1-2-input-0-0') as HTMLInputElement
+            if (inputPax) {
+                setTimeout(() => {
+                    inputPax.dispatchEvent(clickEvent)
+                    //inputDestinations.focus();
+                }, 200);
+            
+            }
        }
 
        
@@ -274,7 +319,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     onClick:onClickInput$,
                                     icon:'plane-departure',
                                     required:true,
-                                    value:resume.value.origenprev
+                                    value:resume.value.origenprev,
+                                    readOnly:true,
+                                
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
@@ -306,7 +353,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     onClick:onClickInput$,
                                     value:resume.value.desdeprev,
                                     readOnly:true,
-                                    tabIndex:-1
+                                    //tabIndex:-1
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',

@@ -39,7 +39,7 @@ export const InputSelect = component$((props:propInputSelect) => {
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
-    useVisibleTask$(() => {
+    /* useVisibleTask$(() => {
         if(props.value)
         {
             getOptions$(props.value)
@@ -54,7 +54,7 @@ export const InputSelect = component$((props:propInputSelect) => {
         {
             readOnly.value = props.readOnly
         }
-    })
+    }) */
 
     const getFiltertList$ = $((e:any) => {
         if(e.target.value == '')
@@ -115,7 +115,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                 //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
                                 
                             }}
-                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            ///onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                             {...props.dataAttributes}
                         />

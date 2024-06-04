@@ -66,6 +66,7 @@ export const Input = (props:propsInput) => {
                         onKeyUp$={e=>validateKeyUp$(e.target)}
                         readOnly={props.readOnly}
                         tabIndex={props.tabIndex}
+                        disabled={props.disabled}
                         {...dataAttributes}
                         
                     />
@@ -111,7 +112,7 @@ export const InputDate = (props:propsInputDate) => {
                         id={props.id}
                         class={props.icon ? "form-control form-control-date text-bold text-dark-blue" : "form-control text-bold text-dark-blue"}  
                         name={props.name}
-                        placeholder={props.label}
+                        placeholder={props.placeholder}
                         required={props.required} 
                         min={props.min} 
                         max={props.max} 
