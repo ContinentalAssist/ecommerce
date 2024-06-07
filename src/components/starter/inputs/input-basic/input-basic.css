@@ -1,3 +1,17 @@
+.form-control{
+    font-size: 0.9rem !important;
+}
+.form-label{
+    font-size: 0.9rem !important;
+}
+
+.form-label ::after{
+    font-size: 0.8rem !important;
+}
+
+.form-label-date {
+    font-size: 0.8rem !important;
+}
 .input-basic .form-floating>.form-control
 {
     border: 2px solid var(--ca-gray);
@@ -26,7 +40,6 @@
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     background-color: transparent;
-    font-size: 18px;
     padding-left: 20px;
 }
 

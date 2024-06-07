@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './input-select.css?inline'
 
 interface propsInputSelectMultiple {
@@ -7,7 +7,7 @@ interface propsInputSelectMultiple {
 }
 
 export const InputSelectMultiple = component$((props:propsInputSelectMultiple) => {
-    useStyles$(styles)
+    useStylesScoped$(styles)
 
     const array : any[] = []
 
@@ -167,16 +167,14 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <hr id={props.id}/>
+            <div class="row">
             <div 
                 id={'dropdown-'+props.id} 
                 class='dropdown-menu p-4' 
                 aria-labelledby={props.id}
-                style={{
-                    width:props.menuSize ? props.menuSize.width : 'auto',
-                    height:props.menuSize ? props.menuSize.height : 'auto'
-                }}
+                style={{ overflow:'hidden'}}
             >
-                <div class='row'>
+                <div class='row inside' style={{ overflowY:'auto'}}>
                     <div class='col-6'>
                         <ul class='list-group list-group-flush'>
                             {
@@ -244,6 +242,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                         </ul>
                     </div>
                 </div>
+            </div>
             </div>
         </div>
     )

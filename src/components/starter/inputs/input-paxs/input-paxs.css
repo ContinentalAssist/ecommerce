@@ -1,3 +1,10 @@
+.form-control{
+    font-size: 0.9rem !important;
+}
+.form-label-pax{
+    font-size: 0.8rem !important;
+}
+
 .drop-paxs .form-floating>.form-control
 {
     border: 2px solid var(--ca-gray);
@@ -75,9 +82,10 @@
 .drop-paxs input[type=number]
 {
     text-align: center;
-    font-size: 30px;
+    font-size: 30px !important;
     border: none;
     padding: 0 0 6px 0;
+    margin-top:-10px !important
 }
 
 .drop-paxs .btn-icon
@@ -89,6 +97,23 @@
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.btn-icon-circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #43D3FF; /* Color del borde */
+    border-radius: 50%; /* Hace el botón circular */
+    background-color: transparent; /* Fondo transparente */
+    color: #43D3FF; /* Color del texto o ícono */
+    /* font-size: 20px; */ /* Tamaño del ícono o texto */
+    padding: 10px; /* Espacio alrededor del ícono o texto */
+    cursor: pointer; /* Cambia el cursor a mano al pasar sobre el botón */
+    outline: none; /* Remueve el contorno */
+    width: 20px; /* Ancho fijo */
+    height: 20px; /* Altura fija para mantener la proporción circular */
+}
+
 
 
 /* .form-label

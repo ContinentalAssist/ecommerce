@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik"
+import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik"
 import styles from './input-select.css?inline'
 
 interface propInputSelect {
@@ -15,7 +15,7 @@ export const InputSelect = component$((props:propInputSelect) => {
     const datasetValue = useSignal('')
     const options = useSignal(array)
     const prevOptions = useSignal(array)
-    const readOnly = useSignal(false)
+    //const readOnly = useSignal(false)
 
     useTask$(() => {
         prevOptions.value = props.options
@@ -125,18 +125,15 @@ export const InputSelect = component$((props:propInputSelect) => {
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
             <hr id={props.id}/>
+<div class="row">
+
             <div 
                 id={'dropdown-'+props.id} 
                 class='dropdown-menu p-4' 
                 aria-labelledby={props.id} 
-                style={{
-                        width:props.menuSize ? props.menuSize.width : 'auto',
-                        height:props.menuSize ? props.menuSize.height : 'auto',
-                        zIndex: '3001 !important',
-
-                    }}
+                style={{ overflow:'hidden'}}
                 >
-                <div class='row'>
+                <div class='row inside' style={{ overflowY:'auto'}}>
                     <div class='col-6'>
                         <ul class='list-group list-group-flush'>
                             {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
@@ -188,6 +185,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                     </div>
                 </div>
             </div>
+</div>
         </div>
     )
 })

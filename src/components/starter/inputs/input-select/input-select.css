@@ -1,3 +1,13 @@
+.form-control{
+    font-size: 0.9rem !important;
+}
+.form-label{
+    font-size: 0.9rem !important;
+}
+
+.form-label ::after{
+    font-size: 0.8rem !important;
+}
 .drop-select .form-floating>.form-control
 {
     border: 2px solid var(--ca-gray);
@@ -26,7 +36,6 @@
     border-top-left-radius: 30px;
     border-bottom-left-radius: 30px;
     background-color: transparent;
-    font-size: 18px;
     padding-left: 20px;
 }
 
@@ -93,6 +102,8 @@
 .drop-select .list-group-item
 {
     border-color: var(--ca-light-gray);
+    font-size: 0.875rem !important;
+
 }
 
 .drop-select .list-group-item:hover
@@ -116,4 +127,17 @@
 /*     margin-top: -112px !important;
  */        z-index: 3001;
         }
+   }
+
+ /* Override for large devices */
+@media (min-width: 768px) {
+    .dropdown-menu{
+        width: 550px !important;
+        height: 350px !important;   
+        min-width: 500px ;
+        z-index: 3001;
+        }
+    .row .inside{
+        height: 300px !important;
+    }
    }

@@ -142,7 +142,7 @@ export const InputDate = (props:propsInputDate) => {
                         value={props.value}
                         {...dataAttributes}
                     />
-                    <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
+                    <label class='form-label-date text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
                 </div>
             </div>
             <hr id={props.id}/>

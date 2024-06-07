@@ -348,6 +348,10 @@ body[data-so='windows'] .modal-header h2
 ::-webkit-scrollbar-track 
 {
     background: var(--ca-ultra-light-blue);
+    border-top-left-radius: 33px;
+    border-top-right-radius: 33px;
+    border-bottom-left-radius: 33px;
+    border-bottom-right-radius: 33px;
 }
 
 ::-webkit-scrollbar-thumb 

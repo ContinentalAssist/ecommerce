@@ -122,7 +122,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                         />
-                        <label class='form-label text-semi-bold text-dark-gray' for={props.id}>Viajeros</label>
+                        <label class='form-label-pax text-semi-bold text-dark-gray' for={props.id}>Viajeros</label>
                     </div>
                 </div>
             </div>
@@ -136,8 +136,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-70')}}>
-                                    <i class="fa-solid fa-circle-minus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-70')}}>
+                                    <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
@@ -149,8 +149,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                     value={props.value!= undefined ? props.value[70] : 0} 
                                     readOnly
                                 />
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-70')}}>
-                                    <i class="fa-solid fa-circle-plus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-70')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
@@ -162,8 +162,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-22')}}>
-                                    <i class="fa-solid fa-circle-minus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-22')}}>
+                                   <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
@@ -175,8 +175,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                     value={props.value!= undefined ? props.value[22] : 0} 
                                     readOnly
                                 />
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-22')}}>
-                                    <i class="fa-solid fa-circle-plus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-22')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
@@ -188,8 +188,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-85')}}>
-                                    <i class="fa-solid fa-circle-minus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-85')}}>
+                                <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
@@ -201,8 +201,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                     value={props.value!= undefined ? props.value[85] : 0} 
                                     readOnly
                                 />
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-85')}}>
-                                    <i class="fa-solid fa-circle-plus text-light-blue"/>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-85')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
