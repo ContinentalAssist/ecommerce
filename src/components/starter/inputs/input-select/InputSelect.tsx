@@ -119,7 +119,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                             {...props.dataAttributes}
                         />
-                        <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
+                        <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -132,6 +132,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                 class='dropdown-menu p-4' 
                 aria-labelledby={props.id} 
                 style={{ overflow:'hidden'}}
+                data-toggle="dropdown"
                 >
                 <div class='row inside' style={{ overflowY:'auto'}}>
                     <div class='col-6'>
@@ -144,7 +145,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                         &&
                                         <li 
                                             key={iOption+1}
-                                            class={datasetValue.value == option.value ? 'list-group-item active text-semi-bold text-dark-blue' : 'list-group-item text-semi-bold text-dark-blue'} 
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
                                             value={option.value} 
                                             onClick$={() => {
                                                 getOptions$(option.value);
@@ -168,7 +169,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                         &&
                                         <li 
                                             key={iOption+1}
-                                            class={datasetValue.value == option.value ? 'list-group-item active text-semi-bold text-dark-blue' : 'list-group-item text-semi-bold text-dark-blue'} 
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-gray' : 'list-group-item text-medium text-dark-gray'} 
                                             value={option.value} 
                                             onClick$={() => {
                                                 getOptions$(option.value);

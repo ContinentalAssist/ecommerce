@@ -3,14 +3,20 @@
 }
 .form-label{
     font-size: 0.9rem !important;
+    margin-top: 0.313rem !important;
+
 }
 
 .form-label ::after{
     font-size: 0.8rem !important;
+    padding-left: 0px;
 }
 
 .form-label-date {
     font-size: 0.8rem !important;
+    padding-left: 0px;
+    margin-top: 0.313rem !important;
+    margin-left: -0.063rem !important;
 }
 .input-basic .form-floating>.form-control
 {

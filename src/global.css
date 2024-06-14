@@ -38,6 +38,12 @@
       font-display: swap;
 }
 
+@font-face {
+    font-family: 'GalanoGrotesque_Medium';
+    src: url("/assets/fonts/Galano_Grotesque_Medium.woff") format('woff');
+    font-display: swap;
+}
+
 /* cuerpo de la pagina */
 body
 {
@@ -88,6 +94,11 @@ section
 .text-tin
 {
     font-family: GalanoGrotesque_Light !important;
+    font-display: swap;
+}
+.text-medium
+{
+    font-family: GalanoGrotesque_Medium !important;
     font-display: swap;
 }
 

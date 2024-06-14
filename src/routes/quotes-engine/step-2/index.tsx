@@ -302,14 +302,14 @@ export default component$(() => {
             else
             {
                 resume.value = stateContext.value
-                totalPay.value = {divisa:resume.value.plan.codigomonedapago,total:Number(resume.value.plan.precio_grupal)}
+                totalPay.value = {divisa:resume?.value?.plan?.codigomonedapago,total:Number(resume?.value?.plan?.precio_grupal)}
                 let newRes: any[] = []
 
                 // const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
                 //     .then((response) => {return(response.json())})
                 const newAges : any[] = []
 
-                resume.value.edades.map((age:any) => {
+                resume?.value?.edades?.map((age:any) => {
                     if(age == 70)
                     {
                         newAges.push(40)
@@ -321,20 +321,20 @@ export default component$(() => {
                 })
 
                 const dataRequest = {
-                    idplan:resume.value.plan.idplan,
+                    idplan:resume?.value?.plan?.idplan,
                     dias:resume.value.dias,
                     edades:resume.value.edades,
                     // edades:newAges,
-                    ip:stateContext.value.resGeo.ip_address,
+                    ip:stateContext.value?.resGeo?.ip_address,
                 }
 
                 const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataAdditionals = await resAdditionals.json()
-                newRes = dataAdditionals.resultado
+                newRes = Array.isArray(dataAdditionals?.resultado)?dataAdditionals.resultado:[]
 
                 const today = DateFormat(new Date)
 
-                newRes.map((res,index) => {
+               newRes.map((res,index) => {
                     const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                     let max = ''
                     
@@ -361,11 +361,11 @@ export default component$(() => {
                 
                 additionalsBenefits.value = newRes
             }
-
-            if(additionalsBenefits.value.length > 0)
+            loading.value = false
+           /*  if(additionalsBenefits.value.length > 0)
             {
                 loading.value = false
-            }
+            } */
         }
         else
         {

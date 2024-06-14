@@ -229,8 +229,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                 {
                 props.isMobile == false&&
                 <>
-                <div class='col-lg-4'>
-                    <h3 class='text-semi-bold mb-sm-4'>¿A dónde viajas?</h3>
+                <div class='col-lg-5'>
+                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h3>
                     <Form
                         id='form-step-1-0'
                         form={[
@@ -261,8 +261,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                         ]}
                     />
                 </div>
-                <div class='col-lg-5'>
-                    <h3 class='text-semi-bold mb-sm-4'>¿Cuándo viajas?</h3>
+                <div class='col-lg-4'>
+                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h3>
                     <Form
                         id='form-step-1-1'
                         form={[
@@ -294,7 +294,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     />
                 </div>
                 <div class='col-lg-3'>
-                    <h3 class='text-semi-bold mb-sm-4'>¿Cuántos viajan?</h3>
+                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h3>
                     <Form
                         id='form-step-1-2'
                         form={[
@@ -414,12 +414,15 @@ export const QuotesEngine = component$((props:propsQE) => {
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
                     <div class="modal-header">
-                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿A dónde viajas?</h5>
+                   
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                          style={{border:'1px solid', borderRadius:'33px'}}></button>
                     </div>
                     <div class="modal-body" style={{height:'100% !important',maxHeight:'100% !important'}}>
                         <div class="row">
+                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿A dónde viajas?</h5>
+                        <br/>
+                        <br/>
                         <Form
                         id='form-step-1-0'
                         form={[
@@ -466,12 +469,14 @@ export const QuotesEngine = component$((props:propsQE) => {
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
                     <div class="modal-header">
-                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿Cuándo viajas?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                          style={{border:'1px solid', borderRadius:'33px'}}></button>
                     </div>
                     <div class="modal-body" style={{height:'100% !important',maxHeight:'100% !important'}}>
                         <div class="row">
+                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿Cuándo viajas?</h5>
+                        <br/>
+                        <br/>
                         <Form
                             id='form-step-1-1'
                             form={[
@@ -517,12 +522,14 @@ export const QuotesEngine = component$((props:propsQE) => {
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
                     <div class="modal-header">
-                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿Cuántos viajan?</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                          style={{border:'1px solid', borderRadius:'33px'}}></button>
                     </div>
                     <div class="modal-body" style={{height:'100% !important',maxHeight:'100% !important'}}>
                         <div class="row">
+                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿Cuántos viajan?</h5>
+                        <br/>
+                        <br/>
                         <Form
                             id='form-step-1-2'
                             form={[

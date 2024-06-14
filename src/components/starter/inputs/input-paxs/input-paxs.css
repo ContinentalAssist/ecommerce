@@ -2,7 +2,13 @@
     font-size: 0.9rem !important;
 }
 .form-label-pax{
+    font-size: 0.9rem !important;
+    margin-top: 0.313rem !important;
+    padding-left: 0px;
+}
+.form-label-pax ::after{
     font-size: 0.8rem !important;
+    padding-left: 0px;
 }
 
 .drop-paxs .form-floating>.form-control
@@ -63,7 +69,7 @@
 
 .drop-paxs .dropdown-menu
 {
-    width: 397px;
+    width: 370px;
     border-radius: 30px;
     border: 2px solid var(--ca-gray);
 }

@@ -122,7 +122,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                         />
-                        <label class='form-label-pax text-semi-bold text-dark-gray' for={props.id}>Viajeros</label>
+                        <label class='form-label-pax text-medium text-dark-gray' for={props.id}>Viajeros</label>
                     </div>
                 </div>
             </div>

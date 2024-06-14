@@ -161,7 +161,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                             props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
                             }}
                         />
-                        <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
+                        <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
@@ -184,7 +184,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                         &&
                                         <li 
                                             key={iOption+1}
-                                            class={datasetValue.value.includes(option.value) ? 'list-group-item active text-semi-bold text-dark-blue' : 'list-group-item text-semi-bold text-dark-blue'}
+                                            class={datasetValue.value.includes(option.value) ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'}
                                             value={option.value} 
                                         >
                                             <div class="form-check">
@@ -229,7 +229,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                                     onClick$={() => getOptions$(option)}
                                                 />
                                                 <label 
-                                                    class="form-check-label" 
+                                                    class="form-check-label text-medium text-dark-gray" 
                                                     onClick$={() => getOptions$(option)}
                                                 >
                                                     {option.label}

@@ -3,11 +3,19 @@
 }
 .form-label{
     font-size: 0.9rem !important;
+    margin-top: 0.313rem !important;
 }
 
-.form-label ::after{
+.form-floating>.form-control:focus~label
+{
     font-size: 0.8rem !important;
 }
+
+.form-floating>.form-control:not(:placeholder-shown)~label
+{
+    font-size: 0.8rem !important;
+}
+
 .drop-select .form-floating>.form-control
 {
     border: 2px solid var(--ca-gray);
@@ -133,7 +141,7 @@
 @media (min-width: 768px) {
     .dropdown-menu{
         width: 550px !important;
-        height: 350px !important;   
+        height: 300px !important;   
         min-width: 500px ;
         z-index: 3001;
         }
