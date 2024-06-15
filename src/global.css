@@ -163,6 +163,10 @@ body[data-so='windows'] header .navbar-toggler i
     font-display: swap;
 }
 
+.form-check-input{
+    border-color: #656565;
+}
+
 body[data-so='windows'] .btn
 {
     padding-top: inherit;

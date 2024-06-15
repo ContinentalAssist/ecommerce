@@ -1020,19 +1020,20 @@ export default component$(() => {
                                                     <div key={index+1} class="card px-lg-5 shadow-lg" id={'card-'+addBenefit.idpasajero}>
                                                         <div class='container'>
                                                             <div class='row row-mobile p-3'>
-                                                                <div class='col-xl-4 col-sm-3 col-xs-5'>
-                                                                    <h5 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h5>
-                                                                </div>
-                                                                <div class='col-xl-4 col-sm-3 col-xs-7'>
-                                                                    <h5 class='text-gray'>
+                                                                <div class='col-xl-8 col-sm-8 col-xs-5'>
+                                                                    <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
+                                                                    <p class='text-tin text-dark-blue'>
                                                                         De
                                                                         {addBenefit.edad == '22' && ' 0 a 22 '}
                                                                         {addBenefit.edad == '70' && ' 23 a 70 '}
                                                                         {addBenefit.edad == '85' && ' 71 a 85 '}
                                                                         años
-                                                                    </h5>
+                                                                    </p>
                                                                 </div>
-                                                                <div class="col-md-4">
+                                                               {/*  <div class='col-xl-4 col-sm-3 col-xs-7'>
+                                                                   
+                                                                </div> */}
+                                                                <div class="col-xl-4  col-sm-4 col-xs-7">
                                                                     <div class='d-grid gap-2'>
                                                                         <button 
                                                                             type='button' 

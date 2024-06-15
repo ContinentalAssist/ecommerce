@@ -89,7 +89,7 @@ export const CardPaymentResume = component$(() => {
                                                             <i class="fa-solid fa-plane-departure"/>
                                                         </span>
                                                         <p style={{textAlign:'left'}}>
-                                                        <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Origen / Destino(s)</span> <br/>                                                                            
+                                                        <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Origen / Destino(s)</span> <br/>                                                                            
                                                         <span class="text-bold text-dark-blue" style={{fontSize:'12px'}}>{resume.value.paisorigen} <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',',', ')}</span>
                                                         </p>                                                            
                                                     </div>
@@ -102,7 +102,7 @@ export const CardPaymentResume = component$(() => {
                                                                 <i class="fa-solid fa-user-plus"/>
                                                             </span>
                                                             <p style={{textAlign:'left'}}>
-                                                            <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Viajeros</span><br/>
+                                                            <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Viajeros</span><br/>
                                                                 <span class="text-bold text-dark-blue" style={{fontSize:'12px'}}>{resume.value.pasajeros}
                                                             </span>
                                                             </p>                                                            
@@ -116,7 +116,7 @@ export const CardPaymentResume = component$(() => {
                                                                 <i class="far fa-calendar"/>
                                                             </span>
                                                             <p style={{textAlign:'left'}}>
-                                                            <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Fechas de tu viaje</span> <br/>                                                                            
+                                                            <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Fechas de tu viaje</span> <br/>                                                                            
                                                                 <span class="text-bold text-dark-blue" style={{fontSize:'12px'}}>{resume.value.desde} <span class='text-semi-bold text-dark-blue'> al </span> {resume.value.hasta}</span>
                                                             </p>                                                            
                                                         </div>
@@ -131,7 +131,7 @@ export const CardPaymentResume = component$(() => {
                                                                 <i class="fa-solid fa-clipboard-check"/>
                                                             </span>
                                                             <p style={{textAlign:'left'}}>
-                                                            <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Planes</span><br/>
+                                                            <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Plan</span><br/>
                                                                 <span class="text-bold text-light-blue" style={{fontSize:'12px'}}>{resume.value.plan.nombreplan}
                                                             </span>
                                                             </p>                                                            
@@ -154,7 +154,7 @@ export const CardPaymentResume = component$(() => {
                                                             <div class="input-group">
                                                                 
                                                                 <p style={{textAlign:'left'}}>
-                                                                <span class="text-semi-bold text-dark-gray ps-0" style={{fontSize:'12px'}}>Benenficios adicionales</span><br/>
+                                                                <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Benenficios adicionales</span><br/>
                                                                </p>                                                            
                                                             </div>
                                                             </div>
@@ -193,7 +193,7 @@ export const CardPaymentResume = component$(() => {
                                                         <hr/>
                                                         <div class='row'>
                                                             <div class='col-lg-12 text-end' >
-                                                                <span class='text-semi-bold text-gray' style={{ padding:0, margin:0}}>Sub total</span><br/>
+                                                                <span class='text-tin text-dark-blue' style={{ padding:0, margin:0}}>Sub total</span><br/>
                                                                 <span class='text-bold text-dark-blue'> 
                                                                 {
                                                                     resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,

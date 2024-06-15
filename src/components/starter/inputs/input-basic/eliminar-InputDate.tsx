@@ -43,7 +43,7 @@ export const InputDate = component$((props:propsInputDate) => {
                         onBlur$={(e) => {props.onChange && props.onChange(e)}}
                         value={props.value}
                     />
-                    <label class='form-label text-semi-bold text-dark-gray' for={props.id}>{props.label}</label>
+                    <label class='form-label text-medium text-gray' for={props.id}>{props.label}</label>
                 </div>
             </div>
             <hr/>

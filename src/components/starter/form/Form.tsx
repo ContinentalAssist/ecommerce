@@ -46,7 +46,7 @@ export const Input = (props:propsInput) => {
                             }
                         }
                     >
-                        <i class={'fa-solid fa-'+props.icon} />
+                        <i class={'text-dark-blue  fa-solid fa-'+props.icon} />
                     </span>
                 }
                  <div class="form-floating">
@@ -71,7 +71,7 @@ export const Input = (props:propsInput) => {
                         
                     />
                     <label 
-                        class='form-label text-bold text-dark-gray' 
+                        class='form-label text-medium text-gray' 
                         for={props.id}
                     >
                         {props.label}
@@ -142,7 +142,7 @@ export const InputDate = (props:propsInputDate) => {
                         value={props.value}
                         {...dataAttributes}
                     />
-                    <label class='form-label-date text-medium text-dark-gray' for={props.id}>{props.label}</label>
+                    <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                 </div>
             </div>
             <hr id={props.id}/>
@@ -214,7 +214,7 @@ export const InputMail = (props:propsInputMail) => {
                         
                     />
                     <label 
-                        class='form-label text-bold text-dark-gray' 
+                        class='form-label text-medium text-gray' 
                         for={props.id}
                     >
                         {props.label} 
@@ -292,7 +292,7 @@ export const InputPhone = (props:propsInputPhone) => {
                     />
                     
                     <label 
-                        class='form-label text-bold text-dark-gray' 
+                        class='form-label text-medium text-gray' 
                         for={props.id}
                     >
                         {props.label} 

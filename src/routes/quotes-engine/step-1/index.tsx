@@ -54,7 +54,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                     placeholder="Origen / Destino(s)"
                                     value={props.resume.paisorigen != undefined ? (props.resume.paisorigen+' a '+String(props.resume.paisesdestino).replaceAll(',',', ')): ''}
                                 />
-                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Origen / Destino(s)</label>
+                                <label class='text-medium text-dark-gray ps-0' for="fechas">Origen / Destino(s)</label>
                             </div>
                         </div>
                     </div>
@@ -72,7 +72,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                     placeholder="Fechas de tu viaje"
                                     value={props.resume.desde != undefined ? (props.resume.desde+' al '+props.resume.hasta) : ''}
                                 />
-                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Fechas de tu viaje</label>
+                                <label class='text-medium text-dark-gray ps-0' for="fechas">Fechas de tu viaje</label>
                             </div>
                         </div>
                     </div>
@@ -90,13 +90,13 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                     placeholder="Viajeros"
                                     value={props.resume.pasajeros}
                                 />
-                                <label class='text-semi-bold text-dark-gray ps-0' for="fechas">Viajeros</label>
+                                <label class='text-medium text-dark-gray ps-0' for="fechas">Viajeros</label>
                             </div>
                         </div>
                     </div>
                     <div class='col-lg-3  col-xs-6 text-end '/* align-items-end */>
                         {/* <div class='d-grid gap-2'> */}
-                            <button type='button' class='btn btn-link text-regular text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
+                            <button type='button' class='btn btn-link text-medium text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
                         {/* </div> */}
                     </div>
                 </div>
@@ -274,7 +274,7 @@ export default component$(() => {
 
             Object.assign(dataForm,stateContext?.value)
             dataForm.idfuente = 2
-            dataForm.ip = stateContext.value.resGeo.ip_address
+            dataForm.ip = stateContext?.value?.resGeo?.ip_address
 
             let error = false
 
