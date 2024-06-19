@@ -362,9 +362,10 @@ export default component$(() => {
                                         <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viaje
                                     </h1>
                                     <hr class='divider my-3'/>
-{/*                                     <h2 class='h2 text-dark-gray'>Resumen de compra</h2>
- */}                                </div>
+                              </div>
                             </div>
+                    
+                            <br/>
                             <div class="row">
                                 <div class='col-lg-12 col-xl-12'>
                                         <CardPaymentResume>
@@ -374,7 +375,7 @@ export default component$(() => {
                                                         <div class='container'>
                                                             
                                                             <div class='row row-mobile'>
-                                                                <div class='col-xl-12 col-sm-12 col-12'>
+                                                                <div class='col-xl-10 col-sm-12 col-12'>
                                                                     <input 
                                                                         id='input-cupon' 
                                                                         name='cupon' 
@@ -382,9 +383,21 @@ export default component$(() => {
                                                                         class='form-control' 
                                                                         placeholder="¿Tienes algún cupón de descuento?"
                                                                         disabled={messageCupon.value.error == 'success'}
-                                                                        onBlur$={getCupon$}
+                                                                       // onBlur$={getCupon$}
                                                                     />
+
                                                                 </div>
+                                                                
+                                                                <div class='col-xl-2 col-sm-12 col-12'>
+                                                                <div class='d-grid gap-2 '>
+                                                                <button type='button' class='btn btn-primary' onClick$={getCupon$}>Aplicar</button>
+
+                                                                </div>
+                                                                    
+                                                                <br/>
+
+                                                                </div>
+                                                               
                                                                 <hr/>
                                                                 {
                                                                     messageCupon.value.error != ''
@@ -422,7 +435,7 @@ export default component$(() => {
                                                             
                                                             return(
                                                                
-                                                            <div key={index}class='col-md-3 g-0 align-self-center text-center'>
+                                                            <div key={index}class='col-lg-3 col-md-6 g-0 align-self-center text-center'>
                                                                 <p class="text-decoration-none text-dark-blue">{payment.title}</p> 
                                                                 <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
                                                                     {
@@ -502,6 +515,7 @@ export default component$(() => {
                                         </CardPaymentResume>                         
                                 </div>
                             </div>
+                            <br/>
                         </div>
                     </div>
                 </div>

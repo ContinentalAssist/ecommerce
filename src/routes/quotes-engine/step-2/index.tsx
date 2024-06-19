@@ -1018,9 +1018,9 @@ export default component$(() => {
                                             additionalsBenefits.value.map((addBenefit,index) => {
                                                 return(
                                                     <div key={index+1} class="card px-lg-5 shadow-lg" id={'card-'+addBenefit.idpasajero}>
-                                                        <div class='container'>
-                                                            <div class='row row-mobile p-3'>
-                                                                <div class='col-xl-8 col-sm-8 col-xs-5'>
+                                                        <div class='container'>   
+                                                            <div class="row mobile text-center p-3">
+                                                                <div class='col-xl-8 col-sm-8 col-xs-12'>
                                                                     <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
                                                                     <p class='text-tin text-dark-blue'>
                                                                         De
@@ -1030,10 +1030,7 @@ export default component$(() => {
                                                                         años
                                                                     </p>
                                                                 </div>
-                                                               {/*  <div class='col-xl-4 col-sm-3 col-xs-7'>
-                                                                   
-                                                                </div> */}
-                                                                <div class="col-xl-4  col-sm-4 col-xs-7">
+                                                                <div class="col-xl-4  col-sm-4 col-xs-12">
                                                                     <div class='d-grid gap-2'>
                                                                         <button 
                                                                             type='button' 
@@ -1046,6 +1043,38 @@ export default component$(() => {
                                                                         </button>
                                                                     </div>
                                                                 </div>
+                                                            </div>                                                         
+                                                            <div class='row p-3'>
+                                                            
+                                                            <div class="row not-mobile">
+                                                            <div class='col-xl-8 col-sm-8 col-xs-12'>
+                                                                    <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
+                                                                    <p class='text-tin text-dark-blue'>
+                                                                        De
+                                                                        {addBenefit.edad == '22' && ' 0 a 22 '}
+                                                                        {addBenefit.edad == '70' && ' 23 a 70 '}
+                                                                        {addBenefit.edad == '85' && ' 71 a 85 '}
+                                                                        años
+                                                                    </p>
+                                                                </div>
+                                                                <div class="col-xl-4  col-sm-4 col-xs-12">
+                                                                    <div class='d-grid gap-2'>
+                                                                        <button 
+                                                                            type='button' 
+                                                                            class='btn btn-primary mt-2 mt-sm-0' 
+                                                                            onClick$={() => {getAdditionalsbBenefits$(index)}} 
+                                                                            data-bs-toggle="modal" 
+                                                                            data-bs-target="#modalAdditionals"
+                                                                        >
+                                                                            Ver beneficios adicionales
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                                
+                                                                
                                                                 <button type="button" class='btn btn-collapse not-mobile' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
                                                                     <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
                                                                 </button>
@@ -1054,7 +1083,7 @@ export default component$(() => {
                                                         <div class={index == 0 ? "collapse show" : "collapse"} id={"collapseExample-"+index}>
                                                             <hr class='m-0' />
 
-                                                            <div class='card-body px-5 text-start'>
+                                                            <div class='card-body px-3 text-start'>
                                                                 <div class='container'>
                                                                     <div class="row">
                                                                         <div class="col-lg-12">  
@@ -1106,14 +1135,19 @@ export default component$(() => {
                                                     <div class='col-lg-12'>
                                                         <div class='card px-lg-5 shadow-lg'>
                                                             <div class='container'>
-                                                                <div class='row p-3'>
+                                                            <div class='row not-mobile p-3'>
+                                                                    <div class='col-lg-12'>
+                                                                        <h5 class='text-semi-bold text-dark-blue'>Contacto de emergencia</h5>
+                                                                    </div>
+                                                                </div>
+                                                                <div class='row mobile text-center p-3'>
                                                                     <div class='col-lg-12'>
                                                                         <h5 class='text-semi-bold text-dark-blue'>Contacto de emergencia</h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <hr class='m-0' />
-                                                            <div class='card-body px-5 text-start'>
+                                                            <div class='card-body px-3 text-start'>
                                                                 <div class='container'>
                                                                     <div class='row'>
                                                                         <div class='col-lg-12'>
@@ -1171,7 +1205,7 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">  
-                            <h2 class='text-semi-bold text-white'>
+                            <h2 class='text-semi-bold text-white px-4'>
                                 Viajero {additionalsBenefitsPlan.value.idpasajero}  
                             </h2>
                         </div>

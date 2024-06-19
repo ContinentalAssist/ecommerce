@@ -674,7 +674,7 @@ export default component$(() => {
                                 plans.value.map((plan,index) => {
                                     return(
                                         <div key={index+1} class='col-lg-4 col-sm-4'>
-                                            <div class={plan.idplan == '2964' ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px'}}>
+                                            <div class={plan.idplan == '2964' ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
                                                 {
                                                     plan.idplan == '2964'
                                                     &&
@@ -686,7 +686,7 @@ export default component$(() => {
                                                 {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
                                                 {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
                                                 {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
-                                                <div class='card-body px-5'>
+                                                <div class='card-body px-4'>
                                                     <div class='container'>
                                                         <div class='row'>
                                                             <div class='col-lg-12 text-center'>
@@ -732,7 +732,7 @@ export default component$(() => {
                                                             </div>
                                                         </div>
                                                         <div class='row mt-1 mb-1'>
-                                                            <div class='col-lg-12 text-center text-semi-bold' style={{height:'170px'}}>
+                                                            <div class='col-lg-12 text-center text-medium' style={{height:'170px'}}>
                                                                 {/* {plan.idplan == '2946' && <small>Te protegemos con lo necesario para que disfrutes de tus aventuras.</small>} */}
                                                                 {
                                                                     plan.idplan == '2946' 

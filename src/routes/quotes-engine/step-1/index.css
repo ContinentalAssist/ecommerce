@@ -8,13 +8,13 @@
 
 .resume .input-group-text
 {
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .steps-float
 {
     position: fixed;
-    top: 20px;
+    top: 1.25rem;
     z-index: 2000;
 }
 
@@ -29,42 +29,42 @@
 
 .cards .card-img-top
 {
-    width: 148px;
+    width: 9.25rem;
     height: auto;
     align-self: center;
-    margin-top: 40px;
+    margin-top: 2.5rem;
 }
 
 .cards h2
 {
-    font-size: 47px;
+    font-size: 2.875rem;
 }
 
 .cards .divisa small
 {
-    font-size: 28px;
+    font-size: 1.75rem;
 }
 
 .cards ul 
 {
     color: var(--ca-light-blue);
-    padding-left: 24px;
+    padding-left: 1.5rem;
 }
 
 .cards ul li
 {
-    font-size: 13px;
+    font-size: 0.813rem;
 }
 
 .cards .btn-outline-primary,
 .cards .btn-primary
 {
     position: relative;
-    margin-bottom: -24px;
-    margin-left: 60px;
-    margin-right: 60px;
-    font-size: 27px;
-    border-width: 4px;
+    margin-bottom: -1.25rem;
+    margin-left: 3.75rem;
+    margin-right: 3.75rem;
+    font-size: 1.688rem;
+    border-width: 0.25rem;
 }
 
 .border-dark-blue
@@ -76,13 +76,15 @@
 {
     position: absolute;
     align-self: center;
-    width: 130px;
+    width: 8.125rem;
+    min-width: 8.125rem;
+    max-width: 8.125rem;
     background-color: var(--ca-light-blue);
-    font-size: 12px;
+    font-size: 0.75rem;
     text-align: center;
-    padding: 8px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    padding: 0.5rem;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
     color: white;
 }
 

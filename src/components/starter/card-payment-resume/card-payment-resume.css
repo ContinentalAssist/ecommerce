@@ -1,56 +1,86 @@
-/* Override for small devices */
 @media  (max-width: 767.98px) {
-    .img-ticket{
-        margin-top: -92px;
-        margin-left: -10px;
-        min-width: 305px;
-    }
-    #card-pax
-    {
-        margin-top:-60px;
-        min-height:550px !important;     
-        max-width:500px !important;
-        width:100%;
-        z-index:10;
-        border-top-left-radius: 3px !important;
-        border-top-right-radius: 3px !important;
-    }
-   }
+  .img-ticket{
+    position: absolute;
+      margin-top: -75px;
+      margin-left: -15px;
+      min-width: 305px;
+      padding: 0px;
+     
+  }
+  #card-pax
+  {
+      /* position: absolute ; */
+      margin-top:-60px;
+      min-height:550px !important;     
+     /*  max-width:500px !important; */
+      width:100%;
+      z-index:10;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+  }
+ }
+
+
+/* Override for small devices */
+@media (min-width: 768px) and  (max-width: 999px) {
+  .img-ticket{
+    position: absolute;
+      margin-top: -75px;
+      margin-left: -15px;
+      min-width: 305px;
+      padding: 0px;
+     
+  }
+  #card-pax
+  {
+      position: absolute ;
+      margin-top:-60px;
+      min-height:550px !important;     
+     /*  max-width:500px !important; */
+      width:94%;
+      z-index:10;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+  }
+ }
 
 
 /* Override for large devices */
-@media (min-width: 768px) {
-    .img-ticket{
-        margin-top: -120px;
-        margin-left: -42px;
-    }
+@media (min-width: 1000px) {
+  .img-ticket{
+      position: absolute;
+      margin-top: -82px;
+      margin-left: -46px;
+      padding: 0px;
+      width: 535px;
 
-    #card-pax
-    {
-        min-height:550px !important;
-        position:absolute; 
-        margin-left:-28px;
-        margin-top:-76px;
-        max-width:470px !important;
-        width:100%;
-        z-index:10;
-        overflow-y: auto;
-        height: 550px;
-        border-top-left-radius: 3px !important;
-        border-top-right-radius: 3px !important;
-    }
-   }
-   
+    /*   background-color: brown; */
+  }
 
-   .collapse-pax .collapse {
-    &:not(.show) {
-      display: none;
-    }
+  #card-pax
+  {
+
+      position: absolute ;
+      margin-top: -68px;
+      margin-left: -30px;
+      width: 500px;
+      z-index:10;
+      overflow-y: auto;
+      min-height: 600px;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
   }
-  
-  .collapse-pax .collapsing {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.35s ease-in-out;
+ }
+ 
+
+ .collapse-pax .collapse {
+  &:not(.show) {
+    display: none;
   }
-  
+}
+
+.collapse-pax .collapsing {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease-in-out;
+}
