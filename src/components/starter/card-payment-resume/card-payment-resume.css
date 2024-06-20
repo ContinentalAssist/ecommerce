@@ -1,18 +1,14 @@
 @media  (max-width: 767.98px) {
-  .img-ticket{
-    position: absolute;
-      margin-top: -75px;
-      margin-left: -15px;
-      min-width: 305px;
-      padding: 0px;
-     
+  .card-img-top{
+    margin-top: -88px;
+    width: 108%;
+    margin-left: -12px;
+
   }
   #card-pax
   {
-      /* position: absolute ; */
       margin-top:-60px;
       min-height:550px !important;     
-     /*  max-width:500px !important; */
       width:100%;
       z-index:10;
       border-top-left-radius: 3px !important;
@@ -23,21 +19,17 @@
 
 /* Override for small devices */
 @media (min-width: 768px) and  (max-width: 999px) {
-  .img-ticket{
-    position: absolute;
-      margin-top: -75px;
-      margin-left: -15px;
-      min-width: 305px;
-      padding: 0px;
-     
+  .card-img-top{
+    margin-top: -88px;
+    width: 108%;
+    margin-left: -25px;
+
   }
   #card-pax
   {
-      position: absolute ;
       margin-top:-60px;
       min-height:550px !important;     
-     /*  max-width:500px !important; */
-      width:94%;
+      width:100%;
       z-index:10;
       border-top-left-radius: 3px !important;
       border-top-right-radius: 3px !important;
@@ -47,31 +39,43 @@
 
 /* Override for large devices */
 @media (min-width: 1000px) {
-  .img-ticket{
-      position: absolute;
-      margin-top: -82px;
-      margin-left: -46px;
-      padding: 0px;
-      width: 535px;
 
-    /*   background-color: brown; */
+  .card-img-top{
+      margin-top: -92px;
+      width: 108%;
+      margin-left: -19px;
+  
   }
 
+  .col-left{
+    padding-right: 0px;
+   }
+
+   .col-right{
+    padding-left: 0px;
+   }
+   
+   
   #card-pax
   {
-
-      position: absolute ;
-      margin-top: -68px;
-      margin-left: -30px;
-      width: 500px;
       z-index:10;
-      overflow-y: auto;
+      margin-top: -60px;
       min-height: 600px;
       border-top-left-radius: 3px !important;
       border-top-right-radius: 3px !important;
   }
+
+  #card-right{
+  
+    min-height:500px;
+    border-top-left-radius:  3px !important;
+    border-bottom-left-radius: 3px !important;
+   }
+
  }
- 
+
+
+
 
  .collapse-pax .collapse {
   &:not(.show) {

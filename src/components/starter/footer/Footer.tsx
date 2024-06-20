@@ -1,4 +1,5 @@
-import { component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { useLocation } from '@builder.io/qwik-city';
 
 import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
 import ImgContinentalAssistLogo from '~/media/ca/continental-assist-logo.webp?jsx';
@@ -7,6 +8,9 @@ import styles from './footer.css?inline'
 
 export const Footer = component$(() => {
     useStylesScoped$(styles)
+    const location = useLocation()
+
+    const showQuestion = useSignal(true)
 
     const urlsWhats : any[] = [
         {country:'CO',url:'https://wa.me/573176216304'},
@@ -45,8 +49,22 @@ export const Footer = component$(() => {
         })
     })
 
+   useVisibleTask$(() => {                
+        
+        if(!location.url.pathname.includes('quotes-engine'))
+        {
+            showQuestion.value = true
+        }
+        else
+        {
+            showQuestion.value = false
+        }
+    })
+
     return(
         <footer class='container-fluid'>
+            {
+            showQuestion.value&&
             <div id='icon-chat' class="dropup-end dropup">
                 <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
                 <ul class="dropdown-menu">
@@ -62,6 +80,7 @@ export const Footer = component$(() => {
                     </li>
                 </ul>
             </div>
+            }
             <div class='row bg-primary'>
                 <div class='col-xl-12'>
                     <div class='container'>

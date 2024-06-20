@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik"
+import { $, component$, useSignal, useStylesScoped$, useTask$,useVisibleTask$ } from "@builder.io/qwik"
 import styles from './input-select.css?inline'
 
 interface propInputSelect {
@@ -39,13 +39,13 @@ export const InputSelect = component$((props:propInputSelect) => {
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
-    /* useVisibleTask$(() => {
+    useVisibleTask$(() => {
         if(props.value)
         {
             getOptions$(props.value)
         }
 
-        if(navigator.userAgent.includes('Mobile'))
+        /* if(navigator.userAgent.includes('Mobile'))
         {
             readOnly.value = true
         }
@@ -53,8 +53,8 @@ export const InputSelect = component$((props:propInputSelect) => {
         if(props.readOnly != undefined)
         {
             readOnly.value = props.readOnly
-        }
-    }) */
+        } */
+    })
 
     const getFiltertList$ = $((e:any) => {
         if(e.target.value == '')

@@ -50,8 +50,7 @@ export const QuotesEngine = component$((props:propsQE) => {
         dateStart.value = new Date().toISOString().substring(0, 10)
         dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
 
-        resume.value = stateContext.value
-      
+        resume.value = stateContext.value      
         
     })
 
@@ -240,10 +239,11 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     type:'select',
                                     label:'Origen',
                                     name:'origen',
-                                    options:origins.value,required:true,
+                                    options:destinations.value,
+                                    required:true,
                                     onChange:$((e:any) => {changeOrigin$(e)}),
                                     icon:'plane-departure',
-                                    menuSize:{width:'549px', height:'394px'},
+                                   // menuSize:{width:'549px', height:'394px'},
                                     value: resume.value.origen,
                                 },
                                 {
@@ -254,7 +254,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     options:destinations.value,
                                     required:true,
                                     icon:'plane-arrival',
-                                    menuSize:{width:'549px', height:'394px'},
+                                    //menuSize:{width:'549px', height:'394px'},
                                     value: resume.value.destinos,
                                 }
                             ]}

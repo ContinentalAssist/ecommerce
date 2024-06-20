@@ -41,24 +41,21 @@ export const CardPaymentResume = component$(() => {
   });
 
   return (
+    <div class="container ">
     <div class="row">
-      <div class="card card-body shadow-lg mb-5" style={{ /* height: "100%", */ minHeight:'31.25rem !important', marginBottom: "70px !important" }}>
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-5">
-             <div class="row">
-
-
-              <ImgContinentalAssistPrintTicket
-                class="img-ticket"
-               
-                title="continental-assist-print-ticket"
-                alt="continental-assist-print-ticket"
-              />
-
-              <div class="card" id="card-pax">
-                <div class="card-body">
-                  <ul class="list-group" id="list-pax">
+      <div class="col-left col-lg-5 col-md-12">
+     
+     
+      <ImgContinentalAssistPrintTicket
+            class="card-img-top"
+            title="continental-assist-print-ticket"
+            alt="continental-assist-print-ticket"
+          />
+          
+          <div id="card-pax" class="card  mb-3" >           
+          <div class="card-body">
+           
+          <ul class="list-group" id="list-pax">
                     {Object.keys(resume.value).length > 0 &&
                       Array.isArray(resume.value.asegurados) &&
                       resume.value.asegurados.map((pax: any, index: number) => {
@@ -66,27 +63,59 @@ export const CardPaymentResume = component$(() => {
                           <li class="list-group-item" key={index + 1}>
                             <div class="row">
                               <div class="col-lg-12">
-                                <p class="text-dark-blue" style={{ textAlign: "left", padding: 0, margin: 0 }}>
+                                <div class="not-mobile">
+                                <p class="text-dark-blue text-start" style={{ /* textAlign: "left", */ padding: 0, margin: 0 }}>
                                   Viajero # {index + 1}
                                 </p>
+                                </div>
+
+                                <div class="mobile">
+                                <p class="text-dark-blue text-center" style={{ /* textAlign: "left", */ padding: 0, margin: 0 }}>
+                                  Viajero # {index + 1}
+                                </p>
+                                </div>
+                                
                               </div>
                             </div>
                             <div class="row ">
                               <div class="col-lg-8">
-                                <h4 class="text-bold text-dark-blue" style={{ textAlign: "left", marginBottom: 0 }}>
+                              <div class="not-mobile">
+                              <h4 class="text-bold text-dark-blue text-start" style={{ /* textAlign: "left", */ marginBottom: 0 }}>
                                   {pax.nombres} {pax.apellidos}
                                 </h4>
                               </div>
+
+                              <div class="mobile">
+                              <h4 class="text-bold text-dark-blue text-center" style={{ /* textAlign: "left", */ marginBottom: 0 }}>
+                                  {pax.nombres} {pax.apellidos}
+                                </h4>
+                              </div>
+                               
+                              </div>
                               <div class="col-lg-4 ">
-                                <p
+                              <div class="not-mobile d-flex flex-column text-end">
+                                <p class="text-light-blue" 
+                                style={{  padding: 0, margin: 0, cursor: "pointer" }}
+                                onClick$={() => {
+                                  openCollapsPax$(String("collapse-" + (index + 1)));
+                                }}
+                                >
+                                   Ver detalles
+                                </p>
+                                </div>
+
+                              <div class="mobile text-center">
+                              <p
                                   class="text-light-blue"
-                                  style={{ textAlign: "right", padding: 0, margin: 0, cursor: "pointer" }}
+                                  style={{  padding: 0, margin: 0, cursor: "pointer" }}
                                   onClick$={() => {
                                     openCollapsPax$(String("collapse-" + (index + 1)));
                                   }}
                                 >
                                   Ver detalles
                                 </p>
+                              </div>
+                               
                               </div>
 
                               <hr
@@ -107,19 +136,7 @@ export const CardPaymentResume = component$(() => {
                               >
                                 <br />
                                 <div class="row">
-                                  {/* <div class='col-lg-6 col-xs-12'>
-                                                        <div class="input-group">
-                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                                                <span class="input-group-text border border-0 align-self-center text-dark-blue" style={{paddingLeft:'0px'}}>
-                                                                    <i class="fa-solid fa-plane-departure"></i>
-                                                                </span>
-                                                                <label class="text-dark-gray" style={{ textAlign: 'left', fontSize: '0.75rem' }}>
-                                                                <span class="text-tin">Origen / Destino(s)</span>  <br/>
-                                                                    <span class="text-bold text-dark-blue"style={{fontSize:'0.875rem'}} >{resume.value.paisorigen} <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',', ', ')}</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        </div>  */}
+           
 
                                   <div class="col-lg-6 col-xs-12">
                                     <div class="input-group">
@@ -146,20 +163,7 @@ export const CardPaymentResume = component$(() => {
                                     </div>
                                   </div>
 
-                                  {/*                                                     <div class='col-lg-6 col-xs-12'>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text border border-0 ">
-                                                                    <i class="fa-solid fa-user-plus"/>
-                                                                </span>
-                                                                <p style={{textAlign:'left'}}>
-                                                                <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Viajeros</span><br/>
-                                                                    <span class="text-bold text-dark-blue" style={{fontSize:'12px'}}>{resume.value.pasajeros}
-                                                                </span>
-                                                                </p>                                                            
-                                                            </div>
-                                                        
-                                                        </div> */}
-
+                                 
                                   <div class="col-lg-6 col-xs-12">
                                     <div class="input-group">
                                       <div style={{ display: "flex", alignItems: "center" }}>
@@ -182,18 +186,7 @@ export const CardPaymentResume = component$(() => {
                                     </div>
                                   </div>
 
-                                  {/*  <div class='col-lg-12 col-xs-12'>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text border border-0 ">
-                                                                    <i class="far fa-calendar"/>
-                                                                </span>
-                                                                <p style={{textAlign:'left'}}>
-                                                                <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Fechas de tu viaje</span> <br/>                                                                            
-                                                                    <span class="text-bold text-dark-blue" style={{fontSize:'12px'}}>{resume.value.desde} <span class='text-semi-bold text-dark-blue'> al </span> {resume.value.hasta}</span>
-                                                                </p>                                                            
-                                                            </div>
-                                                        </div> */}
-
+                                 
                                   <div class="col-lg-12 col-xs-12">
                                     <div class="input-group">
                                       <div style={{ display: "flex", alignItems: "center" }}>
@@ -241,16 +234,7 @@ export const CardPaymentResume = component$(() => {
                                       </div>
                                     </div>
 
-                                    {/* <div class="input-group">
-                                                                <span class="input-group-text border border-0 ">
-                                                                    <i class="fa-solid fa-clipboard-check"/>
-                                                                </span>
-                                                                <p style={{textAlign:'left'}}>
-                                                                <span class="text-tin text-dark-gray ps-0" style={{fontSize:'12px'}}>Plan</span><br/>
-                                                                    <span class="text-bold text-light-blue" style={{fontSize:'12px'}}>{resume.value.plan.nombreplan}
-                                                                </span>
-                                                                </p>                                                            
-                                                            </div> */}
+                                  
                                     <br />
                                   </div>
                                   <div class="col-6">
@@ -293,9 +277,9 @@ export const CardPaymentResume = component$(() => {
                                           class="text-semi-bold text-blue"
                                           style={{ fontSize: "0.875rem" }}
                                         >
-                                          <div class="row">
-                                            <div class="col-lg-7 col-xs-12">{benefit.nombrebeneficioadicional}</div>
-                                            <div class="col-lg-5 col-xs-12">
+                                          <div class="row" style={{paddingBottom:'5px'}}>
+                                            <div class="col-lg-7 col-xs-6">{benefit.nombrebeneficioadicional}</div>
+                                            <div class="col-lg-5 col-xs-6">
                                               <h4 style={{ float: "right" }}>
                                                 {divisaManual.value == true
                                                   ? CurrencyFormatter(benefit.codigomonedapago, benefit.precio)
@@ -306,15 +290,11 @@ export const CardPaymentResume = component$(() => {
                                               </h4>
                                             </div>
                                           </div>
+                                          <br/>
                                         </li>
                                       );
                                     })}
-                                    {/*  <li key="key-sub">
-                                                        
-                                                        
-                                                                
-
-                                                            </li> */}
+               
                                   </ul>
                                   <hr />
                                 </div>
@@ -349,25 +329,27 @@ export const CardPaymentResume = component$(() => {
                           </li>
                         );
                       })}
-                  </ul>
-                </div>
-              </div>
-             </div>
+          </ul>
+          </div>
+        </div>
+      
+        
 
-              
-
-            </div>
-            <div class="col-lg-7">
-              {
-                Object.keys(resume.value).length > 0 &&
-                Array.isArray(resume.value.asegurados) &&
+      </div>
+      <div class="col-right col-lg-7 col-md-12" >
+        <div class="row">
+          <div class="col-12" >
+          <div id="card-right" class="card">
+          <div class="card-body">
+              {             
                 <Slot />
               }
-            </div>
+          </div>
+        </div>
           </div>
         </div>
       </div>
-      <br/><br/>
     </div>
+  </div>
   );
 });
