@@ -59,6 +59,21 @@
     height: 150px;
 }
 
+.main-payment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio debajo de cada fila */
+}
+
+.dotted-line {
+    flex-grow: 1;
+    border-top: 2px dotted #1D2546;
+    margin: 10px 10px 0px 10px;
+    /* padding: 2px; */
+   /*  height: 1em; */ /* Altura de la línea */
+}
+
 @media (max-width: 575.98px)
 {
     .img-card .card-number

@@ -503,6 +503,13 @@ export default component$((props:propsAuthorize) => {
                                     <div class='container'>
                                         <div class='row justify-content-center'>
                                             <div class='col-lg-6'>
+                                                    <div class='d-grid gap-2 mt-4'>
+                                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                        
+                                                    </div>
+                                            </div>
+
+                                            <div class='col-lg-6'>
                                                 <div class='d-grid gap-2 mt-4'>
                                                     <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
                                                     {

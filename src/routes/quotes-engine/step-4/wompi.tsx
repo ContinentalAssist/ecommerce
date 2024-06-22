@@ -8,6 +8,9 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import ImgNequi from '~/media/icons/nequi.svg?jsx';
+/* import ImgPse from '~/media/icons/pse.svg?jsx';
+ */
 
 export interface propsWompi {
     setLoading: (loading: boolean) => void;
@@ -882,6 +885,12 @@ export default component$((props:propsWompi) => {
                                         <div class='container'>
                                             <div class='row justify-content-center'>
                                                 <div class='col-lg-6'>
+                                                        <div class='d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                            
+                                                        </div>
+                                                </div>
+                                                <div class='col-lg-6'>
                                                     <div class='d-grid gap-2 mt-4'>
                                                         <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
                                                         {
@@ -972,7 +981,7 @@ export default component$((props:propsWompi) => {
                                     &&
                                     <div class='row justify-content-center'>
                                     
-                                        <div class='col-lg-12'>
+                                       {/*  <div class='col-lg-12'> */}
                                             {
                                                 nequi.value.phone
                                                 ?
@@ -984,63 +993,100 @@ export default component$((props:propsWompi) => {
                                                 </>
                                                 :
                                                 <>
-                                                    <Form
+                                                 <br/>
+
+                                                 <div class="d-flex justify-content-start">
+                                                 <ImgNequi
+                                                        class=""
+                                                        title="Nequi"
+                                                        alt="Nequi"
+                                                    />
+                                                <br/>
+                                                <br/>
+                                                 </div>
+                                              
+                                                 <hr />
+                                                 <br/>
+                                                 <br/>
+                                                <div class="col-9">
+
+                                                   
+                                                <Form
                                                         id='form-nequi'
                                                         form={[
                                                             {row:[
-                                                                {size:'col-xl-12',type:'phone',label:'Número celular de tu cuenta Nequi',name:'phone_number',required:true},
+                                                                {size:'col-xl-12',type:'phone',label:'Número celular de tu cuenta Nequi',name:'phone_number',
+                                                                placeholder:'Número celular de tu cuenta Nequi',required:true},
                                                             ]}
                                                         ]}
                                                     />
-                                                    <small>Recibiras una notificación push en tu celular.</small>
-                                                    <div class='container'>
-                                                        <div class='row justify-content-center'>
-                                                            <div class='col-lg-6'>
-                                                                <div class='d-grid gap-2 mt-4'>
-                                                                    <button type='button' class='btn btn-primary' onClick$={getPhoneNequi$}>Realizar pago</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                                    
+
+                                                </div>
+                                                    
+                                                <div class='col-lg-3'>
+                                                    <div class='d-grid gap-2 mt-2'>
+                                                        <button type='button' class='btn btn-primary' onClick$={getPhoneNequi$}>Pagar</button>
                                                     </div>
+                                                </div>
+
+                                                <small class="text-regular">Recibiras una notificación push en tu celular.</small>
+                                                <br/>
+                                                <br/>
+                                                <hr />
+
+                                                <br/>
                                                 </>
                                             }
-                                        </div>
-                                        <div class='col-lg-12 col-10 text-end'>
+                                     {/*    </div> */}
+                                       {/*  <div class='col-lg-12 col-10 text-end'>
                                             <p class='text-regular text-blue mb-0'>Total</p>
                                             <h3 class='h1 text-semi-bold text-blue mb-4'>
                                                 {
                                                     CurrencyFormatter('COP',nequi.value.total)
                                                 }
                                             </h3>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 }
                                 {
                                     formPayment.value == 'PSE'
                                     &&
+                                    
                                     <div class='row justify-content-center'>
-                                        {/* <div class='col-lg-4 mb-3'>
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',pse.value.total)}</h3>
-                                        </div> */}
+                                    <br/>
+                                    <div class="d-flex justify-content-start mb-4">
+                                  {/*   <ImgPse
+                                        class=""
+                                        title="PSE"
+                                        alt="PSE"
+                                        style={{height:'50px'}}
+                                    /> */}
+                       
+                                    </div>
+
+                                    <hr />
+                                    <br/>
+                                    <br/>
                                         <div class='col-lg-12 '>
                                             <Form
                                                 id='form-pse'
                                                 form={[
+                                                   
                                                     {row:[
-                                                        {size:'col-xl-12',type:'select',label:'Banco',name:'institution',required:true,options:institutions.value},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-6',type:'select',label:'Tipo de documento',name:'document_type',required:true,options:[
+                                                        {size:'col-xl-6',type:'select',label:'Tipo de documento',placeholder:'Tipo de documento',name:'document_type',required:true,options:[
                                                             {value:'CC',label:'CC - Cedula de ciudadania'},
                                                             {value:'CE',label:'CE - Cedula de extranjenria'},
                                                         ]},
-                                                        {size:'col-xl-6',type:'text',label:'Documento',name:'document',required:true}
-                                                    ]}
+                                                        {size:'col-xl-6',type:'text',label:'Documento',placeholder:'Documento',name:'document',required:true}
+                                                    ]},
+                                                    {row:[
+                                                        {size:'col-xl-12',type:'select',label:'Banco',placeholder:'Banco',name:'institution',required:true,options:institutions.value},
+                                                    ]},
                                                 ]}
                                             />
                                             <div class='container'>
-                                                <div class='row justify-content-center'>
+                                                <div class='row justify-content-center mb-4'>
                                                     <div class='col-lg-6'>
                                                         <div class='d-grid gap-2 mt-4'>
                                                             <button type='button' class='btn btn-primary' onClick$={getPSE$}>Realizar pago</button>
@@ -1048,15 +1094,20 @@ export default component$((props:propsWompi) => {
                                                     </div>
                                                 </div>
                                             </div>
+                                          
                                         </div>
-                                        <div class='col-lg-12 col-10 text-end'>
+                                      
+                                        <hr />
+                                    <br/>
+                                    <br/>
+                                        {/* <div class='col-lg-12 col-10 text-end'>
                                             <p class='text-regular text-blue mb-0'>Total</p>
                                             <h3 class='h1 text-semi-bold text-blue mb-4'>
                                                 {
                                                     CurrencyFormatter('COP',pse.value.total)
                                                 }
                                             </h3>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 }    
 

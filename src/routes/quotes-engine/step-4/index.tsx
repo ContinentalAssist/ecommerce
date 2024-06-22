@@ -87,6 +87,8 @@ export default component$(() => {
                                     <hr class='divider my-3'/>
                                 </div>
                             </div>
+                            <br/>
+                            <br/>
                             {
                                 formPayment.value == 'wompi'
                                 &&

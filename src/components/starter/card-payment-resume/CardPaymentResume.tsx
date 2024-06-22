@@ -344,6 +344,15 @@ export const CardPaymentResume = component$(() => {
               {             
                 <Slot />
               }
+              <br/>
+          <div class='col-lg-12 col-10 text-end'>
+              <p class='text-regular text-blue mb-0'>Total</p>
+              <h3 class='h1 text-semi-bold text-blue mb-4'>
+                  {
+                      resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
+                  }
+              </h3>
+          </div>
           </div>
         </div>
           </div>

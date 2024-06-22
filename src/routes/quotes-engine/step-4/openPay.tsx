@@ -7,6 +7,7 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export interface propsOP {
     setLoading: (loading: boolean) => void;
@@ -36,6 +37,7 @@ export default component$((props:propsOP) => {
     const redirect = useSignal(obj)
     const store = useSignal(obj)
     const bank = useSignal(obj)
+    const divisaManual = useSignal(stateContext.value.divisaManual)
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -632,6 +634,12 @@ export default component$((props:propsOP) => {
                                                 <div class='row justify-content-center'>
                                                     <div class='col-lg-6'>
                                                         <div class='d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-lg-6'>
+                                                        <div class='d-grid gap-2 mt-4'>
                                                             <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
                                                             {
                                                                 attempts.value > 0
@@ -649,7 +657,8 @@ export default component$((props:propsOP) => {
                              &&
                              <div class="row">
                                 <div class='img-card text-center'>
-                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} alt='continental-assist-barcode-paynet'/>
+                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'50%'}} alt='continental-assist-barcode-paynet'/>
+                                    <br/>
                                     <small>{store.value.intention}</small>
                                     <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/>
                                     <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
@@ -661,21 +670,20 @@ export default component$((props:propsOP) => {
                         {
                              formPayment.value == 'BANK_ACCOUNT'
                              &&
-                             <div class="row">
-                                
-                                <table class="table table-bordered">
-                                    <tr>
-                                        <th class='text-center' colSpan={2}>Datos para el pago: {bank.value.bank}</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Número de convenio</td>
-                                        <td>{bank.value.agreement}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Referencia de pago</td>
-                                        <td>{bank.value.intention}</td>
-                                    </tr>
-                                </table>
+                             <div class="row text-dark-blue">
+
+                                <h4 class="text-semi-bold ">Datos para el pago:</h4>
+                                <div class="main-payment-container">
+                                    <span class="text-medium ">Número de convenio</span>
+                                    <span class="dotted-line"></span>
+                                    <span class="text-medium">{bank.value.agreement}</span>
+                                </div>
+                                <div class="main-payment-container">
+                                    <span class="text-medium">Referencia de pago</span>
+                                    <span class="dotted-line"></span>
+                                    <span class="text-medium">{bank.value.intention}</span>
+                                </div>
+                                    
                                 <div class='img-card text-center'>
                                     <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
                                 </div>

@@ -468,7 +468,7 @@ export default component$(() => {
                                                     {
                                                         resume.value.idcotizacion == undefined
                                                         &&
-                                                        <div class='col-lg-6 col-md-6 col-12'>
+                                                        <div class='col-lg-12 col-md-12 col-12'>
                                                         <div id='buttons' class='row row-mobile mt-4 '>                                                                    
                                                                 <div class="form-check form-check-inline">
                                                                     <input 
@@ -483,14 +483,15 @@ export default component$(() => {
                                                             </div>
                                                         </div>
                                                     }
-                                                    <div class='col-lg-6 col-10 text-end'>
+                                                    {/* <div class='col-lg-6 col-10 text-end'>
                                                         <p class='text-regular text-blue mb-0'>Total</p>
                                                         <h3 class='h1 text-semi-bold text-blue mb-4'>
                                                             {
                                                                 resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
                                                             }
                                                         </h3>
-                                                    </div>
+                                                    </div> */}
+
                                                     {/*  <div class='col-lg-4 col-10'>
                                                         <div class='d-grid gap-2'>
                                                             <button class='btn btn-primary mb-0' onClick$={getResume$}>Ir a pagar</button>
