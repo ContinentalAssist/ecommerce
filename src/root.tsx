@@ -35,7 +35,7 @@ export default component$(() => {
             .then((response) => {
                 return(response.json())
             })
-            /*   const geoData ={
+             /*  const geoData ={
                 ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
                 country: "CO"
             }  */

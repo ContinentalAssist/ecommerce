@@ -78,7 +78,7 @@ export const CardPaymentResume = component$(() => {
                               </div>
                             </div>
                             <div class="row ">
-                              <div class="col-lg-8">
+                              <div class="col-lg-9">
                               <div class="not-mobile">
                               <h4 class="text-bold text-dark-blue text-start" style={{ /* textAlign: "left", */ marginBottom: 0 }}>
                                   {pax.nombres} {pax.apellidos}
@@ -92,17 +92,21 @@ export const CardPaymentResume = component$(() => {
                               </div>
                                
                               </div>
-                              <div class="col-lg-4 ">
-                              <div class="not-mobile d-flex flex-column text-end">
-                                <p class="text-light-blue" 
-                                style={{  padding: 0, margin: 0, cursor: "pointer" }}
-                                onClick$={() => {
-                                  openCollapsPax$(String("collapse-" + (index + 1)));
-                                }}
-                                >
-                                   Ver detalles
-                                </p>
+                              <div class="col-lg-3 ">
+                                <div  class="row not-mobile">
+                                  <div class=" d-flex flex-column text-end">
+                                  <p class="text-light-blue" 
+                                  style={{  padding: 0, margin: 0, cursor: "pointer" }}
+                                  onClick$={() => {
+                                    openCollapsPax$(String("collapse-" + (index + 1)));
+                                  }}
+                                  >
+                                    Ver detalles
+                                  </p>
                                 </div>
+
+                                </div>
+                              
 
                               <div class="mobile text-center">
                               <p
@@ -241,12 +245,12 @@ export const CardPaymentResume = component$(() => {
                                     <h4 class="text-semi-bold text-dark-blue text-end">
                                       {divisaManual.value == true
                                         ? CurrencyFormatter(
-                                            resume.value.total.divisa,
-                                            resume.value.plan.precioindividual
+                                            resume?.value?.total?.divisa,
+                                            resume?.value?.plan?.precioindividual
                                           )
                                         : CurrencyFormatter(
-                                            stateContext.value.currentRate.code,
-                                            resume.value.plan.precioindividual * stateContext.value.currentRate.rate
+                                            stateContext?.value?.currentRate?.code,
+                                            resume?.value?.plan?.precioindividual * stateContext?.value?.currentRate?.rate
                                           )}
                                     </h4>
                                   </div>
@@ -284,8 +288,8 @@ export const CardPaymentResume = component$(() => {
                                                 {divisaManual.value == true
                                                   ? CurrencyFormatter(benefit.codigomonedapago, benefit.precio)
                                                   : CurrencyFormatter(
-                                                      stateContext.value.currentRate.code,
-                                                      benefit.precio * stateContext.value.currentRate.rate
+                                                      stateContext.value?.currentRate?.code,
+                                                      benefit.precio * stateContext.value?.currentRate?.rate
                                                     )}
                                               </h4>
                                             </div>
@@ -314,12 +318,12 @@ export const CardPaymentResume = component$(() => {
                                               }, 0) + resume.value.plan.precioindividual
                                             )
                                           : CurrencyFormatter(
-                                              stateContext.value.currentRate.code,
+                                              stateContext.value?.currentRate?.code,
                                               (pax.beneficiosadicionales.reduce((sum: number, value: any) => {
                                                 return sum + value.precio;
                                               }, 0) +
-                                                resume.value.plan.precioindividual) *
-                                                stateContext.value.currentRate.rate
+                                                resume.value?.plan?.precioindividual) *
+                                                stateContext.value?.currentRate?.rate
                                             ))}
                                     </h4>
                                   </div>
@@ -349,7 +353,7 @@ export const CardPaymentResume = component$(() => {
               <p class='text-regular text-blue mb-0'>Total</p>
               <h3 class='h1 text-semi-bold text-blue mb-4'>
                   {
-                      resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
+                      resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
                   }
               </h3>
           </div>

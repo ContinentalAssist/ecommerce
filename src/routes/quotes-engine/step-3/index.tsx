@@ -100,6 +100,11 @@ export default component$(() => {
                 ]
             },
             {
+                method:'BANCOLOMBIA_TRANSFER',
+                title:'Transferencia Bancolombia',
+                icons:['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOS4zMDMxIDI3LjM4OEMyNS4zMjUgMjguMzQ3NSAyMS40MzIxIDI5LjU0NDUgMTcuNTc3NiAzMC45MTQ3QzE3LjAyNjggMzEuMTIzIDE2LjQyODkgMzAuODUyNSAxNi4yODMgMzAuMzIzNkMxNS45NzI3IDI5LjE5NzIgMTUuNjk3NSAyOC4zMzA2IDE1LjM5MDkgMjcuMjA4QzE1LjI2MjMgMjYuNzM2OCAxNS41Mzc4IDI2LjIyNDcgMTYuMDI2NiAyNi4wNDY0QzE5Ljg4MjQgMjQuNzMwNyAyMy43NzQ2IDIzLjY5NyAyNy43NTY2IDIyLjgzOTRDMjguMTk1NSAyMi43NDk1IDI4LjY1NzUgMjMuMDcyMiAyOC44MTU2IDIzLjU2NjhDMjkuMTM3NCAyNC41NzM1IDI5LjQxNzQgMjUuMzgyMyAyOS43MzA1IDI2LjM5MzNDMjkuODcyNSAyNi44NTE2IDI5LjY4NDYgMjcuMjk2IDI5LjMwMzEgMjcuMzg4Wk05LjM0OTI1IDI1LjIzODRDOS4xMTM4OCAyNC4wMjY4IDguODc2MTUgMjMuMTE2OSA4LjY0NTI5IDIxLjkwODFDOC41NTUzOSAyMS40MzU0IDguODEyODYgMjAuODk4OCA5LjI0MjQgMjAuNjk2OUMxNS4xMzExIDE4LjEwOTggMjEuMzQwOCAxNi41NDQ0IDI3LjcxODIgMTUuNzM3MkMyOC4xMzgxIDE1LjY4MjUgMjguNTYyNSAxNS45OTIzIDI4LjcxODkgMTYuNDU1OEMyOS4wNTU0IDE3LjQ1MjYgMjkuMzQyNCAxOC4yNTY4IDI5LjY2OTIgMTkuMjU4M0MyOS44MjY5IDE5Ljc0MTUgMjkuNjE2OCAyMC4yMTA1IDI5LjIwNDcgMjAuMjc3NEMyMi43MjA0IDIxLjMxMDEgMTYuMzk5MyAyMy4wNDIgMTAuNDE4IDI1Ljc2MjJDOS45MzczNSAyNS45OTQ3IDkuNDUwMDkgMjUuNzU2NCA5LjM0OTI1IDI1LjIzODRaTTEyLjIxNTggMTEuNDY3NkMxNi4xNiAxMC4zMzMyIDIwLjA5NTYgOS41OTY2MyAyNC4xNjkxIDkuMDk3NzhDMjQuNjEzNyA5LjA0OTk0IDI1LjA0NzkgOS4zMzcwMiAyNS4yMDg2IDkuNzc0NzFDMjUuNTg2OSAxMC44MDU3IDI1Ljg5NSAxMS42MjcyIDI2LjI2NTEgMTIuNjYzOUMyNi40NDA4IDEzLjE1NTkgMjYuMTc5NSAxMy42NDY0IDI1LjcwMTcgMTMuNzA5OUMyMS41MzMzIDE0LjMyMjkgMTcuNDkzNCAxNS4xNjU0IDEzLjQ2MzYgMTYuMzk2OEMxMi45NzIxIDE2LjU1OSAxMi40ODgzIDE2LjMxMjIgMTIuMzY0IDE1LjgzNEMxMi4wNzA3IDE0LjcwMjYgMTEuODA0MyAxMy44MzMzIDExLjUxNjEgMTIuNzA1NkMxMS4zODY3IDEyLjE5ODggMTEuNzAxOSAxMS42Mjc2IDEyLjIxNTggMTEuNDY3NlpNMjAgMkMxMC4wNTg5IDIgMiAxMC4wNTkgMiAyMEMyIDI5Ljk0MSAxMC4wNTg5IDM4IDIwIDM4QzI5Ljk0MSAzOCAzNy45OTk5IDI5Ljk0MSAzNy45OTk5IDIwQzM3Ljk5OTkgMTAuMDU5IDI5Ljk0MSAyIDIwIDJaIiBmaWxsPSIjMkMyQTI5Ii8+Cjwvc3ZnPgo=']
+            },
+            {
                 method:'BANCOLOMBIA_QR',
                 title:'QR Bancolombia',
                 icons:['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iMzYiIHZpZXdCb3g9IjAgMCAzNiAzNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjM2IiBoZWlnaHQ9IjM2IiByeD0iMTgiIGZpbGw9IiMyQzJBMjkiLz4KPHBhdGggZD0iTTguNDEzNTMgMTAuMTA1MkM4LjQxMzUzIDkuMTY5MSA5LjE2OTE2IDguNDEzNDYgMTAuMTA1MyA4LjQxMzQ2SDExLjc5N1Y3LjI4NTY0SDEwLjEwNTNDOC41NDg4NiA3LjI4NTY0IDcuMjg1NzEgOC41NDg4IDcuMjg1NzEgMTAuMTA1MlYxMS43OTY5SDguNDEzNTNWMTAuMTA1MloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yNS44OTQ3IDcuMjg1NjRIMjQuMjAzVjguNDEzNDZIMjUuODk0N0MyNi44MzA4IDguNDEzNDYgMjcuNTg2NSA5LjE2OTEgMjcuNTg2NSAxMC4xMDUyVjExLjc5NjlIMjguNzE0M1YxMC4xMDUyQzI4LjcxNDMgOC41NDg4IDI3LjQ1MTEgNy4yODU2NCAyNS44OTQ3IDcuMjg1NjRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjUuODk0NyAyNy41ODY0QzI2LjgzMDggMjcuNTg2NCAyNy41ODY1IDI2LjgzMDggMjcuNTg2NSAyNS44OTQ3VjI0LjIwMjlIMjguNzE0M1YyNS44OTQ3QzI4LjcxNDMgMjcuNDUxMSAyNy40NTExIDI4LjcxNDIgMjUuODk0NyAyOC43MTQySDI0LjIwM1YyNy41ODY0SDI1Ljg5NDdaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNOC40MTM1MyAyNS44OTQ3VjI0LjIwMjlINy4yODU3MVYyNS44OTQ3QzcuMjg1NzEgMjcuNDUxMSA4LjU0ODg2IDI4LjcxNDIgMTAuMTA1MyAyOC43MTQySDExLjc5N1YyNy41ODY0SDEwLjEwNTNDOS4xNjkxNiAyNy41ODY0IDguNDEzNTMgMjYuODMwOCA4LjQxMzUzIDI1Ljg5NDdaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTQuNzg1NyAxMC40OTk5VjEyLjY0MjhIMTUuODU3MVYxMS41NzE0SDE4VjEwLjQ5OTlIMTQuNzg1N1oiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yMC4xNDI4IDEwLjQ5OTlIMTkuMDcxNFYxMS41NzE0SDIwLjE0MjhWMTIuNjQyOEgyMS4yMTQzVjExLjU3MTRIMjAuMTQyOFYxMC40OTk5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTExLjU3MTQgMTQuNzg1NkgxMC41VjE1Ljg1NzFIMTEuNTcxNFYxNi45Mjg1SDEwLjVWMTcuOTk5OUgxMS41NzE0VjE2LjkyODVIMTIuNjQyOFYxNS44NTcxSDExLjU3MTRWMTQuNzg1NloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xMC41IDIxLjIxNDJWMTkuMDcxNEgxMi42NDI4VjIwLjE0MjhIMTEuNTcxNFYyMS4yMTQySDEwLjVaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTYuMzAyNCAxNi45MjgzQzE2LjE1MDcgMTYuOTc3OSAxNi4wMDE0IDE2LjkwMjMgMTUuOTYzMSAxNi43NTZDMTUuODcyNSAxNi40MDk3IDE1LjgyNzYgMTYuMjM2OCAxNS43Mzg3IDE1Ljg5MTZDMTUuNjk4OCAxNS43MzY0IDE1Ljc5NjEgMTUuNTYxNiAxNS45NTQ2IDE1LjUxMjZDMTcuMTcxOSAxNS4xNjUzIDE4LjM4NjUgMTQuOTM5OSAxOS42NDM4IDE0Ljc4NzJDMTkuNzgwOSAxNC43NzI2IDE5LjkxNSAxNC44NjA1IDE5Ljk2NDUgMTQuOTk0NEMyMC4wODEzIDE1LjMxIDIwLjEzOTEgMTUuNDY4MyAyMC4yNTMzIDE1Ljc4NTZDMjAuMzA3NSAxNS45MzYyIDIwLjIyNjggMTYuMDg2MyAyMC4wNzk0IDE2LjEwNThDMTguNzkyOSAxNi4yOTM0IDE3LjU0NjEgMTYuNTUxMyAxNi4zMDI0IDE2LjkyODNaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjAuNjM3MyAxNi43MjA2QzIwLjc2NiAxNi43MDM4IDIwLjg5NjEgMTYuNzk4OCAyMC45NDQgMTYuOTQxMUMyMS4wNDcyIDE3LjI0NjkgMjEuMDk4IDE3LjQwMDMgMjEuMTk4MiAxNy43MDc2QzIxLjI0NjUgMTcuODU1OSAyMS4xODIxIDE3Ljk5OTggMjEuMDU1OCAxOC4wMjAzQzE5LjA2ODIgMTguMzM3MiAxNy4xMzA3IDE4Ljg2ODYgMTUuMjk3NCAxOS43MDMyQzE1LjE1MDEgMTkuNzc0NyAxNS4wMDA3IDE5LjcwMTUgMTQuOTY5OCAxOS41NDI2QzE0Ljg5NzYgMTkuMTcwOCAxNC44NjE5IDE4Ljk4NTEgMTQuNzkxMiAxOC42MTQxQzE0Ljc2MzYgMTguNDY5MSAxNC44NDI1IDE4LjMwNDQgMTQuOTc0MiAxOC4yNDI1QzE2Ljc3OTIgMTcuNDQ4NiAxOC42ODI2IDE2Ljk2ODMgMjAuNjM3MyAxNi43MjA2WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTIwLjYzNDcgMTguNzkxM0MyMC43Njg2IDE4Ljc2MzUgMjAuOTA5NSAxOC44NjMzIDIwLjk1NzcgMTkuMDE2MUMyMS4wNTU5IDE5LjMyNzEgMjEuMTA0NCAxOS40ODMgMjEuMTk5OSAxOS43OTUzQzIxLjI0MzIgMTkuOTM3IDIxLjE4NTkgMjAuMDc0MyAyMS4wNjk1IDIwLjEwMjdDMTkuODU2MiAyMC4zOTkyIDE4LjY2ODggMjAuNzY5IDE3LjQ5MzIgMjEuMTkyNEMxNy4zMjUyIDIxLjI1NjggMTcuMTQyOSAyMS4xNzMyIDE3LjA5ODQgMjEuMDA5OEMxNy4wMDM3IDIwLjY2MTggMTYuOTU2NyAyMC40ODgxIDE2Ljg2MzMgMjAuMTQxMkMxNi44MjQgMTkuOTk1NiAxNi45MDggMTkuODM3MyAxNy4wNTcyIDE5Ljc4MjNDMTguMjMzMSAxOS4zNzU4IDE5LjQyMDIgMTkuMDU2MyAyMC42MzQ3IDE4Ljc5MTNaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMjQuNDI4NiAyMS4yMTQySDI1LjVWMjAuMTQyOEgyNC40Mjg2VjE5LjA3MTRIMjUuNVYxNy45OTk5SDI0LjQyODZWMTkuMDcxNEgyMy4zNTcxVjIwLjE0MjhIMjQuNDI4NlYyMS4yMTQyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI1LjUgMTYuOTI4NVYxNC43ODU2SDIzLjM1NzFWMTUuODU3MUgyNC40Mjg2VjE2LjkyODVIMjUuNVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yMS4yMTQzIDI1LjQ5OTlIMThWMjQuNDI4NUgyMC4xNDI4VjIzLjM1NzFIMjEuMjE0M1YyNS40OTk5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE2LjkyODYgMjUuNDk5OUgxNS44NTcxVjI0LjQyODVIMTYuOTI4NlYyNS40OTk5WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTE1Ljg1NzEgMjQuNDI4NUgxNC43ODU3VjIzLjM1NzFIMTUuODU3MVYyNC40Mjg1WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMC41IDEwLjQ5OTlWMTMuNzE0MkgxMy43MTQzVjEwLjQ5OTlIMTAuNVpNMTIuNjQyOCAxMS41NzE0SDExLjU3MTRWMTIuNjQyOEgxMi42NDI4VjExLjU3MTRaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTEwLjUgMjUuNDk5OVYyMi4yODU2SDEzLjcxNDNWMjUuNDk5OUgxMC41Wk0xMS41NzE0IDIzLjM1NzFIMTIuNjQyOFYyNC40Mjg1SDExLjU3MTRWMjMuMzU3MVoiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMjIuMjg1NyAxMC40OTk5VjEzLjcxNDJIMjUuNVYxMC40OTk5SDIyLjI4NTdaTTI0LjQyODYgMTEuNTcxNEgyMy4zNTcxVjEyLjY0MjhIMjQuNDI4NlYxMS41NzE0WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMi4yODU3IDI1LjQ5OTlWMjIuMjg1NkgyNS41VjI1LjQ5OTlIMjIuMjg1N1pNMjMuMzU3MSAyMy4zNTcxSDI0LjQyODZWMjQuNDI4NUgyMy4zNTcxVjIzLjM1NzFaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K']
@@ -120,11 +125,7 @@ export default component$(() => {
                 title:'Efectivo',
                 icons:['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIwIDM4QzI5Ljk0MTEgMzggMzggMjkuOTQxMSAzOCAyMEMzOCAxMC4wNTg5IDI5Ljk0MTEgMiAyMCAyQzEwLjA1ODkgMiAyIDEwLjA1ODkgMiAyMEMyIDI5Ljk0MTEgMTAuMDU4OSAzOCAyMCAzOFoiIGZpbGw9IiMyQjI5MjkiLz4KPHBhdGggZD0iTTguNTMxNDkgMjcuNjExNUgzMS40Njg2VjEyLjM4ODdIOC41MzE0OVYyNy42MTE1Wk05LjYxMTQ5IDEzLjQ2ODdIMzAuMzg4NlYyNi41MzE1SDkuNjExNDlWMTMuNDY4N1oiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0yMC4wMDAxIDE2LjI0NThDMTkuMjU3NiAxNi4yNDU4IDE4LjUzMTggMTYuNDY2IDE3LjkxNDQgMTYuODc4NkMxNy4yOTcgMTcuMjkxMSAxNi44MTU4IDE3Ljg3NzQgMTYuNTMxNiAxOC41NjM0QzE2LjI0NzUgMTkuMjQ5NCAxNi4xNzMxIDIwLjAwNDMgMTYuMzE4IDIwLjczMjVDMTYuNDYyOCAyMS40NjA4IDE2LjgyMDQgMjIuMTI5OCAxNy4zNDU1IDIyLjY1NDhDMTcuODcwNSAyMy4xNzk5IDE4LjUzOTUgMjMuNTM3NCAxOS4yNjc3IDIzLjY4MjNDMTkuOTk2IDIzLjgyNzEgMjAuNzUwOCAyMy43NTI4IDIxLjQzNjggMjMuNDY4NkMyMi4xMjI4IDIzLjE4NDUgMjIuNzA5MiAyMi43MDMzIDIzLjEyMTcgMjIuMDg1OUMyMy41MzQyIDIxLjQ2ODUgMjMuNzU0NCAyMC43NDI3IDIzLjc1NDQgMjAuMDAwMUMyMy43NTQ0IDE5LjAwNDQgMjMuMzU4OSAxOC4wNDk1IDIyLjY1NDggMTcuMzQ1NEMyMS45NTA3IDE2LjY0MTQgMjAuOTk1OCAxNi4yNDU4IDIwLjAwMDEgMTYuMjQ1OFpNMjAuMDAwMSAyMi42NzQ0QzE5LjQ3MTIgMjIuNjc0NCAxOC45NTQyIDIyLjUxNzYgMTguNTE0NCAyMi4yMjM3QzE4LjA3NDYgMjEuOTI5OSAxNy43MzE4IDIxLjUxMjIgMTcuNTI5NCAyMS4wMjM1QzE3LjMyNyAyMC41MzQ5IDE3LjI3NCAxOS45OTcyIDE3LjM3NzIgMTkuNDc4NEMxNy40ODA0IDE4Ljk1OTYgMTcuNzM1MSAxOC40ODMxIDE4LjEwOTEgMTguMTA5MUMxOC40ODMxIDE3LjczNTEgMTguOTU5NiAxNy40ODA0IDE5LjQ3ODQgMTcuMzc3MkMxOS45OTcyIDE3LjI3NCAyMC41MzQ5IDE3LjMyNyAyMS4wMjM1IDE3LjUyOTRDMjEuNTEyMiAxNy43MzE4IDIxLjkyOTkgMTguMDc0NiAyMi4yMjM3IDE4LjUxNDRDMjIuNTE3NiAxOC45NTQyIDIyLjY3NDQgMTkuNDcxMiAyMi42NzQ0IDIwLjAwMDFDMjIuNjcxIDIwLjcwODQgMjIuMzg4MiAyMS4zODY2IDIxLjg4NzQgMjEuODg3NEMyMS4zODY2IDIyLjM4ODIgMjAuNzA4NCAyMi42NzEgMjAuMDAwMSAyMi42NzQ0WiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTI1LjI0NTggMTYuMDUzMkgyNy44MTczVjIzLjk0NzVIMjUuMjQ1OFYyNS4wNTMySDI4Ljg5NzNWMTQuOTQ3NUgyNS4yNDU4VjE2LjA1MzJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTEuMTAyOSAyNS4wNTMySDE0Ljc1NDNWMjMuOTQ3NUgxMi4xODI5VjE2LjA1MzJIMTQuNzU0M1YxNC45NDc1SDExLjEwMjlWMjUuMDUzMloiIGZpbGw9IndoaXRlIi8+Cjwvc3ZnPgo=']
             },
-            {
-                method:'BANCOLOMBIA_TRANSFER',
-                title:'Transferencia Bancolombia',
-                icons:['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yOS4zMDMxIDI3LjM4OEMyNS4zMjUgMjguMzQ3NSAyMS40MzIxIDI5LjU0NDUgMTcuNTc3NiAzMC45MTQ3QzE3LjAyNjggMzEuMTIzIDE2LjQyODkgMzAuODUyNSAxNi4yODMgMzAuMzIzNkMxNS45NzI3IDI5LjE5NzIgMTUuNjk3NSAyOC4zMzA2IDE1LjM5MDkgMjcuMjA4QzE1LjI2MjMgMjYuNzM2OCAxNS41Mzc4IDI2LjIyNDcgMTYuMDI2NiAyNi4wNDY0QzE5Ljg4MjQgMjQuNzMwNyAyMy43NzQ2IDIzLjY5NyAyNy43NTY2IDIyLjgzOTRDMjguMTk1NSAyMi43NDk1IDI4LjY1NzUgMjMuMDcyMiAyOC44MTU2IDIzLjU2NjhDMjkuMTM3NCAyNC41NzM1IDI5LjQxNzQgMjUuMzgyMyAyOS43MzA1IDI2LjM5MzNDMjkuODcyNSAyNi44NTE2IDI5LjY4NDYgMjcuMjk2IDI5LjMwMzEgMjcuMzg4Wk05LjM0OTI1IDI1LjIzODRDOS4xMTM4OCAyNC4wMjY4IDguODc2MTUgMjMuMTE2OSA4LjY0NTI5IDIxLjkwODFDOC41NTUzOSAyMS40MzU0IDguODEyODYgMjAuODk4OCA5LjI0MjQgMjAuNjk2OUMxNS4xMzExIDE4LjEwOTggMjEuMzQwOCAxNi41NDQ0IDI3LjcxODIgMTUuNzM3MkMyOC4xMzgxIDE1LjY4MjUgMjguNTYyNSAxNS45OTIzIDI4LjcxODkgMTYuNDU1OEMyOS4wNTU0IDE3LjQ1MjYgMjkuMzQyNCAxOC4yNTY4IDI5LjY2OTIgMTkuMjU4M0MyOS44MjY5IDE5Ljc0MTUgMjkuNjE2OCAyMC4yMTA1IDI5LjIwNDcgMjAuMjc3NEMyMi43MjA0IDIxLjMxMDEgMTYuMzk5MyAyMy4wNDIgMTAuNDE4IDI1Ljc2MjJDOS45MzczNSAyNS45OTQ3IDkuNDUwMDkgMjUuNzU2NCA5LjM0OTI1IDI1LjIzODRaTTEyLjIxNTggMTEuNDY3NkMxNi4xNiAxMC4zMzMyIDIwLjA5NTYgOS41OTY2MyAyNC4xNjkxIDkuMDk3NzhDMjQuNjEzNyA5LjA0OTk0IDI1LjA0NzkgOS4zMzcwMiAyNS4yMDg2IDkuNzc0NzFDMjUuNTg2OSAxMC44MDU3IDI1Ljg5NSAxMS42MjcyIDI2LjI2NTEgMTIuNjYzOUMyNi40NDA4IDEzLjE1NTkgMjYuMTc5NSAxMy42NDY0IDI1LjcwMTcgMTMuNzA5OUMyMS41MzMzIDE0LjMyMjkgMTcuNDkzNCAxNS4xNjU0IDEzLjQ2MzYgMTYuMzk2OEMxMi45NzIxIDE2LjU1OSAxMi40ODgzIDE2LjMxMjIgMTIuMzY0IDE1LjgzNEMxMi4wNzA3IDE0LjcwMjYgMTEuODA0MyAxMy44MzMzIDExLjUxNjEgMTIuNzA1NkMxMS4zODY3IDEyLjE5ODggMTEuNzAxOSAxMS42Mjc2IDEyLjIxNTggMTEuNDY3NlpNMjAgMkMxMC4wNTg5IDIgMiAxMC4wNTkgMiAyMEMyIDI5Ljk0MSAxMC4wNTg5IDM4IDIwIDM4QzI5Ljk0MSAzOCAzNy45OTk5IDI5Ljk0MSAzNy45OTk5IDIwQzM3Ljk5OTkgMTAuMDU5IDI5Ljk0MSAyIDIwIDJaIiBmaWxsPSIjMkMyQTI5Ii8+Cjwvc3ZnPgo=']
-            },
+            
         ]},
     ])
     const listPaymentMethods = useSignal(array)
@@ -428,34 +429,40 @@ export default component$(() => {
                                                 </div>
                                                 
 
-                                                <div class='row'>
-                                                    <div class="row mobile">
-                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago</p>
-                                                    </div>
-                                                    <div class="row not-mobile">
+                                                <div class='row not-mobile'>
+                                          
+                                                   
                                                     <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago</p>
-                                                    </div>
                                                                                               
                                                     {
                                                         listPaymentMethods.value.map((payment:any,index:number) => {
                                                             
                                                             return(
                                                                
-                                                            <div key={index}class='col-lg-3 col-md-6 g-0 align-self-center text-center'>
-                                                                <p class="text-decoration-none text-dark-blue">{payment.title}</p> 
-                                                                <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                            <div key={index}class='col-lg-4 col-md-6 g-0 d-flex align-items-center'>
+                                                                <div class='d-flex justify-content-center align-items-center text-center ' style={{border:'2px solid lightgray',minWidth:'72px', width:'72px', height:'46px', borderRadius:'10px', margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
                                                                     {
                                                                         payment.icons.length>0 
                                                                         &&
                                                                         payment.icons.map((icon:any,iIcon:number) => {
-                                                                            return(<img key={index+'-'+iIcon} /* class='img-fluid' */ src={icon} width={'40'} height={'20'} />)
+                                                                            if (payment.title == 'Crédito / Débito' && iIcon ==0) {
+                                                                                return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
+                                                                            }
+                                                                            if (payment.title == 'Crédito / Débito') {
+                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
+                                                                            } 
+                                                                            else{
+                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
+                                                                            }
+                                                                            
                                                                         })
                                                                     }
                                                                     {
                                                                         'fontawesome'in payment && payment.fontawesome.length>0 &&
                                                                         <i class={payment.fontawesome}/>
                                                                     }
-                                                                </div>                                                                                      
+                                                                </div>   
+                                                                <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
                                                             </div>
       
                                                             )
@@ -463,8 +470,44 @@ export default component$(() => {
                                                     }
                                                 </div>
 
+                                                <div class='container mobile'>
+                                                    <div class="row d-flex justify-content-center">
+
+                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago</p>
+                                                   
+                                                                                              
+                                                   {
+                                                       listPaymentMethods.value.map((payment:any,index:number) => {
+                                                           
+                                                           return(
+                                                              
+                                                           <div key={index}class='col-lg-4 col-md-6 col-sm-6 g-0 align-self-center text-center'>
+                                                              <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
+                                                               <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                                   {
+                                                                       payment.icons.length>0 
+                                                                       &&
+                                                                       payment.icons.map((icon:any,iIcon:number) => {
+                                                                           return(<img key={index+'-'+iIcon} /* class='img-fluid' */ src={icon} width={'40'} height={'20'} />)
+                                                                       })
+                                                                   }
+                                                                   {
+                                                                       'fontawesome'in payment && payment.fontawesome.length>0 &&
+                                                                       <i class={payment.fontawesome}/>
+                                                                   }
+                                                               </div>   
+                                                           </div>
+     
+                                                           )
+                                                       })
+                                                   }
+                                                    </div>
+                                                   
+                                                    
+                                                </div>
+
 <br/>
-                                                <div class='row align-items-end justify-content-center'>
+                                               
                                                     {
                                                         resume.value.idcotizacion == undefined
                                                         &&
@@ -497,7 +540,6 @@ export default component$(() => {
                                                             <button class='btn btn-primary mb-0' onClick$={getResume$}>Ir a pagar</button>
                                                         </div>
                                                     </div> */}
-                                                </div>
                                                 
                                                 <div id='form-send' class='row mt-3 d-none'>
                                                     <hr/>

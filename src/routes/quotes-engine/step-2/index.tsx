@@ -1156,7 +1156,7 @@ export default component$(() => {
                                                                                 form={[
                                                                                     {row:[
                                                                                         {size:'col-xl-4',type:'text',label:'Nombre(s)',name:'nombres',required:true,textOnly:'true',value:contact.value.nombres,placeholder:'Nombre(s)'},
-                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:contact.value.apellidos,placeholder:'Apellido(s)'},      
+                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,textOnly:'true',value:contact.value.apellidos,placeholder:'Apellido(s)'},      
                                                                                         {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:contact.value.telefono,placeholder:'Teléfono(s)'},
                                                                                     ]},
                                                                                     {row:[

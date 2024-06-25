@@ -152,7 +152,7 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
+                    openPayRedirectUrl:import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
@@ -177,7 +177,7 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
+                    openPayRedirectUrl: import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
@@ -206,7 +206,7 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-5'
+                    openPayRedirectUrl: import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)

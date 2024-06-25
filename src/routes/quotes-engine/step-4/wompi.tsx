@@ -150,7 +150,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
+                    wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
 
@@ -182,7 +182,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
+                    wompiRedirectUrl : import.meta.env.PUBLIC_WEB_ECOMMERCE + '/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED",
                     wompiUserTipePSE:0
                 }
@@ -247,7 +247,7 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
+                    wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
 
@@ -339,11 +339,7 @@ export default component$((props:propsWompi) => {
     })
 
     const getPayment$ = $(async() => {
-        //const bs = (window as any)['bootstrap']
-        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        //const modalError = new bs.Modal('#modalError',{})
-        // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        //const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -596,6 +592,7 @@ export default component$((props:propsWompi) => {
     }) */
 
     const getPhoneNequi$ = $(async() => {
+        props.setLoading(true);
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formNequi = document.querySelector('#form-nequi') as HTMLFormElement
@@ -671,7 +668,7 @@ export default component$((props:propsWompi) => {
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
+                wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                 wompiSandboxStatus : "APPROVED",
                 wompiPhoneNumberNequi : dataForm.phone_number
             }
@@ -679,10 +676,11 @@ export default component$((props:propsWompi) => {
             Object.assign(dataRequest,wompiRequest)
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
-
+          //  let resPayment : {[key:string]:any} = {}
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            
+
+            //resPayment = dataPay
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
@@ -691,8 +689,22 @@ export default component$((props:propsWompi) => {
                 nequi.value = {
                     total:dataValidation.resultado.amount_in_cents,
                     voucher:dataValidation.resultado.reference,
-                    phone:dataForm.phone_number
+                    phone:dataForm.phone_number,
+                    status:dataValidation.resultado.status
                 }
+                props.setLoading(false);
+                console.log(dataValidation.resultado.status );
+                console.log(dataPay.resultado[0]);
+                
+                if (dataValidation.resultado.status == "DECLINED") {
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
+                }else if (dataValidation.resultado.status =="APPROVED") {
+                    stateContext.value.urlvoucher =dataPay.resultado
+                    stateContext.value.typeMessage = 1
+                    await navigate('/quotes-engine/message')
+                }
+              
             }
         }
     })
@@ -701,7 +713,7 @@ export default component$((props:propsWompi) => {
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formPSE = document.querySelector('#form-pse') as HTMLFormElement
-
+        props.setLoading(true);
         if(!formPSE.checkValidity())
         {
             formPSE.classList.add('was-validated')
@@ -716,7 +728,7 @@ export default component$((props:propsWompi) => {
             inputs.map((input:any) => {
                 dataForm[input.name] = input.value
 
-                if(input.classList.value.includes('form-select'))
+                if(input.classList.value.includes('form-control-select'))
                 {
                     dataForm[input.name] = String(input.dataset.value)
                 }
@@ -778,7 +790,7 @@ export default component$((props:propsWompi) => {
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl : 'http://localhost:5173/quotes-engine/step-5',
+                wompiRedirectUrl : import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                 wompiSandboxStatus : "APPROVED",
                 wompiUserTipePSE : 0,
                 wompiUserLegalIDPSE : dataForm.document,
@@ -786,14 +798,13 @@ export default component$((props:propsWompi) => {
                 wompiFinancialInstitutionCodePSE : dataForm.institution
             }
 
-
             Object.assign(dataRequest,wompiRequest)
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            
+           // props.setLoading(false);
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
@@ -808,7 +819,7 @@ export default component$((props:propsWompi) => {
 
                 navigate(pse.value.url)
             }
-        }
+        } 
     }) 
    
     return(
@@ -903,113 +914,98 @@ export default component$((props:propsWompi) => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/* <div class='col-lg-12 col-10 text-end'>
-                                        <p class='text-regular text-blue mb-0'>Total</p>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                            {
-                                                //CurrencyFormatter('COP',qr.value.total)
-                                                CurrencyFormatter(resume.value.total.divisa,resume.value.total.total)
-                                            }
-                                        </h3>
-                                    </div> */}
+                          
                                 </div>
                             }
                             {
                                 formPayment.value == 'BANCOLOMBIA_QR'
                                 &&
-                                <div class='row justify-content-center'>
-                                    {/* <div class='col-lg-4 mb-3'>
-                                        <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3>
-                                        <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',qr.value.total)}</h3>
-                                    </div> */}
-                                    <div class='col-lg-6 offset-lg-1'>
-                                        <div class='img-card'>
-                                            <img src={'data:image/svg+xml;base64,'+qr.value.qr} class='img-fluid' width={0} height={0} alt='continental-assist-qr-wompi'/>
+                                <>
+                                 <h6 class="text-semi-bold text-dark-blue">QR Bancolombia</h6>
+                                <hr/>
+                                <div class='row '>
+                                    <div class='col-lg-6 '>
+                                    <h3 class="text-semi-bold text-dark-blue">Escanea este <br/> código QR</h3>
+                                    <p class="text-regular text-dark-blue"> con tu celular para realizar <br/> el pago de tu plan de asistencia </p>
+                                    </div>
+                                    <div class='col-lg-6 '>
+                                        <div class='d-flex justify-content-end'>
+                                            <img src={'data:image/svg+xml;base64,'+qr.value.qr}  width={0} height={0} style={{ width:'70%', height:'auto'}} alt='continental-assist-qr-wompi'/>
                                         </div>
                                     </div>
                                     <br/>
-                                    <div class='col-lg-12 col-10 text-end'>
-                                        <p class='text-regular text-blue mb-0'>Total</p>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                            {
-                                                CurrencyFormatter('COP',qr.value.total)
-                                            }
-                                        </h3>
-                                    </div>
+
                                 </div>
+                                <hr/>
+                                </>
                             }
                             {
                                 formPayment.value == 'BANCOLOMBIA_COLLECT'
                                 &&
-                                <div class='row justify-content-center'>
-                                    {/* <div class='col-lg-4 mb-3'>
-                                        <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{cash.value.voucher}</h3>
-                                        <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('COP',cash.value.total)}</h3>
-                                    </div> */}
-                                    <div class='col-lg-12'>
-                                        <table class="table table-bordered">
-                                            <tr>
-                                                <th class='text-center' colSpan={2}>Datos para el pago:</th>
-                                            </tr>
-                                            <tr>
-                                                <td>Número de convenio</td>
-                                                <td>{cash.value.code}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Referencia de pago</td>
-                                                <td>{cash.value.intention}</td>
-                                            </tr>
-                                        </table>
+                                <>
+                                <h6 class="text-semi-bold text-dark-blue">Efectivo</h6>
+                                <hr/>
+                                <div class="row text-dark-blue">
+                               
+                                    <h4 class="text-semi-bold ">Datos para el pago:</h4>
+                                    <div class="main-payment-container">
+                                        <span class="text-medium ">Número de convenio</span>
+                                        <span class="dotted-line"></span>
+                                        <span class="text-medium">{cash.value.code}</span>
                                     </div>
-                                    <br/>
-                                    <div class='col-lg-12 col-10 text-end'>
-                                        <p class='text-regular text-blue mb-0'>Total</p>
-                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                            {
-                                                CurrencyFormatter('COP',cash.value.total)
-                                            }
-                                        </h3>
-                                    </div>
+                                    <div class="main-payment-container">
+                                        <span class="text-medium">Referencia de pago</span>
+                                        <span class="dotted-line"></span>
+                                        <span class="text-medium">{cash.value.intention}</span>
+                                    </div>   
+
+                                   
                                 </div>
+                                <hr/>
+                                </>
+                               
+
+
                             }
                             {
                                     formPayment.value == 'NEQUI'
                                     &&
+                                    <>
+                                     <h6 class="text-semi-bold text-dark-blue">NEQUI</h6>
+                                     <hr/>
                                     <div class='row justify-content-center'>
                                     
-                                       {/*  <div class='col-lg-12'> */}
+                                    
                                             {
                                                 nequi.value.phone
                                                 ?
                                                 <>
-                                                    <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                                    <h3 class='h1 text-semi-bold text-blue mb-4'>{nequi.value.voucher}</h3>
-                                                    <h2 class='h1 text-regular text-blue mb-0'>Telefono</h2>
-                                                    <h3 class='h1 text-semi-bold text-blue mb-4'>{nequi.value.phone}</h3>
+
+                                                    <div class="row text-dark-blue">
+                                                
+                                                        <h4 class="text-semi-bold ">Gracias por su compra:</h4>
+                                                        <div class="main-payment-container">
+                                                            <span class="text-medium ">Referencia</span>
+                                                            <span class="dotted-line"></span>
+                                                            <span class="text-medium">{nequi.value.voucher}</span>
+                                                        </div>
+                                                        <div class="main-payment-container">
+                                                            <span class="text-medium">Teléfono</span>
+                                                            <span class="dotted-line"></span>
+                                                            <span class="text-medium">{nequi.value.phone}</span>
+                                                        </div>   
+
+                                                    
+                                                    </div>
+                                                   
                                                 </>
                                                 :
                                                 <>
-                                                 <br/>
 
-                                                 <div class="d-flex justify-content-start">
-                                                 <ImgNequi
-                                                        class=""
-                                                        title="Nequi"
-                                                        alt="Nequi"
-                                                    />
-                                                <br/>
-                                                <br/>
-                                                 </div>
-                                              
-                                                 <hr />
                                                  <br/>
                                                  <br/>
-                                                <div class="col-9">
-
+                                                <div class="col-lg-9 col-sm-12 mt-4">
+                                               
                                                    
                                                 <Form
                                                         id='form-nequi'
@@ -1024,37 +1020,39 @@ export default component$((props:propsWompi) => {
 
                                                 </div>
                                                     
-                                                <div class='col-lg-3'>
+                                                <div class='col-lg-3 mt-4'>
                                                     <div class='d-grid gap-2 mt-2'>
                                                         <button type='button' class='btn btn-primary' onClick$={getPhoneNequi$}>Pagar</button>
                                                     </div>
                                                 </div>
 
-                                                <small class="text-regular">Recibiras una notificación push en tu celular.</small>
-                                                <br/>
-                                                <br/>
-                                                <hr />
+                                                <small class="text-regular">Recibiras una notificación push en tu celular.</small>                                     
 
+                                                <br/>                                               
                                                 <br/>
+
+                                                <div class='col-lg-6'>
+                                                        <div class='d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                            
+                                                        </div>
+                                                </div>
                                                 </>
                                             }
-                                     {/*    </div> */}
-                                       {/*  <div class='col-lg-12 col-10 text-end'>
-                                            <p class='text-regular text-blue mb-0'>Total</p>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                                {
-                                                    CurrencyFormatter('COP',nequi.value.total)
-                                                }
-                                            </h3>
-                                        </div> */}
+
                                     </div>
+                                    <hr />
+                                    <br/>
+                                    </>
                                 }
                                 {
                                     formPayment.value == 'PSE'
                                     &&
-                                    
+                                    <>
+                                    <h6 class="text-semi-bold text-dark-blue">PSE</h6>
+                                    <hr/>
                                     <div class='row justify-content-center'>
-                                    <br/>
+                                    
                                     <div class="d-flex justify-content-start mb-4">
                                   {/*   <ImgPse
                                         class=""
@@ -1065,7 +1063,7 @@ export default component$((props:propsWompi) => {
                        
                                     </div>
 
-                                    <hr />
+                                 
                                     <br/>
                                     <br/>
                                         <div class='col-lg-12 '>
@@ -1089,6 +1087,12 @@ export default component$((props:propsWompi) => {
                                                 <div class='row justify-content-center mb-4'>
                                                     <div class='col-lg-6'>
                                                         <div class='d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-lg-6'>
+                                                        <div class='d-grid gap-2 mt-4'>
                                                             <button type='button' class='btn btn-primary' onClick$={getPSE$}>Realizar pago</button>
                                                         </div>
                                                     </div>
@@ -1097,18 +1101,14 @@ export default component$((props:propsWompi) => {
                                           
                                         </div>
                                       
-                                        <hr />
+                                     
                                     <br/>
                                     <br/>
-                                        {/* <div class='col-lg-12 col-10 text-end'>
-                                            <p class='text-regular text-blue mb-0'>Total</p>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                                {
-                                                    CurrencyFormatter('COP',pse.value.total)
-                                                }
-                                            </h3>
-                                        </div> */}
+                                       
                                     </div>
+                                    <hr />
+                                    </>
+                                    
                                 }    
 
                        </CardPaymentResume>
