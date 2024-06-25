@@ -1,6 +1,14 @@
 .bg-message{
     background-color: #FAFAFA;
 }
+
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
 /* Override for small devices */
 @media  (max-width: 767.98px) {
     .img-ticket{

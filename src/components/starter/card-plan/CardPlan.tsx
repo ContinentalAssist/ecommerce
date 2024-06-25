@@ -67,7 +67,7 @@ export const CardPlan = component$((props:propsCardPlan) => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <Slot/>
-                            <h2 class='text-semi-bold text-white'>
+                            <h2 class='text-semi-bold text-white p-3'>
                                 {props.title}
                             </h2>
                         </div>

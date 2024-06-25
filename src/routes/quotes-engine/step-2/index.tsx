@@ -1205,7 +1205,7 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">  
-                            <h2 class='text-semi-bold text-white px-4'>
+                            <h2 class='text-semi-bold text-white px-4 p-3'>
                                 Viajero {additionalsBenefitsPlan.value.idpasajero}  
                             </h2>
                         </div>

@@ -451,13 +451,13 @@ export default component$((props:propsAuthorize) => {
                                         id='form-payment-method'
                                         form={[
                                             {row:[
-                                                {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                             ]},
                                             {row:[
-                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                             ]}
                                         ]}
                                     />
@@ -478,24 +478,24 @@ export default component$((props:propsAuthorize) => {
                                             id='form-invoicing'
                                             form={[
                                                 {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                                    {size:'col-xl-12',type:'text',label:'Razon Social',placeholder:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
                                                         {value:'RFC',label:'RFC'},
                                                         {value:'CC',label:'CC'},
                                                         {value:'PASAPORTE',label:'Pasaporte'},
                                                         {value:'NIT',label:'NIT'}
                                                     ]},
-                                                    {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
+                                                    {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
+                                                    {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
+                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',placeholder:'Telefono',name:'telefono',required:true},
                                                     
-                                                    {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
+                                                    {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
                                                 ]}
                                             ]}
                                         />

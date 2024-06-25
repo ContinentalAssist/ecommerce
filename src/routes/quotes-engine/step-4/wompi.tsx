@@ -844,13 +844,13 @@ export default component$((props:propsWompi) => {
                                             id='form-payment-method'
                                             form={[
                                                 {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                 ]}
                                             ]}
                                         />
@@ -871,24 +871,24 @@ export default component$((props:propsWompi) => {
                                                 id='form-invoicing'
                                                 form={[
                                                     {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                                        {size:'col-xl-12',type:'text',label:'Razon Social',placeholder:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
+                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
                                                             {value:'RFC',label:'RFC'},
                                                             {value:'CC',label:'CC'},
                                                             {value:'PASAPORTE',label:'Pasaporte'},
                                                             {value:'NIT',label:'NIT'}
                                                         ]},
-                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
+                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
+                                                        {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
+                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',placeholder:'Telefono',name:'telefono',required:true},
                                                         
-                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
+                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
                                                     ]}
                                                 ]}
                                             />
@@ -975,31 +975,8 @@ export default component$((props:propsWompi) => {
                                      <hr/>
                                     <div class='row justify-content-center'>
                                     
-                                    
                                             {
-                                                nequi.value.phone
-                                                ?
-                                                <>
-
-                                                    <div class="row text-dark-blue">
-                                                
-                                                        <h4 class="text-semi-bold ">Gracias por su compra:</h4>
-                                                        <div class="main-payment-container">
-                                                            <span class="text-medium ">Referencia</span>
-                                                            <span class="dotted-line"></span>
-                                                            <span class="text-medium">{nequi.value.voucher}</span>
-                                                        </div>
-                                                        <div class="main-payment-container">
-                                                            <span class="text-medium">Teléfono</span>
-                                                            <span class="dotted-line"></span>
-                                                            <span class="text-medium">{nequi.value.phone}</span>
-                                                        </div>   
-
-                                                    
-                                                    </div>
-                                                   
-                                                </>
-                                                :
+                                               
                                                 <>
 
                                                  <br/>
@@ -1115,130 +1092,7 @@ export default component$((props:propsWompi) => {
                     </div>
                 </div>
             </div>
-            {/* <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-success">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistSuccess class='img-fluid' title='continental-assist-icon-success' alt='continental-assist-icon-success'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Compra exitosa!</h2>
-                            {
-                                urlvoucher.value.length > 4
-                                ?
-                                <>
-                                    <p class='px-2 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                                :
-                                <>
-                                    <p class='px-5 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos. Conecta con la magia del mundo, del resto nos encargamos nosotros.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                            }
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    {
-                                        urlvoucher.value.map((voucher:any,index:number) => {
-                                            return(
-                                                <div key={index} class='col-lg-6'>
-                                                    <div class='d-grid gap-2'>
-                                                        <a title='Voucher' class='btn btn-primary btn-sm mt-2' href={voucher.link_voucher} target='_blank'>{voucher.nombrebeneficiario}</a>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4'>
-                                        <div class='d-grid gap-2'>
-                                            {
-                                                urlvoucher.value.length > 2
-                                                ?
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-3'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                                :
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-5'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalError' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Pago rechazado!</h2>
-                            <p class='px-5 py-3'>Revisa los datos de tu medio de pago e intenta de nuevo.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Voucher activo!</h2>
-                            <p class='px-5 py-3'>Uno de los beneficiarios ya cuenta con un voucher activo para las fechas seleccionadas.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorAttemps' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Has realizado tres intentos!</h2>
-                            <p class='px-5 py-3'>Lo sentimos has superado el número de permitidos.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <a title='Inicio' class={'btn btn-blue btn-lg'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+           
         </>
     )
 })

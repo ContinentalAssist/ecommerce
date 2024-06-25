@@ -346,26 +346,55 @@ export default component$(() => {
     })
 
     return(
-        <>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
-            <QuotesEngineSteps active={3} />
-            <div class='container-fluid bg-step-5'>
-                <div class='row'>
-                    <div class='col-lg-12'>
+        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        {
+            loading.value === true
+            &&
+            <Loading/>
+        }
+
+            <div class='row not-mobile'>
+                <div class='col-12'>
+                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <div class='container'>
+                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
+                                        
+                                        <div class='col-md-3'>
+                                            <QuotesEngineSteps active={3} name={'Método'} steps={5}/>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row mobile  text-center justify-content-center align-items-center' >
+            <hr class='m-0' />
+                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
+                    <QuotesEngineSteps  active={3} name={'Método'} steps={5}/>
+                </div>
+
+              
+            </div>
+
+            <div class='container-fluid'>
+                <div class='row bg-step-5'>
+                    <div class='col-xl-12'>
                         <div class='container'>
-                            <div class='row align-content-center justify-content-center'>
-                                <div class='col-lg-10 text-center mt-5 mb-3'>
+                            <div class='row  justify-content-center'>
+                            <div class='col-lg-10 text-center mt-5 mb-3'>
                                     <h1 class='text-semi-bold text-blue'>
                                         <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viaje
                                     </h1>
                                     <hr class='divider my-3'/>
                               </div>
                             </div>
-                    
+
                             <br/>
                             <div class="row">
                                 <div class='col-lg-12 col-xl-12'>
@@ -526,20 +555,7 @@ export default component$(() => {
                                                             </div>
                                                         </div>
                                                     }
-                                                    {/* <div class='col-lg-6 col-10 text-end'>
-                                                        <p class='text-regular text-blue mb-0'>Total</p>
-                                                        <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                                            {
-                                                                resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value.total.divisa,resume.value.total.total) : CurrencyFormatter(stateContext.value.currentRate.code,resume.value.total.total * stateContext.value.currentRate.rate))
-                                                            }
-                                                        </h3>
-                                                    </div> */}
-
-                                                    {/*  <div class='col-lg-4 col-10'>
-                                                        <div class='d-grid gap-2'>
-                                                            <button class='btn btn-primary mb-0' onClick$={getResume$}>Ir a pagar</button>
-                                                        </div>
-                                                    </div> */}
+                   
                                                 
                                                 <div id='form-send' class='row mt-3 d-none'>
                                                     <hr/>
@@ -569,6 +585,7 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
+
             <div class="toast-container position-fixed bottom-0 p-3">
                 <div id='toast-success' class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="d-flex">
@@ -601,6 +618,7 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-        </>
+
+        </div>
     )
 })

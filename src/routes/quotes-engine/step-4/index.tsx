@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStylesScoped$, useTask$,useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
@@ -31,6 +31,7 @@ export default component$(() => {
     const formPayment = useSignal('')
     const divisaManual = useSignal(stateContext.value.divisaManual)
     const loading = useSignal(true)
+    const desktop = useSignal(false)
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -57,37 +58,71 @@ export default component$(() => {
         }
     })
 
-    // const closeQuote$ = $(() => {
-    //     const bs = (window as any)['bootstrap']
-    //     const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-    //     modalErrorAttemps.hide()
 
-    //     stateContext.value = {}
-    // })
+    useVisibleTask$(() => {        
+        if(!navigator.userAgent.includes('Mobile'))
+        {
+            desktop.value = true
+        }
+    })
 
     const getLoading$ = $((status:boolean) => {        
         loading.value = status
     })
-   
+
     return(
-        <>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
-            <QuotesEngineSteps active={4} hideForm/>
-            <div class='container-fluid'>
-                <div class='row bg-step-5'>
-                    <div class='col-lg-12'>
-                        <div class='container p-0'>
-                            <div class='row align-content-center justify-content-center'>
-                                <div class='col-lg-10 text-center mt-5'>
-                                    <h1 class='text-semi-bold text-blue'>Método de pago</h1>
-                                    <hr class='divider my-3'/>
+        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        {
+            loading.value === true
+            &&
+            <Loading/>
+        }
+
+            <div class='row not-mobile'>
+                <div class='col-12'>
+                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
+                        <div class='row'>
+                            <div class='col-12'>
+                                <div class='container'>
+                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
+                                        
+                                        <div class='col-md-3'>
+                                            <QuotesEngineSteps active={4} name={'Método'} steps={5}/>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='row mobile  text-center justify-content-center align-items-center' >
+            <hr class='m-0' />
+                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
+                    <QuotesEngineSteps  active={4} name={'Método'} steps={5}/>
+                </div>
+
+              
+            </div>
+
+            <div class='container-fluid'>
+                <div class='row bg-step-5'>
+                    <div class='col-xl-12'>
+                        <div class='container'>
+                            <div class='row  justify-content-center'>
+                            <div class='col-lg-10 text-center mt-5 mb-3'>
+                                     <h1 class='text-semi-bold text-blue'>Método de pago</h1>                                   
+                                    <hr class='divider my-3'/>
+                              </div>
+                            </div>
+
                             <br/>
+                            <div class="row">
+                                <div class='col-lg-12 col-xl-12'>
+
+                                <br/>
                             <br/>
                             {
                                 formPayment.value == 'wompi'
@@ -104,10 +139,17 @@ export default component$(() => {
                                 &&
                                 <Authorize setLoading={getLoading$}/>
                             }
+                                                              
+                                </div>
+                            </div>
+                            <br/>
                         </div>
                     </div>
                 </div>
             </div>
-        </>
+
+            
+
+        </div>
     )
 })

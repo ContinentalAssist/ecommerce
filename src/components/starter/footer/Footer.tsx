@@ -142,12 +142,50 @@ export const Footer = component$(() => {
                                             </a>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
+                        <hr style={{
+                                    border: "1px solid white",
+                                    }} />
+
+<div class="row mb-4">
+           
+           <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3586.985735448096!2d-80.14569492378439!3d25.968508177222603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9ac61deeaaaab%3A0x1f8ebcfc710b3a6!2s20803%20Biscayne%20Blvd%20%23370%2C%20Aventura%2C%20FL%2033180%2C%20USA!5e0!3m2!1sen!2smx!4v1719328736587!5m2!1sen!2smx" width="130" height="100" style="border:0;" /* allowfullscreen="" */ loading="lazy"  referrerPolicy="no-referrer-when-downgrade"></iframe>
+            <span>
+            <h5 class='text-semi-bold text-white ms-3'>Aventura, Florida </h5>
+            <p class='text-regular text-white ms-3'>20803 Biscayne Boulevard,<br/> suite 370</p>    
+            </span>                           
+          
+                                                    
+           </div>
+           <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3763.4076889522435!2d-99.17450592393863!3d19.39478328187658!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1ff726b264c77%3A0xff64be6d1cb1c152!2sAv.%20Insurgentes%20Sur%20662-piso%207A%2C%20Col%20del%20Valle%20Nte%2C%20Benito%20Ju%C3%A1rez%2C%2003103%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1sen!2smx!4v1719328936535!5m2!1sen!2smx" width="130" height="100" style="border:0;"  loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+           
+           <span>
+            <h5 class='text-semi-bold text-white ms-3'>Ciudad de México, México </h5>
+            <p class='text-regular text-white ms-3'>Avenida Insurgentes 662, <br/>piso 7A</p>    
+            </span>
+           </div>
+           <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.415730743903!2d-74.05644322412469!3d4.6976112952774!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f9ac821600df1%3A0xacb559c08b88e4ad!2sAutopista%20Nte.%20%23114-44%20oficina%20504%2C%20Bogot%C3%A1%2C%20Colombia!5e0!3m2!1sen!2smx!4v1719329016879!5m2!1sen!2smx" width="130" height="100" style="border:0;"  loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+           
+           <span>
+            <h5 class='text-semi-bold text-white ms-3'>Bogotá, Colombia  </h5>
+            <p class='text-regular text-white ms-3'>Autopista norte # 114 – 44,<br class="not-mobile"/> oficina 504</p>    
+            </span>
+      
+           </div>
+         
+         
+          </div>
                     </div>
                 </div>
             </div>
+          
+           
             <div class='row bg-secondary'>
                 <div class='col-xl-12 text-center'>
                     <p><b>Continental Assist</b> © {new Date().getFullYear()} Todos los Derechos Reservados</p>

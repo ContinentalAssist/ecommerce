@@ -10,6 +10,13 @@
     border-radius: 33px;
 }
 
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
 .img-card .img-fluid
 {
     width: 100%;

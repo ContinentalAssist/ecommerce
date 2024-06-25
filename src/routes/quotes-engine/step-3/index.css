@@ -7,6 +7,13 @@
 
 }
 
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
 .card-title
 {
     background-color: var(--ca-light-blue);
