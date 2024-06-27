@@ -49,16 +49,18 @@ export const Footer = component$(() => {
         })
     })
 
-   useVisibleTask$(() => {                
+   useVisibleTask$(() => {      
+    setInterval(()=>{        
+        if(location.url.pathname == '/')
+            {
+                showQuestion.value = true
+            }
+            else
+            {
+                showQuestion.value = false
+            }
+    },6000)            
         
-        if(!location.url.pathname.includes('quotes-engine'))
-        {
-            showQuestion.value = true
-        }
-        else
-        {
-            showQuestion.value = false
-        }
     })
 
     return(

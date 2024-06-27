@@ -5,7 +5,6 @@ import styles from "./card-payment-resume.css?inline";
 import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx";
 
 export const CardPaymentResume = component$(() => {
-  //useStyles$(styles)
 
   useStylesScoped$(styles);
 
@@ -16,7 +15,7 @@ export const CardPaymentResume = component$(() => {
   const loading = useSignal(true);
   const divisaManual = useSignal(stateContext.value.divisaManual);
 
-  useVisibleTask$(() => {
+  useVisibleTask$(() => {   
     if (Object.keys(stateContext.value).length > 0) {
       resume.value = stateContext.value;
       loading.value = false;
@@ -64,13 +63,13 @@ export const CardPaymentResume = component$(() => {
                             <div class="row">
                               <div class="col-lg-12">
                                 <div class="not-mobile">
-                                <p class="text-dark-blue text-start" style={{ /* textAlign: "left", */ padding: 0, margin: 0 }}>
+                                <p class="text-dark-blue text-start" style={{  padding: 0, margin: 0 }}>
                                   Viajero # {index + 1}
                                 </p>
                                 </div>
 
                                 <div class="mobile">
-                                <p class="text-dark-blue text-center" style={{ /* textAlign: "left", */ padding: 0, margin: 0 }}>
+                                <p class="text-dark-blue text-center" style={{  padding: 0, margin: 0 }}>
                                   Viajero # {index + 1}
                                 </p>
                                 </div>
@@ -80,13 +79,13 @@ export const CardPaymentResume = component$(() => {
                             <div class="row ">
                               <div class="col-lg-9">
                               <div class="not-mobile">
-                              <h4 class="text-bold text-dark-blue text-start" style={{ /* textAlign: "left", */ marginBottom: 0 }}>
+                              <h4 class="text-bold text-dark-blue text-start" style={{  marginBottom: 0 }}>
                                   {pax.nombres} {pax.apellidos}
                                 </h4>
                               </div>
 
                               <div class="mobile">
-                              <h4 class="text-bold text-dark-blue text-center" style={{ /* textAlign: "left", */ marginBottom: 0 }}>
+                              <h4 class="text-bold text-dark-blue text-center" style={{  marginBottom: 0 }}>
                                   {pax.nombres} {pax.apellidos}
                                 </h4>
                               </div>
@@ -344,19 +343,24 @@ export const CardPaymentResume = component$(() => {
         <div class="row">
           <div class="col-12" >
           <div id="card-right" class="card">
-          <div class="card-body">
+          <div class="card-body m-2">
               {             
                 <Slot />
               }
               <br/>
-          <div class='col-lg-12 col-10 text-end'>
-              <p class='text-regular text-blue mb-0'>Total</p>
-              <h3 class='h1 text-semi-bold text-blue mb-4'>
-                  {
-                      resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
-                  }
-              </h3>
-          </div>
+              <div class="container">
+                <div class="row">
+                <div class='col-lg-12 col-10 text-end'>
+                  <p class='text-regular text-blue mb-0'>Total</p>
+                  <h3 class='h1 text-semi-bold text-blue mb-4'>
+                      {
+                          resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
+                      }
+                  </h3>
+              </div>
+                </div>
+              </div>
+         
           </div>
         </div>
           </div>

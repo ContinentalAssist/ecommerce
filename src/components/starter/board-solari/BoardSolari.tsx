@@ -1,4 +1,5 @@
 import { $, Fragment, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik"
+import { useLocation } from '@builder.io/qwik-city'
 import styles from './board-solari.css?inline'
 
 interface propsBoardSolari {
@@ -10,6 +11,7 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
 
     const word = useSignal(props.words[0])
     const wordPosition = useSignal(1)
+    const location = useLocation()
 
     useTask$(({ track }) => {
         track(() => {
@@ -42,35 +44,35 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
         {
             if(prevPosition == 'top')
             {
-                panels.classList.add('panel-fade-in-bottom')
+                panels?.classList?.add('panel-fade-in-bottom')
 
                 setTimeout(() => {
-                    panels.classList.remove('panel-fade-in-bottom')
+                    panels?.classList?.remove('panel-fade-in-bottom')
                 },600)
             }
 
-            description.classList.add('fade-in-top')
+            description?.classList?.add('fade-in-top')
 
             setTimeout(() => {
-                description.classList.remove('fade-in-top')
+                description?.classList?.remove('fade-in-top')
             },600)
 
             
         }
         else
         {
-            description.classList.add('fade-in-bottom')
+            description?.classList?.add('fade-in-bottom')
 
             setTimeout(() => {
-                description.classList.remove('fade-in-bottom')
+                description?.classList?.remove('fade-in-bottom')
             },600)
             
             if(prevPosition == 'bottom')
             {
-                panels.classList.add('panel-fade-in-top')
+                panels?.classList?.add('panel-fade-in-top')
 
                 setTimeout(() => {
-                    panels.classList.remove('panel-fade-in-top')
+                    panels?.classList?.remove('panel-fade-in-top')
                 },600)
             }
         }
@@ -146,7 +148,10 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
     // })
 
     const update$ = $(() => {
-        boardSolari$()
+        if(location.url.pathname == '/'){
+            boardSolari$()
+
+        }
     })
 
     useVisibleTask$(() => {

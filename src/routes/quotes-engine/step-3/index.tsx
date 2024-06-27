@@ -5,7 +5,6 @@ import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
-import CurrencyFormatter from "~/utils/CurrencyFormater";
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 import styles from './index.css?inline'
@@ -172,10 +171,7 @@ export default component$(() => {
     
             loading.value = false
         }
-        // else
-        // {
-        //     navigate('/quotes-engine/step-1')
-        // }
+       
     })
 
     const getPaymentMethod$ = $((method:string) => {
@@ -193,7 +189,6 @@ export default component$(() => {
         }
         
         
-       // navigate('/quotes-engine/step-4')
     })
 
     const getCupon$ = $(async() => {
@@ -456,48 +451,48 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+                                                <div class="container  not-mobile">
+                                                    <div class='row'>
+                                                        <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago</p>
+                                                                                                        
+                                                            {
+                                                                listPaymentMethods.value.map((payment:any,index:number) => {
+                                                                    
+                                                                    return(
+                                                                        
+                                                                    <div key={index}class='col-lg-4 col-md-6 g-0 d-flex align-items-center'>
+                                                                        <div class='d-flex justify-content-center align-items-center text-center ' style={{border:'2px solid lightgray',minWidth:'72px', width:'72px', height:'46px', borderRadius:'10px', margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                                            {
+                                                                                payment.icons.length>0 
+                                                                                &&
+                                                                                payment.icons.map((icon:any,iIcon:number) => {
+                                                                                    if (payment.title == 'Crédito / Débito' && iIcon ==0) {
+                                                                                        return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
+                                                                                    }
+                                                                                    if (payment.title == 'Crédito / Débito') {
+                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
+                                                                                    } 
+                                                                                    else{
+                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
+                                                                                    }
+                                                                                    
+                                                                                })
+                                                                            }
+                                                                            {
+                                                                                'fontawesome'in payment && payment.fontawesome.length>0 &&
+                                                                                <i class={payment.fontawesome}/>
+                                                                            }
+                                                                        </div>   
+                                                                        <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
+                                                                    </div>
 
-                                                <div class='row not-mobile'>
-                                          
-                                                   
-                                                    <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago</p>
-                                                                                              
-                                                    {
-                                                        listPaymentMethods.value.map((payment:any,index:number) => {
-                                                            
-                                                            return(
-                                                               
-                                                            <div key={index}class='col-lg-4 col-md-6 g-0 d-flex align-items-center'>
-                                                                <div class='d-flex justify-content-center align-items-center text-center ' style={{border:'2px solid lightgray',minWidth:'72px', width:'72px', height:'46px', borderRadius:'10px', margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
-                                                                    {
-                                                                        payment.icons.length>0 
-                                                                        &&
-                                                                        payment.icons.map((icon:any,iIcon:number) => {
-                                                                            if (payment.title == 'Crédito / Débito' && iIcon ==0) {
-                                                                                return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
-                                                                            }
-                                                                            if (payment.title == 'Crédito / Débito') {
-                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
-                                                                            } 
-                                                                            else{
-                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
-                                                                            }
-                                                                            
-                                                                        })
-                                                                    }
-                                                                    {
-                                                                        'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                        <i class={payment.fontawesome}/>
-                                                                    }
-                                                                </div>   
-                                                                <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
-                                                            </div>
-      
-                                                            )
-                                                        })
-                                                    }
+                                                                    )
+                                                                })
+                                                            }
+                                                    </div>
                                                 </div>
+
+                                               
 
                                                 <div class='container mobile'>
                                                     <div class="row d-flex justify-content-center">
@@ -535,9 +530,9 @@ export default component$(() => {
                                                     
                                                 </div>
 
-<br/>
-                                               
-                                                    {
+                                                <br/>
+                                                <div class="container">
+                                                {
                                                         resume.value.idcotizacion == undefined
                                                         &&
                                                         <div class='col-lg-12 col-md-12 col-12'>
@@ -555,26 +550,27 @@ export default component$(() => {
                                                             </div>
                                                         </div>
                                                     }
-                   
-                                                
-                                                <div id='form-send' class='row mt-3 d-none'>
+
+                                                    <div id='form-send' class='row mt-3 d-none'>
                                                     <hr/>
-                                                    <div class='col-lg-12'>
-                                                        <Form 
-                                                            id='form-send-quote'
-                                                            form={[{row:[
-                                                                {size:'col-lg-6',type:'text',label:'Nombre',placeholder:'Nombre',name:'nombre',required:true},
-                                                                {size:'col-lg-6',type:'email',label:'Correo',placeholder:'Correo', name:'correo',required:true}
-                                                            ]}]}
-                                                        />
-                                                    </div>
-                                                    <div class='col-lg-2 col-md-6 col-12'>
-                                                        <div class='d-grid gap-2'>
-                                                            <label for='btnSendQuote'></label>
-                                                            <button id='btnSendQuote' class='btn btn-success btn-lg mt-4' onClick$={getSendQuote$}>Enviar</button>
+                                                        <div class='col-lg-12'>
+                                                            <Form 
+                                                                id='form-send-quote'
+                                                                form={[{row:[
+                                                                    {size:'col-lg-6',type:'text',label:'Nombre',placeholder:'Nombre',name:'nombre',required:true},
+                                                                    {size:'col-lg-6',type:'email',label:'Correo',placeholder:'Correo', name:'correo',required:true}
+                                                                ]}]}
+                                                            />
+                                                        </div>
+                                                        <div class='col-lg-2 col-md-6 col-12'>
+                                                            <div class='d-grid gap-2'>
+                                                                <label for='btnSendQuote'></label>
+                                                                <button id='btnSendQuote' class='btn btn-success btn-lg mt-4' onClick$={getSendQuote$}>Enviar</button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                
 
                                             </div>
                                         </CardPaymentResume>                         

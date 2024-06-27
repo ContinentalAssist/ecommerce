@@ -660,10 +660,12 @@ export default component$((props:propsOP) => {
                                <hr/>
                              <div class="row">
                                 <div class='img-card text-center'>
-                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'50%'}} alt='continental-assist-barcode-paynet'/>
+                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'30%'}} alt='continental-assist-barcode-paynet'/>
                                     <br/>
                                     <small>{store.value.intention}</small>
-                                    <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/>
+                                    <br/>
+                                    <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} style={{width:'80%'}} alt='continental-assist-stores-paynet'/>
+                                    <br/>
                                     <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
                                 </div>
 

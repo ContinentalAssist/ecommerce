@@ -108,7 +108,7 @@ export const Header = component$(() => {
                     <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
                         <i class="fas fa-bars"></i>
                     </button>
-                    <a class={!location.url.pathname.includes('/quotes-engine/') ? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
+                    <a class={location.url.pathname != '/quotes-engine/step-1'&&location.url.pathname != '/quotes-engine/step-2'? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
                     >
                         <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
                     </a>

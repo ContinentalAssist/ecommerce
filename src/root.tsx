@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 
@@ -9,14 +9,16 @@ import './global.css';
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 
+
 export default component$(() => {
     const obj : {[key:string]:any} = {}
 
     const resumeQuote = useSignal(obj)
     const so = useSignal('')
     const device = useSignal('desktop')
-    
+ 
     useContextProvider(WEBContext,resumeQuote)
+
 
     useVisibleTask$(()=>{
         if (/mobile/i.test(navigator.userAgent)) {

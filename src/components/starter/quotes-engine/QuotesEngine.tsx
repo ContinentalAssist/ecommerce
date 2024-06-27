@@ -243,8 +243,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     required:true,
                                     onChange:$((e:any) => {changeOrigin$(e)}),
                                     icon:'plane-departure',
-                                   // menuSize:{width:'549px', height:'394px'},
-                                    value: resume.value.origen,
+                                    value: resume?.value?.origen,
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
@@ -254,7 +253,6 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     options:destinations.value,
                                     required:true,
                                     icon:'plane-arrival',
-                                    //menuSize:{width:'549px', height:'394px'},
                                     value: resume.value.destinos,
                                 }
                             ]}
