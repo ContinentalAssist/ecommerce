@@ -7,7 +7,6 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
-import CurrencyFormatter from "~/utils/CurrencyFormater";
 
 export interface propsOP {
     setLoading: (loading: boolean) => void;
@@ -37,9 +36,17 @@ export default component$((props:propsOP) => {
     const redirect = useSignal(obj)
     const store = useSignal(obj)
     const bank = useSignal(obj)
-    const divisaManual = useSignal(stateContext.value.divisaManual)
+    const isLoading = useSignal(false);
+
+
+    function updateLoading(){
+        props.setLoading(isLoading.value)
+        
+    }
+    updateLoading()
 
     useTask$(() => {
+        isLoading.value = true
         if(Object.keys(stateContext.value).length > 0)
         {
             if(stateContext.value.openPayTipo == 'CARD')
@@ -87,8 +94,9 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'CARD'
+                isLoading.value = false
 
-                props.setLoading(false)
+                //props.setLoading(false)
             }
         }
     })
@@ -198,9 +206,8 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'STORE'
+                isLoading.value = false
 
-                props.setLoading(false)
-                // navigate(redirect.value.url)
             }
             else if(stateContext.value.openPayTipo == 'BANK_ACCOUNT')
             {
@@ -231,9 +238,7 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'BANK_ACCOUNT'
-
-                props.setLoading(false)
-                // navigate(bank.value.url)
+                isLoading.value = false
             }
         }
         else
@@ -334,8 +339,8 @@ export default component$((props:propsOP) => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
-        ///loading.value = true
-        props.setLoading(true)
+        isLoading.value = true
+
         let error = false
         let errorInvoicing = false
         
@@ -476,8 +481,7 @@ export default component$((props:propsOP) => {
             if(resPayment.error == false)
             {
                 urlvoucher.value = resPayment.resultado;
-                //loading.value = false;
-                props.setLoading(false);
+                isLoading.value = false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -562,11 +566,6 @@ export default component$((props:propsOP) => {
    
     return(
         <>
-            {/* {
-                loading.value === true
-                &&
-                <Loading/>
-            } */}
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>

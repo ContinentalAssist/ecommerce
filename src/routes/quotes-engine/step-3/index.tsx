@@ -5,9 +5,11 @@ import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
+import { DIVISAContext } from "~/root";
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 import styles from './index.css?inline'
+import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Resumen de compra',
@@ -33,6 +35,8 @@ export default component$(() => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
+    const contextDivisa = useContext(DIVISAContext)
+
     const navigate = useNavigate()
 
     const objectResume : {[key:string]:any} = {}
@@ -40,7 +44,7 @@ export default component$(() => {
     const resume = useSignal(objectResume)
     const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}})
     const loading = useSignal(true)
-    const divisaManual = useSignal(stateContext.value.divisaManual)
+    const divisaManual = useSignal(contextDivisa.divisaUSD)
     const desktop = useSignal(false)
 
     const array : any[] = []
@@ -137,7 +141,7 @@ export default component$(() => {
         }
     })
 
-    useVisibleTask$(() => {
+    useVisibleTask$(() => {        
         if(Object.keys(stateContext.value).length > 0)
         {
             
@@ -150,25 +154,33 @@ export default component$(() => {
         }
     })
 
-    useTask$(() => {
-        if(Object.keys(stateContext.value).length > 0)
-        {
-            resume.value = stateContext.value
+    function buildMethodsButtons(){
 
-            if(divisaManual.value == true)
+    if (stateContext?.value?.total?.total >0) {
+        if(divisaManual.value == true &&Object.keys(stateContext.value).length > 0)
             {
                 listPaymentMethods.value = paymentMethods.value[0].list
             }
-            else
+            else 
             {
                 paymentMethods.value.map((payment) => {
-                    if(stateContext.value.resGeo.country == payment.origin)
+                    if(stateContext?.value?.resGeo?.country == payment.origin)
                     {
                         listPaymentMethods.value = payment.list
                     }
                 })
             }
-    
+
+        
+    }
+           
+    }
+
+    buildMethodsButtons()
+    useTask$(() => {
+        if(Object.keys(stateContext.value).length > 0)
+        {
+            resume.value = stateContext.value    
             loading.value = false
         }
        
@@ -340,6 +352,19 @@ export default component$(() => {
         }
     })
 
+    const changeDivisa$ = $((divisa:string) => {
+        if(divisa == 'base')
+        {
+            contextDivisa.divisaUSD = true
+            divisaManual.value  = true
+        }
+        else if(divisa == 'local')
+        {
+            contextDivisa.divisaUSD = false
+            divisaManual.value  = false
+        }
+    })
+
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
         {
@@ -393,8 +418,11 @@ export default component$(() => {
                             <br/>
                             <div class="row">
                                 <div class='col-lg-12 col-xl-12'>
+                                    
                                         <CardPaymentResume>
-                                            <div class='container px-2 pt-4 pb-2'>
+                                        {
+                                        stateContext?.value?.total?.total >0&&
+                                        <div class='container px-2 pt-4 pb-2'>
                                                 <div class='row mb-4'>
                                                     <div class='col-lg-12'>
                                                         <div class='container'>
@@ -532,6 +560,11 @@ export default component$(() => {
 
                                                 <br/>
                                                 <div class="container">
+                                                <SwitchDivisa
+                                                labels={['USD',stateContext.value?.currentRate?.code]}
+                                                value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                                onChange={$((e:any) => {changeDivisa$(e)})}
+                                            />
                                                 {
                                                         resume.value.idcotizacion == undefined
                                                         &&
@@ -573,6 +606,8 @@ export default component$(() => {
                                                 
 
                                             </div>
+                                        }
+                                            
                                         </CardPaymentResume>                         
                                 </div>
                             </div>

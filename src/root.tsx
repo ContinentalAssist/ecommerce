@@ -7,7 +7,12 @@ import gtag from './utils/GTAG';
 
 import './global.css';
 
+interface DivisaStore{
+    divisaUSD: boolean
+}
+
 export const WEBContext = createContextId<Signal<any>>('web-context')
+export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');
 
 
 export default component$(() => {
@@ -16,9 +21,10 @@ export default component$(() => {
     const resumeQuote = useSignal(obj)
     const so = useSignal('')
     const device = useSignal('desktop')
+    const divisaUpdate:  DivisaStore=useStore({divisaUSD:false})
  
     useContextProvider(WEBContext,resumeQuote)
-
+    useContextProvider(DIVISAContext, divisaUpdate);
 
     useVisibleTask$(()=>{
         if (/mobile/i.test(navigator.userAgent)) {

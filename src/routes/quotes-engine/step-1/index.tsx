@@ -4,6 +4,7 @@ import { useNavigate } from '@builder.io/qwik-city';
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+import { DIVISAContext } from "~/root";
 import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
@@ -94,96 +95,12 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                             </div>
                         </div>
                     </div>
-                    <div class='col-lg-3  col-xs-6 text-end '/* align-items-end */>
-                        {/* <div class='d-grid gap-2'> */}
+                    <div class='col-lg-3  col-xs-6 text-end '>
                             <button type='button' class='btn btn-link text-medium text-light-blue mt-3' onClick$={props.openEdit}>Editar</button>
-                        {/* </div> */}
                     </div>
                 </div>
                 :
                 <>
-                    {/* <div class='row'>
-                        <div class='col-lg-4 mt-3'>
-                            <Form
-                                id='form-step-1-0'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-6',
-                                            type:'select',
-                                            label:'Origen',
-                                            name:'origen',
-                                            options:props.origins,
-                                            required:true,
-                                            value:props.resume.origen,
-                                            onChange:$((e:any) => {props.changeOrigin(e)}),
-                                            icon:'plane-departure',
-                                            menuSize:{width:'608px', height:'394px'}
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-6',
-                                            type:'select-multiple',
-                                            label:'Destino(s)',
-                                            name:'destinos',
-                                            options:props.destinations,
-                                            required:true,
-                                            value:props.resume.destinos,
-                                            icon:'plane-arrival',
-                                            menuSize:{width:'608px', height:'394px'}
-                                        }
-                                    ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-5 mt-3'>
-                            <Form
-                                id='form-step-1-1'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-6',
-                                            type:'date',
-                                            label:'Desde',
-                                            name:'desde',
-                                            min:props.dateStart,
-                                            onChange:props.changeDateStart,
-                                            required:true,
-                                            value:props.resume.desde,
-                                            icon:'calendar'
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-6',
-                                            type:'date',
-                                            label:'Hasta',
-                                            name:'hasta',
-                                            min:props.dateEnd,
-                                            onChange:props.changeDateEnd,
-                                            required:true,
-                                            value:props.resume.hasta,
-                                            icon:'calendar'
-                                        }
-                                    ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-3 mt-3'>
-                            <Form
-                                id='form-step-1-2'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-12',
-                                            type:'paxs',
-                                            name:'pasajeros',
-                                            required:true,
-                                            value:{[22]:props.resume[22]||0,[70]:props.resume[70]||0,[85]:props.resume[85]||0},
-                                            icon:'user-plus'
-                                        }
-                                    ]}
-                                ]}
-                            />
-                        </div>
-                    </div> */}
                     <QuotesEngine setLoading={props.loading} isMobile={props.isMobile}/>
                     <div class='row justify-content-center mt-2'>
                         <div class='col-lg-2 col-6'>
@@ -208,6 +125,7 @@ export default component$(() => {
 
     const navigate = useNavigate()
     const stateContext = useContext(WEBContext)
+    const contextDivisa = useContext(DIVISAContext)
 
     const arrayPlans: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]}[] = []
     const objectBenefitsPlan: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]} = {beneficiosasignados:[{beneficios:[]}]}
@@ -569,12 +487,12 @@ export default component$(() => {
         if(divisa == 'base')
         {
             divisaManual.value = true
-            stateContext.value.divisaManual = true
+            contextDivisa.divisaUSD = true
         }
         else if(divisa == 'local')
         {
             divisaManual.value = false
-            stateContext.value.divisaManual = false
+            contextDivisa.divisaUSD = false
         }
     })
 
@@ -622,7 +540,7 @@ export default component$(() => {
                                         <div class='col-md-2 text-end'>
                                             <SwitchDivisa
                                                 labels={['USD',stateContext.value?.currentRate?.code]}
-                                                value={stateContext.value.divisaManual ? 'base' : 'local'}
+                                                value={contextDivisa.divisaUSD ? 'base' : 'local'}
                                                 onChange={$((e:any) => {changeDivisa$(e)})}
                                             />
                                         </div>
@@ -641,7 +559,7 @@ export default component$(() => {
                 <div class='col-xs-12 ' style={{padding:'20px'}}>
                     <SwitchDivisa
                         labels={['USD',stateContext.value?.currentRate?.code]}
-                        value={stateContext.value.divisaManual ? 'base' : 'local'}
+                        value={contextDivisa.divisaUSD ? 'base' : 'local'}
                         onChange={$((e:any) => {changeDivisa$(e)})}
                     />
                 </div>

@@ -1,5 +1,6 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$, Slot } from "@builder.io/qwik";
 import { WEBContext } from "~/root";
+import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
 import styles from "./card-payment-resume.css?inline";
 import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx";
@@ -9,13 +10,14 @@ export const CardPaymentResume = component$(() => {
   useStylesScoped$(styles);
 
   const stateContext = useContext(WEBContext);
+  const contextDivisa = useContext(DIVISAContext)
+
   const objectResume: { [key: string]: any } = {};
 
   const resume = useSignal(objectResume);
   const loading = useSignal(true);
-  const divisaManual = useSignal(stateContext.value.divisaManual);
 
-  useVisibleTask$(() => {   
+  useVisibleTask$(() => {       
     if (Object.keys(stateContext.value).length > 0) {
       resume.value = stateContext.value;
       loading.value = false;
@@ -242,7 +244,7 @@ export const CardPaymentResume = component$(() => {
                                   </div>
                                   <div class="col-6">
                                     <h4 class="text-semi-bold text-dark-blue text-end">
-                                      {divisaManual.value == true
+                                      {contextDivisa.divisaUSD == true
                                         ? CurrencyFormatter(
                                             resume?.value?.total?.divisa,
                                             resume?.value?.plan?.precioindividual
@@ -284,7 +286,7 @@ export const CardPaymentResume = component$(() => {
                                             <div class="col-lg-7 col-xs-6">{benefit.nombrebeneficioadicional}</div>
                                             <div class="col-lg-5 col-xs-6">
                                               <h4 style={{ float: "right" }}>
-                                                {divisaManual.value == true
+                                                {contextDivisa.divisaUSD == true
                                                   ? CurrencyFormatter(benefit.codigomonedapago, benefit.precio)
                                                   : CurrencyFormatter(
                                                       stateContext.value?.currentRate?.code,
@@ -309,7 +311,7 @@ export const CardPaymentResume = component$(() => {
                                     <br />
                                     <h4 class="text-bold text-dark-blue">
                                       {resume.value.total &&
-                                        (divisaManual.value == true
+                                        (contextDivisa.divisaUSD == true
                                           ? CurrencyFormatter(
                                               resume.value.total.divisa,
                                               pax.beneficiosadicionales.reduce((sum: number, value: any) => {
@@ -354,7 +356,7 @@ export const CardPaymentResume = component$(() => {
                   <p class='text-regular text-blue mb-0'>Total</p>
                   <h3 class='h1 text-semi-bold text-blue mb-4'>
                       {
-                          resume.value.total && (divisaManual.value == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
+                          resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
                       }
                   </h3>
               </div>

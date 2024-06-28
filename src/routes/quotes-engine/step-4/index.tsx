@@ -3,6 +3,7 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+import { DIVISAContext } from "~/root";
 import styles from './index.css?inline'
 import Wompi from "./wompi";
 import OpenPay from "./openPay";
@@ -26,17 +27,18 @@ export default component$(() => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
+    const contextDivisa = useContext(DIVISAContext)
+
     // const navigate = useNavigate()
 
     const formPayment = useSignal('')
-    const divisaManual = useSignal(stateContext.value.divisaManual)
-    const loading = useSignal(true)
+    const loading = useSignal(false)
     const desktop = useSignal(false)
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
-            if(divisaManual.value == true)
+            if(contextDivisa.divisaUSD == true)
             {
                 formPayment.value = 'authorize' 
             }

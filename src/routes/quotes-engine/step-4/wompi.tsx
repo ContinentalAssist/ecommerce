@@ -43,7 +43,14 @@ export default component$((props:propsWompi) => {
     const transfers = useSignal(obj)
     const pse = useSignal(obj)
     const institutions = useSignal(array)
+    const isLoading = useSignal(false);
 
+
+    function updateLoading(){
+        props.setLoading(isLoading.value)
+        
+    }
+    updateLoading()
 
     useTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -84,8 +91,8 @@ export default component$((props:propsWompi) => {
                 years.value = newYears
                 
                 formPayment.value = 'CARD'
-
-                props.setLoading(false)
+                isLoading.value=false
+                
             }
         }
     })
@@ -93,6 +100,7 @@ export default component$((props:propsWompi) => {
     useVisibleTask$(async () => {
         if(Object.keys(stateContext.value).length > 0)
         {
+            isLoading.value=true
             resume.value = stateContext.value
 
             const newPaxs : any[] = []
@@ -175,7 +183,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'BANCOLOMBIA_QR'
-                props.setLoading(false)
+                isLoading.value=false
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_TRANSFER')
             {
@@ -217,7 +225,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'NEQUI'
-                props.setLoading(false)
+                isLoading.value=false
             }
             else if(stateContext.value.wompiTipo == 'PSE')
             {
@@ -239,7 +247,7 @@ export default component$((props:propsWompi) => {
                     }
 
                     formPayment.value = 'PSE'
-                    props.setLoading(false)
+                    isLoading.value=false
                 }
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_COLLECT')
@@ -272,7 +280,7 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'BANCOLOMBIA_COLLECT'
-                props.setLoading(false)
+                isLoading.value=false
             }
         }
         else
@@ -346,7 +354,7 @@ export default component$((props:propsWompi) => {
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
-        props.setLoading(true);
+        isLoading.value=true;
         let error = false
         let errorInvoicing = false
         
@@ -507,7 +515,7 @@ export default component$((props:propsWompi) => {
             {
                 urlvoucher.value = resPayment.resultado;
                 //loading.value = false;
-                props.setLoading(false);
+                isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -592,7 +600,7 @@ export default component$((props:propsWompi) => {
     }) */
 
     const getPhoneNequi$ = $(async() => {
-        props.setLoading(true);
+        isLoading.value=true;
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formNequi = document.querySelector('#form-nequi') as HTMLFormElement
@@ -676,11 +684,9 @@ export default component$((props:propsWompi) => {
             Object.assign(dataRequest,wompiRequest)
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
-          //  let resPayment : {[key:string]:any} = {}
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
-            //resPayment = dataPay
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
@@ -692,9 +698,7 @@ export default component$((props:propsWompi) => {
                     phone:dataForm.phone_number,
                     status:dataValidation.resultado.status
                 }
-                props.setLoading(false);
-                console.log(dataValidation.resultado.status );
-                console.log(dataPay.resultado[0]);
+                isLoading.value=false;
                 
                 if (dataValidation.resultado.status == "DECLINED") {
                     stateContext.value.typeMessage = 2
@@ -713,7 +717,7 @@ export default component$((props:propsWompi) => {
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formPSE = document.querySelector('#form-pse') as HTMLFormElement
-        props.setLoading(true);
+        isLoading.value=true;
         if(!formPSE.checkValidity())
         {
             formPSE.classList.add('was-validated')
@@ -804,7 +808,7 @@ export default component$((props:propsWompi) => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-           // props.setLoading(false);
+           // isLoading.value=false;
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});

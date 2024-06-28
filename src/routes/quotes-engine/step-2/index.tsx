@@ -5,6 +5,7 @@ import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
+import { DIVISAContext } from "~/root";
 import DateFormat from "~/utils/DateFormat";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 
@@ -225,6 +226,8 @@ export default component$(() => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
+    const contextDivisa = useContext(DIVISAContext)
+
     const navigate = useNavigate()
 
     const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionalesasignados:any[],beneficiosadicionales:any[]}[] = []
@@ -238,12 +241,12 @@ export default component$(() => {
     const contact = useSignal(objectResume)
     const prevTotal = useSignal(0)
     const loading = useSignal(true)
-    const divisaManual = useSignal(stateContext.value.divisaManual)
+    const divisaManual = useSignal(contextDivisa.divisaUSD)
 
     const array : any[] = []
     const arrayPlans: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]}[] = []
-    const objectBenefitsPlan: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]} = {beneficiosasignados:[{beneficios:[]}]}
-    const objectPlanSelected: {[key:string]:any} = {}
+    //const objectBenefitsPlan: {[key:string]:any,beneficiosasignados:[{[key:string]:any,beneficios:any[]}]} = {beneficiosasignados:[{beneficios:[]}]}
+   // const objectPlanSelected: {[key:string]:any} = {}
 
     const origins = useSignal(array)
     const destinations = useSignal(array)
@@ -251,8 +254,8 @@ export default component$(() => {
     const dateStart = useSignal('')
     const dateEnd = useSignal('')
     const plans = useSignal(arrayPlans)
-    const benefitsPlan = useSignal(objectBenefitsPlan)
-    const planSelected = useSignal(objectPlanSelected)
+    //const benefitsPlan = useSignal(objectBenefitsPlan)
+    //const planSelected = useSignal(objectPlanSelected)
 
     const desktop = useSignal(false)
 
@@ -891,12 +894,12 @@ export default component$(() => {
         if(divisa == 'base')
         {
             divisaManual.value = true
-            stateContext.value.divisaManual = true
+            contextDivisa.divisaUSD = true
         }
         else if(divisa == 'local')
         {
             divisaManual.value = false
-            stateContext.value.divisaManual = false
+            contextDivisa.divisaUSD = false
         }
     })
 
@@ -949,7 +952,7 @@ export default component$(() => {
                                         <div class='col-md-2 text-end'>
                                             <SwitchDivisa
                                                 labels={['USD',stateContext.value?.currentRate?.code]}
-                                                value={stateContext.value.divisaManual ? 'base' : 'local'}
+                                                value={ contextDivisa.divisaUSD ? 'base' : 'local'}
                                                 onChange={$((e:any) => {changeDivisa$(e)})}
                                             />
                                         </div>
@@ -982,7 +985,7 @@ export default component$(() => {
                 <div class='col-xs-5' >
                     <SwitchDivisa
                         labels={['USD',stateContext.value?.currentRate?.code]}
-                        value={stateContext.value.divisaManual ? 'base' : 'local'}
+                        value={contextDivisa.divisaUSD ? 'base' : 'local'}
                         onChange={$((e:any) => {changeDivisa$(e)})}
                     />
                 </div>

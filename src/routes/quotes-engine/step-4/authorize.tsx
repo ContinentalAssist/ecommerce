@@ -34,6 +34,14 @@ export default component$((props:propsAuthorize) => {
     const tdcexpiration = useSignal('00/00')
     const urlvoucher = useSignal(array)
     const attempts = useSignal(stateContext.value.attempts|| 0)
+    const isLoading = useSignal(false);
+
+
+    function updateLoading(){
+        props.setLoading(isLoading.value)
+        
+    }
+    updateLoading()
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -63,22 +71,19 @@ export default component$((props:propsAuthorize) => {
             }
             
             years.value = newYears
-            props.setLoading(false)
+            isLoading.value=false
         }
-       // props.loading()        
     })
 
     useVisibleTask$(() => {        
         if(Object.keys(stateContext?.value).length > 0)
         {
             resume.value = stateContext.value
-            //loading.value = false
-            props.setLoading(false)
+            isLoading.value=false
         }
         else
         {
-           // loading.value = false
-            props.setLoading(false)
+            isLoading.value=false
             // navigate('/quotes-engine/step-1')
         }
     })
@@ -142,17 +147,13 @@ export default component$((props:propsAuthorize) => {
 
     const getPayment$ = $(async() => {
         const bs = (window as any)['bootstrap']
-        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        //const modalError = new bs.Modal('#modalError',{})
-        // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        ///const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
-        props.setLoading(true)
+        isLoading.value=true
         let error = false
         let errorInvoicing = false
         
@@ -291,7 +292,7 @@ export default component$((props:propsAuthorize) => {
             if(resPayment.error == false)
             {
                 urlvoucher.value = resPayment.resultado;
-                props.setLoading(false);
+                isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -347,7 +348,7 @@ export default component$((props:propsAuthorize) => {
                     // }
                     // else
                     // {
-                        //props.setLoading(false)
+                        //isLoading.value=false
 
                         // (window as any)['dataLayer'].push({
                         //     'event': 'TrackEvent',
@@ -372,7 +373,7 @@ export default component$((props:propsAuthorize) => {
                 }
                 else
                 {
-                   // props.setLoading(false)
+                   // isLoading.value=false
 
                     // (window as any)['dataLayer'].push({
                     //     'event': 'TrackEvent',
