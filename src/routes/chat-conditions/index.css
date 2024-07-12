@@ -1,0 +1,28 @@
+.bg-chat
+{
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    background-image: url('/assets/img/chat/Fondo-Patron.png');
+    background-repeat: repeat;
+    background-color: #f7f7f7;
+}
+
+.card-footer{
+    background-color: unset;
+}
+
+.circle-dark-blue
+{
+    border-radius: 50%;
+    background-color: #1D2546 !important;
+    height: 45px;
+    width: 45px;
+}
+
+.circle-light-blue
+{
+    border-radius: 50%;
+    background-color: #43D3FF !important;
+    height: 45px;
+    width: 45px;
+}

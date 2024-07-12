@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore, useTask$ } from '@builder.io/qwik';
 import { QwikCityProvider, RouterOutlet, ServiceWorkerRegister } from '@builder.io/qwik-city';
 import { RouterHead } from './components/router-head/router-head';
 
@@ -10,11 +10,54 @@ import './global.css';
 interface DivisaStore{
     divisaUSD: boolean
 }
+declare var window: any;
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');
 
+// initializeGenesys.ts
+export function initializeGenesysBrowsing(): void {
+    window['Genesys'] = window['Genesys'] || function () {
+      (window['Genesys'].q = window['Genesys'].q || []).push(arguments);
+    };
+  
+    window['Genesys'].t = new Date().getTime();
+    window['Genesys'].c = {
+        environment: 'prod',
+        deploymentId: '45fcee1e-b649-4182-8b26-36a9d94f1f59',
+        debug: true 
+      };
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js';
+    script.charset = 'utf-8';
+    script.onload = () => {
+      window['Genesys']
+    };
+    document.head.appendChild(script);
+  }
 
+  export function initializeGenesysBrowsingWebChat(): void {
+    window['Genesys'] = window['Genesys'] || function () {
+      (window['Genesys'].q = window['Genesys'].q || []).push(arguments);
+    };
+  
+    window['Genesys'].t = new Date().getTime();
+    window['Genesys'].c = {
+        environment: 'prod',
+        deploymentId: '48cfd3f8-3f9c-4222-8786-16ec71a7c437',
+        debug: true 
+    };
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js';
+    script.charset = 'utf-8';
+    script.onload = () => {
+        window['Genesys']
+    };
+    document.head.appendChild(script);
+  }
+  
 export default component$(() => {
     const obj : {[key:string]:any} = {}
 
@@ -27,6 +70,13 @@ export default component$(() => {
     useContextProvider(DIVISAContext, divisaUpdate);
 
     useVisibleTask$(()=>{
+        
+        const link = document.createElement('link');
+        link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
+        link.type = 'text/css';
+        link.rel = 'stylesheet';
+       // link.onload = callback; // La función que se ejecutará después de que el CSS se haya cargado
+        document.head.appendChild(link);
         if (/mobile/i.test(navigator.userAgent)) {
             resumeQuote.value = { ...resumeQuote.value, isMobile: true }
         }else{
@@ -109,6 +159,23 @@ export default component$(() => {
         await gtag('config', 'AW-11397008041'); 
     }))
 
+    useOnWindow('load',$(async() => {
+     /*    const genesysScript = document.createElement('script');
+        genesysScript.type = 'text/javascript';
+        genesysScript.charset = 'utf-8';
+        genesysScript.innerHTML = `
+          (function (g, e, n, es, ys) {
+            g['_genesysJs'] = e; g[e] = g[e] || function () {(g[e].q = g[e].q || []).push(arguments)};
+            g[e].t = 1 * new Date(); g[e].c = es; ys = document.createElement('script'); ys.async = 1;
+            ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
+          })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
+            deploymentId: '45fcee1e-b649-4182-8b26-36a9d94f1f59',
+          });
+        `;
+        document.head.appendChild(genesysScript); */
+       await initializeGenesysBrowsing()
+      }))
+
     return (
         <QwikCityProvider>
             <head>
@@ -179,7 +246,8 @@ export default component$(() => {
                     precios assistencia medico viajes,'
                 />
                 <link rel="manifest" href="/manifest.json" />
-                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin="anonymous"/>
+{/*                 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin="anonymous"/>
+ */}                
                 <RouterHead />
             </head>
             <body data-so={so.value} data-device={device.value}>
@@ -187,12 +255,12 @@ export default component$(() => {
                     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
                 </noscript>
                 <RouterOutlet />
-                {/* <script async src="https://kit.fontawesome.com/43fc986b58.js" crossOrigin="anonymous"></script> */}
                 <script async type="text/javascript" src='/assets/icons/all.min.js'/>
                 <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
                 <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
                 <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
                 {/* <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script> */}
+                
                 <ServiceWorkerRegister />
             </body>
         </QwikCityProvider>

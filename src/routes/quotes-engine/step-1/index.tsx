@@ -753,7 +753,7 @@ export default component$(() => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan'/>
-                            <h2 class='text-semi-bold text-drak-blue'>¡Genial!</h2>
+                            <h2 class='text-semi-bold text-drak-blue p-2'>¡Genial!</h2>
                         </div>
                         <div class="modal-body">
                             <p class='text-blue'>

@@ -135,13 +135,13 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             <small>de 23 a 70 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
-                            <div class='input-number-group'>
+                            <div class='d-flex align-items-center input-number-group'>
                                 <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-70')}}>
                                     <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
-                                    class='form-control text-semi-bold text-dark-blue' 
+                                    class='form-control text-semi-bold text-dark-blue mt-1' 
                                     id='input-70' 
                                     name='70' 
                                     min={0} 
@@ -161,13 +161,13 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             <small>de 0 a 22 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
-                            <div class='input-number-group'>
+                            <div class='d-flex align-items-center input-number-group'>
                                 <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-22')}}>
                                    <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
-                                    class='form-control text-semi-bold text-dark-blue' 
+                                    class='form-control text-semi-bold text-dark-blue mt-1' 
                                     id='input-22' 
                                     name='22' 
                                     min={0} 
@@ -187,13 +187,13 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             <small>de 71 a 85 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
-                            <div class='input-number-group'>
+                            <div class='d-flex align-items-center input-number-group'>
                                 <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-85')}}>
                                 <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
-                                    class='form-control text-semi-bold text-dark-blue' 
+                                    class='form-control text-semi-bold text-dark-blue mt-1' 
                                     id='input-85' 
                                     name='85' 
                                     min={0} 
