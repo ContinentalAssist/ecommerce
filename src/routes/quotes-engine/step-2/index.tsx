@@ -234,7 +234,7 @@ export default component$(() => {
     const objectAdditionalsBenefitsPlan:{[key:string]:any,beneficiosadicionalesasignados:any[],beneficiosadicionales:any[]} = {beneficiosadicionalesasignados:[],beneficiosadicionales:[]}
     const objectResume : {[key:string]:any} = {}
 
-    const additionalsBenefits = useSignal(arrayAdditionalsBenefits)
+    const additionalsBenefits = useSignal(arrayAdditionalsBenefits)    
     const additionalsBenefitsPlan = useSignal(objectAdditionalsBenefitsPlan)
     const resume = useSignal(objectResume)
     const totalPay = useSignal({divisa:'',total:0})
@@ -294,7 +294,7 @@ export default component$(() => {
     useVisibleTask$(async() => {        
         if(Object.keys(stateContext.value).length > 0)
         {
-            const prevResume : {[key:string]:any} = stateContext.value
+            const prevResume : {[key:string]:any} = stateContext.value            
             if(prevResume.asegurados != undefined)
             {
                 resume.value = stateContext.value
@@ -334,25 +334,24 @@ export default component$(() => {
                 const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataAdditionals = await resAdditionals.json()
                 newRes = Array.isArray(dataAdditionals?.resultado)?dataAdditionals.resultado:[]
-
                 const today = DateFormat(new Date)
 
                newRes.map((res,index) => {
                     const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                     let max = ''
-                    
-                    if(res.edad == '22')
+                    if(res.edad == 22)
                     {
                         max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
                     }
-                    else if (res.edad == '70')
+                    else if (res.edad == 70)
                     {
                         max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (23*12))))
                     }
-                    else if (res.edad == '85')
+                    else if (res.edad == 85)
                     {
                         max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (71*12))))
                     }
+                 
 
                     res.minDate = min
                     res.maxDate = max
@@ -1071,17 +1070,16 @@ export default component$(() => {
                                                                         >
                                                                             Ver beneficios adicionales
                                                                         </button>
+
+                                                                        <button type="button" class='btn btn-collapse not-mobile' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
+                                                                            <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
+                                                                        </button>
                                                                     </div>
                                                                 </div>
-
+                                                               
 
                                                             </div>
-                                                                
-                                                            <div class="row">                                                                
-                                                                <button type="button" class='btn btn-collapse not-mobile mt-1 mb' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
-                                                                    <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
-                                                                </button>
-                                                            </div>    
+                                                            
                                                             </div>
                                                         </div>
                                                         <div class={index == 0 ? "collapse show" : "collapse"} id={"collapseExample-"+index}>
@@ -1209,7 +1207,7 @@ export default component$(() => {
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">  
-                            <h2 class='text-semi-bold text-white px-4 p-3'>
+                            <h2 class='text-semi-bold text-white px-4 p-2'>
                                 Viajero {additionalsBenefitsPlan.value.idpasajero}  
                             </h2>
                         </div>
@@ -1230,9 +1228,9 @@ export default component$(() => {
                                                         </div>
                                                         <div class="col-md-7">
                                                             <h5 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h5>
-                                                            {benefit.idbeneficioadicional == '37' && <p class="card-text text-blue">Protegemos a madres gestantes, <br/> de hasta 32 semanas.</p>}
-                                                            {benefit.idbeneficioadicional == '36' && <p class="card-text text-blue">Contigo, en experiencias recreativas.</p>}
-                                                            {benefit.idbeneficioadicional == '35' && <p class="card-text text-blue">Perfecto para tus condiciones medicas previas.</p>}
+                                                            {benefit.idbeneficioadicional == '37' && <p class="card-text text-blue">{benefit.descripcion}</p>}
+                                                            {benefit.idbeneficioadicional == '36' && <p class="card-text text-blue">{benefit.descripcion}</p>}
+                                                            {benefit.idbeneficioadicional == '35' && <p class="card-text text-blue">{benefit.descripcion}</p>}
                                                             <h4 class="card-text text-semi-bold text-dark-blue mb-4">
                                                                 {
                                                                     divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)

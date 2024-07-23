@@ -3,11 +3,11 @@ const ServiceRequest = async (url ='', dataSend = {}, onSuccess = (data:any) => 
         method: 'post',
         headers:{
             'Content-Type': 'application/json',
-            'x-api-key': import.meta.env.PUBLIC_WEB_KEY,
-            'Authorization': 'Bearer '+import.meta.env.PUBLIC_WEB_USER, 
+            'EVA_AUTH_USER': import.meta.env.PUBLIC_WEB_KEY,
         },
         body: JSON.stringify(dataSend)
     }
+    //'Authorization': 'Bearer '+import.meta.env.PUBLIC_WEB_USER, 
 
     const response = await fetch(import.meta.env.PUBLIC_WEB_API+url,headers)
         .then((res) => {

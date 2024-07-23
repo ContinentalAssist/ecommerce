@@ -566,9 +566,9 @@ export default component$(() => {
               
             </div>
              
-            <div class='row bg-step-3'>
+            <div class='row bg-step-3 mb-3'>
                 <div class='col-lg-12'>
-                    <div class='container'>
+                    <div class='container mb-5'>
                         <div class='row justify-content-center'>
                             {
                                 plans.value.length == 0
@@ -640,6 +640,7 @@ export default component$(() => {
                                                             <div class='col-lg-12 text-center'>
                                                                 <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
                                                                     {
+                                                                        
                                                                         divisaManual.value == true 
                                                                         ? 
                                                                         CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
@@ -713,7 +714,7 @@ export default component$(() => {
                             {benefitsPlan.value.idplan == '2946'&& <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
                             {benefitsPlan.value.idplan == '2964'&& <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
                             {benefitsPlan.value.idplan == '2965'&& <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
-                            <h2 class='text-semi-bold text-white'>
+                            <h2 class='text-semi-bold text-white p-2'>
                                 {benefitsPlan.value.idplan == '2946' && 'Essential'}
                                 {benefitsPlan.value.idplan == '2964' && 'Complete'}
                                 {benefitsPlan.value.idplan == '2965' && 'Elite'}   

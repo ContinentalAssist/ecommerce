@@ -98,8 +98,8 @@ export const InputDate = (props:propsInputDate) => {
                     <span 
                         class="input-group-text text-dark-blue" 
                         onClick$={() => {
-                                (document.querySelector('input[id='+props.id+']') as HTMLInputElement).showPicker();
-                                (document.querySelector('input[id='+props.id+']') as HTMLInputElement).focus();
+                                //(document.querySelector('input[id='+props.id+']') as HTMLInputElement).showPicker();
+                                //(document.querySelector('input[id='+props.id+']') as HTMLInputElement).focus();
                             }
                         }
                     >

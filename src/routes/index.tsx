@@ -36,7 +36,6 @@ import ImgContinentalAssistContact from '~/media/icons/continental-assist-contac
 import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline';
-import { ChatAskYourPdf } from '~/components/starter/chat-askyourpdf/ChatAskYourPdf';
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Viaja internacionalmente con tranquilidad',
@@ -118,15 +117,15 @@ export default component$(() => {
 
         const resBenefits0 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2946})});
         const dataBenefits0 = await resBenefits0.json()
-        benefits.value[0].beneficiosasignados = dataBenefits0.resultado.beneficiosasignados
+        benefits.value[0].beneficiosasignados = dataBenefits0.resultado[0].beneficiosasignados
 
         const resBenefits1 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2964})});
         const dataBenefits1 = await resBenefits1.json()
-        benefits.value[1].beneficiosasignados = dataBenefits1.resultado.beneficiosasignados
+        benefits.value[1].beneficiosasignados = dataBenefits1.resultado[0].beneficiosasignados
 
         const resBenefits2 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2965})});
         const dataBenefits2 = await resBenefits2.json()
-        benefits.value[2].beneficiosasignados = dataBenefits2.resultado.beneficiosasignados
+        benefits.value[2].beneficiosasignados = dataBenefits2.resultado[0].beneficiosasignados
 
         loading.value = false
     })
@@ -1254,8 +1253,6 @@ export default component$(() => {
                 </div>
             </div>
             
-            <ChatAskYourPdf/>
-
 
             <div id='modalGroupPlan' class="modal fade" data-bs-backdrop="static">
                 <div class="modal-dialog modal-lg modal-dialog-centered">

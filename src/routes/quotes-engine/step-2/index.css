@@ -58,17 +58,12 @@
     right: 14px;
     border: 1px solid gray;
     padding: 9px !important;
+    margin-top: 2px;
 }
 
-/* @keyframes fadeInUp {
-    from {
-        transform: translate3d(0,40px,0)
-    }
-
-    to {
-        transform: translate3d(0,0,0);
-    }
-} */
+.divisa{
+    font-size: 0.875rem !important;
+}
 
 @media (max-width: 575.98px)
 {

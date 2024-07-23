@@ -192,15 +192,15 @@ export default component$(() => {
                                                     id='form-contact'
                                                     form={[
                                                         {row:[
-                                                            {size:'col-lg-6',type:'text',label:'¿Cuál es tu nombre?',name:'nombrecontactame',required:true},
-                                                            {size:'col-lg-6',type:'phone',label:'Indícanos tu teléfono de contacto',name:'telefonocontactame',required:true},
+                                                            {size:'col-lg-6',type:'text',label:'¿Cuál es tu nombre?',placeholder:'¿Cuál es tu nombre?',name:'nombrecontactame',required:true},
+                                                            {size:'col-lg-6',type:'phone',label:'Indícanos tu teléfono de contacto',placeholder:'Indícanos tu teléfono de contacto',name:'telefonocontactame',required:true},
                                                         ]},
                                                         {row:[
-                                                            {size:'col-lg-12',type:'email',label:'Tu correo electrónico',name:'correocontactame',required:true},
+                                                            {size:'col-lg-12',type:'email',label:'Tu correo electrónico',placeholder:'Tu correo electrónico',name:'correocontactame',required:true},
                                                         ]},
                                                         {row:[
-                                                            {size:'col-lg-6',type:'select',label:'¿Desde dónde nos escribes?',name:'dondecontactame',required:true,options:countries.value},
-                                                            {size:'col-lg-6',type:'select',label:'¿Cuál es tu motivo de contacto?',name:'idmotivo',required:true,options:subjects.value},
+                                                            {size:'col-lg-6',type:'select',label:'¿Desde dónde nos escribes?',placeholder:'¿Desde dónde nos escribes?',name:'dondecontactame',required:true,options:countries.value},
+                                                            {size:'col-lg-6',type:'select',label:'¿Cuál es tu motivo de contacto?',placeholder:'¿Cuál es tu motivo de contacto?',name:'idmotivo',required:true,options:subjects.value},
                                                         ]},
                                                         {row:[
                                                             {size:'col-lg-12',type:'textarea',label:'Escríbenos tu mensaje',name:'mensaje',required:true},

@@ -36,19 +36,6 @@ export default component$(() => {
     const desktop = useSignal(false)
 
 
- /*    useVisibleTask$(()=>{
-        if(Object.keys(stateContext.value).length > 0)
-            {
-                
-                resume.value = stateContext.value
-
-                
-          
-            }
-        
-
-    }) */
-
     const getVoucher = $( async( vouchercode: string)=>{
         let resVoucher : {[key:string]:any} = {}
 
@@ -65,7 +52,7 @@ export default component$(() => {
         loading.value = false
     })
 
-    useTask$(() => {
+  /*   useTask$(() => {
         
         if(Object.keys(stateContext.value).length > 0)
         {
@@ -86,7 +73,7 @@ export default component$(() => {
 
             }
         }
-    })
+    }) */
 
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
@@ -98,15 +85,14 @@ export default component$(() => {
 
     useVisibleTask$(async() => {
      
-       
-        if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
+        getVoucher("CA-DFBJ7M-CO")
+        /* if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
             loading.value = true
          
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
                 const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
-                console.log(locationEnv.url.search);
                 if(dataValidation.resultado.status == 'completed')
                 {
                     //voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
@@ -140,7 +126,7 @@ export default component$(() => {
                 }
             }
         }
-
+ */
         
     })
 

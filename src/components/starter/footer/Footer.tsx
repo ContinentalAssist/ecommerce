@@ -155,7 +155,7 @@ export const Footer = component$(() => {
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-3 col-sm-12 col-xs-12 text-center mb-3'>
                                             <a title='Inicio' href="/">
-                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo'/>
+                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo' style={{marginTop:'18px'}}/>
                                             </a>
                                         </div>
                                         <div class='col-lg-2 col-sm-12 col-xs-2 text-center align-content-center'>
