@@ -838,14 +838,6 @@ export default component$(() => {
                                                 <ImgContinentalAssistSports class='img-fluid' loading="lazy" title='continental-assist-sports' alt='continental-assist-sports'/>
                                             </CardResume>
                                         </div>
-                                        {/* <div class='col-lg-3'>
-                                            <CardResume
-                                                title='Modificación de viaje'
-                                                description='Protege la inversión en tus viajes por cancelación multicausa.'
-                                            >
-                                                <ImgContinentalAssistTickets class='img-fluid' loading="lazy" title='continental-assist-tickets' alt='continental-assist-tickets'/>
-                                            </CardResume>
-                                        </div> */}
                                     </div>
                                     <div class='row mobile'>
                                         <div class='col-xl-12'>

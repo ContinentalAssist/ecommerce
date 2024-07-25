@@ -587,7 +587,7 @@ export default component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class='row justify-content-between cards '/* not-mobile */>
+                        <div class='row justify-content-between cards '>
                             {
                                 plans.value.map((plan,index) => {
                                     return(
@@ -597,7 +597,6 @@ export default component$(() => {
                                                     plan.idplan == '2964'
                                                     &&
                                                     <span class='card-recommended'>
-                                                        {/* <ImgContinentalAssistStar class='img-star mt-0 me-2' title='continental-assist-star' alt='continental-assist-star'/> */}
                                                         <p class='mb-0'>Recomendado</p>
                                                     </span>
                                                 }
@@ -728,13 +727,14 @@ export default component$(() => {
                                             return(
                                                 <>
                                                     <tr key={iBenefit+1}>
-                                                        <td class='tr-title text-semi-bold text-dark-blue'>{benefit.nombrefamilia}</td>
+                                                        <td class='tr-title text-semi-bold text-dark-blue'colSpan={2} >{benefit.nombrefamilia}</td>
                                                     </tr>
                                                     {
                                                         benefit.beneficios.map((item,iItem) => {
                                                             return(
                                                                 <tr key={iItem+1}>
-                                                                    <td class='text-blue'>{item.nombrebeneficio}<span style={{float:'right'}}>{item.cobertura}</span></td>
+                                                                    <td class='text-blue'>{item.nombrebeneficio}</td>
+                                                                    <td class='text-blue text-start'><span >{item.cobertura}</span></td>
                                                                 </tr>
                                                             )
                                                         })

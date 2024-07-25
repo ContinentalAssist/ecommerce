@@ -88,3 +88,21 @@
   overflow: hidden;
   transition: height 0.35s ease-in-out;
 }
+.divisa-plan-sub .divisa {
+  font-size: 1.5rem !important;
+
+}
+
+.divisa-beneficio {
+
+float: right;
+}
+
+.divisa-beneficio .divisa{
+  font-size: 0.9rem !important;
+}
+
+.divisa-total .divisa{
+  font-size: 2.5rem !important;
+}
+

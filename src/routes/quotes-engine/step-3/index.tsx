@@ -434,7 +434,7 @@ export default component$(() => {
                                                                         name='cupon' 
                                                                         type='text' 
                                                                         class='form-control' 
-                                                                        placeholder="¿Tienes algún cupón de descuento?"
+                                                                        placeholder="¿Tienes un cupón?"
                                                                         disabled={messageCupon.value.error == 'success'}
                                                                        // onBlur$={getCupon$}
                                                                     />

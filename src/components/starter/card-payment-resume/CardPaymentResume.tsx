@@ -243,7 +243,7 @@ export const CardPaymentResume = component$(() => {
                                     <br />
                                   </div>
                                   <div class="col-6">
-                                    <h4 class="text-semi-bold text-dark-blue text-end">
+                                    <h4 class="divisa-plan-sub text-bold text-dark-blue text-end">
                                       {contextDivisa.divisaUSD == true
                                         ? CurrencyFormatter(
                                             resume?.value?.total?.divisa,
@@ -285,7 +285,7 @@ export const CardPaymentResume = component$(() => {
                                           <div class="row" style={{paddingBottom:'5px'}}>
                                             <div class="col-lg-7 col-xs-6">{benefit.nombrebeneficioadicional}</div>
                                             <div class="col-lg-5 col-xs-6">
-                                              <h4 style={{ float: "right" }}>
+                                              <h4 class="divisa-beneficio text-bold" >
                                                 {contextDivisa.divisaUSD == true
                                                   ? CurrencyFormatter(benefit.codigomonedapago, benefit.precio)
                                                   : CurrencyFormatter(
@@ -309,7 +309,7 @@ export const CardPaymentResume = component$(() => {
                                       Sub total
                                     </span>
                                     <br />
-                                    <h4 class="text-bold text-dark-blue">
+                                    <h4 class="divisa-plan-sub text-bold text-dark-blue">
                                       {resume.value.total &&
                                         (contextDivisa.divisaUSD == true
                                           ? CurrencyFormatter(
@@ -354,7 +354,7 @@ export const CardPaymentResume = component$(() => {
                 <div class="row">
                 <div class='col-lg-12 col-10 text-end'>
                   <p class='text-regular text-blue mb-0'>Total</p>
-                  <h3 class='h1 text-semi-bold text-blue mb-4'>
+                  <h3 class='divisa-total text-bold text-blue mb-4'>
                       {
                           resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
                       }
