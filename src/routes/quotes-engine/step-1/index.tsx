@@ -453,26 +453,6 @@ export default component$(() => {
         if(showForm.value === true)
         {
             loading.value= true
-/*             if(Object.keys(stateContext.value).length > 0)
-            {
-                setTimeout(() => {
-                    const form = document.querySelector('#form-step-1-0') as HTMLFormElement
-    
-                    const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLDListElement
-                    const list = Array.from(listDestinations.querySelectorAll('li'))
-    
-                    list.map((item) => {
-                        if(item.value === Number(stateContext.value.origen) && stateContext.value.origen !== 11)
-                        {
-                            item.style.display = 'none';
-                        }
-                        else
-                        {
-                            item.style.display = 'inherit';
-                        }
-                    })
-                },500) 
-            } */
         }
     })
 

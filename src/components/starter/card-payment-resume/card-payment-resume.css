@@ -36,6 +36,10 @@
   }
  }
 
+ .card-footer
+ {
+    border: none;
+ }
 
 /* Override for large devices */
 @media (min-width: 1000px) {
@@ -74,35 +78,66 @@
 
  }
 
+ .hr-gray
+ {
+  color: #E9E9E9;
+  height: 2px;
+  margin-bottom:0;
+  opacity: unset;
+ }
 
+ .hr-blue
+ {
+  background-color:#44d1fd;
+  height: 2px;
+  margin-bottom:0;
+  border: none;
+  opacity: unset;
+ }
 
+.label-resume
+{
+  text-align: left;
+  font-size: 0.75rem;
+}
 
- .collapse-pax .collapse {
+.input-group-text
+{
+  background-color: #FAFAFA;
+}
+
+ .collapse-pax .collapse 
+ {
   &:not(.show) {
     display: none;
   }
 }
 
-.collapse-pax .collapsing {
+.collapse-pax .collapsing 
+{
   height: 0;
   overflow: hidden;
   transition: height 0.35s ease-in-out;
 }
-.divisa-plan-sub .divisa {
-  font-size: 1.5rem !important;
+.divisa-plan-sub .divisa 
+{
+  font-size: 1rem !important;
 
 }
 
-.divisa-beneficio {
+.divisa-beneficio 
+{
 
 float: right;
 }
 
-.divisa-beneficio .divisa{
+.divisa-beneficio .divisa
+{
   font-size: 0.9rem !important;
 }
 
-.divisa-total .divisa{
-  font-size: 2.5rem !important;
+.divisa-total .divisa
+{
+  font-size: 2rem !important;
 }
 

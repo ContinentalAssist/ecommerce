@@ -16,6 +16,7 @@ export const CardPaymentResume = component$(() => {
 
   const resume = useSignal(objectResume);
   const loading = useSignal(true);
+  const indexPax = useSignal(0)
 
   useVisibleTask$(() => {       
     if (Object.keys(stateContext.value).length > 0) {
@@ -23,6 +24,28 @@ export const CardPaymentResume = component$(() => {
       loading.value = false;
     }
   });
+
+  function calculateSubTotal() {
+    let paxSub= Array();
+    resume.value.asegurados.map((pax: any, index: number) => 
+      {
+        resume.value.total &&
+          contextDivisa.divisaUSD == true
+            ?
+            paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
+          return sum + value.precio;
+        }, 0) + resume.value.plan.precioindividual)
+        :
+        paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
+         return sum + value.precio;
+         }, 0)+ (resume.value?.plan?.precioindividual * stateContext.value?.currentRate?.rate))
+              
+
+        
+      })
+    return paxSub[indexPax.value]
+  }
+
 
   const openCollapsPax$ = $((key: string) => {
     const bs = (window as any)["bootstrap"];
@@ -61,9 +84,9 @@ export const CardPaymentResume = component$(() => {
                       Array.isArray(resume.value.asegurados) &&
                       resume.value.asegurados.map((pax: any, index: number) => {
                         return (
-                          <li class="list-group-item" key={index + 1}>
+                          <li class="list-group" key={index + 1}>
                             <div class="row">
-                              <div class="col-lg-12">
+                              <div class="col-lg-12 px-4">
                                 <div class="not-mobile">
                                 <p class="text-dark-blue text-start" style={{  padding: 0, margin: 0 }}>
                                   Viajero # {index + 1}
@@ -79,7 +102,7 @@ export const CardPaymentResume = component$(() => {
                               </div>
                             </div>
                             <div class="row ">
-                              <div class="col-lg-9">
+                              <div class="col-lg-9 ps-4 pe-0">
                               <div class="not-mobile">
                               <h4 class="text-bold text-dark-blue text-start" style={{  marginBottom: 0 }}>
                                   {pax.nombres} {pax.apellidos}
@@ -93,13 +116,14 @@ export const CardPaymentResume = component$(() => {
                               </div>
                                
                               </div>
-                              <div class="col-lg-3 ">
+                              <div class="col-lg-3 ps-0 pe-4">
                                 <div  class="row not-mobile">
                                   <div class=" d-flex flex-column text-end">
                                   <p class="text-light-blue" 
                                   style={{  padding: 0, margin: 0, cursor: "pointer" }}
                                   onClick$={() => {
                                     openCollapsPax$(String("collapse-" + (index + 1)));
+                                    indexPax.value = index;
                                   }}
                                   >
                                     Ver detalles
@@ -115,6 +139,7 @@ export const CardPaymentResume = component$(() => {
                                   style={{  padding: 0, margin: 0, cursor: "pointer" }}
                                   onClick$={() => {
                                     openCollapsPax$(String("collapse-" + (index + 1)));
+                                    indexPax.value = index;
                                   }}
                                 >
                                   Ver detalles
@@ -122,15 +147,12 @@ export const CardPaymentResume = component$(() => {
                               </div>
                                
                               </div>
-
+                              <div  class="col-12 px-4">
                               <hr
-                                style={{
-                                  backgroundColor: "#44d1fd",
-                                  height: "4px",
-                                  marginBottom: "0px",
-                                  border: "none",
-                                }}
+                                class="hr-blue"
                               />
+                              </div>
+                              
 
                               <div
                                 id={"collapse-" + (index + 1)}
@@ -140,7 +162,7 @@ export const CardPaymentResume = component$(() => {
                                 style={{ backgroundColor: "#FAFAFA", marginLeft: 0, marginRight: 0 }}
                               >
                                 <br />
-                                <div class="row">
+                                <div class="row px-3">
            
 
                                   <div class="col-lg-6 col-xs-12">
@@ -153,8 +175,8 @@ export const CardPaymentResume = component$(() => {
                                           <i class="fa-solid fa-plane-departure"></i>
                                         </span>
                                         <label
-                                          class="text-dark-gray"
-                                          style={{ textAlign: "left", fontSize: "0.75rem" }}
+                                          class="label-resume text-dark-gray"
+                                          
                                         >
                                           <span class="text-tin">Origen / Destino(s)</span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
@@ -179,8 +201,7 @@ export const CardPaymentResume = component$(() => {
                                           <i class="fa-solid fa-user-plus" />
                                         </span>
                                         <label
-                                          class="text-dark-gray"
-                                          style={{ textAlign: "left", fontSize: "0.75rem" }}
+                                          class="label-resume text-dark-gray"
                                         >
                                           <span class="text-tin">Viajeros </span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
@@ -202,8 +223,8 @@ export const CardPaymentResume = component$(() => {
                                           <i class="far fa-calendar" />
                                         </span>
                                         <label
-                                          class="text-dark-gray"
-                                          style={{ textAlign: "left", fontSize: "0.75rem" }}
+                                          class="label-resume text-dark-gray "
+                                         
                                         >
                                           <span class="text-tin">Fechas de tu viaje </span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
@@ -215,7 +236,7 @@ export const CardPaymentResume = component$(() => {
                                     </div>
                                     <br />
                                   </div>
-                                  <hr />
+                                  <hr class="hr-gray" />
 
                                   <div class="col-6">
                                     <div class="input-group">
@@ -227,8 +248,7 @@ export const CardPaymentResume = component$(() => {
                                           <i class="fa-solid fa-clipboard-check" />
                                         </span>
                                         <label
-                                          class="text-dark-gray"
-                                          style={{ textAlign: "left", fontSize: "0.75rem" }}
+                                          class="label-resume text-dark-gray"
                                         >
                                           <span class="text-tin">Plan </span>
                                           <br />
@@ -242,7 +262,7 @@ export const CardPaymentResume = component$(() => {
                                   
                                     <br />
                                   </div>
-                                  <div class="col-6">
+                                  <div class="col-6 ps-0">
                                     <h4 class="divisa-plan-sub text-bold text-dark-blue text-end">
                                       {contextDivisa.divisaUSD == true
                                         ? CurrencyFormatter(
@@ -260,11 +280,11 @@ export const CardPaymentResume = component$(() => {
 
                                   {pax.beneficiosadicionales.length > 0 && (
                                     <>
-                                      <hr />
+                                      <hr class="hr-gray"/>
                                       <div class="col-lg-12 col-xs-12">
                                         <div class="input-group">
-                                          <p style={{ textAlign: "left" }}>
-                                            <span class="text-tin text-dark-gray ps-0" style={{ fontSize: "0.75rem" }}>
+                                          <p class="label-resume">
+                                            <span class="text-tin text-dark-gray ps-0">
                                               Benenficios adicionales
                                             </span>
                                             <br />
@@ -283,6 +303,9 @@ export const CardPaymentResume = component$(() => {
                                           style={{ fontSize: "0.875rem" }}
                                         >
                                           <div class="row" style={{paddingBottom:'5px'}}>
+                                          {pax?.beneficiosadicionales?.length>1&& iBenefit >= 1&&
+                                              <hr class="hr-gray"/>
+                                          }
                                             <div class="col-lg-7 col-xs-6">{benefit.nombrebeneficioadicional}</div>
                                             <div class="col-lg-5 col-xs-6">
                                               <h4 class="divisa-beneficio text-bold" >
@@ -301,41 +324,40 @@ export const CardPaymentResume = component$(() => {
                                     })}
                
                                   </ul>
-                                  <hr />
+                                
                                 </div>
-                                <div class="row">
-                                  <div class="col-lg-12 text-end">
-                                    <span class="text-tin text-dark-blue" style={{ padding: 0, margin: 0 }}>
-                                      Sub total
-                                    </span>
-                                    <br />
-                                    <h4 class="divisa-plan-sub text-bold text-dark-blue">
-                                      {resume.value.total &&
-                                        (contextDivisa.divisaUSD == true
-                                          ? CurrencyFormatter(
-                                              resume.value.total.divisa,
-                                              pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-                                                return sum + value.precio;
-                                              }, 0) + resume.value.plan.precioindividual
-                                            )
-                                          : CurrencyFormatter(
-                                              stateContext.value?.currentRate?.code,
-                                              (pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-                                                return sum + value.precio;
-                                              }, 0) +
-                                                resume.value?.plan?.precioindividual) *
-                                                stateContext.value?.currentRate?.rate
-                                            ))}
-                                    </h4>
-                                  </div>
-                                </div>
+
                               </div>
                             </div>
                           </li>
                         );
-                      })}
+                      })}                                
           </ul>
           </div>
+
+          <div class="card-footer bg-transparent">
+            <div class="row px-3">
+                <div class="col-lg-12 text-end">
+                  <span class="text-regular text-blue" style={{ padding: 0, margin: 0 }}>
+                    Sub total
+                  </span>
+                  <br />
+                  <h4 class="divisa-plan-sub text-bold text-dark-blue">
+                    {resume.value.total &&
+                      (contextDivisa.divisaUSD == true
+                        ? CurrencyFormatter(
+                            resume.value.total.divisa,
+                            calculateSubTotal()
+                          )
+                        : CurrencyFormatter(
+                            stateContext.value?.currentRate?.code,
+                            calculateSubTotal()
+                          ))}
+                  </h4>
+                </div>
+              </div>
+          </div>
+
         </div>
       
         
@@ -349,10 +371,9 @@ export const CardPaymentResume = component$(() => {
               {             
                 <Slot />
               }
-              <br/>
               <div class="container">
                 <div class="row">
-                <div class='col-lg-12 col-10 text-end'>
+                <div class='col-12 text-end'>
                   <p class='text-regular text-blue mb-0'>Total</p>
                   <h3 class='divisa-total text-bold text-blue mb-4'>
                       {

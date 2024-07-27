@@ -381,7 +381,7 @@ export default component$(() => {
                                 <div class='container'>
                                     <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
                                         
-                                        <div class='col-md-3'>
+                                        <div class='col-md-3  d-flex  justify-content-end'>
                                             <QuotesEngineSteps active={3} name={'Método'} steps={5}/>
                                         </div>
                                         
@@ -433,7 +433,7 @@ export default component$(() => {
                                                                         id='input-cupon' 
                                                                         name='cupon' 
                                                                         type='text' 
-                                                                        class='form-control' 
+                                                                        class='form-control text-center' 
                                                                         placeholder="¿Tienes un cupón?"
                                                                         disabled={messageCupon.value.error == 'success'}
                                                                        // onBlur$={getCupon$}
@@ -533,14 +533,14 @@ export default component$(() => {
                                                            
                                                            return(
                                                               
-                                                           <div key={index}class='col-lg-4 col-md-6 col-sm-6 g-0 align-self-center text-center'>
-                                                              <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
+                                                           <div key={index}class='col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center'>
+                                                              <p class="title-method text-medium text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
                                                                <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
                                                                    {
                                                                        payment.icons.length>0 
                                                                        &&
                                                                        payment.icons.map((icon:any,iIcon:number) => {
-                                                                           return(<img key={index+'-'+iIcon} /* class='img-fluid' */ src={icon} width={'40'} height={'20'} />)
+                                                                           return(<img key={index+'-'+iIcon}  src={icon} width={'17'} height={'17'} />)
                                                                        })
                                                                    }
                                                                    {
@@ -559,7 +559,7 @@ export default component$(() => {
                                                 </div>
 
                                                 <br/>
-                                                <div class="container">
+                                                <div class="payment">
                                                 <SwitchDivisa
                                                 labels={['USD',stateContext.value?.currentRate?.code]}
                                                 value={contextDivisa.divisaUSD ? 'base' : 'local'}
@@ -568,7 +568,7 @@ export default component$(() => {
                                                 {
                                                         resume.value.idcotizacion == undefined
                                                         &&
-                                                        <div class='col-lg-12 col-md-12 col-12'>
+                                                        <div class='col-lg-12 col-md-12 col-12 ps-3'>
                                                         <div id='buttons' class='row row-mobile mt-4 '>                                                                    
                                                                 <div class="form-check form-check-inline">
                                                                     <input 

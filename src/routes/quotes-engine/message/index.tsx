@@ -155,7 +155,7 @@ export default component$(() => {
                                 <div class='container'>
                                     <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
                                         
-                                        <div class='col-md-3'>
+                                        <div class='col-md-3  d-flex  justify-content-end'>
                                             <QuotesEngineSteps active={5} name={'Pago'} steps={5}/>
                                         </div>
                                         
