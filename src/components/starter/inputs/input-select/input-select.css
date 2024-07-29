@@ -1,19 +1,19 @@
 .form-control{
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
 }
 .form-label{
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     margin-top: 0.125rem !important;
 }
 
 .form-floating>.form-control:focus~label
 {
-    font-size: 0.8rem !important;
+    font-size: 1rem !important;
 }
 
 .form-floating>.form-control:not(:placeholder-shown)~label
 {
-    font-size: 0.8rem !important;
+    font-size: 1rem !important;
 }
 
 .drop-select .form-floating>.form-control

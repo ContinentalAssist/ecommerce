@@ -1,8 +1,8 @@
 .form-control{
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
 }
 .form-label{
-    font-size: 0.9rem !important;
+    font-size: 1rem !important;
     margin-top: 0.125rem !important;
 
 }
@@ -37,6 +37,8 @@
 .input-basic .form-control:focus
 {
     box-shadow: none;
+    transform: translateZ(0);
+    font-size: 1rem !important;
 }
 
 .input-basic .input-group-text 

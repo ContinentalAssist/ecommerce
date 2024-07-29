@@ -281,7 +281,7 @@ export default component$((props:propsAuthorize) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 

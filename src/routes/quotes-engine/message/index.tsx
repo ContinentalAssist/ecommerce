@@ -85,8 +85,8 @@ export default component$(() => {
 
     useVisibleTask$(async() => {
      
-        getVoucher("CA-DFBJ7M-CO")
-        /* if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
+
+        if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
             loading.value = true
          
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
@@ -126,7 +126,7 @@ export default component$(() => {
                 }
             }
         }
- */
+
         
     })
 

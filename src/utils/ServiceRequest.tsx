@@ -3,7 +3,7 @@ const ServiceRequest = async (url ='', dataSend = {}, onSuccess = (data:any) => 
         method: 'post',
         headers:{
             'Content-Type': 'application/json',
-            'EVA_AUTH_USER': import.meta.env.PUBLIC_WEB_KEY,
+            'EVA-AUTH-USER': import.meta.env.PUBLIC_WEB_KEY,
         },
         body: JSON.stringify(dataSend)
     }

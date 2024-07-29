@@ -180,14 +180,6 @@ export default component$(() => {
     })
 
     const openQuotesEngine$ = $((toggle:boolean) => {
-        (window as any)['dataLayer'].push({
-            'event': 'TrackEventGA4',
-            'category': 'interacciones usuarios',
-            'action': 'clic',
-            'label': '¡quiero comprar!',
-            'page': 'Home'
-        })
-
         const bs = (window as any)['bootstrap']
         const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
         const collapse = new bs.Collapse('#collapseQuotesEngine',{})
@@ -197,9 +189,10 @@ export default component$(() => {
 
         const messageCookies = document.querySelector('#messageCookies') as HTMLElement
         messageCookies.classList.add('d-none')
-       
+
         if(toggle == true)
         {
+
             document.documentElement.scrollTo({top:0,behavior:'smooth'})
             
             collapseBtn.hide()
@@ -213,8 +206,8 @@ export default component$(() => {
                 containerQuote.style.paddingTop = '100px'
                 containerQuote.classList.remove('align-content-center')
             }
-        }
-        else
+        } 
+            else
         {
             if(navigator.userAgent.includes('Mobile'))
             {
@@ -228,6 +221,13 @@ export default component$(() => {
             (buttonDown.previousSibling as HTMLElement).classList.remove('d-none')
             bg.style.opacity = '1'
         }
+        (window as any)['dataLayer'].push({
+            'event': 'TrackEventGA4',
+            'category': 'interacciones usuarios',
+            'action': 'clic',
+            'label': '¡quiero comprar!',
+            'Page': '/'+location.url.pathname.split('/')[1],
+        })
     })
 
     const getQuotesEngine$ = $(async() => {    

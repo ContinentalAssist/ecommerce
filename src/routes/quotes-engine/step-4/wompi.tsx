@@ -164,7 +164,7 @@ export default component$((props:propsWompi) => {
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -197,7 +197,7 @@ export default component$((props:propsWompi) => {
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -261,7 +261,7 @@ export default component$((props:propsWompi) => {
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -502,7 +502,7 @@ export default component$((props:propsWompi) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
@@ -683,7 +683,7 @@ export default component$((props:propsWompi) => {
 
             Object.assign(dataRequest,wompiRequest)
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
@@ -804,7 +804,7 @@ export default component$((props:propsWompi) => {
 
             Object.assign(dataRequest,wompiRequest)
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()

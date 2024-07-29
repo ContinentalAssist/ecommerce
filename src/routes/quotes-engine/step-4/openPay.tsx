@@ -165,7 +165,7 @@ export default component$((props:propsOP) => {
 
                 Object.assign(dataRequest,openPayRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -191,7 +191,7 @@ export default component$((props:propsOP) => {
                 Object.assign(dataRequest,openPayRequest)
 
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -219,7 +219,7 @@ export default component$((props:propsOP) => {
                 Object.assign(dataRequest,openPayRequest)
 
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -470,7 +470,7 @@ export default component$((props:propsOP) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
