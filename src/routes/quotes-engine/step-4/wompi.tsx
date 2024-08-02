@@ -46,7 +46,7 @@ export default component$((props:propsWompi) => {
     const isLoading = useSignal(false);
 
 
-    function updateLoading(){
+    function updateLoading(){        
         props.setLoading(isLoading.value)
         
     }
@@ -55,7 +55,7 @@ export default component$((props:propsWompi) => {
     useTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {
-            const resAcceptance = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/merchants/'+import.meta.env.PUBLIC_API_WOMPI_KEY,{method: 'GET'})
+            const resAcceptance = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI+'/merchants/'+import.meta.env.VITE_MY_PUBLIC_API_WOMPI_KEY,{method: 'GET'})
                 .then((res) => {
                     return(res.json())
                 })
@@ -100,7 +100,10 @@ export default component$((props:propsWompi) => {
     useVisibleTask$(async () => {
         if(Object.keys(stateContext.value).length > 0)
         {
-            isLoading.value=true
+
+            if (stateContext.value.wompiTipo !='CARD') {
+                isLoading.value=true
+            }
             resume.value = stateContext.value
 
             const newPaxs : any[] = []
@@ -150,21 +153,22 @@ export default component$((props:propsWompi) => {
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
             }
-
+            
+            
             if(stateContext.value.wompiTipo == 'BANCOLOMBIA_QR')
             {              
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
+                    wompiRedirectUrl :  import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -187,17 +191,18 @@ export default component$((props:propsWompi) => {
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_TRANSFER')
             {
+                
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl : import.meta.env.PUBLIC_WEB_ECOMMERCE + '/quotes-engine/message',
+                    wompiRedirectUrl : import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE + '/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED",
                     wompiUserTipePSE:0
                 }
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -255,13 +260,13 @@ export default component$((props:propsWompi) => {
                 const wompiRequest = {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
-                    wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
+                    wompiRedirectUrl :  import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
 
                 Object.assign(dataRequest,wompiRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -346,7 +351,7 @@ export default component$((props:propsWompi) => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
-    const getPayment$ = $(async() => {
+    const getPayment$ = $(async() => {        
 
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
@@ -357,7 +362,7 @@ export default component$((props:propsWompi) => {
         isLoading.value=true;
         let error = false
         let errorInvoicing = false
-        
+
         if(!form.checkValidity())
         {
             form.classList.add('was-validated')
@@ -396,7 +401,7 @@ export default component$((props:propsWompi) => {
                 },stateContext.value.dataLayerPaxBenefits)
             );
         }
-
+   
         if(checkInvoicing.checked === true)
         {
             if(!formInvoicing.checkValidity())
@@ -419,11 +424,11 @@ export default component$((props:propsWompi) => {
 
         if(error == false)
         {
-            const resToken = await fetch(import.meta.env.PUBLIC_API_WOMPI+'/tokens/cards',{
+            const resToken = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI+'/tokens/cards',{
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
-                    'Authorization' : 'Bearer '+import.meta.env.PUBLIC_API_WOMPI_KEY
+                    'Authorization' : 'Bearer '+import.meta.env.VITE_MY_PUBLIC_API_WOMPI_KEY
                 },
                 body: JSON.stringify(
                 {
@@ -490,7 +495,7 @@ export default component$((props:propsWompi) => {
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
                     wompiTokenCard : wToken.value,
@@ -502,7 +507,7 @@ export default component$((props:propsWompi) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
@@ -670,20 +675,20 @@ export default component$((props:propsWompi) => {
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
             }
 
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl :  import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
+                wompiRedirectUrl :  import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                 wompiSandboxStatus : "APPROVED",
                 wompiPhoneNumberNequi : dataForm.phone_number
             }
 
             Object.assign(dataRequest,wompiRequest)
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
@@ -788,13 +793,13 @@ export default component$((props:propsWompi) => {
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
             }
 
             const wompiRequest = {
                 wompiTipo : stateContext.value.wompiTipo,
                 wompiAcceptanceToken : wSeesionId.value,
-                wompiRedirectUrl : import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
+                wompiRedirectUrl : import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                 wompiSandboxStatus : "APPROVED",
                 wompiUserTipePSE : 0,
                 wompiUserLegalIDPSE : dataForm.document,
@@ -804,7 +809,7 @@ export default component$((props:propsWompi) => {
 
             Object.assign(dataRequest,wompiRequest)
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
@@ -907,7 +912,7 @@ export default component$((props:propsWompi) => {
                                                 </div>
                                                 <div class='col-lg-6'>
                                                     <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
+                                                        <button type='button' class='btn btn-primary' onClick$={()=>{getPayment$}}>Realizar pago</button>
                                                         {
                                                             attempts.value > 0
                                                             &&

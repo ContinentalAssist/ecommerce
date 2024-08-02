@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStylesScoped$,useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
 import { Form } from "~/components/starter/form/Form";
@@ -12,6 +12,7 @@ import CurrencyFormatter from "~/utils/CurrencyFormater";
 import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
 import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
 import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
+import dayjs from "dayjs";
 
 import styles from './index.css?inline'
 import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
@@ -259,7 +260,7 @@ export default component$(() => {
 
     const desktop = useSignal(false)
 
-    useVisibleTask$(() => {
+    useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
         {
             desktop.value = true
@@ -497,9 +498,10 @@ export default component$(() => {
         
         const dataForm: any[] = additionalsBenefits.value
         const error : any[] = []
-
         if(checkPolicy.checked == true)
         {
+            loading.value = true
+
             forms.map((form,index) => {
                 if(!form.checkValidity())
                 {
@@ -530,7 +532,14 @@ export default component$(() => {
                         const inputs = Array.from(form.querySelectorAll('input'))
     
                         inputs.map((input) => {
-                            dataForm[index][(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+                            
+                            if ((input as HTMLInputElement).name==='fechanacimiento') {
+                                dataForm[index][(input as HTMLInputElement).name] = dayjs((input as HTMLInputElement).value).format('YYYY-MM-DD')
+
+                            }else{
+                                dataForm[index][(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+
+                            }
                         })
                     }
                 }
@@ -596,7 +605,7 @@ export default component$(() => {
                             newStateContext.asegurados = dataForm
                             newStateContext.subTotal = prevTotal.value 
                             newStateContext.total = totalPay.value;
-
+                            
                             (window as any)['dataLayer'].push(
                                 Object.assign({
                                     'event': 'TrackEventGA4',
@@ -680,6 +689,8 @@ export default component$(() => {
         }
         else
         {
+            loading.value = false
+
             checkPolicy.classList.add('is-invalid')
             toastError.show()
         }
@@ -904,11 +915,7 @@ export default component$(() => {
 
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
+           
             <div class='row mt-4'>
                 <div class='col-12'>
                     <QuotesEngineResume 
@@ -1280,6 +1287,11 @@ export default component$(() => {
                     </div>
                 </div>
             </div> 
+            {
+                loading.value === true
+                &&
+                <Loading/>
+            }
         </div>
     )
 })

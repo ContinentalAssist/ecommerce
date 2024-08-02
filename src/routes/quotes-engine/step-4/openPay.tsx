@@ -37,6 +37,7 @@ export default component$((props:propsOP) => {
     const store = useSignal(obj)
     const bank = useSignal(obj)
     const isLoading = useSignal(false);
+    const dataError = useSignal('')
 
 
     function updateLoading(){
@@ -79,8 +80,8 @@ export default component$((props:propsOP) => {
         
                 const checkOpenPayLoaded = () => {
                     if (window.OpenPay) {
-                        window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
-                        window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
+                        window.OpenPay.setId(import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY);
+                        window.OpenPay.setApiKey(import.meta.env.VITE_MY_PUBLIC_WEB_API_KEY_OPEN_PAY);
                         window.OpenPay.setSandboxMode(true);
                         const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
                         opSessionId.value = deviceSessionId
@@ -153,19 +154,19 @@ export default component$((props:propsOP) => {
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
             }
 
             if(stateContext.value.openPayTipo == 'CARD_REDIRECT')
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
-                }
+                    openPayRedirectUrl:import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
+                }                
 
                 Object.assign(dataRequest,openPayRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -185,13 +186,13 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl: import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
+                    openPayRedirectUrl: import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -213,13 +214,13 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl: import.meta.env.PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
+                    openPayRedirectUrl: import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
@@ -308,10 +309,12 @@ export default component$((props:propsOP) => {
         const promesaOpenPay = new Promise((resolve, reject) => {
             const success_callback = (response: any) => {
                 opToken.value = response.data.id;
+
                 resolve(response); // Resuelve la promesa con la respuesta en caso de éxito
             };
         
             const error_callback = (error: any) => {
+                dataError.value = error?.data?.description                
                 reject(error); // Rechaza la promesa con el error en caso de fallo
             };
         
@@ -329,11 +332,9 @@ export default component$((props:propsOP) => {
     });
 
     const getPayment$ = $(async() => {
-        const bs = (window as any)['bootstrap']
-        //const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        //const modalError = new bs.Modal('#modalError',{})
-        // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        //const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        dataError.value !=''
+        //const bs = (window as any)['bootstrap']
+
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -343,6 +344,7 @@ export default component$((props:propsOP) => {
 
         let error = false
         let errorInvoicing = false
+        await getOpenPayToken$()
         
         if(!form.checkValidity())
         {
@@ -403,7 +405,7 @@ export default component$((props:propsOP) => {
             }
         }
 
-        if(error == false)
+        if(error == false &&opToken.value.length>0 &&dataError.value =='')
         {
           
 
@@ -423,7 +425,6 @@ export default component$((props:propsOP) => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
             
-            await getOpenPayToken$()
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -458,7 +459,7 @@ export default component$((props:propsOP) => {
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                     openPayDeviceSessionId : opSessionId.value,
                     openPaySourceId : opToken.value,
                     openPayTipo:stateContext.value.openPayTipo
@@ -470,7 +471,7 @@ export default component$((props:propsOP) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_KEY)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
@@ -665,7 +666,7 @@ export default component$((props:propsOP) => {
                                     <br/>
                                     <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} style={{width:'80%'}} alt='continental-assist-stores-paynet'/>
                                     <br/>
-                                    <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
+                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
                                 </div>
 
                               
@@ -705,7 +706,7 @@ export default component$((props:propsOP) => {
                                  </div>   
 
                                  <div class='img-card text-center'>
-                                    <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
+                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_SPEI_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
                                 </div>
                                 <br/>
                                 <br/>
@@ -728,6 +729,13 @@ export default component$((props:propsOP) => {
                         }
                         </CardPaymentResume>
                     </div>
+
+                    {
+                    dataError.value !=''&&<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ocurrio un error!</strong> Revisa porfavor la información ingresada.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick$={()=>{dataError.value =''}}></button>
+                    </div>
+                    } 
                 </div>
             </div>
 

@@ -36,6 +36,7 @@ import ImgContinentalAssistContact from '~/media/icons/continental-assist-contac
 import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 
 import styles from './index.css?inline';
+import dayjs from "dayjs";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Viaja internacionalmente con tranquilidad',
@@ -181,6 +182,7 @@ export default component$(() => {
 
     const openQuotesEngine$ = $((toggle:boolean) => {
         const bs = (window as any)['bootstrap']
+        
         const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
         const collapse = new bs.Collapse('#collapseQuotesEngine',{})
         const buttonDown =  document.querySelector('#scrollIndicatorDown') as HTMLButtonElement
@@ -281,6 +283,7 @@ export default component$(() => {
             loading.value = true
             
             inputs.map((input) => {
+                
                 if ((input as HTMLInputElement).name)
                 {
                     newDataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
@@ -326,6 +329,9 @@ export default component$(() => {
             newDataForm.origen = Number(newDataForm.origen);
             // newDataForm.destinos = newDataForm.destinos;
 
+
+            newDataForm.desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
+            newDataForm.hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
             (window as any)['dataLayer'].push({
                 'event': 'TrackEventGA4',
                 'category': 'Flujo asistencia',

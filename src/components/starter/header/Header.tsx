@@ -13,7 +13,7 @@ export const Header = component$(() => {
     const showBtn = useSignal(false)
     const showLink = useSignal(false)
 
-    useTask$(() => {        
+    useTask$(() => {                
         if(location.url.pathname != '/' && !location.url.pathname.includes('quotes-engine'))
         {
             showLink.value = true
@@ -108,9 +108,9 @@ export const Header = component$(() => {
                     <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
                         <i class="fas fa-bars"></i>
                     </button>
-                    <a class={location.url.pathname != '/quotes-engine/step-1'&&location.url.pathname != '/quotes-engine/step-2'? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
+                    <a class={location.url.pathname != '/quotes-engine/step-1'&&location.url.pathname != '/quotes-engine/step-2/'? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
                     >
-                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
+                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'60px'}} />
                     </a>
                     <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel" style={{zIndex:3000}}>
                         <div class="offcanvas-header">

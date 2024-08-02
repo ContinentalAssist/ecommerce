@@ -3,6 +3,7 @@ import ServiceRequest from "~/utils/ServiceRequest";
 import { Form } from "../form/Form";
 import styles from './quotes-engine.css?inline'
 import { WEBContext } from "~/root";
+import dayjs from "dayjs";
 
 export interface propsQE {
     [key:string] : any
@@ -19,7 +20,12 @@ export const QuotesEngine = component$((props:propsQE) => {
     const dateEnd = useSignal('')
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)
+    const inputStart =useSignal({min:'', max:''})
+    const inputEnd =useSignal({min:'', max:''})
 
+    const updateInputEnd = $((newMin: string, newMax: string) => {
+        inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax };
+      });
 
 
     useTask$(async() => {
@@ -31,24 +37,35 @@ export const QuotesEngine = component$((props:propsQE) => {
             res = response.resultado[0]
         })
         
-        res.origenes.map((origen) => {
-            resOrigins.push({value:origen.idpais,label:origen.nombrepais})
-        })
-
-        res.destinos.map((destino) => {
-            resDestinations.push({value:destino.idpais,label:destino.nombrepais})
-        })
-
+        if (res && res.origenes  && res.destinos) {
+            res.origenes.map((origen) => {
+                resOrigins.push({value:origen.idpais,label:origen.nombrepais})
+            })
+    
+            res.destinos.map((destino) => {
+                resDestinations.push({value:destino.idpais,label:destino.nombrepais})
+            })
+    
+        }
+            
+        
+       
         origins.value = resOrigins
         destinations.value = resDestinations
         resume.value = stateContext.value
         props.setLoading != undefined&&props.setLoading(false)
-        
+
+        const inputDateStart=dayjs().add(2,'day').format('YYYY/MM/DD');
+        const inputDateEnd=dayjs().add(365,'day').format('YYYY/MM/DD');
+        inputStart.value.min = dayjs().format('YYYY/MM/DD')
+        updateInputEnd(inputDateStart,inputDateEnd)
+
+
     })
 
     useVisibleTask$(() => {
-        dateStart.value = new Date().toISOString().substring(0, 10)
-        dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
+        //dateStart.value = new Date().toISOString().substring(0, 10)
+        //dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
 
         resume.value = stateContext.value      
         
@@ -101,27 +118,20 @@ export const QuotesEngine = component$((props:propsQE) => {
                 
     })
 
-    const changeDateStart$ = $(() => {
-        const form = document.querySelector('#form-step-1-1') as HTMLFormElement
-        const inputDateStart = form.querySelector('input[name=desde]') as HTMLInputElement
-        const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement       
-        const formatDateStart = inputDateStart.value.replaceAll('-','/')
-        if (formatDateStart !== '') {
-        inputDateEnd.min = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+2)).toISOString().substring(0,10)
-        inputDateEnd.max = new Date(new Date(formatDateStart).setDate(new Date(formatDateStart).getDate()+365)).toISOString().substring(0,10)
-        
-        inputDateEnd.focus()
-        inputDateEnd.showPicker()
-        }
-        
+    const changeDateStart$ = $((value:any) => {
+        const inputDateStart=dayjs(value).add(2,'day').format('YYYY/MM/DD');
+        const inputDateEnd=dayjs(value).add(365,'day').format('YYYY/MM/DD');
+        updateInputEnd(inputDateStart,inputDateEnd)
+
+       if (props.isMobile) {
+        const formPrev = document.querySelector('#form-step-prev-1-1') as HTMLFormElement
+        const inputPrevDateStart = formPrev.querySelector('#form-step-prev-1-1-input-0-0') as HTMLInputElement
+        inputPrevDateStart.value = dayjs(value).format('YYYY/MM/DD')||'';
+    }
        
-        
-        if (props.isMobile) {
-            const formPrev = document.querySelector('#form-step-prev-1-1') as HTMLFormElement
-            const inputPrevDateStart = formPrev.querySelector('#form-step-prev-1-1-input-0-0') as HTMLInputElement
-            inputPrevDateStart.value = String(formatDateStart)||'';
-        }
+
     })
+
 
     const changeDateEnd$ = $(() => {
         const form = document.querySelector('#form-step-1-1') as HTMLFormElement
@@ -270,8 +280,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     type:'date',
                                     label:'Desde',
                                     name:'desde',
-                                    min:dateStart.value,
-                                    onChange:changeDateStart$,
+                                    min: inputStart.value.min,
+                                    onChange:$((e:any) => {changeDateStart$(e)}),
                                     required:true,
                                     icon:'calendar',
                                     value: resume.value.desde,
@@ -281,7 +291,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     type:'date',
                                     label:'Hasta',
                                     name:'hasta',
-                                    min:dateEnd.value,
+                                    min: inputEnd.value.min,
+                                    max: inputEnd.value.max,
                                     onChange:changeDateEnd$,
                                     required:true,
                                     icon:'calendar',
@@ -489,8 +500,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         type:'date',
                                         label:'Desde',
                                         name:'desde',
-                                        min:dateStart.value,
-                                        onChange:changeDateStart$,
+                                        min: inputStart.value.min,
+                                        onChange:$((e:any) => {changeDateStart$(e)}),
                                         required:true,
                                         icon:'calendar',
                                         value: resume.value.desde,
@@ -500,7 +511,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         type:'date',
                                         label:'Hasta',
                                         name:'hasta',
-                                        min:dateEnd.value,
+                                        min: inputEnd.value.min,
+                                        max: inputEnd.value.max,
                                         onChange:changeDateEnd$,
                                         required:true,
                                         icon:'calendar',

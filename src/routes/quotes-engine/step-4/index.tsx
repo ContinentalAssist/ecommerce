@@ -43,7 +43,7 @@ export default component$(() => {
                 formPayment.value = 'authorize' 
             }
             else
-            {
+            {                          
                 if(stateContext.value.resGeo.country == 'CO')
                 {
                     formPayment.value = 'wompi' 
@@ -69,17 +69,12 @@ export default component$(() => {
     })
 
     const getLoading$ = $((status:boolean) => {        
-        loading.value = status
+        loading.value = status        
     })
 
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-        {
-            loading.value === true
-            &&
-            <Loading/>
-        }
-
+        
             <div class='row not-mobile'>
                 <div class='col-12'>
                     <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
@@ -149,7 +144,11 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-
+            {
+            loading.value === true
+            &&
+            <Loading/>
+            }
             
 
         </div>

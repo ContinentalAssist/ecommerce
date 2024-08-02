@@ -14,6 +14,7 @@ import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-grou
 
 import styles from './index.css?inline'
 import { QuotesEngine } from "~/components/starter/quotes-engine/QuotesEngine";
+import dayjs from "dayjs";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -241,8 +242,8 @@ export default component$(() => {
                 'action': 'Paso 2 :: plan',
                 'origen': dataForm.paisorigen,
                 'destino': dataForm.paisesdestino,
-                'desde': dataForm.desde,
-                'hasta': dataForm.hasta,
+                'desde': dayjs(dataForm.desde).format('YYYY-MM-DD'),
+                'hasta':  dayjs(dataForm.hasta).format('YYYY-MM-DD'),
                 'adultos': dataForm[70],
                 'niños_y_jovenes': dataForm[22],
                 'adultos_mayores': dataForm[85],
@@ -365,7 +366,8 @@ export default component$(() => {
             })
 
             newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
-
+            newDataForm.desde=dayjs(newDataForm.desde).format('YYYY-MM-DD')
+            newDataForm.hasta=dayjs(newDataForm.hasta).format('YYYY-MM-DD')
             origins.value.map(origin => {
                 if(origin.value == newDataForm.origen)
                 {

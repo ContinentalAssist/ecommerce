@@ -4,6 +4,7 @@ import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple"
 import { InputSelect } from "../inputs/input-select/InputSelect";
 import styles from './form.css?inline'
 import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
+import { DatePickerMUI } from "../inputs/input-date/input-date";
 
 interface propsInput
 {
@@ -85,70 +86,26 @@ export const Input = (props:propsInput) => {
 interface propsInputDate {
     [key:string] : any
 }
-
-export const InputDate = (props:propsInputDate) => {
-    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
-
+export const InputDate = component$((props:propsInputDate) => {
+    
     return(
-        <div class='input-basic text-center'>
-            <div class='input-group'>
-                {
-                    props.icon
-                    &&
-                    <span 
-                        class="input-group-text text-dark-blue" 
-                        onClick$={() => {
-                                //(document.querySelector('input[id='+props.id+']') as HTMLInputElement).showPicker();
-                                //(document.querySelector('input[id='+props.id+']') as HTMLInputElement).focus();
-                            }
-                        }
-                    >
-                        <i class={'fa-regular fa-'+props.icon} />
-                    </span>
-                }
-                <div class="form-floating">
-                    <input 
-                        type="date" 
-                        id={props.id}
-                        class={props.icon ? "form-control form-control-date text-bold text-dark-blue" : "form-control text-bold text-dark-blue"}  
-                        name={props.name}
-                        placeholder={props.placeholder}
-                        required={props.required} 
-                        min={props.min} 
-                        max={props.max} 
-                        onKeyPress$={(e:any) => {
-                            if(e.keyCode == 13)
-                            {
-                                props.onChange && props.onChange(e)
-                            }
-                        }}
-                        onChange$={(e:any) => {
-                            if(new Date(e.target.value).getFullYear() > 1000)
-                            {
-                                props.onChange && props.onChange(e)
-                            }
-                        }}
-                        onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                        onBlur$={(e) => {
-                                props.onChange && props.onChange(e);
-                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'
-                            }
-                        }
-                        onClick$={() => {
-                            (document.querySelector('input[id='+props.id+']') as HTMLInputElement).showPicker();
-                            (document.querySelector('input[id='+props.id+']') as HTMLInputElement).focus();
-                             }
-                         }
-                        value={props.value}
-                        {...dataAttributes}
-                    />
-                    <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
-                </div>
-            </div>
-            <hr id={props.id}/>
-        </div>
+        <>
+        <DatePickerMUI 
+        id={props.id}
+        name={props.name}
+        label={props.label}
+        placeholder={props.placeholder}
+        required={props.required} 
+        min={props.min} 
+        max={props.max}
+        defaultvalue={props.value} 
+        onChange$={(e:any) => {props.onChange && props.onChange(e)}}
+       />
+        </>
+       
+       
     )
-}
+})
 
 interface propsInputMail
 {
@@ -390,88 +347,22 @@ export const Form = component$((props:propsForm) => {
 
     const form = useSignal(forms)
 
+    function changeProps() {
+        form.value = props.form
+    }
+    changeProps()
     useTask$(() => {
         form.value = props.form
     })
 
     useVisibleTask$(() => {
-        form.value = props.form
+        form.value = props.form        
     })
 
-    /* const validateKeyUp$= $((target: any)=>{
-        
-        if ((target.type == 'text') && (target.dataset.textonly === 'true')) 
-        {
-            const input = document.querySelector('#'+target.id) as HTMLInputElement
 
-            const regex = new RegExp(/^[ a-zA-ZÀ-ÿ\u00f1\u00d1]*$/g)
-            
-            if(regex.test(input.value)){
-                input.value = String(input.value);
-            }else{
-                let str= input.value;
-                str = str.slice(0, -1);
-                input.value= str;
-
-            }
-        }
-    })  */
-
-    /* const validateBlur$= $((target: any)=>{
-        const input = document.querySelector('#'+target.id) as HTMLInputElement
-
-         if(input.type === 'tel')
-        {
-            const regexp = new RegExp(/^[(]?[+]?(\d{2}|\d{3})[)]?[\s]?((\d{6}|\d{8})|(\d{3}[*.\-\s]){2}\d{3}|(\d{2}[*.\-\s]){3}\d{2}|(\d{4}[*.\-\s]){1}\d{4})|\d{8}|\d{10}|\d{12}$/)
-
-            if(regexp.test(input.value))
-            {
-                input.value = String(input.value);
-                input.classList.remove('is-invalid')
-            }
-            else 
-            {
-                // input.value= '';
-                input.classList.add('is-invalid')
-                input.focus()
-            }
-        }
-        else  if(input.type === 'email')
-        {
-            const regex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
-
-            if(regex.test(input.value))
-            {
-                input.value = String(input.value);
-                input.classList.remove('is-invalid')
-            }
-            else
-            {
-                // input.value= '';
-                input.classList.add('is-invalid')
-                input.focus()
-            }
-        }
-        else  if(input.type === 'number')
-        {
-            
-            if(Number(input.value))
-            {
-                input.value=  String(input.value);
-                input.classList.remove('is-invalid')
-            }
-            else
-            {
-                // input.value= '';
-                input.classList.add('is-invalid')
-                input.focus()
-            }
-        }
-
-    }) */
 
     return(
-        <form id={props.id} class='needs-validation' noValidate autoComplete='off'>
+        <form id={props.id} class='needs-validation' noValidate autocomplete='off'>
             <div class='container p-0'>
                 {
                     form.value.map((rowInput,rIndex) => {
@@ -561,7 +452,7 @@ export const Form = component$((props:propsForm) => {
                                         {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
-                                                     <InputPhone
+                                                        <InputPhone
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     />                                        
@@ -583,7 +474,7 @@ export const Form = component$((props:propsForm) => {
                                         {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
-                                                   <InputNumber
+                                                    <InputNumber
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     /> 
