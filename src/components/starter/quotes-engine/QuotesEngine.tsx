@@ -20,11 +20,11 @@ export const QuotesEngine = component$((props:propsQE) => {
     const dateEnd = useSignal('')
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)
-    const inputStart =useSignal({min:'', max:''})
-    const inputEnd =useSignal({min:'', max:''})
+    const inputStart =useSignal({min:'', max:'',open:false})
+    const inputEnd =useSignal({min:'', max:'',open:false})
 
     const updateInputEnd = $((newMin: string, newMax: string) => {
-        inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax };
+        inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax, open:true };
       });
 
 
@@ -190,10 +190,10 @@ export const QuotesEngine = component$((props:propsQE) => {
 
        
         
-       if (name =='desdeprev'||name =='hastaprev') {
+       /* if (name =='desdeprev'||name =='hastaprev') {
         const modal = new bs.Modal('#modal-mobile-dates',{})
         modal.show()
-       }
+       } */
 
        if (name =='pasajerosprev') {
         const modal = new bs.Modal('#modal-mobile-pax',{})
@@ -368,27 +368,30 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {row:[
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                    type:'text',
+                                    type:'date',
                                     label:'Desde',
                                     placeholder:'Desde',
-                                    name:'desdeprev',
+                                    name:'desde',
                                     required:true,
                                     icon:'calendar',
+                                    min: inputStart.value.min,
                                     onClick:onClickInput$,
-                                    value:resume.value.desdeprev,
+                                    value: resume.value.desde,
                                     readOnly:true,
                                     //tabIndex:-1
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                    type:'text',
+                                    type:'date',
                                     label:'Hasta',
                                     placeholder:'Hasta',
-                                    name:'hastaprev',
+                                    name:'hasta',
                                     required:true,
                                     icon:'calendar',
+                                    min: inputEnd.value.min,
+                                    max: inputEnd.value.max,
                                     onClick:onClickInput$,
-                                    value:resume.value.hastaprev,
+                                    value:resume.value.hasta,
                                     readOnly:true,
                                     tabIndex:-1
                                 },
@@ -477,7 +480,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             </div>
             }
 
-            {
+           {/*  {
             props.isMobile == true&&
             <div id="modal-mobile-dates" class="modal fade modal-fullscreen-xs-down" >
                     <div class="modal-dialog" style={{height:'100% !important'}}>
@@ -530,7 +533,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                 
             </div>
             }
-
+ */}
             {
             props.isMobile == true&&
             <div id="modal-mobile-pax" class="modal fade modal-fullscreen-xs-down" >

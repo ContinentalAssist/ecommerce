@@ -99,6 +99,7 @@ export const InputDate = component$((props:propsInputDate) => {
         min={props.min} 
         max={props.max}
         defaultvalue={props.value} 
+        open={props.open} 
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
        />
         </>

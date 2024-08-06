@@ -8,13 +8,20 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
         body: JSON.stringify(dataSend),
     };
 
-    try {
-        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, { ...headers });
-        const data = await response.json(); // Espera la respuesta del fetch aquí
 
-        onSuccess(data); // Llama a la función onSuccess con los datos recibidos
+
+    try {
+        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, { ...headers }); 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        onSuccess(data);
     } catch (error) {
-        console.error('Falló al obtener datos:', error);
+    
+            console.error('Falló al obtener datos:', error);
+        
     }
 };
 

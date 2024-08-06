@@ -52,16 +52,15 @@ export default component$(() => {
         loading.value = false
     })
 
-  /*   useTask$(() => {
+    useTask$(() => {        
         
         if(Object.keys(stateContext.value).length > 0)
         {
             resume.value = stateContext.value
             
-            if (resume?.value?.hasOwnProperty('urlvoucher')&&resume?.value?.urlvoucher.length>0) {
-                
+            if (resume?.value?.codevoucher != ''&&resume?.value?.paymentstutus == 'completed') {
                 if (stateContext?.value?.typeMessage == 1) {
-                    getVoucher(resume?.value?.urlvoucher[0].codigovoucher);
+                    getVoucher(resume?.value?.codevoucher);
 
                 }
         
@@ -73,7 +72,7 @@ export default component$(() => {
 
             }
         }
-    }) */
+    })
 
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
@@ -83,8 +82,7 @@ export default component$(() => {
     })
   
 
-    useVisibleTask$(async() => {
-     
+    useVisibleTask$(async() => {        
 
         if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
             loading.value = true
@@ -267,11 +265,11 @@ export default component$(() => {
 
                                             
                                             <div class="row not-mobile">
-                                                <div class="col-lg-6 col-sm-12 mt-4">
+                                              {/*   <div class="col-lg-6 col-sm-12 mt-4">
                                                     <button type='button' class='btn btn-primary btn-lg' >Descargar vouchers</button>
-                                                </div>
+                                                </div> */}
 
-                                                <div class='col-lg-6 col-sm-12  text-end'>
+                                                <div class='col-lg-12 col-sm-12  text-end'>
                                                     <p class='text-regular text-blue mb-0'>Total</p>
                                                     <h3 class='h1 text-semi-bold text-blue mb-4'>
                                                         {
@@ -293,10 +291,10 @@ export default component$(() => {
                                                     </h3>
                                                 </div>
 
-                                                <div class="col-sm-12 text-center mt-4">
+                                              {/*   <div class="col-sm-12 text-center mt-4">
                                                     <button type='button' class='btn btn-primary btn-lg' >Descargar vouchers</button>
                                                 </div>
-
+ */}
                                             </div>
                                            
                                        

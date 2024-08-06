@@ -481,7 +481,7 @@ export default component$((props:propsOP) => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado;
+                //urlvoucher.value = resPayment.resultado;
                 isLoading.value = false;
 
                 (window as any)['dataLayer'].push(
@@ -506,7 +506,8 @@ export default component$((props:propsOP) => {
                 );
 
                // modalSuccess.show()
-                stateContext.value.urlvoucher =urlvoucher.value
+                stateContext.value.paymentstutus =resPayment.resultado[0]?.openPayTransaccion?.status||'';
+                stateContext.value.codevoucher =resPayment.resultado[0]?.openPayTransaccion?.order_id||'';
                 stateContext.value.typeMessage = 1
                 await navigate('/quotes-engine/message')
             }

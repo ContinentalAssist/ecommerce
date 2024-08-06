@@ -269,10 +269,10 @@ export default component$((props:propsAuthorize) => {
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                     sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
-                    devicesessionid : opSessionId.value,
-                    sourceid : opToken.value,
-                    acceptanceToken : wSeesionId.value,
-                    tokenWompi : wToken.value
+                   // devicesessionid : opSessionId.value,
+                    //sourceid : opToken.value,
+                    //acceptanceToken : wSeesionId.value,
+                   // tokenWompi : wToken.value
                 }
             )
             
@@ -291,7 +291,7 @@ export default component$((props:propsAuthorize) => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado;
+               // urlvoucher.value = resPayment.resultado;
                 isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
@@ -316,7 +316,8 @@ export default component$((props:propsAuthorize) => {
                 );
 
                // modalSuccess.show()
-               stateContext.value.urlvoucher =urlvoucher.value
+               stateContext.value.paymentstutus =resPayment.resultado[0]?.authorizeTransaccion?.status||'';
+               stateContext.value.codevoucher =resPayment.resultado[0]?.orden?.codvoucher||'';
                stateContext.value.typeMessage = 1
                await navigate('/quotes-engine/message')
             }

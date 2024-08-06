@@ -854,7 +854,7 @@ export default component$((props:propsWompi) => {
                                             form={[
                                                 {row:[
                                                     {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                 ]},
                                                 {row:[
                                                     {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
@@ -912,7 +912,7 @@ export default component$((props:propsWompi) => {
                                                 </div>
                                                 <div class='col-lg-6'>
                                                     <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-primary' onClick$={()=>{getPayment$}}>Realizar pago</button>
+                                                        <button type='button' class='btn btn-primary' onClick$={()=>{getPayment$()}}>Realizar pago</button>
                                                         {
                                                             attempts.value > 0
                                                             &&

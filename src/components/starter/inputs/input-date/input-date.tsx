@@ -4,8 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker,MobileDatePicker  } from "@mui/x-date-pickers";
-import { Grid,Box } from "@mui/material";
+import { Grid,Box, InputAdornment} from "@mui/material";
 
+import { createSvgIcon } from '@mui/material/utils';
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -14,33 +15,16 @@ import  './input-date.css'
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
+const FlightLandIcon = createSvgIcon(
+  <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>,
+  'CalendarIcon',
+);
 
+<svg className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-vubbuv" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CalendarIcon"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path></svg>
 
 const MyDateTimePicker = (props: any) => {
-  const [inputAttr, setinputAttr] = useState(
-    {
-      id: '',
-      label: '',
-      min: '' ,
-      max: '',
-    }
-  )
+
   const [value,setValue]=useState('')
-  //const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-
- /*    if (/mobile/i.test(navigator.userAgent)) {
-      setIsMobile(true)
-    }else{
-      setIsMobile(false)
-
-    } */
-    // Aquí puedes agregar lógica adicional que se ejecute cuando las props cambien
-    if (props.min) {
-      setinputAttr(props)
-
-    }
-  }, [props]);
 
   return(
     <div>
@@ -50,19 +34,26 @@ const MyDateTimePicker = (props: any) => {
         <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
         <MobileDatePicker
             {...props}
-            label= {inputAttr.label}
+            label= {props.label}
             minDate={getValidDateOrDefault(props.min)}
             maxDate={getValidDateOrDefault(props.max)}
+            //format="DD MMM YYYY"
             fullWidth
-            slotProps={{ inputAdornment: { position: 'start' },
+            slots={{InputAdornment:FlightLandIcon}}
+            slotProps={{
+            inputAdornment: { position: 'start' },
             textField: { InputProps: {
+              startAdornment: <InputAdornment position="start">
+              <FlightLandIcon></FlightLandIcon>
+              </InputAdornment>,
               inputProps: {
-                dateformated: value
+                dateformated: value,
+         
             },
              } } }}
             
             sx={{ width: '100%' }}
-
+            //open={props?.open||false}
             onChange={(newValue)=>{
               setValue(dayjs(newValue).format('YYYY-MM-DD'));
               props.onChange(dayjs(newValue).format('YYYY/MM/DD'))
@@ -72,11 +63,12 @@ const MyDateTimePicker = (props: any) => {
             value={getValidDateOrDefault(value)}
           />
         </Box>
+        
 
         <Box display={{ xs: "none", sm: "block" }}>
         <DatePicker
             {...props}
-            label= {inputAttr.label}
+            label= {props.label}
             defaultValue={getValidDateOrDefault(props.defaultvalue)}
             minDate={getValidDateOrDefault(props.min)}
             maxDate={getValidDateOrDefault(props.max)}
