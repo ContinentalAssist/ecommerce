@@ -1,33 +1,3 @@
-/* fuentes */
-@font-face {
-    font-family: GalanoGrotesque;
-    src: url("/assets/fonts/Galano_Grotesque.woff");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: GalanoGrotesque_Light;
-    src: url("/assets/fonts/Galano_Grotesque_Light.woff");
-    font-display: swap;
-}
-
-@font-face {
-    font-family: GalanoGrotesque_Bold;
-    src: url("/assets/fonts/Galano_Grotesque_Bold.woff");
-    font-display: swap;
-}
-
-@font-face {
-      font-family: GalanoGrotesque_Semi_Bold;
-      src: url("/assets/fonts/Galano_Grotesque_Semi_Bold.woff");
-      font-display: swap;
-}
-
-@font-face {
-    font-family: 'GalanoGrotesque_Medium';
-    src: url("/assets/fonts/Galano_Grotesque_Medium.woff") format('woff');
-    font-display: swap;
-}
 
 .MuiSvgIcon-root{
 color: var(--ca-dark-blue);

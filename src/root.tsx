@@ -87,6 +87,14 @@ export default component$(() => {
       link.rel = 'stylesheet';
      // link.onload = callback; // La función que se ejecutará después de que el CSS se haya cargado
       document.head.appendChild(link);
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
+      script.integrity = "sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL";
+      script.crossOrigin = "anonymous";
+      document.body.appendChild(script);
+
       if (/mobile/i.test(navigator.userAgent)) {
           resumeQuote.value = { ...resumeQuote.value, isMobile: true }
       }else{
@@ -132,6 +140,21 @@ export default component$(() => {
     resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
   });
 
+  useVisibleTask$(() => {
+    const openpayScript = document.createElement('script');
+    openpayScript.async = true;
+    openpayScript.type = "text/javascript";
+    openpayScript.src = "https://js.openpay.mx/openpay.v1.min.js";
+    document.body.appendChild(openpayScript);
+  
+    const openpayDataScript = document.createElement('script');
+    openpayDataScript.async = true;
+    openpayDataScript.type = 'text/javascript';
+    openpayDataScript.src = "https://js.openpay.mx/openpay-data.v1.min.js";
+    document.body.appendChild(openpayDataScript);
+  });
+
+  
   useOnWindow('load',$(async() => {
     if(navigator.userAgent.includes('Windows'))
     {
@@ -258,10 +281,10 @@ export default component$(() => {
           </noscript>
         <RouterOutlet />
         <script async type="text/javascript" src='/assets/icons/all.min.js'/>
-        <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
-        <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+{/*         <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
+ */}       {/*  <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
         <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
-
+ */}
         {!isDev && <ServiceWorkerRegister />}
       </body>
     </QwikCityProvider>

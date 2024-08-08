@@ -349,6 +349,30 @@ export default component$((props:propsWompi) => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
+/*     const validateWompi$ = $(async(wompiIdTransaccion:string) => {
+        console.log("wompiIdTransaccion",wompiIdTransaccion);
+        
+        if(wompiIdTransaccion)
+            {
+                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion})});
+                const dataValidation = await resValidation.json()
+
+                //isLoading.value=false;
+                
+                if (dataValidation.resultado.status == "DECLINED") {
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
+                }else if (dataValidation.resultado.status =="APPROVED") {
+                    stateContext.value.paymentstutus ='completed';
+                    stateContext.value.codevoucher =dataValidation.resultado.reference;
+                    stateContext.value.typeMessage = 1
+                    await navigate('/quotes-engine/message')
+                }
+              
+            }
+    })
+ */
+
     const getPayment$ = $(async() => {        
 
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
@@ -516,7 +540,7 @@ export default component$((props:propsWompi) => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado;
+                //urlvoucher.value = resPayment.resultado;
                 //loading.value = false;
                 isLoading.value=false;
 
@@ -542,9 +566,13 @@ export default component$((props:propsWompi) => {
                 );
 
                // modalSuccess.show()
-               stateContext.value.urlvoucher =urlvoucher.value
+                              
                stateContext.value.typeMessage = 1
+               stateContext.value.paymentstutus ='completed';
+               stateContext.value.codevoucher =resPayment.resultado[0]?.orden?.codvoucher||'';
                await navigate('/quotes-engine/message')
+               //const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;
+               //validateWompi$(id)
             }
             else
             {

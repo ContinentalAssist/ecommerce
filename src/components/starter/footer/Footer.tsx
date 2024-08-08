@@ -87,7 +87,7 @@ export const Footer = component$(() => {
                 <div class='col-xl-12'>
                     <div class='container'>
                         <div class='row align-content-center mt-2 mb-3'>
-                         <div class='row mobile'>
+                         <div class='mobile'>
                             <div class='col-sm-12 mt-3'>
                                 <div class='container'>
                                     <div class='row justify-content-center'>
