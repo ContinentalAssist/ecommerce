@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore, useTask$ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -13,7 +13,7 @@ import "./global.css";
 interface DivisaStore{
   divisaUSD: boolean
 }
-declare var window: any;
+declare let window: any;
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');

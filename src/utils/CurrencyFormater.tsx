@@ -1,5 +1,5 @@
 export default function CurrencyFormatter(currency: string, value: number) {
-    let numericValue = Number(value);
+    const numericValue = Number(value);
 
     
     if (isNaN(numericValue)) {

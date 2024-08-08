@@ -5,10 +5,8 @@ import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
-import CurrencyFormatter from "~/utils/CurrencyFormater";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
-import ImgNequi from '~/media/icons/nequi.svg?jsx';
 /* import ImgPse from '~/media/icons/pse.svg?jsx';
  */
 

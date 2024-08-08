@@ -108,7 +108,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             required={props.required}
                             readOnly={readOnly.value}
                             placeholder="Viajeros"
-                            onChange$={(e) => {
+                           /*  onChange$={(e: any) => {
                                 if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
                                 {
                                     e.target.classList.remove('is-invalid')
@@ -118,7 +118,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                 {
                                     e.target.classList.remove('is-valid')
                                 }
-                            }}
+                            }} */
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                         />

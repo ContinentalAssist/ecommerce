@@ -23,16 +23,11 @@ export default component$((props:propsAuthorize) => {
     const obj : {[key:string]:any} = {}
 
     const resume = useSignal(obj)
-    const opSessionId = useSignal('')
-    const opToken = useSignal('')
-    const wSeesionId = useSignal('')
-    const wToken = useSignal('')
     const months = useSignal(array)
     const years = useSignal(array)
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const urlvoucher = useSignal(array)
     const attempts = useSignal(stateContext.value.attempts|| 0)
     const isLoading = useSignal(false);
 
@@ -146,7 +141,7 @@ export default component$((props:propsAuthorize) => {
     })
 
     const getPayment$ = $(async() => {
-        const bs = (window as any)['bootstrap']
+        //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -426,14 +421,14 @@ export default component$((props:propsAuthorize) => {
         }
     })
 
-    const closeQuote$ = $(() => {
+ /*    const closeQuote$ = $(() => {
         const bs = (window as any)['bootstrap']
         const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
         modalErrorAttemps.hide()
 
         stateContext.value = {}
     })
-   
+    */
     return(
         <>
             {/* {
@@ -530,130 +525,7 @@ export default component$((props:propsAuthorize) => {
                     </div>
                 </div>
             </div>
-            {/* <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-success">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistSuccess class='img-fluid' title='continental-assist-icon-success' alt='continental-assist-icon-success'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Compra exitosa!</h2>
-                            {
-                                urlvoucher.value.length > 4
-                                ?
-                                <>
-                                    <p class='px-2 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                                :
-                                <>
-                                    <p class='px-5 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos. Conecta con la magia del mundo, del resto nos encargamos nosotros.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                            }
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    {
-                                        urlvoucher.value.map((voucher:any,index:number) => {
-                                            return(
-                                                <div key={index} class='col-lg-6'>
-                                                    <div class='d-grid gap-2'>
-                                                        <a title='Voucher' class='btn btn-primary btn-sm mt-2' href={voucher.link_voucher} target='_blank'>{voucher.nombrebeneficiario}</a>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4'>
-                                        <div class='d-grid gap-2'>
-                                            {
-                                                urlvoucher.value.length > 2
-                                                ?
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-3'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                                :
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-5'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalError' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Pago rechazado!</h2>
-                            <p class='px-5 py-3'>Revisa los datos de tu medio de pago e intenta de nuevo.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Voucher activo!</h2>
-                            <p class='px-5 py-3'>Uno de los beneficiarios ya cuenta con un voucher activo para las fechas seleccionadas.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorAttemps' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Has realizado tres intentos!</h2>
-                            <p class='px-5 py-3'>Lo sentimos has superado el número de permitidos.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <a title='Inicio' class={'btn btn-blue btn-lg'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
+           
         </>
     )
 })

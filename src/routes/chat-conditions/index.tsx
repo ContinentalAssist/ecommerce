@@ -53,7 +53,7 @@ export default component$(() => {
     const resChat = await fetch("/api/getAskyourpdf", { method: "POST", body: JSON.stringify(data) });
     const dataChat = await resChat.json();
 
-    let tempChat = [...dataChatBox.value];
+    const tempChat = [...dataChatBox.value];
     if ('question' in dataChat) {
 
       if (dataChatBox.value.length < 3) {

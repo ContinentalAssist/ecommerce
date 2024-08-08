@@ -145,7 +145,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                             onKeyUp$={(e) => geFiltertList$(e)}
                             //readOnly={readOnly.value}
                             onFocusin$={getLastOption$}
-                            onChange$={(e) => {                                
+                            /* onChange$={(e) => {                                
                                 if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
                                 {
                                     e.target.classList.remove('is-invalid')
@@ -155,7 +155,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                 {
                                     e.target.classList.remove('is-valid')
                                 }
-                            }}
+                            }} */
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0',
                             props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});

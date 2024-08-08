@@ -30,7 +30,6 @@ export default component$((props:propsOP) => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const urlvoucher = useSignal(array)
     const attempts = useSignal(stateContext.value.attempts|| 0)
     const formPayment = useSignal('')
     const redirect = useSignal(obj)
@@ -558,13 +557,13 @@ export default component$((props:propsOP) => {
         }
     })
 
-    const closeQuote$ = $(() => {
+   /*  const closeQuote$ = $(() => {
         const bs = (window as any)['bootstrap']
         const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
         modalErrorAttemps.hide()
 
         stateContext.value = {}
-    })
+    }) */
    
     return(
         <>

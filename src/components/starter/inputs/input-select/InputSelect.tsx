@@ -101,7 +101,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                             onKeyUp$={(e) => getFiltertList$(e)}
                             //readOnly={readOnly.value}
                             placeholder={props.label}
-                            onChange$={(e) => {
+                           /*  onChange$={(e:any) => {
                                 if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
                                 {
                                     e.target.classList.remove('is-invalid')
@@ -114,7 +114,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                                 getOptions$(e.target.value);
                                 //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
                                 
-                            }}
+                            }} */
                             ///onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                             {...props.dataAttributes}

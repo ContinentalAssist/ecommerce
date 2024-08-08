@@ -8,6 +8,8 @@ import { qwikCity } from "@builder.io/qwik-city/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "./package.json";
 import { qwikReact } from "@builder.io/qwik-react/vite";
+import path from 'path';
+
 type PkgDep = Record<string, string>;
 const { dependencies = {}, devDependencies = {} } = pkg as any as {
   dependencies: PkgDep;
@@ -23,10 +25,22 @@ export default defineConfig(({ command, mode }): UserConfig => {
   return {
     plugins: [qwikCity(), qwikVite(), tsconfigPaths(), qwikReact()],
     // This tells Vite which dependencies to pre-build in dev mode.
+    resolve: {
+      alias: {
+        '@mui/x-date-pickers/LocalizationProvider' : path.resolve(
+          __dirname,
+          'node_modules/@mui/x-date-pickers/LocalizationProvider/index.js',
+        ),
+        '@mui/x-date-pickers/AdapterDayjs': path.resolve(
+          __dirname,
+          'node_modules/@mui/x-date-pickers/AdapterDayjs/AdapterDayjs.js',
+        ),
+      },
+    },
     optimizeDeps: {
       // Put problematic deps that break bundling here, mostly those with binaries.
       // For example ['better-sqlite3'] if you use that in server functions.
-      exclude: [],
+  
     },
     /**
      * This is an advanced setting. It improves the bundling of your server code. To use it, make sure you understand when your consumed packages are dependencies or dev dependencies. (otherwise things will break in production)
