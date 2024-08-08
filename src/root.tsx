@@ -81,7 +81,7 @@ export default component$(() => {
 
   useVisibleTask$(()=>{
       
-      const link = document.createElement('link');
+/*       const link = document.createElement('link');
       link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
       link.type = 'text/css';
       link.rel = 'stylesheet';
@@ -93,7 +93,7 @@ export default component$(() => {
       script.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
       script.integrity = "sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL";
       script.crossOrigin = "anonymous";
-      document.body.appendChild(script);
+      document.body.appendChild(script); */
 
       if (/mobile/i.test(navigator.userAgent)) {
           resumeQuote.value = { ...resumeQuote.value, isMobile: true }
@@ -272,7 +272,12 @@ export default component$(() => {
               precios assistencia viajes internacionales,
               precios assistencia medico viajes,'
           />
-          <link rel="manifest" href="/manifest.json" />              
+          <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin=''/>
+          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Light.woff" as="font" type="font/woff" crossOrigin=''/>
+          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
+          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Semi_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
+          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Medium.woff" as="font" type="font/woff" crossOrigin=''/>
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossOrigin="anonymous"/>          <link rel="manifest" href="/manifest.json" />              
           <RouterHead />
       </head>
       <body data-so={so.value} data-device={device.value}>
@@ -281,6 +286,7 @@ export default component$(() => {
           </noscript>
         <RouterOutlet />
         <script async type="text/javascript" src='/assets/icons/all.min.js'/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossOrigin="anonymous"/>
 {/*         <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
  */}       {/*  <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
         <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>

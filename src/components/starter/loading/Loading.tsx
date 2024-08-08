@@ -14,7 +14,7 @@ export const Loading = component$(() => {
                 src='/assets/img/ca/continental-assist-loading.webp' 
                 class='img-fluid' 
                 alt='continental-assist-loading'
-               
+                loading="lazy"
             />
            {/*  <ImgContinentalAssistLoading class='img-fluid'/> */}
         </div>
