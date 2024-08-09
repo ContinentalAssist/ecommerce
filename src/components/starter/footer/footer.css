@@ -57,6 +57,10 @@ footer img
     background-color: lightgray;
 }
 
+.title-country
+{
+    font-size: 1.25rem;
+} 
 @media(max-width: 575.98px)
 {
     footer .bg-secondary p

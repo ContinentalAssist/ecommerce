@@ -141,7 +141,7 @@ export default component$(() => {
     resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
   });
 
-  useVisibleTask$(() => {
+/*   useVisibleTask$(() => {
     const openpayScript = document.createElement('script');
     openpayScript.async = true;
     openpayScript.type = "text/javascript";
@@ -154,9 +154,9 @@ export default component$(() => {
     openpayDataScript.src = "https://js.openpay.mx/openpay-data.v1.min.js";
     document.body.appendChild(openpayDataScript);
   });
-
+ */
   
-  useOnWindow('load',$(async() => {
+/*   useOnWindow('load',$(async() => {
     if(navigator.userAgent.includes('Windows'))
     {
         so.value = 'windows'
@@ -172,7 +172,23 @@ export default component$(() => {
     await gtag('js', new Date()); 
     await gtag('config', 'AW-11397008041'); 
   }))
+ */
+  useOnWindow('load',$(() => {
+    if(navigator.userAgent.includes('Windows'))
+    {
+        so.value = 'windows'
+    }
 
+    if(navigator.userAgent.includes('Mobile'))
+    {
+        device.value = 'mobile'
+    }
+
+    (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
+    gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
+    gtag('js', new Date()); 
+    gtag('config', 'AW-11397008041'); 
+}))
 
   useOnWindow('load',$(async() => {
     /*    const genesysScript = document.createElement('script');
@@ -209,7 +225,7 @@ export default component$(() => {
       <head>
       <meta charset="utf-8" />
       <QwikPartytown forward={['gtag','dataLayer.push']} />
-          <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
+         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
           <meta name="keywords" content='
               seguro, 
               seguro viajes,
@@ -290,10 +306,9 @@ export default component$(() => {
         <RouterOutlet />
         <script async type="text/javascript" src='/assets/icons/all.min.js'/>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
-{/*         <script async type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossOrigin="anonymous"></script>
- */}       {/*  <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
+        <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
         <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
- */}
+
         {!isDev && <ServiceWorkerRegister />}
       </body>
     </QwikCityProvider>

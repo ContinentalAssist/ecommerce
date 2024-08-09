@@ -195,21 +195,21 @@ export const Footer = component$(() => {
            
                         <div class="col-lg-4 col-sm-12  d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
                             <span>
-                            <h5 class='text-white ms-3 text-semi-bold'>Aventura, Florida </h5>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Aventura, Florida </p>
                             <p class='text-white ms-3 text-regular'>20803 Biscayne Boulevard,<br/> suite 370</p>    
                             </span>                           
                         </div>
                         <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
                         
                         <span>
-                            <h5 class='text-white ms-3 text-semi-bold'>Ciudad de México, México </h5>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Ciudad de México, México </p>
                             <p class='text-white ms-3 text-regular'>Avenida Insurgentes 662, <br/>piso 7A</p>    
                             </span>
                         </div>
                         <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
                         
                         <span>
-                            <h5 class='text-white ms-3 text-semi-bold'>Bogotá, Colombia  </h5>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Bogotá, Colombia  </p>
                             <p class='text-white ms-3 text-regular'>Autopista norte # 114 – 44,<br class="not-mobile"/> oficina 504</p>    
                             </span>
                     
