@@ -12,9 +12,10 @@ export const Loading = component$(() => {
           {/*   <div class="loader"></div> */}
             <img 
                 src='/assets/img/ca/continental-assist-loading.webp' 
-                class='img-fluid' 
+               // class='img-fluid' 
                 alt='continental-assist-loading'
                 loading="lazy"
+                style={{width:'200px',height:'200px'}}
             />
            {/*  <ImgContinentalAssistLoading class='img-fluid'/> */}
         </div>
