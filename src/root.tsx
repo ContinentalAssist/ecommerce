@@ -4,6 +4,7 @@ import {
   RouterOutlet,
   ServiceWorkerRegister,
 } from "@builder.io/qwik-city";
+import { QwikPartytown } from './components/partytown/partytown';
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
 import gtm from './utils/GTM';
@@ -206,6 +207,8 @@ export default component$(() => {
       </head> */}
 
       <head>
+      <meta charset="utf-8" />
+      <QwikPartytown forward={['gtag','dataLayer.push']} />
           <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
           <meta name="keywords" content='
               seguro, 

@@ -32,7 +32,6 @@ export default component$((props:propsWompi) => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const urlvoucher = useSignal(array)
     const attempts = useSignal(stateContext.value.attempts||0)
     const formPayment = useSignal('')
     const qr = useSignal(obj)
