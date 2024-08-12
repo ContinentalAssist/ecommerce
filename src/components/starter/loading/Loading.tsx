@@ -1,23 +1,26 @@
 import { component$, useStylesScoped$ } from "@builder.io/qwik";
 
- import ImgContinentalAssistLoading from '~/media/ca/continental-assist-loading.webp?jsx'
-
 import styles from  './loading.css?inline'
 
-export const Loading = component$(() => {
+export const Loading = component$((props:any) => {
     useStylesScoped$(styles)
 
     return(
-        <div class={'loading'}>
-          {/*   <div class="loader"></div> */}
-            <img 
+      
+          <div class="loading container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
+          <img 
+          class="mb-3"
                 src='/assets/img/ca/continental-assist-loading.webp' 
                // class='img-fluid' 
                 alt='continental-assist-loading'
                 loading="lazy"
                 style={{width:'200px',height:'200px'}}
             />
-           {/*  <ImgContinentalAssistLoading class='img-fluid'/> */}
-        </div>
+            <p class=' text-semi-bold text-blue  text-center'>
+            { props.message}
+            </p>
+    </div>
+   
+       
     )
 })

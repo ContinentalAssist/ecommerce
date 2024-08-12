@@ -9,7 +9,7 @@ import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsOP {
-    setLoading: (loading: boolean) => void;
+    setLoading: (loading: boolean, message: string) => void;
    
 }
 
@@ -40,7 +40,7 @@ export default component$((props:propsOP) => {
 
 
     function updateLoading(){
-        props.setLoading(isLoading.value)
+        props.setLoading(isLoading.value,'')
         
     }
     updateLoading()
@@ -557,13 +557,7 @@ export default component$((props:propsOP) => {
         }
     })
 
-   /*  const closeQuote$ = $(() => {
-        const bs = (window as any)['bootstrap']
-        const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-        modalErrorAttemps.hide()
 
-        stateContext.value = {}
-    }) */
    
     return(
         <>

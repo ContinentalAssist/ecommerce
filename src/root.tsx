@@ -108,14 +108,14 @@ export default component$(() => {
       let currency: string;
       // let exchangeRate : any[] = []
 
-      const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+      /* const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
           .then((response) => {
               return(response.json())
-          })
-            /* const geoData ={
+          }) */
+            const geoData ={
               ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
               country: "CO"
-          }  */
+          } 
       resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
       const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
       .then((response) => {
@@ -291,12 +291,12 @@ export default component$(() => {
               precios assistencia viajes internacionales,
               precios assistencia medico viajes,'
           />
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous"/>
           <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin=''/>
           <link rel="preload" href="/assets/fonts/Galano_Grotesque_Light.woff" as="font" type="font/woff" crossOrigin=''/>
           <link rel="preload" href="/assets/fonts/Galano_Grotesque_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
           <link rel="preload" href="/assets/fonts/Galano_Grotesque_Semi_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
           <link rel="preload" href="/assets/fonts/Galano_Grotesque_Medium.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous"/>
           <RouterHead />
       </head>
       <body data-so={so.value} data-device={device.value}>

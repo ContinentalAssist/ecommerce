@@ -10,7 +10,7 @@ import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsAuthorize {
-    setLoading: (loading: boolean) => void;
+    setLoading: (loading: boolean, message:string) => void;
 }
 
 export default component$((props:propsAuthorize) => {
@@ -33,7 +33,7 @@ export default component$((props:propsAuthorize) => {
 
 
     function updateLoading(){
-        props.setLoading(isLoading.value)
+        props.setLoading(isLoading.value, '')
         
     }
     updateLoading()

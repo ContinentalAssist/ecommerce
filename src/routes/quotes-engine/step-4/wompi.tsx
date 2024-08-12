@@ -11,7 +11,7 @@ import { CardPaymentResume } from "~/components/starter/card-payment-resume/Card
  */
 
 export interface propsWompi {
-    setLoading: (loading: boolean) => void;
+    setLoading: (loading: boolean, message: string) => void;
 
 }
 
@@ -41,13 +41,45 @@ export default component$((props:propsWompi) => {
     const pse = useSignal(obj)
     const institutions = useSignal(array)
     const isLoading = useSignal(false);
+    const attemptsCard = useSignal(0)
+    const wompiIdTransaccion =useSignal('')
+    const messageLoading= useSignal('')    
 
 
     function updateLoading(){        
-        props.setLoading(isLoading.value)
+        props.setLoading(isLoading.value,messageLoading.value)
         
     }
     updateLoading()
+
+    const validateTransaccion$ = $(async() => {
+        const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
+        const dataValidation = await resValidation.json()
+
+
+    
+        if (dataValidation.resultado.status == "PENDING" && attemptsCard.value > 0) {            
+            setTimeout(() =>attemptsCard.value ++, 2000); 
+        }
+        else if (dataValidation.resultado.status == "DECLINED"|| dataValidation.resultado.status == "ERROR") {
+            stateContext.value.typeMessage = 2
+            await navigate('/quotes-engine/message')
+        }else if (dataValidation?.resultado.status =="APPROVED") {
+            if (stateContext.value.wompiTipo =='PSE') {
+                const url= dataValidation.resultado.payment_method.extra.async_payment_url;
+                navigate(url)
+            }else{
+                stateContext.value.paymentstutus ='completed';
+                stateContext.value.codevoucher =dataValidation.resultado.reference;
+                stateContext.value.typeMessage = 1
+                await navigate('/quotes-engine/message')
+            }
+           
+        }
+              
+            
+
+    })
 
     useTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -92,6 +124,16 @@ export default component$((props:propsWompi) => {
                 
             }
         }
+    })
+
+    useTask$(({track})=>{
+        track(() => attemptsCard.value);
+        //console.log(attemptsCard.value ," -- ",wompiIdTransaccion.value);
+        
+    if (attemptsCard.value>0 && wompiIdTransaccion.value !='') {
+        validateTransaccion$();
+    }
+ 
     })
 
     useVisibleTask$(async () => {
@@ -173,7 +215,7 @@ export default component$((props:propsWompi) => {
                 
                 if(dataPay?.resultado[0].wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
+                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     qr.value = {
@@ -206,7 +248,7 @@ export default component$((props:propsWompi) => {
                 
                 if(dataPay.resultado[0].wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
+                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     transfers.value = {
@@ -218,7 +260,8 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'BANCOLOMBIA_TRANSFER'
-                navigate(transfers.value.url)
+                /* verificar url */
+               // navigate(transfers.value.url)
             }
             else if(stateContext.value.wompiTipo == 'NEQUI')
             {
@@ -270,7 +313,7 @@ export default component$((props:propsWompi) => {
 
                 if(dataPay.resultado[0].wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
+                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     cash.value = {
@@ -348,32 +391,9 @@ export default component$((props:propsWompi) => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
-/*     const validateWompi$ = $(async(wompiIdTransaccion:string) => {
-        console.log("wompiIdTransaccion",wompiIdTransaccion);
-        
-        if(wompiIdTransaccion)
-            {
-                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion})});
-                const dataValidation = await resValidation.json()
 
-                //isLoading.value=false;
-                
-                if (dataValidation.resultado.status == "DECLINED") {
-                    stateContext.value.typeMessage = 2
-                    await navigate('/quotes-engine/message')
-                }else if (dataValidation.resultado.status =="APPROVED") {
-                    stateContext.value.paymentstutus ='completed';
-                    stateContext.value.codevoucher =dataValidation.resultado.reference;
-                    stateContext.value.typeMessage = 1
-                    await navigate('/quotes-engine/message')
-                }
-              
-            }
-    })
- */
-
-    const getPayment$ = $(async() => {        
-
+    const getPayment$ = $(async() => {    
+          
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -541,7 +561,7 @@ export default component$((props:propsWompi) => {
             {
                 //urlvoucher.value = resPayment.resultado;
                 //loading.value = false;
-                isLoading.value=false;
+                //isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -564,14 +584,10 @@ export default component$((props:propsWompi) => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-               // modalSuccess.show()
-                              
-               stateContext.value.typeMessage = 1
-               stateContext.value.paymentstutus ='completed';
-               stateContext.value.codevoucher =resPayment.resultado[0]?.orden?.codvoucher||'';
-               await navigate('/quotes-engine/message')
-               //const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;
-               //validateWompi$(id)
+               messageLoading.value ='Estamos procesando tu pago ...';
+               const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;
+               wompiIdTransaccion.value =id;
+               attemptsCard.value= 1;
             }
             else
             {
@@ -621,13 +637,6 @@ export default component$((props:propsWompi) => {
         }
     })
 
-  /*   const closeQuote$ = $(() => {
-        const bs = (window as any)['bootstrap']
-        const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-        modalErrorAttemps.hide()
-
-        stateContext.value = {}
-    }) */
 
     const getPhoneNequi$ = $(async() => {
         isLoading.value=true;
@@ -719,26 +728,11 @@ export default component$((props:propsWompi) => {
 
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
-                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
-                const dataValidation = await resValidation.json()
+                messageLoading.value ='Estamos procesando tu pago ...';
+                const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
+                wompiIdTransaccion.value =id;
+                attemptsCard.value= 1;
 
-                nequi.value = {
-                    total:dataValidation.resultado.amount_in_cents,
-                    voucher:dataValidation.resultado.reference,
-                    phone:dataForm.phone_number,
-                    status:dataValidation.resultado.status
-                }
-                isLoading.value=false;
-                
-                if (dataValidation.resultado.status == "DECLINED") {
-                    stateContext.value.typeMessage = 2
-                    await navigate('/quotes-engine/message')
-                }else if (dataValidation.resultado.status =="APPROVED") {
-                    stateContext.value.urlvoucher =dataPay.resultado
-                    stateContext.value.typeMessage = 1
-                    await navigate('/quotes-engine/message')
-                }
-              
             }
         }
     })
@@ -841,7 +835,12 @@ export default component$((props:propsWompi) => {
            // isLoading.value=false;
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
-                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion})});
+                messageLoading.value ='Estamos procesando tu pago ...';
+                const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
+                wompiIdTransaccion.value =id;
+                attemptsCard.value= 1;
+
+/*                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                 const dataValidation = await resValidation.json()
 
                 pse.value = {
@@ -849,20 +848,15 @@ export default component$((props:propsWompi) => {
                     total:dataValidation.resultado.amount_in_cents,
                     voucher:dataValidation.resultado.reference,
                     url:dataValidation.resultado.payment_method.extra.async_payment_url
-                }
+                } */
 
-                navigate(pse.value.url)
+               // navigate(pse.value.url)
             }
         } 
     }) 
    
     return(
         <>
-            {/* {
-                loading.value === true
-                &&
-                <Loading/>
-            } */}
              <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>

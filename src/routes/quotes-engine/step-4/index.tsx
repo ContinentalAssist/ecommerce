@@ -32,6 +32,7 @@ export default component$(() => {
     // const navigate = useNavigate()
 
     const formPayment = useSignal('')
+    const messageLoading = useSignal('')
     const loading = useSignal(false)
     const desktop = useSignal(false)
 
@@ -68,8 +69,9 @@ export default component$(() => {
         }
     })
 
-    const getLoading$ = $((status:boolean) => {        
-        loading.value = status        
+    const getLoading$ = $((status:boolean, message: string) => {        
+        loading.value = status;
+        messageLoading.value =message;      
     })
 
     return(
@@ -147,7 +149,7 @@ export default component$(() => {
             {
             loading.value === true
             &&
-            <Loading/>
+            <Loading message={messageLoading.value}/>
             }
             
 
