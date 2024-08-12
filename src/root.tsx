@@ -108,14 +108,14 @@ export default component$(() => {
       let currency: string;
       // let exchangeRate : any[] = []
 
-      /* const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+      const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
           .then((response) => {
               return(response.json())
-          }) */
-            const geoData ={
+          })
+            /* const geoData ={
               ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
               country: "CO"
-          } 
+          }  */
       resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
       const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
       .then((response) => {
