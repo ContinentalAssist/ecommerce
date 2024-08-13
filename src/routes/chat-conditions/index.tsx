@@ -53,8 +53,8 @@ export default component$(() => {
     const resChat = await fetch("/api/getAskyourpdf", { method: "POST", body: JSON.stringify(data) });
     const dataChat = await resChat.json();
 
-    const tempChat = [...dataChatBox.value];
-    if ('question' in dataChat) {
+    const tempChat = [...dataChatBox.value];    
+    if ('question' in dataChat?.data) {
 
       if (dataChatBox.value.length < 3) {
         tempChat.push(dataChat.data);
@@ -85,27 +85,37 @@ export default component$(() => {
   });
 
   return (
-    <div class="container-fluid m-4">
-      {loading.value === true && <Loading />}
-      <div class="row bg-step-5">
-        <div class="col-xl-12">
-          <div class="container">
-            <div class="row  mt-5 justify-content-center">
-              <div class="col-lg-10 text-center mt-5 mb-3">
-                <h1 class="text-semi-bold text-blue">
-                  <span class="text-tin">Hazle una pregunta a nuestras </span>
-                  <br /> condiciones generales
-                </h1>
-                <p class="text-regular text-dark-blue"> Inicia tu consulta y resuelve todas tus dudas al instante</p>
-                <hr class="divider my-3" />
-              </div>
-            </div>
+    <>
+      {
+        loading.value === true
+        &&
+        <Loading/>
+      }
 
-            <br />
-            <div class="row mb-5 d-flex justify-content-center">
-              <div class="card" id="chat1" style={{ borderRadius: "15px", width: "800px", height: "500px" }}>
-                <div class="card-body " style={{ height: "365px" }}>
-                  <div class="row bg-chat" style={{ height: "365px", overflowY: "auto" }}>
+  <div class='container-fluid'>
+      <div class='row bg-contact-us-header'>
+          <div class='col-xl-12'>
+              <div class='container'>
+                  <div class='row justify-content-center align-items-end h-30'>
+                      <div class='col-lg-12 text-center'>
+                          <h1 class="text-semi-bold text-blue">
+                            <span class="text-tin">Hazle una pregunta a nuestras </span>
+                            <br /> condiciones generales
+                          </h1>
+                          <p class="text-regular text-dark-blue"> Inicia tu consulta y resuelve todas tus dudas al instante</p>
+                          <hr class="divider my-3" />
+                      
+                      </div>
+                  </div>
+              </div>
+          </div>
+
+          <div class='col-xl-12 '>
+          <div class='container  mb-5'>
+            <div class='row justify-content-center '>
+            <div class="card" id="chat1" style={{ borderRadius: "15px",}}>
+                <div class="card-body " >
+                  <div class="row bg-chat" style={{ height: "390px", overflowY: "auto" }}>
                     {dataChatBox.value.length > 0 &&
                       dataChatBox.value.map((data, key) => {
                         return (
@@ -158,9 +168,9 @@ export default component$(() => {
                   </div>
                 </div>
 
-                <div class="card-footer">
-                  <div class="row">
-                    <div class="col-1 mt-1">
+                <div class="card-footer ">
+                  <div class="row ">
+                    <div class="col-2 mt-1 ">
                     <div
                       class="circle-dark-blue d-flex align-items-center align-self-center justify-content-center    text-center"
                       style={{ cursor: "pointer" }}
@@ -170,39 +180,42 @@ export default component$(() => {
 
                     </div>            
                     </div>
-                    <div class="col-10">
-                      <Form
+                    <div class="col-8  mb-5">
+                    <Form
                         id="form-message"
                         form={[
-                          {
-                            row: [
+                            {row:[
                               {
-                                size: "col-lg-12 col-sm-6 col-6",
+                                size: "col-lg-12 col-sm-12 col-12",
                                 type: "text",
-                                label: "Haga cualquier pregunta a nuestras Condiciones Generales",
-                                placeholder: "Haga cualquier pregunta a nuestras Condiciones Generales",
+                                label: "Escribe tu pregunta",
+                                placeholder: "Escribe tu pregunta",
                                 name: "message",
                                 required: true,
                                 value: lastMessage.value,
-                                onChange: $((e: any) => {
+                                onChange: $((e: any) => {                                  
                                   changeText$(e.target.value);
                                 }),
                               },
-                            ],
-                          },
-                        ]}
-                      />
+                            ]},
+                            ]}
+                    />   
+                  
                     </div>
-                    <div class="col-1 mt-1">
-
-                    <div
+                    <div class="col-2 mt-1 ">
+                      <div class="row  justify-content-end pe-1">
+                      <div
                       class="circle-light-blue d-flex align-items-center align-self-center justify-content-center   text-center"
                       style={{ cursor: "pointer" }}
-                      onClick$={getChatAksYourPdf$}
+                      onClick$={()=>{getChatAksYourPdf$()}}
                     >
                       <i class="fa-regular fa-paper-plane text-white" />
 
                     </div> 
+
+                      </div>
+
+                  
                    
 
                     </div>
@@ -211,8 +224,13 @@ export default component$(() => {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+         
+            </div>
+          </div>
+          </div>
+
+    
+    </>
+
   );
 });
