@@ -1,6 +1,5 @@
 import { $, component$, useOnWindow, useSignal, useStylesScoped$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { Form } from "~/components/starter/form/Form";
 import { Loading } from "~/components/starter/loading/Loading";
 import ImgContinentalAssistLogo from "~/media/ca/continental-assist-favicon.webp?jsx";
 
@@ -180,28 +179,26 @@ export default component$(() => {
 
                     </div>            
                     </div>
-                    <div class="col-8  mb-5">
-                    <Form
-                        id="form-message"
-                        form={[
-                            {row:[
-                              {
-                                size: "col-lg-12 col-sm-12 col-12",
-                                type: "text",
-                                label: "Escribe tu pregunta",
-                                placeholder: "Escribe tu pregunta",
-                                name: "message",
-                                required: true,
-                                value: lastMessage.value,
-                                onChange: $((e: any) => {                                  
-                                  changeText$(e.target.value);
-                                }),
-                              },
-                            ]},
-                            ]}
-                    />   
-                  
+
+                    <div class='col-8'>
+                        <input 
+                            id='input-cupon' 
+                            name='message' 
+                            type='text' 
+                            class='form-control text-center' 
+                            placeholder="Escribe tu pregunta"
+                            required= {true}
+                            onChange$={(e: any) => {                                  
+                              changeText$(e.target.value);
+                            }}
+                            disabled={disableElement.value}
+                            value={lastMessage.value}
+                            autocomplete="off"
+                            // onBlur$={getCupon$}
+                        />
+
                     </div>
+              
                     <div class="col-2 mt-1 ">
                       <div class="row  justify-content-end pe-1">
                       <div

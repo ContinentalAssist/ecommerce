@@ -33,3 +33,10 @@
     width: 800px;
 }
 
+.form-control
+{
+    border-radius: 30px !important;
+    border: 2px solid lightgray;
+    margin-bottom: 6px;
+    line-height:2.5;
+}
