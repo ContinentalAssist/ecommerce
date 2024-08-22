@@ -13,7 +13,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     const totalPaxsString = useSignal('')
     const readOnly = useSignal(false)
 
-    useVisibleTask$(() => {
+    useVisibleTask$(() => {        
         if(props.value)
         {            
             const newTotalstring = (props.value[22] > 0 ? props.value[22] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
@@ -21,10 +21,10 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
             totalPaxsNumber.value = props.value
         }
 
-        if(navigator.userAgent.includes('Mobile'))
-        {
+        //if(navigator.userAgent.includes('Mobile'))
+        //{
             readOnly.value = true
-        }
+        //}
     })
 
     const getPaxs$ = $(() => {

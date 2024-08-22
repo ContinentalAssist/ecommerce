@@ -296,7 +296,7 @@ export default component$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value            
-            if(prevResume.asegurados != undefined)
+            if(prevResume.asegurados != undefined && prevResume.asegurados.length === prevResume.edades.length )
             {
                 resume.value = stateContext.value
                 contact.value = stateContext.value.contacto

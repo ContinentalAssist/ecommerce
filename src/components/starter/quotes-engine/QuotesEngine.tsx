@@ -480,60 +480,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             </div>
             }
 
-           {/*  {
-            props.isMobile == true&&
-            <div id="modal-mobile-dates" class="modal fade modal-fullscreen-xs-down" >
-                    <div class="modal-dialog" style={{height:'100% !important'}}>
-                    <div class="modal-content" style={{height:'100% !important'}}>
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                         style={{border:'1px solid', borderRadius:'33px'}}></button>
-                    </div>
-                    <div class="modal-body" style={{height:'100% !important',maxHeight:'100% !important'}}>
-                        <div class="row">
-                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿Cuándo viajas?</h5>
-                        <br/>
-                        <br/>
-                        <Form
-                            id='form-step-1-1'
-                            form={[
-                                {row:[
-                                    {
-                                        size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                        type:'date',
-                                        label:'Desde',
-                                        name:'desde',
-                                        min: inputStart.value.min,
-                                        onChange:$((e:any) => {changeDateStart$(e)}),
-                                        required:true,
-                                        icon:'calendar',
-                                        value: resume.value.desde,
-                                    },
-                                    {
-                                        size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                        type:'date',
-                                        label:'Hasta',
-                                        name:'hasta',
-                                        min: inputEnd.value.min,
-                                        max: inputEnd.value.max,
-                                        onChange:changeDateEnd$,
-                                        required:true,
-                                        icon:'calendar',
-                                        value: resume.value.hasta,
-                                    }
-                                ]}
-                            ]}
-                        />
-                        </div>
-                    
-                    </div>
-                   
-                    </div>
-                </div>
-                
-            </div>
-            }
- */}
+
             {
             props.isMobile == true&&
             <div id="modal-mobile-pax" class="modal fade modal-fullscreen-xs-down" >
