@@ -13,8 +13,6 @@ export const Loading = component$((props:any) => {
                 src='/assets/img/ca/continental-assist-loading.webp' 
                // class='img-fluid' 
                 alt='continental-assist-loading'
-                loading="lazy"
-                style={{width:'200px',height:'200px'}}
             />
             <p class=' text-semi-bold text-blue  text-center'>
             { props.message}

@@ -1,4 +1,4 @@
-import { component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$,useContext } from "@builder.io/qwik";
 import { useLocation } from '@builder.io/qwik-city';
 
 import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
@@ -30,9 +30,11 @@ export const Footer = component$(() => {
     const attachment = useSignal(urls[2])
     const whats = useSignal(urlsWhats[2].url)
 
-    useTask$(async() => {
+    useVisibleTask$(async() => {
         const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-            .then((response) => {return(response.json())})
+          .then((response) => {
+              return(response.json())
+          })
 
         urls.map(url => {
             if(url.country === resGeo.country)

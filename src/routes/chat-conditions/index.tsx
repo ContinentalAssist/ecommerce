@@ -92,11 +92,11 @@ export default component$(() => {
       }
 
   <div class='container-fluid'>
-      <div class='row bg-contact-us-header'>
-          <div class='col-xl-12'>
+      <div class='row bg-contact-us-header  pt-5'>
+          <div class='col-xl-12  pt-4'>
               <div class='container'>
-                  <div class='row justify-content-center align-items-end h-30'>
-                      <div class='col-lg-12 text-center'>
+                  <div class='row justify-content-center align-items-end pt-4'>
+                      <div class='col-lg-12 text-center '>
                           <h1 class="text-semi-bold text-blue">
                             <span class="text-tin">Hazle una pregunta a nuestras </span>
                             <br /> condiciones generales

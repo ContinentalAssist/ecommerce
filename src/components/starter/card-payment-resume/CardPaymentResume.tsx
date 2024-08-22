@@ -29,19 +29,28 @@ export const CardPaymentResume = component$(() => {
     let paxSub= Array();
     resume.value.asegurados.map((pax: any, index: number) => 
       {
-        resume.value.total &&
-          contextDivisa.divisaUSD == true
-            ?
-            paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-          return sum + value.precio;
-        }, 0) + resume.value.plan.precioindividual)
-        :
+
+        if (resume.value.total && contextDivisa.divisaUSD == true) {
+          paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {    
+            return sum + value.precio;
+          }, 0) + resume.value.plan.precioindividual)
+
+        }else{
+          
         paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-         return sum + value.precio;
-         }, 0)+ (resume.value?.plan?.precioindividual * stateContext.value?.currentRate?.rate))
+          console.log(sum, "+", value.precio);
+         console.log(resume.value?.plan?.precioindividual ," * ",  stateContext.value?.currentRate?.rate);
+
+          return sum + value.precio;
+          }, 0) *stateContext.value?.currentRate?.rate + (resume.value?.plan?.precioindividual * stateContext.value?.currentRate?.rate))
+
+        }
+
               
 
-        
+         
+
+         
       })
     return paxSub[indexPax.value]
   }

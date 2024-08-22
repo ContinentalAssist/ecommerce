@@ -7,8 +7,7 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
-/* import ImgPse from '~/media/icons/pse.svg?jsx';
- */
+
 
 export interface propsWompi {
     setLoading: (loading: boolean, message: string) => void;
@@ -56,10 +55,27 @@ export default component$((props:propsWompi) => {
         const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
         const dataValidation = await resValidation.json()
 
-
     
-        if (dataValidation.resultado.status == "PENDING" && attemptsCard.value > 0) {            
-            setTimeout(() =>attemptsCard.value ++, 2000); 
+        if (dataValidation.resultado.status == "PENDING" && attemptsCard.value > 0) {          
+            if (dataValidation?.resultado?.payment_method?.extra?.async_payment_url != null && dataValidation?.resultado?.payment_method?.extra?.async_payment_url != '') 
+            {      
+                const url= dataValidation.resultado.payment_method.extra.async_payment_url;
+
+
+               /*  transfers.value = {
+                    intention:dataValidation.resultado.payment_method.payment_description,
+                    total:resume.value.total.total * stateContext.value.currentRate.rate,
+                    voucher:dataValidation.resultado.reference,
+                    url:dataValidation.resultado.payment_method.extra.async_payment_url
+                } */
+               navigate(url)
+                
+            }
+            else
+            {
+                setTimeout(() =>attemptsCard.value ++, 2000); 
+            }  
+
         }
         else if (dataValidation.resultado.status == "DECLINED"|| dataValidation.resultado.status == "ERROR") {
             stateContext.value.typeMessage = 2
@@ -177,7 +193,7 @@ export default component$((props:propsWompi) => {
                     total:resume.value.plan.precio_grupal
                 },
                 total:Number(ParseTwoDecimal(resume.value.total.total)),
-                totalconversion:Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
+                totalconversion:Number(String(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
                 tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                 codigoconversion:stateContext.value.currentRate.code,
                 moneda:{
@@ -242,13 +258,17 @@ export default component$((props:propsWompi) => {
                 Object.assign(dataRequest,wompiRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
-
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
                 if(dataPay.resultado[0].wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
+
+                    messageLoading.value ='Redireccionando a Bancolombia...';
+                    const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
+                    wompiIdTransaccion.value =id;
+                    attemptsCard.value= 1;
+                    /* const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     transfers.value = {
@@ -257,11 +277,12 @@ export default component$((props:propsWompi) => {
                         voucher:dataValidation.resultado.reference,
                         url:dataValidation.resultado.payment_method.extra.async_payment_url
                     }
+                    navigate(transfers.value.url)
+                    */
                 }
 
                 formPayment.value = 'BANCOLOMBIA_TRANSFER'
-                /* verificar url */
-               // navigate(transfers.value.url)
+       
             }
             else if(stateContext.value.wompiTipo == 'NEQUI')
             {
@@ -559,9 +580,6 @@ export default component$((props:propsWompi) => {
 
             if(resPayment.error == false)
             {
-                //urlvoucher.value = resPayment.resultado;
-                //loading.value = false;
-                //isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -613,16 +631,6 @@ export default component$((props:propsWompi) => {
             //loading.value = true
         }
     })
-
-    // const getDownloadVoucher$ = $(() => {
-    //     (window as any)['dataLayer'].push({
-    //         'event': 'TrackEvent',
-    //         'Category': 'Interacciones',
-    //         'Action': 'Click',
-    //         'Label': 'Descargar tu voucher',
-    //         'Page': '/step-4'
-    //     });
-    // })
 
     const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement
@@ -962,6 +970,18 @@ export default component$((props:propsWompi) => {
                                         </div>
                                     </div>
                                     <br/>
+
+                                    <div class='container'>
+                                        <div class='row justify-content-center mb-4'>
+                                            <div class='col-lg-6'>
+                                                <div class='d-grid gap-2 mt-4'>
+                                                    <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                    
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
 
                                 </div>
                                 <hr/>
