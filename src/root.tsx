@@ -10,6 +10,7 @@ import { isDev } from "@builder.io/qwik/build";
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
 import "./global.css";
+import { initializeGenesys } from './utils/genesys';
 
 interface DivisaStore{
   divisaUSD: boolean
@@ -19,48 +20,7 @@ declare let window: any;
 export const WEBContext = createContextId<Signal<any>>('web-context')
 export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');
 
-// initializeGenesys.ts
-export function initializeGenesysBrowsing(): void {
-  window['Genesys'] = window['Genesys'] || function () {
-    (window['Genesys'].q = window['Genesys'].q || []).push(arguments);
-  };
 
-  window['Genesys'].t = new Date().getTime();
-  window['Genesys'].c = {
-      environment: 'prod',
-      deploymentId: '45fcee1e-b649-4182-8b26-36a9d94f1f59',
-      debug: true 
-    };
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js';
-  script.charset = 'utf-8';
-  script.onload = () => {
-    window['Genesys']
-  };
-  document.head.appendChild(script);
-}
-
-export function initializeGenesysBrowsingWebChat(): void {
-  window['Genesys'] = window['Genesys'] || function () {
-    (window['Genesys'].q = window['Genesys'].q || []).push(arguments);
-  };
-
-  window['Genesys'].t = new Date().getTime();
-  window['Genesys'].c = {
-      environment: 'prod',
-      deploymentId: '48cfd3f8-3f9c-4222-8786-16ec71a7c437',
-      debug: true 
-  };
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js';
-  script.charset = 'utf-8';
-  script.onload = () => {
-      window['Genesys']
-  };
-  document.head.appendChild(script);
-}
 
 export default component$(() => {
   /**
@@ -81,21 +41,6 @@ export default component$(() => {
   useContextProvider(DIVISAContext, divisaUpdate);
 
   useVisibleTask$(()=>{
-      
-/*       const link = document.createElement('link');
-      link.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css";
-      link.type = 'text/css';
-      link.rel = 'stylesheet';
-     // link.onload = callback; // La función que se ejecutará después de que el CSS se haya cargado
-      document.head.appendChild(link);
-
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js";
-      script.integrity = "sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL";
-      script.crossOrigin = "anonymous";
-      document.body.appendChild(script); */
-
       if (/mobile/i.test(navigator.userAgent)) {
           resumeQuote.value = { ...resumeQuote.value, isMobile: true }
       }else{
@@ -141,38 +86,9 @@ export default component$(() => {
     resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
   });
 
-/*   useVisibleTask$(() => {
-    const openpayScript = document.createElement('script');
-    openpayScript.async = true;
-    openpayScript.type = "text/javascript";
-    openpayScript.src = "https://js.openpay.mx/openpay.v1.min.js";
-    document.body.appendChild(openpayScript);
-  
-    const openpayDataScript = document.createElement('script');
-    openpayDataScript.async = true;
-    openpayDataScript.type = 'text/javascript';
-    openpayDataScript.src = "https://js.openpay.mx/openpay-data.v1.min.js";
-    document.body.appendChild(openpayDataScript);
-  });
- */
-  
-/*   useOnWindow('load',$(async() => {
-    if(navigator.userAgent.includes('Windows'))
-    {
-        so.value = 'windows'
-    }
 
-    if(navigator.userAgent.includes('Mobile'))
-    {
-        device.value = 'mobile'
-    }
+  
 
-    (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-    await gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
-    await gtag('js', new Date()); 
-    await gtag('config', 'AW-11397008041'); 
-  }))
- */
   useOnWindow('load',$(() => {
     if(navigator.userAgent.includes('Windows'))
     {
@@ -191,20 +107,8 @@ export default component$(() => {
 }))
 
   useOnWindow('load',$(async() => {
-    /*    const genesysScript = document.createElement('script');
-       genesysScript.type = 'text/javascript';
-       genesysScript.charset = 'utf-8';
-       genesysScript.innerHTML = `
-         (function (g, e, n, es, ys) {
-           g['_genesysJs'] = e; g[e] = g[e] || function () {(g[e].q = g[e].q || []).push(arguments)};
-           g[e].t = 1 * new Date(); g[e].c = es; ys = document.createElement('script'); ys.async = 1;
-           ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
-         })(window, 'Genesys', 'https://apps.mypurecloud.com/genesys-bootstrap/genesys.min.js', {
-           deploymentId: '45fcee1e-b649-4182-8b26-36a9d94f1f59',
-         });
-       `;
-       document.head.appendChild(genesysScript); */
-     // await initializeGenesysBrowsing()
+      await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+      //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
   }))
 
 

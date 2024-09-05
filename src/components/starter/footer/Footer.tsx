@@ -1,4 +1,4 @@
-import { component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$,useContext } from "@builder.io/qwik";
+import {$, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$,useContext } from "@builder.io/qwik";
 import { useLocation } from '@builder.io/qwik-city';
 
 import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
@@ -11,7 +11,7 @@ export const Footer = component$(() => {
     const location = useLocation()
 
     const showQuestion = useSignal(true)
-
+    const showChat = useSignal(false)
     const urlsWhats : any[] = [
         {country:'CO',url:'https://wa.me/573176216304'},
         {country:'MX',url:'https://wa.me/525545669880'},
@@ -64,15 +64,50 @@ export const Footer = component$(() => {
     },6000)            
         
     })
+      
+
+
+    const openMessenger$ = $(() => {
+        const WGenesys = (window as any)['Genesys']
+        //showQuestion.value = false;
+        console.log('Opening messenger...');
+        WGenesys('command', 'Messenger.open');
+
+      });
+      const closeMessenger$ = $(() => {
+        console.log('Closing messenger...');
+
+        const WGenesys = (window as any)['Genesys']
+        //showQuestion.value = true;
+
+        console.log('Closing messenger...');
+        WGenesys('command', 'Messenger.close');
+      });
+
+    const toggleMessenger$ = $(async()=>{
+
+       !showQuestion.value? closeMessenger$() : openMessenger$();   
+      })
+
+
+
 
     return(
         <footer class='container-fluid'>
             {
-            showQuestion.value&&
+            showQuestion.value&& 
             <div id='icon-chat' class="dropup-end dropup">
+                
                 <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
-                <ul class="dropdown-menu">
-                    <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
+                <ul id="custom-launcher"  class="dropdown-menu">
+                    <h2 class='h6 text-blue'>Iniciar Chat </h2>
+                    <li>
+                        <a  title='WhatsApp Mexico' class="dropdown-item"  target="_blank"  onClick$={()=>toggleMessenger$()}>Messenger</a>
+                    </li>
+                    {/* <li>
+                        <a title='WhatsApp Mexico' class="dropdown-item"  target="_blank" onClick$={()=>{openCoBrowsing$()}}>Sesión remota </a>
+                    </li> */}
+                  {/*   <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
                     <li>
                         <a title='WhatsApp Mexico' class="dropdown-item" href="https://wa.me/525545669880?text=¡Hola!%20Necesito%20asistencia" target="_blank">México</a>
                     </li>
@@ -81,7 +116,7 @@ export const Footer = component$(() => {
                     </li>
                     <li>
                         <a title='WhatsApp Otros' class="dropdown-item" href="https://wa.me/573157349522?text=¡Hola!%20Necesito%20asistencia" target="_blank">Otro lugar</a>
-                    </li>
+                    </li> */}
                 </ul>
             </div>
             }

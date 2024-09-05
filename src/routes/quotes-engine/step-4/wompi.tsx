@@ -542,7 +542,7 @@ export default component$((props:propsWompi) => {
                         total:resume.value.plan.precio_grupal
                     },
                     total:Number(ParseTwoDecimal(resume.value.total.total)),
-                    totalconversion:Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
+                    totalconversion:Number(String(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
                     tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                     codigoconversion:stateContext.value.currentRate.code,
                     moneda:{
@@ -702,7 +702,7 @@ export default component$((props:propsWompi) => {
                     total:resume.value.plan.precio_grupal
                 },
                 total:Number(ParseTwoDecimal(resume.value.total.total)),
-                totalconversion:Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
+                totalconversion:Number(String(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
                 tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                 codigoconversion:stateContext.value.currentRate.code,
                 moneda:{
@@ -805,7 +805,7 @@ export default component$((props:propsWompi) => {
                     total:resume.value.plan.precio_grupal
                 },
                 total:Number(ParseTwoDecimal(resume.value.total.total)),
-                totalconversion:Number(ParseTwoDecimal(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
+                totalconversion:Number(String(Math.ceil(resume.value.total.total * stateContext.value.currentRate.rate))?.replace('.','')),
                 tasaconversion:Number(ParseTwoDecimal(stateContext.value.currentRate.rate)),
                 codigoconversion:stateContext.value.currentRate.code,
                 moneda:{
@@ -904,30 +904,30 @@ export default component$((props:propsWompi) => {
                                         </div>
                                         <div class='d-none' id='invoice'>
                                             <Form
-                                                id='form-invoicing'
-                                                form={[
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Razon Social',placeholder:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
-                                                            {value:'RFC',label:'RFC'},
-                                                            {value:'CC',label:'CC'},
-                                                            {value:'PASAPORTE',label:'Pasaporte'},
-                                                            {value:'NIT',label:'NIT'}
+                                                    id='form-invoicing'
+                                                    form={[
+                                                        {row:[
+                                                            {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                         ]},
-                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',placeholder:'Telefono',name:'telefono',required:true},
-                                                        
-                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                                        {row:[
+                                                            {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
+                                                                {value:'RFC',label:'RFC'},
+                                                                {value:'CC',label:'CC'},
+                                                                {value:'PASAPORTE',label:'Pasaporte'},
+                                                                {value:'NIT',label:'NIT'}
+                                                            ]},
+                                                            {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
+                                                        ]},
+                                                        {row:[
+                                                            {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                                        ]},
+                                                        {row:[
+                                                            {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                                                            
+                                                            {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                                        ]}
                                                     ]}
-                                                ]}
-                                            />
+                                                />
                                         </div>
                                         <div class='container'>
                                             <div class='row justify-content-center'>
@@ -1098,8 +1098,8 @@ export default component$((props:propsWompi) => {
                                                    
                                                     {row:[
                                                         {size:'col-xl-6',type:'select',label:'Tipo de documento',placeholder:'Tipo de documento',name:'document_type',required:true,options:[
-                                                            {value:'CC',label:'CC - Cedula de ciudadania'},
-                                                            {value:'CE',label:'CE - Cedula de extranjenria'},
+                                                            {value:'CC',label:'CC - Cédula de ciudadanía'},
+                                                            {value:'CE',label:'CE - Cédula de extranjería'},
                                                         ]},
                                                         {size:'col-xl-6',type:'text',label:'Documento',placeholder:'Documento',name:'document',required:true}
                                                     ]},

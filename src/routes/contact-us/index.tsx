@@ -146,12 +146,12 @@ export default component$(() => {
                         <div class='container' style={{maxWidth:'1140px'}}>
                             <div class='row mt-4'>
                                 <div class='col-lg-4 text-center mb-5'>
-                                    <a title='QR' href='https://wa.me/18602187561?text=¡Hola!%20Necesito%20asistencia' target="_blank">
+                                    <a title='QR' href='https://wa.me/13057225824?text=¡Hola!%20Necesito%20asistencia' target="_blank">
                                         <ImgContinentalAssistQrPhone style={{margin:'20px'}} class='img-contact' title='continental-assist-qr-phone' alt='continental-assist-qr-phone'/>
                                     </a>
                                     <h3 class='text-semi-bold text-blue'>WhatsApp</h3>
                                     <p class='text-dark-blue'><span class='text-semi-bold'>Escanea o cliquea</span> este QR para<br/>contactarnos al número:</p>
-                                    <a title='WhatsApp Asistencia' class='text-mark text-semi-bold' href='https://wa.me/18602187561?text=¡Hola!%20Necesito%20asistencia' target="_blank">+18602187561</a>
+                                    <a title='WhatsApp Asistencia' class='text-mark text-semi-bold' href='https://wa.me/13057225824?text=¡Hola!%20Necesito%20asistencia' target="_blank">+13057225824</a>
                                     <br/>
                                     <ImgContinentalAssistDots class='img-fluid line-dots-left' title='continental-assist-dots' alt='continental-assist-dots'/>
                                 </div>

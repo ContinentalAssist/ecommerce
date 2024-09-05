@@ -1167,7 +1167,7 @@ export default component$(() => {
                                             <ImgContinentalAssistContact class='img-fluid right' title='continental-assist-contact' alt='continental-assist-contact'/>
                                             <ImgContinentalAssistStick class='stick-right' title='continental-assist-stick' alt='continental-assist-stick'/>
                                             <p class='text-semi-bold text-dark-blue right'>¿Tienes una emergencia?<br/>¡Estamos contigo!</p>
-                                            <small class='text-semi-bold text-dark-gray right'>Operamos 24 horas, los 7 días de la semana, todo el año. Si necesitas de nosotros, llámanos o escríbenos vía WhatsApp al <a title='WhatsApp' class='text-semi-bold' href='tel:+18602187561'>+18602187561.</a></small>
+                                            <small class='text-semi-bold text-dark-gray right'>Operamos 24 horas, los 7 días de la semana, todo el año. Si necesitas de nosotros, llámanos o escríbenos vía WhatsApp al <a title='WhatsApp' class='text-semi-bold' href='tel:+13057225824'>+13057225824.</a></small>
                                         </div>
                                     </div>
                                     <div class='row mobile'>
@@ -1221,7 +1221,7 @@ export default component$(() => {
                                                                     <p class='text-semi-bold text-dark-blue right'>¿Tienes una emergencia?<br/>¡Estamos contigo!</p>
                                                                     <small class='text-semi-bold text-dark-gray right'>
                                                                         Operamos 24 horas, los 7 días de la semana, todo el año. 
-                                                                        Si necesitas de nosotros, llámanos o escríbenos vía WhatsApp al <a title='WhatsApp' class='text-semi-bold' rel="noopener" href='tel:+18602187561'>+18602187561.</a>
+                                                                        Si necesitas de nosotros, llámanos o escríbenos vía WhatsApp al <a title='WhatsApp' class='text-semi-bold' rel="noopener" href='tel:+13057225824'>+13057225824.</a>
                                                                     </small>
                                                                 </div>
                                                             </div>

@@ -475,7 +475,7 @@ export default component$((props:propsAuthorize) => {
                                             id='form-invoicing'
                                             form={[
                                                 {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Razon Social',placeholder:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                                    {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                 ]},
                                                 {row:[
                                                     {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
@@ -490,7 +490,7 @@ export default component$((props:propsAuthorize) => {
                                                     {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',placeholder:'Telefono',name:'telefono',required:true},
+                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
                                                     
                                                     {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
                                                 ]}
