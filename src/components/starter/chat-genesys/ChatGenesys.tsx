@@ -17,9 +17,19 @@ export const ChatGenesys = component$(() => {
             
             if ((window as any)['Genesys']&& !showChat.value) {
                 const WGenesys = (window as any)['Genesys']
-
-                //Inicia chat
-            /*     WGenesys("command", "Messenger.open", {},
+                WGenesys("command", "Launcher.show",
+                    {},
+                        function() {
+                            console.log("hola");
+                            showChat.value =true;
+                            /*fulfilled callback*/
+                        },
+                        function() {
+                            /*rejected callback*/
+                        }
+                    );
+             /*    //Inicia chat
+                WGenesys("command", "Messenger.open", {},
                     function(o:any){
                         showChat.value =true;
 
@@ -31,7 +41,17 @@ export const ChatGenesys = component$(() => {
                     showChat.value =false;
                     showButtonQuestion.value = true;
                 });
-                  
+               
+               
+                WGenesys('command', 'Messenger.minimize', {}, function(o:any) {
+                    console.log('Chat minimizado');
+                    // Aquí puedes agregar tu lógica personalizada
+                  });
+
+                  WGenesys("subscribe", "Launcher.hidden", function(){
+                    console.log('Launcher.hidden');
+                  });
+
             }
         }, 5000);
        
@@ -67,31 +87,7 @@ export const ChatGenesys = component$(() => {
     return(
         <>
         <div id="custom-launcher"></div>
-        {
-        showButtonQuestion.value && 
-        <div id='icon-chat' class="dropup-end dropup">
-               <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
-                <ul id="custom-launcher"  class="dropdown-menu">
-                    <h2 class='h6 text-blue'>Iniciar Chat </h2>
-                    <li>
-                        <a  title='WhatsApp Mexico' class="dropdown-item"  target="_blank"  onClick$={()=>openMessenger$()}>Messenger</a>
-                    </li>
-                    {/* <li>
-                        <a title='WhatsApp Mexico' class="dropdown-item"  target="_blank" onClick$={()=>{openCoBrowsing$()}}>Sesión remota </a>
-                    </li>
-                    <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
-                    <li>
-                        <a title='WhatsApp Mexico' class="dropdown-item" href="https://wa.me/525545669880?text=¡Hola!%20Necesito%20asistencia" target="_blank">México</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Colombia' class="dropdown-item" href="https://wa.me/573176216304?text=¡Hola!%20Necesito%20asistencia" target="_blank">Colombia</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Otros' class="dropdown-item" href="https://wa.me/573157349522?text=¡Hola!%20Necesito%20asistencia" target="_blank">Otro lugar</a>
-                    </li> */}
-                </ul>
-        </div>
-        }
+        
         </>
 
         
