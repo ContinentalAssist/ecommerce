@@ -52,74 +52,20 @@ export const Footer = component$(() => {
     })
 
    useVisibleTask$(() => {      
-    setInterval(()=>{        
-        if(location.url.pathname == '/')
+/*         if(location.url.pathname == '/')
             {
                 showQuestion.value = true
             }
             else
             {
                 showQuestion.value = false
-            }
-    },6000)            
-        
+            }     */
+       
     })
       
 
-
-    const openMessenger$ = $(() => {
-        const WGenesys = (window as any)['Genesys']
-        //showQuestion.value = false;
-        console.log('Opening messenger...');
-        WGenesys('command', 'Messenger.open');
-
-      });
-      const closeMessenger$ = $(() => {
-        console.log('Closing messenger...');
-
-        const WGenesys = (window as any)['Genesys']
-        //showQuestion.value = true;
-
-        console.log('Closing messenger...');
-        WGenesys('command', 'Messenger.close');
-      });
-
-    const toggleMessenger$ = $(async()=>{
-
-       !showQuestion.value? closeMessenger$() : openMessenger$();   
-      })
-
-
-
-
     return(
         <footer class='container-fluid'>
-            {
-            showQuestion.value&& 
-            <div id='icon-chat' class="dropup-end dropup">
-                
-                <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
-                <ul id="custom-launcher"  class="dropdown-menu">
-                    <h2 class='h6 text-blue'>Iniciar Chat </h2>
-                    <li>
-                        <a  title='WhatsApp Mexico' class="dropdown-item"  target="_blank"  onClick$={()=>toggleMessenger$()}>Messenger</a>
-                    </li>
-                    {/* <li>
-                        <a title='WhatsApp Mexico' class="dropdown-item"  target="_blank" onClick$={()=>{openCoBrowsing$()}}>Sesión remota </a>
-                    </li> */}
-                  {/*   <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
-                    <li>
-                        <a title='WhatsApp Mexico' class="dropdown-item" href="https://wa.me/525545669880?text=¡Hola!%20Necesito%20asistencia" target="_blank">México</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Colombia' class="dropdown-item" href="https://wa.me/573176216304?text=¡Hola!%20Necesito%20asistencia" target="_blank">Colombia</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Otros' class="dropdown-item" href="https://wa.me/573157349522?text=¡Hola!%20Necesito%20asistencia" target="_blank">Otro lugar</a>
-                    </li> */}
-                </ul>
-            </div>
-            }
             <div class='row bg-primary'>
                 <div class='col-xl-12'>
                     <div class='container'>

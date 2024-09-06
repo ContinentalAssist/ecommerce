@@ -18,7 +18,7 @@ export function initializeGenesys(deploymentId: string): void {
     window['Genesys'].c = {
         environment: 'prod',
         deploymentId: deploymentId,
-        debug: true         
+        debug: false         
       };
     const script = document.createElement('script');
     script.async = true;

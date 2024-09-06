@@ -107,8 +107,8 @@ export default component$(() => {
 }))
 
   useOnWindow('load',$(async() => {
-      await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
-      //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
+       await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+       //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
   }))
 
 

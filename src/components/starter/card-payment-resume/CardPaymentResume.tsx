@@ -30,29 +30,40 @@ export const CardPaymentResume = component$(() => {
     resume.value.asegurados.map((pax: any, index: number) => 
       {
 
+        const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento
+        ? resume?.value?.plan?.precioincrementoedad
+        : resume?.value?.plan?.precioindividual;
+
         if (resume.value.total && contextDivisa.divisaUSD == true) {
           paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {    
             return sum + value.precio;
-          }, 0) + resume.value.plan.precioindividual)
+          }, 0) + precioBase)
 
         }else{
           
         paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-          console.log(sum, "+", value.precio);
-         console.log(resume.value?.plan?.precioindividual ," * ",  stateContext.value?.currentRate?.rate);
-
           return sum + value.precio;
-          }, 0) *stateContext.value?.currentRate?.rate + (resume.value?.plan?.precioindividual * stateContext.value?.currentRate?.rate))
+          }, 0) *stateContext.value?.currentRate?.rate + (precioBase * stateContext.value?.currentRate?.rate))
 
-        }
-
-              
-
-         
-
-         
+        }      
       })
     return paxSub[indexPax.value]
+  }
+
+  function calculateIndividualPrice(pax:any) {
+    //precio se valida edad viajero para calcular el precio 
+  const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento
+    ? resume?.value?.plan?.precioincrementoedad
+    : resume?.value?.plan?.precioindividual;
+
+  const formattedPrice = contextDivisa.divisaUSD
+    ? CurrencyFormatter(resume?.value?.total?.divisa, precioBase)
+    : CurrencyFormatter(
+        stateContext?.value?.currentRate?.code,
+        precioBase * stateContext?.value?.currentRate?.rate
+      );
+
+  return formattedPrice;
   }
 
 
@@ -273,15 +284,7 @@ export const CardPaymentResume = component$(() => {
                                   </div>
                                   <div class="col-6 ps-0">
                                     <h4 class="divisa-plan-sub text-bold text-dark-blue text-end">
-                                      {contextDivisa.divisaUSD == true
-                                        ? CurrencyFormatter(
-                                            resume?.value?.total?.divisa,
-                                            resume?.value?.plan?.precioindividual
-                                          )
-                                        : CurrencyFormatter(
-                                            stateContext?.value?.currentRate?.code,
-                                            resume?.value?.plan?.precioindividual * stateContext?.value?.currentRate?.rate
-                                          )}
+                                    {calculateIndividualPrice(pax)}
                                     </h4>
                                   </div>
 
