@@ -1,0 +1,143 @@
+@media  (max-width: 767.98px) {
+  .card-img-top{
+    margin-top: -88px;
+    width: 108%;
+    margin-left: -12px;
+
+  }
+  #card-pax
+  {
+      margin-top:-60px;
+      min-height:550px !important;     
+      width:100%;
+      z-index:10;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+  }
+ }
+
+
+/* Override for small devices */
+@media (min-width: 768px) and  (max-width: 999px) {
+  .card-img-top{
+    margin-top: -88px;
+    width: 108%;
+    margin-left: -25px;
+
+  }
+  #card-pax
+  {
+      margin-top:-60px;
+      min-height:550px !important;     
+      width:100%;
+      z-index:10;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+  }
+ }
+
+ .card-footer
+ {
+    border: none;
+ }
+
+/* Override for large devices */
+@media (min-width: 1000px) {
+
+  .card-img-top{
+      margin-top: -92px;
+      width: 108%;
+      margin-left: -19px;
+  
+  }
+
+  .col-left{
+    padding-right: 0px;
+   }
+
+   .col-right{
+    padding-left: 0px;
+   }
+   
+   
+  #card-pax
+  {
+      z-index:10;
+      margin-top: -60px;
+      min-height: 650px;
+      border-top-left-radius: 3px !important;
+      border-top-right-radius: 3px !important;
+  }
+
+  #card-right{
+  
+    min-height:500px;
+    border-top-left-radius:  3px !important;
+    border-bottom-left-radius: 3px !important;
+   }
+
+ }
+
+ .hr-gray
+ {
+  color: #E9E9E9;
+  height: 2px;
+  margin-bottom:0;
+  opacity: unset;
+ }
+
+ .hr-blue
+ {
+  background-color:#44d1fd;
+  height: 2px;
+  margin-bottom:0;
+  border: none;
+  opacity: unset;
+ }
+
+.label-resume
+{
+  text-align: left;
+  font-size: 0.75rem;
+}
+
+.input-group-text
+{
+  background-color: #FAFAFA;
+}
+
+ .collapse-pax .collapse 
+ {
+  &:not(.show) {
+    display: none;
+  }
+}
+
+.collapse-pax .collapsing 
+{
+  height: 0;
+  overflow: hidden;
+  transition: height 0.35s ease-in-out;
+}
+.divisa-plan-sub .divisa 
+{
+  font-size: 1rem !important;
+
+}
+
+.divisa-beneficio 
+{
+
+float: right;
+}
+
+.divisa-beneficio .divisa
+{
+  font-size: 0.9rem !important;
+}
+
+.divisa-total .divisa
+{
+  font-size: 2rem !important;
+}
+

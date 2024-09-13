@@ -67,7 +67,7 @@ export const CardPlan = component$((props:propsCardPlan) => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <Slot/>
-                            <h2 class='text-semi-bold text-white'>
+                            <h2 class='text-semi-bold text-white p-3'>
                                 {props.title}
                             </h2>
                         </div>
@@ -81,13 +81,15 @@ export const CardPlan = component$((props:propsCardPlan) => {
                                             return(
                                                 <>
                                                     <tr key={iBenefit+1}>
-                                                        <td class='tr-title text-semi-bold text-dark-blue'>{benefit.nombrefamilia}</td>
+                                                        <td class='tr-title text-semi-bold text-dark-blue' colSpan={2}>{benefit.nombrefamilia}</td>
                                                     </tr>
                                                     {
                                                         benefit.beneficios.map((item:any,iItem:number) => {
                                                             return(
+                                                                
                                                                 <tr key={(iBenefit+1)+(iItem+1)}>
-                                                                    <td class='text-blue'>{item.nombrebeneficio}<span style={{float:'right'}}>{item.cobertura}</span></td>
+                                                                      <td class='td-beneficio text-blue'>{item.nombrebeneficio}</td>
+                                                                      <td class='td-cobertura text-blue text-start'><span >{item.cobertura}</span></td>
                                                                 </tr>
                                                             )
                                                         })

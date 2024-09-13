@@ -1,61 +1,142 @@
-.form-label
+.form-control{
+    font-size: 1rem !important;
+}
+/* .form-label-pax{
+    font-size: 1rem !important;
+    margin-top: 0.125rem !important;
+    padding-left: -10px;
+}
+.form-label ::after{
+    font-size: 0.8rem !important;
+    padding-left: 0px;
+}
+ */
+.drop-paxs .form-floating>.form-control
 {
-    color: var(--ca-dark-blue) !important;
-    margin-bottom: 4px !important;
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding-left: revert;
 }
 
-.form-control
+.drop-paxs .form-control:focus
 {
-    border-radius: 50px;
-    border: 2px solid lightgray;
-    padding-top: 2px;
-    margin-bottom: 6px;
+    box-shadow: none;
 }
 
-.form-control.is-invalid
+.drop-paxs .input-group-text 
 {
-    border: 2px solid var(--bs-danger) !important;
+    border: 2px solid var(--ca-gray);
+    border-right: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: transparent;
+    font-size: 18px;
+    padding-left: 20px;
 }
 
-.form-control.is-valid
+.drop-paxs .form-floating>.form-label
 {
-    border: 2px solid var(--bs-success) !important;
+    margin-bottom: 0px;
+    padding-left: inherit;
 }
 
-.select-paxs.dropdown-menu.show
+.drop-paxs hr
 {
-    transform: none !important;
-    inset: auto -50px auto -50px !important;
-    border-radius: 20px !important;
+    position: relative;
+    width: calc(100% - 50px);
+    align-content: normal;
+    display: inline-grid;
+    top: -21px;
+    color: #61C6F0;
+    border-width: 2px;
+    opacity: 1;
+    z-index: 4000;
+    margin: 0px;
+    opacity: 0;
 }
 
-.select-paxs .btn-icon
+/* .drop-paxs .dropdown-toggle.show+hr
+{
+    opacity: 1;
+} */
+
+.drop-paxs .dropdown-toggle::after 
+{
+    display: none;
+}
+
+.drop-paxs .dropdown-menu
+{
+    min-height:310px;
+    width: 360px;
+    border-radius: 30px;
+    border: 2px solid var(--ca-gray);
+}
+
+.drop-paxs .input-number-group
+{
+    display: flex;
+}
+
+.drop-paxs input[type=number]::-webkit-inner-spin-button, 
+.drop-paxs input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+.drop-paxs input[type=number]
+{
+    text-align: center;
+    font-size: 1.875rem !important;
+    border: none;
+ /*    padding: 0 0 6px 0; */
+   /*   margin-top:-0.625rem !important  */
+}
+
+.drop-paxs .btn-icon
 {
     background-color: transparent;
     border: none;
 }
 
-.select-paxs .input-number-group
-{
-    display: flex;
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.btn-icon-circle {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #43D3FF; /* Color del borde */
+    border-radius: 50%; /* Hace el botón circular */
+    background-color: transparent; /* Fondo transparente */
+    color: #43D3FF; /* Color del texto o ícono */
+    /* font-size: 20px; */ /* Tamaño del ícono o texto */
+    padding: 10px; /* Espacio alrededor del ícono o texto */
+    cursor: pointer; /* Cambia el cursor a mano al pasar sobre el botón */
+    outline: none; /* Remueve el contorno */
+    width: 20px; /* Ancho fijo */
+    height: 20px; /* Altura fija para mantener la proporción circular */
 }
 
 
-input[type=number]
+.input-basic .form-floating>.form-control-sm
 {
-    text-align: center;
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+    padding-left: 20px;
+    background-color: brown !important;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-}
-
-@media (max-width: 575.98px)
+.input-basic .input-group-text~.form-floating>.form-control-sm
 {
-    .select-paxs.dropdown-menu.show
-    {
-        inset: auto 0px auto 0px !important;
-    }
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: revert;
+    background-color: rgb(71, 165, 42) !important;
+
 }

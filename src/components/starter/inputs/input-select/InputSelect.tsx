@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik"
+import { $, component$, useSignal, useStylesScoped$, useTask$,useVisibleTask$ } from "@builder.io/qwik"
 import styles from './input-select.css?inline'
 
 interface propInputSelect {
@@ -7,7 +7,7 @@ interface propInputSelect {
 }
 
 export const InputSelect = component$((props:propInputSelect) => {
-    useStyles$(styles)
+    useStylesScoped$(styles)
 
     const array : any[] = []
 
@@ -15,21 +15,28 @@ export const InputSelect = component$((props:propInputSelect) => {
     const datasetValue = useSignal('')
     const options = useSignal(array)
     const prevOptions = useSignal(array)
-    const readOnly = useSignal(false)
+    //const readOnly = useSignal(false)
 
     useTask$(() => {
         prevOptions.value = props.options
-        options.value = props.options
+        options.value = props.options      
     })
 
     const getOptions$ = $((value:any) => {
-        props.options.map(item => {
+        const arrayObjects= [...props.options]        
+        /* arrayObjects.map(item => {
             if(item.value == value)
             {
                 defaultValue.value = item.label
                 datasetValue.value = item.value
             }
-        })
+        }) */
+       
+        const findItem= arrayObjects.find(item=> item.value == value)
+        defaultValue.value = findItem?.label||''
+        datasetValue.value = findItem?.value||''
+
+        props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
     useVisibleTask$(() => {
@@ -38,7 +45,7 @@ export const InputSelect = component$((props:propInputSelect) => {
             getOptions$(props.value)
         }
 
-        if(navigator.userAgent.includes('Mobile'))
+        /* if(navigator.userAgent.includes('Mobile'))
         {
             readOnly.value = true
         }
@@ -46,10 +53,10 @@ export const InputSelect = component$((props:propInputSelect) => {
         if(props.readOnly != undefined)
         {
             readOnly.value = props.readOnly
-        }
+        } */
     })
 
-    const geFiltertList$ = $((e:any) => {
+    const getFiltertList$ = $((e:any) => {
         if(e.target.value == '')
         {
             options.value = prevOptions.value
@@ -66,55 +73,120 @@ export const InputSelect = component$((props:propInputSelect) => {
     })
 
     return(
-        <div class='select dropdown'>
-            <label class='form-label text-regular text-dark-blue' for={props.id}>{props.label}</label>
-            <input 
-                type='text' 
-                class='form-select dropdown-toggle' 
-                id={props.id} 
-                name={props.name} 
+        <div class='dropdown drop-select text-center'>
+            <div class="dropdown-toggle"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
                 data-bs-reference="toggle" 
-                required={props.required} 
-                value={defaultValue.value}
-                data-value={datasetValue.value}
-                onKeyUp$={(e) => geFiltertList$(e)}
-                readOnly={readOnly.value}
-                onChange$={(e) => {
-                    if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
+                id={'dropdown-toggle-'+props.id}
+            >
+                <div class='input-group '>
                     {
-                        e.target.classList.remove('is-invalid')
-                        e.target.classList.add('is-valid')
+                        props.icon
+                        &&
+                        <span class="input-group-text text-dark-blue">
+                            <i class={'fa-solid fa-'+props.icon} />
+                        </span>
                     }
-                    else
-                    {
-                        e.target.classList.remove('is-valid')
-                    }
-                }}
-                {...props.dataAttributes}
-            />
-            <ul id={'drodown-'+props.id} class='dropdown-menu'>
-                <li value=''></li>
-                {
-                    options.value.map((option,iOption) => {
-                        return(
-                            <li 
-                                key={iOption+1}
-                                class={datasetValue.value == option.value ? 'dropdown-item active' : 'dropdown-item'} 
-                                value={option.value} 
-                                onClick$={() => {
-                                    getOptions$(option.value);
-                                    props.onChange !== undefined && props.onChange(option);
-                                    options.value = prevOptions.value
-                                }}
-                            >
-                                    {option.label}
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+                    <div class="form-floating">
+                        <input 
+                            type='text' 
+                            class='form-control form-control-select text-bold text-dark-blue' 
+                            id={props.id} 
+                            name={props.name} 
+                            required={props.required} 
+                            value={defaultValue.value}
+                            data-value={datasetValue.value}
+//                            data-label={defaultValue.value}
+                            onKeyUp$={(e) => getFiltertList$(e)}
+                            //readOnly={readOnly.value}
+                            placeholder={props.label}
+                           /*  onChange$={(e:any) => {
+                                if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
+                                {
+                                    e.target.classList.remove('is-invalid')
+                                    e.target.classList.add('is-valid')
+                                }
+                                else
+                                {
+                                    e.target.classList.remove('is-valid')
+                                }
+                                getOptions$(e.target.value);
+                                //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
+                                
+                            }} */
+                            ///onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
+                            {...props.dataAttributes}
+                        />
+                        <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-down"></i>
+            </div>
+            <hr id={props.id}/>
+<div class="row">
+
+            <div 
+                id={'dropdown-'+props.id} 
+                class='dropdown-menu p-4' 
+                aria-labelledby={props.id} 
+                style={{ overflow:'hidden'}}
+                data-toggle="dropdown"
+                >
+                <div class='row inside' style={{ overflowY:'auto'}}>
+                    <div class='col-6'>
+                        <ul class='list-group list-group-flush'>
+                            {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
+                            {
+                                options.value.map((option,iOption) => {
+                                    return(
+                                        iOption < (options.value.length / 2)
+                                        &&
+                                        <li 
+                                            key={iOption+1}
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
+                                            value={option.value} 
+                                            onClick$={() => {
+                                                getOptions$(option.value);
+                                                //props.onChange !== undefined && props.onChange(option);
+                                                options.value = prevOptions.value
+                                            }}
+                                        >
+                                            {option.label}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                    <div class='col-6'>
+                        <ul class='list-group list-group-flush'>
+                            {
+                                options.value.map((option,iOption) => {
+                                    return(
+                                        iOption >= (options.value.length / 2)
+                                        &&
+                                        <li 
+                                            key={iOption+1}
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-gray' : 'list-group-item text-medium text-dark-gray'} 
+                                            value={option.value} 
+                                            onClick$={() => {
+                                                getOptions$(option.value);
+                                                //props.onChange !== undefined && props.onChange(option);
+                                                options.value = prevOptions.value
+                                            }}
+                                        >
+                                            {option.label}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+</div>
         </div>
     )
 })

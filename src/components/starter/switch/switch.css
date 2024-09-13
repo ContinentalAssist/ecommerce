@@ -1,0 +1,19 @@
+.switch .rounded-pill
+{
+    padding: 4px;
+}
+
+.switch .btn
+{
+    border-radius: 30px !important;
+}
+
+.switch .btn-primary
+{
+    background-color: white;
+}
+
+.switch .text-bg-primary
+{
+    background-color: var(--ca-light-blue) !important;
+}

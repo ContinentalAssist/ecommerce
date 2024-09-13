@@ -757,7 +757,7 @@ export default component$(() => {
                                                                                         {size:'col-xl-4',type:'date',label:'Nacimiento',name:'fechanacimiento',min:addBenefit.minDate,max:addBenefit.maxDate,required:true,value:addBenefit.fechanacimiento},
                                                                                     ]},
                                                                                     {row:[
-                                                                                        {size:'col-xl-4',type:'text',label:'Identificación / Pasaporte',name:'documentacion',required:true,value:addBenefit.documentacion},
+                                                                                        {size:'col-xl-4',type:'text',label:'Identificación / Pasaporte',name:'documentacion',required:true,value:addBenefit.documentacion,placeholder:'Identificación / Pasaporte'},
                                                                                         {size:'col-xl-4',type:'email',label:'Correo',name:'correo',required:true,value:addBenefit.correo},
                                                                                         {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:addBenefit.telefono},
                                                                                     ]}

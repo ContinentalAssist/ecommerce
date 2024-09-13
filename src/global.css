@@ -6,8 +6,11 @@
     --ca-ultra-light-blue: #DBF0FB;
     --ca-yellow: #FEDF84;
     --ca-dark-yellow: #FEDF8361;
-    --ca-gray: #ADADAD;
-    --ca-dark-gray: #5F5F5E;
+    /* --ca-gray: #ADADAD; */
+    --ca-gray: #D3D3D3;
+    /* --ca-dark-gray: #5F5F5E; */
+    --ca-dark-gray: #656565;
+    --ca-light-gray: #EFEFEF;
 }
 
 /* fuentes */
@@ -33,6 +36,12 @@
       font-family: GalanoGrotesque_Semi_Bold;
       src: url("/assets/fonts/Galano_Grotesque_Semi_Bold.woff");
       font-display: swap;
+}
+
+@font-face {
+    font-family: 'GalanoGrotesque_Medium';
+    src: url("/assets/fonts/Galano_Grotesque_Medium.woff") format('woff');
+    font-display: swap;
 }
 
 /* cuerpo de la pagina */
@@ -85,6 +94,11 @@ section
 .text-tin
 {
     font-family: GalanoGrotesque_Light !important;
+    font-display: swap;
+}
+.text-medium
+{
+    font-family: GalanoGrotesque_Medium !important;
     font-display: swap;
 }
 
@@ -147,6 +161,10 @@ body[data-so='windows'] header .navbar-toggler i
     font-family: GalanoGrotesque_Semi_Bold !important;
     border-radius: 50px;
     font-display: swap;
+}
+
+.form-check-input{
+    border-color: #656565;
 }
 
 body[data-so='windows'] .btn
@@ -235,6 +253,17 @@ a:hover
 }
 
 /* modales */
+
+.fade
+{
+    z-index: 2500 !important;
+}
+
+.modal 
+{
+    z-index: 3000 !important;
+}
+
 .modal-dialog
 {
     margin-top: 50px;
@@ -334,6 +363,10 @@ body[data-so='windows'] .modal-header h2
 ::-webkit-scrollbar-track 
 {
     background: var(--ca-ultra-light-blue);
+    border-top-left-radius: 33px;
+    border-top-right-radius: 33px;
+    border-bottom-left-radius: 33px;
+    border-bottom-right-radius: 33px;
 }
 
 ::-webkit-scrollbar-thumb 
@@ -345,6 +378,11 @@ body[data-so='windows'] .modal-header h2
 ::-webkit-scrollbar-thumb:hover 
 {
     background: var(--ca-light-blue);
+}
+
+.divisa
+{
+    font-size: 1.75rem;
 }
 
 @media (max-width: 575.98px)

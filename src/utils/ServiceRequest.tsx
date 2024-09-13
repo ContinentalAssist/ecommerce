@@ -1,20 +1,28 @@
-const ServiceRequest = async (url ='', dataSend = {}, onSuccess = (data:any) => {return(data)}) => {
+const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }) => {
     const headers = {
-        method: 'post',
-        headers:{
+        method: 'POST',
+        headers: {
             'Content-Type': 'application/json',
-            'x-api-key': import.meta.env.PUBLIC_WEB_KEY,
-            'Authorization': 'Bearer '+import.meta.env.PUBLIC_WEB_USER, 
+            'EVA-AUTH-USER': import.meta.env.VITE_MY_PUBLIC_WEB_KEY,
         },
-        body: JSON.stringify(dataSend)
-    }
+        body: JSON.stringify(dataSend),
+    };
 
-    const response = await fetch(import.meta.env.PUBLIC_WEB_API+url,headers)
-        .then((res) => {
-            return(res.json())
-        })
+
+
+    try {
+        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, { ...headers }); 
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        onSuccess(data);
+    } catch (error) {
+    
+            console.error('Falló al obtener datos:', error);
         
-    onSuccess(response)
+    }
 };
 
-export default ServiceRequest
+export default ServiceRequest;

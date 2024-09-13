@@ -1,36 +1,28 @@
-export default function CurrencyFormatter(currency:string,value:number)
-{
-    let fractionDigits = 0
+export default function CurrencyFormatter(currency: string, value: number) {
+    const numericValue = Number(value);
+    
+    if (isNaN(numericValue)) {
+        console.error('El valor proporcionado no es un número:', value);
+        return null; // O retorna un valor predeterminado o un mensaje de error
+    }
+    let formattedValue;
 
-    if(currency != 'COP')
-    {
-        fractionDigits = 2
+    if (currency === 'COP') {
+        formattedValue = Math.ceil(numericValue);
     }
     else
     {
-        // value = Math.ceil(value)
-        // value = Number(String(value).replace(/\.00$/, ''))
+    // Mantener siempre dos decimales
+    formattedValue = parseFloat(numericValue.toFixed(2));
+     
     }
+    const integerPart = Math.floor(formattedValue); 
+    const decimalPart = (formattedValue - integerPart).toFixed(2).substring(2);
 
-    // Math.ceil(total).toLocaleString('es-LA',{
-        //     style:'currency',
-        //     currency:currency,
-        //     minimumFractionDigits:fractionDigits,
-        //     maximumFractionDigits:fractionDigits
-        // })
 
-    let newValue = Intl.NumberFormat('es-MX',{
-        style:'currency',
-        minimumFractionDigits:fractionDigits,
-        maximumFractionDigits:fractionDigits,
-        currencyDisplay:'code',
-        currency:currency
-    }).format(value)
-
-    newValue = newValue.replace(/[a-z]{3}/i, "").trim()
-    newValue = newValue.replace(/\.00$/, '')
-
-    newValue = '$ '+newValue+' '+currency
-
-    return(newValue)
+    return (
+        <span class='divisa'>
+            $ {integerPart}.<small>{decimalPart} {currency}</small>
+        </span>
+    );
 }

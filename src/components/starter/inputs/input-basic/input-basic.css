@@ -1,0 +1,172 @@
+.form-control{
+    font-size: 1rem !important;
+}
+.form-label{
+    font-size: 1rem !important;
+    margin-top: 0.125rem !important;
+
+}
+
+.form-label ::after{
+    font-size: 0.8rem !important;
+    padding-left: 0px;
+}
+
+/* .form-label-date {
+    font-size: 0.8rem !important;
+    padding-left: 0px;
+    margin-top: 0.313rem !important;
+    margin-left: -0.063rem !important;
+} */
+.input-basic .form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+.input-basic .input-group-text~.form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: revert;
+}
+
+.input-basic .form-control:focus
+{
+    box-shadow: none;
+    transform: translateZ(0);
+    font-size: 1rem !important;
+}
+
+.input-basic .input-group-text 
+{
+    border: 2px solid var(--ca-gray);
+    border-right: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: transparent;
+    padding-left: 20px;
+}
+
+.input-basic .form-floating>.form-label
+{
+    margin-bottom: 0px;
+    padding-left: 20px;
+}
+
+.input-basic .input-group-text~.form-floating>.form-label
+{
+    padding-left: inherit;
+}
+
+.input-basic hr
+{
+    position: relative;
+    width: calc(100% - 50px);
+    align-content: normal;
+    display: inline-grid;
+    top: -21px;
+    color: #61C6F0;
+    border-width: 2px;
+    opacity: 1;
+    z-index: 4000;
+    margin: 0px;
+    opacity: 0;
+}
+
+.input-basic input[type="date"].form-control-date::-webkit-calendar-picker-indicator
+{
+    display: none;
+}
+
+/*  .drop-paxs .form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding-left: revert;
+}
+
+.drop-paxs .form-control:focus
+{
+    box-shadow: none;
+}
+
+.drop-paxs .input-group-text 
+{
+    border: 2px solid var(--ca-gray);
+    border-right: 0px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    background-color: transparent;
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+.drop-paxs .form-floating>.form-label
+{
+    margin-bottom: 0px;
+    padding-left: inherit;
+}
+
+.drop-paxs hr
+{
+    position: relative;
+    width: calc(100% - 50px);
+    align-content: normal;
+    display: inline-grid;
+    top: -21px;
+    color: #61C6F0;
+    border-width: 2px;
+    opacity: 1;
+    z-index: 4000;
+    margin: 0px;
+    opacity: 0;
+}
+
+.drop-paxs .dropdown-toggle.show+hr
+{
+    opacity: 1;
+}
+
+.drop-paxs .dropdown-toggle::after 
+{
+    display: none;
+}
+
+.drop-paxs .dropdown-menu
+{
+    width: 397px;
+    border-radius: 30px;
+    border: 2px solid var(--ca-gray);
+}
+
+.drop-paxs .input-number-group
+{
+    display: flex;
+}
+
+.drop-paxs input[type=number]::-webkit-inner-spin-button, 
+.drop-paxs input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+.drop-paxs input[type=number]
+{
+    text-align: center;
+    font-size: 30px;
+    border: none;
+    padding: 0 0 6px 0;
+}
+
+.drop-paxs .btn-icon
+{
+    background-color: transparent;
+    border: none;
+}
+ */

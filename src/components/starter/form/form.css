@@ -1,4 +1,8 @@
-.credit-card input[type=number]::-webkit-inner-spin-button, 
+/* .form-control{
+    font-size: 0.9rem !important; 
+}
+ */
+/* .credit-card input[type=number]::-webkit-inner-spin-button, 
 .credit-card input[type=number]::-webkit-outer-spin-button 
 { 
     -webkit-appearance: none !important; 
@@ -24,4 +28,49 @@
     position: absolute;
     margin-top: -10px;
     margin-left: 14px;
+} */
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+
+.form-control{
+    font-size: 0.9rem !important;
+}
+.form-label{
+    font-size: 0.9rem !important;
+    margin-top: 0.125rem !important;
+
+}
+
+.form-label ::after{
+    font-size: 0.8rem !important;
+    padding-left: 0px;
+}
+
+
+.form-label-date {
+    font-size: 0.8rem !important;
+    padding-left: 0px;
+   /*  margin-top: 0.313rem !important;
+    margin-left: -0.063rem !important; */
+}
+.input-basic .form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-radius: 30px;
+    padding-left: 20px;
+}
+
+.input-basic .input-group-text~.form-floating>.form-control
+{
+    border: 2px solid var(--ca-gray);
+    border-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-left: revert;
 }

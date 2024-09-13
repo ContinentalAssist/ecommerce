@@ -1,4 +1,5 @@
-import { component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import {$, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$,useContext } from "@builder.io/qwik";
+import { useLocation } from '@builder.io/qwik-city';
 
 import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
 import ImgContinentalAssistLogo from '~/media/ca/continental-assist-logo.webp?jsx';
@@ -7,7 +8,10 @@ import styles from './footer.css?inline'
 
 export const Footer = component$(() => {
     useStylesScoped$(styles)
+    const location = useLocation()
 
+    const showQuestion = useSignal(true)
+    const showChat = useSignal(false)
     const urlsWhats : any[] = [
         {country:'CO',url:'https://wa.me/573176216304'},
         {country:'MX',url:'https://wa.me/525545669880'},
@@ -26,9 +30,11 @@ export const Footer = component$(() => {
     const attachment = useSignal(urls[2])
     const whats = useSignal(urlsWhats[2].url)
 
-    useTask$(async() => {
+    useVisibleTask$(async() => {
         const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-            .then((response) => {return(response.json())})
+          .then((response) => {
+              return(response.json())
+          })
 
         urls.map(url => {
             if(url.country === resGeo.country)
@@ -45,28 +51,61 @@ export const Footer = component$(() => {
         })
     })
 
+   useVisibleTask$(() => {      
+/*         if(location.url.pathname == '/')
+            {
+                showQuestion.value = true
+            }
+            else
+            {
+                showQuestion.value = false
+            }     */
+       
+    })
+      
+
     return(
         <footer class='container-fluid'>
-            <div id='icon-chat' class="dropup-end dropup">
-                <ImgContinentalAssistWhatsappChat data-bs-toggle="dropdown" aria-expanded="false" title='continental-assist-whatsapp-chat' alt='continental-assist-whatsapp-chat'/>
-                <ul class="dropdown-menu">
-                    <h2 class='h6 text-blue'>¿Desde dónde te contactas?</h2>
-                    <li>
-                        <a title='WhatsApp Mexico' class="dropdown-item" href="https://wa.me/525545669880?text=¡Hola!%20Necesito%20asistencia" target="_blank">México</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Colombia' class="dropdown-item" href="https://wa.me/573176216304?text=¡Hola!%20Necesito%20asistencia" target="_blank">Colombia</a>
-                    </li>
-                    <li>
-                        <a title='WhatsApp Otros' class="dropdown-item" href="https://wa.me/573157349522?text=¡Hola!%20Necesito%20asistencia" target="_blank">Otro lugar</a>
-                    </li>
-                </ul>
-            </div>
             <div class='row bg-primary'>
                 <div class='col-xl-12'>
                     <div class='container'>
                         <div class='row align-content-center mt-2 mb-3'>
-                            <div class='col-lg-6 text-lg-start text-center '>
+                         <div class='mobile'>
+                            <div class='col-sm-12 mt-3'>
+                                <div class='container'>
+                                    <div class='row justify-content-center'>
+                                        <div class='col-sm-2  col-xs-2 text-center mb-3 mx-3'>
+                                            <a title='Inicio' href="/">
+                                                <ImgContinentalAssistLogo style={{width:'55px', height:'35px', marginTop:'15px'}} title='continental-assist-logo' alt='continental-assist-logo'/>
+                                            </a>
+                                        </div>
+                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                        <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
+                                                <i class="fab fa-linkedin text-white fa-2xl"></i>
+                                            </a>
+                                        </div>
+                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                            <a title='Instagram' href="https://instagram.com/continentalassist" rel="noopener" target="_blank">
+                                                <i class="fab fa-instagram-square text-white fa-2xl"></i>
+                                            </a>
+                                        </div>
+                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                            <a title='Facebook' href='https://www.facebook.com/continentalassist' rel="noopener" target="_blank">
+                                                <i class="fab fa-facebook-square text-white fa-2xl"></i>
+                                            </a>
+                                        </div>
+                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                            <a title='Youtube' href="https://www.youtube.com/channel/UCzEhpTYaKckVnVKIR_thZHg" rel="noopener" target="_blank">
+                                                <i class="fab fa-youtube-square text-white fa-2xl"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class='col-lg-6 text-lg-start  text-xs-start'>
                                 <a title='Agentes' class="text-regular text-white" href="https://www.continentalassist.co/backmin/signin.php" target="_blank">Acceso Agentes</a>
                                 <br/>
                                 <a title='Corporativos' class="text-regular text-white" href="https://www.continentalassist.co/backmin/corp/signin.php" target="_blank">Acceso Corporativo</a>
@@ -94,41 +133,78 @@ export const Footer = component$(() => {
                                 <br/>
                                 <a title='Tratamiento Informacion' href='https://storage.googleapis.com/files-continentalassist-web/Pol%C3%ADtica%20de%20Tratamiento%20de%20la%20Informaci%C3%B3n%20y%20Privacidad%20Continental%20Assist.pdf' target='_blank' rel="noopener" class='text-regular text-white'>Políticas de Tratamiento de la Información y Privacidad</a>
                             </div>
-                            <div class='col-lg-6 col-sm-12 mt-3'>
+                            <div class='not-mobile col-lg-6 col-sm-12 mt-3'>
                                 <div class='container'>
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-3 col-sm-12 col-xs-12 text-center mb-3'>
                                             <a title='Inicio' href="/">
-                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo'/>
+                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo' style={{marginTop:'18px'}}/>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
-                                            <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
-                                                <i class="fab fa-linkedin"></i>
+                                        <div class='col-lg-2 col-sm-12 col-xs-2 text-center align-content-center'>
+                                        <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
+                                                <i class="fab fa-linkedin text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Instagram' href="https://instagram.com/continentalassist" rel="noopener" target="_blank">
-                                                <i class="fab fa-instagram-square"></i>
+                                                <i class="fab fa-instagram-square text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Facebook' href='https://www.facebook.com/continentalassist' rel="noopener" target="_blank">
-                                                <i class="fab fa-facebook-square"></i>
+                                                <i class="fab fa-facebook-square text-white fa-3x"></i>
                                             </a>
                                         </div>
-                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center'>
+                                        <div class='col-lg-2 col-sm-1 col-xs-2 text-center align-content-center'>
                                             <a title='Youtube' href="https://www.youtube.com/channel/UCzEhpTYaKckVnVKIR_thZHg" rel="noopener" target="_blank">
-                                                <i class="fab fa-youtube-square"></i>
+                                                <i class="fab fa-youtube-square text-white fa-3x"></i>
                                             </a>
                                         </div>
                                     </div>
+                                    
                                 </div>
                             </div>
+                            
+
+                           
+                            
+                        </div>
+                        <hr style={{
+                                    border: "1px solid white",
+                                    }} />
+
+                        <div class="row m-0 mb-3">
+           
+                        <div class="col-lg-4 col-sm-12  d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
+                            <span>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Aventura, Florida </p>
+                            <p class='text-white ms-3 text-regular'>20803 Biscayne Boulevard,<br/> suite 370</p>    
+                            </span>                           
+                        </div>
+                        <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
+                        
+                        <span>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Ciudad de México, México </p>
+                            <p class='text-white ms-3 text-regular'>Avenida Insurgentes 662, <br/>piso 7A</p>    
+                            </span>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
+                        
+                        <span>
+                            <p class='title-country text-white ms-3 text-semi-bold'>Bogotá, Colombia  </p>
+                            <p class='text-white ms-3 text-regular'>Autopista norte # 114 – 44,<br class="not-mobile"/> oficina 504</p>    
+                            </span>
+                    
+                        </div>
+                        
+                        
                         </div>
                     </div>
                 </div>
             </div>
+          
+           
             <div class='row bg-secondary'>
                 <div class='col-xl-12 text-center'>
                     <p><b>Continental Assist</b> © {new Date().getFullYear()} Todos los Derechos Reservados</p>

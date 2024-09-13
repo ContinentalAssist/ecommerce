@@ -1,39 +1,42 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-// import { useNavigate } from "@builder.io/qwik-city";
+import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
-import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
-import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
-import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
-
 import styles from './index.css?inline'
+import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
-export default component$(() => {
+export interface propsAuthorize {
+    setLoading: (loading: boolean, message:string) => void;
+}
+
+export default component$((props:propsAuthorize) => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
-    // const navigate = useNavigate()
+     const navigate = useNavigate()
 
     const array : any[] = []
     const obj : {[key:string]:any} = {}
 
     const resume = useSignal(obj)
-    const opSessionId = useSignal('')
-    const opToken = useSignal('')
-    const wSeesionId = useSignal('')
-    const wToken = useSignal('')
     const months = useSignal(array)
     const years = useSignal(array)
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const loading = useSignal(true)
-    const urlvoucher = useSignal(array)
-    const attempts = useSignal(0)
+    const attempts = useSignal(stateContext.value.attempts|| 0)
+    const isLoading = useSignal(false);
+
+
+    function updateLoading(){
+        props.setLoading(isLoading.value, '')
+        
+    }
+    updateLoading()
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -61,20 +64,21 @@ export default component$(() => {
             {
                 newYears.push({value:String(index),label:String(index)})
             }
-                    
+            
             years.value = newYears
+            isLoading.value=false
         }
     })
 
-    useVisibleTask$(() => {
-        if(Object.keys(stateContext.value).length > 0)
+    useVisibleTask$(() => {        
+        if(Object.keys(stateContext?.value).length > 0)
         {
             resume.value = stateContext.value
-            loading.value = false
+            isLoading.value=false
         }
         else
         {
-            loading.value = false
+            isLoading.value=false
             // navigate('/quotes-engine/step-1')
         }
     })
@@ -137,18 +141,14 @@ export default component$(() => {
     })
 
     const getPayment$ = $(async() => {
-        const bs = (window as any)['bootstrap']
-        const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        const modalError = new bs.Modal('#modalError',{})
-        // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
-    
+        isLoading.value=true
         let error = false
         let errorInvoicing = false
         
@@ -213,7 +213,7 @@ export default component$(() => {
 
         if(error == false)
         {
-            loading.value = true
+           // loading.value = true
 
             const newPaxs : any[] = []
 
@@ -263,11 +263,11 @@ export default component$(() => {
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
-                    devicesessionid : opSessionId.value,
-                    sourceid : opToken.value,
-                    acceptanceToken : wSeesionId.value,
-                    tokenWompi : wToken.value
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                   // devicesessionid : opSessionId.value,
+                    //sourceid : opToken.value,
+                    //acceptanceToken : wSeesionId.value,
+                   // tokenWompi : wToken.value
                 }
             )
             
@@ -276,7 +276,7 @@ export default component$(() => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
@@ -286,8 +286,8 @@ export default component$(() => {
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado
-                loading.value = false;
+               // urlvoucher.value = resPayment.resultado;
+                isLoading.value=false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -310,7 +310,11 @@ export default component$(() => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-                modalSuccess.show()
+               // modalSuccess.show()
+               stateContext.value.paymentstutus =resPayment.resultado[0]?.authorizeTransaccion?.status||'';
+               stateContext.value.codevoucher =resPayment.resultado[0]?.orden?.codvoucher||'';
+               stateContext.value.typeMessage = 1
+               await navigate('/quotes-engine/message')
             }
             else
             {
@@ -340,7 +344,7 @@ export default component$(() => {
                     // }
                     // else
                     // {
-                        loading.value = false;
+                        //isLoading.value=false
 
                         // (window as any)['dataLayer'].push({
                         //     'event': 'TrackEvent',
@@ -358,12 +362,14 @@ export default component$(() => {
                         //     'Método de pago': dataForm.tdcnumero
                         // });
         
-                        modalError.show()
+                        //modalError.show()
+                        stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
                     // }
                 }
                 else
                 {
-                    loading.value = false;
+                   // isLoading.value=false
 
                     // (window as any)['dataLayer'].push({
                     //     'event': 'TrackEvent',
@@ -381,10 +387,13 @@ export default component$(() => {
                     //     'Método de pago': dataForm.tdcnumero
                     // });
 
-                    modalErrorAttemps.show()
+                    //modalErrorAttemps.show()
+                    stateContext.value.typeMessage = 3
+                    await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)
+                stateContext.value.attempts =attempts.value
             }
         }
     })
@@ -412,14 +421,14 @@ export default component$(() => {
         }
     })
 
-    const closeQuote$ = $(() => {
+ /*    const closeQuote$ = $(() => {
         const bs = (window as any)['bootstrap']
         const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
         modalErrorAttemps.hide()
 
         stateContext.value = {}
     })
-   
+    */
     return(
         <>
             {/* {
@@ -430,216 +439,93 @@ export default component$(() => {
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
-                        <div class='card card-body shadow-lg'>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4 mb-3'>
-                                        <div class='img-card'>
-                                            <div class='card-name'>{tdcname.value}</div>
-                                            <div class='card-number'>{tdcnumber.value}</div>
-                                            <div class='card-expiration'>{tdcexpiration.value}</div>
-                                            <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/>
+                        <CardPaymentResume>
+                             <div class='row justify-content-center'>
+                                <div class='col-lg-12'>
+                                <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+
+                                    <Form
+                                        id='form-payment-method'
+                                        form={[
+                                            {row:[
+                                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                            ]},
+                                            {row:[
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                            ]}
+                                        ]}
+                                    />
+                                    <div class='container'>
+                                        <div class='row'>
+                                            <div class='col-12'>
+                                                <div class="form-check form-check-inline my-3">
+                                                    <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
+                                                    <label class="form-check-label" for={"invoicing"}>
+                                                        Requiero factura personalizada.
+                                                    </label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class='col-lg-4 offset-lg-1'>
+                                    <div class='d-none' id='invoice'>
                                         <Form
-                                            id='form-payment-method'
+                                            id='form-invoicing'
                                             form={[
                                                 {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                    {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
+                                                        {value:'RFC',label:'RFC'},
+                                                        {value:'CC',label:'CC'},
+                                                        {value:'PASAPORTE',label:'Pasaporte'},
+                                                        {value:'NIT',label:'NIT'}
+                                                    ]},
+                                                    {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                                                    
+                                                    {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
                                                 ]}
                                             ]}
                                         />
-                                        <div class='container'>
-                                            <div class='row'>
-                                                <div class='col-12'>
-                                                    <div class="form-check form-check-inline my-3">
-                                                        <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
-                                                        <label class="form-check-label" for={"invoicing"}>
-                                                            Requiero factura personalizada.
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class='d-none' id='invoice'>
-                                            <Form
-                                                id='form-invoicing'
-                                                form={[
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
-                                                            {value:'RFC',label:'RFC'},
-                                                            {value:'CC',label:'CC'},
-                                                            {value:'PASAPORTE',label:'Pasaporte'},
-                                                            {value:'NIT',label:'NIT'}
-                                                        ]},
-                                                        {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
-                                                        
-                                                        {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
-                                                    ]}
-                                                ]}
-                                            />
-                                        </div>
-                                        <div class='container'>
-                                            <div class='row justify-content-center'>
-                                                <div class='col-lg-6'>
+                                    </div>
+                                    <div class='container'>
+                                        <div class='row justify-content-center'>
+                                            <div class='col-lg-6'>
                                                     <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                        {
-                                                            attempts.value > 0
-                                                            &&
-                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                        }
+                                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                        
                                                     </div>
+                                            </div>
+
+                                            <div class='col-lg-6'>
+                                                <div class='d-grid gap-2 mt-4'>
+                                                    <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
+                                                    {
+                                                        attempts.value > 0
+                                                        &&
+                                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </CardPaymentResume>
+
                     </div>
                 </div>
             </div>
-            <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-success">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistSuccess class='img-fluid' title='continental-assist-icon-success' alt='continental-assist-icon-success'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Compra exitosa!</h2>
-                            {
-                                urlvoucher.value.length > 4
-                                ?
-                                <>
-                                    <p class='px-2 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                                :
-                                <>
-                                    <p class='px-5 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos. Conecta con la magia del mundo, del resto nos encargamos nosotros.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                            }
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    {
-                                        urlvoucher.value.map((voucher:any,index:number) => {
-                                            return(
-                                                <div key={index} class='col-lg-6'>
-                                                    <div class='d-grid gap-2'>
-                                                        <a title='Voucher' class='btn btn-primary btn-sm mt-2' href={voucher.link_voucher} target='_blank'>{voucher.nombrebeneficiario}</a>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4'>
-                                        <div class='d-grid gap-2'>
-                                            {
-                                                urlvoucher.value.length > 2
-                                                ?
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-3'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                                :
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-5'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalError' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Pago rechazado!</h2>
-                            <p class='px-5 py-3'>Revisa los datos de tu medio de pago e intenta de nuevo.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Voucher activo!</h2>
-                            <p class='px-5 py-3'>Uno de los beneficiarios ya cuenta con un voucher activo para las fechas seleccionadas.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorAttemps' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Has realizado tres intentos!</h2>
-                            <p class='px-5 py-3'>Lo sentimos has superado el número de permitidos.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <a title='Inicio' class={'btn btn-blue btn-lg'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
         </>
     )
 })

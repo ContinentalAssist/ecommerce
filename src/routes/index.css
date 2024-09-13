@@ -204,13 +204,13 @@
 }
 
 /* indicadores subir y bajar */
-.scroll-indicator i
+.scroll-indicator .fa-chevron-down
 {
     color: var(--ca-dark-blue);
     font-size: 30px;
 }
 
-.scroll-indicator #scrollIndicatorDown i:first-child
+.scroll-indicator #scrollIndicatorDown .fa-chevron-down:first-child
 {
     position: absolute;
     font-size: 14px;
@@ -407,5 +407,12 @@
         margin-right: 70px;
         display: block;
     }
+}
+
+#list-pax li{
+    display: inline;
+    list-style-type: none;
+    border: none;
+   
 }
 

@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './input-paxs.css?inline'
 
 interface propsInputPaxs {
@@ -6,25 +6,25 @@ interface propsInputPaxs {
 }
 
 export const InputPaxs = component$((props:propsInputPaxs) => {
-    useStylesScoped$(styles)
+    useStyles$(styles)
 
     const totalPaxs = useSignal(0)
     const totalPaxsNumber = useSignal([])
     const totalPaxsString = useSignal('')
     const readOnly = useSignal(false)
 
-    useVisibleTask$(() => {
+    useVisibleTask$(() => {        
         if(props.value)
-        {
+        {            
             const newTotalstring = (props.value[22] > 0 ? props.value[22] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
             totalPaxsString.value = newTotalstring
             totalPaxsNumber.value = props.value
         }
 
-        if(navigator.userAgent.includes('Mobile'))
-        {
+        //if(navigator.userAgent.includes('Mobile'))
+        //{
             readOnly.value = true
-        }
+        //}
     })
 
     const getPaxs$ = $(() => {
@@ -55,7 +55,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         const newTotalstring = (totalString[0] > 0 ? totalString[0]+' Niño(s) y joven(es) ' : '') + (totalString[1] > 0 ? totalString[1]+' Adulto(s) ' : '') + (totalString[2] > 0 ? totalString[2]+' Adulto(s) mayor(es) ' : '')
         totalPaxsString.value = newTotalstring
         totalPaxsNumber.value = totalNumber
-
+        
+        props.onChange !== undefined && props.onChange({label:totalPaxsString.value, value:totalPaxsNumber.value});
         // dropdown.hide()
     })
 
@@ -86,92 +87,126 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     })
 
     return(
-        <div class='dropdown' id='dropdown-paxs'>
-            <label class='form-label' for={props.id}>Viajeros</label>
-            <input type='text' id={props.id} 
-                name={props.name} 
-                class='form-control form-paxs dropdown-toggle' 
+        <div class='dropdown drop-paxs text-center'>
+            <div class="dropdown-toggle"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
-                aria-expanded="false" 
-                value={totalPaxsString.value} 
-                data-value={JSON.stringify(totalPaxsNumber.value)} 
-                required={props.required}
-                readOnly={readOnly.value}
-                onChange$={(e) => {
-                    if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
-                    {
-                        e.target.classList.remove('is-invalid')
-                        e.target.classList.add('is-valid')
-                    }
-                    else
-                    {
-                        e.target.classList.remove('is-valid')
-                    }
-                }}
-                // onFocus$={(e) => {e.target.readOnly = true}}
-                // onBlur$={(e) => {e.target.readOnly = false}}
-            />
-            <div class='select-paxs dropdown-menu'>
+                data-bs-reference="toggle" 
+            >
+                <div class='input-group '>
+                    <span class="input-group-text text-dark-blue">
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                    <div class="form-floating">
+                        <input 
+                            type='text'
+                            id={props.id} 
+                            name={props.name} 
+                            class='form-control form-paxs text-bold text-dark-blue' 
+                            value={totalPaxsString.value} 
+                            data-value={JSON.stringify(totalPaxsNumber.value)} 
+                            required={props.required}
+                            readOnly={readOnly.value}
+                            placeholder="Viajeros"
+                           /*  onChange$={(e: any) => {
+                                if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
+                                {
+                                    e.target.classList.remove('is-invalid')
+                                    e.target.classList.add('is-valid')
+                                }
+                                else
+                                {
+                                    e.target.classList.remove('is-valid')
+                                }
+                            }} */
+                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
+                        />
+                        <label class='form-label text-medium text-dark-gray' for={props.id}>Viajeros</label>
+                    </div>
+                </div>
+            </div>
+            <hr id={props.id}/>
+            <div id={'dropdown-'+props.id} class='dropdown-menu p-4' aria-labelledby={props.id}>
                 <div class='container'>
-                    <div class='row mb-2'>
-                        <div class='col-lg-8 col-sm-8 col-xs-6'>
-                            <h6 class='text-semi-bold mb-0'>Adultos</h6>
+                    <div class='row mb-4 align-items-center'>
+                        <div class='col-6 col-md-7'>
+                            <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos</h6>
                             <small>de 23 a 70 años</small>
                         </div>
-                        <div class='col-lg-4 col-sm-4 col-xs-6'>
-                            <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-70')}}>
-                                    <i class="fas fa-minus-square text-light-blue"/>
+                        <div class='col-6 col-md-5'>
+                            <div class='d-flex align-items-baseline input-number-group'>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-70')}}>
+                                    <i class="fas fa-minus text-light-blue"/>
                                 </button>
-                                <input type='number' class='form-control' id='input-70' name='70' min={0} max={14} value={props.value!= undefined ? props.value[70] : 0} readOnly/>
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-70')}}>
-                                    <i class="fas fa-plus-square text-light-blue"/>
+                                <input 
+                                    type='number' 
+                                    class='form-control-plaintext  text-semi-bold text-dark-blue p-0 ' 
+                                    id='input-70' 
+                                    name='70' 
+                                    min={0} 
+                                    max={14} 
+                                    value={props.value!= undefined ? props.value[70] : 0} 
+                                    readOnly
+                                />
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-70')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class='row mb-2'>
-                        <div class='col-lg-8 col-sm-8 col-xs-6'>
-                            <h6 class='text-semi-bold mb-0'>Niños y jóvenes</h6>
+                    <div class='row mb-4 align-items-center'>
+                        <div class='col-6 col-md-7'>
+                            <h6 class='h5 text-bold text-dark-blue mb-0'>Niños y jóvenes</h6>
                             <small>de 0 a 22 años</small>
                         </div>
-                        <div class='col-lg-4 col-sm-4 col-xs-6'>
-                            <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-22')}}>
-                                    <i class="fas fa-minus-square text-light-blue"/>
+                        <div class='col-6 col-md-5'>
+                            <div class='d-flex align-items-baseline input-number-group'>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-22')}}>
+                                   <i class="fas fa-minus text-light-blue"/>
                                 </button>
-                                <input type='number' class='form-control' id='input-22' name='22' min={0} max={14} value={props.value!= undefined ? props.value[22] : 0} readOnly/>
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-22')}}>
-                                    <i class="fas fa-plus-square text-light-blue"/>
+                                <input 
+                                    type='number' 
+                                    class='form-control-plaintext form-control-sm text-semi-bold text-dark-blue p-0   ' 
+                                    id='input-22' 
+                                    name='22' 
+                                    min={0} 
+                                    max={14} 
+                                    value={props.value!= undefined ? props.value[22] : 0} 
+                                    readOnly
+                                />                               
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-22')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div class='row mb-2'>
-                        <div class='col-lg-8 col-sm-8 col-xs-6'>
-                            <h6 class='text-semi-bold mb-0'>Adultos mayores</h6>
+                    <div class='row mb-0 align-items-center'>
+                        <div class='col-6 col-md-7'>
+                            <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos mayores</h6>
                             <small>de 71 a 85 años</small>
                         </div>
-                        <div class='col-lg-4 col-sm-4 col-xs-6'>
-                            <div class='input-number-group'>
-                                <button type='button' class='btn-icon' onClick$={() => {removePaxs$('input-85')}}>
-                                    <i class="fas fa-minus-square text-light-blue"/>
+                        <div class='col-6 col-md-5'>
+                            <div class='d-flex align-items-baseline input-number-group'>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-85')}}>
+                                <i class="fas fa-minus text-light-blue"/>
                                 </button>
-                                <input type='number' class='form-control' id='input-85' name='85' min={0} max={14} value={props.value!= undefined ? props.value[85] : 0} readOnly/>
-                                <button type='button' class='btn-icon' onClick$={() => {addPaxs$('input-85')}}>
-                                    <i class="fas fa-plus-square text-light-blue"/>
+                                <input 
+                                    type='number' 
+                                    class='form-control-plaintext  text-semi-bold text-dark-blue p-0 ' 
+                                    id='input-85' 
+                                    name='85' 
+                                    min={0} 
+                                    max={14} 
+                                    value={props.value!= undefined ? props.value[85] : 0} 
+                                    readOnly
+                                />
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-85')}}>
+                                    <i class="fas fa-plus"/>
                                 </button>
                             </div>
                         </div>
                     </div>
-                    {/* <div class='row'>
-                        <div class='col-lg-12'>
-                            <div class='d-grid gap-2'>
-                                <button type='button' class='btn btn-primary' onClick$={getPaxs$}>Aceptar</button>
-                            </div>
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </div>

@@ -36,15 +36,24 @@
     top: -5px;
 }
 
-.table-striped>tbody>tr>*
+.table-striped>tbody>tr>.td-beneficio
 {
-    border-radius: 20px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius:20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.table-striped>tbody>tr>.td-cobertura
+{
+    border-top-right-radius: 20px;
+    border-bottom-right-radius:20px;
     padding-left: 20px;
     padding-right: 20px;
 }
 
 .tr-title
 {
+    border-radius: 20px;
     background-color: var(--ca-light-blue);
 }
 

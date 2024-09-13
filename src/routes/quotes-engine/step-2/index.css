@@ -1,8 +1,30 @@
 .bg-step-4
 {
-    background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
+   /*  background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
     background-repeat: no-repeat;
-    background-size: 100vw auto;
+    background-size: 100vw auto; */
+    background-color: #FAFAFA;
+}
+
+.resume .input-group-text
+{
+    font-size: 0.875rem;
+}
+
+.steps-float
+{
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
+}
+
+.steps-float,
+.steps-float>.row,
+.steps-float>.row>.col-12,
+.steps-float>.row>.col-12>.container,
+.steps-float>.row>.col-12>.container>.row
+{
+    height: 0px;
 }
 
 .card
@@ -18,10 +40,10 @@
     padding: 10px 0px;
 }
 
-.cards-additionals .card .img-fluid
+/* .cards-additionals .card .img-fluid
 {
     max-height: 120px;
-}
+} */
 
 .modal-header h2
 {
@@ -36,17 +58,20 @@
     right: 14px;
     border: 1px solid gray;
     padding: 9px !important;
+    margin-top: 2px;
 }
 
-/* @keyframes fadeInUp {
-    from {
-        transform: translate3d(0,40px,0)
-    }
+.divisa{
+    font-size: 0.875rem !important;
+}
 
-    to {
-        transform: translate3d(0,0,0);
-    }
-} */
+.form-check-inline{
+    margin-right:0;
+}
+
+.form-check-input{
+    margin-right:0.313rem;
+}
 
 @media (max-width: 575.98px)
 {

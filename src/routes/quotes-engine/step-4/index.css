@@ -10,28 +10,134 @@
     border-radius: 33px;
 }
 
-.card .card:hover
+.steps-float
 {
-    border-color: var(--ca-blue);
-    cursor: pointer;
+    position: fixed;
+    top: 20px;
+    z-index: 2000;
 }
 
-.card-method
+.img-card .img-fluid
 {
-    height: 100px;
-    display: grid;
-
+    width: 100%;
+    height: auto;
 }
 
-.icons
+.img-card .card-name
 {
-    display: grid;
-    align-content: center;
-    justify-content: center;
+    position: absolute;
+    top: 195px;
+    margin-left: 30px;
 }
 
-.titles
+.img-card .card-number
 {
-    display: grid;
-    align-content: center;
+    position: absolute;
+    top: 135px;
+    margin-left: 30px;
+    font-size: 25px;
+}
+
+.img-card .card-expiration
+{
+    position: absolute;
+    top: 170px;
+    margin-left: 30px;
+}
+
+.border-success
+{
+    border: 2px solid #198754 !important;
+    box-shadow: 0 0rem 1rem #198754  !important;
+}
+
+.border-danger
+{
+    border: 2px solid #dc3545 !important;
+    box-shadow: 0 0rem 1rem #dc3545  !important;
+}
+
+.modal-header .img-fluid
+{
+    position: relative;
+    width: 150px;
+    top: 0px;
+    right: 0px;
+    height: 150px;
+}
+
+.main-payment-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* Espacio debajo de cada fila */
+}
+
+.dotted-line {
+    flex-grow: 1;
+    border-top: 2px dotted #1D2546;
+    margin: 10px 10px 0px 10px;
+    /* padding: 2px; */
+   /*  height: 1em; */ /* Altura de la línea */
+}
+
+@media (max-width: 575.98px)
+{
+    .img-card .card-number
+    {
+        font-size: 22px;
+    }
+
+    .modal-header .img-fluid
+    {
+        position: relative;
+        width: 150px;
+        top: 0px !important;
+        right: 0px;
+        height: 150px;
+    }
+}
+
+@media (min-width: 1680px)
+{
+    .img-card .card-number
+    {
+        top: 165px;
+        margin-left: 35px;
+        font-size: 25px;
+    }
+
+    .img-card .card-name
+    {
+        top: 225px;
+        margin-left: 35px;
+    }
+
+    .img-card .card-expiration
+    {
+        top: 200px;
+        margin-left: 35px;
+    }
+}
+
+@media (min-width: 2560px)
+{
+    .img-card .card-number
+    {
+        top: 165px;
+        margin-left: 35px;
+        font-size: 25px;
+    }
+
+    .img-card .card-name
+    {
+        top: 225px;
+        margin-left: 35px;
+    }
+
+    .img-card .card-expiration
+    {
+        top: 200px;
+        margin-left: 35px;
+    }
 }

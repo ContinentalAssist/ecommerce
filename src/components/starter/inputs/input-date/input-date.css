@@ -1,0 +1,117 @@
+
+.MuiSvgIcon-root{
+color: var(--ca-dark-blue);
+}
+
+.MuiPaper-rounded
+{
+    border-radius: 30px !important;
+}
+
+.MuiInputBase-root
+{
+    border: 1px solid var(--ca-gray);
+    border-radius: 30px !important;
+    color: var(--ca-dark-blue) !important;
+   
+}
+.MuiInputBase-root .MuiOutlinedInput-input{
+    margin-top: 0.438rem;
+    padding-bottom: 0.625rem;
+    font-family: GalanoGrotesque_Bold !important;
+    font-display: swap;
+    font-size: 1rem !important;
+
+}
+
+.MuiOutlinedInput-notchedOutline
+{
+    border: 1px solid var(--ca-gray) !important;
+    border-color:var(--ca-gray) !important;
+}
+
+/* .Mui-focused .MuiOutlinedInput-notchedOutline
+{
+    border-color: var(--ca-dark-blue) !important;
+} */
+
+ 
+ .MuiInputLabel-root
+ {
+    font-family: GalanoGrotesque_Medium !important;
+    font-size: large;
+    margin-top: 1.25rem;
+    margin-left: 2.3rem;
+    color: var(--ca-dark-gray) !important;
+
+ }
+ .MuiInputLabel-root.Mui-focused
+{
+    color: var(--ca-dark-gray) !important;
+    margin-top: 1.25rem;
+
+}
+
+ @media (max-width: 575.98px)
+{
+
+.MuiInputBase-root .MuiOutlinedInput-input{
+    margin-top: 0.438rem;
+    padding-bottom: 0.625rem;
+    font-family: GalanoGrotesque_Bold !important;
+    font-display: swap;
+    font-size: 1rem !important;
+    margin-left: 0.625rem !important;
+}
+
+    .MuiInputLabel-root
+ {
+    font-family: GalanoGrotesque_Medium !important;
+    font-size: large;
+    margin-top: 1.063rem !important;
+    margin-left: 2.688rem !important;   
+    color: var(--ca-dark-gray) !important;
+
+ }
+
+ .MuiInputLabel-root.Mui-focused
+{
+    color: var(--ca-dark-gray) !important;
+    margin-top: 1.063rem !important;
+
+}
+
+.MuiInputLabel-root[data-shrink="false"] {
+    font-size: medium;
+    color: var(--ca-gray) !important;
+    margin-top: 0.188rem !important;
+    margin-left: 0.625rem !important
+  }
+
+
+
+}
+
+
+fieldset{
+    top:0 !important
+}
+
+legend{
+    display: none !important;
+}
+
+.MuiPickersCalendarHeader-label{
+    font-family: GalanoGrotesque !important;
+    font-display: swap;
+
+
+}
+
+[role=presentation] 
+{
+    z-index: 40001 !important;
+}
+/* .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: #1976d2;
+} */

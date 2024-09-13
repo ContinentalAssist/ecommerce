@@ -1,30 +1,20 @@
 import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { InputPaxs } from "../inputs/input-paxs/InputPaxs";
-import { InputSelectMultiple } from "../inputs/input-select-multiple/InputSelectMultiple";
+import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple";
 import { InputSelect } from "../inputs/input-select/InputSelect";
 import styles from './form.css?inline'
+import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
+import { DatePickerMUI } from "../inputs/input-date/input-date";
 
-interface propsForm {
-    [key:string] : any,
-    form : any[]
+interface propsInput
+{
+    [key:string] : any
 }
 
-export const Form = component$((props:propsForm) => {
-    useStylesScoped$(styles)
+export const Input = (props:propsInput) => {    
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
 
-    const forms : {row:[{[key:string]:any,options:any[]}]}[] = []
-
-    const form = useSignal(forms)
-
-    useTask$(() => {
-        form.value = props.form
-    })
-
-    useVisibleTask$(() => {
-        form.value = props.form
-    })
-
-    const valiadateKeyUp$= $((target: any)=>{
+    const validateKeyUp$= $((target: any) => {
         
         if ((target.type == 'text') && (target.dataset.textonly === 'true')) 
         {
@@ -43,26 +33,93 @@ export const Form = component$((props:propsForm) => {
         }
     }) 
 
-    const valiadateBlur$= $((target: any)=>{
+    return(
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span 
+                        class="input-group-text text-dark-blue" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
+                        <i class={'text-dark-blue  fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                 <div class="form-floating">
+                    <input class='form-control text-bold text-dark-blue' 
+                        id={props.id} 
+                        name={props.name} 
+                        type='text'
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        maxLength={props.maxLength} 
+                        onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        onClick$={(e) => {props.onClick && props.onClick(e)}}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onKeyUp$={e=>validateKeyUp$(e.target)}
+                        readOnly={props.readOnly}
+                        tabIndex={props.tabIndex}
+                        disabled={props.disabled}
+                        {...dataAttributes}
+                        
+                    />
+                    <label 
+                        class='form-label text-medium text-gray' 
+                        for={props.id}
+                    >
+                        {props.label}
+                    </label>
+                 </div>
+            </div>
+        </div>                                            
+    )
+}
+
+interface propsInputDate {
+    [key:string] : any
+}
+export const InputDate = component$((props:propsInputDate) => {
+    
+    return(
+        <>
+        <DatePickerMUI 
+        id={props.id}
+        name={props.name}
+        label={props.label}
+        placeholder={props.placeholder}
+        required={props.required} 
+        min={props.min} 
+        max={props.max}
+        defaultvalue={props.value} 
+        open={props.open} 
+        onChange$={(e:any) => {props.onChange && props.onChange(e)}}
+       />
+        </>
+       
+       
+    )
+})
+
+interface propsInputMail
+{
+    [key:string] : any
+}
+
+export const InputMail = (props:propsInputMail) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
+    const validateBlur$= $((target: any)=>{
         const input = document.querySelector('#'+target.id) as HTMLInputElement
 
-         if(input.type === 'tel')
-        {
-            const regexp = new RegExp(/^[(]?[+]?(\d{2}|\d{3})[)]?[\s]?((\d{6}|\d{8})|(\d{3}[*.\-\s]){2}\d{3}|(\d{2}[*.\-\s]){3}\d{2}|(\d{4}[*.\-\s]){1}\d{4})|\d{8}|\d{10}|\d{12}$/)
-
-            if(regexp.test(input.value))
-            {
-                input.value = String(input.value);
-                input.classList.remove('is-invalid')
-            }
-            else 
-            {
-                // input.value= '';
-                input.classList.add('is-invalid')
-                input.focus()
-            }
-        }
-        else  if(input.type === 'email')
+        if(input.type === 'email')
         {
             const regex = new RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)
 
@@ -78,12 +135,75 @@ export const Form = component$((props:propsForm) => {
                 input.focus()
             }
         }
-        else  if(input.type === 'number')
+    })
+
+    return(
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span 
+                        class="input-group-text text-dark-gray" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                <div class="form-floating">
+                    <input class='form-control text-bold text-dark-blue' 
+                        id={props.id} 
+                        name={props.name} 
+                        type='email' 
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        maxLength={props.maxLength} 
+                        onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onBlur$={e=>validateBlur$(e.target)}
+                        {...dataAttributes}
+                        
+                    />
+                    <label 
+                        class='form-label text-medium text-gray' 
+                        for={props.id}
+                    >
+                        {props.label} 
+                    </label>       
+                    <div id={props.id+'-feedback'} class="invalid-feedback">
+                        Por favor ingrese un correo valido.
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+interface propsInputPhone
+{
+    [key:string] : any
+}
+
+export const InputPhone = (props:propsInputPhone) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
+    const validateBlur$= $((target: any)=>{
+        const input = document.querySelector('#'+target.id) as HTMLInputElement
+
+        if(input.type === 'tel')
         {
-            
-            if(Number(input.value))
+            const regex = new RegExp(/^[(]?[+]?(\d{2}|\d{3})[)]?[\s]?((\d{6}|\d{8})|(\d{3}[*.\-\s]){2}\d{3}|(\d{2}[*.\-\s]){3}\d{2}|(\d{4}[*.\-\s]){1}\d{4})|\d{8}|\d{10}|\d{12}$/)
+
+            if(regex.test(input.value))
             {
-                input.value=  String(input.value);
+                input.value = String(input.value);
                 input.classList.remove('is-invalid')
             }
             else
@@ -93,11 +213,157 @@ export const Form = component$((props:propsForm) => {
                 input.focus()
             }
         }
-
     })
 
     return(
-        <form id={props.id} class='needs-validation' noValidate autoComplete='off'>
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span 
+                        class="input-group-text text-dark-blue" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                <div class="form-floating">
+                    <input class='form-control text-bold text-dark-blue' 
+                        id={props.id} 
+                        name={props.name} 
+                        type={'tel'} 
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        maxLength={props.maxLength} 
+                        onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onBlur$={e=>validateBlur$(e.target)}
+                        {...dataAttributes}
+                    />
+                    
+                    <label 
+                        class='form-label text-medium text-gray' 
+                        for={props.id}
+                    >
+                        {props.label} 
+                    </label>       
+                    <div id={props.id+'-feedback'} class="invalid-feedback">
+                        Por favor ingrese un telefono valido.
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+interface propsInputNumber
+{
+    [key:string] : any
+}
+
+export const InputNumber = (props:propsInputNumber) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+    const validateKeyUp$= $((target: any) => {
+        
+        if ((target.type == 'number') ) 
+        {
+            const input = document.querySelector('#'+target.id) as HTMLInputElement
+            input.value = String(input.value);
+        }
+        else
+        {
+            const input = document.querySelector('#'+target.id) as HTMLInputElement
+            input.classList.add('is-invalid')
+            input.focus()
+        }
+    }) 
+
+    return(
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon
+                    &&
+                    <span 
+                        class="input-group-text text-dark-blue" 
+                        onClick$={() => {
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).showPicker();
+                                (document.querySelector('input[name='+props.name+']') as HTMLInputElement).focus();
+                            }
+                        }
+                    >
+                        <i class={'fa-solid fa-'+props.icon} />
+                    </span>
+                }
+                 <div class="form-floating">
+                    <input class='form-control text-bold text-dark-blue' 
+                        id={props.id} 
+                        name={props.name} 
+                        type={'number'}
+                        required={props.required} 
+                        min={props.min} 
+                        max={props.max} 
+                        maxLength={props.maxLength} 
+                        onChange$={(e) => {props.onChange && props.onChange(e)}}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onKeyUp$={e=>validateKeyUp$(e.target)}
+                        {...dataAttributes}
+                    />
+                    <label 
+                        class='form-label text-bold text-dark-gray' 
+                        for={props.id}
+                    >
+                        {props.label}
+                    </label>
+                    <div id={props.id+'-feedback'} class="invalid-feedback">
+                         Por favor ingrese solamente numeros.
+                    </div>
+                 </div>
+            </div>
+        </div>                                            
+    )
+}
+
+
+interface propsForm {
+    [key:string] : any,
+    form : any[]
+}
+
+export const Form = component$((props:propsForm) => {
+    useStylesScoped$(styles)
+    useStylesScoped$(stylesInputBasic)
+
+    const forms : {row:[{[key:string]:any,options:any[]}]}[] = []
+
+    const form = useSignal(forms)
+
+    function changeProps() {
+        form.value = props.form
+    }
+    changeProps()
+    useTask$(() => {
+        form.value = props.form
+    })
+
+    useVisibleTask$(() => {
+        form.value = props.form        
+    })
+
+
+
+    return(
+        <form id={props.id} class='needs-validation' noValidate autocomplete='off'>
             <div class='container p-0'>
                 {
                     form.value.map((rowInput,rIndex) => {
@@ -106,43 +372,24 @@ export const Form = component$((props:propsForm) => {
                                 {
                                     rowInput.row.map((columnInput,iIndex) => {
                                         const dataAttributes = columnInput.dataAttributes ? { ...columnInput.dataAttributes } : {};
-
                                         if(columnInput.type === 'textarea')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <label 
-                                                        class='form-label text-regular text-dark-blue' 
+                                                        class='form-label text-regular text-' 
                                                         for={props.id+'-input-'+rIndex+'-'+iIndex}>
                                                         {columnInput.label} 
                                                     </label>
-                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} {...dataAttributes}/>
-                                                </div>
-                                            )
-                                        }
-                                        else if(columnInput.type === 'select')
-                                        {
-                                            return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <InputSelect
-                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
-                                                        name={columnInput.name}
-                                                        label={columnInput.label}
-                                                        options={columnInput.options}
-                                                        readOnly={columnInput.readOnly}
-                                                        required={columnInput.required}
-                                                        value={columnInput.value}
-                                                        onChange={columnInput.onChange}
-                                                        dataAttributes={columnInput.dataAttributes}
-                                                    />
+                                                    <textarea class='form-control' id={props.id+'-input-'+rIndex+'-'+iIndex} name={columnInput.name} style={{minHeight:'200px'}} required={columnInput.required} />
                                                 </div>
                                             )
                                         }
                                         else if(columnInput.type === 'select-native')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label class='form-label text-regular text-dark-blue'>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <label class='form-label text-regular text-'>
                                                         {columnInput.label} 
                                                     </label>
                                                     <select class='form-select' id={columnInput.id} name={columnInput.name} required={columnInput.required} onChange$={(e) => {columnInput.onChange(e)}} {...dataAttributes}>
@@ -161,13 +408,21 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'paxs')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                     <InputPaxs
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        required={columnInput.required}
-                                                        value={columnInput.value}
-                                                        {...dataAttributes}
+                                                         {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'select')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <InputSelect
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
                                                     />
                                                 </div>
                                             )
@@ -175,15 +430,10 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'select-multiple')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                      <InputSelectMultiple
-                                                        label={columnInput.label}
                                                         id={props.id+'-select-'+rIndex+'-'+iIndex}
-                                                        name={columnInput.name}
-                                                        required={columnInput.required}
-                                                        options={columnInput.options}
-                                                        value={columnInput.value}
-                                                        {...dataAttributes}
+                                                        {...columnInput}
                                                     />
                                                 </div>
                                             )
@@ -191,37 +441,10 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'date')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label}
-                                                    </label>
-                                                    <input class='form-control' 
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputDate
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'date'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onKeyPress$={(e:any) => {
-                                                            if(e.keyCode == 13)
-                                                            {
-                                                                columnInput.onChange && columnInput.onChange(e)
-                                                            }
-                                                        }}
-                                                        onChange$={(e:any) => {
-                                                            if(new Date(e.target.value).getFullYear() > 1000)
-                                                            {
-                                                                columnInput.onChange && columnInput.onChange(e)
-                                                            }
-                                                        }}
-                                                        onBlur$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        {...dataAttributes}
-                                                        // onClick$={() => {(document.querySelector('input[id='+props.id+'-input-'+rIndex+'-'+iIndex+']') as HTMLInputElement).showPicker()}}
+                                                        {...columnInput}
                                                     />
                                                 </div>
                                             )
@@ -229,121 +452,44 @@ export const Form = component$((props:propsForm) => {
                                         else if(columnInput.type === 'phone')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label} 
-                                                    </label>
-                                                    <input class='form-control' 
-                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'tel'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onChange$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        placeholder={columnInput.placeholder}
-                                                        data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
-                                                    />
-                                                    <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
-                                                        Por favor ingrese un telefono valido.
-                                                    </div>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                        <InputPhone
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />                                        
                                                 </div>
                                             )
                                         }
                                         else if(columnInput.type === 'email')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label} 
-                                                    </label>
-                                                    <input class='form-control' 
-                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'email'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onChange$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        placeholder={columnInput.placeholder}
-                                                        data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
-                                                    />
-                                                    <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
-                                                        Por favor ingrese un correo valido.
-                                                    </div>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputMail
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />                                                  
                                                 </div>
                                             )
                                         }
                                         else if(columnInput.type === 'number')
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label} 
-                                                    </label>
-                                                    <input class='form-control' 
-                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={'number'} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onChange$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        placeholder={columnInput.placeholder}
-                                                        data-textonly={columnInput.textOnly}
-                                                        onBlur$={e=>valiadateBlur$(e.target)}
-                                                        {...dataAttributes}
-                                                    />
-                                                    <div id={props.id+'-input-'+rIndex+'-'+iIndex+'-feedback'} class="invalid-feedback">
-                                                        Por favor ingrese solamente numeros.
-                                                    </div>
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputNumber
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    /> 
                                                 </div>
                                             )
                                         }
                                         else
                                         {
                                             return(
-                                                <div key={rowInput+'-'+iIndex} class={columnInput.size}>
-                                                    <label 
-                                                        class='form-label text-regular text-dark-blue' 
-                                                        for={props.id+'-input-'+rIndex+'-'+iIndex}
-                                                    >
-                                                        {columnInput.label}
-                                                    </label>
-                                                    <input class='form-control' 
-                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
-                                                        name={columnInput.name} 
-                                                        type={columnInput.type} 
-                                                        required={columnInput.required} 
-                                                        min={columnInput.min} 
-                                                        max={columnInput.max} 
-                                                        maxLength={columnInput.maxLength} 
-                                                        onChange$={(e) => {columnInput.onChange && columnInput.onChange(e)}}
-                                                        value={columnInput.value}
-                                                        placeholder={columnInput.placeholder}
-                                                        data-textonly={columnInput.textOnly}
-                                                        onKeyUp$={e=>valiadateKeyUp$(e.target)}
-                                                        {...dataAttributes}
-                                                    />
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <Input
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />                                                   
                                                 </div>
                                             )
                                         }

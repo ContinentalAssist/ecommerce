@@ -13,15 +13,21 @@ export const Header = component$(() => {
     const showBtn = useSignal(false)
     const showLink = useSignal(false)
 
-    useTask$(() => {
+    useTask$(() => {                
         if(location.url.pathname != '/' && !location.url.pathname.includes('quotes-engine'))
         {
             showLink.value = true
         }
+        else
+        {
+            showBtn.value = false
+            showLink.value = false
+        }
     })
 
     useOnWindow('scroll',$(() => {
-        if(location.url.pathname == '/')
+        
+        if(location.url.pathname == '/'&& !location.url.pathname.includes('quotes-engine'))
         {
             const navbar = document.querySelector('.navbar') as HTMLElement
             const page = document.querySelector('body') as HTMLElement
@@ -43,6 +49,9 @@ export const Header = component$(() => {
             {
                 showBtn.value = false
             }
+        }else{
+            showBtn.value = false
+            showLink.value = false
         }
     }))
 
@@ -95,15 +104,16 @@ export const Header = component$(() => {
     return (
         <header>
             <nav class={location.url.pathname === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
-                <div class="container pt-2 pb-2">
+                <div class={"container pt-2 pb-2"}>
                     <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
                         <i class="fas fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="/" title="Inicio" >
-                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo'/>
+                    <a class={location.url.pathname != '/quotes-engine/step-1'&&location.url.pathname != '/quotes-engine/step-2/'? "navbar-brand navbar-brand-center" : "navbar-brand navbar-brand-start"} href="/" title="Inicio" 
+                    >
+                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'60px'}} />
                     </a>
-                    <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel">
-                        <div class="offcanvas-header">
+                    <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel" style={{zIndex:3000}}>
+                        <div class="offcanvas-header d-flex justify-content-end">
                             <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
                             <button title='Menu' aria-label="Menu" type='button' class="navbar-toggler" data-bs-dismiss="offcanvas">
                                 <i class='fas fa-times'/>
@@ -114,12 +124,15 @@ export const Header = component$(() => {
                                 <li class="nav-item">
                                     <a title='Nosotros' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/about-us" >¿Quiénes somos?</a>
                                 </li>
-                                <li class="nav-item">
+                               {/*  <li class="nav-item">
                                     <a title='Contactanos' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/contact-us" >Contáctanos</a>
-                                </li>
+                                </li> */}
                                 <li class="nav-item">
-                                    <a title='Buscar Voucher' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/search-voucher" >Busca tu voucher</a>
+                                    <a title='chatpdf' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/chat-conditions" >Chatea con nuestras Condiciones</a>
                                 </li>
+                             {/*    <li class="nav-item">
+                                    <a title='Buscar Voucher' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/search-voucher" >Busca tu voucher</a>
+                                </li> */}
                                 <li class="nav-item">
                                     <a title='Agentes' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://www.continentalassist.co/backmin/signin.php" target="_black" >Acceso agentes</a>
                                 </li>

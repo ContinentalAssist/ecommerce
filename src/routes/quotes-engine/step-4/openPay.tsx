@@ -1,21 +1,16 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import type { PropFunction } from '@builder.io/qwik'
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { EncryptAES } from "~/utils/EncryptAES";
 import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
-import CurrencyFormatter from "~/utils/CurrencyFormater";
-
-import ImgContinentalAssistCard from '~/media/icons/continental-assist-card.webp?jsx'
-import ImgContinentalAssistSuccess from '~/media/icons/continental-assist-success.webp?jsx'
-import ImgContinentalAssistError from '~/media/icons/continental-assist-error.webp?jsx'
-
 import styles from './index.css?inline'
+import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 
 export interface propsOP {
-    loading : PropFunction<() => void>
+    setLoading: (loading: boolean, message: string) => void;
+   
 }
 
 export default component$((props:propsOP) => {
@@ -35,15 +30,23 @@ export default component$((props:propsOP) => {
     const tdcname = useSignal('xxxxxxxxxxxxxxxxxxxxx')
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
-    const loading = useSignal(true)
-    const urlvoucher = useSignal(array)
-    const attempts = useSignal(0)
+    const attempts = useSignal(stateContext.value.attempts|| 0)
     const formPayment = useSignal('')
     const redirect = useSignal(obj)
     const store = useSignal(obj)
     const bank = useSignal(obj)
+    const isLoading = useSignal(false);
+    const dataError = useSignal('')
+
+
+    function updateLoading(){
+        props.setLoading(isLoading.value,'')
+        
+    }
+    updateLoading()
 
     useTask$(() => {
+        isLoading.value = true
         if(Object.keys(stateContext.value).length > 0)
         {
             if(stateContext.value.openPayTipo == 'CARD')
@@ -76,8 +79,8 @@ export default component$((props:propsOP) => {
         
                 const checkOpenPayLoaded = () => {
                     if (window.OpenPay) {
-                        window.OpenPay.setId(import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY);
-                        window.OpenPay.setApiKey(import.meta.env.PUBLIC_WEB_API_KEY_OPEN_PAY);
+                        window.OpenPay.setId(import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY);
+                        window.OpenPay.setApiKey(import.meta.env.VITE_MY_PUBLIC_WEB_API_KEY_OPEN_PAY);
                         window.OpenPay.setSandboxMode(true);
                         const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
                         opSessionId.value = deviceSessionId
@@ -91,8 +94,9 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'CARD'
+                isLoading.value = false
 
-                props.loading()
+                //props.setLoading(false)
             }
         }
     })
@@ -149,24 +153,24 @@ export default component$((props:propsOP) => {
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
             }
 
             if(stateContext.value.openPayTipo == 'CARD_REDIRECT')
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
-                }
+                    openPayRedirectUrl:import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
+                }                
 
                 Object.assign(dataRequest,openPayRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
-                if(dataPay.resultado[0].openPayTransaccion)
+                if(dataPay?.resultado[0].openPayTransaccion)
                 {
                     redirect.value = {
                         url:dataPay.resultado[0].openPayTransaccion.payment_method.url
@@ -181,19 +185,18 @@ export default component$((props:propsOP) => {
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
+                    openPayRedirectUrl: import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
-                console.log(dataRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
-                if(dataPay.resultado[0].openPayTransaccion)
+                if(dataPay?.resultado[0]?.openPayTransaccion)
                 {
                     store.value = {
                         barcode:dataPay.resultado[0].openPayTransaccion.payment_method.barcode_url,
@@ -203,27 +206,25 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'STORE'
+                isLoading.value = false
 
-                props.loading()
-                // navigate(redirect.value.url)
             }
             else if(stateContext.value.openPayTipo == 'BANK_ACCOUNT')
             {
                 const openPayRequest = {
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:'http://localhost:5173/quotes-engine/step-6'
+                    openPayRedirectUrl: import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
 
                 Object.assign(dataRequest,openPayRequest)
 
-                console.log(dataRequest)
 
-                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+                const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
-
-                if(dataPay.resultado[0].openPayTransaccion)
+ 
+                if(dataPay?.resultado[0]?.openPayTransaccion)
                 {
                     bank.value = {
                         bank:dataPay.resultado[0].openPayTransaccion.payment_method.bank,
@@ -237,9 +238,7 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'BANK_ACCOUNT'
-
-                props.loading()
-                // navigate(bank.value.url)
+                isLoading.value = false
             }
         }
         else
@@ -309,10 +308,12 @@ export default component$((props:propsOP) => {
         const promesaOpenPay = new Promise((resolve, reject) => {
             const success_callback = (response: any) => {
                 opToken.value = response.data.id;
+
                 resolve(response); // Resuelve la promesa con la respuesta en caso de éxito
             };
         
             const error_callback = (error: any) => {
+                dataError.value = error?.data?.description                
                 reject(error); // Rechaza la promesa con el error en caso de fallo
             };
         
@@ -330,20 +331,19 @@ export default component$((props:propsOP) => {
     });
 
     const getPayment$ = $(async() => {
-        const bs = (window as any)['bootstrap']
-        const modalSuccess = new bs.Modal('#modalConfirmation',{})
-        const modalError = new bs.Modal('#modalError',{})
-        // const modalErrorPax = new bs.Modal('#modalErrorPax',{})
-        const modalErrorAttemps = new bs.Modal('#modalErrorAttemps',{})
+        dataError.value !=''
+        //const bs = (window as any)['bootstrap']
+
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
+        isLoading.value = true
 
-    
         let error = false
         let errorInvoicing = false
+        await getOpenPayToken$()
         
         if(!form.checkValidity())
         {
@@ -404,9 +404,9 @@ export default component$((props:propsOP) => {
             }
         }
 
-        if(error == false)
+        if(error == false &&opToken.value.length>0 &&dataError.value =='')
         {
-            loading.value = true
+          
 
             const newPaxs : any[] = []
 
@@ -424,7 +424,6 @@ export default component$((props:propsOP) => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
             
-            await getOpenPayToken$()
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -459,7 +458,7 @@ export default component$((props:propsOP) => {
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.PUBLIC_MODE_SANDBOX,
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                     openPayDeviceSessionId : opSessionId.value,
                     openPaySourceId : opToken.value,
                     openPayTipo:stateContext.value.openPayTipo
@@ -471,19 +470,18 @@ export default component$((props:propsOP) => {
                 dataRequest.facturacion = dataFormInvoicing
             }
 
-            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.PUBLIC_WEB_USER)
+            const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            console.log(dataPay);
             resPayment = dataPay
 
             if(resPayment.error == false)
             {
-                urlvoucher.value = resPayment.resultado
-                loading.value = false;
+                //urlvoucher.value = resPayment.resultado;
+                isLoading.value = false;
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -506,24 +504,32 @@ export default component$((props:propsOP) => {
                     },stateContext.value.dataLayerPaxBenefits)
                 );
 
-                modalSuccess.show()
+               // modalSuccess.show()
+                stateContext.value.paymentstutus =resPayment.resultado[0]?.openPayTransaccion?.status||'';
+                stateContext.value.codevoucher =resPayment.resultado[0]?.openPayTransaccion?.order_id||'';
+                stateContext.value.typeMessage = 1
+                await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
-                    loading.value = false;
-
-                    modalError.show()
+                    //props.setLoading(true);
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
+                  //  modalError.show()
                 }
                 else
                 {
-                    loading.value = false;
+                    //loading.value  =true;
+                    stateContext.value.typeMessage = 3
+                    await navigate('/quotes-engine/message')
 
-                    modalErrorAttemps.show()
+                 ///   modalErrorAttemps.show()
                 }
 
                 attempts.value = (attempts.value + 1)
+                stateContext.value.attempts =attempts.value
             }
         }
     })
@@ -551,45 +557,31 @@ export default component$((props:propsOP) => {
         }
     })
 
-    const closeQuote$ = $(() => {
-        const bs = (window as any)['bootstrap']
-        const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-        modalErrorAttemps.hide()
 
-        stateContext.value = {}
-    })
    
     return(
         <>
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
-                        <div class='card card-body shadow-lg'>
-                            <div class='container'>
-                                {
-                                    formPayment.value == 'CARD'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <div class='img-card'>
-                                                <div class='card-name'>{tdcname.value}</div>
-                                                <div class='card-number'>{tdcnumber.value}</div>
-                                                <div class='card-expiration'>{tdcexpiration.value}</div>
-                                                <ImgContinentalAssistCard class='img-fluid' title='continental-assist-icon-card' alt='continental-assist-icon-card'/>
-                                            </div>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
+                        <CardPaymentResume>
+                        {
+                             formPayment.value == 'CARD'
+                             &&
+                             <div class='row'>
+                                       <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+
                                             <Form
                                                 id='form-payment-method'
                                                 form={[
                                                     {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                        {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                        {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                        {size:'col-xl-4 col-xs-4 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                     ]}
                                                 ]}
                                             />
@@ -605,35 +597,41 @@ export default component$((props:propsOP) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='d-none' id='invoice'>
-                                                <Form
+                                            <div class='d-none' id='invoice'>                                                
+                                                 <Form
                                                     id='form-invoicing'
                                                     form={[
                                                         {row:[
-                                                            {size:'col-xl-12',type:'text',label:'Razon Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
+                                                            {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
                                                         ]},
                                                         {row:[
-                                                            {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',name:'tipoid',required:true,options:[
+                                                            {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
                                                                 {value:'RFC',label:'RFC'},
                                                                 {value:'CC',label:'CC'},
                                                                 {value:'PASAPORTE',label:'Pasaporte'},
                                                                 {value:'NIT',label:'NIT'}
                                                             ]},
-                                                            {size:'col-xl-8 col-xs-8',type:'text',label:'ID',name:'id',required:true},
+                                                            {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
                                                         ]},
                                                         {row:[
-                                                            {size:'col-xl-12',type:'email',label:'Correo',name:'correo',required:true},
+                                                            {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
                                                         ]},
                                                         {row:[
-                                                            {size:'col-xl-6 col-xs-6',type:'tel',label:'Telefono',name:'telefono',required:true},
+                                                            {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
                                                             
-                                                            {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',name:'codigopostal',required:true}
+                                                            {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
                                                         ]}
                                                     ]}
                                                 />
                                             </div>
                                             <div class='container'>
                                                 <div class='row justify-content-center'>
+                                                    <div class='col-lg-6'>
+                                                        <div class='d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                            
+                                                        </div>
+                                                    </div>
                                                     <div class='col-lg-6'>
                                                         <div class='d-grid gap-2 mt-4'>
                                                             <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
@@ -646,186 +644,95 @@ export default component$((props:propsOP) => {
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    formPayment.value == 'STORE'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            {/* <h2 class='h1 text-regular text-blue mb-0'>Referencia</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{qr.value.voucher}</h3> */}
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('MXN',store.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <div class='img-card text-center'>
-                                                <img src={store.value.barcode} class='img-fluid' width={0} height={0} alt='continental-assist-barcode-paynet'/>
-                                                <small>{store.value.intention}</small>
-                                                <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} alt='continental-assist-stores-paynet'/>
-                                                <a href={import.meta.env.PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    formPayment.value == 'BANK_ACCOUNT'
-                                    &&
-                                    <div class='row justify-content-center'>
-                                        <div class='col-lg-4 mb-3'>
-                                            <h2 class='h1 text-regular text-blue mb-0'>Total</h2>
-                                            <h3 class='h1 text-semi-bold text-blue mb-4'>{CurrencyFormatter('MXN',bank.value.total)}</h3>
-                                        </div>
-                                        <div class='col-lg-4 offset-lg-1'>
-                                            <table class="table table-bordered">
-                                                <tr>
-                                                    <th class='text-center' colSpan={2}>Datos para el pago: {bank.value.bank}</th>
-                                                </tr>
-                                                <tr>
-                                                    <td>Número de convenio</td>
-                                                    <td>{bank.value.agreement}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Referencia de pago</td>
-                                                    <td>{bank.value.intention}</td>
-                                                </tr>
-                                            </table>
-                                            <div class='img-card text-center'>
-                                                <a href={import.meta.env.PUBLIC_WEB_API_SPEI_PDF+import.meta.env.PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalConfirmation' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content border border-success">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistSuccess class='img-fluid' title='continental-assist-icon-success' alt='continental-assist-icon-success'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Compra exitosa!</h2>
-                            {
-                                urlvoucher.value.length > 4
-                                ?
-                                <>
-                                    <p class='px-2 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                                :
-                                <>
-                                    <p class='px-5 py-1 mb-0'>Ahora tu viaje cuenta con el respaldo ideal para olvidarse de imprevistos. Conecta con la magia del mundo, del resto nos encargamos nosotros.</p>
-                                    <p><b>Descargar Vouchers:</b></p>
-                                </>
-                            }
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    {
-                                        urlvoucher.value.map((voucher:any,index:number) => {
-                                            return(
-                                                <div key={index} class='col-lg-6'>
-                                                    <div class='d-grid gap-2'>
-                                                        <a title='Voucher' class='btn btn-primary btn-sm mt-2' href={voucher.link_voucher} target='_blank'>{voucher.nombrebeneficiario}</a>
-                                                    </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                             </div>                             
+                        }
+                        {
+                             formPayment.value == 'STORE'
+                             &&
+                             <>
+                               <h6 class="text-semi-bold text-dark-blue">Pago en comercio</h6>
+                               <hr/>
+                             <div class="row">
+                                <div class='img-card text-center'>
+                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'30%'}} alt='continental-assist-barcode-paynet'/>
+                                    <br/>
+                                    <small>{store.value.intention}</small>
+                                    <br/>
+                                    <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} style={{width:'80%'}} alt='continental-assist-stores-paynet'/>
+                                    <br/>
+                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
                                 </div>
-                            </div>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-4'>
-                                        <div class='d-grid gap-2'>
-                                            {
-                                                urlvoucher.value.length > 2
-                                                ?
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-3'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                                :
-                                                <a title='Inicio' class={'btn btn-blue btn-lg mt-5'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                            }
-                                        </div>
+
+                              
+                             </div>
+                             <hr class="mt-4"/>
+                             <div class="row">
+                                <div class='col-lg-6'>
+                                    <div class='d-grid gap-2 mt-4'>
+                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                        
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalError' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Pago rechazado!</h2>
-                            <p class='px-5 py-3'>Revisa los datos de tu medio de pago e intenta de nuevo.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
+                             </>
+                             
+                            
+                        }
+
+                        {
+                             formPayment.value == 'BANK_ACCOUNT'
+                             &&
+                             <>
+                             <h6 class="text-semi-bold text-dark-blue">Pago en banco</h6>
+                             <hr/>
+                             <div class="row text-dark-blue">
+                            
+                                 <h4 class="text-semi-bold ">Datos para el pago:</h4>
+                                 <div class="main-payment-container">
+                                     <span class="text-medium ">Número de convenio</span>
+                                     <span class="dotted-line"></span>
+                                     <span class="text-medium">{bank.value.agreement}</span>
+                                 </div>
+                                 <div class="main-payment-container">
+                                     <span class="text-medium">Referencia de pago</span>
+                                     <span class="dotted-line"></span>
+                                     <span class="text-medium">{bank.value.intention}</span>
+                                 </div>   
+
+                                 <div class='img-card text-center'>
+                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_SPEI_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
+                                </div>
+                                <br/>
+                                <br/>
+
+                                
+                             </div>
+                           
+
+                             <hr class="mt-4"/>
+                             <div class="row">
+                                <div class='col-lg-6'>
+                                        <div class='d-grid gap-2 mt-4'>
+                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                            
                                         </div>
                                     </div>
-                                </div>
                             </div>
-                        </div>
+                             </>
+                                                        
+                        }
+                        </CardPaymentResume>
                     </div>
+
+                    {
+                    dataError.value !=''&&<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ocurrio un error!</strong> Revisa porfavor la información ingresada.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick$={()=>{dataError.value =''}}></button>
+                    </div>
+                    } 
                 </div>
             </div>
-            <div id='modalErrorPax' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Voucher activo!</h2>
-                            <p class='px-5 py-3'>Uno de los beneficiarios ya cuenta con un voucher activo para las fechas seleccionadas.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary btn-lg' data-bs-dismiss="modal">Volver</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id='modalErrorAttemps' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-md modal-dialog-centered">
-                    <div class="modal-content border border-danger">
-                        <div class='modal-header text-center' style={{display:'block'}}>
-                            <ImgContinentalAssistError class='img-fluid' title='continental-assist-icon-error' alt='continental-assist-icon-error'/>
-                        </div>
-                        <div class="modal-body text-center">
-                            <h2 class='h1'>¡Has realizado tres intentos!</h2>
-                            <p class='px-5 py-3'>Lo sentimos has superado el número de permitidos.</p>
-                            <p></p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-6'>
-                                        <div class='d-grid gap-2'>
-                                            <a title='Inicio' class={'btn btn-blue btn-lg'} onClick$={closeQuote$} href="/">Volver al inicio</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
         </>
     )
 })
