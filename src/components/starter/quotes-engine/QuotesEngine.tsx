@@ -16,7 +16,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     const stateContext = useContext(WEBContext)
     const origins = useSignal(array)
     const destinations = useSignal(array)
-    const dateStart = useSignal('')
+    //const dateStart = useSignal('')
     const dateEnd = useSignal('')
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)

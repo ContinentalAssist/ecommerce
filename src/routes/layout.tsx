@@ -1,4 +1,4 @@
-import { component$, Slot, useSignal, useStyles$, useVisibleTask$ } from '@builder.io/qwik';
+import { component$, Slot,  useStyles$ } from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { RequestHandler } from '@builder.io/qwik-city';
 
@@ -27,7 +27,7 @@ export const useServerTimeLoader = routeLoader$(() => {
 
 export default component$(() => {
     useStyles$(styles);
-    const showChat = useSignal(false);
+    //const showChat = useSignal(false);
 
 /*     useVisibleTask$(()=>{
        

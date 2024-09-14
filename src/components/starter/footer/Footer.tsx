@@ -1,17 +1,17 @@
-import {$, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$,useContext } from "@builder.io/qwik";
-import { useLocation } from '@builder.io/qwik-city';
+import {component$, useSignal, useStylesScoped$,  useVisibleTask$ } from "@builder.io/qwik";
+//import { useLocation } from '@builder.io/qwik-city';
 
-import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
+//import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
 import ImgContinentalAssistLogo from '~/media/ca/continental-assist-logo.webp?jsx';
 
 import styles from './footer.css?inline'
 
 export const Footer = component$(() => {
     useStylesScoped$(styles)
-    const location = useLocation()
+ //   const location = useLocation()
 
-    const showQuestion = useSignal(true)
-    const showChat = useSignal(false)
+ //   const showQuestion = useSignal(true)
+   // const showChat = useSignal(false)
     const urlsWhats : any[] = [
         {country:'CO',url:'https://wa.me/573176216304'},
         {country:'MX',url:'https://wa.me/525545669880'},
