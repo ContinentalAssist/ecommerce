@@ -42,37 +42,37 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
 
         if(word.value.position == 'bottom')
         {
-            if(prevPosition == 'top')
+            if(prevPosition == 'top' &&'classList' in panels)
             {
-                panels?.classList?.add('panel-fade-in-bottom')
+                panels.classList.add('panel-fade-in-bottom')
 
                 setTimeout(() => {
-                    panels?.classList?.remove('panel-fade-in-bottom')
+                    panels.classList.remove('panel-fade-in-bottom')
                 },600)
             }
 
-            description?.classList?.add('fade-in-top')
+            description.classList?.add('fade-in-top')
 
             setTimeout(() => {
-                description?.classList?.remove('fade-in-top')
+                description.classList.remove('fade-in-top')
             },600)
 
             
         }
         else
         {
-            description?.classList?.add('fade-in-bottom')
+            description.classList.add('fade-in-bottom')
 
             setTimeout(() => {
-                description?.classList?.remove('fade-in-bottom')
+                description.classList.remove('fade-in-bottom')
             },600)
             
-            if(prevPosition == 'bottom')
+            if(prevPosition == 'bottom' && 'classList' in panels)
             {
-                panels?.classList?.add('panel-fade-in-top')
+                panels.classList.add('panel-fade-in-top')
 
                 setTimeout(() => {
-                    panels?.classList?.remove('panel-fade-in-top')
+                    panels.classList.remove('panel-fade-in-top')
                 },600)
             }
         }

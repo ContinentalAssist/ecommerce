@@ -152,6 +152,7 @@ export default component$((props:propsWompi) => {
  
     })
 
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async () => {
         if(Object.keys(stateContext.value).length > 0)
         {

@@ -251,7 +251,7 @@ export default component$(() => {
                                                     <tbody>
                                                         <tr>
                                                             <td class='text-dark-gray' colSpan={3}>
-                                                                <span class='text-semi-bold text-blue'>{voucher.value?.contactos[0].nombrecontacto} </span>
+                                                                <span class='text-semi-bold text-blue'>{voucher.value.contactos[0].nombrecontacto} </span>
                                                                 {voucher.value.contactos[0].apellidobcontacto}
                                                             </td>
                                                         </tr>

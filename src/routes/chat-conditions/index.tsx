@@ -53,19 +53,22 @@ export default component$(() => {
     const dataChat = await resChat.json() ?? {};
 
     const tempChat = [...dataChatBox.value];    
-    if ('question' in dataChat?.data) {
+    if ('data' in dataChat) {
+      if ('question' in dataChat.data) {
 
-      if (dataChatBox.value.length < 3) {
-        tempChat.push(dataChat.data);
-      } else {
-        tempChat.shift();
-        tempChat.push(dataChat.data);
+        if (dataChatBox.value.length < 3) {
+          tempChat.push(dataChat.data);
+        } else {
+          tempChat.shift();
+          tempChat.push(dataChat.data);
+        }
+        if (dataChat.data != undefined) {
+          dataChatBox.value = tempChat;
+        }
+        
       }
-      if (dataChat.data != undefined) {
-        dataChatBox.value = tempChat;
-      }
-      
     }
+    
     lastMessage.value = "";
     disableElement.value = false;
 
