@@ -2,7 +2,7 @@
   "name": "continental-assist-web",
   "description": "Pagina Web",
   "engines": {
-     "node": "20.x"
+     "node": "21.x"
   },
   "engines-annotation": "Mostly required by sharp which needs a Node-API v9 compatible runtime",
   "private": true,
