@@ -24,7 +24,7 @@
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",
     "preview": "qwik build preview && vite preview --open",
-    "serve": "PORT=3000 node server/entry.express --host 0.0.0.0",
+    "serve": "node server/entry.express",
     "start": "vite --open --mode ssr",
     "qwik": "qwik"
   },
@@ -61,7 +61,6 @@
     "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.12",
-    "express": "4.19.2",
-    "sharp": "^0.33.5"
+    "express": "4.19.2"
   }
 }
