@@ -52,7 +52,7 @@ export default component$(() => {
     const destinations = useSignal(array)
     const planSelected = useSignal(objectPlanSelected)
     const plans = useSignal(arrayPlans)
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         let res : {[key:string]:any[]} = {}
         const resOrigins : any[] = []
@@ -496,11 +496,11 @@ export default component$(() => {
 
                     const card = document.querySelector('#card-'+(index+1)) as HTMLElement
 
-                    if(card != null)
-                    {
+                    //if(card != null)
+                    //{
                         card.classList.add('border')
                         card.classList.add('border-danger')
-                    }
+                    //}
                     
                     error[index] = true
                     toastError.show()

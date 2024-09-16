@@ -140,7 +140,7 @@ export default component$(() => {
             desktop.value = true
         }
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(Object.keys(stateContext.value).length > 0)
         {

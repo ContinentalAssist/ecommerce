@@ -26,8 +26,8 @@ export const CardPaymentResume = component$(() => {
   });
 
   function calculateSubTotal() {
-    let paxSub= Array();
-    resume.value.asegurados.map((pax: any, index: number) => 
+    const paxSub :any[] = [];
+    resume.value.asegurados.map((pax: any) => 
       {
 
         const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento

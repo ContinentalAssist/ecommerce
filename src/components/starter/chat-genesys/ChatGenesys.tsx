@@ -1,5 +1,5 @@
-import { $,component$, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
-import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
+import { component$, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
+//import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
 
 import styles from './chat-genesys.css?inline'
 
@@ -20,7 +20,6 @@ export const ChatGenesys = component$(() => {
                 WGenesys("command", "Launcher.show",
                     {},
                         function() {
-                            console.log("hola");
                             showChat.value =true;
                             /*fulfilled callback*/
                         },
@@ -36,14 +35,14 @@ export const ChatGenesys = component$(() => {
                     },  // if resolved
                   ) */
                 //Valida cuando se borra la conversacion
-                WGenesys("subscribe", "MessagingService.conversationCleared", function(data:any){
+                WGenesys("subscribe", "MessagingService.conversationCleared", function(){
 
                     showChat.value =false;
                     showButtonQuestion.value = true;
                 });
                
                
-                WGenesys('command', 'Messenger.minimize', {}, function(o:any) {
+                WGenesys('command', 'Messenger.minimize', {}, function() {
                     console.log('Chat minimizado');
                     // Aquí puedes agregar tu lógica personalizada
                   });
@@ -57,7 +56,7 @@ export const ChatGenesys = component$(() => {
        
     
     })
-
+/* 
     const openMessenger$ = $(() => {
         const WGenesys = (window as any)['Genesys']
         console.log('Opening messenger...');
@@ -67,9 +66,9 @@ export const ChatGenesys = component$(() => {
                 showButtonQuestion.value = false;
             },);
 
-    });
+    }); */
 
-    const closeMessenger$ = $(() => {
+/*     const closeMessenger$ = $(() => {
         console.log('Closing messenger...');
 
         const WGenesys = (window as any)['Genesys']
@@ -77,7 +76,7 @@ export const ChatGenesys = component$(() => {
 
         console.log('Closing messenger...');
         WGenesys('command', 'Messenger.close');
-    });
+    }); */
 
    /*  const toggleMessenger$ = $(async()=>{
 

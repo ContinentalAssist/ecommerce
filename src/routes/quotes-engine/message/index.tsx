@@ -306,7 +306,7 @@ export default component$(() => {
                                 <div class="row justify-content-center m-4" >
                                 <div class='col-lg-6' >                                            
                                     <div class='d-grid gap-2'>
-                                        <button type='button' class='btn btn-primary btn-lg' onClick$={(e)=>redirectHome$()}>Volver al inicio</button>
+                                        <button type='button' class='btn btn-primary btn-lg' onClick$={()=>redirectHome$()}>Volver al inicio</button>
                                     </div>
                                 </div>
                                 </div>
@@ -328,7 +328,7 @@ export default component$(() => {
                                             Intenta nuevamente o cambia el método de pago.
                                             </h5> 
                                             <div class='d-grid gap-2'>
-                                                <button type='button' class='btn btn-primary btn-lg' onClick$={(e)=>navigate('/quotes-engine/step-3')}>Intentar de nuevo</button>
+                                                <button type='button' class='btn btn-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-3')}>Intentar de nuevo</button>
                                             </div>
                                         </div>
                                     </div>                               
@@ -348,7 +348,7 @@ export default component$(() => {
                                             <h5 class='text-dark-blue mb-4 text-center'>Lo sentimos has superado el número de intentos permitidos.
                                             </h5> 
                                             <div class='d-grid gap-2'>
-                                                <button type='button' class='btn btn-primary btn-lg' onClick$={(e)=> redirectHome$()}>Volver al inicio</button>
+                                                <button type='button' class='btn btn-primary btn-lg' onClick$={()=> redirectHome$()}>Volver al inicio</button>
                                             </div>
                                         </div>
                                     </div>                               
@@ -368,7 +368,7 @@ export default component$(() => {
                                         <div class='col-lg-6'>
                                             <h5 class='text-dark-blue mb-4 text-center'>Lo sentimos, tu pago ha sido rechazado.</h5> 
                                             <div class='d-grid gap-2'>
-                                                <button type='button' class='btn btn-primary btn-lg' onClick$={(e)=> redirectHome$()}>Volver al inicio</button>
+                                                <button type='button' class='btn btn-primary btn-lg' onClick$={()=> redirectHome$()}>Volver al inicio</button>
                                             </div>
                                         </div>
                                     </div>                               

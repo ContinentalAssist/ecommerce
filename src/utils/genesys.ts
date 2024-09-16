@@ -10,9 +10,10 @@ declare global {
 
 export function initializeGenesys(deploymentId: string): void {
   
-    window['Genesys'] = window['Genesys'] || function () {
-      (window['Genesys'].q = window['Genesys'].q || []).push(arguments);
+    window['Genesys'] = window['Genesys'] || function (...args: any[]) {
+      (window['Genesys'].q = window['Genesys'].q || []).push(...args);
     };
+
   
     window['Genesys'].t = 1 * new Date().getTime();
     window['Genesys'].c = {

@@ -69,7 +69,7 @@ export default component$((props:propsAuthorize) => {
             isLoading.value=false
         }
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(Object.keys(stateContext?.value).length > 0)
         {

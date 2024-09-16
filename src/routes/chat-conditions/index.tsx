@@ -50,22 +50,25 @@ export default component$(() => {
     disableElement.value = true;
 
     const resChat = await fetch("/api/getAskyourpdf", { method: "POST", body: JSON.stringify(data) });
-    const dataChat = await resChat.json();
+    const dataChat = await resChat.json() ?? {};
 
     const tempChat = [...dataChatBox.value];    
-    if ('question' in dataChat?.data) {
+    if ('data' in dataChat) {
+      if ('question' in dataChat.data) {
 
-      if (dataChatBox.value.length < 3) {
-        tempChat.push(dataChat.data);
-      } else {
-        tempChat.shift();
-        tempChat.push(dataChat.data);
+        if (dataChatBox.value.length < 3) {
+          tempChat.push(dataChat.data);
+        } else {
+          tempChat.shift();
+          tempChat.push(dataChat.data);
+        }
+        if (dataChat.data != undefined) {
+          dataChatBox.value = tempChat;
+        }
+        
       }
-      if (dataChat.data != undefined) {
-        dataChatBox.value = tempChat;
-      }
-      
     }
+    
     lastMessage.value = "";
     disableElement.value = false;
 
@@ -76,7 +79,7 @@ export default component$(() => {
     navigator.clipboard
       .writeText(texto)
       .then(function () {})
-      .catch(function (err) {});
+      .catch(function () {});
   });
 
   const changeText$ = $(async (value: any) => {
@@ -116,7 +119,7 @@ export default component$(() => {
                 <div class="card-body " >
                   <div class="row bg-chat" style={{ height: "390px", overflowY: "auto" }}>
                     {dataChatBox.value.length > 0 &&
-                      dataChatBox.value.map((data, key) => {
+                      dataChatBox.value.map((data) => {
                         return (
                           <>
                             <div class="d-flex flex-row justify-content-end mb-4">
@@ -153,7 +156,7 @@ export default component$(() => {
                                 <p class="small text-dark-blue mb-0"> {data?.answer?.message}</p>
                                 <div
                                   class="mt-auto p-2"
-                                  onClick$={(e: any) => {
+                                  onClick$={() => {
                                     copyToClipboard(String(data?.answer?.message));
                                   }}
                                 >

@@ -7,7 +7,7 @@ export function EncryptAES(text:any, key:any) {
 export function DecryptAES (encryptedBase64:any, key:any)  {
     const decrypted = CryptoJS.AES.decrypt(encryptedBase64, key)
     
-    if (decrypted) {
+
         try 
         {
             const str = CryptoJS.enc.Utf8.stringify(decrypted);
@@ -24,6 +24,4 @@ export function DecryptAES (encryptedBase64:any, key:any)  {
         {
             return 'error 2'
         }
-    }
-    return 'error 3'
 }

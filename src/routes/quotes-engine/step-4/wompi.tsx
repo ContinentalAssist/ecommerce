@@ -36,7 +36,7 @@ export default component$((props:propsWompi) => {
     const qr = useSignal(obj)
     const cash = useSignal(obj)
     const nequi = useSignal(obj)
-    const transfers = useSignal(obj)
+   // const transfers = useSignal(obj)
     const pse = useSignal(obj)
     const institutions = useSignal(array)
     const isLoading = useSignal(false);
@@ -152,6 +152,7 @@ export default component$((props:propsWompi) => {
  
     })
 
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async () => {
         if(Object.keys(stateContext.value).length > 0)
         {

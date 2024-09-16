@@ -28,7 +28,7 @@ export default component$(() => {
 
     const loading = useSignal(true)
     const voucher = useSignal(obj)
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         if(location.url.search.includes('id') && !location.url.search.includes('env'))
         {

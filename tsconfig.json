@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "allowJs": true,
     "target": "ES2017",
     "module": "ES2022",
@@ -17,7 +18,8 @@
     "outDir": "tmp",
     "noEmit": true,
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+    "types": ["connect"]
     }
   },
   "files": ["./.eslintrc.cjs"],
