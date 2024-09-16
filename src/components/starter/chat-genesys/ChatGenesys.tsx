@@ -20,7 +20,6 @@ export const ChatGenesys = component$(() => {
                 WGenesys("command", "Launcher.show",
                     {},
                         function() {
-                            console.log("hola");
                             showChat.value =true;
                             /*fulfilled callback*/
                         },
