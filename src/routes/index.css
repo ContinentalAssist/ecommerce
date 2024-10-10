@@ -288,6 +288,10 @@
     {
         height: auto !important;
     }
+
+    .text-message{
+        text-align: center;
+    }
 }
 
 @media (max-width: 919.98px)
@@ -414,5 +418,16 @@
     list-style-type: none;
     border: none;
    
+}
+
+#div-clock {
+    border: solid 1px var(--ca-yellow);
+    border-radius: 10px;
+}
+
+.img-clock{
+    height: 50px;
+    width: auto;
+    margin-top: 15px;
 }
 

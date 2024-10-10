@@ -44,6 +44,7 @@ export default component$(() => {
       {
         documents: ["dc49b407-f5aa-467d-8ef5-976e5dbd111e", "6241a75b-2be7-43de-8b44-66fd82456b04"],
         message:  lastMessage.value, 
+        language:'SPANISH'
       }
 
 

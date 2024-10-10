@@ -4,8 +4,8 @@ import { type RequestHandler } from '@builder.io/qwik-city';
 export const onPost: RequestHandler = async ({ request , json }) => {
     const body = await request.json()
    
-    const url = 'https://api.askyourpdf.com/v1/api/knowledge_base_chat';
-
+    const url = new URL('https://api.askyourpdf.com/v1/api/knowledge_base_chat');
+    url.searchParams.append('language', body.language);
  /*    const data = {
       documents: [
         "6e60e87c-6154-4dff-8e62-ff10d8ed16dd",
