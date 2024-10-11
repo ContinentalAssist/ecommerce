@@ -777,10 +777,10 @@ export default component$(() => {
                                             </h3> 
                                             <p class='text-message text-white text-regular'> Registra a continuación tus vuelos y olvídate de los imprevistos.</p>
 
-                                            <div id="div-clock" class="row align-items-center p-3">
+                                            <div id="div-clock" class="row align-items-center p-3 mx-0">
                                                 
-                                                <div class="d-flex flex-row col-xl-6 col-xs-6 pt-2 pl-0 ">
-                                                <ImgContinentalAssistClock class='img-clock img-fluid px-2' title='continental-assist-blue-access-reloj' alt='continental-assist-blue-access-reloj'/>
+                                                <div class="d-flex flex-row col-xl-6 col-xs-6 pt-2 px-0">
+                                                <ImgContinentalAssistClock class='img-clock img-fluid px-0' title='continental-assist-blue-access-reloj' alt='continental-assist-blue-access-reloj'/>
                                                 
                                                 <p class='text-semi-bold text-white px-2'> 
                                                 <small>
