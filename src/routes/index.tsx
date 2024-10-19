@@ -17,7 +17,7 @@ import ImgContinentalAssistTravel from '~/media/icons/continental-assist-travel.
 import ImgContinentalAssistHeadphones from '~/media/icons/continental-assist-headphones.webp?jsx'
 import ImgContinentalAssistPets from  '~/media/icons/continental-assist-pets.webp?jsx'
 import ImgContinentalAssistBlueAccess from '~/media/home/continental-assist-blue-access.webp?jsx'
-import ImgContinentalAssistBullets from '~/media/icons/continental-assist-bullets.webp?jsx'
+//import ImgContinentalAssistBullets from '~/media/icons/continental-assist-bullets.webp?jsx'
 import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
 import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
 import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
@@ -38,7 +38,7 @@ import ImgContinentalAssistClock from '~/media/icons/BlueCyren-Ecommerce-relog.w
 
 import styles from './index.css?inline';
 import dayjs from "dayjs";
-import { yellow } from '@mui/material/colors';
+//import { yellow } from '@mui/material/colors';
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Viaja internacionalmente con tranquilidad',
