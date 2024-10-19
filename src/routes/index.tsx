@@ -1,4 +1,4 @@
-import { $, component$, useContext, useOnDocument, useSignal, useStylesScoped$, useVisibleTask$ } from '@builder.io/qwik';
+import { $, component$, useContext, useOnDocument, useSignal, useStylesScoped$, useVisibleTask$} from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { useLocation, useNavigate } from '@builder.io/qwik-city';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
@@ -72,21 +72,42 @@ export default component$(() => {
     const loading = useSignal(true)
     const terms = useSignal(false)
     const isMobile=useSignal(false)
-    const benefits = useSignal([
+    /* const benefits = useSignal([
         {
-            "idplan": 2946,
-            "nombreplan": "ESSENTIAL",
+            "idplan": 3287,
+            "nombreplan": "TOTAL",
             "beneficiosasignados": []
         },
         {
-            "idplan": 2964,
-            "nombreplan": "COMPLETE",
+            "idplan": 3285,
+            "nombreplan": "MAXIMUS",
             "beneficiosasignados": []
         },
         {
-            "idplan": 2965,
-            "nombreplan": "ELITE",
+            "idplan": 3289,
+            "nombreplan": "SUPREME",
             "beneficiosasignados": []
+        }
+    ]) */
+    // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
+    const dataPlan = useSignal([
+        {
+            "idplan": 0,
+            "nombreplan": "Plan 1",
+            "beneficiosasignados": [],
+            "cobertura": ''
+        },
+        {
+            "idplan": 1,
+            "nombreplan": "Plan 2",
+            "beneficiosasignados": [],
+             "cobertura": ''
+        },
+        {
+            "idplan": 2,
+            "nombreplan": "Plan 3",
+            "beneficiosasignados": [],
+            "cobertura": ''
         }
     ])
     useVisibleTask$(()=>{
@@ -117,19 +138,12 @@ export default component$(() => {
 
         origins.value = resOrigins
         destinations.value = resDestinations
-
-        const resBenefits0 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2946})});
-        const dataBenefits0 = await resBenefits0.json()
-        benefits.value[0].beneficiosasignados = dataBenefits0.resultado[0].beneficiosasignados
-
-        const resBenefits1 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2964})});
-        const dataBenefits1 = await resBenefits1.json()
-        benefits.value[1].beneficiosasignados = dataBenefits1.resultado[0].beneficiosasignados
-
-        const resBenefits2 = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:2965})});
-        const dataBenefits2 = await resBenefits2.json()
-        benefits.value[2].beneficiosasignados = dataBenefits2.resultado[0].beneficiosasignados
-
+        const response = await fetch("/api/getPlansBenefits",{method:"POST",body:JSON.stringify({idplan:3287})});
+        const data =await response.json();
+        if (!data.error) {
+            dataPlan.value = await data.resultado[0]; 
+        }
+        
         loading.value = false
     })
 
@@ -473,36 +487,36 @@ export default component$(() => {
                                     <div class='row not-mobile'>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id='Essential'
-                                                title='Essential'
+                                                id={dataPlan.value[0]['nombreplan']}
+                                                title={dataPlan.value[0]['nombreplan']}
                                                 description='Con lo necesario para tus aventuras.'
-                                                btnLabel='USD 35K'
+                                                btnLabel={dataPlan.value[0]['cobertura']}
                                                 footer='Cubre hasta'
-                                                benefits={benefits.value[0].beneficiosasignados}
+                                                benefits={dataPlan.value[0]['beneficiosasignados']}
                                             >
                                                 <ImgContinentalAssistBagEssential class="img-fluid" loading="lazy" title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>
                                             </CardPlan>
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id='Complete'
-                                                title='Complete'
+                                                id={dataPlan.value[1]['nombreplan']}
+                                                title={dataPlan.value[1]['nombreplan']}
                                                 description='El ideal para conectar con tu tranquilidad.'
-                                                btnLabel='USD 60K'
+                                                btnLabel={dataPlan.value[1]['cobertura']}
                                                 footer='Cubre hasta'
-                                                benefits={benefits.value[1].beneficiosasignados}
+                                                benefits={dataPlan.value[1]['beneficiosasignados']}
                                             >
                                                 <ImgContinentalAssistBagComplete class="img-fluid" loading="lazy" title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>
                                             </CardPlan>
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id='Elite'
-                                                title='Elite'
+                                                id={dataPlan.value[2]['nombreplan']}
+                                                title={dataPlan.value[2]['nombreplan']}
                                                 description='El que te conecta con la máxima cobertura.'
-                                                btnLabel='USD 100K'
+                                                btnLabel={dataPlan.value[2]['cobertura']}
                                                 footer='Cubre hasta'
-                                                benefits={benefits.value[2].beneficiosasignados}
+                                                benefits={dataPlan.value[2]['beneficiosasignados']}
                                             >
                                                 <ImgContinentalAssistBagElite class="img-fluid" loading="lazy" title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>
                                             </CardPlan>
@@ -522,12 +536,12 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
-                                                                        id='EssentialCarousel'
-                                                                        title='Essential'
+                                                                        id='TotalCarousel'
+                                                                        title='Total'
                                                                         description='Con lo necesario para tus aventuras.'
-                                                                        btnLabel='USD 35K'
+                                                                        btnLabel={dataPlan.value[0]['cobertura']}
                                                                         footer='Cubre hasta'
-                                                                        benefits={benefits.value[0].beneficiosasignados}
+                                                                        benefits={dataPlan.value[0]['beneficiosasignados']}
                                                                     >
                                                                         <ImgContinentalAssistBagEssential class="img-fluid" loading="lazy" title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>
                                                                     </CardPlan>
@@ -540,12 +554,12 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
-                                                                        id='CompleteCarousel'
-                                                                        title='Complete'
+                                                                        id='MaximusCarousel'
+                                                                        title='Maximus'
                                                                         description='El ideal para conectar con tu tranquilidad.'
-                                                                        btnLabel='USD 60K'
+                                                                        btnLabel={dataPlan.value[0]['cobertura']}
                                                                         footer='Cubre hasta'
-                                                                        benefits={benefits.value[1].beneficiosasignados}
+                                                                        benefits={dataPlan.value[1]['beneficiosasignados']}
                                                                     >
                                                                         <ImgContinentalAssistBagComplete class="img-fluid" loading="lazy" title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>
                                                                     </CardPlan>
@@ -558,12 +572,12 @@ export default component$(() => {
                                                             <div class='row justify-content-center'>
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
-                                                                        id='EliteCarousel'
-                                                                        title='Elite'
+                                                                        id='SupremeCarousel'
+                                                                        title='Supreme'
                                                                         description='El que te conecta con la máxima cobertura.'
-                                                                        btnLabel='USD 100K'
+                                                                        btnLabel={dataPlan.value[0]['cobertura']}
                                                                         footer='Cubre hasta'
-                                                                        benefits={benefits.value[2].beneficiosasignados}
+                                                                        benefits={dataPlan.value[2]['beneficiosasignados']}
                                                                     >
                                                                         <ImgContinentalAssistBagElite class="img-fluid" loading="lazy" title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>
                                                                     </CardPlan>
@@ -802,50 +816,44 @@ export default component$(() => {
                                                 </div>
                                             </div>
                                             <div class="row pt-4">
-                                            <div class="col" >
-                                            <p class='text-message text-regular text-white '>
-                                           <b>Este es un servicio de acceso a salas VIP por demora en vuelos.</b><br/>
-                                            Solo debes tener contratado un plan de asistencia internacional  <br/>
-                                            y tener a la mano tu número de voucher.
-                                            </p>
+                                                <div class="col" >
+                                                    <p class='text-message text-regular text-white '>
+                                                    <b>Este es un servicio de acceso a salas VIP por demora en vuelos.</b><br/>
+                                                        Solo debes tener contratado un plan de asistencia internacional  <br/>
+                                                        y tener a la mano tu número de voucher.
+                                                    </p>
+                                                </div>
+                                             </div>
+                                             <div class="row not-mobile pt-4">
+                                             <div class="col" >
+                                                    <p class='text-message text-regular text-white '>
+                                                      Aplican Términos y Condiciones.
+                                                    </p>
+                                                </div>
+                                             </div>
+                                        </div>
+                                        <div class="col-xl-6 p-3">
+                                            <div class="row align-items-center">
+                                            <iframe 
+                                                id='blueaccess-widget'
+                                                src="https://blueaccess.continentalassist.com/blueaccess/validation/validate-eligibility"
+                                                width="auto"
+                                                height="650px"
+                                                frameBorder="0"
+                                                title="BlueAccess Widget"
+                                            />
                                             </div>
+                                            <div class="row text-center mobile pt-4">
+                                             <div class="col" >
+                                                    <p class='text-message text-regular text-white '>
+                                                      Aplican Términos y Condiciones.
+                                                    </p>
+                                                </div>
+                                             </div>
                                         </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                        widget
-                                        </div>
-                                       
-                                    
-                                   
-                                        
-                                           
-                                        
+                                             
                                     </div>
-                                    {/* <div class='row justify-content-center mt-4 mb-5'>
-                                        <div class='col-sm-2 col-5 text-end d-grid align-content-between'>
-                                            <div>
-                                                <h2 class='h6 text-semi-bold text-white'>Compra tu plan de asistencia</h2>
-                                            </div>
-                                            <div>
-                                                <h2 class='h6 text-semi-bold text-white'>Accede en caso de retraso</h2>
-                                            </div>
-                                        </div>
-                                        <div class='col-sm-1 col-2 text-center'>
-                                            <ImgContinentalAssistBullets class='img-fluid img-bullets' title='continental-assist-bullets' alt='continental-assist-bullets'/>
-                                        </div>
-                                        <div class='col-sm-2 col-5 d-grid align-content-center'>
-                                            <div>
-                                                <h2 class='h6 text-semi-bold text-white'>Registra tu vuelo en Blue Access</h2>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class='row mb-5'>
-                                        <div class='col-lg-12 text-center'>
-                                            <btn class='btn btn-primary mb-3' onClick$={() => {openQuotesEngine$(true)}}>Comprar plan de asistencia</btn>
-                                            <br/>
-                                            <small class='text-white fst-italic' style={{fontSize:'10px'}}>Aplican Términos y Condiciones.</small>
-                                        </div>
-                                    </div> */}
+
                                 </div>
                             </div>
                         </div>

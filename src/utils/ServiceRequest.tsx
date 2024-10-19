@@ -12,6 +12,7 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
 
     try {
         const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, { ...headers }); 
+                
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }

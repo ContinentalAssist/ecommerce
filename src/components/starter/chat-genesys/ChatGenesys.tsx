@@ -43,12 +43,12 @@ export const ChatGenesys = component$(() => {
                
                
                 WGenesys('command', 'Messenger.minimize', {}, function() {
-                    console.log('Chat minimizado');
+                    //console.log('Chat minimizado');
                     // Aquí puedes agregar tu lógica personalizada
                   });
 
                   WGenesys("subscribe", "Launcher.hidden", function(){
-                    console.log('Launcher.hidden');
+                    //console.log('Launcher.hidden');
                   });
 
             }

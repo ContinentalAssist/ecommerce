@@ -197,7 +197,7 @@ export default component$(() => {
 
             let error = false
 
-            const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+            const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
             const dataPlans = await resPlans.json()
             
             error = dataPlans.error
@@ -400,7 +400,7 @@ export default component$(() => {
                     dataForm.idfuente = 2
                     dataForm.ip = stateContext.value.resGeo.ip_address
 
-                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
                     plans.value = dataPlans.resultado
 
@@ -425,7 +425,7 @@ export default component$(() => {
 
                     let error = false
 
-                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
                     
                     error = dataPlans.error
@@ -571,38 +571,34 @@ export default component$(() => {
                         </div>
                         <div class='row justify-content-between cards '>
                             {
-                                plans.value.map((plan,index) => {
+                                plans.value.map((plan,index) => {                                    
                                     return(
                                         <div key={index+1} class='col-lg-4 col-sm-4'>
                                             <div class={plan.idplan == '2964' ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
                                                 {
-                                                    plan.idplan == '2964'
+                                                    plan.idpopularidad == 9
                                                     &&
                                                     <span class='card-recommended'>
                                                         <p class='mb-0'>Recomendado</p>
                                                     </span>
                                                 }
-                                                {plan.idplan == '2946' && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                                                {plan.idplan == '2964' && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                                                {plan.idplan == '2965' && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                                                {plan.idpopularidad == 8 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                {plan.idpopularidad == 9 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                {plan.idpopularidad == 10 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                 <div class='card-body px-4'>
                                                     <div class='container'>
                                                         <div class='row'>
                                                             <div class='col-lg-12 text-center'>
                                                                 <h2 class='h1 card-title text-semi-bold text-light-blue mb-0'>
-                                                                    {plan.idplan == '2946' && 'Essential'}
-                                                                    {plan.idplan == '2964' && 'Complete'}
-                                                                    {plan.idplan == '2965' && 'Elite'}
+                                                                    {plan.nombreplan}                                                    
                                                                 </h2>
                                                             </div>
                                                         </div>
                                                         <div class='row'> 
                                                             <div class='col-lg-12 text-center'>
-                                                                <small class='h5 text-dark-gray'>Cubre hasta
+                                                                <small class='h5 text-dark-gray'>Cubre hasta 
                                                                     <span class='text-bold'>
-                                                                        {plan.idplan == '2946' && ' 35K USD'}
-                                                                        {plan.idplan == '2964' && ' 60K USD'}
-                                                                        {plan.idplan == '2965' && ' 100K USD'}
+                                                                        { ' ' + plan.cobertura }                                                                 
                                                                     </span>
                                                                 </small>
                                                                 <br/>
@@ -632,42 +628,16 @@ export default component$(() => {
                                                             </div>
                                                         </div>
                                                         <div class='row mt-1 mb-1'>
-                                                            <div class='col-lg-12 text-center text-medium' style={{height:'170px'}}>
-                                                                {/* {plan.idplan == '2946' && <small>Te protegemos con lo necesario para que disfrutes de tus aventuras.</small>} */}
-                                                                {
-                                                                    plan.idplan == '2946' 
-                                                                    &&
-                                                                    <ul class='text-start'>
-                                                                        <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>35.000 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos médicos por enfermedad preexistente: </span><span class='text-semi-bold text-blue'>500 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos odontológicos por emergencia: </span><span class='text-semi-bold text-blue'>500 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>100 USD.</span></li>
-                                                                    </ul>
-                                                                }
-                                                                {/* {plan.idplan == '2964' && <small>El que más compran nuestros clientes porque tiene la cobertura ideal.</small>} */}
-                                                                {
-                                                                    plan.idplan == '2964' 
-                                                                    &&
-                                                                    <ul class='text-start'>
-                                                                        <li><span class='text-dark-gray'>Telemedicina pre y post viaje.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>60.000 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos médicos por enfermedad preexistente: </span><span class='text-semi-bold text-blue'>1.000 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos odontológicos por emergencia: </span><span class='text-semi-bold text-blue'>800 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>150 USD.</span></li>
-                                                                    </ul>
-                                                                }
-                                                                {/* {plan.idplan == '2965' && <small>Maximizamos lo necesario para quienes buscan mayor protección.</small>} */}
-                                                                {
-                                                                    plan.idplan == '2965' 
-                                                                    &&
-                                                                    <ul class='text-start'>
-                                                                        <li><span class='text-dark-gray'>Telemedicina pre y post viaje.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos médicos por accidente: </span><span class='text-semi-bold text-blue'>100.000 USD.</span></li>
-                                                                        <li><span class='text-dark-gray'>Compensación por pérdida de equipaje en crucero.</span></li>
-                                                                        <li><span class='text-dark-gray'>Auxilio para cremación de mascota fallecida en viaje.</span></li>
-                                                                        <li><span class='text-dark-gray'>Gastos por acceso a sala VIP: </span><span class='text-semi-bold text-blue'>200 USD.</span></li>
-                                                                    </ul>
-                                                                }
+                                                            <div class='col-lg-12 text-center text-medium' style={{height:'170px'}}>                                                        
+                                                                     <ul class='text-start'>
+                                                                        {
+                                                                            plan.beneficiosasignados[0]['beneficios'].map((beneficio,index)=>{
+                                                                                if (index<=4) {
+                                                                                  return   <li><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                 </ul>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -692,20 +662,18 @@ export default component$(() => {
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            {benefitsPlan.value.idplan == '2946'&& <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                            {benefitsPlan.value.idplan == '2964'&& <ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                            {benefitsPlan.value.idplan == '2965'&& <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                            {benefitsPlan.value.idpopularidad == 10 && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                            {benefitsPlan.value.idpopularidad == 9 &&<ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                            {benefitsPlan.value.idpopularidad == 8 && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                             <h2 class='text-semi-bold text-white p-2'>
-                                {benefitsPlan.value.idplan == '2946' && 'Essential'}
-                                {benefitsPlan.value.idplan == '2964' && 'Complete'}
-                                {benefitsPlan.value.idplan == '2965' && 'Elite'}   
+                                {benefitsPlan.value.nombreplan}
                             </h2>
                         </div>
                         <div class="modal-body">
                             <table class='table table-borderless table-striped'>
                                 <tbody>
                                     {
-                                        benefitsPlan.value.beneficiosasignados.map((benefit,iBenefit) => {
+                                        benefitsPlan.value.beneficiosasignados.map((benefit,iBenefit) => {                                            
                                             return(
                                                 <>
                                                     <tr key={iBenefit+1}>

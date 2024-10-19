@@ -332,11 +332,11 @@ export default component$(() => {
                     ip:stateContext.value?.resGeo?.ip_address,
                 }
 
-                const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+                const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataAdditionals = await resAdditionals.json()
                 newRes = Array.isArray(dataAdditionals?.resultado)?dataAdditionals.resultado:[]
                 const today = DateFormat(new Date)
-
+                
                newRes.map((res,index) => {
                     const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                     let max = ''
