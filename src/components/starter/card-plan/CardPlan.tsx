@@ -1,4 +1,4 @@
-import { $, Slot, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, Slot, component$,  useStylesScoped$} from "@builder.io/qwik";
 import styles from './card-plan.css?inline'
 
 export interface propsCardPlan {
