@@ -115,7 +115,7 @@ export default component$(() => {
                     ip:resGeo.ip_address,
                 }
 
-                const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+                const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataAdditionals = await resAdditionals.json()
                 newRes = dataAdditionals.resultado
 
@@ -282,7 +282,7 @@ export default component$(() => {
                 ip:resGeoPrev.ip_address,
             }
 
-            const resAdditionals = await fetch("/api/getAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+            const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
             const dataAdditionals = await resAdditionals.json()
             newRes = dataAdditionals.resultado
 
