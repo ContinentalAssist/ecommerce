@@ -7,22 +7,12 @@ export interface propsCardPlan {
 
 export const CardPlan = component$((props:propsCardPlan) => {
     useStylesScoped$(styles)
-    
-    const benefits = useSignal([])
-
-    useTask$(() => {
-        benefits.value = props.benefits
-    })
-
-    useVisibleTask$(() => {
-        benefits.value = props.benefits
-    })
 
     const toggleModal$ = $((id:string) => {
         const bs = (window as any)['bootstrap']
         const modal = new bs.Modal('#modalBenefits'+id,{})
         const modalElement = document.querySelector('#modalBenefits'+id) as HTMLDialogElement
-
+        
         if(((modalElement.parentElement as HTMLDivElement).parentElement as HTMLDivElement).classList[2] != 'not-mobile')
         {
             const carousel = bs.Carousel.getInstance('#carouselPlans',{})
@@ -75,9 +65,9 @@ export const CardPlan = component$((props:propsCardPlan) => {
                             <table class='table table-borderless table-striped'>
                                 <tbody>
                                     {
-                                        benefits.value
+                                        props.benefits.length  > 0
                                         &&
-                                        benefits.value.map((benefit:any,iBenefit:number) => {
+                                        props.benefits.map((benefit:any,iBenefit:number) => {
                                             return(
                                                 <>
                                                     <tr key={iBenefit+1}>
