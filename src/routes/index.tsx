@@ -138,10 +138,10 @@ export default component$(() => {
 
         origins.value = resOrigins
         destinations.value = resDestinations
-        const response = await fetch("/api/getPlansBenefits",{method:"POST",body:JSON.stringify({idplan:3287})});
+        const response = await fetch("/api/getPlansBenefits",{method:"POST",body:JSON.stringify({})});
         const data =await response.json();
         if (!data.error) {
-            dataPlan.value = await data.resultado[0]; 
+            dataPlan.value = await data.resultado; 
         }
         
         loading.value = false
@@ -487,7 +487,7 @@ export default component$(() => {
                                     <div class='row not-mobile'>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id={dataPlan.value[0]['nombreplan']}
+                                                id={'plan-'+dataPlan.value[0]['idplan']}
                                                 title={dataPlan.value[0]['nombreplan']}
                                                 description='Con lo necesario para tus aventuras.'
                                                 btnLabel={dataPlan.value[0]['cobertura']}
@@ -499,7 +499,7 @@ export default component$(() => {
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id={dataPlan.value[1]['nombreplan']}
+                                                id={'plan-'+dataPlan.value[1]['idplan']}
                                                 title={dataPlan.value[1]['nombreplan']}
                                                 description='El ideal para conectar con tu tranquilidad.'
                                                 btnLabel={dataPlan.value[1]['cobertura']}
@@ -511,7 +511,7 @@ export default component$(() => {
                                         </div>
                                         <div class='col-xl-4 col-md-4'>
                                             <CardPlan
-                                                id={dataPlan.value[2]['nombreplan']}
+                                                id={'plan-'+dataPlan.value[2]['idplan']}
                                                 title={dataPlan.value[2]['nombreplan']}
                                                 description='El que te conecta con la máxima cobertura.'
                                                 btnLabel={dataPlan.value[2]['cobertura']}
@@ -537,7 +537,7 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='TotalCarousel'
-                                                                        title='Total'
+                                                                        title={dataPlan.value[0]['nombreplan']}
                                                                         description='Con lo necesario para tus aventuras.'
                                                                         btnLabel={dataPlan.value[0]['cobertura']}
                                                                         footer='Cubre hasta'
@@ -555,9 +555,9 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='MaximusCarousel'
-                                                                        title='Maximus'
+                                                                        title={dataPlan.value[1]['nombreplan']}
                                                                         description='El ideal para conectar con tu tranquilidad.'
-                                                                        btnLabel={dataPlan.value[0]['cobertura']}
+                                                                        btnLabel={dataPlan.value[1]['cobertura']}
                                                                         footer='Cubre hasta'
                                                                         benefits={dataPlan.value[1]['beneficiosasignados']}
                                                                     >
@@ -573,9 +573,9 @@ export default component$(() => {
                                                                 <div class='col-sm-6'>
                                                                     <CardPlan
                                                                         id='SupremeCarousel'
-                                                                        title='Supreme'
+                                                                        title={dataPlan.value[2]['nombreplan']}
                                                                         description='El que te conecta con la máxima cobertura.'
-                                                                        btnLabel={dataPlan.value[0]['cobertura']}
+                                                                        btnLabel={dataPlan.value[2]['cobertura']}
                                                                         footer='Cubre hasta'
                                                                         benefits={dataPlan.value[2]['beneficiosasignados']}
                                                                     >
