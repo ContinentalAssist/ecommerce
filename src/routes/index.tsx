@@ -188,6 +188,13 @@ export default component$(() => {
         }
     }))
 
+    useVisibleTask$(() => {
+        const blueAccessSection = document.querySelector('.bg-home-blue-access');
+        if (blueAccessSection) {
+          blueAccessSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+
     const getWelcome$ = $(() => {
         const messageCookies = document.querySelector('#messageCookies') as HTMLElement
 

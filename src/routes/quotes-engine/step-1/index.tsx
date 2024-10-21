@@ -627,7 +627,7 @@ export default component$(() => {
                                                                 </h2>
                                                             </div>
                                                         </div>
-                                                        <div class='row mt-1 mb-1'>
+                                                        <div class='row mt-1 mb-1 pb-3'>
                                                             <div class='col-lg-12 text-center text-medium' style={{height:'170px'}}>                                                        
                                                                      <ul class='text-start'>
                                                                         {
