@@ -124,9 +124,9 @@ export const Header = component$(() => {
                                 <li class="nav-item">
                                     <a title='Nosotros' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/about-us" >¿Quiénes somos?</a>
                                 </li>
-                               {/*  <li class="nav-item">
+                                <li class="nav-item">
                                     <a title='Contactanos' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/contact-us" >Contáctanos</a>
-                                </li> */}
+                                </li>
                                 <li class="nav-item">
                                     <a title='chatpdf' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/chat-conditions" >Chatea con nuestras Condiciones</a>
                                 </li>

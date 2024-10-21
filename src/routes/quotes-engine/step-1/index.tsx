@@ -571,20 +571,22 @@ export default component$(() => {
                         </div>
                         <div class='row justify-content-between cards '>
                             {
-                                plans.value.map((plan,index) => {                                    
+                                plans.value.map((plan,index) => {        
+                                    console.log("index ",index);
+                                                                
                                     return(
                                         <div key={index+1} class='col-lg-4 col-sm-4'>
-                                            <div class={plan.idplan == '2964' ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
+                                            <div class={index == 1  ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
                                                 {
-                                                    plan.idpopularidad == 9
+                                                    index == 1
                                                     &&
                                                     <span class='card-recommended'>
                                                         <p class='mb-0'>Recomendado</p>
                                                     </span>
                                                 }
-                                                {plan.idpopularidad == 8 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                                                {plan.idpopularidad == 9 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                                                {plan.idpopularidad == 10 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                                                {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
                                                 <div class='card-body px-4'>
                                                     <div class='container'>
                                                         <div class='row'>
@@ -633,7 +635,7 @@ export default component$(() => {
                                                                         {
                                                                             plan.beneficiosasignados[0]['beneficios'].map((beneficio,index)=>{
                                                                                 if (index<=4) {
-                                                                                  return   <li><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                                                  return   <li key={index}><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
                                                                                 }
                                                                             })
                                                                         }
