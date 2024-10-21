@@ -4,7 +4,7 @@ import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
 import styles from "./card-payment-resume.css?inline";
 import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx";
-
+import ImgOpenpayLogo from "../../../media/banks/LogotipoOpenpay.webp?jsx";
 export const CardPaymentResume = component$(() => {
 
   useStylesScoped$(styles);
@@ -385,14 +385,37 @@ export const CardPaymentResume = component$(() => {
               }
               <div class="container">
                 <div class="row">
-                <div class='col-12 text-end'>
-                  <p class='text-regular text-blue mb-0'>Total</p>
-                  <h3 class='divisa-total text-bold text-blue mb-4'>
-                      {
-                          resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
-                      }
-                  </h3>
-              </div>
+                <div class='col-6 col-xs-12'>
+                    {
+                      !contextDivisa.divisaUSD &&
+                      stateContext.value?.currentRate?.code ==='MXN'&&
+                      <>
+                      <p class='text-regular text-blue mb-0'>Trasacciones realizadas vía: </p>
+                      <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'60px', width:'auto'}} />
+                      </>
+                      
+                    }
+                  </div>
+                  {/* <div class='col-6 '>
+                    {
+                      !contextDivisa.divisaUSD &&
+                      stateContext.value?.currentRate?.code ==='MXN'&&
+                      <>
+                      <i class="fas fa-shield-alt fa-lg"></i>
+                      <p class='text-regular text-blue mb-0'>Tus pagos se realizan de forma segura <br/> con encriptación de 256 bits </p>
+                      </>
+                      
+                    }
+                  </div> */}
+
+                  <div class='col-6 col-xs-12 text-end'>
+                    <p class='text-regular text-blue mb-0'>Total</p>
+                    <h3 class='divisa-total text-bold text-blue mb-4'>
+                        {
+                            resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
+                        }
+                    </h3>
+                  </div>
                 </div>
               </div>
          

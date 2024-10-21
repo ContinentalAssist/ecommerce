@@ -187,13 +187,41 @@ export default component$(() => {
             }
         }
     }))
-
+    
+    //Redirigir a seccion de blue-access
     useVisibleTask$(() => {
-        const blueAccessSection = document.querySelector('.bg-home-blue-access');
-        if (blueAccessSection) {
-          blueAccessSection.scrollIntoView({ behavior: 'smooth' });
+        const hash = String(location.url).split('#')[1];
+        if (hash === 'blue-access') {
+          const blueAccessSection = document.querySelector('#blue-access');
+          if (blueAccessSection) {
+            blueAccessSection.scrollIntoView({ behavior: 'smooth' });
+          }
         }
     });
+
+    //Redirigir a url de EVA
+    useVisibleTask$(async() => {
+      /*   const urlParams = new URLSearchParams(location.url.search);
+        const uxParam = urlParams.get('ux');
+    
+        if (uxParam) {
+          await navigate('https://eva.continentalassist.com/login')
+        } */
+
+          const url = new URL(location.url);
+  
+          if (url.pathname.includes('cotifrm2.php')) {
+            const searchParams = new URLSearchParams(url.search);
+            if (searchParams.has('ux')) {
+              const uxParam = searchParams.get('ux');
+              if (uxParam) {
+                await navigate('https://eva.continentalassist.com/login');
+              }
+            }
+          }
+      });
+
+      
 
     const getWelcome$ = $(() => {
         const messageCookies = document.querySelector('#messageCookies') as HTMLElement
@@ -780,7 +808,7 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-            <div class='bg-home-blue-access'>
+            <div id='blue-access' class='bg-home-blue-access' >
                 <div class='col-lg-12'>
                     <div class='container'>
                         <div class='row align-content-center' style={{minHeight:'100vh'}}>
