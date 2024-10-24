@@ -146,14 +146,14 @@ export default component$(() => {
     const loading = useSignal(true)
     const divisaManual = useSignal(false)
     const desktop = useSignal(false)
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         if(!navigator.userAgent.includes('Mobile'))
         {
             desktop.value = true
         }
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         let res : {[key:string]:any[]} = {}
         const resOrigins : any[] = []
@@ -178,7 +178,7 @@ export default component$(() => {
 
         resume.value = stateContext.value
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {

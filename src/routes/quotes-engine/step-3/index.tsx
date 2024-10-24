@@ -133,7 +133,7 @@ export default component$(() => {
     ])
     const listPaymentMethods = useSignal(array)
 
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
         {

@@ -38,7 +38,6 @@ import ImgContinentalAssistClock from '~/media/icons/BlueCyren-Ecommerce-relog.w
 
 import styles from './index.css?inline';
 import dayjs from "dayjs";
-//import { yellow } from '@mui/material/colors';
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Viaja internacionalmente con tranquilidad',
@@ -72,23 +71,7 @@ export default component$(() => {
     const loading = useSignal(true)
     const terms = useSignal(false)
     const isMobile=useSignal(false)
-    /* const benefits = useSignal([
-        {
-            "idplan": 3287,
-            "nombreplan": "TOTAL",
-            "beneficiosasignados": []
-        },
-        {
-            "idplan": 3285,
-            "nombreplan": "MAXIMUS",
-            "beneficiosasignados": []
-        },
-        {
-            "idplan": 3289,
-            "nombreplan": "SUPREME",
-            "beneficiosasignados": []
-        }
-    ]) */
+ 
     // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
     const dataPlan = useSignal([
         {
@@ -111,7 +94,7 @@ export default component$(() => {
         }
     ])
     useVisibleTask$(()=>{
-        isMobile.value = stateContext.value.isMobile
+        isMobile.value = stateContext.value.isMobile        
     })
 
     useVisibleTask$(async() => {    
@@ -197,31 +180,7 @@ export default component$(() => {
             blueAccessSection.scrollIntoView({ behavior: 'smooth' });
           }
         }
-    });
-
-    //Redirigir a url de EVA
-    useVisibleTask$(async() => {
-      /*   const urlParams = new URLSearchParams(location.url.search);
-        const uxParam = urlParams.get('ux');
-    
-        if (uxParam) {
-          await navigate('https://eva.continentalassist.com/login')
-        } */
-
-          const url = new URL(location.url);
-  
-          if (url.pathname.includes('cotifrm2.php')) {
-            const searchParams = new URLSearchParams(url.search);
-            if (searchParams.has('ux')) {
-              const uxParam = searchParams.get('ux');
-              if (uxParam) {
-                await navigate('https://eva.continentalassist.com/login');
-              }
-            }
-          }
-      });
-
-      
+    });      
 
     const getWelcome$ = $(() => {
         const messageCookies = document.querySelector('#messageCookies') as HTMLElement

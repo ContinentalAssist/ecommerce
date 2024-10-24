@@ -73,7 +73,7 @@ export default component$(() => {
             }
         }
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
         {
@@ -81,7 +81,7 @@ export default component$(() => {
         }
     })
   
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {        
 
         if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {

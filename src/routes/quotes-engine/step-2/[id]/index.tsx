@@ -73,7 +73,7 @@ export default component$(() => {
         origins.value = resOrigins
         destinations.value = resDestinations
     })
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         if(Object.keys(stateContext.value).length > 0)
         {
