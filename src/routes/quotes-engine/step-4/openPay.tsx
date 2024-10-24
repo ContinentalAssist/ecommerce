@@ -7,6 +7,16 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import ImgIconBanksVisa from '~/media/banks/visa.webp?jsx'
+import ImgIconBanksMaster from '~/media/banks/masterCard.webp?jsx'
+import ImgIconBanksAmerican from '~/media/banks/americanExpress.webp?jsx'
+import ImgIconBanksCarnet from '~/media/banks/carnet.webp?jsx'
+import ImgIconBanksBBVA from '~/media/banks/BBVA.webp?jsx'
+import ImgIconBanksSantander from '~/media/banks/santander.webp?jsx'
+import ImgIconBanksHsbc from '~/media/banks/hsbc.webp?jsx'
+import ImgIconBanksScotiabank from '~/media/banks/scotiabank.webp?jsx'
+import ImgIconBanksInbursa from '~/media/banks/inbursa.webp?jsx'
+import ImgIconBanksIxe from '~/media/banks/ixe.webp?jsx'
 
 export interface propsOP {
     setLoading: (loading: boolean, message: string) => void;
@@ -461,7 +471,8 @@ export default component$((props:propsOP) => {
                     sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                     openPayDeviceSessionId : opSessionId.value,
                     openPaySourceId : opToken.value,
-                    openPayTipo:stateContext.value.openPayTipo
+                    openPayTipo:stateContext.value.openPayTipo,
+                    openPayRedirectUrl:import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
                 }
             )
             
@@ -505,10 +516,15 @@ export default component$((props:propsOP) => {
                 );
 
                // modalSuccess.show()
+                
+               if (resPayment.resultado[0]?.openPayTransaccion?.status ==='charge_pending' && resPayment.resultado[0]?.openPayTransaccion?.payment_method)
+                {
                 stateContext.value.paymentstutus =resPayment.resultado[0]?.openPayTransaccion?.status||'';
                 stateContext.value.codevoucher =resPayment.resultado[0]?.openPayTransaccion?.order_id||'';
                 stateContext.value.typeMessage = 1
-                await navigate('/quotes-engine/message')
+                await navigate(resPayment.resultado[0]?.openPayTransaccion?.payment_method.url)
+               }
+                
             }
             else
             {
@@ -569,6 +585,26 @@ export default component$((props:propsOP) => {
                              formPayment.value == 'CARD'
                              &&
                              <div class='row'>
+                                <div class='col-4 pb-2'>
+                                <p class=' text-regular text-dark-gray  text-start pb-0 mb-1'>Tarjetas de crédito</p>
+                                    <div class='col-12'>
+                                    <ImgIconBanksVisa  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
+                                    <ImgIconBanksMaster  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
+                                    <ImgIconBanksAmerican  class='img-fluid ps-1' style={{ width: '30px', height: 'auto'}} />
+                                    <ImgIconBanksCarnet   class='img-fluid' style={{ width: '70px', height: 'auto'}} />
+                                    </div>
+                                </div>
+                                <div class='col-8 pb-2'>
+                                <p class=' text-regular text-dark-gray  text-start pb-0 mb-0'>Tarjetas de débito</p>
+                                    <div class='col-12'>
+                                    <ImgIconBanksBBVA  class='img-fluid ' style={{ width: 'auto', height: '18px'}} />
+                                    <ImgIconBanksSantander  class='img-fluid ' style={{ width: '80px', height: 'auto'}} />
+                                    <ImgIconBanksHsbc  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                                    <ImgIconBanksScotiabank  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                                    <ImgIconBanksInbursa  class='img-fluid ' style={{ width: 'auto', height: '45px'}} />
+                                    <ImgIconBanksIxe  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                                    </div>                                
+                                </div>
                                        <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
 
                                             <Form

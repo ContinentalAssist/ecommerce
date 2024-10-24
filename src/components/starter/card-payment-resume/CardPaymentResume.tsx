@@ -17,7 +17,7 @@ export const CardPaymentResume = component$(() => {
   const resume = useSignal(objectResume);
   const loading = useSignal(true);
   const indexPax = useSignal(0)
-
+  // eslint-disable-next-line qwik/no-use-visible-task
   useVisibleTask$(() => {       
     if (Object.keys(stateContext.value).length > 0) {
       resume.value = stateContext.value;
@@ -384,14 +384,14 @@ export const CardPaymentResume = component$(() => {
                 <Slot />
               }
               <div class="container">
-                <div class="row">
+                <div class="row pt-2">
                 <div class='col-6 col-xs-12'>
                     {
                       !contextDivisa.divisaUSD &&
                       stateContext.value?.currentRate?.code ==='MXN'&&
                       <>
-                      <p class='text-regular text-blue mb-0'>Trasacciones realizadas vía: </p>
-                      <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'60px', width:'auto'}} />
+                      <p class='text-regular text-regular text-dark-gray mb-0'>Trasacciones realizadas vía: </p>
+                      <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'50px', width:'auto'}} />
                       </>
                       
                     }
