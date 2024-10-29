@@ -197,7 +197,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                             type:'paxs',
                                             name:'pasajeros',
                                             required:true,
-                                            value:{[22]:props.resume[22]||0,[70]:props.resume[70]||0,[85]:props.resume[85]||0},
+                                            value:{[23]:props.resume[23]||0,[70]:props.resume[70]||0,[85]:props.resume[85]||0},
                                             icon:'user-plus'
                                         }
                                     ]}
@@ -340,7 +340,7 @@ export default component$(() => {
                newRes.map((res,index) => {
                     const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                     let max = ''
-                    if(res.edad == 22)
+                    if(res.edad == 23)
                     {
                         max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
                     }
@@ -616,7 +616,7 @@ export default component$(() => {
                                     'desde': newStateContext.desde,
                                     'hasta': newStateContext.hasta,
                                     'adultos': newStateContext[70],
-                                    'niños_y_jovenes': newStateContext[22],
+                                    'niños_y_jovenes': newStateContext[23],
                                     'adultos_mayores': newStateContext[85],
                                     'page': '/quotes-engine/step-2',
                                     'option': newStateContext.plan.nombreplan,
@@ -671,7 +671,7 @@ export default component$(() => {
                                 'desde': newStateContext.desde,
                                 'hasta': newStateContext.hasta,
                                 'adultos': newStateContext[70],
-                                'niños y jovenes': newStateContext[22],
+                                'niños y jovenes': newStateContext[23],
                                 'adultos mayores': newStateContext[85],
                                 'page': 'home',
                                 'label': newStateContext.plan.nombreplan,
@@ -839,7 +839,7 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {
-                if(newDataForm[22] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
+                if(newDataForm[23] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = newDataForm
@@ -1033,9 +1033,9 @@ export default component$(() => {
                                                                     <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
                                                                     <p class='text-tin text-dark-blue'>
                                                                         De
-                                                                        {addBenefit.edad == '22' && ' 0 a 22 '}
-                                                                        {addBenefit.edad == '70' && ' 23 a 70 '}
-                                                                        {addBenefit.edad == '85' && ' 71 a 85 '}
+                                                                        {addBenefit.edad == '23' && ' 0 a 23 '}
+                                                                        {addBenefit.edad == '70' && ' 24 a 75 '}
+                                                                        {addBenefit.edad == '85' && ' 76 a 85 '}
                                                                         años
                                                                     </p>
                                                                 </div>
@@ -1060,9 +1060,9 @@ export default component$(() => {
                                                                     <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
                                                                     <p class='text-tin text-dark-blue'>
                                                                         De
-                                                                        {addBenefit.edad == '22' && ' 0 a 22 '}
-                                                                        {addBenefit.edad == '70' && ' 23 a 70 '}
-                                                                        {addBenefit.edad == '85' && ' 71 a 85 '}
+                                                                        {addBenefit.edad == '23' && ' 0 a 23 '}
+                                                                        {addBenefit.edad == '70' && ' 24 a 75 '}
+                                                                        {addBenefit.edad == '85' && ' 76 a 85 '}
                                                                         años
                                                                     </p>
                                                                 </div>

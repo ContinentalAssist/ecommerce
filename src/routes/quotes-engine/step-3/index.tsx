@@ -261,7 +261,7 @@ export default component$(() => {
                 'desde': newResume.desde,
                 'hasta': newResume.hasta,
                 'adultos': newResume[70],
-                'niños_y_jovenes': newResume[22],
+                'niños_y_jovenes': newResume[23],
                 'adultos_mayores': newResume[85],
                 'page': '/quotes-engine/step-3',
                 'option': newResume.plan.nombreplan,
