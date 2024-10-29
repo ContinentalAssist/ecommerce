@@ -571,9 +571,7 @@ export default component$(() => {
                         </div>
                         <div class='row justify-content-between cards '>
                             {
-                                plans.value.map((plan,index) => {        
-                                    console.log("index ",index);
-                                                                
+                                plans.value.map((plan,index) => {                                                                                                     
                                     return(
                                         <div key={index+1} class='col-lg-4 col-sm-4'>
                                             <div class={index == 1  ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
