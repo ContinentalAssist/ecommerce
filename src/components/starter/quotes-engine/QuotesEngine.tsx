@@ -314,7 +314,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     name:'pasajeros',
                                     required:true,
                                     icon:'user-plus',
-                                    value:{[22]:resume.value[22]||0,[70]:resume.value[70]||0,[85]:resume.value[85]||0},
+                                    value:{[23]:resume.value[23]||0,[70]:resume.value[70]||0,[85]:resume.value[85]||0},
                                 }
                             ]}
                         ]}
@@ -506,7 +506,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         required:true,
                                         icon:'user-plus',
                                         onChange:$((e:any) => {changePax$(e)}),
-                                        value:{[22]:resume.value[22]||0,[70]:resume.value[70]||0,[85]:resume.value[85]||0},
+                                        value:{[23]:resume.value[23]||0,[70]:resume.value[70]||0,[85]:resume.value[85]||0},
                                         readOnly:true
                                     }
                                 ]}

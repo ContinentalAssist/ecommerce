@@ -245,7 +245,7 @@ export default component$(() => {
                 'desde': dayjs(dataForm.desde).format('YYYY-MM-DD'),
                 'hasta':  dayjs(dataForm.hasta).format('YYYY-MM-DD'),
                 'adultos': dataForm[70],
-                'niños_y_jovenes': dataForm[22],
+                'niños_y_jovenes': dataForm[23],
                 'adultos_mayores': dataForm[85],
                 'page': '/quotes-engeni/step-1',
                 'option': planSelected.value.nombreplan,
@@ -388,7 +388,7 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {
-                if(newDataForm[22] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
+                if(newDataForm[23] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = newDataForm

@@ -126,7 +126,7 @@ export default component$(() => {
                     const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                     let max = ''
                     
-                    if(res.edad == '22')
+                    if(res.edad == '23')
                     {
                         // max = new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))).toISOString().substring(0,10)
                         max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
@@ -175,7 +175,7 @@ export default component$(() => {
             const newResume : {[key:string]:any} = {}
 
             newResume.paisesdestino = []
-            newResume[22] = 0
+            newResume[23] = 0
             newResume[70] = 0
             newResume[85] = 0
             newResume.edades = []
@@ -217,12 +217,12 @@ export default component$(() => {
             }
 
             JSON.parse(dataQuote.resultado[0].jsoncotizacion).cotizacion.pasajeros.map((pax:any) => {
-                if(pax.edad <= 22)
+                if(pax.edad <= 23)
                 {
-                    newResume[22] += 1
-                    newResume.edades.push(22)
+                    newResume[23] += 1
+                    newResume.edades.push(23)
                 }
-                else if(pax.edad > 22 && pax.edad <= 70)
+                else if(pax.edad > 23 && pax.edad <= 70)
                 {
                     newResume[70] += 1
                     newResume.edades.push(70)
@@ -234,7 +234,7 @@ export default component$(() => {
                 }
             })
 
-            newResume.pasajeros = (newResume[22] > 0 ? newResume[22]+' Niño(s) y joven(es) ' : '') + (newResume[70] > 0 ? newResume[70]+' Adulto(s) ' : '') + (newResume[85] > 0 ? newResume[85]+' Adulto(s) mayor(es) ' : '')
+            newResume.pasajeros = (newResume[23] > 0 ? newResume[23]+' Niño(s) y joven(es) ' : '') + (newResume[70] > 0 ? newResume[70]+' Adulto(s) ' : '') + (newResume[85] > 0 ? newResume[85]+' Adulto(s) mayor(es) ' : '')
 
             plans.value = dataQuote.resultado[0].planescotizados
             
@@ -293,7 +293,7 @@ export default component$(() => {
                 const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
                 let max = ''
                 
-                if(res.edad == '22')
+                if(res.edad == '23')
                 {
                     // max = new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))).toISOString().substring(0,10)
                     max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
@@ -595,7 +595,7 @@ export default component$(() => {
                                     'desde': newStateContext.desde,
                                     'hasta': newStateContext.hasta,
                                     'adultos': newStateContext[70],
-                                    'niños y jovenes': newStateContext[22],
+                                    'niños y jovenes': newStateContext[23],
                                     'adultos mayores': newStateContext[85],
                                     'page': 'home',
                                     'label': newStateContext.plan.nombreplan,
@@ -650,7 +650,7 @@ export default component$(() => {
                                 'desde': newStateContext.desde,
                                 'hasta': newStateContext.hasta,
                                 'adultos': newStateContext[70],
-                                'niños y jovenes': newStateContext[22],
+                                'niños y jovenes': newStateContext[23],
                                 'adultos mayores': newStateContext[85],
                                 'page': 'home',
                                 'label': newStateContext.plan.nombreplan,
@@ -718,9 +718,9 @@ export default component$(() => {
                                                                 <div class='col-xl-4 col-sm-3 col-xs-7'>
                                                                     <h5 class='text-gray'>
                                                                         De
-                                                                        {addBenefit.edad == '22' && ' 0 a 22 '}
-                                                                        {addBenefit.edad == '70' && ' 23 a 70 '}
-                                                                        {addBenefit.edad == '85' && ' 71 a 85 '}
+                                                                        {addBenefit.edad == '23' && ' 0 a 23 '}
+                                                                        {addBenefit.edad == '70' && ' 24 a 75 '}
+                                                                        {addBenefit.edad == '85' && ' 76 a 85 '}
                                                                         años
                                                                     </h5>
                                                                 </div>

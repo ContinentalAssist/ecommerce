@@ -16,7 +16,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     useVisibleTask$(() => {        
         if(props.value)
         {            
-            const newTotalstring = (props.value[22] > 0 ? props.value[22] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
+            const newTotalstring = (props.value[23] > 0 ? props.value[23] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
             totalPaxsString.value = newTotalstring
             totalPaxsNumber.value = props.value
         }
@@ -35,7 +35,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         const totalString : any = []
 
         inputs.map(input => {
-            if((input as HTMLInputElement).name == '22')
+            if((input as HTMLInputElement).name == '23')
             {
                 totalString[0] = (input as HTMLInputElement).value
                 totalNumber[0] = {[(input as HTMLInputElement).name]:(input as HTMLInputElement).value}
@@ -132,7 +132,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     <div class='row mb-4 align-items-center'>
                         <div class='col-6 col-md-7'>
                             <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos</h6>
-                            <small>de 23 a 70 años</small>
+                            <small>de 24 a 75 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='d-flex align-items-baseline input-number-group'>
@@ -158,24 +158,24 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     <div class='row mb-4 align-items-center'>
                         <div class='col-6 col-md-7'>
                             <h6 class='h5 text-bold text-dark-blue mb-0'>Niños y jóvenes</h6>
-                            <small>de 0 a 22 años</small>
+                            <small>de 0 a 23 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='d-flex align-items-baseline input-number-group'>
-                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-22')}}>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-23')}}>
                                    <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
                                     class='form-control-plaintext form-control-sm text-semi-bold text-dark-blue p-0   ' 
-                                    id='input-22' 
-                                    name='22' 
+                                    id='input-23' 
+                                    name='23' 
                                     min={0} 
                                     max={14} 
-                                    value={props.value!= undefined ? props.value[22] : 0} 
+                                    value={props.value!= undefined ? props.value[23] : 0} 
                                     readOnly
                                 />                               
-                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-22')}}>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-23')}}>
                                     <i class="fas fa-plus"/>
                                 </button>
                             </div>
@@ -184,7 +184,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     <div class='row mb-0 align-items-center'>
                         <div class='col-6 col-md-7'>
                             <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos mayores</h6>
-                            <small>de 71 a 85 años</small>
+                            <small>de 76 a 85 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='d-flex align-items-baseline input-number-group'>

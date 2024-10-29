@@ -179,14 +179,16 @@ export const Footer = component$(() => {
                         <div class="col-lg-4 col-sm-12  d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
                             <span>
                             <p class='title-country text-white ms-3 text-semi-bold'>Aventura, Florida </p>
-                            <p class='text-white ms-3 text-regular'>20803 Biscayne Boulevard,<br/> suite 370</p>    
+                            <p class='text-white ms-3 text-regular'>20803 Biscayne Boulevard,<br/> suite 370</p> 
+                            <p class='text-white ms-3 text-regular'>+1(786) 800 2764 - (786) 567 14 79</p>    
                             </span>                           
                         </div>
                         <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
                         
                         <span>
                             <p class='title-country text-white ms-3 text-semi-bold'>Ciudad de México, México </p>
-                            <p class='text-white ms-3 text-regular'>Avenida Insurgentes 662, <br/>piso 7A</p>    
+                            <p class='text-white ms-3 text-regular'>Avenida Insurgentes 662, <br/>piso 7A</p>  
+                            <p class='text-white ms-3 text-regular'>+52 1 (55) 30987684 - +52 1 (55) 7928 1978</p>      
                             </span>
                         </div>
                         <div class="col-lg-4 col-sm-12 d-flex justify-content-start mt-4" style={{borderLeft:'2px solid #505051'}}>
@@ -194,6 +196,7 @@ export const Footer = component$(() => {
                         <span>
                             <p class='title-country text-white ms-3 text-semi-bold'>Bogotá, Colombia  </p>
                             <p class='text-white ms-3 text-regular'>Autopista norte # 114 – 44,<br class="not-mobile"/> oficina 504</p>    
+                            <p class='text-white ms-3 text-regular'> +(57) 601 508 6267</p>                           
                             </span>
                     
                         </div>
