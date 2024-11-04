@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore,useOnDocument } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -40,13 +40,23 @@ export default component$(() => {
   useContextProvider(WEBContext,resumeQuote)
   useContextProvider(DIVISAContext, divisaUpdate);
 
-  useVisibleTask$(()=>{
+  useOnDocument(
+    'load',
+    $(() => {
+      if (/mobile/i.test(navigator.userAgent)) {
+        resumeQuote.value = { ...resumeQuote.value, isMobile: true }
+    }else{
+        resumeQuote.value = { ...resumeQuote.value, isMobile: false }
+    }
+    })
+  );
+  /* useVisibleTask$(()=>{
       if (/mobile/i.test(navigator.userAgent)) {
           resumeQuote.value = { ...resumeQuote.value, isMobile: true }
       }else{
           resumeQuote.value = { ...resumeQuote.value, isMobile: false }
       }
-  })
+  }) */
 
   useVisibleTask$(async() => {
       let convertionRate: number;

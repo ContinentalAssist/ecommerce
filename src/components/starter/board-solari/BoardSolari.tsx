@@ -1,4 +1,4 @@
-import { $, Fragment, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik"
+import { $, Fragment, component$, useSignal, useStylesScoped$, useTask$, useOnWindow } from "@builder.io/qwik"
 import { useLocation } from '@builder.io/qwik-city'
 import styles from './board-solari.css?inline'
 
@@ -19,15 +19,6 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
         })
     })
 
-    // useVisibleTask$(() => {
-    // //    const table = document.querySelector('#board-solari-'+props.id);
-    // //    setInterval(() => {
-    // //         (table as HTMLDivElement).click()   
-    // //    },6000)
-
-   
-        
-    // })
 
     const randomRotation$ = $(() => {
         const rotationClass = Math.random() < 0.5 ? 'rotate-180' : 'rotate';
@@ -79,89 +70,72 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
     })
 
     const boardSolari$ = $(() => {
-        const panels = Array.from(document.querySelectorAll('.panel'))
-        const topPanels = Array.from(document.querySelectorAll('.top-panel'))
-        const bottomPanels = Array.from(document.querySelectorAll('.bottom-panel'))
-        const backPanels = Array.from(document.querySelectorAll('.back-panel'))
-
-        panels.map(async(panel,index) => {
-            const rotationClass = await randomRotation$();
-
-            (topPanels[index] as HTMLDivElement).classList.add(rotationClass);
-            (bottomPanels[index] as HTMLDivElement).classList.remove(rotationClass);
-            (bottomPanels[index] as HTMLDivElement).style.zIndex = '20';
-            
-            setTimeout(() => {
-                (backPanels[index] as HTMLDivElement).style.zIndex = '20';
-            },300)
-
-            setTimeout(() => {
-                (topPanels[index] as HTMLDivElement).classList.remove(rotationClass);
-                (bottomPanels[index] as HTMLDivElement).classList.add(rotationClass);
-
+        
+            const panels = Array.from(document.querySelectorAll('.panel'))
+            const topPanels = Array.from(document.querySelectorAll('.top-panel'))
+            const bottomPanels = Array.from(document.querySelectorAll('.bottom-panel'))
+            const backPanels = Array.from(document.querySelectorAll('.back-panel'))
+    
+            panels.map(async(panel,index) => {
+                const rotationClass = await randomRotation$();
+    
+                (topPanels[index] as HTMLDivElement).classList.add(rotationClass);
+                (bottomPanels[index] as HTMLDivElement).classList.remove(rotationClass);
+                (bottomPanels[index] as HTMLDivElement).style.zIndex = '20';
+                
                 setTimeout(() => {
-                    (backPanels[index] as HTMLDivElement).style.zIndex = '0';
+                    (backPanels[index] as HTMLDivElement).style.zIndex = '20';
                 },300)
-
+    
                 setTimeout(() => {
-                    (bottomPanels[index] as HTMLDivElement).style.zIndex = '10'
+                    (topPanels[index] as HTMLDivElement).classList.remove(rotationClass);
+                    (bottomPanels[index] as HTMLDivElement).classList.add(rotationClass);
+    
+                    setTimeout(() => {
+                        (backPanels[index] as HTMLDivElement).style.zIndex = '0';
+                    },300)
+    
+                    setTimeout(() => {
+                        (bottomPanels[index] as HTMLDivElement).style.zIndex = '10'
+                    },600)
                 },600)
-            },600)
+            })
+    
+            setTimeout(() => {
+                if(wordPosition.value < props.words.length)
+                {
+                    word.value = props.words[wordPosition.value]
+                    fadeDescription$()
+                    wordPosition.value = wordPosition.value+1
+                }
+                else
+                {
+                    word.value = props.words[0]
+                    fadeDescription$()
+                    wordPosition.value = 1
+                }
+            },900)
+      
+    })
+
+    useOnWindow(
+        'load',
+        $(() => {
+            const intervalId = setInterval(() => {
+                if (location.url.pathname === '/') {
+                    boardSolari$()
+                }
+            }, 6000)
+    
+            return () => {
+                clearInterval(intervalId)
+            }
         })
+      );
 
-        setTimeout(() => {
-            if(wordPosition.value < props.words.length)
-            {
-                word.value = props.words[wordPosition.value]
-                fadeDescription$()
-                wordPosition.value = wordPosition.value+1
-            }
-            else
-            {
-                word.value = props.words[0]
-                fadeDescription$()
-                wordPosition.value = 1
-            }
-        },900)
-    })
-
-    // const fadeDescription$ = $(() => {
-    //     const panels = document.querySelector('#panels-'+props.id) as HTMLDivElement
-    //     const description = document.querySelector('#description-'+props.id) as HTMLHeadingElement
-
-    //     if(word.value.position == 'bottom')
-    //     {
-    //         description.classList.add('fade-in-top')
-
-    //         setTimeout(() => {
-    //             description.classList.remove('fade-in-top')
-    //         },600)
-    //     }
-    //     else if(word.value.position == 'top')
-    //     {
-    //         panels.classList.add('order-2')
-
-    //         setTimeout(() => {
-    //             panels.classList.remove('order-2')
-    //         },4000)
-    //     }
-    // })
-
-    const update$ = $(() => {
-        if(location.url.pathname == '/'){
-            boardSolari$()
-
-        }
-    })
-
-    useVisibleTask$(() => {
-        setInterval(() => {
-            update$() 
-        },6000)
-    })
 
     return(
-        <div id={'board-solari-'+props.id} class='w-100' onClick$={update$}>
+        <div id={'board-solari-'+props.id} class='w-100' onClick$={()=>{boardSolari$()}}>
             {
                 word.value.position == 'top'
                 &&

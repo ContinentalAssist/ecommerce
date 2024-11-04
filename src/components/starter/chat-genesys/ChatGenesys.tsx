@@ -1,16 +1,12 @@
 import { component$, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
-//import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
-
 import styles from './chat-genesys.css?inline'
 
-/* interface propsCardResume {
-    [key:string]:any
-}
- */
+
 export const ChatGenesys = component$(() => {
     useStyles$(styles)
     const showChat = useSignal(false);
     const showButtonQuestion =useSignal(true);
+    
     useVisibleTask$(()=>{
        
         setInterval(() => {

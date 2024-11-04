@@ -1,4 +1,4 @@
-import { $, component$, useContext, useOnDocument, useSignal, useStylesScoped$, useVisibleTask$} from '@builder.io/qwik';
+import { $, component$, useContext, useOnDocument,useTask$, useSignal, useStylesScoped$, useVisibleTask$,useOn,useOnWindow} from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { useLocation, useNavigate } from '@builder.io/qwik-city';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
@@ -71,7 +71,7 @@ export default component$(() => {
     const loading = useSignal(true)
     const terms = useSignal(false)
     const isMobile=useSignal(false)
- 
+
     // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
     const dataPlan = useSignal([
         {
@@ -93,10 +93,14 @@ export default component$(() => {
             "cobertura": ''
         }
     ])
-    useVisibleTask$(()=>{
-        isMobile.value = stateContext.value.isMobile        
+   
+    useTask$(({ track })=>{
+        const newIsmobile = track(()=>stateContext.value.isMobile);        
+        if (newIsmobile) {
+            isMobile.value = newIsmobile
+        }
     })
-
+   // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {    
         if(location.url.search != '')
         {
@@ -130,13 +134,12 @@ export default component$(() => {
         loading.value = false
     })
 
-    useVisibleTask$(() => {
-        if(localStorage.getItem('terms'))
-        {
+    useOnWindow('load', $(() => {
+        if(localStorage.getItem('terms')) {
             const messageCookies = document.querySelector('#messageCookies') as HTMLElement
             messageCookies.classList.add('d-none')
         }
-    })
+    }))
 
     useOnDocument('scroll',$(() => {
         const page = document.querySelector('body') as HTMLElement
@@ -171,16 +174,18 @@ export default component$(() => {
         }
     }))
     
-    //Redirigir a seccion de blue-access
-    useVisibleTask$(() => {
+    //Redirigir a seccion de blue-access    
+    useOn(
+    'hashchange',
+    $(() => {
         const hash = String(location.url).split('#')[1];
         if (hash === 'blue-access') {
-          const blueAccessSection = document.querySelector('#blue-access');
-          if (blueAccessSection) {
+            const blueAccessSection = document.querySelector('#blue-access');
+            if (blueAccessSection) {
             blueAccessSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        }
-    });      
+            }}
+    })
+    );
 
     const getWelcome$ = $(() => {
         const messageCookies = document.querySelector('#messageCookies') as HTMLElement
@@ -433,7 +438,7 @@ export default component$(() => {
                                 </h2>
                                 <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
-                                    <QuotesEngine isMobile={isMobile.value}/>
+                                    <QuotesEngine isMobile={stateContext.value.isMobile}/>
                                     <div class='container mt-3'>
                                         <div class='row row-mobile justify-content-center'>
                                             <div class='col-lg-3 col-sm-6 col-xs-6'>
@@ -767,10 +772,10 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-            <div id='blue-access' class='bg-home-blue-access' >
+            <div id='blue-access' class='bg-home-blue-access' style={{minHeight:'980px !important'}} >
                 <div class='col-lg-12'>
                     <div class='container'>
-                        <div class='row align-content-center' style={{minHeight:'100vh'}}>
+                        <div class='row align-content-center' >
                             <div class='col-xl-12'>
                                 <div class='container'>
                                     <div class='row justify-content-center'>

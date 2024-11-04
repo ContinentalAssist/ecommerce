@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStyles$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
 import styles from './input-paxs.css?inline'
 
 interface propsInputPaxs {
@@ -13,7 +13,22 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     const totalPaxsString = useSignal('')
     const readOnly = useSignal(false)
 
-    useVisibleTask$(() => {        
+    useTask$(({ track })=>{
+        const value = track(()=>props.value);        
+        if (value) 
+        {
+            const newTotalstring = (value[23] > 0 ? value[23] +' Niños y jovenes ' : '') + (value[70] > 0 ? value[70] +' Adultos ' : '') + (value[85]  > 0 ?value[85] +' Adultos mayores ' : '')
+            totalPaxsString.value = newTotalstring
+            totalPaxsNumber.value = value
+        }
+    
+            //if(navigator.userAgent.includes('Mobile'))
+            //{
+                readOnly.value = true
+            //}
+    })
+
+/*     useVisibleTask$(() => {        
         if(props.value)
         {            
             const newTotalstring = (props.value[23] > 0 ? props.value[23] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
@@ -25,7 +40,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         //{
             readOnly.value = true
         //}
-    })
+    }) */
 
     const getPaxs$ = $(() => {
         // const bs = (window as any)['bootstrap']

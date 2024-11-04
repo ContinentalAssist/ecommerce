@@ -63,12 +63,12 @@ export const QuotesEngine = component$((props:propsQE) => {
 
     })
 
-    useVisibleTask$(() => {
-        //dateStart.value = new Date().toISOString().substring(0, 10)
-        //dateEnd.value = new Date(new Date().setDate(new Date().getDate()+2)).toISOString().substring(0, 10)
-
-        resume.value = stateContext.value      
-        
+    useTask$(({ track })=>{
+        const value = track(()=>stateContext.value);        
+        if (value) 
+        {
+            resume.value = stateContext.value 
+        }
     })
 
     const changeOrigin$ = $((e:any) => {        
