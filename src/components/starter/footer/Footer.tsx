@@ -118,7 +118,7 @@ export const Footer = component$(() => {
                                     attachment.value.urls.map((data:any,index:number) => {
                                         return(
                                             <>
-                                                <a title={data.label} class="text-regular text-white" href={data.url} target='_blank'>{data.label}</a>
+                                                <a key={'url-'+index} title={data.label} class="text-regular text-white" href={data.url} target='_blank'>{data.label}</a>
                                                 {
                                                     (index+1) == Array(attachment.value.urls).length
                                                     &&

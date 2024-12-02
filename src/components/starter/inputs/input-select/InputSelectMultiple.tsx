@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
 import styles from './input-select.css?inline'
 
 interface propsInputSelectMultiple {
@@ -50,7 +50,28 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         input.focus()
     })
 
-    useVisibleTask$(() => {
+    useTask$(({ track })=>{
+        const value = track(()=>props.value);        
+        if (value) 
+        {
+            const optionsValues : any[] = props.value
+
+            props.options.map(option => {
+                optionsValues.map(value => {
+                    if(value == option.value)
+                    {
+                        getOptions$(option)
+                    }
+                })
+            })
+        }
+        if(navigator.userAgent.includes('Mobile'))
+        {
+            readOnly.value = true
+        }
+    })
+
+  /*   useVisibleTask$(() => {
         if(props.value)
         {
             const optionsValues : any[] = props.value
@@ -69,7 +90,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         {
             readOnly.value = true
         }
-    })
+    }) */
 
     const getLastOption$ = $(() => {
         if(defaultValue.value.length > 0)

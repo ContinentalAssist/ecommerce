@@ -32,7 +32,7 @@ export default component$(() => {
     const countries = useSignal(array)
     const subjects = useSignal(array)
     const loading = useSignal(true)
-
+    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
         const resCountries : any[] = []
         const resSubjects : any[] = [

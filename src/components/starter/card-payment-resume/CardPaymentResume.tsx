@@ -390,7 +390,7 @@ export const CardPaymentResume = component$(() => {
                       !contextDivisa.divisaUSD &&
                       stateContext.value?.currentRate?.code ==='MXN'&&
                       <>
-                      <p class='text-regular text-regular text-dark-gray mb-0'>Trasacciones realizadas vía: </p>
+                      <p class='text-regular text-regular  mb-0'>Trasacciones realizadas vía: </p>
                       <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'50px', width:'auto'}} />
                       </>
                       
@@ -415,6 +415,17 @@ export const CardPaymentResume = component$(() => {
                             resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
                         }
                     </h3>
+                  </div>
+                  <div class="col-12 d-flex flex-row">
+                    {
+                        !contextDivisa.divisaUSD &&
+                        stateContext.value?.currentRate?.code ==='MXN'&&
+                        <>
+                         <i class="fas fa-shield-alt fa-sm  pe-2" style={{color:'green'}}></i>
+                         <small class='text-regular text-dark-gray mb-0'>Tus pagos se realizan de forma segura con encriptación de 256 bits. </small>
+                        </>
+                    }
+                 
                   </div>
                 </div>
               </div>

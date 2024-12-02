@@ -34,7 +34,7 @@
 .bg-home-blue-access
 {
     background-image: url("/assets/img/home/continental-assist-bg-blue-access-1920x1080.webp");
-    background-size: 100vw auto;
+    background-size:  auto;
     background-repeat: no-repeat;
 }
 
@@ -436,6 +436,6 @@
 {
     border-radius: 30px;
     background-color: white;
-    height: 350px !important;
-    max-width: 360px;
+    height: 750px !important;
+    width: 100%;
 }

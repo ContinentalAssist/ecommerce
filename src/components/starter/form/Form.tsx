@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
 import { InputPaxs } from "../inputs/input-paxs/InputPaxs";
 import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple";
 import { InputSelect } from "../inputs/input-select/InputSelect";
@@ -348,17 +348,21 @@ export const Form = component$((props:propsForm) => {
 
     const form = useSignal(forms)
 
-    function changeProps() {
+   /*  function changeProps() {
         form.value = props.form
     }
-    changeProps()
-    useTask$(() => {
-        form.value = props.form
+    changeProps() */
+    useTask$(({ track })=>{
+        const value = track(()=>props.form);        
+        if (value) 
+        {
+            form.value = value
+        }
     })
-
+ /*    // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
         form.value = props.form        
-    })
+    }) */
 
 
 
