@@ -390,7 +390,7 @@ export const CardPaymentResume = component$(() => {
                       !contextDivisa.divisaUSD &&
                       stateContext.value?.currentRate?.code ==='MXN'&&
                       <>
-                      <p class='text-regular text-regular  mb-0'>Trasacciones realizadas vía: </p>
+                      <p class='text-regular text-regular  mb-0'>Transacciones realizadas vía: </p>
                       <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'50px', width:'auto'}} />
                       </>
                       
