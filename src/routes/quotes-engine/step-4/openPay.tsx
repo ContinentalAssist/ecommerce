@@ -58,7 +58,7 @@ export default component$((props:propsOP) => {
     useTask$(() => {
         isLoading.value = true
         if(Object.keys(stateContext.value).length > 0)
-        {
+        {            
             if(stateContext.value.openPayTipo == 'CARD')
             {
                 months.value = [
@@ -86,16 +86,17 @@ export default component$((props:propsOP) => {
                 }
                         
                 years.value = newYears
-        
+
                 const checkOpenPayLoaded = () => {
+                                        
                     if (window.OpenPay) {
                         window.OpenPay.setId(import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY);
                         window.OpenPay.setApiKey(import.meta.env.VITE_MY_PUBLIC_WEB_API_KEY_OPEN_PAY);
-                        window.OpenPay.setSandboxMode(true);
+                        window.OpenPay.setSandboxMode(import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX=='t'? true: false);
                         const deviceSessionId = window.OpenPay.deviceData.setup("form-payment-method", "deviceIdHiddenFieldName");
                         opSessionId.value = deviceSessionId
                     } else {
-                        setTimeout(checkOpenPayLoaded, 100); 
+                        setTimeout(checkOpenPayLoaded, 500); 
                     }
                 };
             
