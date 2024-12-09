@@ -186,23 +186,6 @@ export default component$(() => {
        
     })
 
-    const getPaymentMethod$ = $((method:string) => {
-
-        if(stateContext.value.resGeo.country == 'CO')
-        {
-            stateContext.value.wompiTipo = method
-        }
-        else if(stateContext.value.resGeo.country == 'MX')
-        {
-            stateContext.value.openPayTipo = method
-        }
-        else
-        {
-            stateContext.value.authorizeTipo = method
-        }
-        
-        
-    })
 
     const getCupon$ = $(async() => {
         const input = document.querySelector('#input-cupon') as HTMLInputElement
@@ -247,9 +230,23 @@ export default component$(() => {
         }
     })
 
-    const getResume$ = $(async() => {
+    const getPaymentMethod$ = $( async(method:string) => {
         const newResume = Object.assign({},resume.value)
         newResume.cupon = messageCupon.value.cupon;
+        if(stateContext.value.resGeo.country == 'CO')
+        {
+            newResume.wompiTipo = method
+        }
+        else if(stateContext.value.resGeo.country == 'MX')
+        {
+            newResume.openPayTipo = method
+        }
+        else
+        {
+            newResume.authorizeTipo = method
+        }
+        
+
 
         (window as any)['dataLayer'].push(
             Object.assign({
@@ -275,8 +272,8 @@ export default component$(() => {
         stateContext.value = newResume
 
         await navigate('/quotes-engine/step-4')
+        
     })
-
     const sendQuote$ = $((e:any) => {
         const form = document.querySelector('#form-send') as HTMLElement
 
@@ -490,7 +487,7 @@ export default component$(() => {
                                                                     return(
                                                                         
                                                                     <div key={index}class='col-lg-4 col-md-6 g-0 d-flex align-items-center'>
-                                                                        <div class='d-flex justify-content-center align-items-center text-center ' style={{border:'2px solid lightgray',minWidth:'72px', width:'72px', height:'46px', borderRadius:'10px', margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                                        <div class='d-flex justify-content-center align-items-center text-center ' style={{border:'2px solid lightgray',minWidth:'72px', width:'72px', height:'46px', borderRadius:'10px', margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);}}>
                                                                             {
                                                                                 payment.icons.length>0 
                                                                                 &&
@@ -536,7 +533,7 @@ export default component$(() => {
                                                               
                                                            <div key={index}class='col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center'>
                                                               <p class="title-method text-medium text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
-                                                               <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);getResume$()}}>
+                                                               <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);}}>
                                                                    {
                                                                        payment.icons.length>0 
                                                                        &&
