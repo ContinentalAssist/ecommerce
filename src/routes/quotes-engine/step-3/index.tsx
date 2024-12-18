@@ -70,7 +70,7 @@ export default component$(() => {
                     'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MDQgNTA0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MDQgNTA0IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBzdHlsZT0iZmlsbDojZmZmIiBkPSJNNDUzLjc5IDQzMmgtMzYwVjcyaDM2MHYzNjB6Ii8+PHBhdGggZD0iTTQ1MCA0NTB2LTYyLjc1aC00Ny43OGwtMjQuNTktMjcuMi0yNC43MiAyNy4ySDE5NS4zOVYyNjAuNWgtNTAuODRsNjMuMDYtMTQyLjcxaDYwLjgybDIxLjcxIDQ4Ljg5di00OC44OWg3NS4yOGwxMy4wNyAzNi44NCAxMy4xNS0zNi44NEg0NTBWNTRINTR2Mzk2aDM5NnptLTM5LjczLTc4LjYySDQ1MGwtNTIuNTUtNTUuNzNMNDUwIDI2MC41NmgtMzkuMWwtMzIuNDUgMzUuNDYtMzIuMTQtMzUuNDZoLTM5Ljc0bDUyLjI0IDU1LjQxLTUyLjI0IDU1LjQxaDM4LjYzbDMyLjYxLTM1Ljc4IDMyLjQ2IDM1Ljc4em05LjMtNTUuNjhMNDUwIDM0OC4wOFYyODMuNmwtMzAuNDMgMzIuMXptLTE3Ny4xMSAzMC4wM3YtMTcuMjZoNjIuNTN2LTI1LjAxaC02Mi41M3YtMTcuMjVoNjQuMTJ2LTI1LjY1aC05NC4zNnYxMTAuODJoOTQuMzZ2LTI1LjY1aC02NC4xMnptMTc3LjYyLTEwMS4yNUg0NTBWMTMzLjY1aC00Ni41NWwtMjQuODYgNjkuMDMtMjQuNy02OS4wM2gtNDcuMzR2MTEwLjgyaDI5LjkyVjE2Ni45bDI4LjUgNzcuNThoMjYuNmwyOC41LTc3Ljc0djc3Ljc0aC4wMXptLTE0Ny41NiAwaDM0LjA0bC00OC45Mi0xMTAuODJIMjE4LjdsLTQ4LjkyIDExMC44MmgzMy4yNWw5LjE4LTIyLjE2aDUwLjk4bDkuMzMgMjIuMTZ6bS0xOS43OC00Ny4wMmgtMzAuMDhsMTUuMDQtMzYuMjUgMTUuMDQgMzYuMjV6IiBzdHlsZT0iZmlsbDojMDA3OWMxIi8+PC9zdmc+'
                 ]
             },            
-            {
+            /* {
                 method:'STORE',
                 title:'Pago en comercio',
                 icons:[],
@@ -90,7 +90,7 @@ export default component$(() => {
                 fontawesome:'fa-solid fa-money-bill-transfer fa-xl text-dark-blue'
                    
                 
-            }
+            } */
         ]},
         {origin:'CO',list:[
             {

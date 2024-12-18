@@ -19,12 +19,12 @@ export const Footer = component$(() => {
     ]
 
     const urls : any[] = [
-        {country:'CO',label:'Anexo A',url:'https://storage.googleapis.com/files-continentalassist-web/ANEXO%20A%20-%20Seguro%20aplicable%20a%20Colombia%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
+        {country:'CO',label:'Anexo A',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20A%20-%20Seguro%20aplicable%20a%20Colombia%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
         {country:'MX',urls:[
-            {label:'Anexo B',url:'https://storage.googleapis.com/files-continentalassist-web/ANEXO%20B%20-%20Seguro%20aplicable%20a%20M%C3%A9xico%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
-            {label:'Anexo D',url:'https://storage.googleapis.com/files-continentalassist-web/ANEXO%20D%20-%20Responsabilidad%20Civil%20Familiar%20(Exclusivamente%20Para%20Planes%20Emitidos%20En%20Me%CC%81xico).pdf'}
+            {label:'Anexo B',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20B%20-%20Seguro%20aplicable%20a%20M%C3%A9xico%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
+            {label:'Anexo D',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20D%20-%20Responsabilidad%20Civil%20Familiar%20%28Exclusivamente%20Para%20Planes%20Emitidos%20En%20Me%CC%81xico%29.pdf'}
         ]},
-        {country:'',label:'Anexo C',url:'https://storage.googleapis.com/files-continentalassist-web/ANEXO%20C%20-%20Seguro%20aplicable%20a%20Otros%20Pa%C3%ADses%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'}
+        {country:'',label:'Anexo C',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20C%20-%20Seguro%20aplicable%20a%20Otros%20Pa%C3%ADses%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'}
     ]
 
     const attachment = useSignal(urls[2])
@@ -131,7 +131,7 @@ export const Footer = component$(() => {
                                     <a class="text-regular text-white" href={attachment.value.url} target='_blank'>{attachment.value.label}</a>
                                 }
                                 <br/>
-                                <a title='Tratamiento Informacion' href='https://storage.googleapis.com/files-continentalassist-web/Pol%C3%ADtica%20de%20Tratamiento%20de%20la%20Informaci%C3%B3n%20y%20Privacidad%20Continental%20Assist.pdf' target='_blank' rel="noopener" class='text-regular text-white'>Políticas de Tratamiento de la Información y Privacidad</a>
+                                <a title='Tratamiento Informacion' href='https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Pol%C3%ADtica%20de%20Tratamiento%20de%20la%20Informaci%C3%B3n%20y%20Privacidad%20Continental%20Assist.pdf' target='_blank' rel="noopener" class='text-regular text-white'>Políticas de Tratamiento de la Información y Privacidad</a>
                             </div>
                             <div class='not-mobile col-lg-6 col-sm-12 mt-3'>
                                 <div class='container'>
