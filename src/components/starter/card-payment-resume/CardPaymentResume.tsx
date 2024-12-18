@@ -29,20 +29,19 @@ export const CardPaymentResume = component$(() => {
     const paxSub :any[] = [];
     resume.value.asegurados.map((pax: any) => 
       {
-
         const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento
         ? resume?.value?.plan?.precioincrementoedad
         : resume?.value?.plan?.precioindividual;
 
         if (resume.value.total && contextDivisa.divisaUSD == true) {
           paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {    
-            return sum + value.precio;
+            return sum +  Number(value.precio);
           }, 0) + precioBase)
 
         }else{
           
-        paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {
-          return sum + value.precio;
+        paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {          
+          return sum + Number(value.precio);
           }, 0) *stateContext.value?.currentRate?.rate + (precioBase * stateContext.value?.currentRate?.rate))
 
         }      
