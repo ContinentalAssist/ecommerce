@@ -180,6 +180,8 @@ export default component$(() => {
     })
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
+        console.log("stateContext",stateContext.value);
+        
         if(Object.keys(stateContext.value).length > 0)
         {
             const prevResume : {[key:string]:any} = stateContext.value
@@ -201,14 +203,23 @@ export default component$(() => {
             const dataPlans = await resPlans.json()
             
             error = dataPlans.error
-            plans.value = dataPlans.resultado
 
             if(error == false)
             {
-                if(plans.value.length > 0)
+                const defaultPlan =stateContext.value.planDefault;
+                //plans.value = dataPlans.resultado
+                if(plans.value.length < 3)
                 {
-                    loading.value = false
+                    const resultado = defaultPlan.map((item:any)=>{
+                        const coincidente = dataPlans.resultado.find((c:any)=> c.idplan === item.idplan);
+                        return coincidente ? coincidente : item;
+                    })
+                 
+                    plans.value = resultado
+                    
                 }
+                loading.value = false
+
             }
             else
             {
@@ -573,7 +584,7 @@ export default component$(() => {
                             {
                                 plans.value.map((plan,index) => {                                                                                                     
                                     return(
-                                        <div key={index+1} class='col-lg-4 col-sm-4'>
+                                        <div key={index+1} class='col-lg-4 col-sm-4' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
                                             <div class={index == 1  ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
                                                 {
                                                     index == 1
@@ -617,12 +628,14 @@ export default component$(() => {
                                                             <div class='col-lg-12 text-center'>
                                                                 <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
                                                                     {
-                                                                        
+                                                                        plan.precio_grupal ?
                                                                         divisaManual.value == true 
                                                                         ? 
                                                                         CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
                                                                         : 
                                                                         CurrencyFormatter(stateContext.value.currentRate.code,plan.precio_grupal * stateContext.value.currentRate.rate)
+                                                                        :
+                                                                        <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
                                                                     }
                                                                 </h2>
                                                             </div>

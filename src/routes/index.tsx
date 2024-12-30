@@ -129,6 +129,7 @@ export default component$(() => {
         const data =await response.json();
         if (!data.error) {
             dataPlan.value = await data.resultado; 
+            stateContext.value.planDefault =await data.resultado;
         }
         
         loading.value = false

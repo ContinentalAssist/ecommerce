@@ -249,7 +249,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     type:'select',
                                     label:'Origen',
                                     name:'origen',
-                                    options:destinations.value,
+                                    options:origins.value,
                                     required:true,
                                     onChange:$((e:any) => {changeOrigin$(e)}),
                                     icon:'plane-departure',
