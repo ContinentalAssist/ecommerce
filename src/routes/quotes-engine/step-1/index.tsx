@@ -180,7 +180,6 @@ export default component$(() => {
     })
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {
-        console.log("stateContext",stateContext.value);
         
         if(Object.keys(stateContext.value).length > 0)
         {
