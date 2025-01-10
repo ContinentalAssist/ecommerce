@@ -17,7 +17,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         const value = track(()=>props.value);        
         if (value) 
         {
-            const newTotalstring = (value[23] > 0 ? value[23] +' Niños y jovenes ' : '') + (value[70] > 0 ? value[70] +' Adultos ' : '') + (value[85]  > 0 ?value[85] +' Adultos mayores ' : '')
+            const newTotalstring = (value[23] > 0 ? value[23] +' Niños y jovenes ' : '') + (value[75] > 0 ? value[75] +' Adultos ' : '') + (value[85]  > 0 ?value[85] +' Adultos mayores ' : '')
             totalPaxsString.value = newTotalstring
             totalPaxsNumber.value = value
         }
@@ -31,7 +31,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
 /*     useVisibleTask$(() => {        
         if(props.value)
         {            
-            const newTotalstring = (props.value[23] > 0 ? props.value[23] +' Niños y jovenes ' : '') + (props.value[70] > 0 ? props.value[70] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
+            const newTotalstring = (props.value[23] > 0 ? props.value[23] +' Niños y jovenes ' : '') + (props.value[75] > 0 ? props.value[75] +' Adultos ' : '') + (props.value[85]  > 0 ?props.value[85] +' Adultos mayores ' : '')
             totalPaxsString.value = newTotalstring
             totalPaxsNumber.value = props.value
         }
@@ -55,7 +55,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                 totalString[0] = (input as HTMLInputElement).value
                 totalNumber[0] = {[(input as HTMLInputElement).name]:(input as HTMLInputElement).value}
             }
-            else if((input as HTMLInputElement).name == '70')
+            else if((input as HTMLInputElement).name == '75')
             {
                 totalString[1] = (input as HTMLInputElement).value
                 totalNumber[1] = {[(input as HTMLInputElement).name]:(input as HTMLInputElement).value}
@@ -151,20 +151,20 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                         </div>
                         <div class='col-6 col-md-5'>
                             <div class='d-flex align-items-baseline input-number-group'>
-                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-70')}}>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {removePaxs$('input-75')}}>
                                     <i class="fas fa-minus text-light-blue"/>
                                 </button>
                                 <input 
                                     type='number' 
                                     class='form-control-plaintext  text-semi-bold text-dark-blue p-0 ' 
-                                    id='input-70' 
-                                    name='70' 
+                                    id='input-75' 
+                                    name='75' 
                                     min={0} 
                                     max={14} 
-                                    value={props.value!= undefined ? props.value[70] : 0} 
+                                    value={props.value!= undefined ? props.value[75] : 0} 
                                     readOnly
                                 />
-                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-70')}}>
+                                <button type='button' class='btn-icon-circle' onClick$={() => {addPaxs$('input-75')}}>
                                     <i class="fas fa-plus"/>
                                 </button>
                             </div>

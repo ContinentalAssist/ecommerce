@@ -356,7 +356,7 @@ export default component$(() => {
                 'destino': newDataForm.paisesdestino,
                 'desde': newDataForm.desde,
                 'hasta': newDataForm.hasta,
-                'adultos':newDataForm[70],
+                'adultos':newDataForm[75],
                 'niños_y_jovenes': newDataForm[23],
                 'adultos_mayores': newDataForm[85],
                 'page': 'home',
@@ -365,7 +365,7 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {                                
-                if(newDataForm[23] <= 4 && newDataForm[70] >= 2 && newDataForm[85] == 0)
+                if(newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = Object.assign(stateContext.value,newDataForm)

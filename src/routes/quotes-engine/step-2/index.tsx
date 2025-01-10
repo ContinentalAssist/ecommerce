@@ -197,7 +197,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                                             type:'paxs',
                                             name:'pasajeros',
                                             required:true,
-                                            value:{[23]:props.resume[23]||0,[70]:props.resume[70]||0,[85]:props.resume[85]||0},
+                                            value:{[23]:props.resume[23]||0,[75]:props.resume[75]||0,[85]:props.resume[85]||0},
                                             icon:'user-plus'
                                         }
                                     ]}
@@ -275,6 +275,7 @@ export default component$(() => {
         const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
         const dataDefaults = await resDefaults.json()
         res = dataDefaults.resultado[0]
+console.log(additionalsBenefitsPlan.value);
 
         res.origenes.map((origen) => {
             resOrigins.push({value:origen.idpais,label:origen.nombrepais})
@@ -309,26 +310,11 @@ export default component$(() => {
                 totalPay.value = {divisa:resume?.value?.plan?.codigomonedapago,total:Number(resume?.value?.plan?.precio_grupal)}
                 let newRes: any[] = []
 
-                // const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                //     .then((response) => {return(response.json())})
-                const newAges : any[] = []
-
-                resume?.value?.edades?.map((age:any) => {
-                    if(age == 70)
-                    {
-                        newAges.push(40)
-                    }
-                    else if(age == 85)
-                    {
-                        newAges.push(72)
-                    }
-                })
 
                 const dataRequest = {
                     idplan:resume?.value?.plan?.idplan,
                     dias:resume.value.dias,
                     edades:resume.value.edades,
-                    // edades:newAges,
                     ip:stateContext.value?.resGeo?.ip_address,
                 }
 
@@ -338,33 +324,33 @@ export default component$(() => {
                 const today = DateFormat(new Date)
                 
                newRes.map((res,index) => {
-                    const min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (res.edad*12))))
-                    let max = ''
-                    if(res.edad == 23)
-                    {
-                        max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
-                    }
-                    else if (res.edad == 70)
-                    {
-                        max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (23*12))))
-                    }
-                    else if (res.edad == 85)
-                    {
-                        max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (71*12))))
-                    }
+                let min = ''
+                let max = ''
+                if (res.edad >= 24 && res.edad <= 75) {
+                    min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (24*12))))
+                    max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (75*12))))
+                } else if (res.edad >= 76 && res.edad <= 85) {
+                    min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (76*12))))
+                    max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (85*12))))
+                } else {
+                    min = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (0*12))))
+                    max = DateFormat(new Date(new Date(today).setMonth(new Date(today).getMonth() - (23*12))))
+                }
                  
 
-                    res.minDate = min
-                    res.maxDate = max
+                    res.minDate = max
+                    res.maxDate = min
                     res.idpasajero = index+1
-                    res.beneficiosadicionalesasignados = res.beneficiosadicionales
+                    res.beneficiosadicionalesasignados = res?.beneficiosadicionales||[];
                     res.beneficiosadicionales = []
                     res.documentacion = ''
                 })
                 
                 additionalsBenefits.value = newRes
+
             }
             loading.value = false
+            
            /*  if(additionalsBenefits.value.length > 0)
             {
                 loading.value = false
@@ -615,7 +601,7 @@ export default component$(() => {
                                     'destino': newStateContext.paisesdestino,
                                     'desde': newStateContext.desde,
                                     'hasta': newStateContext.hasta,
-                                    'adultos': newStateContext[70],
+                                    'adultos': newStateContext[75],
                                     'niños_y_jovenes': newStateContext[23],
                                     'adultos_mayores': newStateContext[85],
                                     'page': '/quotes-engine/step-2',
@@ -670,7 +656,7 @@ export default component$(() => {
                                 'destino': newStateContext.paisesdestino,
                                 'desde': newStateContext.desde,
                                 'hasta': newStateContext.hasta,
-                                'adultos': newStateContext[70],
+                                'adultos': newStateContext[75],
                                 'niños y jovenes': newStateContext[23],
                                 'adultos mayores': newStateContext[85],
                                 'page': 'home',
@@ -839,7 +825,7 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {
-                if(newDataForm[23] >= 2 && (newDataForm[70]+newDataForm[85]) >= 2)
+                if(newDataForm[23] >= 2 && (newDataForm[75]+newDataForm[85]) >= 2)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = newDataForm
@@ -1034,7 +1020,7 @@ export default component$(() => {
                                                                     <p class='text-tin text-dark-blue'>
                                                                         De
                                                                         {addBenefit.edad == '23' && ' 0 a 23 '}
-                                                                        {addBenefit.edad == '70' && ' 24 a 75 '}
+                                                                        {addBenefit.edad == '75' && ' 24 a 75 '}
                                                                         {addBenefit.edad == '85' && ' 76 a 85 '}
                                                                         años
                                                                     </p>
@@ -1061,7 +1047,7 @@ export default component$(() => {
                                                                     <p class='text-tin text-dark-blue'>
                                                                         De
                                                                         {addBenefit.edad == '23' && ' 0 a 23 '}
-                                                                        {addBenefit.edad == '70' && ' 24 a 75 '}
+                                                                        {addBenefit.edad == '75' && ' 24 a 75 '}
                                                                         {addBenefit.edad == '85' && ' 76 a 85 '}
                                                                         años
                                                                     </p>
