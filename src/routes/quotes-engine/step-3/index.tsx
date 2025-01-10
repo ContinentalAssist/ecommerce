@@ -257,7 +257,7 @@ export default component$(() => {
                 'destino': newResume.paisesdestino,
                 'desde': newResume.desde,
                 'hasta': newResume.hasta,
-                'adultos': newResume[70],
+                'adultos': newResume[75],
                 'niños_y_jovenes': newResume[23],
                 'adultos_mayores': newResume[85],
                 'page': '/quotes-engine/step-3',
