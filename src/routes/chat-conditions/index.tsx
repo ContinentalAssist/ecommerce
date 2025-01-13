@@ -42,28 +42,25 @@ export default component$(() => {
   const getChatAksYourPdf$ = $(async () => {
     const data = 
       {
-        documents: ["dc49b407-f5aa-467d-8ef5-976e5dbd111e", "6241a75b-2be7-43de-8b44-66fd82456b04"],
-        message:  lastMessage.value, 
-        language:'SPANISH'
+        pregunta:  lastMessage.value
       }
 
 
     disableElement.value = true;
 
-    const resChat = await fetch("/api/getAskyourpdf", { method: "POST", body: JSON.stringify(data) });
+    const resChat = await fetch("/api/getAskQuestion", { method: "POST", body: JSON.stringify(data) });
     const dataChat = await resChat.json() ?? {};
 
     const tempChat = [...dataChatBox.value];    
-    if ('data' in dataChat) {
-      if ('question' in dataChat.data) {
-
+    if ('resultado' in dataChat) {
+      if ('question' in dataChat.resultado) {
         if (dataChatBox.value.length < 3) {
-          tempChat.push(dataChat.data);
+          tempChat.push(dataChat.resultado);
         } else {
           tempChat.shift();
-          tempChat.push(dataChat.data);
+          tempChat.push(dataChat.resultado);
         }
-        if (dataChat.data != undefined) {
+        if (dataChat.resultado != undefined) {
           dataChatBox.value = tempChat;
         }
         
