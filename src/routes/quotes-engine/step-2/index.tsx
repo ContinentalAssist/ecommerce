@@ -275,7 +275,6 @@ export default component$(() => {
         const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
         const dataDefaults = await resDefaults.json()
         res = dataDefaults.resultado[0]
-console.log(additionalsBenefitsPlan.value);
 
         res.origenes.map((origen) => {
             resOrigins.push({value:origen.idpais,label:origen.nombrepais})
