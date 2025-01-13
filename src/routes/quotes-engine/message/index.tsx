@@ -187,6 +187,8 @@ export default component$(() => {
                                     <div class='col-lg-12 text-center mt-5' >
                                           <p class="h1 text-semi-bold text-blue"><i class="fa-regular fa-circle-check fa-xl" style={{color:'green'}}/> Gracias por tu compra! </p>                                     
                                             <hr class='divider my-3'/>
+                                            <br/>
+                                          <span class="text-regular text-dark-gray ">En breve recibirás un correo con la confirmación de tu orden.</span>
                                         </div>
                              
                                 <div class="col-lg-6 col-sm-12">
