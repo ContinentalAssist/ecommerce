@@ -151,11 +151,12 @@ export default component$(() => {
                                 class="d-flex align-items-end flex-column p-3 ms-3"
                                 style="border-radius: 15px; background-color: white;"
                               >
-                                <p class="small text-dark-blue mb-0"> {data?.answer?.message}</p>
+                                <div class="small text-dark-blue mb-0" dangerouslySetInnerHTML={data?.answer?.message}/>
+                               
                                 <div
                                   class="mt-auto p-2"
                                   onClick$={() => {
-                                    copyToClipboard(String(data?.answer?.message));
+                                    copyToClipboard(String(data?.answer?.message));{{data?.answer?.message}}
                                   }}
                                 >
                                   <i class="fa-regular fa-copy" style={{ cursor: "pointer" }} />
@@ -202,14 +203,19 @@ export default component$(() => {
               
                     <div class="col-2 mt-1 ">
                       <div class="row  justify-content-end pe-1">
-                      <div
-                      class="circle-light-blue d-flex align-items-center align-self-center justify-content-center   text-center"
-                      style={{ cursor: "pointer" }}
-                      onClick$={()=>{getChatAksYourPdf$()}}
-                    >
-                      <i class="fa-regular fa-paper-plane text-white" />
+                     {disableElement.value?
+                      <img class="mb-3" src='/assets/img/ca/continental-assist-loading.webp' alt='continental-assist-loading' style={{width:'60px'}}/>
+                     :
+                     <div
+                     class="circle-light-blue d-flex align-items-center align-self-center justify-content-center   text-center"
+                     style={{ cursor: "pointer" }}
+                     onClick$={()=>{getChatAksYourPdf$()}}>
+                     <i class="fa-regular fa-paper-plane text-white" />
 
-                    </div> 
+                   </div> 
+                     }
+                     
+
 
                       </div>
 
