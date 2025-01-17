@@ -316,12 +316,12 @@ export default component$(() => {
                     edades:resume.value.edades,
                     ip:stateContext.value?.resGeo?.ip_address,
                 }
+               
 
-                const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
-                const dataAdditionals = await resAdditionals.json()
-                newRes = Array.isArray(dataAdditionals?.resultado)?dataAdditionals.resultado:[]
+               /*  const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+                const dataAdditionals = await resAdditionals.json() */
+                newRes =resume?.value.plan.adicionalesdefault;
                 const today = DateFormat(new Date)
-                
                newRes.map((res,index) => {
                 let min = ''
                 let max = ''
