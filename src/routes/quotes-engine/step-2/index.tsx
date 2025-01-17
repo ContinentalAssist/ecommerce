@@ -310,12 +310,12 @@ export default component$(() => {
                 let newRes: any[] = []
 
 
-                const dataRequest = {
+                /* const dataRequest = {
                     idplan:resume?.value?.plan?.idplan,
                     dias:resume.value.dias,
                     edades:resume.value.edades,
                     ip:stateContext.value?.resGeo?.ip_address,
-                }
+                } */
                
 
                /*  const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
