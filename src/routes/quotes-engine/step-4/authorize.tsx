@@ -256,9 +256,9 @@ export default component$((props:propsAuthorize) => {
                     },
                     idplataformapago:2,
                     cupon:{
-                        idcupon:resume.value.cupon.idcupon,
-                        codigocupon:resume.value.cupon.codigocupon,
-                        porcentaje:resume.value.cupon.porcentaje
+                        idcupon:resume.value?.cupon?.idcupon||0,
+                        codigocupon:resume.value?.cupon?.codigocupon||'',
+                        porcentaje:resume.value?.cupon?.porcentaje||0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',

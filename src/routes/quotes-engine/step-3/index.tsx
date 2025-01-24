@@ -42,7 +42,7 @@ export default component$(() => {
     const objectResume : {[key:string]:any} = {}
 
     const resume = useSignal(objectResume)
-    const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}})
+    const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}, aplicado:false})
     const loading = useSignal(true)
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const desktop = useSignal(false)
@@ -186,6 +186,15 @@ export default component$(() => {
        
     })
 
+    const updateHeight$ = $(()=> {
+        const cardPax = document.getElementById('card-pax');
+        const cardRight = document.getElementById('card-right');
+    
+        if (cardPax && cardRight) {
+          const newHeight = cardRight.offsetHeight + 52;
+          cardPax.style.height = `${newHeight}px`;
+        }        
+      })
 
     const getCupon$ = $(async() => {
         const input = document.querySelector('#input-cupon') as HTMLInputElement
@@ -204,35 +213,58 @@ export default component$(() => {
                 }
                 
                 let resCupon : {[key:string]:any} = {}
-
+                
+                
                 const resCuponValid = await fetch("/api/getCupon",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataCupon = await resCuponValid.json()
                 resCupon = dataCupon
-    
                 if(resCupon.error == false)
                 {
-                    const newResume = Object.assign({},resume.value)
-                    const discount = newResume.total.total * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
-                    const newTotal = newResume.total.total - discount
-                    
-                    newResume.subTotal = newResume.total.total
-                    newResume.total = {divisa:newResume.total.divisa,total:newTotal}
 
+                    const newResume = Object.assign({},resume.value)
+                    const discount = resume.value?.subTotal * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
+                    const newTotal = resume.value?.subTotal - discount
+                 
+                    newResume.total = {divisa:newResume.total.divisa,total:newTotal}
+                    
                     resume.value = newResume
 
-                    messageCupon.value = {error:'success',cupon:resCupon.resultado}
+                    messageCupon.value = {error:'success',cupon:resCupon.resultado[0], aplicado: true}
+                    newResume.cupon = messageCupon.value.cupon;
+                    stateContext.value = newResume
+                    
                 }
                 else
                 {
-                    messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0}}
+                    messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
                 }
             }
+            updateHeight$();
         }
+       
+    })
+
+    
+    const removeCupon$ = $(async() => {
+        messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
+        const newResume = Object.assign({},resume.value)
+       // delete newResume.cupon;
+       newResume.cupon={
+        idcupon:0,
+        codigocupon:'',
+        porcentaje: 0
+        }
+        newResume.total = {divisa:newResume.total.divisa,total:resume.value.subTotal}
+        //newResume.subTotal = resume.value.subTotal;
+        stateContext.value = newResume;
+        const input = document.querySelector('#input-cupon') as HTMLInputElement
+        input.value = '';
+        updateHeight$();
     })
 
     const getPaymentMethod$ = $( async(method:string) => {
         const newResume = Object.assign({},resume.value)
-        newResume.cupon = messageCupon.value.cupon;
+        //newResume.cupon = messageCupon.value.cupon;
         if(stateContext.value.resGeo.country == 'CO')
         {
             newResume.wompiTipo = method
@@ -262,8 +294,8 @@ export default component$(() => {
                 'adultos_mayores': newResume[85],
                 'page': '/quotes-engine/step-3',
                 'option': newResume.plan.nombreplan,
-                'descuento': newResume.cupon.porcentaje,
-                'cupon': newResume.cupon.codigocupon,
+                'descuento': newResume?.cupon?.porcentaje||0,
+                'cupon': newResume?.cupon?.codigocupon||'',
                 'total': Math.ceil(newResume.total.total),
                 'cta': 'ir a pagar',
             },stateContext.value.dataLayerPaxBenefits)
@@ -274,9 +306,12 @@ export default component$(() => {
         await navigate('/quotes-engine/step-4')
         
     })
+
+
+    
     const sendQuote$ = $((e:any) => {
         const form = document.querySelector('#form-send') as HTMLElement
-
+        
         if(e.target.checked == false)
         {
             form.classList.add('d-none')
@@ -285,6 +320,7 @@ export default component$(() => {
         {
             form.classList.remove('d-none')
         }
+        updateHeight$();
     })
 
     const getSendQuote$ = $(async() => {
@@ -441,7 +477,13 @@ export default component$(() => {
                                                                 
                                                                 <div class='col-xl-2 col-sm-12 col-12'>
                                                                 <div class='d-grid gap-2 '>
-                                                                <button type='button' class='btn btn-primary' onClick$={getCupon$}>Aplicar</button>
+                                                                    {
+                                                                         messageCupon.value.aplicado ==false&&messageCupon.value.cupon.codigocupon == ''?
+                                                                         <button type='button' class='btn btn-primary' onClick$={getCupon$}>Aplicar</button>
+                                                                         :
+                                                                        <button type='button' class='btn btn-primary' onClick$={removeCupon$}>Remover</button>
+                                                                    }
+                                                                
 
                                                                 </div>
                                                                     
@@ -465,7 +507,7 @@ export default component$(() => {
                                                                             messageCupon.value.error == 'success'
                                                                             &&
                                                                             <div class="alert alert-success text-semi-bold text-blue mb-0" role="alert">
-                                                                                Cupón <span class='text-semi-bold text-success'>{messageCupon.value.cupon.codigocupon}</span> aplicado con exito!
+                                                                                Cupón <span class='text-semi-bold text-success'> {messageCupon.value.cupon.codigocupon} </span> aplicado con éxito!
                                                                             </div>
                                                                         }
                                                                     </div>
