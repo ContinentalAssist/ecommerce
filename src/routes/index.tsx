@@ -362,10 +362,10 @@ export default component$(() => {
                 'page': 'home',
                 'cta': 'buscar'
             });
-
+ 
             if(newDataForm.edades.length > 0)
             {                                
-                if(newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
+                if(newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = Object.assign(stateContext.value,newDataForm)

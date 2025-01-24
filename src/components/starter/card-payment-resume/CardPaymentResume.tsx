@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$, Slot } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStylesScoped$,  Slot, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
@@ -15,15 +15,37 @@ export const CardPaymentResume = component$(() => {
   const objectResume: { [key: string]: any } = {};
 
   const resume = useSignal(objectResume);
-  const loading = useSignal(true);
+ // const loading = useSignal(true);
   const indexPax = useSignal(0)
-  // eslint-disable-next-line qwik/no-use-visible-task
-  useVisibleTask$(() => {       
-    if (Object.keys(stateContext.value).length > 0) {
-      resume.value = stateContext.value;
-      loading.value = false;
+
+
+
+  useTask$(({ track })=>{
+      const value = track(()=>stateContext.value); 
+             
+      if (Object.keys(value).length > 0) {
+        resume.value = value;       
+      }
+
+      
+  })
+
+
+
+  useVisibleTask$(() => {
+    if (typeof window !== 'undefined') {
+      const cardPax = document.getElementById('card-pax');
+      const cardRight = document.getElementById('card-right');
+  
+      if (cardPax && cardRight) {
+        const newHeight = cardRight.offsetHeight + 52;
+        cardPax.style.height = `${newHeight}px`;
+      }
     }
-  });
+   
+
+ });
+
 
   function calculateSubTotal() {
     const paxSub :any[] = [];
@@ -395,23 +417,29 @@ export const CardPaymentResume = component$(() => {
                       
                     }
                   </div>
-                  {/* <div class='col-6 '>
-                    {
-                      !contextDivisa.divisaUSD &&
-                      stateContext.value?.currentRate?.code ==='MXN'&&
-                      <>
-                      <i class="fas fa-shield-alt fa-lg"></i>
-                      <p class='text-regular text-blue mb-0'>Tus pagos se realizan de forma segura <br/> con encriptación de 256 bits </p>
-                      </>
-                      
-                    }
-                  </div> */}
-
                   <div class='col-6 col-xs-12 text-end'>
                     <p class='text-regular text-blue mb-0'>Total</p>
                     <h3 class='divisa-total text-bold text-blue mb-4'>
+                      
                         {
-                            resume.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
+                           resume.value.cupon && resume.value.cupon && resume.value.cupon.codigocupon&&
+                           <>
+                           <strike class="precio-strike">
+                            {                              
+                              resume.value.total && (contextDivisa.divisaUSD == true ? 
+                                CurrencyFormatter(resume.value?.total?.divisa, resume.value?.subTotal) 
+                                : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.subTotal * stateContext.value?.currentRate?.rate))
+                            }
+                            </strike>
+                            <br/>
+                           </>
+                          
+
+                        }
+                        {
+                            resume.value.total && (contextDivisa.divisaUSD == true ? 
+                              CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) 
+                              : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
                         }
                     </h3>
                   </div>

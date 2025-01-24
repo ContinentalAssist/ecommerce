@@ -487,7 +487,7 @@ export default component$((props:propsWompi) => {
 
         if(error == false)
         {
-            const resToken = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI+'/tokens/cards',{
+            const resToken = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI+'tokens/cards',{
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -551,9 +551,9 @@ export default component$((props:propsWompi) => {
                     },
                     idplataformapago:4,
                     cupon:{
-                        idcupon:resume.value.cupon.idcupon,
-                        codigocupon:resume.value.cupon.codigocupon,
-                        porcentaje:resume.value.cupon.porcentaje
+                        idcupon:resume.value?.cupon?.idcupon||0,
+                        codigocupon:resume.value?.cupon?.codigocupon||'',
+                        porcentaje:resume.value?.cupon?.porcentaje||0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
