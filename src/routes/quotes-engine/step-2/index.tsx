@@ -590,7 +590,6 @@ export default component$(() => {
                             newStateContext.asegurados = dataForm
                             newStateContext.subTotal = totalPay.value.total; 
                             newStateContext.total = totalPay.value;
-                            console.log(prevTotal.value ,totalPay.value.total);
                             
                             (window as any)['dataLayer'].push(
                                 Object.assign({

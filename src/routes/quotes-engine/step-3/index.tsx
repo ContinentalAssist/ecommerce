@@ -214,11 +214,11 @@ export default component$(() => {
                 
                 let resCupon : {[key:string]:any} = {}
                 
-                
+                loading.value = true;
                 const resCuponValid = await fetch("/api/getCupon",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataCupon = await resCuponValid.json()
                 resCupon = dataCupon
-                if(resCupon.error == false)
+                if(resCupon.error == false &&Number(resCupon.resultado[0]?.porcentaje)>0 )
                 {
 
                     const newResume = Object.assign({},resume.value)
@@ -238,6 +238,7 @@ export default component$(() => {
                 {
                     messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
                 }
+                loading.value = false;
             }
             updateHeight$();
         }
