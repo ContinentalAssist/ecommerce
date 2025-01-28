@@ -61,13 +61,6 @@ export default component$((props:propsWompi) => {
             {      
                 const url= dataValidation.resultado.payment_method.extra.async_payment_url;
 
-
-               /*  transfers.value = {
-                    intention:dataValidation.resultado.payment_method.payment_description,
-                    total:resume.value.total.total * stateContext.value.currentRate.rate,
-                    voucher:dataValidation.resultado.reference,
-                    url:dataValidation.resultado.payment_method.extra.async_payment_url
-                } */
                navigate(url)
                 
             }
@@ -202,9 +195,9 @@ export default component$((props:propsWompi) => {
                 },
                 idplataformapago:4,
                 cupon:{
-                    idcupon:resume.value.cupon.idcupon,
-                    codigocupon:resume.value.cupon.codigocupon,
-                    porcentaje:resume.value.cupon.porcentaje
+                    idcupon:resume.value?.cupon?.idcupon,
+                    codigocupon:resume.value?.cupon?.codigocupon,
+                    porcentaje:resume.value?.cupon?.porcentaje
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -269,17 +262,7 @@ export default component$((props:propsWompi) => {
                     const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                     wompiIdTransaccion.value =id;
                     attemptsCard.value= 1;
-                    /* const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
-                    const dataValidation = await resValidation.json()
-
-                    transfers.value = {
-                        intention:dataValidation.resultado.payment_method.payment_description,
-                        total:resume.value.total.total * stateContext.value.currentRate.rate,
-                        voucher:dataValidation.resultado.reference,
-                        url:dataValidation.resultado.payment_method.extra.async_payment_url
-                    }
-                    navigate(transfers.value.url)
-                    */
+                   
                 }
 
                 formPayment.value = 'BANCOLOMBIA_TRANSFER'
@@ -551,9 +534,9 @@ export default component$((props:propsWompi) => {
                     },
                     idplataformapago:4,
                     cupon:{
-                        idcupon:resume.value?.cupon?.idcupon||0,
-                        codigocupon:resume.value?.cupon?.codigocupon||'',
-                        porcentaje:resume.value?.cupon?.porcentaje||0
+                        idcupon:resume.value?.cupon?.idcupon,
+                        codigocupon:resume.value?.cupon?.codigocupon,
+                        porcentaje:resume.value?.cupon?.porcentaje
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -711,9 +694,9 @@ export default component$((props:propsWompi) => {
                 },
                 idplataformapago:4,
                 cupon:{
-                    idcupon:resume.value.cupon.idcupon,
-                    codigocupon:resume.value.cupon.codigocupon,
-                    porcentaje:resume.value.cupon.porcentaje
+                    idcupon:resume.value?.cupon?.idcupon,
+                    codigocupon:resume.value?.cupon?.codigocupon,
+                    porcentaje:resume.value?.cupon?.porcentaje
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -814,9 +797,9 @@ export default component$((props:propsWompi) => {
                 },
                 idplataformapago:4,
                 cupon:{
-                    idcupon:resume.value.cupon.idcupon,
-                    codigocupon:resume.value.cupon.codigocupon,
-                    porcentaje:resume.value.cupon.porcentaje
+                    idcupon:resume.value?.cupon?.idcupon,
+                    codigocupon:resume.value?.cupon?.codigocupon,
+                    porcentaje:resume.value?.cupon?.porcentaje
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
