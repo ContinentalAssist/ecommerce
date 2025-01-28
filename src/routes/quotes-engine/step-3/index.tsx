@@ -144,8 +144,9 @@ export default component$(() => {
     useVisibleTask$(() => {        
         if(Object.keys(stateContext.value).length > 0)
         {
-            
-            resume.value = stateContext.value
+            stateContext.value.cupon = messageCupon.value.cupon
+            const newResume = Object.assign({},stateContext.value)            
+            resume.value = newResume
             loading.value = false
         }
         else
@@ -249,7 +250,6 @@ export default component$(() => {
     const removeCupon$ = $(async() => {
         messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
         const newResume = Object.assign({},resume.value)
-       // delete newResume.cupon;
        newResume.cupon={
         idcupon:0,
         codigocupon:'',
