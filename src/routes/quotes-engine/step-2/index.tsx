@@ -309,17 +309,6 @@ export default component$(() => {
                 totalPay.value = {divisa:resume?.value?.plan?.codigomonedapago,total:Number(resume?.value?.plan?.precio_grupal)}
                 let newRes: any[] = []
 
-
-                /* const dataRequest = {
-                    idplan:resume?.value?.plan?.idplan,
-                    dias:resume.value.dias,
-                    edades:resume.value.edades,
-                    ip:stateContext.value?.resGeo?.ip_address,
-                } */
-               
-
-               /*  const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
-                const dataAdditionals = await resAdditionals.json() */
                 newRes =resume?.value.plan.adicionalesdefault;
                 const today = DateFormat(new Date)
                newRes.map((res,index) => {
@@ -350,10 +339,6 @@ export default component$(() => {
             }
             loading.value = false
             
-           /*  if(additionalsBenefits.value.length > 0)
-            {
-                loading.value = false
-            } */
         }
         else
         {
@@ -824,7 +809,7 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {
-                if(newDataForm[23] >= 2 && (newDataForm[75]+newDataForm[85]) >= 2)
+                if(newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
                 {
                     newDataForm.planfamiliar = 't'
                     stateContext.value = newDataForm
@@ -836,7 +821,7 @@ export default component$(() => {
                     dataForm.idfuente = 2
                     dataForm.ip = stateContext.value.resGeo.ip_address
 
-                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
                     plans.value = dataPlans.resultado
 
@@ -861,7 +846,7 @@ export default component$(() => {
 
                     let error = false
 
-                    const resPlans = await fetch("/api/getPlans",{method:"POST",body:JSON.stringify(dataForm)});
+                    const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
                     
                     error = dataPlans.error
