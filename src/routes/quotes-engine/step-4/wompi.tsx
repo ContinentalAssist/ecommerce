@@ -36,7 +36,6 @@ export default component$((props:propsWompi) => {
     const qr = useSignal(obj)
     const cash = useSignal(obj)
     const nequi = useSignal(obj)
-   // const transfers = useSignal(obj)
     const pse = useSignal(obj)
     const institutions = useSignal(array)
     const isLoading = useSignal(false);
@@ -63,6 +62,15 @@ export default component$((props:propsWompi) => {
 
                navigate(url)
                 
+            }
+            else if (dataValidation?.resultado?.payment_method?.extra?.qr_image != null && dataValidation?.resultado?.payment_method?.extra?.qr_image != '' )
+            {
+                qr.value = {
+                    qr:dataValidation.resultado.payment_method.extra.qr_image,
+                    total:resume.value.total.total * stateContext.value.currentRate.rate,
+                    voucher:dataValidation.resultado.reference
+                }
+                isLoading.value=false
             }
             else
             {
@@ -137,12 +145,19 @@ export default component$((props:propsWompi) => {
 
     useTask$(({track})=>{
         track(() => attemptsCard.value);
-        //console.log(attemptsCard.value ," -- ",wompiIdTransaccion.value);
         
     if (attemptsCard.value>0 && wompiIdTransaccion.value !='') {
         validateTransaccion$();
     }
  
+    })
+
+    useTask$(({track})=>{
+        const value = track(() => formPayment.value);
+         if (value=='BANCOLOMBIA_QR') {
+             validateTransaccion$();
+         }
+      
     })
 
     // eslint-disable-next-line qwik/no-use-visible-task
@@ -222,21 +237,16 @@ export default component$((props:propsWompi) => {
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
-                
                 if(dataPay?.resultado[0].wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
-                    const dataValidation = await resValidation.json()
-
-                    qr.value = {
-                        qr:dataValidation.resultado.payment_method.extra.qr_image,
-                        total:resume.value.total.total * stateContext.value.currentRate.rate,
-                        voucher:dataValidation.resultado.reference
-                    }
+                    attemptsCard.value= 1;
+                    messageLoading.value ='Generando QR Bancolombia...';
+                    const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
+                    wompiIdTransaccion.value =id;
+                    
                 }
 
                 formPayment.value = 'BANCOLOMBIA_QR'
-                isLoading.value=false
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_TRANSFER')
             {
@@ -255,16 +265,20 @@ export default component$((props:propsWompi) => {
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
-                if(dataPay.resultado[0].wompiIdTransaccion)
+                if (dataPay.error) {
+
+                    stateContext.value.typeMessage = 2
+                    await navigate('/quotes-engine/message')
+                } 
+                else if(dataPay.resultado >0 &&dataPay.resultado[0].wompiIdTransaccion)
                 {
 
                     messageLoading.value ='Redireccionando a Bancolombia...';
                     const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                     wompiIdTransaccion.value =id;
                     attemptsCard.value= 1;
-                   
+                    
                 }
-
                 formPayment.value = 'BANCOLOMBIA_TRANSFER'
        
             }
@@ -559,7 +573,7 @@ export default component$((props:propsWompi) => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-            
+
             resPayment = dataPay
 
             if(resPayment.error == false)
@@ -824,25 +838,13 @@ export default component$((props:propsWompi) => {
 
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
-           // isLoading.value=false;
+
             if(dataPay.resultado[0].wompiIdTransaccion)
             {
                 messageLoading.value ='Estamos procesando tu pago ...';
                 const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                 wompiIdTransaccion.value =id;
                 attemptsCard.value= 1;
-
-/*                 const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
-                const dataValidation = await resValidation.json()
-
-                pse.value = {
-                    intention:dataValidation.resultado.payment_method.payment_description,
-                    total:dataValidation.resultado.amount_in_cents,
-                    voucher:dataValidation.resultado.reference,
-                    url:dataValidation.resultado.payment_method.extra.async_payment_url
-                } */
-
-               // navigate(pse.value.url)
             }
         } 
     }) 
@@ -1035,7 +1037,9 @@ export default component$((props:propsWompi) => {
                                                     </div>
                                                 </div>
 
-                                                <small class="text-regular">Recibiras una notificación push en tu celular.</small>                                     
+                                                <small class="text-regular"><b>Recuerda que es necesario tener la app de Nequi instalada en tu celular <br/>
+                                                                            para poder completar el pago usando este método.</b></small>                                     
+                                                <small class="text-regular"><b>Inicia la app de Nequi al momento de realizar el pago y espera la notificacion para autorizar tu compra</b></small> 
 
                                                 <br/>                                               
                                                 <br/>

@@ -326,12 +326,13 @@ export default component$(() => {
         const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
         const forms = Array.from(quotesEngine.querySelectorAll('form'))
         const inputs = Array.from(document.querySelectorAll('input,select'))
-
+        const dataContext =  Object.assign({},stateContext.value);
+        
         const error = [false,false,false]
         const newDataForm : {[key:string]:any} = {}
         newDataForm.edades = []
         newDataForm.paisesdestino = []
-
+        
         forms.map((form,index) => {
             inputs.map((input) => {
                 if ((input as HTMLInputElement).readOnly == true) {
@@ -398,22 +399,21 @@ export default component$(() => {
 
             if(newDataForm.edades.length > 0)
             {
-                if(newDataForm[23] >= 2 && (newDataForm[75]+newDataForm[85]) >= 2)
+                if(newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
                 {
                     newDataForm.planfamiliar = 't'
-                    stateContext.value = newDataForm
+                    const mergedObject = Object.assign({}, dataContext, newDataForm);
+                    stateContext.value = mergedObject
                     resume.value = newDataForm
 
                     const dataForm : {[key:string]:any} = {}
 
                     Object.assign(dataForm,stateContext.value)
                     dataForm.idfuente = 2
-                    dataForm.ip = stateContext.value.resGeo.ip_address
-
+                    dataForm.ip = stateContext.value?.resGeo?.ip_address
                     const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(dataForm)});
                     const dataPlans = await resPlans.json()
                     plans.value = dataPlans.resultado
-
                     if(plans.value.length > 0)
                     {
                         loading.value = false
@@ -457,6 +457,8 @@ export default component$(() => {
                 }
             }
         }
+        
+        
     })
 
     const openEdit$ = $(() => {
@@ -632,7 +634,7 @@ export default component$(() => {
                                                                         ? 
                                                                         CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
                                                                         : 
-                                                                        CurrencyFormatter(stateContext.value.currentRate.code,plan.precio_grupal * stateContext.value.currentRate.rate)
+                                                                        CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
                                                                         :
                                                                         <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
                                                                     }
@@ -716,7 +718,7 @@ export default component$(() => {
                     <div class="modal-content">
                         <div class="modal-header">
                             <ImgContinentalAssistGroupPlan class='img-fluid' title='continental-assist-group-plan' alt='continental-assist-group-plan'/>
-                            <h2 class='text-semi-bold text-drak-blue p-2'>¡Genial!</h2>
+                            <h2 class='text-semi-bold text-white p-2'>¡Genial!</h2>
                         </div>
                         <div class="modal-body">
                             <p class='text-blue'>
