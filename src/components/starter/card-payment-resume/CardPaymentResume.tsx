@@ -4,7 +4,7 @@ import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
 import styles from "./card-payment-resume.css?inline";
 import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/continental-assist-print-ticket.webp?jsx";
-import ImgOpenpayLogo from "../../../media/banks/LogotipoOpenpay.webp?jsx";
+//import ImgOpenpayLogo from "../../../media/banks/LogotipoOpenpay.webp?jsx";
 export const CardPaymentResume = component$(() => {
 
   useStylesScoped$(styles);
