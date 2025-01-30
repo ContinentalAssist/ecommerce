@@ -407,7 +407,7 @@ export const CardPaymentResume = component$(() => {
               <div class="container">
                 <div class="row pt-2">
                 <div class='col-6 col-xs-12'>
-                    {
+                    {/* {
                       !contextDivisa.divisaUSD &&
                       stateContext.value?.currentRate?.code ==='MXN'&&
                       <>
@@ -415,7 +415,7 @@ export const CardPaymentResume = component$(() => {
                       <ImgOpenpayLogo class='img-fluid' loading="lazy" style={{height:'50px', width:'auto'}} />
                       </>
                       
-                    }
+                    } */}
                   </div>
                   <div class='col-6 col-xs-12 text-end'>
                     <p class='text-regular text-blue mb-0'>Total</p>
@@ -444,14 +444,14 @@ export const CardPaymentResume = component$(() => {
                     </h3>
                   </div>
                   <div class="col-12 d-flex flex-row">
-                    {
+                   {/*  {
                         !contextDivisa.divisaUSD &&
                         stateContext.value?.currentRate?.code ==='MXN'&&
                         <>
                          <i class="fas fa-shield-alt fa-sm  pe-2" style={{color:'green'}}></i>
                          <small class='text-regular text-dark-gray mb-0'>Tus pagos se realizan de forma segura con encriptación de 256 bits. </small>
                         </>
-                    }
+                    } */}
                  
                   </div>
                 </div>

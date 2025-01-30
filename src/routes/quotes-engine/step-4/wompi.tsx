@@ -237,7 +237,7 @@ export default component$((props:propsWompi) => {
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
-                if(dataPay?.resultado[0].wompiIdTransaccion)
+                if(dataPay?.resultado.length > 0 &&dataPay?.resultado[0]?.wompiIdTransaccion)
                 {
                     attemptsCard.value= 1;
                     messageLoading.value ='Generando QR Bancolombia...';
@@ -270,7 +270,7 @@ export default component$((props:propsWompi) => {
                     stateContext.value.typeMessage = 2
                     await navigate('/quotes-engine/message')
                 } 
-                else if(dataPay.resultado >0 &&dataPay.resultado[0].wompiIdTransaccion)
+                else if(dataPay?.resultado.length >0 &&dataPay.resultado[0]?.wompiIdTransaccion)
                 {
 
                     messageLoading.value ='Redireccionando a Bancolombia...';
@@ -330,7 +330,7 @@ export default component$((props:propsWompi) => {
                 const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
-                if(dataPay.resultado[0].wompiIdTransaccion)
+                if(dataPay?.resultado.length >0&&dataPay.resultado[0]?.wompiIdTransaccion)
                 {
                     const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
