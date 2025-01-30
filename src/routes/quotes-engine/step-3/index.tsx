@@ -147,7 +147,7 @@ export default component$(() => {
             stateContext.value.cupon = messageCupon.value.cupon
             const newResume = Object.assign({},stateContext.value)            
             resume.value = newResume
-            loading.value = false
+            loading.value = false            
         }
         else
         {
@@ -164,7 +164,7 @@ export default component$(() => {
             }
             else 
             {
-                paymentMethods.value.map((payment) => {
+                paymentMethods.value.map((payment) => {                    
                     if(stateContext?.value?.resGeo?.country == payment.origin)
                     {
                         listPaymentMethods.value = payment.list
@@ -202,15 +202,15 @@ export default component$(() => {
 
         if(input.value != '')
         {
-            const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                .then((response) => {return(response.json())})
+           /*  const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+                .then((response) => {return(response.json())}) */
 
-            if(resGeo.ip_address != '' || resGeo.ip_ != undefined)
+            if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined)
             {
                 const dataRequest = {
                     idplan:resume.value.plan.idplan,
                     codigocupon:input.value,
-                    ip:resGeo.ip_address
+                    ip:stateContext.value.resGeo.ip_address
                 }
                 
                 let resCupon : {[key:string]:any} = {}
@@ -522,9 +522,10 @@ export default component$(() => {
                                                 </div>
                                                 <div class="container  not-mobile">
                                                     <div class='row'>
-                                                        <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago</p>
+                                                        <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago </p>
                                                                                                         
                                                             {
+                                                               stateContext.value?.resGeo?.country !== 'MX' &&   
                                                                 listPaymentMethods.value.map((payment:any,index:number) => {
                                                                     
                                                                     return(
@@ -556,7 +557,13 @@ export default component$(() => {
                                                                     </div>
 
                                                                     )
-                                                                })
+                                                                }) 
+                                                                
+                                                                
+                                                            }
+                                                            { stateContext.value?.resGeo?.country == 'MX' && divisaManual.value &&
+                                                              <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                              <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
                                                             }
                                                     </div>
                                                 </div>
@@ -566,10 +573,11 @@ export default component$(() => {
                                                 <div class='container mobile'>
                                                     <div class="row d-flex justify-content-center">
 
-                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago</p>
+                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago </p>
                                                    
-                                                                                              
+                                                                                            
                                                    {
+                                                    stateContext.value?.resGeo?.country !== 'MX' &&
                                                        listPaymentMethods.value.map((payment:any,index:number) => {
                                                            
                                                            return(
@@ -592,7 +600,12 @@ export default component$(() => {
                                                            </div>
      
                                                            )
-                                                       })
+                                                       })                                                      
+                                                      
+                                                   }
+                                                   { stateContext.value?.resGeo?.country == 'MX' && divisaManual.value &&
+                                                    <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                    <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
                                                    }
                                                     </div>
                                                    

@@ -144,7 +144,7 @@ export default component$(() => {
     const benefitsPlan = useSignal(objectBenefitsPlan)
     const planSelected = useSignal(objectPlanSelected)
     const loading = useSignal(true)
-    const divisaManual = useSignal(false)
+    const divisaManual = useSignal(true)
     const desktop = useSignal(false)
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {

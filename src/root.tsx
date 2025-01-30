@@ -35,7 +35,7 @@ export default component$(() => {
   const resumeQuote = useSignal(obj)
   const so = useSignal('')
   const device = useSignal('desktop')
-  const divisaUpdate:  DivisaStore=useStore({divisaUSD:false})
+  const divisaUpdate:  DivisaStore=useStore({divisaUSD:true})
 
   useContextProvider(WEBContext,resumeQuote)
   useContextProvider(DIVISAContext, divisaUpdate);
@@ -50,18 +50,10 @@ export default component$(() => {
     }
     })
   );
-  /* useVisibleTask$(()=>{
-      if (/mobile/i.test(navigator.userAgent)) {
-          resumeQuote.value = { ...resumeQuote.value, isMobile: true }
-      }else{
-          resumeQuote.value = { ...resumeQuote.value, isMobile: false }
-      }
-  }) */
 
   useVisibleTask$(async() => {
       let convertionRate: number;
       let currency: string;
-      // let exchangeRate : any[] = []
 
       const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
           .then((response) => {
