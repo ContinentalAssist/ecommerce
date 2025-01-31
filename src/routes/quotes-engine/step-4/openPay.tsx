@@ -531,18 +531,15 @@ export default component$((props:propsOP) => {
             {
                 if(attempts.value < 2)
                 {
-                    //props.setLoading(true);
                     stateContext.value.typeMessage = 2
                     await navigate('/quotes-engine/message')
-                  //  modalError.show()
+              
                 }
                 else
                 {
-                    //loading.value  =true;
                     stateContext.value.typeMessage = 3
                     await navigate('/quotes-engine/message')
 
-                 ///   modalErrorAttemps.show()
                 }
 
                 attempts.value = (attempts.value + 1)
@@ -551,15 +548,6 @@ export default component$((props:propsOP) => {
         }
     })
 
-    // const getDownloadVoucher$ = $(() => {
-    //     (window as any)['dataLayer'].push({
-    //         'event': 'TrackEvent',
-    //         'Category': 'Interacciones',
-    //         'Action': 'Click',
-    //         'Label': 'Descargar tu voucher',
-    //         'Page': '/step-4'
-    //     });
-    // })
 
     const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement

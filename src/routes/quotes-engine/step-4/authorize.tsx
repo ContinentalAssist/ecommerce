@@ -320,74 +320,11 @@ export default component$((props:propsAuthorize) => {
             {
                 if(attempts.value < 2)
                 {
-                    // if(resPayment.resultado.mensaje_error.includes('voucher activo'))
-                    // {
-                    //     loading.value = false;
-
-                    //     (window as any)['dataLayer'].push({
-                    //         'event': 'TrackEvent',
-                    //         'Category': 'Cotizador',
-                    //         'Action': 'Paso 5 :: Pago no realizado! Uno de los beneficiarios ya cuenta con un voucher activo para las fechas seleccionadas',
-                    //         'Label': resume.value.plan.nombreplan,
-                    //         'Origen': resume.value.paisorigen,
-                    //         'Destino': resume.value.paisesdestino,
-                    //         'Desde': resume.value.desde,
-                    //         'Hasta': resume.value.hasta,
-                    //         'Adultos': resume.value[75],
-                    //         'Ninosjovenes': resume.value[23],
-                    //         'Adultosmayores': resume.value[85],
-                    //         'Value': resume.value.total.total,
-                    //         'Método de pago': dataForm.tdcnumero
-                    //     });
-
-                    //     modalErrorPax.show()
-                    // }
-                    // else
-                    // {
-                        //isLoading.value=false
-
-                        // (window as any)['dataLayer'].push({
-                        //     'event': 'TrackEvent',
-                        //     'Category': 'Cotizador',
-                        //     'Action': 'Paso 5 :: Pago no realizado!',
-                        //     'Label': resume.value.plan.nombreplan,
-                        //     'Origen': resume.value.paisorigen,
-                        //     'Destino': resume.value.paisesdestino,
-                        //     'Desde': resume.value.desde,
-                        //     'Hasta': resume.value.hasta,
-                        //     'Adultos': resume.value[75],
-                        //     'Ninosjovenes': resume.value[23],
-                        //     'Adultosmayores': resume.value[85],
-                        //     'Value': resume.value.total.total,
-                        //     'Método de pago': dataForm.tdcnumero
-                        // });
-        
-                        //modalError.show()
-                        stateContext.value.typeMessage = 2
+                    stateContext.value.typeMessage = 2
                     await navigate('/quotes-engine/message')
-                    // }
                 }
                 else
                 {
-                   // isLoading.value=false
-
-                    // (window as any)['dataLayer'].push({
-                    //     'event': 'TrackEvent',
-                    //     'Category': 'Cotizador',
-                    //     'Action': 'Paso 5 :: Has realizado 3 intentos!',
-                    //     'Label': resume.value.plan.nombreplan,
-                    //     'Origen': resume.value.paisorigen,
-                    //     'Destino': resume.value.paisesdestino,
-                    //     'Desde': resume.value.desde,
-                    //     'Hasta': resume.value.hasta,
-                    //     'Adultos': resume.value[75],
-                    //     'Ninosjovenes': resume.value[23],
-                    //     'Adultosmayores': resume.value[85],
-                    //     'Value': resume.value.total.total,
-                    //     'Método de pago': dataForm.tdcnumero
-                    // });
-
-                    //modalErrorAttemps.show()
                     stateContext.value.typeMessage = 3
                     await navigate('/quotes-engine/message')
                 }
@@ -398,15 +335,6 @@ export default component$((props:propsAuthorize) => {
         }
     })
 
-    // const getDownloadVoucher$ = $(() => {
-    //     (window as any)['dataLayer'].push({
-    //         'event': 'TrackEvent',
-    //         'Category': 'Interacciones',
-    //         'Action': 'Click',
-    //         'Label': 'Descargar tu voucher',
-    //         'Page': '/step-4'
-    //     });
-    // })
 
     const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement
@@ -421,21 +349,9 @@ export default component$((props:propsAuthorize) => {
         }
     })
 
- /*    const closeQuote$ = $(() => {
-        const bs = (window as any)['bootstrap']
-        const modalErrorAttemps = bs.Modal.getInstance('#modalErrorAttemps',{})
-        modalErrorAttemps.hide()
 
-        stateContext.value = {}
-    })
-    */
     return(
         <>
-            {/* {
-                loading.value === true
-                &&
-                <Loading/>
-            } */}
             <div class='container-fluid'>
                 <div class='row mb-5'>
                     <div class='col-lg-12'>
