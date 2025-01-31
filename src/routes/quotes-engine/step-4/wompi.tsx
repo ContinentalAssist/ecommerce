@@ -39,7 +39,7 @@ export default component$((props:propsWompi) => {
     const pse = useSignal(obj)
     const institutions = useSignal(array)
     const isLoading = useSignal(false);
-    const attemptsCard = useSignal(0)
+    const counterRequest = useSignal(0)
     const wompiIdTransaccion =useSignal('')
     const messageLoading= useSignal('')    
 
@@ -55,15 +55,15 @@ export default component$((props:propsWompi) => {
         const dataValidation = await resValidation.json()
 
     
-        if (dataValidation.resultado.status == "PENDING" && attemptsCard.value > 0) {          
+        if (dataValidation.resultado.status == "PENDING" && counterRequest.value > 0) {          
             if (dataValidation?.resultado?.payment_method?.extra?.async_payment_url != null && dataValidation?.resultado?.payment_method?.extra?.async_payment_url != '') 
-            {      
+            {                      
                 const url= dataValidation.resultado.payment_method.extra.async_payment_url;
 
                navigate(url)
                 
             }
-            else if (dataValidation?.resultado?.payment_method?.extra?.qr_image != null && dataValidation?.resultado?.payment_method?.extra?.qr_image != '' )
+            else if (dataValidation?.resultado?.payment_method?.extra?.qr_image != null && dataValidation?.resultado?.payment_method?.extra?.external_identifier ==null )
             {
                 qr.value = {
                     qr:dataValidation.resultado.payment_method.extra.qr_image,
@@ -71,14 +71,18 @@ export default component$((props:propsWompi) => {
                     voucher:dataValidation.resultado.reference
                 }
                 isLoading.value=false
+                formPayment.value = 'BANCOLOMBIA_QR'
+                setTimeout(() =>counterRequest.value ++, 2000); 
             }
             else
             {
-                setTimeout(() =>attemptsCard.value ++, 2000); 
+                setTimeout(() =>counterRequest.value ++, 2000); 
             }  
 
         }
         else if (dataValidation.resultado.status == "DECLINED"|| dataValidation.resultado.status == "ERROR") {
+            attempts.value =(attempts.value + 1);            
+            stateContext.value.attempts =attempts.value
             stateContext.value.typeMessage = 2
             await navigate('/quotes-engine/message')
         }else if (dataValidation?.resultado.status =="APPROVED") {
@@ -143,18 +147,28 @@ export default component$((props:propsWompi) => {
         }
     })
 
+    useTask$(async({track})=>{
+        const value=track(() => attempts.value);        
+        if (value == 3) {
+            stateContext.value.typeMessage = 3
+           await navigate('/quotes-engine/message')
+        }
+ 
+    })
+
     useTask$(({track})=>{
-        track(() => attemptsCard.value);
-        
-    if (attemptsCard.value>0 && wompiIdTransaccion.value !='') {
-        validateTransaccion$();
-    }
+        track(() => counterRequest.value);        
+        if (counterRequest.value>0 && wompiIdTransaccion.value !='') {
+            validateTransaccion$();
+        }
  
     })
 
     useTask$(({track})=>{
         const value = track(() => formPayment.value);
-         if (value=='BANCOLOMBIA_QR') {
+        
+        
+         if (value =='BANCOLOMBIA_QR') {
              validateTransaccion$();
          }
       
@@ -229,7 +243,7 @@ export default component$((props:propsWompi) => {
                     wompiRedirectUrl :  import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
-
+                messageLoading.value ='Generando QR Bancolombia...';
                 Object.assign(dataRequest,wompiRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
@@ -239,14 +253,12 @@ export default component$((props:propsWompi) => {
                 
                 if(dataPay?.resultado.length > 0 &&dataPay?.resultado[0]?.wompiIdTransaccion)
                 {
-                    attemptsCard.value= 1;
-                    messageLoading.value ='Generando QR Bancolombia...';
+                    counterRequest.value= 1;                   
                     const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                     wompiIdTransaccion.value =id;
-                    
                 }
 
-                formPayment.value = 'BANCOLOMBIA_QR'
+                //formPayment.value = 'BANCOLOMBIA_QR'
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_TRANSFER')
             {
@@ -276,7 +288,7 @@ export default component$((props:propsWompi) => {
                     messageLoading.value ='Redireccionando a Bancolombia...';
                     const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                     wompiIdTransaccion.value =id;
-                    attemptsCard.value= 1;
+                    counterRequest.value= 1;
                     
                 }
                 formPayment.value = 'BANCOLOMBIA_TRANSFER'
@@ -603,7 +615,7 @@ export default component$((props:propsWompi) => {
                messageLoading.value ='Estamos procesando tu pago ...';
                const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;
                wompiIdTransaccion.value =id;
-               attemptsCard.value= 1;
+               counterRequest.value= 1;
             }
             else
             {
@@ -616,8 +628,6 @@ export default component$((props:propsWompi) => {
                 }
                 else
                 {
-                   // loading.value = false;
-                    //modalErrorAttemps.show()
                     stateContext.value.typeMessage = 2
                     await navigate('/quotes-engine/message')
                 }
@@ -737,7 +747,7 @@ export default component$((props:propsWompi) => {
                 messageLoading.value ='Estamos procesando tu pago ...';
                 const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                 wompiIdTransaccion.value =id;
-                attemptsCard.value= 1;
+                counterRequest.value= 1;
 
             }
         }
@@ -844,7 +854,7 @@ export default component$((props:propsWompi) => {
                 messageLoading.value ='Estamos procesando tu pago ...';
                 const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                 wompiIdTransaccion.value =id;
-                attemptsCard.value= 1;
+                counterRequest.value= 1;
             }
         } 
     }) 
@@ -1034,6 +1044,12 @@ export default component$((props:propsWompi) => {
                                                 <div class='col-lg-3 mt-4'>
                                                     <div class='d-grid gap-2 mt-2'>
                                                         <button type='button' class='btn btn-primary' onClick$={getPhoneNequi$}>Pagar</button>
+                                                        {
+                                                             attempts.value > 0
+                                                             &&
+                                                             <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                             
+                                                        }
                                                     </div>
                                                 </div>
 
@@ -1067,12 +1083,6 @@ export default component$((props:propsWompi) => {
                                     <div class='row justify-content-center'>
                                     
                                     <div class="d-flex justify-content-start mb-4">
-                                  {/*   <ImgPse
-                                        class=""
-                                        title="PSE"
-                                        alt="PSE"
-                                        style={{height:'50px'}}
-                                    /> */}
                        
                                     </div>
 
@@ -1107,6 +1117,11 @@ export default component$((props:propsWompi) => {
                                                     <div class='col-lg-6'>
                                                         <div class='d-grid gap-2 mt-4'>
                                                             <button type='button' class='btn btn-primary' onClick$={getPSE$}>Realizar pago</button>
+                                                            {
+                                                            attempts.value > 0
+                                                            &&
+                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>

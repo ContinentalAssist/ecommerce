@@ -541,7 +541,7 @@ export default component$(() => {
                 {
                     const paxs: any[] = resValidPaxs.resultado
                     let countPaxs = 0
-    
+                    loading.value = false
                     if(paxs.length > 0)
                     {
                         paxs.map(pax => {
@@ -654,6 +654,12 @@ export default component$(() => {
     
                         navigate('/quotes-engine/step-3')
                     }
+                }
+                else{
+                    loading.value = false
+
+                    checkPolicy.classList.add('is-invalid')
+                    toastError.show()
                 }
             }
         }
