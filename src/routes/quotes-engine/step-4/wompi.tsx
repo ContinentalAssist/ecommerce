@@ -193,13 +193,16 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].beneficios_adicionales = []
 
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push(benefit.idbeneficioadicional)
+                    const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) })    
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
 
+            const montodescuento= Number(resume.value?.cupon?.descuento)>0?
+            Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
             const dataRequest = {
                 fecha:{
                     desde:resume.value.desde,
@@ -226,7 +229,8 @@ export default component$((props:propsWompi) => {
                 cupon:{
                     idcupon:resume.value?.cupon?.idcupon,
                     codigocupon:resume.value?.cupon?.codigocupon,
-                    porcentaje:resume.value?.cupon?.porcentaje
+                    porcentaje:resume.value?.cupon?.porcentaje,
+                    descuento:montodescuento
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -526,13 +530,15 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].beneficios_adicionales = []
 
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push(benefit.idbeneficioadicional)
-                })
+                    const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
-
+            
+            const montodescuento= Number(resume.value?.cupon?.descuento)>0?
+           Number( Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate))):0;
 
             const dataRequest = Object.assign(
                 dataForm,
@@ -562,7 +568,8 @@ export default component$((props:propsWompi) => {
                     cupon:{
                         idcupon:resume.value?.cupon?.idcupon,
                         codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje
+                        porcentaje:resume.value?.cupon?.porcentaje,
+                        descuento: montodescuento
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -687,12 +694,15 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].beneficios_adicionales = []
 
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push(benefit.idbeneficioadicional)
+                    const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) 
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
+            const montodescuento= Number(resume.value?.cupon?.descuento)>0?
+            Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
 
             const dataRequest = {
                 fecha:{
@@ -720,7 +730,8 @@ export default component$((props:propsWompi) => {
                 cupon:{
                     idcupon:resume.value?.cupon?.idcupon,
                     codigocupon:resume.value?.cupon?.codigocupon,
-                    porcentaje:resume.value?.cupon?.porcentaje
+                    porcentaje:resume.value?.cupon?.porcentaje,
+                    descuento:montodescuento
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -790,13 +801,17 @@ export default component$((props:propsWompi) => {
                 newPaxs[index].beneficios_adicionales = []
 
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push(benefit.idbeneficioadicional)
+                    const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) 
+
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
 
+            const montodescuento= Number(resume.value?.cupon?.descuento)>0?
+            Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
             const dataRequest = {
                 fecha:{
                     desde:resume.value.desde,
@@ -823,7 +838,8 @@ export default component$((props:propsWompi) => {
                 cupon:{
                     idcupon:resume.value?.cupon?.idcupon,
                     codigocupon:resume.value?.cupon?.codigocupon,
-                    porcentaje:resume.value?.cupon?.porcentaje
+                    porcentaje:resume.value?.cupon?.porcentaje,
+                    descuento:montodescuento
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
