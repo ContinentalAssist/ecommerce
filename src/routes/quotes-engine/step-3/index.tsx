@@ -133,6 +133,31 @@ export default component$(() => {
     ])
     const listPaymentMethods = useSignal(array)
 
+    const updateHeight$ = $(()=> {
+        const cardPax = document.getElementById('card-pax');
+        const cardRight = document.getElementById('card-right');
+    
+        if (cardPax && cardRight) {
+          const newHeight = cardRight.offsetHeight + 52;
+          cardPax.style.height = `${newHeight}px`;
+        }        
+    })
+
+    const removeCupon$ = $(async() => {        
+        messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
+        const newResume = Object.assign({},resume.value)
+       newResume.cupon={
+        idcupon:0,
+        codigocupon:'',
+        porcentaje: 0
+        }
+        newResume.total = {divisa:newResume.total.divisa,total:resume.value.subTotal}
+        stateContext.value = newResume;
+        const input = document.querySelector('#input-cupon') as HTMLInputElement
+        input.value = '';
+        updateHeight$();
+    })
+
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
@@ -143,11 +168,12 @@ export default component$(() => {
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(Object.keys(stateContext.value).length > 0)
-        {
+        {                        
             stateContext.value.cupon = messageCupon.value.cupon
             const newResume = Object.assign({},stateContext.value)            
             resume.value = newResume
-            loading.value = false            
+            loading.value = false  
+            removeCupon$();          
         }
         else
         {
@@ -187,24 +213,14 @@ export default component$(() => {
        
     })
 
-    const updateHeight$ = $(()=> {
-        const cardPax = document.getElementById('card-pax');
-        const cardRight = document.getElementById('card-right');
-    
-        if (cardPax && cardRight) {
-          const newHeight = cardRight.offsetHeight + 52;
-          cardPax.style.height = `${newHeight}px`;
-        }        
-      })
+
 
     const getCupon$ = $(async() => {
         const input = document.querySelector('#input-cupon') as HTMLInputElement
 
         if(input.value != '')
         {
-           /*  const resGeo = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-                .then((response) => {return(response.json())}) */
-
+           
             if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined)
             {
                 const dataRequest = {
@@ -221,16 +237,16 @@ export default component$(() => {
                 resCupon = dataCupon
                 if(resCupon.error == false &&Number(resCupon.resultado[0]?.porcentaje)>0 )
                 {
-
+                    const dataCupon = Object.assign({},resCupon.resultado[0])
                     const newResume = Object.assign({},resume.value)
                     const discount = resume.value?.subTotal * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
                     const newTotal = resume.value?.subTotal - discount
                  
                     newResume.total = {divisa:newResume.total.divisa,total:newTotal}
                     
-                    resume.value = newResume
-
-                    messageCupon.value = {error:'success',cupon:resCupon.resultado[0], aplicado: true}
+                    resume.value = newResume 
+                    dataCupon.descuento = discount;
+                    messageCupon.value = {error:'success',cupon: dataCupon, aplicado: true}
                     newResume.cupon = messageCupon.value.cupon;
                     stateContext.value = newResume
                     
@@ -247,21 +263,7 @@ export default component$(() => {
     })
 
     
-    const removeCupon$ = $(async() => {
-        messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
-        const newResume = Object.assign({},resume.value)
-       newResume.cupon={
-        idcupon:0,
-        codigocupon:'',
-        porcentaje: 0
-        }
-        newResume.total = {divisa:newResume.total.divisa,total:resume.value.subTotal}
-        //newResume.subTotal = resume.value.subTotal;
-        stateContext.value = newResume;
-        const input = document.querySelector('#input-cupon') as HTMLInputElement
-        input.value = '';
-        updateHeight$();
-    })
+
 
     const getPaymentMethod$ = $( async(method:string) => {
         const newResume = Object.assign({},resume.value)

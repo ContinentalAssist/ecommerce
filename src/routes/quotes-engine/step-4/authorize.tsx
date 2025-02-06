@@ -220,10 +220,9 @@ export default component$((props:propsAuthorize) => {
             resume.value.asegurados.map((pax:any,index:number) => {
                 newPaxs.push(pax)
 
-                newPaxs[index].beneficios_adicionales = []
-
+                newPaxs[index].beneficios_adicionales = []                
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push(benefit.idbeneficioadicional)
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(benefit.precio)})
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
@@ -258,16 +257,13 @@ export default component$((props:propsAuthorize) => {
                     cupon:{
                         idcupon:resume.value?.cupon?.idcupon,
                         codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje
+                        porcentaje:resume.value?.cupon?.porcentaje,
+                        descuento:resume.value?.cupon?.descuento||0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
-                   // devicesessionid : opSessionId.value,
-                    //sourceid : opToken.value,
-                    //acceptanceToken : wSeesionId.value,
-                   // tokenWompi : wToken.value
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX
                 }
             )
             
