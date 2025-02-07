@@ -194,7 +194,8 @@ export default component$((props:propsWompi) => {
 
                 pax.beneficiosadicionales.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
-                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) })    
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
+                        nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })    
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
@@ -531,7 +532,9 @@ export default component$((props:propsWompi) => {
 
                 pax.beneficiosadicionales.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
-                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) })
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
+                        nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })
+                })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
@@ -695,7 +698,8 @@ export default component$((props:propsWompi) => {
 
                 pax.beneficiosadicionales.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
-                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) 
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
+                        nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
@@ -802,7 +806,8 @@ export default component$((props:propsWompi) => {
 
                 pax.beneficiosadicionales.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
-                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)) }) 
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
+                        nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 
 
                 })
 

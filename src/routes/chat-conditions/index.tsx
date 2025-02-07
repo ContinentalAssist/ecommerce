@@ -100,7 +100,7 @@ export default component$(() => {
                       <div class='col-lg-12 text-center '>
                           <h1 class="text-semi-bold text-blue">
                             <span class="text-tin">Hazle una pregunta a nuestras </span>
-                            <br /> condiciones generales
+                            <br /> condiciones generales actuales
                           </h1>
                           <p class="text-regular text-dark-blue"> Inicia tu consulta y resuelve todas tus dudas al instante</p>
                           <hr class="divider my-3" />
