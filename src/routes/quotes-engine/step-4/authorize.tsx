@@ -222,7 +222,8 @@ export default component$((props:propsAuthorize) => {
 
                 newPaxs[index].beneficios_adicionales = []                
                 pax.beneficiosadicionales.map((benefit:any) => {
-                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,nombre:benefit.nombrebeneficioadicional,monto:Number(benefit.precio)})
+                    newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
+                        nombre:benefit.nombrebeneficioadicional,monto:Number(benefit.precio),cobertura:benefit.cobertura})
                 })
 
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
