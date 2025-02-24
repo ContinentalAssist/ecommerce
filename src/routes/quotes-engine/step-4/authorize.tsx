@@ -264,7 +264,8 @@ export default component$((props:propsAuthorize) => {
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
                     idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
-                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX
+                    sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                    ip_address:resume.value.resGeo.ip_address,
                 }
             )
             

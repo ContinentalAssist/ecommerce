@@ -237,6 +237,7 @@ export default component$((props:propsWompi) => {
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                ip_address:resume.value.resGeo.ip_address,
             }
             
             
@@ -581,6 +582,7 @@ export default component$((props:propsWompi) => {
                     wompiTipo : stateContext.value.wompiTipo,
                     wompiAcceptanceToken : wSeesionId.value,
                     wompiTokenCard : wToken.value,
+                    ip_address:resume.value.resGeo.ip_address,
                 }
             )
             
@@ -741,6 +743,7 @@ export default component$((props:propsWompi) => {
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                ip_address:resume.value.resGeo.ip_address,
             }
 
             const wompiRequest = {
@@ -850,6 +853,7 @@ export default component$((props:propsWompi) => {
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                ip_address:resume.value.resGeo.ip_address,
             }
 
             const wompiRequest = {
