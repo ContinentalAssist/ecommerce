@@ -171,6 +171,7 @@ export default component$((props:propsOP) => {
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
+                ip_address:resume.value.resGeo.ip_address,
             }
 
             if(stateContext.value.openPayTipo == 'CARD_REDIRECT')
@@ -483,7 +484,8 @@ export default component$((props:propsOP) => {
                     openPayDeviceSessionId : opSessionId.value,
                     openPaySourceId : opToken.value,
                     openPayTipo:stateContext.value.openPayTipo,
-                    openPayRedirectUrl:import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message'
+                    openPayRedirectUrl:import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
+                    ip_address:resume.value.resGeo.ip_address,
                 }
             )
             

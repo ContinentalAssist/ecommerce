@@ -64,28 +64,33 @@ export default component$(() => {
               country: "CO"
           }  */
       resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
-      const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
+      /* const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
       .then((response) => {
           return(response.json())
-      })
-      
+      }) */
+          const response = await fetch("/api/getExchangeRate",{method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+          const data =await response.json();
+          if (!data.error) {
+            switch (geoData.country) 
+            {
+                case 'CO':
+                    convertionRate = data.resultado[0]?.valor
+                    currency = 'COP'
+                    break;
+                case 'MX':
+                    convertionRate = data.resultado[0]?.valor
+                    currency = 'MXN'
+                    break; 
+                default:
+                    convertionRate = 1
+                    currency = 'USD'
+            }
+            resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
 
-    switch (geoData.country) 
-    {
-        case 'CO':
-            convertionRate = resRates.conversion_rates.COP
-            currency = 'COP'
-            break;
-        case 'MX':
-            convertionRate = resRates.conversion_rates.MXN
-            currency = 'MXN'
-            break; 
-        default:
-            convertionRate = resRates.conversion_rates.USD
-            currency = 'USD'
-    }
+          }
 
-    resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
+   
+
   });
 
 
