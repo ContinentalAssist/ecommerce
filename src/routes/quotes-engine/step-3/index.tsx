@@ -368,7 +368,8 @@ export default component$(() => {
                 moneda:{codigomoneda:resume.value.total.divisa}, 
                 planescotizados:planescotizados, 
                 contacto:resume.value.contacto, 
-                edades:resume.value.edades
+                edades:resume.value.edades,
+                ip_address:resume.value.resGeo.ip_address,
             }
 
             let resQuote : {[key:string]:any} = {}
