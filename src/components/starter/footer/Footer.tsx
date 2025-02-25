@@ -183,7 +183,7 @@ export const Footer = component$(() => {
                             <span>
                             <p class='title-country text-white ms-3 text-semi-bold'>Aventura, Florida </p>
                             <p class='text-white ms-3 text-regular'>20803 Biscayne Boulevard,<br/> suite 370</p> 
-                            <p class='text-white ms-3 text-regular'>+1(786) 800 2764 - (786) 567 14 79</p>
+                            <p class='text-white ms-3 text-regular'>+1(786) 800 2764</p>
                             <p class='text-white ms-3 text-regular'>info@continentalassist.com</p>      
                             </span>                           
                         </div>
