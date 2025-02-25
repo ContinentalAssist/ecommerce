@@ -64,10 +64,7 @@ export default component$(() => {
               country: "CO"
           }  */
       resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
-      /* const resRates = await fetch('https://v6.exchangerate-api.com/v6/c4ac30b2c210a33f339f5342/latest/USD')
-      .then((response) => {
-          return(response.json())
-      }) */
+      
           const response = await fetch("/api/getExchangeRate",{method:"POST",body:JSON.stringify({codigopais:geoData.country})});
           const data =await response.json();
           if (!data.error) {
