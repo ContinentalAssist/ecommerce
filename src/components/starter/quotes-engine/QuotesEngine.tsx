@@ -1,5 +1,4 @@
-import { $, component$, useContext,useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
-import ServiceRequest from "~/utils/ServiceRequest";
+import { $, component$, useContext,useSignal, useStyles$, useTask$} from "@builder.io/qwik";
 import { Form } from "../form/Form";
 import styles from './quotes-engine.css?inline'
 import { WEBContext } from "~/root";
@@ -32,11 +31,11 @@ export const QuotesEngine = component$((props:propsQE) => {
         let res : {[key:string]:any[]} = {}
         const resOrigins : any[] = []
         const resDestinations : any[] = []
-
-        await ServiceRequest('/pw_getSelectsPorDefectoCotizadorViajes',{},(response) => {
-            res = response.resultado[0]
-        })
-        
+    
+          
+        const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET"});
+        const dataDefaults = await resDefaults.json()
+        res = dataDefaults.resultado[0]
         if (res && res.origenes  && res.destinos) {
             res.origenes.map((origen) => {
                 resOrigins.push({value:origen.idpais,label:origen.nombrepais})
@@ -46,10 +45,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                 resDestinations.push({value:destino.idpais,label:destino.nombrepais})
             })
     
-        }
-            
-        
-       
+        }          
         origins.value = resOrigins
         destinations.value = resDestinations
         resume.value = stateContext.value
@@ -59,8 +55,6 @@ export const QuotesEngine = component$((props:propsQE) => {
         const inputDateEnd=dayjs().add(365,'day').format('YYYY/MM/DD');
         inputStart.value.min = dayjs().format('YYYY/MM/DD')
         updateInputEnd(inputDateStart,inputDateEnd)
-
-
     })
 
     useTask$(({ track })=>{
