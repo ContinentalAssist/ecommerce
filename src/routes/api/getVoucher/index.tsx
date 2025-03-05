@@ -6,5 +6,5 @@ export const onPost: RequestHandler = async ({ request , json }) => {
 
     await ServiceRequest('/pw_getVoucher',body,(response) => {
         json(200, response);
-    })
+    },request)
 };

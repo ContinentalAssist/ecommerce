@@ -6,5 +6,5 @@ export const onPost: RequestHandler = async ({ request , json }) => {
 
     await ServiceRequest('/bk_getCargoIdTokenWompi',body,(response) => {
         json(200, response);
-    })
+    },request)
 };

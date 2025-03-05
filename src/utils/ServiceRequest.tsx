@@ -1,5 +1,16 @@
+type HeadersType = {
+    method: string;
+    headers: {
+        'Content-Type': string;
+        'EVA-AUTH-USER': string;
+        [key: string]: string;
+    };
+    body?: string;
+};
+
+
 const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }, request:any) => {
-    const headers = {
+    const headers: HeadersType = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -7,8 +18,15 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
         },
         body: JSON.stringify(dataSend),
     };
-    Object.assign(headers.headers, request.headers);
 
+
+    // Validar si el encabezado x-forwarded-for existe
+    const forwardedForHeader = request.headers.get('x-forwarded-for');
+    
+    if (forwardedForHeader) {
+        headers.headers['X-FORWARDED-FOR'] = forwardedForHeader;
+    }
+    
     const logHeaders = (req: any) => {
         console.log('Headers antes de enviar:', req);
         return req;
