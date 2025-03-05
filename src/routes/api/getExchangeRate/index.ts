@@ -8,7 +8,7 @@ export const onPost: RequestHandler = async ({ request , json }) => {
        
         const obj: Record<string, string> = {};
         request.headers.forEach((v, k) => (obj[k] = v));
-        console.log(obj);
+        console.log("headers originales -> ",request);
         json(200, response);
     })
 };
