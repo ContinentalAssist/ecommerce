@@ -1,4 +1,4 @@
-const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }) => {
+const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }, request:any) => {
     const headers = {
         method: 'POST',
         headers: {
@@ -7,6 +7,7 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
         },
         body: JSON.stringify(dataSend),
     };
+    Object.assign(headers.headers, request.headers);
 
     const logHeaders = (req: any) => {
         console.log('Headers antes de enviar:', req);
