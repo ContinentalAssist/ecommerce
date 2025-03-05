@@ -8,10 +8,19 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
         body: JSON.stringify(dataSend),
     };
 
-
+    const logHeaders = (req: any) => {
+        console.log('Headers antes de enviar:', req);
+        return req;
+    };
 
     try {
-        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, { ...headers }); 
+        const config = {
+            ...headers,
+            ...logHeaders
+        };
+        console.log('Configuración de fetch:', config);
+
+        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, config);
                 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
