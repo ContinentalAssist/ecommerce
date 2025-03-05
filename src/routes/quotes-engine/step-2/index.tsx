@@ -514,6 +514,15 @@ export default component$(() => {
                     }
                 }
             })
+
+            const dataFormContact : {[key:string]:any} = {}
+
+            const formContact = document.querySelector('#form-pax-contact') as HTMLFormElement
+            const inputs = Array.from(formContact.querySelectorAll('input'))
+
+            inputs.map((input) => {
+                dataFormContact[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+            })
     
             if(!error.includes(true))
             {
@@ -526,6 +535,7 @@ export default component$(() => {
                         fechahasta:resume.value.hasta,
                         origenes:resume.value.origen,
                         destinos:resume.value.destinos,
+                        contactoemergencia:dataFormContact
                     },
                     ps:'www.continentalassist.com'
                 }
@@ -545,7 +555,7 @@ export default component$(() => {
                     if(paxs.length > 0)
                     {
                         paxs.map(pax => {
-                            if(pax.voucher != '')
+                            if(pax.voucher != ''|| pax.bloqueado == true)
                             {
                                 const card = document.querySelector('#card-'+pax.idpasajero) as HTMLElement
                                 const cardMessage = document.querySelector('#card-message-'+pax.idpasajero) as HTMLElement
@@ -553,6 +563,14 @@ export default component$(() => {
                                 card.classList.add('border')
                                 card.classList.add('border-danger')
                                 cardMessage.classList.remove('d-none')
+
+                                if (pax.bloqueado) 
+                                {
+                                const divElemento = document.querySelector('.message.error')  as HTMLElement;
+                                divElemento.innerHTML = "<span class='text-semi-bold'>Encontramos un problema con la información ingresada, <small>por favor contactanos por medio del chat.</small></span>" ;
+                                }
+
+                              
                             }
                             else
                             {
@@ -595,14 +613,7 @@ export default component$(() => {
                                 },stateContext.value.dataLayerPaxBenefits)
                             );
 
-                            const dataFormContact : {[key:string]:any} = {}
 
-                            const formContact = document.querySelector('#form-pax-contact') as HTMLFormElement
-                            const inputs = Array.from(formContact.querySelectorAll('input'))
-
-                            inputs.map((input) => {
-                                dataFormContact[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
-                            })
 
                             newStateContext.contacto = dataFormContact
 
@@ -1091,7 +1102,7 @@ export default component$(() => {
                                                                                     <div class='col-xl-12'>
                                                                                         <hr/>
                                                                                         <div class='message error'>
-                                                                                            <span class='text-semi-bold'>Esta persona ya cuenta con un voucher activo, <small>por favor contacta con un agente para resolver el problema.</small></span>
+                                                                                            <span class='text-semi-bold'>Esta persona ya cuenta con un voucher activo</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
