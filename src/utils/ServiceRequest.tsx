@@ -28,7 +28,6 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
     }
     
     const logHeaders = (req: any) => {
-        console.log('Headers antes de enviar:', req);
         return req;
     };
 
@@ -37,7 +36,6 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
             ...headers,
             ...logHeaders
         };
-        console.log('Configuración de fetch:', config);
 
         const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, config);
                 
