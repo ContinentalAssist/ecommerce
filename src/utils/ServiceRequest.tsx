@@ -25,7 +25,9 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
     
     if (forwardedForHeader) {
         headers.headers['X-FORWARDED-FOR'] = forwardedForHeader;
-    }
+    }/* else{
+        headers.headers['X-FORWARDED-FOR'] = '2806:10be:7:2e9:62fc:9d:7f21:a6cc'
+    } */
     
     const logHeaders = (req: any) => {
         return req;

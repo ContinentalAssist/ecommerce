@@ -225,6 +225,19 @@ export const QuotesEngine = component$((props:propsQE) => {
         } 
         
     })
+
+    const closeInputDestination$=$(()=>{
+        const form = document.querySelector('#form-step-1-0') as HTMLFormElement
+        const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
+   
+        const bs = (window as any)['bootstrap']
+        const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputDestinations.id,{})
+        if (dropdownOrigin != null) {
+            dropdownOrigin.hide()
+        }
+        
+    })
+
    
     return(
         <div class='container' id='quotes-engine'>
@@ -279,6 +292,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     required:true,
                                     icon:'calendar',
                                     value: resume.value.desde,
+                                    onFocus:$(() => {closeInputDestination$()}),
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
@@ -291,6 +305,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     required:true,
                                     icon:'calendar',
                                     value: resume.value.hasta,
+                                    onFocus:$(() => {closeInputDestination$()}),
                                 }
                             ]}
                         ]}

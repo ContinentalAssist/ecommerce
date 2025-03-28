@@ -974,7 +974,7 @@ export default component$((props:propsWompi) => {
                           
                                 </div>
                             }
-                            {
+                           {/*  {
                                 formPayment.value == 'BANCOLOMBIA_QR'
                                 &&
                                 <>
@@ -1007,7 +1007,7 @@ export default component$((props:propsWompi) => {
                                 </div>
                                 <hr/>
                                 </>
-                            }
+                            } */}
                             {
                                 formPayment.value == 'BANCOLOMBIA_COLLECT'
                                 &&

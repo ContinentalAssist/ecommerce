@@ -101,6 +101,7 @@ export const InputDate = component$((props:propsInputDate) => {
         defaultvalue={props.value} 
         open={props.open} 
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
+        onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
        />
         </>
        

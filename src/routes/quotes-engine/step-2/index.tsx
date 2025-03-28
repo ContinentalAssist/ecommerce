@@ -470,7 +470,7 @@ export default component$(() => {
         const error : any[] = []
         if(checkPolicy.checked == true)
         {
-            loading.value = true
+            //loading.value = true
 
             forms.map((form,index) => {
                 if(!form.checkValidity())
@@ -496,6 +496,7 @@ export default component$(() => {
 
                     if(card != null)
                     {
+                        loading.value = true
                         card.classList.remove('border')
                         card.classList.remove('border-danger')
 
@@ -1200,10 +1201,12 @@ export default component$(() => {
             <div id='modalAdditionals' class="modal fade">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">  
-                            <h2 class='text-semi-bold text-white px-4 p-2'>
+                        <div class="modal-header d-flex">  
+                            <h2 class='text-semi-bold text-white px-4 p-2 m-0 me-2'>
                                 Viajero {additionalsBenefitsPlan.value.idpasajero}  
                             </h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                         style={{border:'1px solid', borderRadius:'33px'}}></button>
                         </div>
                         <div class="modal-body cards-additionals">
                             {
