@@ -675,14 +675,17 @@ export default component$(() => {
             <div id='modalBenefits' class="modal fade">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            {benefitsPlan.value.idpopularidad == 10 && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                            {benefitsPlan.value.idpopularidad == 9 &&<ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                            {benefitsPlan.value.idpopularidad == 8 && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
-                            <h2 class='text-semi-bold text-white p-2'>
-                                {benefitsPlan.value.nombreplan}
-                            </h2>
-                        </div>
+                    <div class="modal-header d-flex">                          
+                        {benefitsPlan.value.idpopularidad == 10 && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                        {benefitsPlan.value.idpopularidad == 9 &&<ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                        {benefitsPlan.value.idpopularidad == 8 && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                        <h2 class='text-semi-bold text-white px-4 p-2 m-0'>
+                            {benefitsPlan.value.nombreplan}
+                        </h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                         style={{border:'1px solid', borderRadius:'33px'}}></button>
+                          
+                    </div>
                         <div class="modal-body">
                             <table class='table table-borderless table-striped'>
                                 <tbody>
