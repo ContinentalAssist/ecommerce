@@ -128,13 +128,28 @@
 }
 
 
+
+.form-check-input[aria-checked="false"] {
+    border-color: #656565;
+    background-color: white; 
+    --bs-form-check-bg-image:none;
+}
+
+
+
 @media  (max-width: 767.98px) {
     .dropdown-menu.show{
+        overflow: auto !important;
         width: 100%;
-        height: 570px !important;
-/*     margin-top: -112px !important;
- */        z-index: 3001;
+        height: auto !important;
+        max-height: 280px;
+        z-index: 3001;
+
         }
+
+        /* .dropdown-menu.show::-webkit-scrollbar {
+            display: none; 
+        } */
    }
 
  /* Override for large devices */

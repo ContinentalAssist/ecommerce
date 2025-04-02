@@ -25,8 +25,8 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
     const getOptions$ = $((option:any) => {
         const newValues: string[] = Object.assign([],defaultValue.value)
         const newDataSetValues: string[] = Object.assign([],datasetValue.value)
-        const input = document.querySelector('#'+props.id) as HTMLInputElement
-        
+        const input = document.querySelector('#'+props.id) as HTMLInputElement     
+        options.value = []
         if(datasetValue.value.includes(option.value))
         {
             datasetValue.value.map((item,index) => {
@@ -116,8 +116,18 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
             if(defaultValue.value.length === 0)
             {
                 const newList = prevOptions.value.filter((option) => {
-                    const newOption = String(option.label).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    return String(newOption).toLowerCase().includes(String(e.target.value).toLowerCase())
+                // Normaliza la opción y elimina los diacríticos
+                const newOption = String(option.label)
+                .normalize("NFD") // Descompone caracteres acentuados
+                .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
+
+                // Normaliza el valor de entrada y elimina diacríticos
+                const inputValue = String(e.target.value)
+                    .normalize("NFD") // Descompone caracteres acentuados
+                    .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
+
+                // Compara si la opción normalizada incluye el valor de entrada normalizado
+                return newOption.toLowerCase().includes(inputValue.toLowerCase());
                 })
 
                 options.value = newList
@@ -128,10 +138,19 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 newValues[newValues.length - 1] = e.target.value.split(',')[newValues.length - 1]
 
                 const newList = prevOptions.value.filter((option) => {
-                    const newOption = String(option.label).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    return String(newOption).toLowerCase().includes(String(newValues[newValues.length - 1]).toLowerCase())
-                })
+                    // Normaliza la opción y elimina los diacríticos
+                const newOption = String(option.label)
+                .normalize("NFD") // Descompone caracteres acentuados
+                .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
 
+                // Normaliza el último valor de newValues y elimina diacríticos
+                const lastValue = String(newValues[newValues.length - 1])
+                    .normalize("NFD") // Descompone caracteres acentuados
+                    .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
+
+                  // Compara si la opción normalizada incluye el último valor normalizado
+                 return newOption.toLowerCase().includes(lastValue.toLowerCase());
+                })                
                 options.value = newList
             }
         }
@@ -189,81 +208,83 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
             </div>
             <hr id={props.id}/>
             <div class="row">
-            <div 
-                id={'dropdown-'+props.id} 
-                class='dropdown-menu p-4' 
-                aria-labelledby={props.id}
-                style={{ overflow:'hidden'}}
-            >
-                <div class='row inside' style={{ overflowY:'auto'}}>
-                    <div class='col-6'>
-                        <ul class='list-group list-group-flush'>
-                            {
-                                options.value.map((option,iOption) => {
-                                    return(
-                                        iOption < (options.value.length / 2)
-                                        &&
-                                        <li 
-                                            key={iOption+1}
-                                            class={datasetValue.value.includes(option.value) ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'}
-                                            value={option.value} 
-                                        >
-                                            <div class="form-check">
-                                                <input 
-                                                    class="form-check-input" 
-                                                    type="checkbox" 
-                                                    id={"check-"+iOption} 
-                                                    checked={datasetValue.value.includes(option.value)}
-                                                    onClick$={() => getOptions$(option)}
-                                                />
-                                                <label 
-                                                    class="form-check-label" 
-                                                    onClick$={() => getOptions$(option)}
-                                                >
-                                                    {option.label}
-                                                </label>
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
-                    </div>
-                    <div class='col-6'>
-                    <ul class='list-group list-group-flush'>
-                            {
-                                options.value.map((option,iOption) => {
-                                    return(
-                                        iOption >= (options.value.length / 2)
-                                        &&
-                                        <li 
-                                            key={iOption+1}
-                                            class={datasetValue.value.includes(option.value) ? 'list-group-item active text-semi-bold text-dark-blue' : 'list-group-item text-semi-bold text-dark-blue'}
-                                            value={option.value} 
-                                        >
-                                            <div class="form-check">
-                                                <input 
-                                                    class="form-check-input" 
-                                                    type="checkbox" 
-                                                    id={"check-"+iOption} 
-                                                    checked={datasetValue.value.includes(option.value)}
-                                                    onClick$={() => getOptions$(option)}
-                                                />
-                                                <label 
-                                                    class="form-check-label text-medium text-dark-gray" 
-                                                    onClick$={() => getOptions$(option)}
-                                                >
-                                                    {option.label}
-                                                </label>
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
+                <div 
+                    id={'dropdown-'+props.id} 
+                    class='dropdown-menu p-4' 
+                    aria-labelledby={props.id}
+                    style={{ overflow:'hidden'}}
+                >
+                    <div class='row inside' style={{ overflowY: 'auto' }}>
+                        <div class='col-6'>
+                            <ul class='list-group list-group-flush'>
+                                {options.value.map((option, iOption) => {
+                                    if (iOption < options.value.length / 2) {
+                                        const isActive = datasetValue.value.includes(option.value);
+                                        return (
+                                            <li
+                                                key={`left-${iOption + 1}`}
+                                                class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
+                                                value={option.value}
+                                            >
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        id={`check-left-${iOption}`}
+                                                        checked={isActive}
+                                                        onClick$={() => getOptions$(option)}
+                                                        aria-checked={isActive}
+                                                    />
+                                                    <label
+                                                        class="form-check-label"
+                                                        onClick$={() => getOptions$(option)}
+                                                    >
+                                                        {option.label}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        );
+                                    }
+                                    return null; // Retorna null si no se cumple la condición
+                                })}
+                            </ul>
+                        </div>
+                        <div class='col-6'>
+                            <ul class='list-group list-group-flush'>
+                                {options.value.map((option, iOption) => {
+                                    if (iOption >= options.value.length / 2) {
+                                        const isActive = datasetValue.value.includes(option.value);
+                                        return (
+                                            <li
+                                                key={`right-${iOption + 1}`}
+                                                class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
+                                                value={option.value}
+                                            >
+                                                <div class="form-check">
+                                                    <input
+                                                        class="form-check-input"
+                                                        type="checkbox"
+                                                        id={`check-right-${iOption}`}
+                                                        checked={isActive}
+                                                        onClick$={() => getOptions$(option)}
+                                                        aria-checked={isActive}
+                                                    />
+                                                    <label
+                                                        class="form-check-label text-medium text-dark-gray"
+                                                        onClick$={() => getOptions$(option)}
+                                                    >
+                                                        {option.label}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        );
+                                    }
+                                    return null; // Retorna null si no se cumple la condición
+                                })}
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
             </div>
         </div>
     )
