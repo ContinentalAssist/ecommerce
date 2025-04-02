@@ -15,11 +15,11 @@ const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) =
         headers: {
             'Content-Type': 'application/json',
             'EVA-AUTH-USER': import.meta.env.VITE_MY_PUBLIC_WEB_KEY,
+            'Accept-Language':request.headers.get('Accept-Language')||'es'
         },
         body: JSON.stringify(dataSend),
     };
-
-
+    
     // Validar si el encabezado x-forwarded-for existe
     const forwardedForHeader = request.headers.get('x-forwarded-for');
     
