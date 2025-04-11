@@ -1035,7 +1035,7 @@ export default component$(() => {
                                                                             data-bs-toggle="modal" 
                                                                             data-bs-target="#modalAdditionals"
                                                                         >
-                                                                            Ver beneficios adicionales
+                                                                            Adquiere beneficios adicionales
                                                                         </button>
                                                                     </div>
                                                                 </div>
@@ -1062,7 +1062,7 @@ export default component$(() => {
                                                                             data-bs-toggle="modal" 
                                                                             data-bs-target="#modalAdditionals"
                                                                         >
-                                                                            Ver beneficios adicionales
+                                                                            Adquiere beneficios adicionales
                                                                         </button>
 
                                                                         <button type="button" class='btn btn-collapse not-mobile' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
@@ -1076,33 +1076,89 @@ export default component$(() => {
                                                             
                                                             </div>
                                                         </div>
-                                                        <div class={index == 0 ? "collapse show" : "collapse"} id={"collapseExample-"+index}>
-                                                            <hr class='m-0' />
-
-                                                            <div class='card-body px-3 text-start'>
-                                                                <div class='container'>
-                                                                    <div class="row">
-                                                                        <div class="col-lg-12">  
-                                                                        <Form
-                                                                                id={'form-pax-'+(index+1)}
+                                                        <div className="collapse show" id={"collapseExample-" + index}>
+                                                            <hr class='m-0'/>
+                                                            <div className='card-body px-3 text-start'>
+                                                                <div className='container'>
+                                                                    <div className="row">
+                                                                        <div className="col-lg-12">
+                                                                            <Form
+                                                                                id={'form-pax-' + (index + 1)}
                                                                                 form={[
-                                                                                    {row:[
-                                                                                        {size:'col-xl-4',type:'text',label:'Nombre(s)',name:'nombres',required:true,value:addBenefit.nombres,textOnly:'true',placeholder:'Nombre(s)'},
-                                                                                        {size:'col-xl-4',type:'text',label:'Apellido(s)',name:'apellidos',required:true,value:addBenefit.apellidos,textOnly:'true',placeholder:'Apellido(s)'},                                                                                        
-                                                                                        {size:'col-xl-4',type:'text',label:'Identificación / Pasaporte',name:'documentacion',required:true,value:addBenefit.documentacion,placeholder:'Identificación / Pasaporte'},
-                                                                                        {size:'col-xl-4',type:'date',label:'Nacimiento',name:'fechanacimiento',min:addBenefit.minDate,max:addBenefit.maxDate,required:true,value:addBenefit.fechanacimiento,placeholder:'Nacimiento'},
-                                                                                        {size:'col-xl-4',type:'email',label:'Correo',name:'correo',required:true,value:addBenefit.correo,placeholder:'Correo'},
-                                                                                        {size:'col-xl-4',type:'phone',label:'Teléfono',name:'telefono',required:true,value:addBenefit.telefono,placeholder:'Teléfono'},
+                                                                                    {
+                                                                                        row: [
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'text',
+                                                                                                label: 'Nombre(s)',
+                                                                                                name: 'nombres',
+                                                                                                required: true,
+                                                                                                value: addBenefit.nombres,
+                                                                                                textOnly: 'true',
+                                                                                                placeholder: 'Nombre(s)'
+                                                                                            },
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'text',
+                                                                                                label: 'Apellido(s)',
+                                                                                                name: 'apellidos',
+                                                                                                required: true,
+                                                                                                value: addBenefit.apellidos,
+                                                                                                textOnly: 'true',
+                                                                                                placeholder: 'Apellido(s)'
+                                                                                            },
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'text',
+                                                                                                label: 'Identificación / Pasaporte',
+                                                                                                name: 'documentacion',
+                                                                                                required: true,
+                                                                                                value: addBenefit.documentacion,
+                                                                                                placeholder: 'Identificación / Pasaporte'
+                                                                                            },
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'date',
+                                                                                                label: 'Nacimiento',
+                                                                                                name: 'fechanacimiento',
+                                                                                                min: addBenefit.minDate,
+                                                                                                max: addBenefit.maxDate,
+                                                                                                required: true,
+                                                                                                value: addBenefit.fechanacimiento,
+                                                                                                placeholder: 'Nacimiento'
+                                                                                            },
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'email',
+                                                                                                label: 'Correo',
+                                                                                                name: 'correo',
+                                                                                                required: true,
+                                                                                                value: addBenefit.correo,
+                                                                                                placeholder: 'Correo'
+                                                                                            },
+                                                                                            {
+                                                                                                size: 'col-xl-4',
+                                                                                                type: 'phone',
+                                                                                                label: 'Teléfono',
+                                                                                                name: 'telefono',
+                                                                                                required: true,
+                                                                                                value: addBenefit.telefono,
+                                                                                                placeholder: 'Teléfono'
+                                                                                            },
 
-                                                                                    ]},
-                                                                                    ]}
-                                                                            />   
-                                                                            <div id={'card-message-'+addBenefit.idpasajero} class='container d-none'>
-                                                                                <div class='row'>
-                                                                                    <div class='col-xl-12'>
+                                                                                        ]
+                                                                                    },
+                                                                                ]}
+                                                                            />
+                                                                            <div
+                                                                                id={'card-message-' + addBenefit.idpasajero}
+                                                                                className='container d-none'>
+                                                                                <div className='row'>
+                                                                                    <div className='col-xl-12'>
                                                                                         <hr/>
-                                                                                        <div class='message error'>
-                                                                                            <span class='text-semi-bold'>Esta persona ya cuenta con un voucher activo</span>
+                                                                                        <div className='message error'>
+                                                                                            <span
+                                                                                                class='text-semi-bold'>Esta persona ya cuenta con un voucher activo</span>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -1206,6 +1262,7 @@ export default component$(() => {
                             </h2>
                         </div>
                         <div class="modal-body cards-additionals">
+
                             {
                                 additionalsBenefitsPlan.value.beneficiosadicionalesasignados.length > 0
                                 ?
