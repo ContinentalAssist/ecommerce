@@ -624,7 +624,8 @@ export default component$(() => {
                     }
                     else
                     {
-                        
+
+
                         const cards = Array.from(containerForms.querySelectorAll('.card'))
     
                         cards.map((card,index) => {
