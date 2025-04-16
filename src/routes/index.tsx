@@ -439,7 +439,7 @@ export default component$(() => {
                                 </h2>
                                 <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
-                                    <QuotesEngine isMobile={stateContext.value.isMobile}/>
+                                    <QuotesEngine isMobile={stateContext.value.isMobile} lastStep={getQuotesEngine$}/>
                                     <div class='container mt-3'>
                                         <div class='row row-mobile justify-content-center'>
                                             <div class='col-lg-3 col-sm-6 col-xs-6'>

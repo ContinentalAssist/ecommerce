@@ -45,7 +45,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-plane-departure"/>
+                                <i class="fa-solid fa-plane-departure fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -63,7 +63,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="far fa-calendar"></i>
+                                <i class="far fa-calendar fa-lg"></i>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -81,7 +81,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-6'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-user-plus"/>
+                                <i class="fa-solid fa-user-plus fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -102,7 +102,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                 </div>
                 :
                 <>
-                    <QuotesEngine setLoading={props.loading} isMobile={props.isMobile}/>
+                    <QuotesEngine setLoading={props.loading} isMobile={props.isMobile} lastStep={props.getQuotesEngine}/>
                     <div class='row justify-content-center mt-2'>
                         <div class='col-lg-2 col-6'>
                             <div class='d-grid gap-2'>
@@ -207,7 +207,7 @@ export default component$(() => {
             {
                 const defaultPlan =stateContext.value.planDefault;
                 //plans.value = dataPlans.resultado
-                if(plans.value.length < 3)
+                if(plans.value.length < 3 && defaultPlan.length > 0)
                 {
                     const resultado = defaultPlan.map((item:any)=>{
                         const coincidente = dataPlans.resultado.find((c:any)=> c.idplan === item.idplan);
@@ -675,14 +675,17 @@ export default component$(() => {
             <div id='modalBenefits' class="modal fade">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            {benefitsPlan.value.idpopularidad == 10 && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                            {benefitsPlan.value.idpopularidad == 9 &&<ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                            {benefitsPlan.value.idpopularidad == 8 && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
-                            <h2 class='text-semi-bold text-white p-2'>
-                                {benefitsPlan.value.nombreplan}
-                            </h2>
-                        </div>
+                    <div class="modal-header d-flex">                          
+                        {benefitsPlan.value.idpopularidad == 10 && <ImgContinentalAssistBagEssential class='img-fluid' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                        {benefitsPlan.value.idpopularidad == 9 &&<ImgContinentalAssistBagComplete class='img-fluid' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                        {benefitsPlan.value.idpopularidad == 8 && <ImgContinentalAssistBagElite class='img-fluid' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                        <h2 class='text-semi-bold text-white px-4 p-2 m-0'>
+                            {benefitsPlan.value.nombreplan}
+                        </h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                         style={{border:'1px solid', borderRadius:'33px'}}></button>
+                          
+                    </div>
                         <div class="modal-body">
                             <table class='table table-borderless table-striped'>
                                 <tbody>

@@ -44,11 +44,10 @@ export default component$((props:propsWompi) => {
     const messageLoading= useSignal('')    
 
 
-    function updateLoading(){        
-        props.setLoading(isLoading.value,messageLoading.value)
-        
-    }
-    updateLoading()
+    useTask$(({ track }) => {
+        const loading = track(()=>isLoading.value);  
+        props.setLoading(loading, '')
+    })
 
     const validateTransaccion$ = $(async() => {
         const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
@@ -974,7 +973,7 @@ export default component$((props:propsWompi) => {
                           
                                 </div>
                             }
-                            {
+                           {/*  {
                                 formPayment.value == 'BANCOLOMBIA_QR'
                                 &&
                                 <>
@@ -1007,7 +1006,7 @@ export default component$((props:propsWompi) => {
                                 </div>
                                 <hr/>
                                 </>
-                            }
+                            } */}
                             {
                                 formPayment.value == 'BANCOLOMBIA_COLLECT'
                                 &&

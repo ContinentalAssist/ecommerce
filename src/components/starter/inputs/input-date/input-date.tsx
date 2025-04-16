@@ -22,7 +22,8 @@ const FlightLandIcon = createSvgIcon(
 const MyDateTimePicker = (props: any) => {
 
   const [value,setValue]=useState('')
-
+  const [openDesktop,setOpenDesktop]=useState(false)
+  const [openMobile,setOpenMobile]=useState(false)
   return(
     <div>
       <Grid key={'key-'+props.id} item xs={12} sm={12} lg={12}>
@@ -32,11 +33,16 @@ const MyDateTimePicker = (props: any) => {
         <MobileDatePicker
             {...props}
             label= {props.label}
+            defaultValue={getValidDateOrDefault(props.defaultvalue)}
             minDate={getValidDateOrDefault(props.min)}
             maxDate={getValidDateOrDefault(props.max)}
             //format="DD MMM YYYY"
             fullWidth
             /* slots={{InputAdornment:FlightLandIcon}} */
+            autoFocus={true}
+            open={openMobile}
+            onOpen={() => setOpenMobile(true)}
+            onClose={() => setOpenMobile(false)}
             slotProps={{
             inputAdornment: { position: 'start' },
             textField: { InputProps: {
@@ -45,6 +51,11 @@ const MyDateTimePicker = (props: any) => {
               </InputAdornment>,
               inputProps: {
                 dateformated: value,
+                onClick: (event) => {
+                  // Abre el calendario al hacer clic en el TextField
+                  event.stopPropagation(); // Evita que el evento se propague
+                  setOpenMobile(true)
+                },
          
             },
              } } }}
@@ -67,13 +78,23 @@ const MyDateTimePicker = (props: any) => {
             {...props}
             label= {props.label}
             defaultValue={getValidDateOrDefault(props.defaultvalue)}
+            autoFocus={openDesktop}
+            open={openDesktop}
+            onOpen={() => setOpenDesktop(true)}
+            onClose={() => setOpenDesktop(false)}
             minDate={getValidDateOrDefault(props.min)}
             maxDate={getValidDateOrDefault(props.max)}
             fullWidth             
             slotProps={{ inputAdornment: { position: 'start' },
             textField: { InputProps: {
               inputProps: {
-                dateformated: value
+                dateformated: value,
+                onClick: (event) => {
+                  // Abre el calendario al hacer clic en el TextField
+                  event.stopPropagation(); // Evita que el evento se propague
+                  setOpenDesktop(!openDesktop)
+                  props.onFocus(!openDesktop)
+                },
             },
              } } }}
             
@@ -83,8 +104,8 @@ const MyDateTimePicker = (props: any) => {
               setValue(dayjs(newValue).format('YYYY-MM-DD'));
               props.onChange(dayjs(newValue).format('YYYY/MM/DD'))
             }
-           
             }
+           
             value={getValidDateOrDefault(value)}
           />
         </Box>

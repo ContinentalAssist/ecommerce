@@ -49,11 +49,10 @@ export default component$((props:propsOP) => {
     const dataError = useSignal('')
 
 
-    function updateLoading(){
-        props.setLoading(isLoading.value,'')
-        
-    }
-    updateLoading()
+    useTask$(({ track }) => {
+        const loading = track(()=>isLoading.value);  
+        props.setLoading(loading, '')
+    })
 
     useTask$(() => {
         isLoading.value = true
