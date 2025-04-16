@@ -45,7 +45,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-plane-departure"/>
+                                <i class="fa-solid fa-plane-departure fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -63,7 +63,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="far fa-calendar"></i>
+                                <i class="far fa-calendar fa-lg"></i>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -81,7 +81,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-6'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-user-plus"/>
+                                <i class="fa-solid fa-user-plus fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -102,7 +102,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                 </div>
                 :
                 <>
-                    <QuotesEngine setLoading={props.loading} isMobile={props.isMobile}/>
+                    <QuotesEngine setLoading={props.loading} isMobile={props.isMobile} lastStep={props.getQuotesEngine}/>
                     <div class='row justify-content-center mt-2'>
                         <div class='col-lg-2 col-6'>
                             <div class='d-grid gap-2'>
@@ -207,7 +207,7 @@ export default component$(() => {
             {
                 const defaultPlan =stateContext.value.planDefault;
                 //plans.value = dataPlans.resultado
-                if(plans.value.length < 3)
+                if(plans.value.length < 3 && defaultPlan.length > 0)
                 {
                     const resultado = defaultPlan.map((item:any)=>{
                         const coincidente = dataPlans.resultado.find((c:any)=> c.idplan === item.idplan);

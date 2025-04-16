@@ -213,7 +213,7 @@ export const CardPaymentResume = component$(() => {
                                           class="input-group-text border border-0 align-self-center text-dark-blue"
                                           style={{ paddingLeft: "0px", paddingRight: "0.438rem" }}
                                         >
-                                          <i class="fa-solid fa-plane-departure"></i>
+                                          <i class="fa-solid fa-plane-departure fa-lg"></i>
                                         </span>
                                         <label
                                           class="label-resume text-dark-gray"
@@ -239,7 +239,7 @@ export const CardPaymentResume = component$(() => {
                                           class="input-group-text border border-0 align-self-center text-dark-blue"
                                           style={{ paddingLeft: "0px" }}
                                         >
-                                          <i class="fa-solid fa-user-plus" />
+                                          <i class="fa-solid fa-user-plus fa-lg" />
                                         </span>
                                         <label
                                           class="label-resume text-dark-gray"
@@ -261,7 +261,7 @@ export const CardPaymentResume = component$(() => {
                                           class="input-group-text border border-0 align-self-center text-dark-blue"
                                           style={{ paddingLeft: "0px" }}
                                         >
-                                          <i class="far fa-calendar" />
+                                          <i class="far fa-calendar fa-lg" />
                                         </span>
                                         <label
                                           class="label-resume text-dark-gray "
@@ -286,7 +286,7 @@ export const CardPaymentResume = component$(() => {
                                           class="input-group-text border border-0 align-self-center text-dark-blue"
                                           style={{ paddingLeft: "0px" }}
                                         >
-                                          <i class="fa-solid fa-clipboard-check" />
+                                          <i class="fa-solid fa-clipboard-check fa-lg" />
                                         </span>
                                         <label
                                           class="label-resume text-dark-gray"

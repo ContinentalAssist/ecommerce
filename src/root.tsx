@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore,useOnDocument } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore,useOnDocument, useTask$ } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -51,45 +51,46 @@ export default component$(() => {
     })
   );
 
-  useVisibleTask$(async() => {
-      let convertionRate: number;
-      let currency: string;
+  useTask$(async () => {
+    //const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET"});
+    let convertionRate: number;
+    let currency: string;
 
-      const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-          .then((response) => {
-              return(response.json())
-          })
-            /* const geoData ={
-              ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
-              country: "CO"
-          }  */
-      resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
-      
-          const response = await fetch("/api/getExchangeRate",{method:"POST",body:JSON.stringify({codigopais:geoData.country})});
-          const data =await response.json();
-          if (!data.error) {
-            switch (geoData.country) 
-            {
-                case 'CO':
-                    convertionRate = data.resultado[0]?.valor
-                    currency = 'COP'
-                    break;
-                case 'MX':
-                    convertionRate = data.resultado[0]?.valor
-                    currency = 'MXN'
-                    break; 
-                default:
-                    convertionRate = 1
-                    currency = 'USD'
-            }
-            resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
-
+    const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+        .then((response) => {
+            return(response.json())
+        })
+          /* const geoData ={
+            ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
+            country: "CO"
+        }  */
+       
+    resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
+    
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate",
+          {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+        const data =await response.json();
+        if (!data.error) {
+          switch (geoData.country) 
+          {
+              case 'CO':
+                  convertionRate = data.resultado[0]?.valor
+                  currency = 'COP'
+                  break;
+              case 'MX':
+                  convertionRate = data.resultado[0]?.valor
+                  currency = 'MXN'
+                  break; 
+              default:
+                  convertionRate = 1
+                  currency = 'USD'
           }
+          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
 
-   
+        }
+  })
 
-  });
-
+ 
 
   
 
