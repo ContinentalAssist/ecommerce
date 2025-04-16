@@ -1,4 +1,4 @@
-import {component$, useSignal, useStylesScoped$,  useVisibleTask$ } from "@builder.io/qwik";
+import {component$, useSignal, useStylesScoped$,  useVisibleTask$ ,Fragment} from "@builder.io/qwik";
 //import { useLocation } from '@builder.io/qwik-city';
 
 //import ImgContinentalAssistWhatsappChat from '~/media/icons/continental-assist-whatsapp-chat.png?jsx';
@@ -120,14 +120,14 @@ export const Footer = component$(() => {
                                     ?
                                     attachment.value.urls.map((data:any,index:number) => {
                                         return(
-                                            <>
+                                           <Fragment key={index}>
                                                 <a key={'url-'+index} title={data.label} class="text-regular text-white" href={data.url} target='_blank'>{data.label}</a>
                                                 {
                                                     (index+1) == Array(attachment.value.urls).length
                                                     &&
                                                     <br/>
                                                 }
-                                            </>
+                                            </Fragment>
                                         )
                                     })
                                     :

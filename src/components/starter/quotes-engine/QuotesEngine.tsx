@@ -478,9 +478,14 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 }
                             ]}
                         ]}
-                    />
+                        />
+                                    
+
                         </div>
-                    
+                      
+                    </div>
+                    <div class="modal-footer mx-auto"   style={{width:'100% !important'}}>
+                    <button type='button' class='btn btn-primary mx-auto mt-3' data-bs-dismiss="modal" aria-label="Close" >Siguiente</button>
                     </div>
                    
                     </div>
@@ -523,6 +528,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                         />
                         </div>
                     
+                    </div>
+                    <div class="modal-footer mx-auto" style={{width:'100% !important'}}>
+                    <button type='button' class='btn btn-primary mx-auto mt-3' data-bs-dismiss="modal" aria-label="Close" onClick$={()=>{props.lastStep()}} >Siguiente</button>
                     </div>
                    
                     </div>

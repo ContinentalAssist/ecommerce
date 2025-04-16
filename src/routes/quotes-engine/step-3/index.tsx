@@ -181,7 +181,7 @@ export default component$(() => {
         }
     })
 
-    function buildMethodsButtons(){
+   /*  function buildMethodsButtons(){
 
     if (stateContext?.value?.total?.total >0) {
         if(divisaManual.value == true &&Object.keys(stateContext.value).length > 0)
@@ -201,9 +201,11 @@ export default component$(() => {
         
     }
            
-    }
+    } */
 
-    buildMethodsButtons()
+
+
+    //buildMethodsButtons()
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
@@ -211,6 +213,25 @@ export default component$(() => {
             loading.value = false
         }
        
+    })
+
+    useTask$(({ track })=>{
+        const divisaBase = track(()=>divisaManual.value);  
+               
+            if(divisaBase == true &&Object.keys(stateContext.value).length > 0)
+            {
+                listPaymentMethods.value = paymentMethods.value[0].list
+            }
+            else 
+            {
+                paymentMethods.value.map((payment) => {                    
+                    if(stateContext?.value?.resGeo?.country == payment.origin)
+                    {
+                        listPaymentMethods.value = payment.list
+                    }
+                })
+            }
+        
     })
 
 
@@ -447,7 +468,7 @@ export default component$(() => {
                             <div class='row  justify-content-center'>
                             <div class='col-lg-10 text-center mt-5 mb-3'>
                                     <h1 class='text-semi-bold text-blue'>
-                                        <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viaje
+                                        <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viajess
                                     </h1>
                                     <hr class='divider my-3'/>
                               </div>
@@ -523,53 +544,53 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="container  not-mobile">
-                                                    <div class='row'>
-                                                        <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago </p>
-                                                                                                        
-                                                            {
-                                                                
-                                                                listPaymentMethods.value.map((payment:any,index:number) => {
-                                                                    
-                                                                    return(
-                                                                        
-                                                                    <div key={index}class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
-                                                                        <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center '  onClick$={() => {getPaymentMethod$(payment.method);}}>
-                                                                            {
-                                                                                payment.icons.length>0 
-                                                                                &&
-                                                                                payment.icons.map((icon:any,iIcon:number) => {
-                                                                                    if (payment.title == 'Crédito / Débito' && iIcon ==0) {
-                                                                                        return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
-                                                                                    }
-                                                                                    if (payment.title == 'Crédito / Débito') {
-                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
-                                                                                    } 
-                                                                                    else{
-                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
-                                                                                    }
-                                                                                    
-                                                                                })
-                                                                            }
-                                                                            {
-                                                                                'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                                <i class={payment.fontawesome}/>
-                                                                            }
-                                                                        </div>   
-                                                                        <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
-                                                                    </div>
 
-                                                                    )
-                                                                }) 
+                                                <div class='row not-mobile'>
+                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago </p>
+                                                                                                    
+                                                        {
+                                                            
+                                                            listPaymentMethods.value.map((payment:any,index:number) => {
                                                                 
-                                                                
-                                                            }
-                                                            { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
-                                                              <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
-                                                              <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
-                                                            }
-                                                    </div>
+                                                                return(
+                                                                    
+                                                                <div key={index}class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
+                                                                    <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center '  onClick$={() => {getPaymentMethod$(payment.method);}}>
+                                                                        {
+                                                                            payment.icons.length>0 
+                                                                            &&
+                                                                            payment.icons.map((icon:any,iIcon:number) => {
+                                                                                if (payment.title == 'Crédito / Débito' && iIcon ==0) {
+                                                                                    return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
+                                                                                }
+                                                                                if (payment.title == 'Crédito / Débito') {
+                                                                                    return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
+                                                                                } 
+                                                                                else{
+                                                                                    return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
+                                                                                }
+                                                                                
+                                                                            })
+                                                                        }
+                                                                        {
+                                                                            'fontawesome'in payment && payment.fontawesome.length>0 &&
+                                                                            <i class={payment.fontawesome}/>
+                                                                        }
+                                                                    </div>   
+                                                                    <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
+                                                                </div>
+
+                                                                )
+                                                            }) 
+                                                            
+                                                            
+                                                        }
+                                                        { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
+                                                            <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                            <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
+                                                        }
                                                 </div>
+                                              
 
                                                
 
@@ -616,11 +637,12 @@ export default component$(() => {
 
                                                 <br/>
                                                 <div class="payment">
+                                                <p class=' text-semi-bold text-blue  text-center'> Cambiar moneda de pago </p>
                                                 <SwitchDivisa
                                                 labels={['USD',stateContext.value?.currentRate?.code]}
                                                 value={contextDivisa.divisaUSD ? 'base' : 'local'}
                                                 onChange={$((e:any) => {changeDivisa$(e)})}
-                                            />
+                                                />
                                                 {
                                                         resume.value.idcotizacion == undefined
                                                         &&
@@ -638,7 +660,7 @@ export default component$(() => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    }
+                                                }
 
                                                     <div id='form-send' class='row mt-3 d-none'>
                                                     <hr/>
@@ -665,6 +687,11 @@ export default component$(() => {
                                         }
                                             
                                         </CardPaymentResume>                         
+                                </div>
+                                <div class='col-xl-5 col-sm-5 col-xs-12 pe-4'>
+                                        <div class='d-grid gap-2 ms-3 mt-2'>
+                                            <button type='button' class='btn btn-outline-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-2')}>Regresar</button>
+                                        </div>
                                 </div>
                             </div>
                             <br/>
