@@ -32,11 +32,10 @@ export default component$((props:propsAuthorize) => {
     const isLoading = useSignal(false);
 
 
-    function updateLoading(){
-        props.setLoading(isLoading.value, '')
-        
-    }
-    updateLoading()
+    useTask$(({ track }) => {
+        const loading = track(()=>isLoading.value);  
+        props.setLoading(loading, '')
+    })
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)

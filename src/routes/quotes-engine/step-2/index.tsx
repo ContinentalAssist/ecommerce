@@ -46,7 +46,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-plane-departure"/>
+                                <i class="fa-solid fa-plane-departure fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -64,7 +64,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="far fa-calendar"></i>
+                                <i class="far fa-calendar fa-lg"></i>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -82,7 +82,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-3 col-xs-12'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-user-plus"/>
+                                <i class="fa-solid fa-user-plus fa-lg"/>
                             </span>
                             <div class="form-floating">
                                 <input 
@@ -100,7 +100,7 @@ export const QuotesEngineResume = (props:propsQuotesEngineResume) => {
                     <div class='col-2 col-xs-6'>
                         <div class="input-group">
                             <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-clipboard-check"/>
+                                <i class="fa-solid fa-clipboard-check fa-lg"/>
                             </span>
                             <div class="form-floating">
                             <input 
@@ -292,8 +292,8 @@ export default component$(() => {
         resume.value = stateContext.value
     })
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(async() => {        
-        if(Object.keys(stateContext.value).length > 0)
+    useVisibleTask$(async() => {                
+        if(Object.keys(stateContext.value).length > 0&& 'plan' in stateContext.value)
         {
             const prevResume : {[key:string]:any} = stateContext.value            
             if(prevResume.asegurados != undefined && prevResume.asegurados.length === prevResume.edades.length )
@@ -309,7 +309,7 @@ export default component$(() => {
                 totalPay.value = {divisa:resume?.value?.plan?.codigomonedapago,total:Number(resume?.value?.plan?.precio_grupal)}
                 let newRes: any[] = []
 
-                newRes =resume?.value.plan.adicionalesdefault;
+                newRes =resume?.value?.plan?.adicionalesdefault;
                 const today = DateFormat(new Date)
                newRes.map((res,index) => {
                 let min = ''
@@ -1180,7 +1180,12 @@ export default component$(() => {
                                                     </div>
                                                 </div>
                                                 <div class='row row-mobile justify-content-center mt-3 mb-5'>
-                                                    <div class='col-xl-2 col-sm-6 col-xs-6'>
+                                                    <div class='col-lg-4 col-sm-6 col-xs-6'>
+                                                        <div class='d-grid gap-2'>
+                                                            <button type='button' class='btn btn-outline-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-1')}>Regresar</button>                                                            
+                                                        </div>
+                                                    </div>
+                                                    <div class='col-xl-4 col-sm-6 col-xs-6'>
                                                         <div class='d-grid gap-2'>
                                                             <button type='button' class='btn btn-primary btn-lg' onClick$={getPaxs$}>Siguiente</button>
                                                         </div>

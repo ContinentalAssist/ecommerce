@@ -33,6 +33,7 @@ const MyDateTimePicker = (props: any) => {
         <MobileDatePicker
             {...props}
             label= {props.label}
+            defaultValue={getValidDateOrDefault(props.defaultvalue)}
             minDate={getValidDateOrDefault(props.min)}
             maxDate={getValidDateOrDefault(props.max)}
             //format="DD MMM YYYY"
@@ -77,7 +78,7 @@ const MyDateTimePicker = (props: any) => {
             {...props}
             label= {props.label}
             defaultValue={getValidDateOrDefault(props.defaultvalue)}
-            autoFocus={true}
+            autoFocus={openDesktop}
             open={openDesktop}
             onOpen={() => setOpenDesktop(true)}
             onClose={() => setOpenDesktop(false)}
@@ -91,8 +92,8 @@ const MyDateTimePicker = (props: any) => {
                 onClick: (event) => {
                   // Abre el calendario al hacer clic en el TextField
                   event.stopPropagation(); // Evita que el evento se propague
-                  setOpenDesktop(true)
-                  props.onFocus(true)
+                  setOpenDesktop(!openDesktop)
+                  props.onFocus(!openDesktop)
                 },
             },
              } } }}
@@ -104,22 +105,6 @@ const MyDateTimePicker = (props: any) => {
               props.onChange(dayjs(newValue).format('YYYY/MM/DD'))
             }
             }
-
-            /* renderInput={(params:any) => {
-              return (
-                <TextField
-                  {...params}
-                  InputLabelProps={{
-                    shrink: true
-                  }}
-                  onClick={(e) => setOpenDesktop(true)}
-                  onChange={(newValue)=>{
-                    console.log("change",newValue);
-                    setOpenDesktop(false)
-                  }}
-                />
-              );
-            }} */
            
             value={getValidDateOrDefault(value)}
           />

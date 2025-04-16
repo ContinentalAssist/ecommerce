@@ -67,6 +67,7 @@
       min-height: 680px;
       border-top-left-radius: 3px !important;
       border-top-right-radius: 3px !important;
+      box-shadow: 0 0 10px gray;
   }
 
   #card-right{
@@ -74,6 +75,7 @@
     min-height:500px;
     border-top-left-radius:  3px !important;
     border-bottom-left-radius: 3px !important;
+    box-shadow: 0 0 10px gray;
    }
 
  }
@@ -121,7 +123,7 @@
 }
 .divisa-plan-sub .divisa 
 {
-  font-size: 1rem !important;
+  font-size: 1.2rem !important;
 
 }
 
