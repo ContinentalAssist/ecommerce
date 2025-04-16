@@ -25,44 +25,22 @@ export const useServerTimeLoader = routeLoader$(() => {
     };
 });
 
+
+export const useRedirectIfNeeded = routeLoader$(({ redirect, request, url }) => {
+    const referer = request.headers.get('referer');
+
+    // Si no hay referer y no estamos en '/', significa que es una entrada directa
+    if (!referer && url.pathname !== '/') {
+        throw redirect(302, '/');
+    }
+});
+
+
 export default component$(() => {
-    useStyles$(styles);
-    //const showChat = useSignal(false);
-
-/*     useVisibleTask$(()=>{
-       
-        setInterval(() => {
-            if ((window as any)['Genesys']&& !showChat.value) {
-                const WGenesys = (window as any)['Genesys']
-
-                //Inicia chat
-                WGenesys("command", "Messenger.open", {},
-                    function(o:any){
-                        showChat.value =true;
-
-                    },  // if resolved
-                  )
-
-                  WGenesys("subscribe", "MessagingService.conversationCleared", function(data:any){
-
-                    showChat.value =false;
-                });
-                  
-            }
-        }, 5000);
-       
-    
-    }) */
-
     return (
         <>
-            <Header />
-            <main>
-            <ChatGenesys></ChatGenesys>
-
-                <Slot />
-            </main>
-            <Footer />
+            <Slot />
         </>
     );
 });
+
