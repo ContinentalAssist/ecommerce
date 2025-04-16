@@ -733,7 +733,7 @@ export default component$(() => {
                                                                             data-bs-toggle="modal" 
                                                                             data-bs-target="#modalAdditionals"
                                                                         >
-                                                                            Adquiere beneficios adicionales
+                                                                            Ver beneficios adicionales
                                                                         </button>
                                                                     </div>
                                                                 </div>

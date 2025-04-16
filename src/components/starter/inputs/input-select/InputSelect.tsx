@@ -153,9 +153,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                     >
                     <div class='row inside' style={{ overflowY:'auto'}}>
                         {
-
                             options.value.length > 2 ?
-
                             <>
                             <div class='col-6'>
                             <ul class='list-group list-group-flush'>
