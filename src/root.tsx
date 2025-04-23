@@ -128,22 +128,11 @@ export default component$(() => {
 
   return (
     <QwikCityProvider>
-      {/* <head>
-        <meta charset="utf-8" />
-        {!isDev && (
-          <link
-            rel="manifest"
-            href={`${import.meta.env.BASE_URL}manifest.json`}
-          />
-        )}
-        <RouterHead />
-      </head> */}
-
-      <head>
+    <head>
       <meta charset="utf-8" />
-      <QwikPartytown forward={['gtag','dataLayer.push']} />
-         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
-          <meta name="keywords" content='
+      <QwikPartytown forward={['gtag', 'dataLayer.push']} />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041" defer></script>
+      <meta name="keywords" content="
               seguro, 
               seguro viajes,
               seguro viajeros,
@@ -206,28 +195,23 @@ export default component$(() => {
               precios assistencia viaje extranjero, 
               precios assistencia viajes nacionales,
               precios assistencia viajes internacionales,
-              precios assistencia medico viajes,'
-          />
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous"/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Light.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Semi_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Medium.woff" as="font" type="font/woff" crossOrigin=''/>
-          <RouterHead />
-      </head>
-      <body data-so={so.value} data-device={device.value}>
-          <noscript>
-              <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-          </noscript>
-        <RouterOutlet />
-        <script async type="text/javascript" src='/assets/icons/all.min.js'/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
-        <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
-        <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
-
-        {!isDev && <ServiceWorkerRegister />}
-      </body>
-    </QwikCityProvider>
+              precios assistencia medico viajes,
+      " />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous" />
+      <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin='' />
+      <RouterHead />
+    </head>
+    <body data-so={so.value} data-device={device.value}>
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      </noscript>
+      <RouterOutlet />
+      <script async type="text/javascript" src='/assets/icons/all.min.js' />
+      <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
+      <script src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
+      <script src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
+      {!isDev && <ServiceWorkerRegister />}
+    </body>
+  </QwikCityProvider>
   );
 });
