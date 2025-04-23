@@ -88,7 +88,7 @@ const MyDateTimePicker = (props: any) => {
             slotProps={{ inputAdornment: { position: 'start' },
             textField: { InputProps: {         
                 dateformated: value,
-                onClick: (event) => {
+                onClick: () => {
                   // Abre el calendario al hacer clic en el TextField
                   //event.stopPropagation(); // Evita que el evento se propague
                   setOpenDesktop(!openDesktop)
