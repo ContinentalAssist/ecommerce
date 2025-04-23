@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$,useVisibleTask$  } from "@builder.io/qwik";
 import styles from './input-select.css?inline'
 
 interface propsInputSelectMultiple {
@@ -65,12 +65,16 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 })
             })
         }
-        if(navigator.userAgent.includes('Mobile'))
-        {
-            readOnly.value = true
-        }
+        
     })
 
+    useVisibleTask$(() => {
+        //CORREGIR ESTO
+        if(navigator.userAgent.includes('Mobile'))
+            {
+                readOnly.value = true
+            }
+    })
   /*   useVisibleTask$(() => {
         if(props.value)
         {

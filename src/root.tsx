@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore,useOnDocument, useTask$ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useStore,useOnDocument, useTask$ } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -15,11 +15,17 @@ import { initializeGenesys } from './utils/genesys';
 interface DivisaStore{
   divisaUSD: boolean
 }
+interface LoadingStore{
+  status: boolean,
+  message: string,
+}
+
 declare let window: any;
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');
 
+export const LoadingContext = createContextId<Signal<LoadingStore>>('set-loading');
 
 
 export default component$(() => {
@@ -31,14 +37,16 @@ export default component$(() => {
    */
 
   const obj : {[key:string]:any} = {}
-
   const resumeQuote = useSignal(obj)
+  const loading = useSignal({status:true, message:'Espera un momento...'}); // Signal para el estado de carga
+  //const loadingStatus = useSignal(true); // Signal para el estado de carga const loadingMessage = useSignal('Espere un momento ...')
   const so = useSignal('')
   const device = useSignal('desktop')
   const divisaUpdate:  DivisaStore=useStore({divisaUSD:true})
 
   useContextProvider(WEBContext,resumeQuote)
   useContextProvider(DIVISAContext, divisaUpdate);
+  useContextProvider(LoadingContext, loading);
 
   useOnDocument(
     'load',
@@ -56,14 +64,14 @@ export default component$(() => {
     let convertionRate: number;
     let currency: string;
 
-    const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+    /* const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
         .then((response) => {
             return(response.json())
-        })
-          /* const geoData ={
+        }) */
+          const geoData ={
             ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
             country: "CO"
-        }  */
+        } 
        
     resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
     

@@ -17,13 +17,12 @@ import ImgIconBanksHsbc from '~/media/banks/hsbc.webp?jsx'
 import ImgIconBanksScotiabank from '~/media/banks/scotiabank.webp?jsx'
 import ImgIconBanksInbursa from '~/media/banks/inbursa.webp?jsx'
 import ImgIconBanksIxe from '~/media/banks/ixe.webp?jsx'
+import { LoadingContext } from "~/root";
 
-export interface propsOP {
-    setLoading: (loading: boolean, message: string) => void;
-   
-}
 
-export default component$((props:propsOP) => {
+
+export default component$(() => {
+
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
@@ -45,17 +44,19 @@ export default component$((props:propsOP) => {
     const redirect = useSignal(obj)
     const store = useSignal(obj)
     const bank = useSignal(obj)
-    const isLoading = useSignal(false);
+    //const isLoading = useSignal(false);
     const dataError = useSignal('')
+    const contextLoading = useContext(LoadingContext)
 
 
-    useTask$(({ track }) => {
+    /* useTask$(({ track }) => {
         const loading = track(()=>isLoading.value);  
         props.setLoading(loading, '')
-    })
+    }) */
 
     useTask$(() => {
-        isLoading.value = true
+        
+        //loadingMessage.value = 'Cargando...';
         if(Object.keys(stateContext.value).length > 0)
         {            
             if(stateContext.value.openPayTipo == 'CARD')
@@ -104,7 +105,6 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'CARD'
-                isLoading.value = false
 
                 //props.setLoading(false)
             }
@@ -223,7 +223,8 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'STORE'
-                isLoading.value = false
+                contextLoading.value = {status:false, message:''};
+
 
             }
             else if(stateContext.value.openPayTipo == 'BANK_ACCOUNT')
@@ -255,11 +256,14 @@ export default component$((props:propsOP) => {
                 }
 
                 formPayment.value = 'BANK_ACCOUNT'
-                isLoading.value = false
+                contextLoading.value = {status:false, message:''};
+
             }
         }
         else
         {
+            contextLoading.value = {status:false, message:''};
+
             // navigate('/quotes-engine/step-1')
         }
     })
@@ -356,7 +360,8 @@ export default component$((props:propsOP) => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
-        isLoading.value = true
+        contextLoading.value = {status:true, message:'cargando...'};
+
 
         let error = false
         let errorInvoicing = false
@@ -504,7 +509,8 @@ export default component$((props:propsOP) => {
             if(resPayment.error == false)
             {
                 //urlvoucher.value = resPayment.resultado;
-                isLoading.value = false;
+                contextLoading.value = {status:false, message:''};
+
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -615,9 +621,9 @@ export default component$((props:propsOP) => {
                                                         {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                     ]},
                                                     {row:[
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                        {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                        {size:'col-xl-4 col-xs-4 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                        {size:'col-xl-4 col-xs-12 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                     ]}
                                                 ]}
                                             />

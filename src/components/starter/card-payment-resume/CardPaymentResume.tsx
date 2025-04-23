@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$,  Slot, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStylesScoped$,  Slot, useTask$ } from "@builder.io/qwik";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "../../../utils/CurrencyFormater";
@@ -11,27 +11,10 @@ export const CardPaymentResume = component$(() => {
 
   const stateContext = useContext(WEBContext);
   const contextDivisa = useContext(DIVISAContext)
-
-  const objectResume: { [key: string]: any } = {};
-
-  const resume = useSignal(objectResume);
- // const loading = useSignal(true);
   const indexPax = useSignal(0)
+  const totalPay = useSignal({divisa:'',total:0})
 
-
-
-  useTask$(({ track })=>{
-      const value = track(()=>stateContext.value); 
-             
-      if (Object.keys(value).length > 0) {
-        resume.value = value;       
-      }
-
-      
-  })
-
-
-
+/* 
   useVisibleTask$(() => {
     if (typeof window !== 'undefined') {
       const cardPax = document.getElementById('card-pax');
@@ -39,30 +22,40 @@ export const CardPaymentResume = component$(() => {
   
       if (cardPax && cardRight) {
         const newHeight = cardRight.offsetHeight + 52;
-        cardPax.style.height = `${newHeight}px`;
+       // cardPax.style.height = `${newHeight}px`;
       }
     }
    
 
- });
+ }); */
 
+ useTask$(({ track }) => {
+  const precioGrupal = track(()=>stateContext?.value?.plan?.precio_grupal);  
+
+  if(precioGrupal != undefined&&Object.keys(stateContext.value).length > 0&& 'plan' in stateContext.value)
+      {
+
+          totalPay.value = {divisa:stateContext?.value?.plan?.codigomonedapago,total:Number(precioGrupal)}
+
+      }
+})
 
   function calculateSubTotal() {
     const paxSub :any[] = [];
-    resume.value.asegurados.map((pax: any) => 
+    stateContext.value?.asegurados.map((pax: any) => 
       {
-        const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento
-        ? resume?.value?.plan?.precioincrementoedad
-        : resume?.value?.plan?.precioindividual;
+        const precioBase = pax.edad >= stateContext.value?.plan?.edadprecioincremento
+        ? stateContext.value?.plan?.precioincrementoedad
+        : stateContext.value?.plan?.precioindividual;
 
-        if (resume.value.total && contextDivisa.divisaUSD == true) {
-          paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {    
+        if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
+          paxSub.push(pax.beneficiosadicionalesSeleccionados.reduce((sum: number, value: any) => {    
             return sum +  Number(value.precio);
           }, 0) + precioBase)
 
         }else{
           
-        paxSub.push(pax.beneficiosadicionales.reduce((sum: number, value: any) => {          
+        paxSub.push(pax.beneficiosadicionalesSeleccionados.reduce((sum: number, value: any) => {          
           return sum + Number(value.precio);
           }, 0) *stateContext.value?.currentRate?.rate + (precioBase * stateContext.value?.currentRate?.rate))
 
@@ -73,12 +66,12 @@ export const CardPaymentResume = component$(() => {
 
   function calculateIndividualPrice(pax:any) {
     //precio se valida edad viajero para calcular el precio 
-  const precioBase = pax.edad >= resume?.value?.plan?.edadprecioincremento
-    ? resume?.value?.plan?.precioincrementoedad
-    : resume?.value?.plan?.precioindividual;
+  const precioBase = pax.edad >= stateContext.value?.plan?.edadprecioincremento
+    ? stateContext.value?.plan?.precioincrementoedad
+    : stateContext.value?.plan?.precioindividual;
 
   const formattedPrice = contextDivisa.divisaUSD
-    ? CurrencyFormatter(resume?.value?.total?.divisa, precioBase)
+    ? CurrencyFormatter(stateContext.value?.total?.divisa, precioBase)
     : CurrencyFormatter(
         stateContext?.value?.currentRate?.code,
         precioBase * stateContext?.value?.currentRate?.rate
@@ -121,9 +114,9 @@ export const CardPaymentResume = component$(() => {
           <div class="card-body">
            
           <ul class="list-group" id="list-pax">
-                    {Object.keys(resume.value).length > 0 &&
-                      Array.isArray(resume.value.asegurados) &&
-                      resume.value.asegurados.map((pax: any, index: number) => {
+                    {Object.keys(stateContext.value).length > 0 &&
+                      Array.isArray(stateContext.value?.asegurados) &&
+                      stateContext.value?.asegurados.map((pax: any, index: number) => {
                         return (
                           <li class="list-group" key={index + 1}>
                             <div class="row">
@@ -221,10 +214,10 @@ export const CardPaymentResume = component$(() => {
                                         >
                                           <span class="text-tin">Origen / Destino(s)</span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
-                                            {resume.value.paisorigen}{" "}
+                                            {stateContext.value?.paisorigen}{" "}
                                             <span class="text-semi-bold text-dark-blue"> a </span>{" "}
-                                            {resume.value.paisesdestino &&
-                                              String(resume.value.paisesdestino).replaceAll(",", ", ")}
+                                            {stateContext.value?.paisesdestino &&
+                                              String(stateContext.value?.paisesdestino).replaceAll(",", ", ")}
                                           </span>
                                         </label>
                                       </div>
@@ -246,7 +239,7 @@ export const CardPaymentResume = component$(() => {
                                         >
                                           <span class="text-tin">Viajeros </span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
-                                            {resume.value.pasajeros}
+                                            {stateContext.value?.pasajeros}
                                           </span>
                                         </label>
                                       </div>
@@ -269,8 +262,8 @@ export const CardPaymentResume = component$(() => {
                                         >
                                           <span class="text-tin">Fechas de tu viaje </span> <br />
                                           <span class="text-bold text-dark-blue" style={{ fontSize: "0.875rem" }}>
-                                            {resume.value.desde} <span class="text-semi-bold text-dark-blue"> al </span>{" "}
-                                            {resume.value.hasta}
+                                            {stateContext.value?.desde} <span class="text-semi-bold text-dark-blue"> al </span>{" "}
+                                            {stateContext.value?.hasta}
                                           </span>
                                         </label>
                                       </div>
@@ -294,7 +287,7 @@ export const CardPaymentResume = component$(() => {
                                           <span class="text-tin">Plan </span>
                                           <br />
                                           <span class="text-bold text-light-blue" style={{ fontSize: "0.875rem" }}>
-                                            {resume.value.plan.nombreplan}
+                                            {stateContext.value?.plan.nombreplan}
                                           </span>
                                         </label>
                                       </div>
@@ -304,14 +297,23 @@ export const CardPaymentResume = component$(() => {
                                     <br />
                                   </div>
                                   <div class="col-6 ps-0">
+                                    
+                                      
+                                    {stateContext.value?.planfamiliar=='t'&&pax.edad<=23?      
+                                    <p class="text-bold text-dark-blue text-end" style={{ fontSize: "0.875rem" }}>
+                                    Promoción Menor
+                                    </p>
+                                    :
                                     <h4 class="divisa-plan-sub text-bold text-dark-blue text-end">
                                     {calculateIndividualPrice(pax)}
                                     </h4>
+                                    }
+                                    
                                   </div>
 
                                   <br />
 
-                                  {pax.beneficiosadicionales.length > 0 && (
+                                  {pax.beneficiosadicionalesSeleccionados.length > 0 && (
                                     <>
                                       <hr class="hr-gray"/>
                                       <div class="col-lg-12 col-xs-12">
@@ -328,7 +330,7 @@ export const CardPaymentResume = component$(() => {
                                   )}
 
                                   <ul>
-                                    {pax.beneficiosadicionales.map((benefit: any, iBenefit: number) => {
+                                    {pax.beneficiosadicionalesSeleccionados.map((benefit: any, iBenefit: number) => {
                                       return (
                                         <li
                                           key={iBenefit}
@@ -336,7 +338,7 @@ export const CardPaymentResume = component$(() => {
                                           style={{ fontSize: "0.875rem" }}
                                         >
                                           <div class="row" style={{paddingBottom:'5px'}}>
-                                          {pax?.beneficiosadicionales?.length>1&& iBenefit >= 1&&
+                                          {pax?.beneficiosadicionalesSeleccionados?.length>1&& iBenefit >= 1&&
                                               <hr class="hr-gray"/>
                                           }
                                             <div class="col-lg-7 col-xs-6">{benefit.nombrebeneficioadicional}</div>
@@ -372,14 +374,14 @@ export const CardPaymentResume = component$(() => {
             <div class="row px-3">
                 <div class="col-lg-12 text-end">
                   <span class="text-regular text-blue" style={{ padding: 0, margin: 0 }}>
-                    Sub total
+                    Sub total por persona
                   </span>
                   <br />
                   <h4 class="divisa-plan-sub text-bold text-dark-blue">
-                    {resume.value.total &&
+                    {stateContext.value?.total &&
                       (contextDivisa.divisaUSD == true
                         ? CurrencyFormatter(
-                            resume.value.total.divisa,
+                            stateContext.value?.total.divisa,
                             calculateSubTotal()
                           )
                         : CurrencyFormatter(
@@ -418,17 +420,17 @@ export const CardPaymentResume = component$(() => {
                     } */}
                   </div>
                   <div class='col-6 col-xs-12 text-end'>
-                    <p class='text-regular text-blue mb-0'>Total</p>
+                    <p class='text-regular text-blue mb-0'> {`Total para ${stateContext.value?.pasajeros||''}`}</p>
                     <h3 class='divisa-total text-bold text-blue mb-4'>
                       
                         {
-                           resume.value.cupon && resume.value.cupon && resume.value.cupon.codigocupon&&
+                           stateContext.value?.cupon && stateContext.value?.cupon?.codigocupon&&
                            <>
                            <strike class="precio-strike">
-                            {                              
-                              resume.value.total && (contextDivisa.divisaUSD == true ? 
-                                CurrencyFormatter(resume.value?.total?.divisa, resume.value?.subTotal) 
-                                : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.subTotal * stateContext.value?.currentRate?.rate))
+                            {                                                
+                              stateContext.value?.total && (contextDivisa.divisaUSD == true ? 
+                                CurrencyFormatter(stateContext.value?.total?.divisa, stateContext.value?.subTotal) 
+                                : CurrencyFormatter(stateContext.value?.currentRate?.code,stateContext.value?.subTotal * stateContext.value?.currentRate?.rate))
                             }
                             </strike>
                             <br/>
@@ -437,9 +439,11 @@ export const CardPaymentResume = component$(() => {
 
                         }
                         {
-                            resume.value.total && (contextDivisa.divisaUSD == true ? 
-                              CurrencyFormatter(resume.value?.total?.divisa,resume.value?.total?.total) 
-                              : CurrencyFormatter(stateContext.value?.currentRate?.code,resume?.value?.total?.total * stateContext.value?.currentRate?.rate))
+                           /* totalPay.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) :
+                            CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate)) */
+                            stateContext.value?.total && (contextDivisa.divisaUSD == true ? 
+                              CurrencyFormatter(stateContext.value?.total?.divisa,stateContext.value?.total?.total) 
+                              : CurrencyFormatter(stateContext.value?.currentRate?.code,stateContext.value?.total?.total * stateContext.value?.currentRate?.rate))
                         }
                     </h3>
                   </div>

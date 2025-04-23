@@ -34,8 +34,8 @@ export default component$(() => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionalesasignados:any[],beneficiosadicionales:any[]}[] = []
-    const objectAdditionalsBenefitsPlan:{[key:string]:any,beneficiosadicionalesasignados:any[],beneficiosadicionales:any[]} = {beneficiosadicionalesasignados:[],beneficiosadicionales:[]}
+    const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionalesDefault:any[],beneficiosadicionales:any[]}[] = []
+    const objectAdditionalsBenefitsPlan:{[key:string]:any,beneficiosadicionalesDefault:any[],beneficiosadicionales:any[]} = {beneficiosadicionalesDefault:[],beneficiosadicionales:[]}
     const objectResume : {[key:string]:any} = {}
     const array : any[] = []
     const objectPlanSelected: {[key:string]:any} = {}
@@ -145,7 +145,7 @@ export default component$(() => {
                     res.minDate = min
                     res.maxDate = max
                     res.idpasajero = index+1
-                    res.beneficiosadicionalesasignados = res.beneficiosadicionales
+                    res.beneficiosadicionalesDefault = res.beneficiosadicionales
                     res.beneficiosadicionales = []
                     res.documentacion = ''
                 })
@@ -337,7 +337,7 @@ export default component$(() => {
                     })
                 })
 
-                res.beneficiosadicionalesasignados = res.beneficiosadicionales
+                res.beneficiosadicionalesDefault = res.beneficiosadicionales
 
                 newResume.asegurados[index].beneficiosadicionales.map((benefit:any) => {
                     benefit.idbeneficioadicional = benefit.id
@@ -376,17 +376,17 @@ export default component$(() => {
             if(pax.idpasajero == idpax)
             {
                 dataBenefits[indexP].beneficiosadicionales.push(benefit)
-                dataBenefits[indexP].beneficiosadicionalesasignados[index].seleccionado = true
+                dataBenefits[indexP].beneficiosadicionalesDefault[index].seleccionado = true
 
-                dataBenefits[indexP].beneficiosadicionalesasignados.map((additional:any) => {
-                    if(dataBenefits[indexP].beneficiosadicionalesasignados[index].idbeneficioadicional == 36)
+                dataBenefits[indexP].beneficiosadicionalesDefault.map((additional:any) => {
+                    if(dataBenefits[indexP].beneficiosadicionalesDefault[index].idbeneficioadicional == 36)
                     {
                         if(additional.idbeneficioadicional == 37)
                         {
                             additional.disabled = true
                         }
                     }
-                    else if(dataBenefits[indexP].beneficiosadicionalesasignados[index].idbeneficioadicional == 37)
+                    else if(dataBenefits[indexP].beneficiosadicionalesDefault[index].idbeneficioadicional == 37)
                     {
                         if(additional.idbeneficioadicional == 36)
                         {
@@ -396,7 +396,7 @@ export default component$(() => {
                 })
                 
                 additionalsBenefitsPlan.value = Object.assign({},dataBenefits[indexP])
-                totalPay.value.total += Number(dataBenefits[indexP].beneficiosadicionalesasignados[index].precio)
+                totalPay.value.total += Number(dataBenefits[indexP].beneficiosadicionalesDefault[index].precio)
             }
 
             const benefitsDataLayer : any[] = []
@@ -421,7 +421,7 @@ export default component$(() => {
     })
 
     const deleteAdditional$ = $((index:number,idpax:number,benefit:{[key:string]:any}) => {
-        const dataBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesasignados:any[]}[] = additionalsBenefits.value
+        const dataBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesDefault:any[]}[] = additionalsBenefits.value
         const dataLayer : {[key:string]:any} = {}
 
         dataBenefits.map((pax,indexP) => {
@@ -431,17 +431,17 @@ export default component$(() => {
                     if(item.idbeneficioadicional == benefit.idbeneficioadicional)
                     {
                         dataBenefits[indexP].beneficiosadicionales.splice(indexI,1)
-                        dataBenefits[indexP].beneficiosadicionalesasignados[index].seleccionado = false
+                        dataBenefits[indexP].beneficiosadicionalesDefault[index].seleccionado = false
 
-                        dataBenefits[indexP].beneficiosadicionalesasignados.map((additional:any) => {
-                            if(dataBenefits[indexP].beneficiosadicionalesasignados[index].idbeneficioadicional == 36)
+                        dataBenefits[indexP].beneficiosadicionalesDefault.map((additional:any) => {
+                            if(dataBenefits[indexP].beneficiosadicionalesDefault[index].idbeneficioadicional == 36)
                             {
                                 if(additional.idbeneficioadicional == 37)
                                 {
                                     additional.disabled = false
                                 }
                             }
-                            else if(dataBenefits[indexP].beneficiosadicionalesasignados[index].idbeneficioadicional == 37)
+                            else if(dataBenefits[indexP].beneficiosadicionalesDefault[index].idbeneficioadicional == 37)
                             {
                                 if(additional.idbeneficioadicional == 36)
                                 {
@@ -451,7 +451,7 @@ export default component$(() => {
                         })
 
                         additionalsBenefitsPlan.value = Object.assign({},dataBenefits[indexP])
-                        totalPay.value.total = (totalPay.value.total-dataBenefits[indexP].beneficiosadicionalesasignados[index].precio)
+                        totalPay.value.total = (totalPay.value.total-dataBenefits[indexP].beneficiosadicionalesDefault[index].precio)
                     }
                 }))
             }
@@ -866,9 +866,9 @@ export default component$(() => {
                         </div>
                         <div class="modal-body cards-additionals">
                             {
-                                additionalsBenefitsPlan.value.beneficiosadicionalesasignados.length > 0
+                                additionalsBenefitsPlan.value.beneficiosadicionalesDefault.length > 0
                                 ?
-                                additionalsBenefitsPlan.value.beneficiosadicionalesasignados.map((benefit,index) => {
+                                additionalsBenefitsPlan.value.beneficiosadicionalesDefault.map((benefit,index) => {
                                     return(
                                         <div key={index+1} class="card">
                                             <div class='card-body'>
