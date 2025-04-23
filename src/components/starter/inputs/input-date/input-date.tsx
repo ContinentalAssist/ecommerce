@@ -78,7 +78,7 @@ const MyDateTimePicker = (props: any) => {
             {...props}
             label= {props.label}
             defaultValue={getValidDateOrDefault(props.defaultvalue)}
-            autoFocus={openDesktop}
+           // autoFocus={openDesktop}
             open={openDesktop}
             onOpen={() => setOpenDesktop(true)}
             onClose={() => setOpenDesktop(false)}
@@ -86,17 +86,16 @@ const MyDateTimePicker = (props: any) => {
             maxDate={getValidDateOrDefault(props.max)}
             fullWidth             
             slotProps={{ inputAdornment: { position: 'start' },
-            textField: { InputProps: {
-              inputProps: {
+            textField: { InputProps: {         
                 dateformated: value,
                 onClick: (event) => {
                   // Abre el calendario al hacer clic en el TextField
-                  event.stopPropagation(); // Evita que el evento se propague
+                  //event.stopPropagation(); // Evita que el evento se propague
                   setOpenDesktop(!openDesktop)
                   props.onFocus(!openDesktop)
                 },
             },
-             } } }}
+            } }}
             
              sx={{ width: '100%' }}
             
