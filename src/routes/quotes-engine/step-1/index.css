@@ -88,6 +88,17 @@
     color: white;
 }
 
+
+.modal-header h2
+{
+    width: calc(100% - 270px) !important;
+    padding: 20px 20px 20px 20px;
+}
+
+.modal-header .img-fluid
+{
+right: 40px !important;
+}
 /* .bg-step-3
 {
     background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
@@ -204,3 +215,12 @@ ul
         width: calc((100% / 12) * 6);
     }
 } */
+
+@media (max-width: 575.98px)
+{
+    .modal-header h2
+    {
+        width: calc(100% - 170px) !important;
+        padding: 20px 20px 20px 20px;
+    }
+}

@@ -1,7 +1,7 @@
-import { $, component$, useOnWindow, useSignal, useStylesScoped$ } from "@builder.io/qwik";
+import { $, component$, useOnWindow, useSignal, useStylesScoped$,useContext} from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { Loading } from "~/components/starter/loading/Loading";
 import ImgContinentalAssistLogo from "~/media/ca/continental-assist-favicon.webp?jsx";
+import { LoadingContext } from "~/root";
 
 import styles from "./index.css?inline";
 
@@ -27,15 +27,15 @@ export default component$(() => {
   useStylesScoped$(styles);
   const array: any[] = [];
 
-  const loading = useSignal(true);
   const dataChatBox = useSignal(array);
   const lastMessage = useSignal("");
   const disableElement = useSignal(false);
+  const contextLoading = useContext(LoadingContext)
 
   useOnWindow(
     "load",
     $(() => {
-      loading.value = false;
+      contextLoading.value = {status:false, message:''}
     })
   );
   // Funcion para obtener respuesta de la iA
@@ -86,11 +86,6 @@ export default component$(() => {
 
   return (
     <>
-      {
-        loading.value === true
-        &&
-        <Loading/>
-      }
 
   <div class='container-fluid'>
       <div class='row bg-contact-us-header  pt-5'>

@@ -42,11 +42,14 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
                 },600)
             }
 
-            description.classList?.add('fade-in-top')
+            if (description) {
+                description.classList?.add('fade-in-top')
 
             setTimeout(() => {
                 description.classList.remove('fade-in-top')
             },600)
+            }
+           
 
             
         }

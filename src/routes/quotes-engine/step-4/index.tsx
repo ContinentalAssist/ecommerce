@@ -1,13 +1,13 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useTask$,useVisibleTask$ } from "@builder.io/qwik";
+import {  component$, Fragment, useContext, useSignal, useStylesScoped$, useTask$,useVisibleTask$,$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
-import { Loading } from "~/components/starter/loading/Loading";
-import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import styles from './index.css?inline'
 import Wompi from "./wompi";
 import OpenPay from "./openPay";
 import Authorize from "./authorize";
+import { useNavigate } from '@builder.io/qwik-city';
+import { LoadingContext } from "~/root";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Método de pago',
@@ -28,15 +28,15 @@ export default component$(() => {
 
     const stateContext = useContext(WEBContext)
     const contextDivisa = useContext(DIVISAContext)
+    const contextLoading = useContext(LoadingContext)
+    const navigate = useNavigate()
 
     // const navigate = useNavigate()
 
     const formPayment = useSignal('')
-    const messageLoading = useSignal('')
-    const loading = useSignal(false)
     const desktop = useSignal(false)
 
-    useTask$(() => {
+    useTask$(() => {        
         if(Object.keys(stateContext.value).length > 0)
         {
             if(contextDivisa.divisaUSD == true)
@@ -67,90 +67,94 @@ export default component$(() => {
         {
             desktop.value = true
         }
+        contextLoading.value = {status:false, message:''}
+
     })
 
-    const getLoading$ = $((status:boolean, message: string) => {        
-        loading.value = status;
-        messageLoading.value =message;      
-    })
+     const redirectHome$ = $(() => {
+            navigate('/');
+            setTimeout(() => location.reload(), 300);
+        })
+
 
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
         
-            <div class='row not-mobile'>
-                <div class='col-12'>
-                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
-                        <div class='row'>
-                            <div class='col-12'>
-                                <div class='container'>
-                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
-                                        
-                                        <div class='col-md-3  d-flex  justify-content-end'>
-                                            <QuotesEngineSteps active={4} name={'Método'} steps={5}/>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div class='row mobile  text-center justify-content-center align-items-center' >
-            <hr class='m-0' />
-                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
-                    <QuotesEngineSteps  active={4} name={'Método'} steps={5}/>
-                </div>
-
-              
-            </div>
-
-            <div class='container-fluid'>
+                <div class='container-fluid'>
                 <div class='row bg-step-5'>
                     <div class='col-xl-12'>
-                        <div class='container'>
-                            <div class='row  justify-content-center'>
-                            <div class='col-lg-10 text-center mt-5 mb-3'>
+
+                    
+                          
+                         <div class='container'>
+                            <div class='row  justify-content-center mt-5'>
+
+                                {
+                                      stateContext?.value?.total?.total === undefined ?
+                                      <Fragment>
+                                        <div class='col-lg-12 text-center mt-5 mb-5'>
+                                              <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
+                                              <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
+                                      </div>
+                                        <div class="row justify-content-center m-4" >
+                                        <div class='col-lg-6' >                                            
+                                            <div class='d-grid gap-2'>
+                                                <button type='button' class='btn btn-primary btn-lg' onClick$={()=>redirectHome$()}>Volver al inicio</button>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                      </Fragment>
+                                      
+                                    :
+                                    <div class='col-lg-10 text-center mt-5 mb-3'>
                                      <h1 class='text-semi-bold text-blue'>Método de pago</h1>                                   
                                     <hr class='divider my-3'/>
-                              </div>
+                                    </div>
+                                }
+                            
                             </div>
 
                             <br/>
-                            <div class="row">
-                                <div class='col-lg-12 col-xl-12'>
-
-                                <br/>
-                            <br/>
                             {
-                                formPayment.value == 'wompi'
-                                &&
-                                <Wompi setLoading={getLoading$}/>
+                                   stateContext?.value?.total?.total != undefined ?
+                                   <div class="row">
+                                   <div class='col-lg-12 col-xl-12'>
+   
+                                   <br/>
+                               <br/>
+                               {
+                                   formPayment.value == 'wompi'
+                                   &&
+                                   <Wompi />
+                               }
+                               {
+                                   formPayment.value == 'openPay'
+                                   &&
+                                   <OpenPay />
+                               }
+                               {
+                                   formPayment.value == 'authorize'
+                                   &&
+                                   <Authorize />
+                               }
+                                                                 
+                                   </div>
+                               </div>: null
                             }
-                            {
-                                formPayment.value == 'openPay'
-                                &&
-                                <OpenPay setLoading={getLoading$}/>
-                            }
-                            {
-                                formPayment.value == 'authorize'
-                                &&
-                                <Authorize setLoading={getLoading$}/>
-                            }
-                                                              
-                                </div>
-                            </div>
+                           
                             <br/>
                         </div>
+
+                    
+                        
                     </div>
                 </div>
             </div>
-            {
-            loading.value === true
-            &&
-            <Loading message={messageLoading.value}/>
-            }
+            
+
+           
             
 
         </div>

@@ -1,8 +1,7 @@
 import { $, component$, useContext, useOnDocument,useTask$, useSignal, useStylesScoped$, useVisibleTask$,useOn,useOnWindow} from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { useLocation, useNavigate } from '@builder.io/qwik-city';
+import { useLocation } from '@builder.io/qwik-city';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
-import { Loading } from '~/components/starter/loading/Loading';
 import { CardPlan } from '~/components/starter/card-plan/CardPlan';
 import { CardResume } from '~/components/starter/card-resume/CardResume';
 import { CardComment } from '~/components/starter/card-comment/CardComment';
@@ -33,11 +32,11 @@ import ImgContinentalAssistCovid19 from '~/media/icons/continental-assist-covid-
 import ImgContinentalAssistStick from '~/media/icons/continental-assist-stick.webp?jsx'
 import ImgContinentalAssistAttendance from '~/media/icons/continental-assist-attendance.webp?jsx'
 import ImgContinentalAssistContact from '~/media/icons/continental-assist-contact.webp?jsx'
-import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
 import ImgContinentalAssistClock from '~/media/icons/BlueCyren-Ecommerce-relog.webp?jsx'
+import { LoadingContext } from "~/root";
 
 import styles from './index.css?inline';
-import dayjs from "dayjs";
+//import dayjs from "dayjs";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Viaja internacionalmente con tranquilidad',
@@ -61,17 +60,12 @@ export default component$(() => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
-    const navigate = useNavigate()
     const location = useLocation()
-
-    const array : any[] = []
-
-    const origins = useSignal(array)
-    const destinations = useSignal(array)
-    const loading = useSignal(true)
     const terms = useSignal(false)
     const isMobile=useSignal(false)
-
+    const modeResumeStep = useSignal(false)
+    const contextLoading = useContext(LoadingContext)
+    const headerStep = useSignal(false)
     // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
     const dataPlan = useSignal([
         {
@@ -100,39 +94,29 @@ export default component$(() => {
             isMobile.value = newIsmobile
         }
     })
-   // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(async() => {    
-        if(location.url.search != '')
-        {
-            stateContext.value.ux = location.url.search.split('=')[1]
-        }
 
-        let res : {[key:string]:any[]} = {}
-        const resOrigins : any[] = []
-        const resDestinations : any[] = []
 
-        const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
-        const dataDefaults = await resDefaults.json()
-        res = dataDefaults.resultado[0]
-
-        res.origenes.map((origen) => {
-            resOrigins.push({value:origen.idpais,label:origen.nombrepais})
-        })
-
-        res.destinos.map((destino) => {
-            resDestinations.push({value:destino.idpais,label:destino.nombrepais})
-        })
-
-        origins.value = resOrigins
-        destinations.value = resDestinations
-        const response = await fetch("/api/getPlansBenefits",{method:"POST",body:JSON.stringify({})});
+    useTask$(async() => {
+        
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansBenefits",
+            {method:"POST",body:JSON.stringify({})});
         const data =await response.json();
         if (!data.error) {
             dataPlan.value = await data.resultado; 
             stateContext.value.planDefault =await data.resultado;
         }
         
-        loading.value = false
+
+    })
+
+   // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(async() => {    
+        if(location.url.search != '')
+        {
+            stateContext.value.ux = location.url.search.split('=')[1]
+        }
+        contextLoading.value = {status:false, message:''}
+          
     })
 
     useOnWindow('load', $(() => {
@@ -239,6 +223,7 @@ export default component$(() => {
             (buttonDown.previousSibling as HTMLElement).classList.remove('d-none')
             bg.style.opacity = '1'
         }
+        (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
         (window as any)['dataLayer'].push({
             'event': 'TrackEventGA4',
             'category': 'interacciones usuarios',
@@ -248,177 +233,10 @@ export default component$(() => {
         })
     })
 
-    const getQuotesEngine$ = $(async() => {    
-        
-        const bs = (window as any)['bootstrap']
-        const modal = new bs.Modal('#modalGroupPlan',{})
-        const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
-        const forms = Array.from(quotesEngine.querySelectorAll('form'))
-        const inputs = Array.from(document.querySelectorAll('input,select'))
-        const error = [false,false,false]
-        const newDataForm : {[key:string]:any} = {}
-        newDataForm.edades = []
-        newDataForm.paisesdestino = []
-
-        forms.map((form,index) => {
-            inputs.map((input) => {                
-                if ((input as HTMLInputElement).readOnly == true) {
-                    (input as HTMLInputElement).removeAttribute('readonly');
-                    //input.setAttribute('readonly', '');
-                }
-                if(input.classList.value.includes('form-control-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
-                {
-                    (input as HTMLInputElement).classList.add('is-invalid')
-                    error[0] = true
-                }
-                else if(input.classList.value.includes('form-paxs') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
-                {
-                    (input as HTMLInputElement).classList.add('is-invalid')
-                    error[2] = true
-                }
-                else
-                {
-                    (input as HTMLInputElement).classList.remove('is-invalid');
-                    (input as HTMLInputElement).classList.add('is-valid')
-                }
-            })
-
-            if(!form.checkValidity())
-            {
-                form.classList.add('was-validated')
-                error[index] = true
-            }
-            else
-            {
-                form.classList.remove('was-validated')
-            }
-        })
-
-        if(!error.includes(true))
-        {
-            loading.value = true
-            
-            inputs.map((input) => {
-                
-                if ((input as HTMLInputElement).name)
-                {
-                    newDataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
-    
-                    if(input.classList.value.includes('form-control-select-multiple'))
-                    {
-                        newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value).split(',')
-                    }
-                    else if(input.classList.value.includes('form-control-select'))
-                    {
-                        newDataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value)
-                    }
-                    else if((input as HTMLInputElement).type == 'number')
-                    {
-                        newDataForm[(input as HTMLInputElement).name] = Number((input as HTMLInputElement).value)
-
-                        for (let index = 0; index < newDataForm[(input as HTMLInputElement).name]; index++) 
-                        {
-                            newDataForm.edades.push(Number((input as HTMLInputElement).name))
-                        }
-                    }
-                }
-            })
-
-            newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
-
-            origins.value.map(origin => {
-                if(origin.value == newDataForm.origen)
-                {
-                    newDataForm.paisorigen = origin.label
-                }
-            }) 
-            
-            destinations.value.map(destination => {
-                newDataForm.destinos.map((destino:any) => {
-                    if(destination.value == destino)
-                    {
-                        newDataForm.paisesdestino.push(destination.label)
-                    }
-                })
-            }) 
-
-            newDataForm.origen = Number(newDataForm.origen);
-            // newDataForm.destinos = newDataForm.destinos;
-
-
-            newDataForm.desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
-            newDataForm.hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 1 :: buscador',
-                'origen': newDataForm.paisorigen,
-                'destino': newDataForm.paisesdestino,
-                'desde': newDataForm.desde,
-                'hasta': newDataForm.hasta,
-                'adultos':newDataForm[75],
-                'niños_y_jovenes': newDataForm[23],
-                'adultos_mayores': newDataForm[85],
-                'page': 'home',
-                'cta': 'buscar'
-            });
- 
-            if(newDataForm.edades.length > 0)
-            {                                
-                if(newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)
-                {
-                    newDataForm.planfamiliar = 't'
-                    stateContext.value = Object.assign(stateContext.value,newDataForm)
-                    loading.value = false
-                    modal.show()
-                }
-                else
-                {
-                    newDataForm.planfamiliar = 'f'
-                    stateContext.value = Object.assign(stateContext.value,newDataForm)
-                    await navigate('/quotes-engine/step-1')
-                }
-            }
-        }
-    })
-
-    const getGroupPlan$ = $(async() => {
-        const bs = (window as any)['bootstrap']
-        const modal = bs.Modal.getInstance('#modalGroupPlan',{})
-        modal.hide()
-        await navigate('/quotes-engine/step-1')
-    })
-
-    const getCancelQuotes$ = $(() => {
-        openQuotesEngine$(false);
-
-        (window as any)['dataLayer'].push({
-            'event': 'TrackEventGA4',
-            'category': 'Flujo asistencia',
-            'action': 'Paso 1 :: buscador',
-            'origen': '',
-            'destino': '',
-            'desde': '',
-            'hasta': '',
-            'adultos': 0,
-            'niños_y_jovenes': 0,
-            'adultos_mayores': 0,
-            'page': 'home',
-            'cta': 'cancelar'
-        });
-    })
-
- 
-   
-
 
     return (
         <div class='container-fluid p-0'>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
+           
             <div class='home' style={{minHeight:'100vh'}}>
                 <div class='bg-home-header position-absolute' />
                 <div class='container position-relative h-100'>
@@ -439,21 +257,7 @@ export default component$(() => {
                                 </h2>
                                 <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
-                                    <QuotesEngine isMobile={stateContext.value.isMobile} lastStep={getQuotesEngine$}/>
-                                    <div class='container mt-3'>
-                                        <div class='row row-mobile justify-content-center'>
-                                            <div class='col-lg-3 col-sm-6 col-xs-6'>
-                                                <div class='d-grid gap-2'>
-                                                    <button type="button" class="btn btn-primary btn-lg" onClick$={getCancelQuotes$}>Cancelar</button>
-                                                </div>
-                                            </div>
-                                            <div class='col-lg-3 col-sm-6 col-xs-6'>
-                                                <div class='d-grid gap-2'>
-                                                    <button type="button" class="btn btn-primary btn-lg" onClick$={getQuotesEngine$}>Buscar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <QuotesEngine  modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                                 </div>
                             </div>
                             <div class='position-absolute' style={{left:0,right:0,bottom:0,zIndex:1}}>
@@ -1309,34 +1113,6 @@ export default component$(() => {
                 </div>
             </div>
             
-
-            <div id='modalGroupPlan' class="modal fade" data-bs-backdrop="static">
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header p-2">
-                            <ImgContinentalAssistGroupPlan class='img-fluid' loading="lazy" title='continental-assist-group-plan' alt='continental-assist-group-plan' />
-                            <h2 class='text-semi-bold text-white p-2'>¡Genial!</h2>
-                        </div>
-                        <div class="modal-body">
-                            <p class='text-blue'>
-                                Parece que la cantidad de viajeros y las edades ingresadas, aplican para nuestro plan familiar.
-                                Solo vas a pagar por la asistencia de los <span class='text-semi-bold'>mayores de 23 años y el resto corren por nuestra cuenta</span>.
-                            </p>
-                            <h3 class='text-semi-bold text-light-blue'>¡No estas alucinando!</h3>
-                            <p class='text-blue'><span class='text-semi-bold'>Continental</span> te esta entregando asistencias completamente gratis.</p>
-                            <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-lg-3'>
-                                        <div class='d-grid gap-2'>
-                                            <button type='button' class='btn btn-primary' onClick$={getGroupPlan$}>Aceptar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             {
                 terms.value !== true
                 &&

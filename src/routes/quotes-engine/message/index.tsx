@@ -1,12 +1,11 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { useLocation, type DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
-import { Loading } from "~/components/starter/loading/Loading";
-import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
 import styles from './index.css?inline'
 import ImgContinentalAssistPrintTicket from '~/media/quotes-engine/continental-assist-print-ticket.webp?jsx'
 import CurrencyFormatter from "~/utils/CurrencyFormater";
+import { LoadingContext } from "~/root";
 
 
 export const head: DocumentHead = {
@@ -28,12 +27,13 @@ export default component$(() => {
     useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const navigate = useNavigate()
-    const loading = useSignal(true)
+    //const loading = useSignal(true)
     const obj : {[key:string]:any} = {}
     const resume = useSignal(obj)
     const locationEnv = useLocation()
     const typeMessage = useSignal(0)
     const desktop = useSignal(false)
+    const contextLoading = useContext(LoadingContext)
 
 
     const getVoucher = $( async( vouchercode: string)=>{
@@ -49,7 +49,8 @@ export default component$(() => {
             typeMessage.value = 1
     
         }
-        loading.value = false
+        contextLoading.value = {status:false, message:''};
+
     })
 
     useTask$(() => {        
@@ -68,30 +69,23 @@ export default component$(() => {
             }
             else{
                 typeMessage.value =stateContext?.value?.typeMessage
-                loading.value = false
 
             }
         }
     })
-    // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(() => {        
-        if(!navigator.userAgent.includes('Mobile'))
-        {
-            desktop.value = true
-        }
-    })
+
   
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {        
 
         if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
-            loading.value = true
+            //loading.value = true
          
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
                 const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
-                if(dataValidation.resultado.status == 'completed')
+                if(dataValidation.resultado?.status == 'completed')
                 {
                     //voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
                     getVoucher(dataValidation.resultado.order_id)
@@ -101,7 +95,7 @@ export default component$(() => {
                 {
                     //voucher.value = {error:true,message:'Hubo un error en tu transaccion'}
                     typeMessage.value = 4
-                    loading.value = false
+                    //loading.value = false
                 }
             }
             else
@@ -120,7 +114,7 @@ export default component$(() => {
                 {
                    // voucher.value = {error:true,message:dataValidation.resultado.status_message}
                    typeMessage.value = 4
-                   loading.value = false
+                   //loading.value = false
                 }
             }
         }
@@ -129,7 +123,15 @@ export default component$(() => {
     })
 
     
+    // eslint-disable-next-line qwik/no-use-visible-task
+    useVisibleTask$(() => {        
+        if(!navigator.userAgent.includes('Mobile'))
+        {
+            desktop.value = true
+        }
+        contextLoading.value = {status:false, message:''};
 
+    })
 
 
     const redirectHome$ = $(() => {
@@ -139,48 +141,15 @@ export default component$(() => {
    
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-        {
-            loading.value === true
-            &&
-            <Loading/>
-        }
 
-            <div class='row not-mobile'>
-                <div class='col-12'>
-                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
-                        <div class='row'> 
-                            <div class='col-12'>
-                                <div class='container'>
-                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
-                                        
-                                        <div class='col-md-3  d-flex  justify-content-end'>
-                                            <QuotesEngineSteps active={5} name={'Pago'} steps={5}/>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class='row mobile  text-center justify-content-center align-items-center' >
-            <hr class='m-0' />
-                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
-                    <QuotesEngineSteps  active={5} name={'Pago'} steps={5}/>
-                </div>
-
-              
-            </div>
 
             <div class='container-fluid'>
                 <div class='row bg-message'>
                     <div class='col-xl-12'>
-                        <div class='container'>
+                        <div class='container mt-5'>
 
                             <div class="row">
-                                <div class='col-lg-12 col-xl-12'>
+                                <div class='col-lg-12 col-xl-12 mt-5'>
                                 {
                                  Number(typeMessage.value) == 1 
                                  &&<div class="row justify-content-center"  >

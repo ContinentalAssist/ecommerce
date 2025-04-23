@@ -1,12 +1,15 @@
-import { component$, Slot,  useStyles$ } from '@builder.io/qwik';
+import { $, component$, Slot,  useStyles$ ,useContext} from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { RequestHandler } from '@builder.io/qwik-city';
-
 import { Header } from '~/components/starter/header/Header';
 import { Footer } from '~/components/starter/footer/Footer';
-
 import styles from './index.css?inline';
 import { ChatGenesys } from '~/components/starter/chat-genesys/ChatGenesys';
+import ImgContinentalAssistGroupPlan from '~/media/icons/continental-assist-group-plan.webp?jsx'
+import {  useLocation, useNavigate } from '@builder.io/qwik-city';
+import { Loading } from '~/components/starter/loading/Loading';
+import { LoadingContext } from "~/root";
+import { WEBContext } from "~/root";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -25,8 +28,23 @@ export const useServerTimeLoader = routeLoader$(() => {
     };
 });
 
+
+/* export const useRedirectIfQuotesEngine = routeLoader$(({ redirect, request, url }) => {
+    const referer = request.headers.get('referer');
+
+    // Verifica si la URL contiene 'quotes-engine/' y no hay referer
+    if (url.pathname.includes('/quotes-engine/message/') && !referer) {
+        throw redirect(302, '/');
+    }
+}); */
+
 export default component$(() => {
     useStyles$(styles);
+        const navigate = useNavigate()
+        const location = useLocation()
+        const contextLoading = useContext(LoadingContext)
+        const stateContext = useContext(WEBContext)
+    
     //const showChat = useSignal(false);
 
 /*     useVisibleTask$(()=>{
@@ -54,13 +72,61 @@ export default component$(() => {
     
     }) */
 
+    const getGroupPlan$ = $(async() => {
+        const bs = (window as any)['bootstrap']
+        const modal = bs.Modal.getInstance('#modalGroupPlan',{})
+        modal.hide()
+        if (location.url.pathname == '/') {
+            await navigate('/quotes-engine/step-1')
+        }
+        
+    })
+
+
+
     return (
         <>
             <Header />
             <main>
-            <ChatGenesys></ChatGenesys>
+            {
+                stateContext.value.isMobile === false?
+                <ChatGenesys></ChatGenesys>: null
+            }
+            
 
                 <Slot />
+                <div id='modalGroupPlan' class="modal fade" data-bs-backdrop="static">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header p-2">
+                            <ImgContinentalAssistGroupPlan class='img-fluid' loading="lazy" title='continental-assist-group-plan' alt='continental-assist-group-plan' />
+                            <h2 class='text-semi-bold text-white p-2'>¡Genial!</h2>
+                        </div>
+                        <div class="modal-body">
+                            <p class='text-blue'>
+                                Parece que la cantidad de viajeros y las edades ingresadas, aplican para nuestro plan familiar.
+                                Solo vas a pagar por la asistencia de los <span class='text-semi-bold'>mayores de 23 años y el resto corren por nuestra cuenta</span>.
+                            </p>
+                            <h3 class='text-semi-bold text-light-blue'>¡No estas alucinando!</h3>
+                            <p class='text-blue'><span class='text-semi-bold'>Continental</span> te esta entregando asistencias completamente gratis.</p>
+                            <div class='container'>
+                                <div class='row justify-content-center'>
+                                    <div class='col-lg-3'>
+                                        <div class='d-grid gap-2'>
+                                            <button type='button' class='btn btn-primary' onClick$={getGroupPlan$}>Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {
+            contextLoading.value.status === true
+            &&
+            <Loading message={contextLoading.value.message}/>
+            }
             </main>
             <Footer />
         </>
