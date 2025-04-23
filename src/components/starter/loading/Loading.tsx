@@ -9,7 +9,7 @@ export const Loading = component$((props:any) => {
       
           <div class="loading container-fluid d-flex flex-column align-items-center justify-content-center vh-100">
           <img 
-          class="mb-3"
+          class="mb-3" loading="lazy"
                 src='/assets/img/ca/continental-assist-loading.webp' 
                // class='img-fluid' 
                 alt='continental-assist-loading'
