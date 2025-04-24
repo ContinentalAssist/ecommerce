@@ -208,10 +208,10 @@ export default component$(() => {
       <RouterOutlet />
       <script async type="text/javascript" src='/assets/icons/all.min.js' />
       <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
-      <script src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
-      <script src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
+      <script async src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
+      <script async src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
       {!isDev && <ServiceWorkerRegister />}
     </body>
-  </QwikCityProvider>
+    </QwikCityProvider>
   );
 });
