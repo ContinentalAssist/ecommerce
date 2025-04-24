@@ -117,7 +117,8 @@ export default component$(() => {
             stateContext.value.ux = location.url.search.split('=')[1]
         }
         contextLoading.value = {status:false, message:''}
-          
+        urlBlueAccess.value ='https://blueaccess.continentalassist.com/blueaccess/validation/validate-eligibility';
+
     })
 
     useOnWindow('load', $(() => {
@@ -125,7 +126,7 @@ export default component$(() => {
             const messageCookies = document.querySelector('#messageCookies') as HTMLElement
             messageCookies.classList.add('d-none')
         }
-        urlBlueAccess.value ='https://blueaccess.continentalassist.com/blueaccess/validation/validate-eligibility';
+
     }))
 
     useOnDocument('scroll',$(() => {
