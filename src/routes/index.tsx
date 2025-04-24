@@ -66,6 +66,7 @@ export default component$(() => {
     const modeResumeStep = useSignal(false)
     const contextLoading = useContext(LoadingContext)
     const headerStep = useSignal(false)
+    const urlBlueAccess =  useSignal('');
     // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
     const dataPlan = useSignal([
         {
@@ -124,6 +125,7 @@ export default component$(() => {
             const messageCookies = document.querySelector('#messageCookies') as HTMLElement
             messageCookies.classList.add('d-none')
         }
+        urlBlueAccess.value ='https://blueaccess.continentalassist.com/blueaccess/validation/validate-eligibility';
     }))
 
     useOnDocument('scroll',$(() => {
@@ -644,7 +646,7 @@ export default component$(() => {
                                             <div class="row align-items-center">
                                             <iframe 
                                                 id='blueaccess-widget'
-                                                src="https://blueaccess.continentalassist.com/blueaccess/validation/validate-eligibility"
+                                                src={urlBlueAccess.value}
                                                 frameBorder="0"
                                                 title="BlueAccess Widget"
                                             />
