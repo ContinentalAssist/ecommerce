@@ -69,7 +69,6 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
     })
 
     useVisibleTask$(() => {
-        //CORREGIR ESTO
         if(navigator.userAgent.includes('Mobile'))
             {
                 readOnly.value = true
