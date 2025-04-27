@@ -98,29 +98,33 @@ export default component$(() => {
           resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
 
         }
-        await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+       
   })
 
  
+  useVisibleTask$(async()=>{
+    if(navigator.userAgent.includes('Windows'))
+      {
+          so.value = 'windows'
+      }
+  
+      if(navigator.userAgent.includes('Mobile'))
+      {
+          device.value = 'mobile'
+      }
+  
+      (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
+      gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
+      gtag('js', new Date()); 
+      gtag('config', 'AW-11397008041'); 
 
+    await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+  })
   
 
-  useOnWindow('load',$(() => {
-    if(navigator.userAgent.includes('Windows'))
-    {
-        so.value = 'windows'
-    }
-
-    if(navigator.userAgent.includes('Mobile'))
-    {
-        device.value = 'mobile'
-    }
-
-    (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-    gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
-    gtag('js', new Date()); 
-    gtag('config', 'AW-11397008041'); 
-}))
+ /*  useOnWindow('load',$(() => {
+    
+  })) */
 
 /*   useOnWindow('load',$(async() => {
        await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
