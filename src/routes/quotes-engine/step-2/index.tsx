@@ -34,8 +34,8 @@ export default component$(() => {
     const navigate = useNavigate()
     const objectAdditionalsBenefitsPlan:{[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]} = {beneficiosadicionales:[],beneficiosadicionalesSeleccionados:[]}
     const additionalsBenefitsPlan = useSignal(objectAdditionalsBenefitsPlan)
-    const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]}[] = []
-    const additionalsBenefits = useSignal(arrayAdditionalsBenefits)    
+   // const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]}[] = []
+   // const additionalsBenefits = useSignal(arrayAdditionalsBenefits)    
 
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const contextLoading = useContext(LoadingContext)
