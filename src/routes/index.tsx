@@ -88,6 +88,61 @@ export default component$(() => {
             "cobertura": ''
         }
     ])
+
+
+    const openQuotesEngine$ = $((toggle:boolean) => {
+        const bs = (window as any)['bootstrap']
+        
+        const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
+        const collapse = new bs.Collapse('#collapseQuotesEngine',{})
+        const buttonDown =  document.querySelector('#scrollIndicatorDown') as HTMLButtonElement
+        const containerQuote =  document.querySelector('#container-quote') as HTMLButtonElement
+        const bg = document.querySelector('.bg-home-header') as HTMLElement
+
+        const messageCookies = document.querySelector('#messageCookies') as HTMLElement
+        messageCookies.classList.add('d-none')
+
+        if(toggle == true)
+        {
+
+            document.documentElement.scrollTo({top:0,behavior:'smooth'})
+            
+            collapseBtn.hide()
+            collapse.show()
+            buttonDown.classList.add('d-none');
+            (buttonDown.previousSibling as HTMLElement).classList.add('d-none')
+            bg.style.opacity = '0.3'
+
+            if(navigator.userAgent.includes('Mobile'))
+            {
+                containerQuote.style.paddingTop = '100px'
+                containerQuote.classList.remove('align-content-center')
+            }
+        } 
+            else
+        {
+            if(navigator.userAgent.includes('Mobile'))
+            {
+                containerQuote.style.paddingTop = '0px'
+                containerQuote.classList.add('align-content-center')
+            }
+
+            collapseBtn.show()
+            collapse.hide()
+            buttonDown.classList.remove('d-none');
+            (buttonDown.previousSibling as HTMLElement).classList.remove('d-none')
+            bg.style.opacity = '1'
+        }
+        (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
+        (window as any)['dataLayer'].push({
+            'event': 'TrackEventGA4',
+            'category': 'interacciones usuarios',
+            'action': 'clic',
+            'label': '¡quiero comprar!',
+            'Page': '/'+location.url.pathname.split('/')[1],
+        })
+    })
+
    
     useTask$(({ track })=>{
         const newIsmobile = track(()=>stateContext.value.isMobile);        
@@ -95,6 +150,17 @@ export default component$(() => {
             isMobile.value = newIsmobile
         }
     })
+
+    useTask$(({ track })=>{
+        const close = track(()=>modeResumeStep.value);        
+        if (close==true) {
+            openQuotesEngine$(false)
+            modeResumeStep.value=false
+
+        }
+    })
+    
+   
 
 
     useTask$(async() => {
@@ -183,58 +249,7 @@ export default component$(() => {
         localStorage.setItem('terms',"true")
     })
 
-    const openQuotesEngine$ = $((toggle:boolean) => {
-        const bs = (window as any)['bootstrap']
-        
-        const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
-        const collapse = new bs.Collapse('#collapseQuotesEngine',{})
-        const buttonDown =  document.querySelector('#scrollIndicatorDown') as HTMLButtonElement
-        const containerQuote =  document.querySelector('#container-quote') as HTMLButtonElement
-        const bg = document.querySelector('.bg-home-header') as HTMLElement
 
-        const messageCookies = document.querySelector('#messageCookies') as HTMLElement
-        messageCookies.classList.add('d-none')
-
-        if(toggle == true)
-        {
-
-            document.documentElement.scrollTo({top:0,behavior:'smooth'})
-            
-            collapseBtn.hide()
-            collapse.show()
-            buttonDown.classList.add('d-none');
-            (buttonDown.previousSibling as HTMLElement).classList.add('d-none')
-            bg.style.opacity = '0.3'
-
-            if(navigator.userAgent.includes('Mobile'))
-            {
-                containerQuote.style.paddingTop = '100px'
-                containerQuote.classList.remove('align-content-center')
-            }
-        } 
-            else
-        {
-            if(navigator.userAgent.includes('Mobile'))
-            {
-                containerQuote.style.paddingTop = '0px'
-                containerQuote.classList.add('align-content-center')
-            }
-
-            collapseBtn.show()
-            collapse.hide()
-            buttonDown.classList.remove('d-none');
-            (buttonDown.previousSibling as HTMLElement).classList.remove('d-none')
-            bg.style.opacity = '1'
-        }
-        (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-        (window as any)['dataLayer'].push({
-            'event': 'TrackEventGA4',
-            'category': 'interacciones usuarios',
-            'action': 'clic',
-            'label': '¡quiero comprar!',
-            'Page': '/'+location.url.pathname.split('/')[1],
-        })
-    })
 
 
     return (

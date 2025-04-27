@@ -34,8 +34,8 @@ export default component$(() => {
     const navigate = useNavigate()
     const objectAdditionalsBenefitsPlan:{[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]} = {beneficiosadicionales:[],beneficiosadicionalesSeleccionados:[]}
     const additionalsBenefitsPlan = useSignal(objectAdditionalsBenefitsPlan)
-    const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]}[] = []
-    const additionalsBenefits = useSignal(arrayAdditionalsBenefits)    
+   // const arrayAdditionalsBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]}[] = []
+   // const additionalsBenefits = useSignal(arrayAdditionalsBenefits)    
 
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const contextLoading = useContext(LoadingContext)
@@ -52,20 +52,11 @@ export default component$(() => {
         
     })
     
-    useTask$(async(/* { track } */) => {
-       // const precioGrupal = track(() => stateContext?.value?.plan?.precio_grupal);
+    useTask$(async() => {  
     
-        if (Object.keys(stateContext.value).length > 0 && 'plan' in stateContext.value) {
-            if(stateContext.value.asegurados != undefined && stateContext.value?.plan?.adicionalesdefault.length ==stateContext.value.asegurados.length )
-                {
-                    //totalPay.value = {divisa:resume.value.plan.codigomonedapago,total:resume.value.total.total}
-                    //additionalsBenefits.value =arrayAdditionalsBenefits;
-                    additionalsBenefits.value = stateContext.value.asegurados
-                    
-                }else{
-                    // Clonar el array de adicionales para evitar mutaciones directas
-                    const newAdditionalBenefit = [...(stateContext.value.plan?.adicionalesdefault || [])];
-            
+        if (Object.keys(stateContext.value).length > 0 && 'plan' in stateContext.value &&stateContext.value.asegurados == undefined) {
+            const newAdditionalBenefit = [...(stateContext.value.plan?.adicionalesdefault || [])];
+
                     const today = new Date();
                     let suma =0;
                     // Iterar sobre los pasajeros
@@ -130,180 +121,150 @@ export default component$(() => {
                             divisa: stateContext.value.plan.codigomonedapago,
                             total: suma+Number(stateContext.value.plan.precio_grupal)
                         },
-                        plan: {
-                            ...(stateContext.value.plan || {}),
-                            adicionalesdefault: newAdditionalBenefit, // Actualizar con el array modificado
-                        },
+                        asegurados: newAdditionalBenefit
                     };
-                    additionalsBenefits.value = newAdditionalBenefit
 
-                }
-            
-  
-        }/* else{
-           await navigate('/')
-        }  */
+        }
     });
 
 
     const getAdditionalsbBenefits$ = $((index:number) => {
         
-        additionalsBenefitsPlan.value =  stateContext.value.plan.adicionalesdefault[index]
+        additionalsBenefitsPlan.value =  stateContext.value.asegurados[index]
 
-       //additionalsBenefitsPlan.value =  additionalsBenefits.value[index]
         
     })
 
-    const getAdditional$ = $((index: number, idpax: number, benefit: object) => {
-        const dataBenefits: any = JSON.parse(JSON.stringify(stateContext.value.plan.adicionalesdefault)); // Usar el Signal para los beneficios adicionales
-        const dataLayer: { [key: string]: any } = {};
-    
-        // Función auxiliar para deshabilitar beneficios conflictivos
-        const disableConflictingBenefits = (benefitId: number, conflictingId: number, benefits: any[]) => {
-            benefits.forEach((additional: any) => {
-                if (additional.idbeneficioadicional === conflictingId) {
-                    additional.disabled = true; // Deshabilitar el beneficio conflictivo
-                }
-            });
-        };
-    
-        // Iterar sobre los pasajeros
-        dataBenefits.forEach((pax: any,) => {
-            if (pax.idpasajero === idpax) {
-                // Agregar el beneficio seleccionado
-                pax.beneficiosadicionalesSeleccionados = [
-                    ...(pax.beneficiosadicionalesSeleccionados || []),
-                    benefit,
-                ];
-                pax.beneficiosadicionales[index].seleccionado = true;
-    
-                // Deshabilitar beneficios conflictivos
-                const selectedBenefitId = pax.beneficiosadicionales[index].idbeneficioadicional;
-                if (selectedBenefitId === 36) {
-                    disableConflictingBenefits(36, 37, pax.beneficiosadicionales);
-                } else if (selectedBenefitId === 37) {
-                    disableConflictingBenefits(37, 36, pax.beneficiosadicionales);
-                }
-    
-                // Actualizar el Signal de beneficios adicionales
-                additionalsBenefitsPlan.value = { ...pax };
-    
-                // Calcular el nuevo total
-                const total = stateContext.value.total.total + Number(pax.beneficiosadicionales[index].precio);
-    
-                // Actualizar el contexto global
-                stateContext.value = {
-                    ...stateContext.value,
-                    subTotal: total,
-                    total: {
-                        divisa: stateContext.value.plan.codigomonedapago,
-                        total: Number(total),
-                    },
-                    plan: {
-                        ...(stateContext.value.plan || {}),
-                        adicionalesdefault: dataBenefits, // Actualizar con el array modificado
-                    },
-                };
-    
-                // Actualizar el dataLayer para el pasajero
-                const benefitsDataLayer = pax.beneficiosadicionalesSeleccionados.map(
-                    (additional: { nombrebeneficioadicional: string }) => additional.nombrebeneficioadicional
-                );
-                dataLayer[`viajero${pax.idpasajero}`] = String(benefitsDataLayer);
-            }
-        });
-    
-        // Actualizar el dataLayer global
-        stateContext.value.dataLayerPaxBenefits = dataLayer;
-    
-        // Enviar datos al dataLayer de Google Analytics
-        (window as any)["dataLayer"].push(
-            Object.assign(
-                {
-                    event: "TrackEventGA4",
-                    category: "Flujo asistencia",
-                    action: "Paso 3 :: beneficios",
-                    cta: "Agregar",
-                },
-                dataLayer
-            )
-        );
-    });
-    const deleteAdditional$ = $((index: number, idpax: number, benefit: { [key: string]: any }) => {
-        //const dataBenefits = [...stateContext.value.plan.adicionalesdefault]; // Clonar para evitar mutaciones directas
-        const dataBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesSeleccionados:any[]}[] = additionalsBenefits.value
+    const getAdditional$ = $((index:number,idpax:number,benefit:object) => {
+        const dataBenefits: any[] = [...stateContext.value.asegurados]
+        const dataLayer : {[key:string]:any} = {}
+        let totalUpgrade=0;
+        dataBenefits.map((pax,indexP) => {
+            if(pax.idpasajero == idpax)
+            {
+                dataBenefits[indexP].beneficiosadicionalesSeleccionados.push(benefit)
+                dataBenefits[indexP].beneficiosadicionales[index].seleccionado = true
 
-        const dataLayer: { [key: string]: any } = {};
-
-    
-        // Iterar sobre los pasajeros
-        dataBenefits.forEach((pax) => {
-            if (pax.idpasajero === idpax) {
-                // Buscar y eliminar el beneficio seleccionado
-                const selectedIndex = pax.beneficiosadicionalesSeleccionados.findIndex(
-                    (item: any) => item.idbeneficioadicional === benefit.idbeneficioadicional
-                );
-    
-                if (selectedIndex !== -1) {
-                    // Eliminar el beneficio seleccionado
-                    pax.beneficiosadicionalesSeleccionados.splice(selectedIndex, 1);
-                    pax.beneficiosadicionales[index].seleccionado = false;
-    
-                    // Habilitar beneficios conflictivos
-                    const removedBenefitId = pax.beneficiosadicionales[index].idbeneficioadicional;
-                    pax.beneficiosadicionales.forEach((additional: any) => {
-                        if (removedBenefitId === 36 && additional.idbeneficioadicional === 37) {
-                            additional.disabled = false;
-                        } else if (removedBenefitId === 37 && additional.idbeneficioadicional === 36) {
-                            additional.disabled = false;
+                dataBenefits[indexP].beneficiosadicionales.map((additional:any) => {
+                    if(dataBenefits[indexP].beneficiosadicionales[index].idbeneficioadicional == 36)
+                    {
+                        if(additional.idbeneficioadicional == 37)
+                        {
+                            additional.disabled = true
                         }
-                    });
-    
-                    // Calcular el nuevo total
-                    const total =
-                        stateContext?.value?.total?.total -
-                        Number(pax.beneficiosadicionales[index].precio);
-    
-                    // Actualizar el contexto global
-                    stateContext.value = {
-                        ...stateContext.value,
-                        subTotal: total,
-                        total: {
-                            divisa: stateContext?.value?.plan?.codigomonedapago,
-                            total: Number(total),
-                        },
-                        plan: {
-                            ...(stateContext.value.plan || {}),
-                            adicionalesdefault: dataBenefits, // Actualizar con el array modificado
-                        },
-                    };
-    
-    
-                    // Actualizar el dataLayer para el pasajero
-                    const benefitsDataLayer = pax.beneficiosadicionalesSeleccionados.map(
-                        (additional: { nombrebeneficioadicional: string }) => additional.nombrebeneficioadicional
-                    );
-                    dataLayer[`viajero${pax.idpasajero}`] = String(benefitsDataLayer);
-                }
+                    }
+                    else if(dataBenefits[indexP].beneficiosadicionales[index].idbeneficioadicional == 37)
+                    {
+                        if(additional.idbeneficioadicional == 36)
+                        {
+                            additional.disabled = true
+                        }
+                    }
+                })
+                
+                additionalsBenefitsPlan.value = Object.assign({},dataBenefits[indexP])
+                totalUpgrade +=  Number(dataBenefits[indexP].beneficiosadicionales[index].precio)
             }
-        });
-    
-        // Actualizar el dataLayer global
-        stateContext.value.dataLayerPaxBenefits = dataLayer;
-    
-        // Enviar datos al dataLayer de Google Analytics
-        (window as any)["dataLayer"].push(
-            Object.assign(
-                {
-                    event: "TrackEventGA4",
-                    category: "Flujo asistencia",
-                    action: "Paso 3 :: beneficios",
-                    cta: "Remover",
-                },
-                dataLayer
-            )
+
+            const benefitsDataLayer : any[] = []
+
+            dataBenefits[indexP].beneficiosadicionales.map((additional:any) => {
+                benefitsDataLayer.push(additional.nombrebeneficioadicional)
+            })
+
+            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
+        })
+        
+        
+        const total = stateContext.value.total.total +totalUpgrade;
+        stateContext.value = {
+            ...stateContext.value,
+            subTotal: total,
+            total: {
+                divisa: stateContext.value.plan.codigomonedapago,
+                total: total,
+            },
+            dataLayerPaxBenefits:dataLayer,
+            asegurados: dataBenefits
+        };
+        (window as any)['dataLayer'].push(
+            Object.assign({
+                'event': 'TrackEventGA4',
+                'category': 'Flujo asistencia',
+                'action': 'Paso 3 :: beneficios',
+                'cta': 'Agregar',
+            },dataLayer)
         );
-    });
+    })
+
+    const deleteAdditional$ = $((index:number,idpax:number,benefit:{[key:string]:any}) => {
+        const dataBenefits: {[key:string]:any,beneficiosadicionalesSeleccionados:any[],beneficiosadicionales:any[]}[] = [...stateContext.value.asegurados]
+        const dataLayer : {[key:string]:any} = {}
+        let totalUpgrade=0;
+        dataBenefits.map((pax,indexP) => {
+            if(pax.idpasajero == idpax)
+            {
+                dataBenefits[indexP].beneficiosadicionalesSeleccionados.map(((item,indexI) => {
+                    if(item.idbeneficioadicional == benefit.idbeneficioadicional)
+                    {
+                        dataBenefits[indexP].beneficiosadicionalesSeleccionados.splice(indexI,1)
+                        dataBenefits[indexP].beneficiosadicionales[index].seleccionado = false
+
+                        dataBenefits[indexP].beneficiosadicionales.map((additional:any) => {
+                            if(dataBenefits[indexP].beneficiosadicionales[index].idbeneficioadicional == 36)
+                            {
+                                if(additional.idbeneficioadicional == 37)
+                                {
+                                    additional.disabled = false
+                                }
+                            }
+                            else if(dataBenefits[indexP].beneficiosadicionales[index].idbeneficioadicional == 37)
+                            {
+                                if(additional.idbeneficioadicional == 36)
+                                {
+                                    additional.disabled = false
+                                }
+                            }
+                        })
+
+                        additionalsBenefitsPlan.value = Object.assign({},dataBenefits[indexP])
+                        totalUpgrade += dataBenefits[indexP].beneficiosadicionales[index].precio;
+                        
+
+                    }
+                }))
+            }
+
+            const benefitsDataLayer : any[] = []
+
+            dataBenefits[indexP].beneficiosadicionales.map((additional:any) => {
+                benefitsDataLayer.push(additional.nombrebeneficioadicional)
+            })
+
+            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
+        })
+        const total = stateContext.value.total.total - totalUpgrade;
+        
+        stateContext.value = {
+            ...stateContext.value,
+            subTotal: total,
+            total: {
+                divisa: stateContext.value.plan.codigomonedapago,
+                total: total,
+            },
+            dataLayerPaxBenefits:dataLayer,
+            asegurados: dataBenefits
+        };
+
+        (window as any)['dataLayer'].push(
+            Object.assign({
+                'event': 'TrackEventGA4',
+                'category': 'Flujo asistencia',
+                'action': 'Paso 3 :: beneficios',
+                'cta': 'Remover',
+            },dataLayer)
+        );
+    })
 
 
 
@@ -315,7 +276,7 @@ export default component$(() => {
     const checkPolicy = document.querySelector('input[name=aceptapolitica]') as HTMLInputElement;
 
     //const dataForm: any[] = stateContext.value.plan.adicionalesdefault;
-    const dataForm: any[] =JSON.parse(JSON.stringify(stateContext.value.plan.adicionalesdefault));
+    const dataForm: any[] =JSON.parse(JSON.stringify(stateContext.value.asegurados));
 
 
     const error: boolean[] = [];
@@ -492,8 +453,7 @@ export default component$(() => {
                                     {
                                         /* stateContext.value.plan&& stateContext.value.plan?.adicionalesdefault&&
                                         stateContext.value.plan? */
-                                        additionalsBenefits.value.length>0&&
-                                        additionalsBenefits.value.map((addBenefit:any,index:number) => {
+                                       Array.isArray(stateContext.value?.asegurados) &&stateContext.value.asegurados.map((addBenefit:any,index:number) => {
                                             return(
                                                 <div key={index+1} class="card px-lg-5 shadow-lg" id={'card-'+addBenefit.idpasajero}>
                                                     <div class='container'>   
