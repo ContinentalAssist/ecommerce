@@ -156,8 +156,8 @@ export default component$(() => {
             });
 
             dataForm.subTotal =dataForm.plan.precio_grupal; 
-            dataForm.total = {divisa:stateContext?.value?.plan?.codigomonedapago,total:Number(dataForm.plan.precio_grupal)}; 
-
+            dataForm.total = {divisa:dataForm.plan.codigomonedapago,total:Number(dataForm.plan.precio_grupal)}; 
+          
             stateContext.value = dataForm
             contextLoading.value = {status:true, message:'Espere un momento...'}
 

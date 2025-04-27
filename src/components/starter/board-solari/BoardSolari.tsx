@@ -55,11 +55,14 @@ export const BoardSolari = component$((props:propsBoardSolari) => {
         }
         else
         {
-            description.classList.add('fade-in-bottom')
+            if (description) {
+                description.classList.add('fade-in-bottom')
 
-            setTimeout(() => {
-                description.classList.remove('fade-in-bottom')
-            },600)
+                setTimeout(() => {
+                    description.classList.remove('fade-in-bottom')
+                },600)
+            }
+          
             
             if(prevPosition == 'bottom' && 'classList' in panels)
             {

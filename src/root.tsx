@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useStore,useOnDocument, useTask$ } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useStore,useOnDocument, useVisibleTask$ } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -59,19 +59,21 @@ export default component$(() => {
     })
   );
 
-  useTask$(async () => {
-    //const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET"});
+  useVisibleTask$(async () => {
     let convertionRate: number;
     let currency: string;
+
+    if (/mobile/i.test(navigator.userAgent)) {
+      resumeQuote.value = { ...resumeQuote.value, isMobile: true }
+    }else{
+        resumeQuote.value = { ...resumeQuote.value, isMobile: false }
+    }
 
     const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
         .then((response) => {
             return(response.json())
         })
-        /*   const geoData ={
-            ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
-            country: "CO"
-        }  */
+        
        
     resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
     
@@ -96,6 +98,7 @@ export default component$(() => {
           resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
 
         }
+        await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
   })
 
  
@@ -119,10 +122,10 @@ export default component$(() => {
     gtag('config', 'AW-11397008041'); 
 }))
 
-  useOnWindow('load',$(async() => {
+/*   useOnWindow('load',$(async() => {
        await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
        //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
-  }))
+  })) */
 
 
 

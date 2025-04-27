@@ -18,8 +18,6 @@ export const QuotesEngine = component$((props:propsQE) => {
     const origins = useSignal(array)
     const destinations = useSignal(array)
     const planSelect = useSignal(array)
-
-    //const dateStart = useSignal('')
     const dateEnd = useSignal('')
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)
@@ -28,7 +26,6 @@ export const QuotesEngine = component$((props:propsQE) => {
     const { modeResumeStep } = props;
     const navigate = useNavigate()
     const location = useLocation()
-   // const contextLoading = useContext(LoadingContext)
     const idPlan = useSignal(0)
     const updateInputEnd = $((newMin: string, newMax: string) => {
         inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax, open:true };
@@ -70,7 +67,6 @@ export const QuotesEngine = component$((props:propsQE) => {
         origins.value = resOrigins
         destinations.value = resDestinations
         resume.value = stateContext.value
-        //console.log("resume.value",stateContext.value?.planesSelect);
         
         const inputDateStart=dayjs().add(2,'day').format('YYYY/MM/DD');
         const inputDateEnd=dayjs().add(365,'day').format('YYYY/MM/DD');
@@ -437,12 +433,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     const coincidente = dataPlans.resultado.find((c:any)=> c.idplan === item.idplan);
                                     return coincidente ? coincidente : item;
                                 })
-                                
     
                                 newDataForm.precioPlanes= resultado
-                                if ('plan' in stateContext.value){
-                                
-
+                                if ('plan' in stateContext.value)
+                                {
                                     
                                     if (idPlan.value != 0 && idPlan.value != stateContext.value.plan.idplan) {
                                         const planSelected = dataPlans.resultado.find((c:any)=> c.idplan === idPlan.value);
@@ -453,77 +447,105 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         const planSelected = dataPlans.resultado.find((c:any)=> c.idplan === stateContext.value.plan.idplan);
                                         newDataForm.plan = {};
                                         newDataForm.plan = planSelected;
+                                        
                                     }
                                     
-                                    
-                                    ///stateContext.value?.asegurados
-                                    /* if (location.url.pathname == '/quotes-engine/step-2/')
-                                        {
-                                            console.log(location.url.pathname);
-                                                const today = new Date();
-                                                let newAdditionalBenefit: any[] = []
-                                                newAdditionalBenefit =[...planSelected.adicionalesdefault];
-
-                                                        newAdditionalBenefit.map((pax :any,index:number) => {
-                                                            let min, max;
-                                                            const idpasajero=index+1;
-                                                                // Verificar si ya existe un asegurado con el mismo idpasajero y edad
-                                                                
-                                                                stateContext.value
-                                                            const existePax = stateContext.value?.asegurados&& stateContext.value?.asegurados.find((a:any) => a.idpasajero === idpasajero && a.edad === pax.edad);
-                                            
-                                                            if (pax.edad >= 24 && pax.edad <= 75)
-                                                            {
-                                                                min = dayjs(dayjs(today).subtract(24, 'year').toDate()).format("YYYY-MM-DD");
-                                                                max = dayjs(dayjs(today).subtract(75, 'year').toDate()).format("YYYY-MM-DD");
-                                                            } else if (pax.edad >= 76 && pax.edad <= 85) {
-                                                                min = dayjs(dayjs(today).subtract(76, 'year').toDate()).format("YYYY-MM-DD");
-                                                                max = dayjs(dayjs(today).subtract(85, 'year').toDate()).format("YYYY-MM-DD");
-                                                            } else {
-                                                                min = dayjs(dayjs(today).subtract(0, 'year').toDate()).format("YYYY-MM-DD");
-                                                                max = dayjs(dayjs(today).subtract(23, 'year').toDate()).format("YYYY-MM-DD");
-                                                            }
-                                            
-                                                            if (existePax != undefined) {
-                                                                console.log("if existePax",existePax );
-                                                                console.log("if idpasajero",idpasajero );
-                                                                pax.apellidos = existePax.apellidos;
-                                                                pax.beneficiosadicionales = existePax.beneficiosadicionales;
-                                                                pax.beneficiosadicionalesDefault = existePax.beneficiosadicionalesDefault;
-                                                                pax.correo = existePax.correo;
-                                                                pax.documentacion = existePax.documentacion;
-                                                                pax.fechanacimiento = existePax.fechanacimiento;
-                                                                pax.maxDate = existePax.maxDate;
-                                                                pax.minDate = existePax.minDate;
-                                                                pax.nombres = existePax.nombres;
-                                                                pax.telefono = existePax.telefono;
-                                                                pax.idpasajero = idpasajero
-                                                            }else{
-                                                                console.log("else existePax",existePax );
-                                                                console.log("else existePax",idpasajero );
-                                                                console.log("pax # ",idpasajero," beneficiosadicionales ",pax.beneficiosadicionales );
-                                                                pax.minDate = max
-                                                                pax.maxDate = min
-                                                                pax.idpasajero = idpasajero
-                                                                pax.beneficiosadicionalesDefault = pax.beneficiosadicionales;
-                                                                pax.beneficiosadicionalesSeleccionados = []
-                                            
-                                                            }
-                                            
-                                                            // stateContext.value.plan.adicionalesdefault = newAdditionalBenefit
-                                                            newDataForm.plan.adicionalesdefault = newAdditionalBenefit
-                                                        })
-                                        }
-                                        console.log("newDataForm.plan",newDataForm); */
                                 }
+                                
+                                const today = new Date();
+                                let suma =0;
+                              
+                                                    
+                                if (
+                                    location.url.pathname == '/quotes-engine/step-2/'||
+                                    location.url.pathname == '/quotes-engine/step-3/' || 
+                                    location.url.pathname == '/quotes-engine/step-4/'
+                                )
+                                {
+                                    // Iterar sobre los pasajeros
+                                    newDataForm.plan?.adicionalesdefault&&newDataForm.plan.adicionalesdefault.forEach((pax: any, index: number) => {
+                                        let min, max;
+                                        const idpasajero = index + 1;
 
+                                        // Verificar si ya existe un asegurado con el mismo idpasajero y edad
+                                        const existePax = stateContext.value?.asegurados.find(
+                                            (a: any) => a.idpasajero === idpasajero && a.edad === pax.edad
+                                        );
+
+                                        // Calcular las fechas mínimas y máximas según la edad
+                                        if (pax.edad >= 24 && pax.edad <= 75) {
+                                            min = dayjs(today).subtract(24, 'year').format("YYYY-MM-DD");
+                                            max = dayjs(today).subtract(75, 'year').format("YYYY-MM-DD");
+                                        } else if (pax.edad >= 76 && pax.edad <= 85) {
+                                            min = dayjs(today).subtract(76, 'year').format("YYYY-MM-DD");
+                                            max = dayjs(today).subtract(85, 'year').format("YYYY-MM-DD");
+                                        } else {
+                                            min = dayjs(today).subtract(0, 'year').format("YYYY-MM-DD");
+                                            max = dayjs(today).subtract(23, 'year').format("YYYY-MM-DD");
+                                        }
+                                        
+
+                                        // Si el pasajero ya existe, copiar sus datos
+                                        if (existePax) {
+
+
+                                            const beneficiosSeleccionados = existePax.beneficiosadicionalesSeleccionados.map((seleccionado:any) => {
+                                                // Buscar el objeto correspondiente en el segundo array
+                                                const beneficioadicionales = pax.beneficiosadicionales.find((beneficio:any) => beneficio.idbeneficioadicional === seleccionado.idbeneficioadicional);
+                                                
+                                                // Si se encuentra, actualizar los valores, de lo contrario, devolver el original
+                                                return beneficioadicionales?{ ...seleccionado, ...beneficioadicionales }:seleccionado;
+                                            });
+                                        const paxBeneficio= pax.beneficiosadicionales.map((beneficio:any) => {                                        
+                                                // Buscar el objeto correspondiente en el segundo array
+                                                const beneficioadicionales = existePax.beneficiosadicionalesSeleccionados.find((seleccionado:any) => seleccionado.idbeneficioadicional === beneficio.idbeneficioadicional);
+                                                // Si se encuentra, actualizar los valores, de lo contrario, devolver el original
+                                                return { ...beneficio, seleccionado: beneficioadicionales? beneficioadicionales.seleccionado:false };
+                                            });
+                                            
+                                            suma += beneficiosSeleccionados.reduce((sum: number, value: any) => {    
+                                                return sum +  Number(value.precio);
+                                                }, 0) 
+                                            Object.assign(pax, {
+                                                apellidos: existePax.apellidos,
+                                                beneficiosadicionalesSeleccionados: beneficiosSeleccionados,
+                                                beneficiosadicionales: paxBeneficio,
+                                                correo: existePax.correo,
+                                                documentacion: existePax.documentacion,
+                                                fechanacimiento: existePax.fechanacimiento,
+                                                maxDate: existePax.maxDate,
+                                                minDate: existePax.minDate,
+                                                nombres: existePax.nombres,
+                                                telefono: existePax.telefono,
+                                                idpasajero: idpasajero,
+                                            });
+                                        } else {
+                                            // Si no existe, inicializar los datos del pasajero
+                                            Object.assign(pax, {
+                                                minDate: max,
+                                                maxDate: min,
+                                                idpasajero: idpasajero,
+                                                beneficiosadicionales: pax.beneficiosadicionales,
+                                                beneficiosadicionalesSeleccionados: [],
+                                            });
+                                        }
+                                    });
+                                    newDataForm.asegurados= newDataForm.plan?.adicionalesdefault;
+                                    newDataForm.total =  {
+                                        divisa: stateContext.value.plan?.codigomonedapago,
+                                        total: suma+Number(newDataForm.plan?.precio_grupal)
+                                    }
+
+                                }
+                               
                                     
                                     
 
                                 stateContext.value = {...stateContext.value,...newDataForm}
                                 resume.value = stateContext.value
-                            newDataForm.planfamiliar == 't' && modal.show();
-                         
+                                
+                                newDataForm.planfamiliar == 't' && modal.show();
+                            
                                 
                                 if (stateContext.value?.plan?.idplan !== undefined) {
                                     if (location.url.pathname == '/quotes-engine/step-2/'||
@@ -560,8 +582,7 @@ export const QuotesEngine = component$((props:propsQE) => {
         })
 
     const getCancelQuotes$ = $(() => {
-        modeResumeStep.value = true
-        if (location.url.pathname == '/'){
+
             (window as any)['dataLayer'].push({
                 'event': 'TrackEventGA4',
                 'category': 'Flujo asistencia',
@@ -576,7 +597,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                 'page': 'home',
                 'cta': 'cancelar'
             });
-        }
+             
+        modeResumeStep.value = true;
         
     })
         
@@ -758,7 +780,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                             name:'pasajeros',
                                             required:true,
                                             icon:'user-plus',
-                                            value:{[23]:resume.value[23]||0,[75]:resume.value[75]||0,[85]:resume.value[85]||0},
+                                            value:{[23]:stateContext.value[23]||0,[75]:stateContext.value[75]||0,[85]:stateContext.value[85]||0},
                                         }
                                     ]}
                                 ]}
