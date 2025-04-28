@@ -185,7 +185,7 @@ export default component$(() => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })    
@@ -542,7 +542,7 @@ export default component$(() => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })
@@ -710,7 +710,7 @@ export default component$(() => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 
@@ -838,7 +838,7 @@ export default component$(() => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 

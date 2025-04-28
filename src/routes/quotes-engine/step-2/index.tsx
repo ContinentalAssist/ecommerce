@@ -54,7 +54,7 @@ export default component$(() => {
     
     useTask$(async() => {  
     
-        if (Object.keys(stateContext.value).length > 0 && 'plan' in stateContext.value &&stateContext.value.asegurados == undefined) {
+        if (Object.keys(stateContext.value).length > 0 && 'plan' in stateContext.value ) {
             const newAdditionalBenefit = [...(stateContext.value.plan?.adicionalesdefault || [])];
 
                     const today = new Date();
@@ -84,14 +84,30 @@ export default component$(() => {
  
                         // Si el pasajero ya existe, copiar sus datos
                         if (existePax) {
+
+
+                            const beneficiosSeleccionados = existePax.beneficiosadicionalesSeleccionados.map((seleccionado:any) => {
+                                // Buscar el objeto correspondiente en el segundo array
+                                const beneficioadicionales = pax.beneficiosadicionales.find((beneficio:any) => beneficio.idbeneficioadicional === seleccionado.idbeneficioadicional);
+                                
+                                // Si se encuentra, actualizar los valores, de lo contrario, devolver el original
+                                return beneficioadicionales?{ ...seleccionado, ...beneficioadicionales }:seleccionado;
+                            });
+                            const paxBeneficio= pax.beneficiosadicionales.map((beneficio:any) => {                                        
+                                // Buscar el objeto correspondiente en el segundo array
+                                const beneficioadicionales = existePax.beneficiosadicionalesSeleccionados.find((seleccionado:any) => seleccionado.idbeneficioadicional === beneficio.idbeneficioadicional);
+                                // Si se encuentra, actualizar los valores, de lo contrario, devolver el original
+                                return { ...beneficio, seleccionado: beneficioadicionales? beneficioadicionales.seleccionado:false };
+                            });
                             
-                            suma += existePax.beneficiosadicionalesSeleccionados.reduce((sum: number, value: any) => {    
+                            
+                            suma += beneficiosSeleccionados.reduce((sum: number, value: any) => {    
                                 return sum +  Number(value.precio);
-                              }, 0) 
+                                }, 0) 
                             Object.assign(pax, {
                                 apellidos: existePax.apellidos,
-                                beneficiosadicionalesSeleccionados: existePax.beneficiosadicionalesSeleccionados,
-                                beneficiosadicionales: existePax.beneficiosadicionales,
+                                beneficiosadicionalesSeleccionados: beneficiosSeleccionados,
+                                beneficiosadicionales: paxBeneficio,
                                 correo: existePax.correo,
                                 documentacion: existePax.documentacion,
                                 fechanacimiento: existePax.fechanacimiento,
@@ -376,6 +392,7 @@ export default component$(() => {
                             ...stateContext.value,
                             asegurados: dataForm,
                             contacto: dataFormContact,
+                            subTotal: stateContext.value.total.total                           
                            
                         };
                         
