@@ -215,7 +215,7 @@ export default component$(() => {
                 newPaxs.push(pax)
 
                 newPaxs[index].beneficios_adicionales = []                
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(benefit.precio),cobertura:benefit.cobertura})
                 })
