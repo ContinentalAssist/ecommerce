@@ -34,6 +34,7 @@ import ImgContinentalAssistStick from '~/media/icons/continental-assist-stick.we
 import ImgContinentalAssistAttendance from '~/media/icons/continental-assist-attendance.webp?jsx'
 import ImgContinentalAssistContact from '~/media/icons/continental-assist-contact.webp?jsx'
 import ImgContinentalAssistClock from '~/media/icons/BlueCyren-Ecommerce-relog.webp?jsx'
+import ImgcontinentalassistClippathgroup from '~/media/home/continental-assist-Clip-path-group_1_-1.webp?jsx'
 import { LoadingContext } from "~/root";
 
 import styles from './index.css?inline';
@@ -262,7 +263,7 @@ export default component$(() => {
                     <div id='container-quote' class='row align-content-center justify-content-center'
                          style={{minHeight: '100vh'}}>
                         <div class='col-xl-12 text-center'>
-                            <div class="collapse show" id="collapseBtnQuotesEngine">
+                            <div class="collapse " id="collapseBtnQuotesEngine">
                                 <h1 class='text-semi-bold text-blue'>
                                     <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
                                     asistencia?
@@ -276,7 +277,7 @@ export default component$(() => {
                                 }}>¡Quiero comprar!
                                 </button>
                             </div>
-                            <div class="collapse" id="collapseQuotesEngine">
+                            <div class="collapse show" id="collapseQuotesEngine">
                                 <h2 class='text-semi-bold text-dark-blue mb-4'>
                                     <span class='text-tin'>Viaja internacionalmente </span><br class='mobile'/> con
                                     tranquilidad
@@ -308,22 +309,22 @@ export default component$(() => {
                 </div>
 
 
+
                 <div class="qs-content">
+
 
                     <div class="qs-top">
                         <div class="qs-info">
                             <div class="qs-title">
-                                <div class="qs-dot"></div>
-                                <h2 class="qs-title-light">¿Quiénes</h2>
+
+                                <h6 class="qs-title-light">¿Quiénes</h6>
                                 <h2 class="qs-title-bold">Somos?</h2>
                             </div>
                             <button class="qs-button">¡Asegura tu viaje ya!</button>
                         </div>
                         <div class="qs-video">
-                            <img
-                                src="https://storage.googleapis.com/a1aa/image/17980991-8bf3-4574-8c86-3a19be860073.jpg"
-                                alt="Video"
-                            />
+
+                            <ImgcontinentalassistClippathgroup class=" " />
                         </div>
                     </div>
 
@@ -532,8 +533,8 @@ export default component$(() => {
 
                                 <h2 class="qd-title-light">Conoce algunas de
                                 </h2>
-                                <h2 class="qd-title-bold">nuestras coberturas
-                                    especiales</h2>
+                                <h6 class="qd-title-bold">nuestras coberturas
+                                    especiales</h6>
                             </div>
                             <button class="qd-button">¡Quiero comprar!</button>
                         </div>

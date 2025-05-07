@@ -51,7 +51,7 @@ export const Carousel  = component$(() => {
 
 
             <div class="carousel-wrapper container position-relative px-0 px-md-3">
-                <div ref={carouselRef} id="carousel" class="carousel d-flex flex-nowrap">
+                <div ref={carouselRef} id="carousel" class="carousel d-flex flex-nowrap ">
                     {cards.map((card, i) => (
                         <div
                             key={i}

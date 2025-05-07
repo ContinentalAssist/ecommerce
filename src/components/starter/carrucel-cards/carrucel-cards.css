@@ -34,13 +34,17 @@
 .carousel-wrapper {
     overflow-x: auto; /* en vez de hidden */
     padding: 0 1rem;
+    overflow: visible;
+    overflow: visible;
 }
 
 .carousel {
-    padding: 0 1rem; /* Si quieres espacio lateral entre el borde de pantalla y la primera tarjeta */
+    padding:1rem; /* Si quieres espacio lateral entre el borde de pantalla y la primera tarjeta */
+    overflow: visible;
 }
 
 .carousel {
+    overflow: visible;
     display: flex;
     gap: 1.5rem;
     overflow-x: auto;
@@ -54,10 +58,18 @@
 
 .cardsg {
     flex-shrink: 0;
-    width: 80vw; /* más flexible en pantallas pequeñas */
+    width: 80vw;
     height: 300px;
     border-radius: 1rem;
     scroll-snap-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-main:hover,
+.card-secondary:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    z-index: 5;
 }
 @media (min-width: 640px) {
     .cardsg {
@@ -172,6 +184,7 @@
 
 @media (max-width: 578px) {
     .carousel {
+        overflow: visible;
         padding-left: 0.5rem;
         padding-right: 0.5rem;
     }
@@ -179,6 +192,7 @@
 
 @media (max-width: 578px) {
     .carousel-wrapper {
+        overflow: visible;
         padding-left: 0;
         padding-right: 0;
         margin-left: 0;
