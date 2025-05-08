@@ -604,11 +604,14 @@
 
 @media (max-width: 640px) {
     .qs-video img {
-        width: 50%;
+
         margin: auto;
         border: 5px solid #5ED0FF;
         border-radius: 8px;
         display: block;
+        height: 25px;
+        width: auto;
+
     }
 
     .qs-top {
@@ -617,7 +620,7 @@
         width: 50%;
         display: flex;
         flex-direction: column;
-        gap: 5rem;
+        gap: 6rem;
         align-items: center;
         margin-bottom: 40px;
     }
@@ -625,7 +628,8 @@
 
 @media (max-width: 640px) {
     .qs-video img {
-        width: 50%;
+        height: 25px;
+        width: auto;
         height: auto;
         border: 5px solid #5ED0FF;
         border-radius: 8px;
@@ -648,7 +652,7 @@
 
 .qs-metric{
 
-    font-size: 150%;
+    font-size: 100%;
 }
 
 

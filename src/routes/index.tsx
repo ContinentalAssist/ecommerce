@@ -324,7 +324,7 @@ export default component$(() => {
                         </div>
                         <div class="qs-video">
 
-                            <ImgcontinentalassistClippathgroup class=" " />
+                            <ImgcontinentalassistClippathgroup class="img-fluid" />
                         </div>
                     </div>
 
