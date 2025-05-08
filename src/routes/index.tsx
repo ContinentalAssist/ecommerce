@@ -332,19 +332,18 @@ export default component$(() => {
                     <div class="qs-metrics qs-metrics-top">
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">+30</span> <span
-                                class="qs-barra">|</span> <strong>Experiencia</strong></p></div>
-                            <p class="qs-description">Años de consistencia en el mercado de asistencia</p>
+                                class="qs-barra"> | </span><strong>Experiencia</strong></p></div>
+                            <p class="qs-description">Años de consistencia en el mercado <br/> de asistencia</p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">100%</span> <span
-                                class="qs-barra"><span class="qs-barra">|</span></span>
-                                <strong>Respaldo</strong></p></div>
-                            <p class="qs-description">Única compañía de asistencia de viaje con reaseguro</p>
+                                class="qs-barra"><span class="qs-barra"> | </span></span><strong>Respaldo</strong></p></div>
+                            <p class="qs-description">Única compañía de asistencia de viaje <br/> con reaseguro</p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">+10M</span> <span
-                                class="qs-barra">|</span> <strong>Confianza</strong></p></div>
-                            <p class="qs-description">Más de 10 millones de usuarios han confiado en nuestros
+                                class="qs-barra"> | </span><strong>Confianza</strong></p></div>
+                            <p class="qs-description">Más de 10 millones de usuarios han <br/> confiado en nuestros
                                 servicios</p>
                         </div>
                     </div>
@@ -353,17 +352,14 @@ export default component$(() => {
                     <div class="qs-metrics qs-metrics-bottom">
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">24/7</span> <span
-                                class="qs-barra">|</span>
-                                <strong>Servicio</strong></p></div>
-                            <p class="qs-description">Estamos disponibles en cualquier momento del día</p>
+                                class="qs-barra"> | </span><strong>Servicio</strong></p></div>
+                            <p class="qs-description">Estamos disponibles en cualquier <br/>momento en cualquier hora del día</p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo">
-                                <p><span class="qs-highlight">178.000</span> <span class="qs-barra">|</span>
-                                    <strong>Red
-                                        Global</strong></p></div>
-                            <p class="qs-description">Más de 178 mil proveedores disponibles en todo el mundo</p>
-
+                                <p><span class="qs-highlight">178.000</span> <span class="qs-barra"> | </span>
+                                    <strong>Red Global</strong></p></div>
+                            <p class="qs-description">Más de 178 mil proveedores para prestar <br/>servicios en cualquier lugar del mundo</p>
                         </div>
                     </div>
                 </div>
@@ -533,8 +529,7 @@ export default component$(() => {
 
                                 <h2 class="qd-title-light">Conoce algunas de
                                 </h2>
-                                <h6 class="qd-title-bold">nuestras coberturas
-                                    especiales</h6>
+                                <h6 class="qd-title-bold">nuestras coberturas <br/>especiales</h6>
                             </div>
                             <button class="qd-button">¡Quiero comprar!</button>
                         </div>
@@ -714,95 +709,95 @@ export default component$(() => {
                     </div>
                 </div>
             </div>
-            <div class='bg-home-counter'>
-                <div class='col-lg-12'>
-                    <div class='container'>
-                        <div class='row justify-content-center'>
-                            <div class='col-lg-10 text-center'>
-                                <h2 class='h1 text-semi-bold text-blue mt-4'>
-                                    <span class='text-tin'>La confianza se</span><br class='mobile'/> construye con
-                                    hechos
-                                </h2>
-                                <hr class='divider my-3'/>
-                                <h3 class='h5 text-dark-gray'>
-                                    <b>¡No tercerizamos!</b> Contamos con <br class='mobile'/> un centro de atención
-                                    propio.
-                                </h3>
-                            </div>
-                        </div>
-                        <div class='row justify-content-center'>
-                            <div class='col-lg-10'>
-                                <div class='container'>
-                                    <div class='row bg-counter'>
-                                        <div class='col-lg-12 text-center'>
-                                            <h2 class='h1 text-semi-bold text-yellow my-5'><i
-                                                class="fas fa-plane-departure"/> Datos clave</h2>
-                                            <div class='not-mobile'>
-                                                <BoardSolari id={'table-desktop'} words={[
-                                                    {
-                                                        panel: '    +DE 9M    ',
-                                                        position: 'bottom',
-                                                        description: 'de personas protegidas por nuestros planes'
-                                                    },
-                                                    {
-                                                        panel: '   +DE 25K    ',
-                                                        position: 'bottom',
-                                                        description: 'aliados en todo el mundo para atendere y acompañarte'
-                                                    },
-                                                    {
-                                                        panel: '   +DE 4.5K   ',
-                                                        position: 'bottom',
-                                                        description: 'empresas confían en nosotros'
-                                                    },
-                                                    {
-                                                        panel: ' +DE 30 AÑOS  ',
-                                                        position: 'bottom',
-                                                        description: 'de experiencia'
-                                                    },
-                                                    {
-                                                        panel: ' MULTILINGUES ',
-                                                        position: 'top',
-                                                        description: 'Tenemos operadores'
-                                                    }
-                                                ]}/>
-                                            </div>
-                                            <div id={'table-mobile'} class='mobile' style={{marginLeft: '-1px'}}>
-                                                <BoardSolari id={'table-mobile'} mobile words={[
-                                                    {
-                                                        panel: ['  +DE  ', '   9M  '],
-                                                        position: 'bottom',
-                                                        description: 'de personas protegidas por nuestros planes'
-                                                    },
-                                                    {
-                                                        panel: ['  +DE  ', '  25K  '],
-                                                        position: 'bottom',
-                                                        description: 'aliados en todo el mundo para atendere y acompañarte'
-                                                    },
-                                                    {
-                                                        panel: ['  +DE  ', ' 4.5K  '],
-                                                        position: 'bottom',
-                                                        description: 'empresas confían en nosotros'
-                                                    },
-                                                    {
-                                                        panel: ['  +DE  ', '30 AÑOS'],
-                                                        position: 'bottom',
-                                                        description: 'de experiencia'
-                                                    },
-                                                    {
-                                                        panel: [' MULTI ', 'LINGUES'],
-                                                        position: 'top',
-                                                        description: 'Tenemos operadores'
-                                                    }
-                                                ]}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {/*<div class='bg-home-counter show'>*/}
+            {/*    <div class='col-lg-12'>*/}
+            {/*        <div class='container'>*/}
+            {/*            <div class='row justify-content-center'>*/}
+            {/*                <div class='col-lg-10 text-center'>*/}
+            {/*                    <h2 class='h1 text-semi-bold text-blue mt-4'>*/}
+            {/*                        <span class='text-tin'>La confianza se</span><br class='mobile'/> construye con*/}
+            {/*                        hechos*/}
+            {/*                    </h2>*/}
+            {/*                    <hr class='divider my-3'/>*/}
+            {/*                    <h3 class='h5 text-dark-gray'>*/}
+            {/*                        <b>¡No tercerizamos!</b> Contamos con <br class='mobile'/> un centro de atención*/}
+            {/*                        propio.*/}
+            {/*                    </h3>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*            <div class='row justify-content-center'>*/}
+            {/*                <div class='col-lg-10'>*/}
+            {/*                    <div class='container'>*/}
+            {/*                        <div class='row bg-counter'>*/}
+            {/*                            <div class='col-lg-12 text-center'>*/}
+            {/*                                <h2 class='h1 text-semi-bold text-yellow my-5'><i*/}
+            {/*                                    class="fas fa-plane-departure"/> Datos clave</h2>*/}
+            {/*                                <div class='not-mobile'>*/}
+            {/*                                    <BoardSolari id={'table-desktop'} words={[*/}
+            {/*                                        {*/}
+            {/*                                            panel: '    +DE 9M    ',*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'de personas protegidas por nuestros planes'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: '   +DE 25K    ',*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'aliados en todo el mundo para atendere y acompañarte'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: '   +DE 4.5K   ',*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'empresas confían en nosotros'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: ' +DE 30 AÑOS  ',*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'de experiencia'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: ' MULTILINGUES ',*/}
+            {/*                                            position: 'top',*/}
+            {/*                                            description: 'Tenemos operadores'*/}
+            {/*                                        }*/}
+            {/*                                    ]}/>*/}
+            {/*                                </div>*/}
+            {/*                                <div id={'table-mobile'} class='mobile' style={{marginLeft: '-1px'}}>*/}
+            {/*                                    <BoardSolari id={'table-mobile'} mobile words={[*/}
+            {/*                                        {*/}
+            {/*                                            panel: ['  +DE  ', '   9M  '],*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'de personas protegidas por nuestros planes'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: ['  +DE  ', '  25K  '],*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'aliados en todo el mundo para atendere y acompañarte'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: ['  +DE  ', ' 4.5K  '],*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'empresas confían en nosotros'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: ['  +DE  ', '30 AÑOS'],*/}
+            {/*                                            position: 'bottom',*/}
+            {/*                                            description: 'de experiencia'*/}
+            {/*                                        },*/}
+            {/*                                        {*/}
+            {/*                                            panel: [' MULTI ', 'LINGUES'],*/}
+            {/*                                            position: 'top',*/}
+            {/*                                            description: 'Tenemos operadores'*/}
+            {/*                                        }*/}
+            {/*                                    ]}/>*/}
+            {/*                                </div>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             <div id='blue-access' class='bg-home-blue-access' style={{minHeight: '980px !important'}}>
                 <div class='col-lg-12'>
                     <div class='container'>

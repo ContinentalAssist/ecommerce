@@ -71,8 +71,9 @@ export const Carousel  = component$(() => {
                                     </div>
                                 )}
                             </div>
+                            <h3 class="card-title">{card.title}</h3>
                             <div class="card-content">
-                                <h3 class="card-title">{card.title}</h3>
+
                                 {card.description && (
                                     <p class="card-description">{card.description}</p>
                                 )}
@@ -108,25 +109,35 @@ const cards = [
         alt: 'Mujer sonriendo brindando con copa de vino en restaurante con hombre',
     },
     {
-        title: 'Teleconsulta médica',
-        description: 'pre y post viaje',
+        title: 'Teleconsulta médica pre y post viaje en país de origen',
+        description: 'Asistencia médica antes, durante y después de tu viaje.',
         img: 'https://storage.googleapis.com/a1aa/image/72d5a091-5ecc-4eba-ad26-7e73ad7d3ba4.jpg',
         alt: 'Mujer sonriente con sombrero y maleta hablando por teléfono',
     },
     {
-        title: 'Conferencia con\nmédico de cabecera',
-        description: 'en país de origen',
+        title: 'Conferencia con médico de cabecera en país de origen',
+        description: 'Habla con tu médico de cabecera desde el exterior.',
         img: 'https://storage.googleapis.com/a1aa/image/9999380f-802a-4f13-1633-043c9ed50a79.jpg',
         alt: 'Hombre doctor en oficina hablando por teléfono con portapapeles',
     },
     {
-        title: 'Repatriación\nadministrativa',
+        title: 'Cese de operaciones de aerolínea',
+        description: 'Vuelve a casa si tu vuelo se cancela.',
         img: 'https://storage.googleapis.com/a1aa/image/4a119dbb-fd7f-4e29-3b10-965c951c801c.jpg',
         alt: 'Mujer sentada con maleta en sala de aeropuerto',
     },
     {
-        title: 'Compra protegida',
+        title: 'Repatriación administrativa',
+        description: 'Te respaldamos si tienes imprevistos migratorios.',
         img: 'https://storage.googleapis.com/a1aa/image/7915fa24-60c2-4b5c-e474-f436b22d286f.jpg',
         alt: 'Hombre y mujer revisando teléfonos en tienda de tecnología',
+
+    },
+    {
+        title: 'Compra protegida',
+        description: 'Robo cubierto por compras tecnológicas en el exterior.',
+        img: 'https://storage.googleapis.com/a1aa/image/7915fa24-60c2-4b5c-e474-f436b22d286f.jpg',
+        alt: 'Hombre y mujer revisando teléfonos en tienda de tecnología',
+
     },
 ];
