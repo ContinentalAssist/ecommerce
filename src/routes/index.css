@@ -442,7 +442,6 @@
 .qs-section {
     position: relative;
     width: 100%;
-    min-height: 100vh;
     overflow: hidden;
 }
 
@@ -461,6 +460,9 @@
     flex: 1;
    width: 74%;
     background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/FondoEcommers.png") !important;
+    background-size: cover; /* Se adapta al tamaño del contenedor */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que se repita */
 }
 .qs-bg-right {
     width: 13%;
@@ -490,7 +492,6 @@
 .qs-content {
     position: relative;
     z-index: 10;
-    min-height: 100vh;
     padding: 60px 24px;
     display: flex;
     flex-direction: column;
@@ -501,11 +502,10 @@
 /* Top layout */
 .qs-top {
 
-
     width: 80%;
     display: flex;
     flex-direction: column;
-    gap: 5rem;
+    gap: 7rem;
     align-items: center;
     margin-bottom: 40px;
 }
@@ -535,7 +535,7 @@
 
 .qs-title {
     position: relative;
-    margin-bottom: 24px;
+    margin-bottom: 3rem;
 }
 
 .qs-dot {
@@ -549,7 +549,7 @@
     transform: translateY(-50%);
 }
 .qs-title-light {
-    font-size: 4rem;
+    font-size: 5rem;
     font-weight: 100;
     letter-spacing: -0.06em;
     color: #ffffff;
@@ -591,7 +591,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 32px;
+    padding: 0 32px 12px;
     border-radius: 999px;
     cursor: pointer;
     transition: background 0.3s ease;
@@ -609,7 +609,7 @@
         border: 5px solid #5ED0FF;
         border-radius: 8px;
         display: block;
-        height: 25px;
+        height: 100px;
         width: auto;
 
     }
@@ -617,18 +617,36 @@
     .qs-top {
 
         max-width: 1000px;
-        width: 50%;
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: 6rem;
         align-items: center;
         margin-bottom: 40px;
     }
+    .qs-button {
+        background-color: #F7D87C;
+        color: #0B2A5A;
+        width: 100%;
+        height: 40%;
+        font-weight: 800;
+        font-size: 1.3rem;
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 32px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        text-align: center;
+
+    }
 }
 
 @media (max-width: 640px) {
     .qs-video img {
-        height: 25px;
+        height: 100px;
         width: auto;
         height: auto;
         border: 5px solid #5ED0FF;
@@ -673,18 +691,26 @@
 @media (min-width: 640px) {
     .qs-metrics-top {
         gap: 10px;
-        max-width: 70%;
         align-items: center;
         align-content: center;
         grid-template-columns: repeat(3, 1fr);
+        width: 70.5%;
+        margin-bottom: 2rem;
+    }
+    .qs-metrics-top p {
+        margin-bottom: 0;
     }
 
     .qs-metrics-bottom {
         gap: 10px;
-        max-width: 50%;
+        max-width: 70%;
         align-items: center;
         align-content: center;
         grid-template-columns: repeat(2, 1fr);
+        width: 52.5%;
+    }
+    .qs-metrics-bottom p {
+        margin-bottom: 0;
     }
 }
 
@@ -701,11 +727,11 @@
 }
 .qs-barra{
     color: #F7D87C;
-    font-size: 1.25em;
+    font-size: 1.8rem;
 
 }
 .qs-metrics-titulo {
-    font-size: 120%;
+    font-size: 130%;
 }
 
 
@@ -777,21 +803,22 @@
     flex-direction: column;
     align-items: center;
     color: #00184b;
+    width: auto;
 }
 
 /* Top layout */
 .qd-top {
     max-width: 1100px;
-    width: 200%;
+    width: 180%;
     display: flex;
     flex-direction: column;
     gap: 40px;
     align-items: center;
-    margin-bottom: 40px;
 }
 
 @media (min-width: 992px) {
     .qd-top {
+        width: 100%;
         flex-direction: row;
         justify-content: space-between;
     }
@@ -802,6 +829,7 @@
     font-sise: 5rem;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 @media (min-width: 992px) {
@@ -816,20 +844,22 @@
 .qd-title {
     position: relative;
     margin-bottom: 24px;
-    width: 700px;
+    width: 120%;
 }
 
 
+
+
 .qd-title-light {
-    font-size: 2rem;
+    font-size: 3.5rem;
     font-weight: 100;
     letter-spacing: -0.06em;
     color: #00184b;
     line-height: 0.9;
 }
 
-.qd-title-bold {
-    font-size: 3.5rem;
+.qd-title-bold  {
+    font-size: 4rem;
     font-weight: 1000;
     letter-spacing: -0.06em;
     color: #00184b;
@@ -837,25 +867,34 @@
 }
 
 @media (max-width: 640px) {
+    .qd-title {
+        position: relative;
+        margin-bottom: 24px;
+        width: 25rem;
+        margin-top: 2rem;
+    }
+
     .qd-title-light {
-        font-size: 4rem;
+        font-size: 2.5rem;
         font-weight: 50;
         letter-spacing: 0.05em;
         color: #00184b;
     }
 
     .qd-title-bold {
-        font-size: 5rem;
+        font-size: 3rem;
         font-weight: 900;
         letter-spacing: -0.02em;
         color: #00184b;
     }
+
+
 }
 
 .qd-button {
     background-color: #F7D87C;
     color: #0B2A5A;
-    width: 90%;
+    width: 80%;
     height: 60%;
     font-weight: 800;
     font-size: 1.8rem;
@@ -868,6 +907,8 @@
     cursor: pointer;
     transition: background 0.3s ease;
     text-align: center;
+    padding-bottom:12px ;
+    margin-top: 2rem;
 }
 
 .qd-button:hover {
