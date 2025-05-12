@@ -238,12 +238,19 @@ export const Header = component$(() => {
                     {
                         showLink.value
                         &&
-                        <a title='Quiero Comprar' href='/' type='button' id='btn-quotes-header' class="btn btn-primary" onClick$={getQuotes$}>¡Quiero comprar!</a>
+                        <a onClick$={() => {
+                            const el = document.getElementById('container-quote');
+                            el?.scrollIntoView({ behavior: 'smooth' });
+                        }} title='Quiero Comprar' href='/' type='button' id='btn-quotes-header' class="btn btn-primary" >¡Quiero comprar!</a>
                     }
                     {
                         showBtn.value
                         &&
-                        <button type='button' id='btn-quotes-header' class="btn btn-primary" onClick$={getQuotes$}>¡Quiero comprar!</button>
+                        <button onClick$={() => {
+                            const el = document.getElementById('container-quote');
+                            el?.scrollIntoView({ behavior: 'smooth' });
+                        }} type='button' id='btn-quotes-header' class="btn btn-primary" >¡Quiero comprar!</button>
+
                     }
                     {
                         

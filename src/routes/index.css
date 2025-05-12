@@ -790,9 +790,6 @@
     }
 }
 
-
-
-
 /* Contenido encima */
 .qd-content {
     position: relative;
@@ -829,7 +826,7 @@
     font-sise: 5rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+
 }
 
 @media (min-width: 992px) {
@@ -837,7 +834,6 @@
         font-sise: 5rem;
         align-items: flex-start;
         text-align: left;
-        align-items: center;
     }
 }
 

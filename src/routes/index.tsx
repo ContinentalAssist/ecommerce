@@ -6,7 +6,6 @@ import { CardPlan } from '~/components/starter/card-plan/CardPlan';
 import { CardResume } from '~/components/starter/card-resume/CardResume';
 import { CardComment } from '~/components/starter/card-comment/CardComment';
 import { WEBContext } from '~/root';
-import { BoardSolari } from '~/components/starter/board-solari/BoardSolari';
 import { Carousel } from'~/components/starter/carrucel-cards/Carrucel-cards';
 import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
 import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
@@ -278,13 +277,15 @@ export default component$(() => {
                                 </button>
                             </div>
                             <div class="collapse show" id="collapseQuotesEngine">
-                                <h2 class='text-semi-bold text-dark-blue mb-4'>
-                                    <span class='text-tin'>Viaja internacionalmente </span><br class='mobile'/> con
-                                    tranquilidad
-                                </h2>
+                                <h1 class='text-semi-bold text-blue'>
+                                    <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
+                                    asistencia?
+                                </h1>
+                                <h2 class='h5 text-regular text-dark-gray'>Viaja internacionalmente con
+                                    tranquilidad</h2>
                                 <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
-                                <QuotesEngine  modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
+                                    <QuotesEngine modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                                 </div>
                             </div>
                             <div class='position-absolute' style={{left: 0, right: 0, bottom: 0, zIndex: 1}}>
@@ -320,7 +321,13 @@ export default component$(() => {
                                 <h6 class="qs-title-light">¿Quiénes</h6>
                                 <h2 class="qs-title-bold">Somos?</h2>
                             </div>
-                            <button class="qs-button">¡Asegura tu viaje ya!</button>
+                            <button
+                                onClick$={() => {
+                                    const el = document.getElementById('container-quote');
+                                    el?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                class="qs-button">¡Asegura tu viaje ya!</button>
+
                         </div>
                         <div class="qs-video">
 
@@ -531,7 +538,11 @@ export default component$(() => {
                                 </h2>
                                 <h6 class="qd-title-bold">nuestras coberturas <br/>especiales</h6>
                             </div>
-                            <button class="qd-button">¡Quiero comprar!</button>
+                            <button onClick$={() => {
+                                const el = document.getElementById('container-quote');
+                                el?.scrollIntoView({ behavior: 'smooth' });
+                            }} class="qd-button">¡Quiero comprar!</button>
+
                         </div>
                         <div class="qd-video">
 
@@ -1334,8 +1345,8 @@ export default component$(() => {
                                                 class='mobile'/> tiene
                                                 una respuesta
                                             </h2>
-                                            <hr class='divider my-3'/>
-                                            <h3 class='h2 text-semi-bold text-light-blue'>#JuntosEnEsteViaje</h3>
+                                            {/*<hr class='divider my-3'/>*/}
+                                            {/*<h3 class='h2 text-semi-bold text-light-blue'>#JuntosEnEsteViaje</h3>*/}
                                         </div>
                                     </div>
                                     <div class='row bg-vibe not-mobile'>
@@ -1501,9 +1512,12 @@ export default component$(() => {
                     <div class='container'>
                         <div class='row'>
                             <div class='col-xl-12 text-center mt-4'>
-                                <h2 class='h5 text-dark-gray mb-0'>Tus viajes, tus momentos, nuestros planes...</h2>
-                                <hr class='divider mt-4'/>
-                                <h3 class='h1 text-bold text-dark-blue'>¡Dile hola a tu nuevo equipo de respaldo!</h3>
+                                {/*<h2 class='h5 text-dark-gray mb-0'>Tus viajes, tus momentos, nuestros planes...</h2>*/}
+                                {/*<hr class='divider mt-4'/>*/}
+                                <h3 class="text-dark-blue">
+                                    Contigo, <span class="text-bold">globalmente.</span>
+                                </h3>
+
                             </div>
                         </div>
                     </div>
