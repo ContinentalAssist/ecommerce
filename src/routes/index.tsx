@@ -10,10 +10,10 @@ import { Carousel } from'~/components/starter/carrucel-cards/Carrucel-cards';
 import ImgContinentalAssistBagEssential from '~/media/icons/continental-assist-bag-essential.webp?jsx'
 import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-bag-complete.webp?jsx'
 import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx'
-import ImgContinentalAssistDoctor from '~/media/icons/continental-assist-doctor.webp?jsx'
-import ImgContinentalAssistTravel from '~/media/icons/continental-assist-travel.webp?jsx'
-import ImgContinentalAssistHeadphones from '~/media/icons/continental-assist-headphones.webp?jsx'
-import ImgContinentalAssistPets from  '~/media/icons/continental-assist-pets.webp?jsx'
+// import ImgContinentalAssistDoctor from '~/media/icons/continental-assist-doctor.webp?jsx'
+// import ImgContinentalAssistTravel from '~/media/icons/continental-assist-travel.webp?jsx'
+// import ImgContinentalAssistHeadphones from '~/media/icons/continental-assist-headphones.webp?jsx'
+// import ImgContinentalAssistPets from  '~/media/icons/continental-assist-pets.webp?jsx'
 import ImgContinentalAssistPerson from  '~/media/home/continental-assist-person.webp?jsx'
 import ImgContinentalAssistBlueAccess from '~/media/home/continental-assist-blue-access.webp?jsx'
 //import ImgContinentalAssistBullets from '~/media/icons/continental-assist-bullets.webp?jsx'
@@ -283,6 +283,7 @@ export default component$(() => {
                                 </h1>
                                 <h2 class='h5 text-regular text-dark-gray '>Viaja internacionalmente con
                                     tranquilidad</h2>
+                                <hr class='divider mt-4 mb-4 '/>
                                 <div class="card card-body border-none shadow-lg">
                                     <QuotesEngine modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                                 </div>
@@ -559,166 +560,166 @@ export default component$(() => {
 
             </section>
 
-            <div class='bg-home-benefits'>
-                <div class='col-xl-12'>
-                    <div class='container'>
-                        <div class='row align-content-center'>
-                            <div class='col-xl-12'>
-                                <div class='container'>
-                                    <div class='row'>
-                                        <div class='col-xl-12 text-center'>
-                                            <h2 class='h1 text-semi-bold text-blue mb-3'>
-                                                <span class='text-tin'>Algunas de </span><br
-                                                class='mobile'/> nuestras
-                                                asistencias
-                                            </h2>
-                                            <hr class='divider mt-3'/>
-                                        </div>
-                                    </div>
-                                    <div class='row not-mobile'>
-                                        <div class='col-xl-3 col-md-6'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-doctor.webp'
-                                                title='Acompañamiento médico'
-                                                description='Antes, durante y después de tu viaje.'
-                                            >
-                                                <ImgContinentalAssistDoctor class='img-fluid' loading="lazy"
-                                                                            title='continental-assist-doctor'
-                                                                            alt='continental-assist-doctor'/>
-                                            </CardResume>
-                                        </div>
-                                        <div class='col-xl-3 col-md-6'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-travel.webp'
-                                                title='Entre trayectos'
-                                                description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'
-                                            >
-                                                <ImgContinentalAssistTravel class='img-fluid' loading="lazy"
-                                                                            title='continental-assist-travel'
-                                                                            alt='continental-assist-travel'/>
-                                            </CardResume>
-                                        </div>
-                                        <div class='col-xl-3 col-md-6'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-headphones.webp'
-                                                title='Línea de información'
-                                                description='Estamos 24 horas para ti y los tuyos, todo el año.'
-                                            >
-                                                <ImgContinentalAssistHeadphones class='img-fluid' loading="lazy"
-                                                                                title='continental-assist-headphones'
-                                                                                alt='continental-assist-headphones'/>
-                                            </CardResume>
-                                        </div>
-                                        <div class='col-xl-3 col-md-6'>
-                                            <CardResume
-                                                img='/assets/img/icons/continental-assist-pets.webp'
-                                                title='Mascotas protegidas'
-                                                description='Contamos con orientación para viaje con mascotas y servicios clave.'
-                                            >
-                                                <ImgContinentalAssistPets class='img-fluid' loading="lazy"
-                                                                          title='continental-assist-pets'
-                                                                          alt='continental-assist-pets'/>
-                                            </CardResume>
-                                        </div>
-                                    </div>
-                                    <div class='row mobile'>
-                                        <div class='col-xl-12'>
-                                            <div id="carouselBenefits" class="carousel carousel-dark slide"
-                                                 data-bs-ride="carousel" data-bs-touch="true" data-bs-interval='5200'>
-                                                <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselBenefits"
-                                                            data-bs-slide-to="0" class="active" aria-current="true"
-                                                            aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselBenefits"
-                                                            data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselBenefits"
-                                                            data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                    <button type="button" data-bs-target="#carouselBenefits"
-                                                            data-bs-slide-to="3" aria-label="Slide 4"></button>
-                                                </div>
-                                                <div class="carousel-inner">
-                                                    <div class="carousel-item active">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-doctor.webp'
-                                                                        title='Acompañamiento médico'
-                                                                        description='Antes, durante y después de tu viaje.'
-                                                                    >
-                                                                        <ImgContinentalAssistDoctor class='img-fluid'
-                                                                                                    loading="lazy"
-                                                                                                    title='continental-assist-doctor'
-                                                                                                    alt='continental-assist-doctor'/>
-                                                                    </CardResume>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-travel.webp'
-                                                                        title='Entre trayectos'
-                                                                        description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'
-                                                                    >
-                                                                        <ImgContinentalAssistTravel class='img-fluid'
-                                                                                                    loading="lazy"
-                                                                                                    title='continental-assist-travel'
-                                                                                                    alt='continental-assist-travel'/>
-                                                                    </CardResume>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-headphones.webp'
-                                                                        title='Línea de información'
-                                                                        description='Estamos 24 horas para ti y los tuyos, todo el año.'
-                                                                    >
-                                                                        <ImgContinentalAssistHeadphones
-                                                                            class='img-fluid' loading="lazy"
-                                                                            title='continental-assist-headphones'
-                                                                            alt='continental-assist-headphones'/>
-                                                                    </CardResume>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="carousel-item">
-                                                        <div class='container'>
-                                                            <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
-                                                                    <CardResume
-                                                                        img='/assets/img/icons/continental-assist-pets.webp'
-                                                                        title='Mascotas protegidas'
-                                                                        description='Contamos con orientación para viaje con mascotas y servicios clave.'
-                                                                    >
-                                                                        <ImgContinentalAssistPets class='img-fluid'
-                                                                                                  loading="lazy"
-                                                                                                  title='continental-assist-pets'
-                                                                                                  alt='continental-assist-pets'/>
-                                                                    </CardResume>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {/*<div class='bg-home-benefits'>*/}
+            {/*    <div class='col-xl-12'>*/}
+            {/*        <div class='container'>*/}
+            {/*            <div class='row align-content-center'>*/}
+            {/*                <div class='col-xl-12'>*/}
+            {/*                    <div class='container'>*/}
+            {/*                        <div class='row'>*/}
+            {/*                            <div class='col-xl-12 text-center'>*/}
+            {/*                                <h2 class='h1 text-semi-bold text-blue mb-3'>*/}
+            {/*                                    <span class='text-tin'>Algunas de </span><br*/}
+            {/*                                    class='mobile'/> nuestras*/}
+            {/*                                    asistencias*/}
+            {/*                                </h2>*/}
+            {/*                                <hr class='divider mt-3'/>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                        <div class='row not-mobile'>*/}
+            {/*                            <div class='col-xl-3 col-md-6'>*/}
+            {/*                                <CardResume*/}
+            {/*                                    img='/assets/img/icons/continental-assist-doctor.webp'*/}
+            {/*                                    title='Acompañamiento médico'*/}
+            {/*                                    description='Antes, durante y después de tu viaje.'*/}
+            {/*                                >*/}
+            {/*                                    <ImgContinentalAssistDoctor class='img-fluid' loading="lazy"*/}
+            {/*                                                                title='continental-assist-doctor'*/}
+            {/*                                                                alt='continental-assist-doctor'/>*/}
+            {/*                                </CardResume>*/}
+            {/*                            </div>*/}
+            {/*                            <div class='col-xl-3 col-md-6'>*/}
+            {/*                                <CardResume*/}
+            {/*                                    img='/assets/img/icons/continental-assist-travel.webp'*/}
+            {/*                                    title='Entre trayectos'*/}
+            {/*                                    description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'*/}
+            {/*                                >*/}
+            {/*                                    <ImgContinentalAssistTravel class='img-fluid' loading="lazy"*/}
+            {/*                                                                title='continental-assist-travel'*/}
+            {/*                                                                alt='continental-assist-travel'/>*/}
+            {/*                                </CardResume>*/}
+            {/*                            </div>*/}
+            {/*                            <div class='col-xl-3 col-md-6'>*/}
+            {/*                                <CardResume*/}
+            {/*                                    img='/assets/img/icons/continental-assist-headphones.webp'*/}
+            {/*                                    title='Línea de información'*/}
+            {/*                                    description='Estamos 24 horas para ti y los tuyos, todo el año.'*/}
+            {/*                                >*/}
+            {/*                                    <ImgContinentalAssistHeadphones class='img-fluid' loading="lazy"*/}
+            {/*                                                                    title='continental-assist-headphones'*/}
+            {/*                                                                    alt='continental-assist-headphones'/>*/}
+            {/*                                </CardResume>*/}
+            {/*                            </div>*/}
+            {/*                            <div class='col-xl-3 col-md-6'>*/}
+            {/*                                <CardResume*/}
+            {/*                                    img='/assets/img/icons/continental-assist-pets.webp'*/}
+            {/*                                    title='Mascotas protegidas'*/}
+            {/*                                    description='Contamos con orientación para viaje con mascotas y servicios clave.'*/}
+            {/*                                >*/}
+            {/*                                    <ImgContinentalAssistPets class='img-fluid' loading="lazy"*/}
+            {/*                                                              title='continental-assist-pets'*/}
+            {/*                                                              alt='continental-assist-pets'/>*/}
+            {/*                                </CardResume>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                        <div class='row mobile'>*/}
+            {/*                            <div class='col-xl-12'>*/}
+            {/*                                <div id="carouselBenefits" class="carousel carousel-dark slide"*/}
+            {/*                                     data-bs-ride="carousel" data-bs-touch="true" data-bs-interval='5200'>*/}
+            {/*                                    <div class="carousel-indicators">*/}
+            {/*                                        <button type="button" data-bs-target="#carouselBenefits"*/}
+            {/*                                                data-bs-slide-to="0" class="active" aria-current="true"*/}
+            {/*                                                aria-label="Slide 1"></button>*/}
+            {/*                                        <button type="button" data-bs-target="#carouselBenefits"*/}
+            {/*                                                data-bs-slide-to="1" aria-label="Slide 2"></button>*/}
+            {/*                                        <button type="button" data-bs-target="#carouselBenefits"*/}
+            {/*                                                data-bs-slide-to="2" aria-label="Slide 3"></button>*/}
+            {/*                                        <button type="button" data-bs-target="#carouselBenefits"*/}
+            {/*                                                data-bs-slide-to="3" aria-label="Slide 4"></button>*/}
+            {/*                                    </div>*/}
+            {/*                                    <div class="carousel-inner">*/}
+            {/*                                        <div class="carousel-item active">*/}
+            {/*                                            <div class='container'>*/}
+            {/*                                                <div class='row justify-content-center'>*/}
+            {/*                                                    <div class='col-sm-6'>*/}
+            {/*                                                        <CardResume*/}
+            {/*                                                            img='/assets/img/icons/continental-assist-doctor.webp'*/}
+            {/*                                                            title='Acompañamiento médico'*/}
+            {/*                                                            description='Antes, durante y después de tu viaje.'*/}
+            {/*                                                        >*/}
+            {/*                                                            <ImgContinentalAssistDoctor class='img-fluid'*/}
+            {/*                                                                                        loading="lazy"*/}
+            {/*                                                                                        title='continental-assist-doctor'*/}
+            {/*                                                                                        alt='continental-assist-doctor'/>*/}
+            {/*                                                        </CardResume>*/}
+            {/*                                                    </div>*/}
+            {/*                                                </div>*/}
+            {/*                                            </div>*/}
+            {/*                                        </div>*/}
+            {/*                                        <div class="carousel-item">*/}
+            {/*                                            <div class='container'>*/}
+            {/*                                                <div class='row justify-content-center'>*/}
+            {/*                                                    <div class='col-sm-6'>*/}
+            {/*                                                        <CardResume*/}
+            {/*                                                            img='/assets/img/icons/continental-assist-travel.webp'*/}
+            {/*                                                            title='Entre trayectos'*/}
+            {/*                                                            description='Asistencia por pérdida de documentos, de equipaje, de conexión de vuelos y más.'*/}
+            {/*                                                        >*/}
+            {/*                                                            <ImgContinentalAssistTravel class='img-fluid'*/}
+            {/*                                                                                        loading="lazy"*/}
+            {/*                                                                                        title='continental-assist-travel'*/}
+            {/*                                                                                        alt='continental-assist-travel'/>*/}
+            {/*                                                        </CardResume>*/}
+            {/*                                                    </div>*/}
+            {/*                                                </div>*/}
+            {/*                                            </div>*/}
+            {/*                                        </div>*/}
+            {/*                                        <div class="carousel-item">*/}
+            {/*                                            <div class='container'>*/}
+            {/*                                                <div class='row justify-content-center'>*/}
+            {/*                                                    <div class='col-sm-6'>*/}
+            {/*                                                        <CardResume*/}
+            {/*                                                            img='/assets/img/icons/continental-assist-headphones.webp'*/}
+            {/*                                                            title='Línea de información'*/}
+            {/*                                                            description='Estamos 24 horas para ti y los tuyos, todo el año.'*/}
+            {/*                                                        >*/}
+            {/*                                                            <ImgContinentalAssistHeadphones*/}
+            {/*                                                                class='img-fluid' loading="lazy"*/}
+            {/*                                                                title='continental-assist-headphones'*/}
+            {/*                                                                alt='continental-assist-headphones'/>*/}
+            {/*                                                        </CardResume>*/}
+            {/*                                                    </div>*/}
+            {/*                                                </div>*/}
+            {/*                                            </div>*/}
+            {/*                                        </div>*/}
+            {/*                                        <div class="carousel-item">*/}
+            {/*                                            <div class='container'>*/}
+            {/*                                                <div class='row justify-content-center'>*/}
+            {/*                                                    <div class='col-sm-6'>*/}
+            {/*                                                        <CardResume*/}
+            {/*                                                            img='/assets/img/icons/continental-assist-pets.webp'*/}
+            {/*                                                            title='Mascotas protegidas'*/}
+            {/*                                                            description='Contamos con orientación para viaje con mascotas y servicios clave.'*/}
+            {/*                                                        >*/}
+            {/*                                                            <ImgContinentalAssistPets class='img-fluid'*/}
+            {/*                                                                                      loading="lazy"*/}
+            {/*                                                                                      title='continental-assist-pets'*/}
+            {/*                                                                                      alt='continental-assist-pets'/>*/}
+            {/*                                                        </CardResume>*/}
+            {/*                                                    </div>*/}
+            {/*                                                </div>*/}
+            {/*                                            </div>*/}
+            {/*                                        </div>*/}
+            {/*                                    </div>*/}
+            {/*                                </div>*/}
+            {/*                            </div>*/}
+            {/*                        </div>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             {/*<div class='bg-home-counter show'>*/}
             {/*    <div class='col-lg-12'>*/}
             {/*        <div class='container'>*/}
