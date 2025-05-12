@@ -256,11 +256,11 @@ export default component$(() => {
     return (
         <div class='container-fluid p-0'>
            
-            <div class='home' style={{minHeight:'100vh'}}>
+            <div class='home' style={{minHeight:'75vh'}}>
                 <div class='bg-home-header position-absolute' />
-                <div class='container position-relative h-100'>
+                <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen'>
                     <div id='container-quote' class='row align-content-center justify-content-center'
-                         style={{minHeight: '100vh'}}>
+                         style={{minHeight: '75vh'}}>
                         <div class='col-xl-12 text-center'>
                             <div class="collapse " id="collapseBtnQuotesEngine">
                                 <h1 class='text-semi-bold text-blue'>
@@ -281,9 +281,8 @@ export default component$(() => {
                                     <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
                                     asistencia?
                                 </h1>
-                                <h2 class='h5 text-regular text-dark-gray'>Viaja internacionalmente con
+                                <h2 class='h5 text-regular text-dark-gray '>Viaja internacionalmente con
                                     tranquilidad</h2>
-                                <hr class='divider mb-4'/>
                                 <div class="card card-body border-none shadow-lg">
                                     <QuotesEngine modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                                 </div>

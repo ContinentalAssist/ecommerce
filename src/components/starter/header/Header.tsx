@@ -123,7 +123,7 @@ export const Header = component$(() => {
         
     })
 
-    const getQuotes$ = $(() => {
+        const getQuotes$ = $(() => {
         const bs = (window as any)['bootstrap']
         const collapseBtn = new bs.Collapse('#collapseBtnQuotesEngine',{})
         const collapse = new bs.Collapse('#collapseQuotesEngine',{})
