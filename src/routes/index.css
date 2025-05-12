@@ -993,3 +993,24 @@
     font-size: 120%;
 }
 
+.home {
+    min-height: 75vh;
+}
+
+@media (max-width: 768px) {
+    .home {
+        min-height: 100vh;
+    }
+}
+
+#container-quote {
+    min-height: 75vh;
+}
+
+@media (max-width: 768px) {
+    #container-quote {
+        min-height: 100vh !important;
+    }
+}
+
+
