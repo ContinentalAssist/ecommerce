@@ -71,7 +71,7 @@ export const Carousel  = component$(() => {
                                     </div>
                                 )}
                             </div>
-                            <h3 class="card-title">{card.title}</h3>
+                            <h3 class="cardg-title">{card.title}</h3>
                             <div class="card-content">
 
                                 {card.description && (
@@ -105,38 +105,38 @@ const cards = [
     {
         title: 'Blue Access',
         description: 'Accede más de 1.600 salas VIP en el mundo si tu vuelo se demora.',
-        img: 'https://storage.googleapis.com/a1aa/image/5882cf33-98d4-4d93-6f9a-0214a09ef50e.jpg',
+        img: '/assets/img/carrucel/BlueAccess.webp',
         alt: 'Mujer sonriendo brindando con copa de vino en restaurante con hombre',
     },
     {
         title: 'Teleconsulta médica pre y post viaje en país de origen',
         description: 'Asistencia médica antes, durante y después de tu viaje.',
-        img: 'https://storage.googleapis.com/a1aa/image/72d5a091-5ecc-4eba-ad26-7e73ad7d3ba4.jpg',
+        img: '/assets/img/carrucel/Teleconsulta-médica.webp',
         alt: 'Mujer sonriente con sombrero y maleta hablando por teléfono',
     },
     {
         title: 'Conferencia con médico de cabecera en país de origen',
         description: 'Habla con tu médico de cabecera desde el exterior.',
-        img: 'https://storage.googleapis.com/a1aa/image/9999380f-802a-4f13-1633-043c9ed50a79.jpg',
+        img: '/assets/img/carrucel/médico-de-cabecera.webp',
         alt: 'Hombre doctor en oficina hablando por teléfono con portapapeles',
     },
     {
         title: 'Cese de operaciones de aerolínea',
         description: 'Vuelve a casa si tu vuelo se cancela.',
-        img: 'https://storage.googleapis.com/a1aa/image/4a119dbb-fd7f-4e29-3b10-965c951c801c.jpg',
+        img: '/assets/img/carrucel/Cese-de-operaciones.webp',
         alt: 'Mujer sentada con maleta en sala de aeropuerto',
     },
     {
         title: 'Repatriación administrativa',
         description: 'Te respaldamos si tienes imprevistos migratorios.',
-        img: 'https://storage.googleapis.com/a1aa/image/7915fa24-60c2-4b5c-e474-f436b22d286f.jpg',
+        img: '/assets/img/carrucel/Repatriaciónadministrativa.webp',
         alt: 'Hombre y mujer revisando teléfonos en tienda de tecnología',
 
     },
     {
         title: 'Compra protegida',
         description: 'Robo cubierto por compras tecnológicas en el exterior.',
-        img: 'https://storage.googleapis.com/a1aa/image/7915fa24-60c2-4b5c-e474-f436b22d286f.jpg',
+        img: '/assets/img/carrucel/Compra-protegida.webp',
         alt: 'Hombre y mujer revisando teléfonos en tienda de tecnología',
 
     },
