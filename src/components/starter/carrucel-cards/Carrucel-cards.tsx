@@ -109,7 +109,7 @@ const cards = [
         alt: 'Mujer sonriendo brindando con copa de vino en restaurante con hombre',
     },
     {
-        title: 'Teleconsulta médica pre y post viaje en país de origen',
+        title: 'Teleconsulta médica pre y post viaje ',
         description: 'Asistencia médica antes, durante y después de tu viaje.',
         img: '/assets/img/carrucel/Teleconsulta-médica.webp',
         alt: 'Mujer sonriente con sombrero y maleta hablando por teléfono',

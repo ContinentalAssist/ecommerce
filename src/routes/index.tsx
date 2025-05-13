@@ -1341,9 +1341,8 @@ export default component$(() => {
                                     <div class='row align-items-center'>
                                         <div class='col-lg-12 text-center'>
                                             <h2 class='h1 text-semi-bold text-blue'>
-                                                <span class='text-tin'>Tu pregunta </span> <br
-                                                class='mobile'/> tiene
-                                                una respuesta
+                                                <span class='text-tin'>Preguntas </span> <br
+                                                class='mobile'/> frecuentes
                                             </h2>
                                             {/*<hr class='divider my-3'/>*/}
                                             {/*<h3 class='h2 text-semi-bold text-light-blue'>#JuntosEnEsteViaje</h3>*/}
