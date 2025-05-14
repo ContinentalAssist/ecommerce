@@ -134,11 +134,11 @@ export const Header = component$(() => {
                                     <a title='Buscar Voucher' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/search-voucher" >Busca tu voucher</a>
                                 </li> */}
                                 <li class="nav-item">
-                                    <a title='Agentes' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://www.continentalassist.co/backmin/signin.php" target="_black" >Acceso agentes</a>
+                                    <a title='Agentes' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://eva.continentalassist.com" target="_black" >Acceso agentes</a>
                                 </li>
-                                <li class="nav-item">
+                                {/* <li class="nav-item">
                                     <a title='Corporativos' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://www.continentalassist.co/backmin/corp/signin.php" target="_black" >Acceso corporativo</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>
