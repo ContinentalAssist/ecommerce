@@ -459,7 +459,7 @@
 .qs-bg-center {
     flex: 1;
    width: 74%;
-    background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/FondoEcommers.png") !important;
+    background-color: #ffffff !important;
     background-size: cover; /* Se adapta al tamaño del contenedor */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que se repita */
@@ -502,7 +502,7 @@
 /* Top layout */
 .qs-top {
 
-    width: 80%;
+    width: 76%;
     display: flex;
     flex-direction: column;
     gap: 7rem;
@@ -529,7 +529,7 @@
     .qs-info {
 
         align-items: flex-start;
-        text-align: left;
+        text-align: center;
     }
 }
 
@@ -552,7 +552,7 @@
     font-size: 5rem;
     font-weight: 100;
     letter-spacing: -0.06em;
-    color: #ffffff;
+    color: #00184b;
     line-height: 0.9;
 }
 
@@ -560,7 +560,7 @@
     font-size: 6.5rem;
     font-weight: 1000;
     letter-spacing: -0.06em;
-    color: #ffffff;
+    color: #00184b;
     line-height: 0.9;
 }
 
@@ -569,14 +569,14 @@
         font-size: 4rem;
         font-weight: 50;
         letter-spacing: 0.05em;
-        color: #ffffff;
+        color: #00184b;
     }
 
     .qs-title-bold {
         font-size: 5rem;
         font-weight: 900;
         letter-spacing: -0.02em;
-        color: #ffffff;
+        color: #00184b;
     }
 }
 
@@ -609,7 +609,7 @@
         border: 5px solid #5ED0FF;
         border-radius: 8px;
         display: block;
-        height: 100px;
+        height: 120px;
         width: auto;
 
     }
@@ -646,7 +646,7 @@
 
 @media (max-width: 640px) {
     .qs-video img {
-        height: 100px;
+        height: 120px;
         width: auto;
         height: auto;
         border: 5px solid #5ED0FF;
@@ -690,12 +690,13 @@
 
 @media (min-width: 640px) {
     .qs-metrics-top {
-        gap: 10px;
+        gap: 13px;
         align-items: center;
         align-content: center;
         grid-template-columns: repeat(3, 1fr);
-        width: 70.5%;
+        width: 78.5%;
         margin-bottom: 2rem;
+        margin-left: 6%;
     }
     .qs-metrics-top p {
         margin-bottom: 0;
@@ -707,7 +708,7 @@
         align-items: center;
         align-content: center;
         grid-template-columns: repeat(2, 1fr);
-        width: 52.5%;
+        width: 62.5%;
     }
     .qs-metrics-bottom p {
         margin-bottom: 0;
@@ -720,7 +721,7 @@
     font-size: 1.1em;
 }
 .qs-description {
-    color: #E6E6E6;
+    color: #00184b;
     font-weight: 300;
     max-width: 600px;
     margin-right: auto;
@@ -732,6 +733,12 @@
 }
 .qs-metrics-titulo {
     font-size: 130%;
+}
+.qs-metrics-titulo2{
+    font-size: 130%;
+    color: #00184b;
+    font-weight: 900;
+
 }
 
 
@@ -1014,3 +1021,7 @@
 }
 
 
+.img-fluid-planet {
+    max-width: 120%;
+    height: auto;
+}

@@ -331,27 +331,27 @@ export default component$(() => {
                         </div>
                         <div class="qs-video">
 
-                            <ImgcontinentalassistClippathgroup class="img-fluid" />
+                            <ImgcontinentalassistClippathgroup class="img-fluid-planet" />
                         </div>
                     </div>
 
 
                     <div class="qs-metrics qs-metrics-top">
                         <div class="qs-metric">
-                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">+30</span> <span
-                                class="qs-barra"> | </span><strong>Experiencia</strong></p></div>
-                            <p class="qs-description">Años de consistencia en el mercado <br/> de asistencia</p>
+                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">+30 Años</span> <span
+                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Experiencia</strong></p></div>
+                            <p class="qs-description">Amplia trayectoria en el mercado de<br/> asistencia internacional.
+                            </p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">100%</span> <span
-                                class="qs-barra"><span class="qs-barra"> | </span></span><strong>Respaldo</strong></p></div>
-                            <p class="qs-description">Única compañía de asistencia de viaje <br/> con reaseguro</p>
+                                class="qs-barra"><span class="qs-barra"> | </span></span><strong class="qs-metrics-titulo2">Respaldo</strong></p></div>
+                            <p class="qs-description">Somos la única compañía de asistencia<br/>en viaje que cuenta con reaseguro.</p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">+10M</span> <span
-                                class="qs-barra"> | </span><strong>Confianza</strong></p></div>
-                            <p class="qs-description">Más de 10 millones de usuarios han <br/> confiado en nuestros
-                                servicios</p>
+                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Confianza</strong></p></div>
+                            <p class="qs-description">Más de 10 millones de usuarios han<br/>elegido nuestros servicios. </p>
                         </div>
                     </div>
 
@@ -359,14 +359,15 @@ export default component$(() => {
                     <div class="qs-metrics qs-metrics-bottom">
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">24/7</span> <span
-                                class="qs-barra"> | </span><strong>Servicio</strong></p></div>
-                            <p class="qs-description">Estamos disponibles en cualquier <br/>momento en cualquier hora del día</p>
+                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2" >Servicio</strong></p></div>
+                            <p class="qs-description">Operamos de manera ininterrumpida<br/>a nivel global. </p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo">
                                 <p><span class="qs-highlight">178.000</span> <span class="qs-barra"> | </span>
-                                    <strong>Red Global</strong></p></div>
-                            <p class="qs-description">Más de 178 mil proveedores para prestar <br/>servicios en cualquier lugar del mundo</p>
+                                    <strong class="qs-metrics-titulo2">Red Global</strong></p></div>
+                            <p class="qs-description">Contamos con más de 178 mil proveedores listos<br/>para asistirte
+                                en cualquier parte del mundo. </p>
                         </div>
                     </div>
                 </div>
