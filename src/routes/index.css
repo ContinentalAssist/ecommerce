@@ -459,7 +459,7 @@
 .qs-bg-center {
     flex: 1;
    width: 74%;
-    background-color: #ffffff !important;
+    background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/FondoEcommers.png") !important;
     background-size: cover; /* Se adapta al tamaño del contenedor */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que se repita */
@@ -552,7 +552,7 @@
     font-size: 5rem;
     font-weight: 100;
     letter-spacing: -0.06em;
-    color: #00184b;
+    color: #ffffff;
     line-height: 0.9;
 }
 
@@ -560,7 +560,7 @@
     font-size: 6.5rem;
     font-weight: 1000;
     letter-spacing: -0.06em;
-    color: #00184b;
+    color: #ffffff;
     line-height: 0.9;
 }
 
@@ -721,7 +721,7 @@
     font-size: 1.1em;
 }
 .qs-description {
-    color: #00184b;
+    color: #b1aeae;
     font-weight: 300;
     max-width: 600px;
     margin-right: auto;
@@ -736,7 +736,7 @@
 }
 .qs-metrics-titulo2{
     font-size: 130%;
-    color: #00184b;
+    color: #ffffff;
     font-weight: 900;
 
 }
