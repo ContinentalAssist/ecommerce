@@ -1,7 +1,6 @@
-import { $, component$, useOnWindow, useSignal, useStylesScoped$ } from '@builder.io/qwik';
+import { $, component$, useOnWindow, useStylesScoped$,useContext } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { CardResume } from '~/components/starter/card-resume/CardResume';
-import { Loading } from '~/components/starter/loading/Loading';
 
 import ImgContinentalAssistMisionVision from '~/media/icons/continental-assist-mision-vision.webp?jsx'
 import ImgContinentalAssistMisionVisionVertical from '~/media/icons/continental-assist-mision-vision-vertical.webp?jsx'
@@ -15,6 +14,7 @@ import ImgContinentalAssistLineVertical from '~/media/icons/continental-assist-l
 import ImgContinentalAssistAmbulance from '~/media/icons/continental-assist-ambulance.webp?jsx'
 import ImgContinentalAssistGlobal from '~/media/icons/continental-assist-global.webp?jsx'
 import ImgContinentalAssistLegal from '~/media/icons/continental-assist-legal.webp?jsx'
+import { LoadingContext } from "~/root";
 
 import styles from './index.css?inline'
 
@@ -35,19 +35,15 @@ export const head: DocumentHead = {
 export default component$(() => {
     useStylesScoped$(styles)
 
-    const loading = useSignal(true)
+    const contextLoading = useContext(LoadingContext)
 
     useOnWindow('load',$(() => {
-        loading.value = false
+        contextLoading.value = {status:false, message:''}
     }))
 
     return (
         <>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
+         
             <div class='container-fluid bg-about-us'>
                 <div class='row bg-about-us-header'>
                     <div class='col-lg-12'>

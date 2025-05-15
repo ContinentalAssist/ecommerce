@@ -1,4 +1,4 @@
-import { type Signal, component$, createContextId, useContextProvider, useSignal, useOnWindow, $, useVisibleTask$, useStore,useOnDocument } from '@builder.io/qwik';
+import { type Signal, component$, createContextId, useContextProvider, useSignal,  $, useStore,useOnDocument, useVisibleTask$ } from '@builder.io/qwik';
 import {
   QwikCityProvider,
   RouterOutlet,
@@ -15,11 +15,17 @@ import { initializeGenesys } from './utils/genesys';
 interface DivisaStore{
   divisaUSD: boolean
 }
+interface LoadingStore{
+  status: boolean,
+  message: string,
+}
+
 declare let window: any;
 
 export const WEBContext = createContextId<Signal<any>>('web-context')
 export const DIVISAContext = createContextId<DivisaStore>('divisa-manual');
 
+export const LoadingContext = createContextId<Signal<LoadingStore>>('set-loading');
 
 
 export default component$(() => {
@@ -31,14 +37,16 @@ export default component$(() => {
    */
 
   const obj : {[key:string]:any} = {}
-
   const resumeQuote = useSignal(obj)
+  const loading = useSignal({status:true, message:'Espera un momento...'}); // Signal para el estado de carga
+  //const loadingStatus = useSignal(true); // Signal para el estado de carga const loadingMessage = useSignal('Espere un momento ...')
   const so = useSignal('')
   const device = useSignal('desktop')
   const divisaUpdate:  DivisaStore=useStore({divisaUSD:true})
 
   useContextProvider(WEBContext,resumeQuote)
   useContextProvider(DIVISAContext, divisaUpdate);
+  useContextProvider(LoadingContext, loading);
 
   useOnDocument(
     'load',
@@ -51,90 +59,87 @@ export default component$(() => {
     })
   );
 
-  useVisibleTask$(async() => {
-      let convertionRate: number;
-      let currency: string;
+  useVisibleTask$(async () => {
+    let convertionRate: number;
+    let currency: string;
 
-      const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-          .then((response) => {
-              return(response.json())
-          })
-            /* const geoData ={
-              ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
-              country: "CO"
-          }  */
-      resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
-      
-          const response = await fetch("/api/getExchangeRate",{method:"POST",body:JSON.stringify({codigopais:geoData.country})});
-          const data =await response.json();
-          if (!data.error) {
-            switch (geoData.country) 
-            {
-                case 'CO':
-                    convertionRate = data.resultado[0]?.valor
-                    currency = 'COP'
-                    break;
-                case 'MX':
-                    convertionRate = data.resultado[0]?.valor
-                    currency = 'MXN'
-                    break; 
-                default:
-                    convertionRate = 1
-                    currency = 'USD'
-            }
-            resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
+    if (/mobile/i.test(navigator.userAgent)) {
+      resumeQuote.value = { ...resumeQuote.value, isMobile: true }
+    }else{
+        resumeQuote.value = { ...resumeQuote.value, isMobile: false }
+    }
 
+    const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
+        .then((response) => {
+            return(response.json())
+        })
+        
+       
+    resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
+    
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate",
+          {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+        const data =await response.json();
+        if (!data.error) {
+          switch (geoData.country) 
+          {
+              case 'CO':
+                  convertionRate = data.resultado[0]?.valor
+                  currency = 'COP'
+                  break;
+              case 'MX':
+                  convertionRate = data.resultado[0]?.valor
+                  currency = 'MXN'
+                  break; 
+              default:
+                  convertionRate = 1
+                  currency = 'USD'
           }
+          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
 
-   
+        }
+       
+  })
 
-  });
+ 
+  useVisibleTask$(async()=>{
+    if(navigator.userAgent.includes('Windows'))
+      {
+          so.value = 'windows'
+      }
+  
+      if(navigator.userAgent.includes('Mobile'))
+      {
+          device.value = 'mobile'
+      }
+  
+      (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
+      gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
+      gtag('js', new Date()); 
+      gtag('config', 'AW-11397008041'); 
 
-
+    await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+  })
   
 
-  useOnWindow('load',$(() => {
-    if(navigator.userAgent.includes('Windows'))
-    {
-        so.value = 'windows'
-    }
+ /*  useOnWindow('load',$(() => {
+    
+  })) */
 
-    if(navigator.userAgent.includes('Mobile'))
-    {
-        device.value = 'mobile'
-    }
-
-    (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-    gtm(window,document,'script','dataLayer','GTM-KB4C9T86');
-    gtag('js', new Date()); 
-    gtag('config', 'AW-11397008041'); 
-}))
-
-  useOnWindow('load',$(async() => {
+/*   useOnWindow('load',$(async() => {
        await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
        //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
-  }))
+  })) */
 
 
 
   return (
     <QwikCityProvider>
-      {/* <head>
-        <meta charset="utf-8" />
-        {!isDev && (
-          <link
-            rel="manifest"
-            href={`${import.meta.env.BASE_URL}manifest.json`}
-          />
-        )}
-        <RouterHead />
-      </head> */}
-
-      <head>
+    <head>
       <meta charset="utf-8" />
-      <QwikPartytown forward={['gtag','dataLayer.push']} />
-         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041"></script> 
-          <meta name="keywords" content='
+      <QwikPartytown forward={['gtag', 'dataLayer.push']} />
+      <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041" defer></script>
+      <meta name="keywords" content="
               seguro, 
               seguro viajes,
               seguro viajeros,
@@ -197,28 +202,23 @@ export default component$(() => {
               precios assistencia viaje extranjero, 
               precios assistencia viajes nacionales,
               precios assistencia viajes internacionales,
-              precios assistencia medico viajes,'
-          />
-          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous"/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Light.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Semi_Bold.woff" as="font" type="font/woff" crossOrigin=''/>
-          <link rel="preload" href="/assets/fonts/Galano_Grotesque_Medium.woff" as="font" type="font/woff" crossOrigin=''/>
-          <RouterHead />
-      </head>
-      <body data-so={so.value} data-device={device.value}>
-          <noscript>
-              <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-          </noscript>
-        <RouterOutlet />
-        <script async type="text/javascript" src='/assets/icons/all.min.js'/>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
-        <script async type="text/javascript" src="https://js.openpay.mx/openpay.v1.min.js"></script>
-        <script async type='text/javascript' src="https://js.openpay.mx/openpay-data.v1.min.js"></script>
-
-        {!isDev && <ServiceWorkerRegister />}
-      </body>
+              precios assistencia medico viajes,
+      " />
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous" />
+      <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin='' />
+      <RouterHead />
+    </head>
+    <body data-so={so.value} data-device={device.value}>
+      <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+      </noscript>
+      <RouterOutlet />
+      <script async type="text/javascript" src='/assets/icons/all.min.js' />
+      <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
+      <script async src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
+      <script async src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
+      {!isDev && <ServiceWorkerRegister />}
+    </body>
     </QwikCityProvider>
   );
 });

@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$} from "@builder.io/qwik";
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
@@ -7,14 +7,12 @@ import { CalculateAge } from "~/utils/CalculateAge";
 import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import { LoadingContext } from "~/root";
 
 
-export interface propsWompi {
-    setLoading: (loading: boolean, message: string) => void;
 
-}
 
-export default component$((props:propsWompi) => {
+export default component$(() => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
@@ -38,17 +36,10 @@ export default component$((props:propsWompi) => {
     const nequi = useSignal(obj)
     const pse = useSignal(obj)
     const institutions = useSignal(array)
-    const isLoading = useSignal(false);
     const counterRequest = useSignal(0)
     const wompiIdTransaccion =useSignal('')
-    const messageLoading= useSignal('')    
+    const contextLoading = useContext(LoadingContext)
 
-
-    function updateLoading(){        
-        props.setLoading(isLoading.value,messageLoading.value)
-        
-    }
-    updateLoading()
 
     const validateTransaccion$ = $(async() => {
         const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
@@ -70,7 +61,8 @@ export default component$((props:propsWompi) => {
                     total:resume.value.total.total * stateContext.value.currentRate.rate,
                     voucher:dataValidation.resultado.reference
                 }
-                isLoading.value=false
+                contextLoading.value = {status:false, message:''};
+
                 formPayment.value = 'BANCOLOMBIA_QR'
                 setTimeout(() =>counterRequest.value ++, 2000); 
             }
@@ -141,7 +133,8 @@ export default component$((props:propsWompi) => {
                 years.value = newYears
                 
                 formPayment.value = 'CARD'
-                isLoading.value=false
+                contextLoading.value = {status:false, message:''};
+
                 
             }
         }
@@ -180,7 +173,7 @@ export default component$((props:propsWompi) => {
         {
 
             if (stateContext.value.wompiTipo !='CARD') {
-                isLoading.value=true
+                contextLoading.value = {status:true, message: stateContext.value.wompiTipo};
             }
             resume.value = stateContext.value
 
@@ -192,7 +185,7 @@ export default component$((props:propsWompi) => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })    
@@ -249,7 +242,8 @@ export default component$((props:propsWompi) => {
                     wompiRedirectUrl :  import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE +'/quotes-engine/message',
                     wompiSandboxStatus : "APPROVED"
                 }
-                messageLoading.value ='Generando QR Bancolombia...';
+                contextLoading.value = {status:true, message:'Generando QR Bancolombia...'};
+
                 Object.assign(dataRequest,wompiRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
@@ -290,8 +284,8 @@ export default component$((props:propsWompi) => {
                 } 
                 else if(dataPay?.resultado.length >0 &&dataPay.resultado[0]?.wompiIdTransaccion)
                 {
+                    contextLoading.value = {status:true, message:'Redireccionando a Bancolombia...'};
 
-                    messageLoading.value ='Redireccionando a Bancolombia...';
                     const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                     wompiIdTransaccion.value =id;
                     counterRequest.value= 1;
@@ -307,13 +301,14 @@ export default component$((props:propsWompi) => {
                 }
 
                 formPayment.value = 'NEQUI'
-                isLoading.value=false
+                contextLoading.value = {status:false, message:''};
+
             }
             else if(stateContext.value.wompiTipo == 'PSE')
             {
                 const resInstitutions = await fetch("/api/getInstitutionsW",{method:"POST",body:JSON.stringify({})});
                 const dataInstitutions = await resInstitutions.json()
-
+               
                 if(dataInstitutions.error == false)
                 {
                     const newInstitutions : any[] = []
@@ -329,7 +324,13 @@ export default component$((props:propsWompi) => {
                     }
 
                     formPayment.value = 'PSE'
-                    isLoading.value=false
+                    contextLoading.value = {status:false, message:''};
+
+                }
+                else
+                {
+                    contextLoading.value = {status:false, message:''};
+
                 }
             }
             else if(stateContext.value.wompiTipo == 'BANCOLOMBIA_COLLECT')
@@ -359,14 +360,23 @@ export default component$((props:propsWompi) => {
                         total:resume.value.total.total * stateContext.value.currentRate.rate,
                         voucher:dataValidation.resultado.reference
                     }
+                    contextLoading.value = {status:false, message:''};
+
+                }
+                else
+                {
+                    contextLoading.value = {status:false, message:''};
+
                 }
 
                 formPayment.value = 'BANCOLOMBIA_COLLECT'
-                isLoading.value=false
+               
             }
         }
         else
         {
+            contextLoading.value = {status:false, message:''};
+
             // loading.value = false
             // navigate('/quotes-engine/step-1')
         }
@@ -437,7 +447,8 @@ export default component$((props:propsWompi) => {
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
 
-        isLoading.value=true;
+        contextLoading.value = {status:true, message:'Realizando el pago...'};
+
         let error = false
         let errorInvoicing = false
 
@@ -531,7 +542,7 @@ export default component$((props:propsWompi) => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura })
@@ -623,8 +634,8 @@ export default component$((props:propsWompi) => {
                         'metodo_de_pago': 'tarjeta de crédito'
                     },stateContext.value.dataLayerPaxBenefits)
                 );
+               contextLoading.value = {status:true, message:'Estamos procesando tu pago ...'};
 
-               messageLoading.value ='Estamos procesando tu pago ...';
                const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;
                wompiIdTransaccion.value =id;
                counterRequest.value= 1;
@@ -667,7 +678,8 @@ export default component$((props:propsWompi) => {
 
 
     const getPhoneNequi$ = $(async() => {
-        isLoading.value=true;
+        contextLoading.value = {status:true, message:'Realizando el pago...'};
+
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formNequi = document.querySelector('#form-nequi') as HTMLFormElement
@@ -698,7 +710,7 @@ export default component$((props:propsWompi) => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 
@@ -760,13 +772,31 @@ export default component$((props:propsWompi) => {
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
-            if(dataPay.resultado[0].wompiIdTransaccion)
+            if(dataPay.resultado[0]?.wompiIdTransaccion)
             {
-                messageLoading.value ='Estamos procesando tu pago ...';
+                contextLoading.value = {status:true, message:'Estamos procesando tu pago ...'};
+
                 const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                 wompiIdTransaccion.value =id;
                 counterRequest.value= 1;
 
+            }else{
+                contextLoading.value = {status:false, message:''};
+                if(attempts.value < 2)
+                    {
+                        //loading.value = false;
+                        //modalError.show()
+                        stateContext.value.typeMessage = 2
+                        await navigate('/quotes-engine/message')
+                    }
+                    else
+                    {
+                        stateContext.value.typeMessage = 2
+                        await navigate('/quotes-engine/message')
+                    }
+    
+                    attempts.value = (attempts.value + 1)
+                    stateContext.value.attempts =attempts.value
             }
         }
     })
@@ -775,7 +805,8 @@ export default component$((props:propsWompi) => {
         let error = false
         const dataForm : {[key:string]:any} = {}
         const formPSE = document.querySelector('#form-pse') as HTMLFormElement
-        isLoading.value=true;
+        contextLoading.value = {status:true, message:'Realizando el pago...'};
+
         if(!formPSE.checkValidity())
         {
             formPSE.classList.add('was-validated')
@@ -807,7 +838,7 @@ export default component$((props:propsWompi) => {
 
                 newPaxs[index].beneficios_adicionales = []
 
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     const monto=  Number(benefit.precio) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate));
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(monto.toFixed(2)),cobertura:benefit.cobertura }) 
@@ -874,12 +905,29 @@ export default component$((props:propsWompi) => {
             const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
-            if(dataPay.resultado[0].wompiIdTransaccion)
+            if(dataPay.resultado[0]?.wompiIdTransaccion)
             {
-                messageLoading.value ='Estamos procesando tu pago ...';
+                contextLoading.value = {status:true, message:'Estamos procesando tu pago ...'};
+
                 const id=dataPay?.resultado[0]?.wompiIdTransaccion?.id;
                 wompiIdTransaccion.value =id;
                 counterRequest.value= 1;
+            }
+            else{
+                contextLoading.value = {status:false, message:''};
+                if(attempts.value < 2)
+                    {
+                        stateContext.value.typeMessage = 2
+                        await navigate('/quotes-engine/message')
+                    }
+                    else
+                    {
+                        stateContext.value.typeMessage = 2
+                        await navigate('/quotes-engine/message')
+                    }
+    
+                    attempts.value = (attempts.value + 1)
+                    stateContext.value.attempts =attempts.value
             }
         } 
     }) 
@@ -905,9 +953,9 @@ export default component$((props:propsWompi) => {
                                                     {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                                 ]},
                                                 {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                    {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                 ]}
                                             ]}
                                         />

@@ -9,6 +9,7 @@
   {
       margin-top:-60px;
       min-height:550px !important;     
+      height: auto !important;
       width:100%;
       z-index:10;
       border-top-left-radius: 3px !important;
@@ -28,7 +29,8 @@
   #card-pax
   {
       margin-top:-60px;
-      min-height:550px !important;     
+      min-height:550px !important; 
+      height: auto !important;    
       width:100%;
       z-index:10;
       border-top-left-radius: 3px !important;
@@ -65,8 +67,10 @@
       z-index:10;
       margin-top: -60px;
       min-height: 680px;
+      height: auto !important;
       border-top-left-radius: 3px !important;
       border-top-right-radius: 3px !important;
+      box-shadow: 0 0 10px gray;
   }
 
   #card-right{
@@ -74,6 +78,7 @@
     min-height:500px;
     border-top-left-radius:  3px !important;
     border-bottom-left-radius: 3px !important;
+    box-shadow: 0 0 10px gray;
    }
 
  }
@@ -121,7 +126,7 @@
 }
 .divisa-plan-sub .divisa 
 {
-  font-size: 1rem !important;
+  font-size: 1.2rem !important;
 
 }
 

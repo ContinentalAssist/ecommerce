@@ -1,4 +1,4 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import { useNavigate } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
@@ -8,13 +8,12 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
+import { LoadingContext } from "~/root";
 
-export interface propsAuthorize {
-    setLoading: (loading: boolean, message:string) => void;
-}
 
-export default component$((props:propsAuthorize) => {
-    useStylesScoped$(styles)
+
+export default component$(() => {
+    useStyles$(styles)
 
     const stateContext = useContext(WEBContext)
      const navigate = useNavigate()
@@ -29,14 +28,9 @@ export default component$((props:propsAuthorize) => {
     const tdcnumber = useSignal('0000 0000 0000 0000')
     const tdcexpiration = useSignal('00/00')
     const attempts = useSignal(stateContext.value.attempts|| 0)
-    const isLoading = useSignal(false);
+    const contextLoading = useContext(LoadingContext)
 
 
-    function updateLoading(){
-        props.setLoading(isLoading.value, '')
-        
-    }
-    updateLoading()
 
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
@@ -66,7 +60,7 @@ export default component$((props:propsAuthorize) => {
             }
             
             years.value = newYears
-            isLoading.value=false
+
         }
     })
     // eslint-disable-next-line qwik/no-use-visible-task
@@ -74,13 +68,13 @@ export default component$((props:propsAuthorize) => {
         if(Object.keys(stateContext.value).length > 0)
         {
             resume.value = stateContext.value
-            isLoading.value=false
+        
         }
         else
         {
-            isLoading.value=false
             // navigate('/quotes-engine/step-1')
         }
+        contextLoading.value = {status:false, message:''}
     })
    
     
@@ -147,8 +141,8 @@ export default component$((props:propsAuthorize) => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
-
-        isLoading.value=true
+        contextLoading.value = {status:true, message:'Procesando tu pago, por favor espera un momento...'}
+       
         let error = false
         let errorInvoicing = false
         
@@ -221,7 +215,7 @@ export default component$((props:propsAuthorize) => {
                 newPaxs.push(pax)
 
                 newPaxs[index].beneficios_adicionales = []                
-                pax.beneficiosadicionales.map((benefit:any) => {
+                pax.beneficiosadicionalesSeleccionados.map((benefit:any) => {
                     newPaxs[index].beneficios_adicionales.push({id:benefit.idbeneficioadicional,
                         nombre:benefit.nombrebeneficioadicional,monto:Number(benefit.precio),cobertura:benefit.cobertura})
                 })
@@ -285,7 +279,7 @@ export default component$((props:propsAuthorize) => {
             if(resPayment.error == false)
             {
                // urlvoucher.value = resPayment.resultado;
-                isLoading.value=false;
+
 
                 (window as any)['dataLayer'].push(
                     Object.assign({
@@ -366,9 +360,9 @@ export default component$((props:propsAuthorize) => {
                                                 {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
                                             ]},
                                             {row:[
-                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                {size:'col-xl-4 col-xs-4',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                {size:'col-xl-4 col-xs-4 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                             ]}
                                         ]}
                                     />

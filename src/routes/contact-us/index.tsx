@@ -1,7 +1,7 @@
-import { $, component$, useOnWindow, useSignal, useStylesScoped$, useVisibleTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$,useContext, useTask$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
-import { Loading } from "~/components/starter/loading/Loading";
+import { LoadingContext } from "~/root";
 
 import ImgContinentalAssistDots from '~/media/icons/continental-assist-dots.png?jsx'
 import ImgContinentalAssistQrPhone from '~/media/icons/continental-assist-qr-phone.webp?jsx'
@@ -31,9 +31,10 @@ export default component$(() => {
 
     const countries = useSignal(array)
     const subjects = useSignal(array)
-    const loading = useSignal(true)
+    const contextLoading = useContext(LoadingContext)
+    
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(async() => {
+    useTask$(async() => {
         const resCountries : any[] = []
         const resSubjects : any[] = [
             {value:1,label:'Emergencia'},
@@ -42,7 +43,7 @@ export default component$(() => {
         ]
         let resSelects : {[key:string]:any} = {}
 
-        const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
+        const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET"});
         const dataDefaults = await resDefaults.json()
         resSelects = dataDefaults
 
@@ -60,11 +61,13 @@ export default component$(() => {
             countries.value = []
             subjects.value = []
         }
+        contextLoading.value = {status:false, message:''}
+
     })
 
-    useOnWindow('load',$(() => {
+   /*  useOnWindow('load',$(() => {
         loading.value = false
-    }))
+    })) */
 
     const getForm$ = $(async() => {
         const bs = (window as any)['bootstrap']
@@ -122,11 +125,7 @@ export default component$(() => {
 
     return(
         <>
-            {
-                loading.value === true
-                &&
-                <Loading/>
-            }
+           
             <div class='container-fluid'>
                 <div class='row bg-contact-us-header'>
                     <div class='col-xl-12'>

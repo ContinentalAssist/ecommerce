@@ -1,8 +1,6 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useVisibleTask$, useTask$  } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { useNavigate } from '@builder.io/qwik-city';
-import { Loading } from "~/components/starter/loading/Loading";
-import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
@@ -10,6 +8,7 @@ import { CardPaymentResume } from "~/components/starter/card-payment-resume/Card
 
 import styles from './index.css?inline'
 import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
+import { LoadingContext } from "~/root";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Resumen de compra',
@@ -39,13 +38,13 @@ export default component$(() => {
 
     const navigate = useNavigate()
 
-    const objectResume : {[key:string]:any} = {}
+    //const objectResume : {[key:string]:any} = {}
 
-    const resume = useSignal(objectResume)
+    //const resume = useSignal(objectResume)
     const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}, aplicado:false})
-    const loading = useSignal(true)
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const desktop = useSignal(false)
+    const contextLoading = useContext(LoadingContext)
 
     const array : any[] = []
     const paymentMethods = useSignal([
@@ -145,18 +144,42 @@ export default component$(() => {
 
     const removeCupon$ = $(async() => {        
         messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
-        const newResume = Object.assign({},resume.value)
+        const newResume = Object.assign({},stateContext.value)
        newResume.cupon={
         idcupon:0,
         codigocupon:'',
         porcentaje: 0
         }
-        newResume.total = {divisa:newResume.total.divisa,total:resume.value.subTotal}
+        newResume.total = {divisa:newResume.total.divisa,total:stateContext.value.subTotal}
         stateContext.value = newResume;
         const input = document.querySelector('#input-cupon') as HTMLInputElement
-        input.value = '';
+        if (input) {
+            input.value = '';
+        }
         updateHeight$();
     })
+
+
+
+    useTask$(({ track })=>{
+        const divisaBase = track(()=>divisaManual.value);  
+               
+            if(divisaBase == true &&Object.keys(stateContext.value).length > 0)
+            {
+                listPaymentMethods.value = paymentMethods.value[0].list
+            }
+            else 
+            {
+                paymentMethods.value.map((payment) => {                    
+                    if(stateContext?.value?.resGeo?.country == payment.origin)
+                    {
+                        listPaymentMethods.value = payment.list
+                    }
+                })
+            }
+        
+    })
+
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
@@ -164,24 +187,23 @@ export default component$(() => {
         {
             desktop.value = true
         }
+        contextLoading.value = {status:false, message:''}
     })
     // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(() => {        
+    useVisibleTask$(async() => {        
         if(Object.keys(stateContext.value).length > 0)
-        {                        
+        {       
+                 
             stateContext.value.cupon = messageCupon.value.cupon
             const newResume = Object.assign({},stateContext.value)            
-            resume.value = newResume
-            loading.value = false  
+            stateContext.value = newResume
+            //loading.value = false  
             removeCupon$();          
         }
-        else
-        {
-            navigate('/quotes-engine/step-1')
-        }
+       
     })
 
-    function buildMethodsButtons(){
+   /*  function buildMethodsButtons(){
 
     if (stateContext?.value?.total?.total >0) {
         if(divisaManual.value == true &&Object.keys(stateContext.value).length > 0)
@@ -201,17 +223,20 @@ export default component$(() => {
         
     }
            
-    }
+    } */
 
-    buildMethodsButtons()
-    useTask$(() => {
+
+
+    //buildMethodsButtons()
+/*     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
-            resume.value = stateContext.value    
-            loading.value = false
+            stateContext.value = stateContext.value    
+            //loading.value = false
         }
        
-    })
+    }) */
+
 
 
 
@@ -224,38 +249,41 @@ export default component$(() => {
             if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined)
             {
                 const dataRequest = {
-                    idplan:resume.value.plan.idplan,
+                    idplan:stateContext.value.plan.idplan,
                     codigocupon:input.value,
                     ip:stateContext.value.resGeo.ip_address
                 }
                 
                 let resCupon : {[key:string]:any} = {}
-                
-                loading.value = true;
+                contextLoading.value = {status:true, message:'Espere un momento...'}
+
+                //loading.value = true;
                 const resCuponValid = await fetch("/api/getCupon",{method:"POST",body:JSON.stringify(dataRequest)});
                 const dataCupon = await resCuponValid.json()
                 resCupon = dataCupon
                 if(resCupon.error == false &&Number(resCupon.resultado[0]?.porcentaje)>0 )
                 {
                     const dataCupon = Object.assign({},resCupon.resultado[0])
-                    const newResume = Object.assign({},resume.value)
-                    const discount = resume.value?.subTotal * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
-                    const newTotal = resume.value?.subTotal - discount
+                    const newResume = Object.assign({},stateContext.value)
+                    const discount = stateContext.value?.subTotal * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
+                    const newTotal = stateContext.value?.subTotal - discount
                  
                     newResume.total = {divisa:newResume.total.divisa,total:newTotal}
                     
-                    resume.value = newResume 
+                    stateContext.value = newResume 
                     dataCupon.descuento = discount;
                     messageCupon.value = {error:'success',cupon: dataCupon, aplicado: true}
                     newResume.cupon = messageCupon.value.cupon;
                     stateContext.value = newResume
+                    contextLoading.value = {status:false, message:''}
                     
                 }
                 else
                 {
+                    contextLoading.value = {status:false, message:''}
                     messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
                 }
-                loading.value = false;
+                //loading.value = false;
             }
             updateHeight$();
         }
@@ -266,7 +294,7 @@ export default component$(() => {
 
 
     const getPaymentMethod$ = $( async(method:string) => {
-        const newResume = Object.assign({},resume.value)
+        const newResume = Object.assign({},stateContext.value)
         //newResume.cupon = messageCupon.value.cupon;
         if(stateContext.value.resGeo.country == 'CO')
         {
@@ -353,23 +381,23 @@ export default component$(() => {
         {
             const planescotizados : any[] = []
 
-            resume.value.planescotizados.map((plan:any) => {
+            stateContext.value.planescotizados.map((plan:any) => {
                 planescotizados.push({idplan:plan.idplan,precio:plan.precio_grupal})
             })
 
             dataForm.cotizacion = { 
-                fecha:{desde:resume.value.desde,hasta:resume.value.hasta,dias:resume.value.dias}, 
-                origen:resume.value.origen,
-                destinos:resume.value.destinos,
-                pasajeros:resume.value.asegurados, 
-                planfamiliar:resume.value.planfamiliar, 
-                plan:{idplan:resume.value.plan.idplan,nombreplan:resume.value.plan.nombreplan,precio:resume.value.plan.precio_grupal}, 
-                total:resume.value.total.total, 
-                moneda:{codigomoneda:resume.value.total.divisa}, 
+                fecha:{desde:stateContext.value.desde,hasta:stateContext.value.hasta,dias:stateContext.value.dias}, 
+                origen:stateContext.value.origen,
+                destinos:stateContext.value.destinos,
+                pasajeros:stateContext.value.asegurados, 
+                planfamiliar:stateContext.value.planfamiliar, 
+                plan:{idplan:stateContext.value.plan.idplan,nombreplan:stateContext.value.plan.nombreplan,precio:stateContext.value.plan.precio_grupal}, 
+                total:stateContext.value.total.total, 
+                moneda:{codigomoneda:stateContext.value.total.divisa}, 
                 planescotizados:planescotizados, 
-                contacto:resume.value.contacto, 
-                edades:resume.value.edades,
-                ip_address:resume.value.resGeo.ip_address,
+                contacto:stateContext.value.contacto, 
+                edades:stateContext.value.edades,
+                ip_address:stateContext.value.resGeo.ip_address,
             }
 
             let resQuote : {[key:string]:any} = {}
@@ -405,61 +433,36 @@ export default component$(() => {
 
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-        {
-            loading.value === true
-            &&
-            <Loading/>
-        }
-
-            <div class='row not-mobile'>
-                <div class='col-12'>
-                    <div class={desktop.value == true ? 'container-fluid steps-float' : 'container'}>
-                        <div class='row'>
-                            <div class='col-12'>
-                                <div class='container'>
-                                    <div class={desktop.value == true ? 'row justify-content-end mx-0' : 'row'}>
-                                        
-                                        <div class='col-md-3  d-flex  justify-content-end'>
-                                            <QuotesEngineSteps active={3} name={'Método'} steps={5}/>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class='row mobile  text-center justify-content-center align-items-center' >
-            <hr class='m-0' />
-                <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
-                    <QuotesEngineSteps  active={3} name={'Método'} steps={5}/>
-                </div>
-
-              
-            </div>
-
             <div class='container-fluid'>
                 <div class='row bg-step-5'>
                     <div class='col-xl-12'>
                         <div class='container'>
-                            <div class='row  justify-content-center'>
-                            <div class='col-lg-10 text-center mt-5 mb-3'>
+                            <div class='row  justify-content-center mt-5'>
+                                {
+                                  stateContext?.value?.total?.total >0 ?
+                                 <div class='col-lg-10 text-center mt-5 mb-3'>
                                     <h1 class='text-semi-bold text-blue'>
-                                        <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viaje
+                                        <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viajes
                                     </h1>
                                     <hr class='divider my-3'/>
-                              </div>
-                            </div>
+                                 </div>
+                                  :
+                                  <div class='col-lg-12 text-center mt-5 mb-5'>
+                                          <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
+                                          <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
+                                  </div>
+                                }
+                            
 
+                            </div>
+                            
                             <br/>
                             <div class="row">
                                 <div class='col-lg-12 col-xl-12'>
-                                    
-                                        <CardPaymentResume>
-                                        {
+                                {
                                         stateContext?.value?.total?.total >0&&
+                                        <CardPaymentResume>
+                                        
                                         <div class='container px-2 pt-4 pb-2'>
                                                 <div class='row mb-4'>
                                                     <div class='col-lg-12'>
@@ -523,53 +526,53 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="container  not-mobile">
-                                                    <div class='row'>
-                                                        <p class=' text-semi-bold text-blue  text-end'> Selecciona método de pago </p>
-                                                                                                        
-                                                            {
-                                                                
-                                                                listPaymentMethods.value.map((payment:any,index:number) => {
-                                                                    
-                                                                    return(
-                                                                        
-                                                                    <div key={index}class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
-                                                                        <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center '  onClick$={() => {getPaymentMethod$(payment.method);}}>
-                                                                            {
-                                                                                payment.icons.length>0 
-                                                                                &&
-                                                                                payment.icons.map((icon:any,iIcon:number) => {
-                                                                                    if (payment.title == 'Crédito / Débito' && iIcon ==0) {
-                                                                                        return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
-                                                                                    }
-                                                                                    if (payment.title == 'Crédito / Débito') {
-                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
-                                                                                    } 
-                                                                                    else{
-                                                                                        return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
-                                                                                    }
-                                                                                    
-                                                                                })
-                                                                            }
-                                                                            {
-                                                                                'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                                <i class={payment.fontawesome}/>
-                                                                            }
-                                                                        </div>   
-                                                                        <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
-                                                                    </div>
 
-                                                                    )
-                                                                }) 
+                                                <div class='row not-mobile'>
+                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago </p>
+                                                                                                    
+                                                        {
+                                                            
+                                                            listPaymentMethods.value.map((payment:any,index:number) => {
                                                                 
-                                                                
-                                                            }
-                                                            { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
-                                                              <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
-                                                              <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
-                                                            }
-                                                    </div>
+                                                                return(
+                                                                    
+                                                                <div key={index}class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
+                                                                    <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center '  onClick$={() => {getPaymentMethod$(payment.method);}}>
+                                                                        {
+                                                                            payment.icons.length>0 
+                                                                            &&
+                                                                            payment.icons.map((icon:any,iIcon:number) => {
+                                                                                if (payment.title == 'Crédito / Débito' && iIcon ==0) {
+                                                                                    return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
+                                                                                }
+                                                                                if (payment.title == 'Crédito / Débito') {
+                                                                                    return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
+                                                                                } 
+                                                                                else{
+                                                                                    return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
+                                                                                }
+                                                                                
+                                                                            })
+                                                                        }
+                                                                        {
+                                                                            'fontawesome'in payment && payment.fontawesome.length>0 &&
+                                                                            <i class={payment.fontawesome}/>
+                                                                        }
+                                                                    </div>   
+                                                                    <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
+                                                                </div>
+
+                                                                )
+                                                            }) 
+                                                            
+                                                            
+                                                        }
+                                                        { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
+                                                            <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                            <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
+                                                        }
                                                 </div>
+                                              
 
                                                
 
@@ -616,13 +619,14 @@ export default component$(() => {
 
                                                 <br/>
                                                 <div class="payment">
+                                                <p class=' text-semi-bold text-blue  text-center'> Cambiar moneda de pago </p>
                                                 <SwitchDivisa
                                                 labels={['USD',stateContext.value?.currentRate?.code]}
                                                 value={contextDivisa.divisaUSD ? 'base' : 'local'}
                                                 onChange={$((e:any) => {changeDivisa$(e)})}
-                                            />
+                                                />
                                                 {
-                                                        resume.value.idcotizacion == undefined
+                                                        stateContext.value.idcotizacion == undefined
                                                         &&
                                                         <div class='col-lg-12 col-md-12 col-12 ps-3'>
                                                         <div id='buttons' class='row row-mobile mt-4 '>                                                                    
@@ -638,7 +642,7 @@ export default component$(() => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    }
+                                                }
 
                                                     <div id='form-send' class='row mt-3 d-none'>
                                                     <hr/>
@@ -661,11 +665,21 @@ export default component$(() => {
                                                 </div>
                                                 
 
-                                            </div>
-                                        }
+                                        </div>
+                                       
                                             
-                                        </CardPaymentResume>                         
+                                        </CardPaymentResume>    
+                                }                            
                                 </div>
+                                {
+                                     stateContext?.value?.total?.total >0&&
+                                     <div class='col-xl-5 col-sm-5 col-xs-12 pe-4'>
+                                        <div class='d-grid gap-2 ms-3 mt-2'>
+                                            <button type='button' class='btn btn-outline-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-2')}>Regresar</button>
+                                        </div>
+                                     </div>
+                                }
+                                
                             </div>
                             <br/>
                         </div>
