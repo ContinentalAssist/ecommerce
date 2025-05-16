@@ -579,7 +579,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     }
                 }
             }
-            //contextLoading.value = {status:false, message:''}
+            contextLoading.value = {status:false, message:''}
         })
 
     const getCancelQuotes$ = $(() => {
