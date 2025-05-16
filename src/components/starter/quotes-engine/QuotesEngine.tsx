@@ -261,7 +261,7 @@ export const QuotesEngine = component$((props:propsQE) => {
 
     const getQuotesEngine$ = $(async() => {    
             
-            contextLoading.value = {status:true, message:'Esperando respuesta...'}
+        
             const bs = (window as any)['bootstrap']
             const modal = new bs.Modal('#modalGroupPlan',{})
             const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
@@ -315,7 +315,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             if(!error.includes(true))
             {
                 //loading.value = true
-                
+                contextLoading.value = {status:true, message:'Esperando respuesta...'}
                 inputs.map((input) => {
                     
                     if ((input as HTMLInputElement).name)
