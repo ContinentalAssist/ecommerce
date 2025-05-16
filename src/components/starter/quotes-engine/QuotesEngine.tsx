@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from '@builder.io/qwik-city';
 import { Form } from "../form/Form";
 import styles from './quotes-engine.css?inline'
 import { WEBContext } from "~/root";
+import { LoadingContext } from "~/root";
 import dayjs from "dayjs";
-//import { LoadingContext } from "~/root";
 export interface propsQE {
     modeResumeStep: Signal<boolean>,
     headerStep:boolean
@@ -30,6 +30,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     const updateInputEnd = $((newMin: string, newMax: string) => {
         inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax, open:true };
       });
+    const contextLoading = useContext(LoadingContext)
 
 
     useTask$(async() => {
@@ -260,7 +261,7 @@ export const QuotesEngine = component$((props:propsQE) => {
 
     const getQuotesEngine$ = $(async() => {    
             
-            //contextLoading.value = {status:true, message:'Esperando respuesta...'}
+        
             const bs = (window as any)['bootstrap']
             const modal = new bs.Modal('#modalGroupPlan',{})
             const quotesEngine = document.querySelector('#quotes-engine') as HTMLElement
@@ -314,7 +315,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             if(!error.includes(true))
             {
                 //loading.value = true
-                
+                contextLoading.value = {status:true, message:'Esperando respuesta...'}
                 inputs.map((input) => {
                     
                     if ((input as HTMLInputElement).name)
@@ -578,7 +579,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     }
                 }
             }
-            //contextLoading.value = {status:false, message:''}
+            contextLoading.value = {status:false, message:''}
         })
 
     const getCancelQuotes$ = $(() => {

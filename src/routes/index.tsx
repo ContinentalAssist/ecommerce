@@ -40,14 +40,14 @@ import styles from './index.css?inline';
 //import dayjs from "dayjs";
 
 export const head: DocumentHead = {
-    title : 'Continental Assist <span class="qs-barra">|</span> Viaja internacionalmente con tranquilidad',
+    title : 'Continental Assist Viaja internacionalmente con tranquilidad',
     meta : [
         {name:'robots',content:'index, follow'},
-        {name:'title',content:'Continental Assist <span class="qs-barra">|</span> Viaja internacionalmente con tranquilidad'},
+        {name:'title',content:'Continental Assist Viaja internacionalmente con tranquilidad'},
         {name:'description',content:'Viaja internacionalmente con tranquilidad. Servicios de asistencia y/o seguro al viajero. Continental Assist cubre 24/7. Asistencia entre trayectos y más.'},
         {property:'og:type',content:'website'},
         {property:'og:url',content:'https://continentalassist.com'},
-        {property:'og:title',content:'Continental Assist <span class="qs-barra">|</span> Viaja internacionalmente con tranquilidad'},
+        {property:'og:title',content:'Continental Assist Viaja internacionalmente con tranquilidad'},
         {property:'og:description',content:'Viaja internacionalmente con tranquilidad. Servicios de asistencia y/o seguro al viajero. Continental Assist cubre 24/7. Asistencia entre trayectos y más.'},
         {property:'og:image',content:'https://continentalassist.com/assets/img/home/continental-assist-bg-header-1920x1080.webp'},
     ],
