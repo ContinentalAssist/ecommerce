@@ -90,7 +90,6 @@ export default component$(() => {
         }
     ])
 
-
     const openQuotesEngine$ = $((toggle:boolean) => {
         const bs = (window as any)['bootstrap']
         
@@ -250,6 +249,8 @@ export default component$(() => {
         localStorage.setItem('terms',"true")
     })
 
+    
+
 
 
 
@@ -259,12 +260,12 @@ export default component$(() => {
             <div class='home' style={{minHeight:'75vh'}}>
                 <div class='bg-home-header position-absolute' />
                 <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen'>
-                    <div id='container-quote' class='row align-content-center justify-content-center'
+                    <div id='container-quote' class='row align-content-center justify-content-center '
                          style={{minHeight: '75vh'}}>
-                        <div class='col-xl-12 text-center'>
-                            <div class="collapse " id="collapseBtnQuotesEngine">
-                                <h1 class='text-semi-bold text-blue'>
-                                    <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
+                        <div class='col-xl-12 text-center mt-5 pt-4 pb-5'>
+                            <div class="collapse" id="collapseBtnQuotesEngine">
+                                <h1 class='text-semi-bold text-blue tittle-collapse'>
+                                    <span class='text-tin mt-4'>¿Buscando un</span><br class='mobile'/> seguro o
                                     asistencia?
                                 </h1>
                                 <h2 class='h5 text-regular text-dark-gray'>Viaja internacionalmente con
@@ -276,7 +277,7 @@ export default component$(() => {
                                 }}>¡Quiero comprar!
                                 </button>
                             </div>
-                            <div class="collapse show" id="collapseQuotesEngine">
+                            <div class="collapse show mt-8" id="collapseQuotesEngine">
                                 <h1 class='text-semi-bold text-blue'>
                                     <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
                                     asistencia?
@@ -317,20 +318,18 @@ export default component$(() => {
                     <div class="qs-top">
                         <div class="qs-info">
                             <div class="qs-title">
-
-                                <h6 class="qs-title-light">¿Quiénes</h6>
-                                <h2 class="qs-title-bold">Somos?</h2>
+                                <h6 class="qs-title-light text-tin">¿Quiénes</h6>
+                                <h2 class="qs-title-bold"> Somos?</h2>
                             </div>
                             <button
                                 onClick$={() => {
                                     const el = document.getElementById('container-quote');
                                     el?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                class="qs-button">¡Asegura tu viaje ya!</button>
+                                class="btn qs-button"><span class="mt-1">¡Asegura tu viaje ya!</span></button>
 
                         </div>
                         <div class="qs-video">
-
                             <ImgcontinentalassistClippathgroup class="img-fluid-planet" />
                         </div>
                     </div>
@@ -340,33 +339,33 @@ export default component$(() => {
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">+30 Años</span> <span
                                 class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Experiencia</strong></p></div>
-                            <p class="qs-description">Amplia trayectoria en el mercado de<br/> asistencia internacional.
+                            <p class="qs-description">Amplia trayectoria en el mercado de asistencia internacional.
                             </p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">100%</span> <span
                                 class="qs-barra"><span class="qs-barra"> | </span></span><strong class="qs-metrics-titulo2">Respaldo</strong></p></div>
-                            <p class="qs-description">Somos la única compañía de asistencia<br/>en viaje que cuenta con reaseguro.</p>
+                            <p class="qs-description">Somos la única compañía de asistencia en viaje que cuenta con reaseguro.</p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">+10M</span> <span
                                 class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Confianza</strong></p></div>
-                            <p class="qs-description">Más de 10 millones de usuarios han<br/>elegido nuestros servicios. </p>
+                            <p class="qs-description">Más de 10 millones de usuarios han elegido nuestros servicios. </p>
                         </div>
                     </div>
 
 
                     <div class="qs-metrics qs-metrics-bottom">
-                        <div class="qs-metric">
+                        <div class="qs-metricz">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">24/7</span> <span
                                 class="qs-barra"> | </span><strong class="qs-metrics-titulo2" >Servicio</strong></p></div>
-                            <p class="qs-description">Operamos de manera ininterrumpida<br/>a nivel global. </p>
+                            <p class="qs-description">Operamos de manera ininterrumpida a nivel global. </p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo">
                                 <p><span class="qs-highlight">178.000</span> <span class="qs-barra"> | </span>
                                     <strong class="qs-metrics-titulo2">Red Global</strong></p></div>
-                            <p class="qs-description">Contamos con más de 178 mil proveedores listos<br/>para asistirte
+                            <p class="qs-description">Contamos con más de 178 mil proveedores listos para asistirte
                                 en cualquier parte del mundo. </p>
                         </div>
                     </div>
@@ -433,23 +432,29 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='row mobile'>
-                                        <div class='col-xl-12'>
-                                            <div id="carouselPlans" class="carousel carousel-dark slide"
-                                                 data-bs-ride="carousel" data-bs-touch="true">
+                                        <div class='col-xl-12 card-planes'>
+                                            <div id="carouselPlans" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-touch="true">
+                                   
+                                                <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselPlans" data-bs-slide="prev">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">‹</span>
+                                                    <span class="visually-hidden">Anterior</span>
+                                                </button>
+                                                <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#carouselPlans" data-bs-slide="next">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">›</span>
+                                                    <span class="visually-hidden">Siguiente</span>
+                                                </button>
+
                                                 <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselPlans"
-                                                            data-bs-slide-to="0" class="active" aria-current="true"
-                                                            aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselPlans"
-                                                            data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselPlans"
-                                                            data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                                    <button type="button" data-bs-target="#carouselPlans" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                    <button type="button" data-bs-target="#carouselPlans" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                                    <button type="button" data-bs-target="#carouselPlans" data-bs-slide-to="2" aria-label="Slide 3"></button>
                                                 </div>
+
                                                 <div class="carousel-inner  py-2">
                                                     <div class="carousel-item active">
                                                         <div class='container'>
                                                             <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
+                                                                <div class='col-sm-6 '>
                                                                     <CardPlan
                                                                         id='TotalCarousel'
                                                                         title={dataPlan.value[0]['nombreplan']}
@@ -470,7 +475,7 @@ export default component$(() => {
                                                     <div class="carousel-item">
                                                         <div class='container'>
                                                             <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
+                                                                <div class='col-sm-6 '>
                                                                     <CardPlan
                                                                         id='MaximusCarousel'
                                                                         title={dataPlan.value[1]['nombreplan']}
@@ -491,7 +496,7 @@ export default component$(() => {
                                                     <div class="carousel-item">
                                                         <div class='container'>
                                                             <div class='row justify-content-center'>
-                                                                <div class='col-sm-6'>
+                                                                <div class='col-sm-6 '>
                                                                     <CardPlan
                                                                         id='SupremeCarousel'
                                                                         title={dataPlan.value[2]['nombreplan']}
@@ -535,14 +540,14 @@ export default component$(() => {
                         <div class="qd-info">
                             <div class="qd-title">
 
-                                <h2 class="qd-title-light">Conoce algunas de
+                                <h2 class="qd-title-light text-tin">Conoce algunas de
                                 </h2>
                                 <h6 class="qd-title-bold">nuestras coberturas <br/>especiales</h6>
                             </div>
                             <button onClick$={() => {
                                 const el = document.getElementById('container-quote');
                                 el?.scrollIntoView({ behavior: 'smooth' });
-                            }} class="qd-button">¡Quiero comprar!</button>
+                            }} class="btn qd-button pb-2">¡Quiero comprar!</button>
 
                         </div>
                         <div class="qd-video">
@@ -550,13 +555,13 @@ export default component$(() => {
                             <ImgContinentalAssistPerson  loading="lazy"
                                                         title='continental-assist-pets'
                                                         alt='continental-assist-pets'/>
-                        </div>
+                        </div>                 
                     </div>
                     <div >
                         <Carousel/>
                     </div>
 
-                </div>
+                </div>             
 
 
             </section>
