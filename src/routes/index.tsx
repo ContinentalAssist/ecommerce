@@ -262,7 +262,7 @@ export default component$(() => {
                 <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen'>
                     <div id='container-quote' class='row align-content-center justify-content-center '
                          style={{minHeight: '75vh'}}>
-                        <div class='col-xl-12 text-center mt-5 pt-4 pb-5'>
+                        <div class='col-xl-12 text-center primera-seccion pt-4 pb-5'>
                             <div class="collapse" id="collapseBtnQuotesEngine">
                                 <h1 class='text-semi-bold text-blue tittle-collapse'>
                                     <span class='text-tin mt-4'>¿Buscando un</span><br class='mobile'/> seguro o
@@ -326,7 +326,7 @@ export default component$(() => {
                                     const el = document.getElementById('container-quote');
                                     el?.scrollIntoView({ behavior: 'smooth' });
                                 }}
-                                class="btn qs-button"><span class="mt-1">¡Asegura tu viaje ya!</span></button>
+                                class="btn qs-button"><span class="mt-1 pb-1">¡Asegura tu viaje ya!</span></button>
 
                         </div>
                         <div class="qs-video">
@@ -434,7 +434,7 @@ export default component$(() => {
                                     <div class='row mobile'>
                                         <div class='col-xl-12 card-planes'>
                                             <div id="carouselPlans" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-touch="true">
-                                   
+                                        
                                                 <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselPlans" data-bs-slide="prev">
                                                     <span class="custom-carousel-icon" aria-hidden="true">‹</span>
                                                     <span class="visually-hidden">Anterior</span>
@@ -968,9 +968,21 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='row mobile'>
-                                        <div class='col-xl-12'>
+                                        <div class='col-xl-12 card-planes'>
                                             <div id="carouselAdditionals" class="carousel carousel-dark slide"
                                                  data-bs-ride="carousel" data-bs-touch="true">
+
+                                                <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselAdditionals" data-bs-slide="prev">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">‹</span>
+                                                    <span class="visually-hidden">Anterior</span>
+                                                </button>
+
+                                                <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#carouselAdditionals" data-bs-slide="next">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">›</span>
+                                                    <span class="visually-hidden">Siguiente</span>
+                                                </button>
+
+
                                                 <div class="carousel-indicators">
                                                     <button type="button" data-bs-target="#carouselAdditionals"
                                                             data-bs-slide-to="0" class="active" aria-current="true"
@@ -1086,19 +1098,30 @@ export default component$(() => {
                                         </div>
                                     </div>
                                 </div>
-                                <div class='container-fluid'>
-                                    <div class='row-fluid not-mobile'>
+                                <div class="carrusel-coments mx-auto py-2">
+                                    <div class='row-fluid not-mobile mx-auto'style="width: 75%;">
                                         <div class='col-lg-12'>
-                                            <div id="carouselComments" class="carousel carousel-dark slide"
+                                            <div id="carouselCommentsNotMobile" class="carousel carousel-dark slide"
                                                  data-bs-ride="carousel" data-bs-touch="true">
+
+                                                    <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselCommentsNotMobile" data-bs-slide="prev">
+                                                        <span class="custom-carousel-icon" aria-hidden="true">‹</span>
+                                                        <span class="visually-hidden">Anterior</span>
+                                                    </button>
+
+                                                    <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#carouselCommentsNotMobile" data-bs-slide="next">
+                                                        <span class="custom-carousel-icon" aria-hidden="true">›</span>
+                                                        <span class="visually-hidden">Siguiente</span>
+                                                    </button>
+
                                                 <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsNotMobile"
                                                             data-bs-slide-to="0" class="active" aria-current="true"
                                                             aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsNotMobile"
                                                             data-bs-slide-to="1" aria-label="Slide 2"></button>
                                                 </div>
-                                                <div class="carousel-inner py-2">
+                                                <div class="carrusel-coments py-2">
                                                     <div class="carousel-item active">
                                                         <div class='container-fluid'>
                                                             <div class='row'>
@@ -1195,25 +1218,36 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='row mobile'>
-                                        <div class='col-sm-12'>
-                                            <div id="carouselComments" class="carousel carousel-dark slide"
+                                        <div class='col-sm-12 card-planes overflow-visible'>
+                                            <div id="carouselCommentsMobile" class="carousel carousel-dark slide"
                                                  data-bs-ride="carousel" data-bs-touch="true">
+
+                                                <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselCommentsMobile" data-bs-slide="prev">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">‹</span>
+                                                    <span class="visually-hidden">Anterior</span>
+                                                </button>
+
+                                                <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#carouselCommentsMobile" data-bs-slide="next">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">›</span>
+                                                    <span class="visually-hidden">Siguiente</span>
+                                                </button>
+
                                                 <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="0" class="active" aria-current="true"
                                                             aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="2" aria-label="Slide 3"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="3" aria-label="Slide 4"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="4" aria-label="Slide 5"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentsMobile"
                                                             data-bs-slide-to="5" aria-label="Slide 6"></button>
                                                 </div>
-                                                <div class="carousel-inner py-2">
+                                                <div class="carrusel-coments py-2">
                                                     <div class="carousel-item active">
                                                         <div class='container'>
                                                             <div class='row'>
@@ -1406,16 +1440,27 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='row mobile'>
-                                        <div class='col-lg-12'>
-                                            <div id="carouselComments" class="carousel carousel-dark slide"
+                                        <div class='col-lg-12 card-planes'>
+                                            <div id="carouselCommentss" class="carousel carousel-dark slide"
                                                  data-bs-ride="carousel" data-bs-touch="true">
+
+                                                <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselCommentss" data-bs-slide="prev">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">‹</span>
+                                                    <span class="visually-hidden">Anterior</span>
+                                                </button>
+
+                                                <button class="carousel-control-next custom-carousel-btn" type="button" data-bs-target="#carouselCommentss" data-bs-slide="next">
+                                                    <span class="custom-carousel-icon" aria-hidden="true">›</span>
+                                                    <span class="visually-hidden">Siguiente</span>
+                                                </button>
+
                                                 <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentss"
                                                             data-bs-slide-to="0" class="active" aria-current="true"
                                                             aria-label="Slide 1"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentss"
                                                             data-bs-slide-to="1" aria-label="Slide 2"></button>
-                                                    <button type="button" data-bs-target="#carouselComments"
+                                                    <button type="button" data-bs-target="#carouselCommentss"
                                                             data-bs-slide-to="2" aria-label="Slide 3"></button>
                                                 </div>
                                                 <div class="carousel-inner">

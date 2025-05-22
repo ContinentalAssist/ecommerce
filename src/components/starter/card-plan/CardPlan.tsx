@@ -50,7 +50,7 @@ export const CardPlan = component$((props:propsCardPlan) => {
                     <button type='button' class='btn-link text-regular text-light-blue mb-2' onClick$={() => {toggleModal$(props.id)}}>Ver más</button> 
                     <p class="card-text-footer text-bold text-dark-blue">{props.footer}</p>
                 </div>
-                <button class="btn btn-outline-primary btn-lg pb-3 text-semi-bold" disabled>{props.btnLabel}</button>
+                <button class="btn btn-outline-primary btn-lg text-semi-bold" disabled>{props.btnLabel}</button>
             </div>
             <div id={'modalBenefits'+props.id} class="modal fade">
                 <div class="modal-dialog modal-xl modal-dialog-centered">

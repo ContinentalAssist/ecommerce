@@ -84,6 +84,8 @@
 
 .card-planes{
     padding-right: 0;
+    margin-left: 3px;
+    overflow: visible;
 }
 
 /* Contenedor base */
@@ -99,8 +101,8 @@
   background-color: white;
   border: 1px solid #D1D5DB;
   border-radius: 9999px;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   font-size: 1.5rem;
   display: flex;
   align-items: center;
@@ -109,10 +111,11 @@
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   z-index: 10;
   opacity: 1;
+  overflow: visible;
 }
 
 .carousel-control-prev.custom-carousel-btn {
-  left: 0rem;
+  left: 0px;
 }
 
 .carousel-control-next.custom-carousel-btn {

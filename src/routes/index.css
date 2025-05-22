@@ -846,7 +846,7 @@
 .qs-description {
     color: #b1aeae;
     font-weight: 300;
-    max-width: 600px;
+    max-width: 380px;
     margin-right: auto;
 }
 .qs-barra{
@@ -1134,7 +1134,7 @@
 .qd-section {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    height: fit-content;
     overflow: hidden;
     padding-bottom: 40px;
     margin-bottom: 70px;
@@ -1183,7 +1183,7 @@
 .qd-content {
     position: relative;
     z-index: 10;
-    min-height: 100vh;
+    min-height: auto;
     padding: 2px 24px;
     display: flex;
     flex-direction: column;
@@ -1238,7 +1238,7 @@
     margin-bottom: 24px;
     width: 120%;
     }
-    
+
     .qd-top{
         margin-left: 80px;
     }
@@ -1382,5 +1382,8 @@
         min-height: 100vh !important;
     }
 }
-
-
+@media (max-width: 995px) {
+    .primera-seccion{
+        margin-top: 6rem !important;
+    }
+}
