@@ -316,8 +316,8 @@ export const Header = component$(() => {
                             <div class='col-xs-5' >
                             {
                                     pathNameURL.value === '/quotes-engine/step-2/'&&
-                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px',margin:'0px', minWidth:'120px'}} >
-                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'10px'}}/>
+                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}} >
+                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
                                             <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
                                             {
                                             totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
