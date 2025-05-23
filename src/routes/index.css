@@ -465,7 +465,7 @@
 .qs-bg-center {
     flex: 1;
    width: 74%;
-    background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/FondoEcommers.png") !important;
+    background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/img-bg-e-commerce.jpg") !important;
     background-size: cover; /* Se adapta al tamaño del contenedor */
     background-position: center; /* Centra la imagen */
     background-repeat: no-repeat; /* Evita que se repita */
@@ -483,7 +483,7 @@
     .qs-bg-center {
         flex: 1;
         width: 84%;
-        background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/FondoEcommers.png") !important;
+        background-image: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/img-bg-e-commerce.jpg") !important;
     }
     .qs-bg-right {
         width: 8%;
@@ -567,7 +567,7 @@
         font-size: clamp( 3.3rem, 3.8vw, 4.7rem); 
         font-weight: 100;
         letter-spacing: -0.06em;
-        color: #ffffff;
+        color: var(--ca-blue);
         line-height: 0.9;
         text-align: left;
         padding-left: 15px;
@@ -579,7 +579,7 @@
         font-size: clamp( 3.5rem, 4vw, 5.2rem); 
         font-weight: 800;
         letter-spacing: -0.02em;
-        color: #ffffff;
+        color: var(--ca-blue);
         line-height: 0.9;
         padding-bottom: 5px;
         white-space: normal;
@@ -620,7 +620,7 @@
   .qs-title-light,
   .qs-title-bold {
     font-size: 2rem;
-    color: #ffffff;
+    color: var(--ca-blue);
     white-space: nowrap;       
     margin: 0;
   }
@@ -660,6 +660,23 @@
         font-size: 1rem;
     }
 
+}
+
+@media (max-width: 1200px) {
+.qs-video {
+  max-width: 100%;
+  overflow: hidden; /* evita que la imagen se desborde */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-fluid-planet {
+  max-width: 100%; /* no más del 100% del contenedor */
+  height: auto;
+  padding:0  0px 0 0px; /* Espaciado interno lateral */
+  display: block;
+}
 }
 
 @media (min-width: 1201px) {
@@ -780,7 +797,7 @@
     }
 
     .qs-description {
-        color: #b1aeae;
+        color: var(--ca-blue);
         font-weight: 300;
         width: 100%;
         max-width: 100%;
@@ -844,7 +861,7 @@
     font-size: 1.1em;
 }
 .qs-description {
-    color: #b1aeae;
+    color: var(--ca-blue);
     font-weight: 300;
     max-width: 380px;
     margin-right: auto;
@@ -860,7 +877,7 @@
 
 .qs-metrics-titulo2{
     font-size: 130%;
-    color: #ffffff;
+    color: var(--ca-blue);
     font-weight: 900;
 
 }
@@ -1387,3 +1404,6 @@
         margin-top: 6rem !important;
     }
 }
+
+
+

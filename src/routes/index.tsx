@@ -329,8 +329,19 @@ export default component$(() => {
                                 class="btn qs-button"><span class="mt-1 pb-1">¡Asegura tu viaje ya!</span></button>
 
                         </div>
-                        <div class="qs-video">
-                            <ImgcontinentalassistClippathgroup class="img-fluid-planet" />
+                         <div class="qs-video">
+                            <video 
+                                class="img-fluid-planet" 
+                                controls 
+                                poster="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/img-Planeta-ecommerce.png"
+                            >
+                              <source
+                                class="img-fluid-planet"
+                                src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/videos/Quienes%20Somos-V03.mp4"
+                                type="video/mp4"
+                                />
+                                Tu navegador no soporta la reproducción de video.
+                            </video>
                         </div>
                     </div>
 
