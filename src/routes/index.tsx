@@ -367,7 +367,7 @@ export default component$(() => {
 
 
                     <div class="qs-metrics qs-metrics-bottom">
-                        <div class="qs-metricz">
+                        <div class="qs-metricz pt-4">
                             <div class="qs-metrics-titulo"><p><span class="qs-highlight">24/7</span> <span
                                 class="qs-barra"> | </span><strong class="qs-metrics-titulo2" >Servicio</strong></p></div>
                             <p class="qs-description">Operamos de manera ininterrumpida a nivel global. </p>
