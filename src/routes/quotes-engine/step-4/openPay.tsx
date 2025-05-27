@@ -360,17 +360,27 @@ export default component$(() => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
+        const dataFormPayment : {[key:string]:any} = {}
+
         contextLoading.value = {status:true, message:'cargando...'};
 
 
         let error = false
         let errorInvoicing = false
         await getOpenPayToken$()
-        
-        if(!form.checkValidity())
+        const inputsPayments = Array.from(form.querySelectorAll('input,select'))
+
+        inputsPayments.map((input) => {            
+            dataFormPayment[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+        })
+        const validatemonth = dataFormPayment.tdcmesexpiracion.split('').every((char:any) => char === '0');
+        const validateyear = dataFormPayment.tdcanoexpiracion.split('').every((char:any) => char === '0');
+        if(!form.checkValidity()|| validatemonth || validateyear)
         {
             form.classList.add('was-validated')
             error = true
+            contextLoading.value = {status:false, message:''}
+
         }
         else
         {
@@ -378,8 +388,8 @@ export default component$(() => {
             
             dataForm.tdctitular = tdcname.value
             dataForm.tdcnumero = tdcnumber.value.replace(/\s+/g,'')
-            dataForm.tdcmesexpiracion = Number(tdcexpiration.value.split('/')[0])
-            dataForm.tdcanoexpiracion = Number(tdcexpiration.value.split('/')[1])
+            dataForm.tdcmesexpiracion = dataFormPayment.tdcmesexpiracion
+            dataForm.tdcanoexpiracion = dataFormPayment.tdcanoexpiracion
             dataForm.tdccvv = (document.querySelector('input[name=tdccvv]') as HTMLInputElement).value
             
             error = false;
