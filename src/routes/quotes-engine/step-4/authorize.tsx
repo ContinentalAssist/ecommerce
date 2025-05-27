@@ -152,15 +152,10 @@ export default component$((props:propsAuthorize) => {
         isLoading.value=true
         let error = false
         let errorInvoicing = false
-        console.log(tdcexpiration.value);
-   
-        console.log('form',form.checkValidity());
 
         const inputsPayments = Array.from(form.querySelectorAll('input,select'))
 
-        inputsPayments.map((input) => {
-            console.log((input as HTMLInputElement).name, ' ',(input as HTMLInputElement).value);
-            
+        inputsPayments.map((input) => {            
             dataFormPayment[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
         })
         const validatemonth = dataFormPayment.tdcmesexpiracion.split('').every((char:any) => char === '0');
