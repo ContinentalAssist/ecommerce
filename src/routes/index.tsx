@@ -332,7 +332,7 @@ export default component$(() => {
                             <video 
                                 class="img-fluid-planet" 
                                 controls 
-                                poster="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/img-Planeta-ecommerce.png"
+                                poster="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/img-Cover-Video.png"
                             >
                               <source
                                 class="img-fluid-planet"
