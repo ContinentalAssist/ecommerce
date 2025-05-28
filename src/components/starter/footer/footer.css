@@ -23,18 +23,18 @@ footer img
     margin-top: 24px;
 }
 
-
-
 .title-country
 {
-    font-size: 1.25rem;
+    font-size: 1.8rem;
+    line-height: 30px;
 } 
+
 @media(max-width: 575.98px)
 {
     footer .bg-secondary p
     {
-        font-size: 12px;
-        margin-bottom: 60px;
+        font-size: 8px;
+        margin-bottom: 30px;
     }
 
 }

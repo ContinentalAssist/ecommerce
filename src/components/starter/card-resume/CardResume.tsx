@@ -24,7 +24,7 @@ export const CardResume = component$((props:propsCardResume) => {
                     {
                         props.description
                         &&
-                        <p class="card-text text-dark-gray mt-3">{props.description}</p>
+                        <p class="card-text text-dark-gray">{props.description}</p>
                     }
                 </div>
             </div>

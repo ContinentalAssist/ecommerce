@@ -195,7 +195,7 @@ export const Header = component$(() => {
     return (
         <header class={location.url.pathname.includes('quotes-engine')&&stateContext.value.isMobile===true?'header-step-content':''}>
             <nav class={pathNameURL.value === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
-                <div class={"container pt-2 pb-2"}>
+                <div class={"container pt-2 pb-2 contenedor-header-1"}>
                     <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
                         <i class="fas fa-bars"></i>
                     </button>
@@ -261,14 +261,14 @@ export const Header = component$(() => {
                           
                           {
                             pathNameURL.value === '/quotes-engine/step-2/'&&
-                            <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px',margin:'0px', minWidth:'120px'}} >
-                                    <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'10px'}}/>
+                            <div class='icons mx-0' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0 9px 9px',margin:'0px', minWidth:'120px'}} >
+                                    <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
                                     <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
                                     {
                                     totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
                                     }
                                     </span>
-                                </div>
+                            </div>
                           }
                                 
                            {
@@ -289,9 +289,13 @@ export const Header = component$(() => {
                     
                    
                 </div> 
+                
+            </nav> 
+               <div class="info-quote-wrapper">
+            <div class="info-quote">
                 {
                     pathNameURL.value != '/'&& pathNameURL.value.includes('quotes-engine') &&pathNameURL.value != '/quotes-engine/message/'&&
-                    <div class={"container pt-4 pb-2"}>
+                    <div class={"container pb-2 contenedor-resumen"}>
                   
                     <QuotesEngine   modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                        
@@ -312,8 +316,8 @@ export const Header = component$(() => {
                             <div class='col-xs-5' >
                             {
                                     pathNameURL.value === '/quotes-engine/step-2/'&&
-                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px',margin:'0px', minWidth:'120px'}} >
-                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'10px'}}/>
+                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}} >
+                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
                                             <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
                                             {
                                             totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
@@ -338,10 +342,9 @@ export const Header = component$(() => {
                             </div>
                         </div>
                     </div>
-                    }
-              
-                          
-            </nav>
+                } 
+            </div>
+            </div>
         </header>
     );
 });

@@ -10,7 +10,7 @@ export const CardComment = component$((props:propsCardComment) => {
     
     return(
         <div class='card'>
-            <div class='card-body'>
+            <div class='card-body card-header-comment'>
                 <div class="row">
                     <div class="col-6">
                     <h4 class='text-dark-gray'>{props.title}</h4>
@@ -19,8 +19,7 @@ export const CardComment = component$((props:propsCardComment) => {
                     <Slot/>
                     </div>
                 </div>
-                
-                <h5 class='text-bold text-dark-blue mb-4'>{props.subTitle}</h5>
+                <h5 class='text-bold text-dark-blue mb-2'>{props.subTitle}</h5>
                 <p class='card-text'>
                     <i class="fas fa-quote-left"></i>
                         <span class='ms-2'>{props.description}</span>

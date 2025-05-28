@@ -102,6 +102,17 @@ span#header-step-currency .divisa
     font-size: 0.875rem !important;
 }
 
+@media screen and (max-width: 1300px) {
+    .contenedor-header-1{
+        padding-top: 30px !important;
+    }
+}
+
+.contenedor-resumen{
+    padding-top: 6rem;
+}
+
+
 @media (max-width: 575.98px)
 {
     header nav #btn-quotes-header
@@ -124,7 +135,7 @@ span#header-step-currency .divisa
     }
     
     .header-step-content{
-        margin-bottom: 350px !important;
+        
     }
 }
 

@@ -90,6 +90,12 @@ section
     font-family: GalanoGrotesque !important;
     font-display: swap;
 }
+.text-regular-1{
+    font-family: GalanoGrotesque !important;
+    font-display: swap;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
 
 .text-tin
 {
