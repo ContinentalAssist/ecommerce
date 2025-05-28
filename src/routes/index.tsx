@@ -33,7 +33,6 @@ import ImgContinentalAssistStick from '~/media/icons/continental-assist-stick.we
 import ImgContinentalAssistAttendance from '~/media/icons/continental-assist-attendance.webp?jsx'
 import ImgContinentalAssistContact from '~/media/icons/continental-assist-contact.webp?jsx'
 import ImgContinentalAssistClock from '~/media/icons/BlueCyren-Ecommerce-relog.webp?jsx'
-import ImgcontinentalassistClippathgroup from '~/media/home/continental-assist-Clip-path-group_1_-1.webp?jsx'
 import { LoadingContext } from "~/root";
 
 import styles from './index.css?inline';
@@ -348,34 +347,34 @@ export default component$(() => {
 
                     <div class="qs-metrics qs-metrics-top">
                         <div class="qs-metric">
-                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">+30 Años</span> <span
-                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Experiencia</strong></p></div>
+                            <div class="qs-metrics-titulo"><p><span class="h3 text-bold text-blue">+30 Años</span> <span
+                                class="qs-barra"> | </span><strong class="h3 text-bold text-blue">Experiencia</strong></p></div>
                             <p class="qs-description">Amplia trayectoria en el mercado de asistencia internacional.
                             </p>
                         </div>
                         <div class="qs-metric">
-                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">100%</span> <span
-                                class="qs-barra"><span class="qs-barra"> | </span></span><strong class="qs-metrics-titulo2">Respaldo</strong></p></div>
+                            <div class="qs-metrics-titulo"><p><span class="h3 text-bold text-blue">100%</span> <span
+                                class="qs-barra"><span class="qs-barra"> | </span></span><strong class="h3 text-bold text-blue">Respaldo</strong></p></div>
                             <p class="qs-description">Somos la única compañía de asistencia en viaje que cuenta con reaseguro.</p>
                         </div>
                         <div class="qs-metric">
-                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">+10M</span> <span
-                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2">Confianza</strong></p></div>
+                            <div class="qs-metrics-titulo"><p><span class="h3 text-bold text-blue">+10M</span> <span
+                                class="qs-barra"> | </span><strong class="h3 text-bold text-blue">Confianza</strong></p></div>
                             <p class="qs-description">Más de 10 millones de usuarios han elegido nuestros servicios. </p>
                         </div>
                     </div>
 
 
                     <div class="qs-metrics qs-metrics-bottom">
-                        <div class="qs-metricz pt-4">
-                            <div class="qs-metrics-titulo"><p><span class="qs-highlight">24/7</span> <span
-                                class="qs-barra"> | </span><strong class="qs-metrics-titulo2" >Servicio</strong></p></div>
-                            <p class="qs-description">Operamos de manera ininterrumpida a nivel global. </p>
+                        <div class="qs-metricz pt-3">
+                            <div class="qs-metrics-titulo"><p><span class="h3 text-bold text-blue">24/7</span> <span
+                                class="qs-barra"> | </span><strong class="h3 text-bold text-blue" >Servicio</strong></p></div>
+                            <p class="qs-description">Operamos de manera ininterrumpida <br/> a nivel global. </p>
                         </div>
                         <div class="qs-metric">
                             <div class="qs-metrics-titulo">
-                                <p><span class="qs-highlight">178.000</span> <span class="qs-barra"> | </span>
-                                    <strong class="qs-metrics-titulo2">Red Global</strong></p></div>
+                                <p><span class="h3 text-bold text-blue">178.000</span> <span class="qs-barra"> | </span>
+                                    <strong class="h3 text-bold text-blue">Red Global</strong></p></div>
                             <p class="qs-description">Contamos con más de 178 mil proveedores listos para asistirte
                                 en cualquier parte del mundo. </p>
                         </div>
