@@ -16,11 +16,12 @@ export const InputSelect = component$((props:propInputSelect) => {
     const options = useSignal(array)
     const prevOptions = useSignal(array)
     //const readOnly = useSignal(false)
-
-    useTask$(() => {
-        prevOptions.value = props.options
-        options.value = props.options      
-    })
+     useTask$(({ track })=>{
+        const value = track(()=>props.options);   
+        prevOptions.value = value
+        options.value = value    
+     })
+ 
 
     const getOptions$ = $((value:any) => {
         const arrayObjects= [...props.options]        

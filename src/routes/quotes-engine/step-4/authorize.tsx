@@ -9,6 +9,8 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 import { LoadingContext } from "~/root";
+import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
+import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX";
 
 
 
@@ -142,6 +144,7 @@ export default component$(() => {
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
         const dataFormPayment : {[key:string]:any} = {}
+        const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
 
         contextLoading.value = {status:true, message:'Procesando tu pago, por favor espera un momento...'}
 
@@ -217,7 +220,7 @@ export default component$(() => {
             }
         }
 
-        if(error == false)
+        if(error == false && errorInvoicing === false)
         {
            // loading.value = true
 
@@ -277,6 +280,31 @@ export default component$(() => {
             
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
+                dataFormInvoicing.tipoPersona = radioTypePerson.value;
+                dataFormInvoicing.origenFactura = stateContext.value.country;
+                if (stateContext.value.country == 'CO') 
+                {
+                    const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+                    const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
+                    const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                    dataFormInvoicing.codigociudad = codigoCiudad;
+                    dataFormInvoicing.idestado = Number(inputState.dataset?.value);
+                    dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
+                    dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
+
+                    
+                }
+                else if (stateContext.value.country === 'MX')
+                {
+                    const inputState = document.querySelector('#form-invoicing-select-3-0') as HTMLInputElement
+                    const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
+                    const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+
+                    dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
+                    dataFormInvoicing.idestado = Number(inputState.dataset?.value);
+                    dataFormInvoicing.codigociudad = codigoCiudad;
+                    dataFormInvoicing.codigoverificacion ='';
+                }
                 dataRequest.facturacion = dataFormInvoicing
             }
 
@@ -391,39 +419,18 @@ export default component$(() => {
                                         </div>
                                     </div>
                                     <div class='d-none' id='invoice'>
-                                        <Form
-                                            id='form-invoicing'
-                                            form={[
-                                                {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
-                                                        {value:'RFC',label:'RFC'},
-                                                        {value:'CC',label:'CC'},
-                                                        {value:'PASAPORTE',label:'Pasaporte'},
-                                                        {value:'NIT',label:'NIT'}
-                                                    ]},
-                                                    {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
-                                                    
-                                                    {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
-                                                ]}
-                                            ]}
-                                        />
+                                        { 
+                                            stateContext.value.country == 'MX' && <InvoiceFormMX/>
+                                            || 
+                                            stateContext.value.country == 'CO' && <InvoiceFormCO/>
+                                        }
                                     </div>
                                     <div class='container'>
                                         <div class='row justify-content-center'>
                                             <div class='col-lg-6'>
-                                                    <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                        
-                                                    </div>
+                                                <div class='d-grid gap-2 mt-4'>
+                                                    <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>                                                        
+                                                </div>
                                             </div>
 
                                             <div class='col-lg-6'>

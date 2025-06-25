@@ -318,6 +318,7 @@ export const InputNumber = (props:propsInputNumber) => {
                         placeholder={props.placeholder}
                         data-textonly={props.textOnly}
                         onKeyUp$={e=>validateKeyUp$(e.target)}
+                        disabled={props.disabled}
                         {...dataAttributes}
                     />
                     <label 
@@ -349,21 +350,16 @@ export const Form = component$((props:propsForm) => {
 
     const form = useSignal(forms)
 
-   /*  function changeProps() {
-        form.value = props.form
-    }
-    changeProps() */
+
     useTask$(({ track })=>{
-        const value = track(()=>props.form);        
+        const value = track(()=>props.form);   
+      
         if (value) 
         {
             form.value = value
         }
     })
- /*    // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(() => {
-        form.value = props.form        
-    }) */
+
 
 
 

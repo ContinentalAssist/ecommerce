@@ -73,19 +73,37 @@ export default component$(() => {
         .then((response) => {
             return(response.json())
         })
-        
+        /* const geoData ={
+              ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
+              country: "CO"
+          } */ 
        
     resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
     
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate",
           {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
         const data =await response.json();
+        const resState : any[] = [];
         if (!data.error) {
+
+          if(geoData.country == 'CO' || geoData.country == 'MX')
+          {
+             const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getStateMXCO",
+                  {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+                  const listadoDepartamento =await response.json();
+                  
+                  if (listadoDepartamento && listadoDepartamento.resultado[0]  && listadoDepartamento.resultado[0].departamentos &&Array.isArray(listadoDepartamento.resultado[0].departamentos)) {
+                      listadoDepartamento.resultado[0].departamentos.map((departamentos:any) => {
+                          resState.push({value:departamentos.idestado,label:departamentos.nombredepartamento})
+                      })
+              
+                  }  
+          }
           switch (geoData.country) 
           {
-              case 'CO':
+              case 'CO':                
                   convertionRate = data.resultado[0]?.valor
-                  currency = 'COP'
+                  currency = 'COP'                        
                   break;
               case 'MX':
                   convertionRate = data.resultado[0]?.valor
@@ -95,7 +113,7 @@ export default component$(() => {
                   convertionRate = 1
                   currency = 'USD'
           }
-          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate} }
+          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate},country:geoData.country, listadoDepartamentos:resState, listadociudades:[] }
 
         }
        
