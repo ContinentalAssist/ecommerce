@@ -1,5 +1,4 @@
 import { $, component$, useContext, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import { useNavigate } from "@builder.io/qwik-city";
 import { WEBContext } from "~/root";
 
 

@@ -87,7 +87,6 @@ export const Header = component$(() => {
     useTask$(({ track })=>{
             const value = track(()=>stateContext.value.country);   
              country.value = value;
-            console.log(value);
             
     })
 

@@ -303,7 +303,9 @@ export default component$(() => {
                     dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                     dataFormInvoicing.idestado = Number(inputState.dataset?.value);
                     dataFormInvoicing.codigociudad = codigoCiudad;
-                    dataFormInvoicing.codigoverificacion ='';
+                    dataFormInvoicing.codigoverificacion =0;
+                    dataFormInvoicing.tipoid ='RFC';
+                    
                 }
                 dataRequest.facturacion = dataFormInvoicing
             }

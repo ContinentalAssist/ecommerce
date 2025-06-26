@@ -1,24 +1,17 @@
-import { $, component$,  useStylesScoped$,useSignal,useContext} from "@builder.io/qwik";
+import { $, component$,useSignal,useContext} from "@builder.io/qwik";
 //import styles from './card-plan.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
 
-export interface propsCardPlan {
-    [key:string]:any,
-}
 
-export const InvoiceFormMX = component$((props:propsCardPlan) => {
+export const InvoiceFormMX = component$(() => {
    // useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const typePersonInvoice = useSignal('RS');
     const hideInputInvoiceRS= useSignal(true);
-    const disableVerificationCode= useSignal(true);
-    const formDefault = useSignal()
     const array : any[] = []
     const listadoCiudades = useSignal(array)
-    const idestado = useSignal(0)
-    const idciudad = useSignal(0)
     const contextLoading = useContext(LoadingContext)
     
     const changeTypePerson$ = $((person:string) => {
@@ -41,11 +34,9 @@ export const InvoiceFormMX = component$((props:propsCardPlan) => {
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",
                     {method:"POST",body:JSON.stringify({idestado:Number(value),codigopais:stateContext.value.country})});
                     const listadociudad =await response.json();
-                var ciudadesDefault = [];
-                const resCity : any[] = [];
+                    const resCity : any[] = [];
 
                     if (listadociudad && listadociudad.resultado[0]  && listadociudad.resultado[0].ciudades &&Array.isArray(listadociudad.resultado[0].ciudades)) {
-                    ciudadesDefault = listadociudad.resultado[0]
                         listadociudad.resultado[0].ciudades.map((ciudades:any) => {
                             resCity.push({value:ciudades.idciudad,label:ciudades.nombreciudad,codigociudad:ciudades.codigociudad})
                         })

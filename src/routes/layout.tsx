@@ -1,4 +1,4 @@
-import { $, component$, Slot,  useStyles$ ,useContext, useTask$} from '@builder.io/qwik';
+import { $, component$, Slot,  useStyles$ ,useContext} from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { RequestHandler } from '@builder.io/qwik-city';
 import { Header } from '~/components/starter/header/Header';
@@ -46,12 +46,6 @@ export default component$(() => {
         const stateContext = useContext(WEBContext)
 
 
-
-    useTask$(({ track })=>{
-                const value = track(()=>contextLoading.value.status);   
-                console.log("status",value);
-                
-    })
     
     //const showChat = useSignal(false);
 
