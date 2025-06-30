@@ -299,12 +299,17 @@ export default component$(() => {
                     const inputState = document.querySelector('#form-invoicing-select-3-0') as HTMLInputElement
                     const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
                     const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                    const inputTaxRegime = document.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
+                    const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
 
                     dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                     dataFormInvoicing.idestado = Number(inputState.dataset?.value);
                     dataFormInvoicing.codigociudad = codigoCiudad;
                     dataFormInvoicing.codigoverificacion =0;
                     dataFormInvoicing.tipoid ='RFC';
+                    dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
+                    dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
+                    dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
                     
                 }
                 dataRequest.facturacion = dataFormInvoicing

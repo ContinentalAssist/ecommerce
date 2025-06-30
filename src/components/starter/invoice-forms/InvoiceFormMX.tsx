@@ -1,4 +1,4 @@
-import { $, component$,useSignal,useContext} from "@builder.io/qwik";
+import { $, component$,useSignal,useContext, useTask$, useVisibleTask$} from "@builder.io/qwik";
 //import styles from './card-plan.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
@@ -12,7 +12,29 @@ export const InvoiceFormMX = component$(() => {
     const hideInputInvoiceRS= useSignal(true);
     const array : any[] = []
     const listadoCiudades = useSignal(array)
+    const listadoRegimenesSat = useSignal(array)
     const contextLoading = useContext(LoadingContext)
+
+
+
+    useTask$(async()=>{
+        let res : {[key:string]:any[]} = {}
+        const resTaxRegime : any[] = []
+        const taxRegime = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getTaxRegime",{method:"POST"});
+        const dataDefaults = await taxRegime.json()
+        res = dataDefaults.resultado[0]
+        if (res && res.regimenfiscal) 
+        {
+            res.regimenfiscal.map((regimen) => {
+                resTaxRegime.push({value:regimen.idregimenfiscal,label:`${regimen.clave} - ${regimen.regimenfiscal}`,clave:regimen.clave, usocfdi:regimen.usocfdi})
+            })
+            listadoRegimenesSat.value = resTaxRegime;
+        }
+        stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
+    })
+
+
+
     
     const changeTypePerson$ = $((person:string) => {
         
@@ -55,7 +77,8 @@ export const InvoiceFormMX = component$(() => {
         const inputCorreo = formInvoicing.querySelector('input[name="correo"]') as HTMLInputElement;
         const inputDireccion = formInvoicing.querySelector('input[name="direccion"]') as HTMLInputElement;
         const inputCodigoPostal = formInvoicing.querySelector('input[name="codigopostal"]') as HTMLInputElement;
-        const inputTelefono = formInvoicing.querySelector('input[name="telefono"]') as HTMLInputElement;
+        const inputTelefono = formInvoicing.querySelector('input[name="telefono"]') as HTMLInputElement;   
+        const selectRegimenFiscal = formInvoicing.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
         const selectEstado = formInvoicing.querySelector('#form-invoicing-select-3-0') as HTMLSelectElement;
         const selectCiudad = formInvoicing.querySelector('#form-invoicing-select-3-1') as HTMLSelectElement;
         contextLoading.value = {status:true, message:''}
@@ -82,7 +105,9 @@ export const InvoiceFormMX = component$(() => {
             selectEstado.value = data.resultado[0].nombreestado; 
             selectCiudad.value = data.resultado[0].nombreciudad;
             selectEstado.dataset.value =data.resultado[0].idestado;
-            selectCiudad.dataset.value=data.resultado[0].idciudad;            
+            selectCiudad.dataset.value=data.resultado[0].idciudad; 
+            selectRegimenFiscal.dataset.value=data.resultado[0].idregimenfiscal;   
+            selectRegimenFiscal.value=data.resultado[0].clave +" - "+data.resultado[0].regimenfiscal;         
             contextLoading.value = {status:false, message:''}
         }
         else
@@ -136,7 +161,10 @@ export const InvoiceFormMX = component$(() => {
                         form={[
                             
                             {row:[                                                            
-                                {size:'col-xl-12 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},                            
+                                {size:'col-xl-6 col-xs-6',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-6',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},                      
+                          
                             ]},                                                                                
                             
                             {row:[                                                            
@@ -171,7 +199,9 @@ export const InvoiceFormMX = component$(() => {
                         id='form-invoicing'
                         form={[
                             {row:[                                                            
-                                {size:'col-xl-12 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true},                            
+                                {size:'col-xl-6 col-xs-6',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-6',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},                      
                                 ]},
                             {row:[
                                 {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true},

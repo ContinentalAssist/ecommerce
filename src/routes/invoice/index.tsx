@@ -73,18 +73,24 @@ export default component$(() =>{
             {
             const inputState = document.querySelector('#form-invoicing-select-3-0') as HTMLInputElement
             const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
+            const inputTaxRegime = document.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
+                
             const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
-
+            const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
             dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
             dataFormInvoicing.idestado = Number(inputState.dataset?.value);
             dataFormInvoicing.codigociudad = codigoCiudad;
-            dataFormInvoicing.codigoverificacion ='';
+            dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
+            dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
+            dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
+            dataFormInvoicing.tipoid ='RFC';
+            
             }
             dataFormInvoicing.tipoPersona = radioTypePerson.value;
             dataFormInvoicing.origenFactura = country.value;
             dataFormInvoicing.codigovoucher = codvoucher;
         }
-
+        
         if(errorInvoicing == false )
         {        
 
