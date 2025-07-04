@@ -79,48 +79,13 @@ export const QuotesEngine = component$((props:propsQE) => {
     const changeOrigin$ = $((e:any) => {        
         const form = document.querySelector('#form-step-1-0') as HTMLFormElement
         const inputOrigin = form.querySelector('#form-step-1-0-select-0-0') as HTMLInputElement
-        const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
-        const listDestinations = form.querySelector('#dropdown-form-step-1-0-select-0-1') as HTMLInputElement
-        const list = Array.from(listDestinations.querySelectorAll('li'))
-        new MouseEvent('click', {
-            bubbles: true, // Whether the event should bubble up through the DOM
-            cancelable: true, // Whether the event's propagation can be canceled
-            view: window // The Window object to associate with the event
-        });
-        const bs = (window as any)['bootstrap']
-        const dropdownOrigin = bs.Dropdown.getInstance('#dropdown-toggle-'+inputOrigin.id,{})
-        if (dropdownOrigin != null) {
-            dropdownOrigin.hide()
-        }
-       
 
-        list.map((item) => {
-            if(item.value === Number(e.value) && e.value !== 11)
-            {
-                item.style.display = 'none';
-            }
-            else
-            {
-                item.style.display = 'inherit';
-            }
-        })
-        //const form = document.querySelector('#form-step-1-0') as HTMLFormElement
-        //const inputDestinations = form.querySelector('#form-step-1-0-select-0-1') as HTMLInputElement
-        if (inputDestinations) {
-            setTimeout(() => {
-              /*   inputDestinations.dispatchEvent(clickEvent)
-                inputDestinations.focus(); */
-            }, 200);
-        
-        }
-    /*     const dropdownDestinations = new bs.Dropdown('#dropdown-toggle-'+inputDestinations.id,{})
-        dropdownDestinations.show() */
         if (stateContext.value.isMobile == true &&modeResumeStep.value=== false) {
             const formPrev = document.querySelector('#form-step-prev-1-0') as HTMLFormElement
             const inputPrevOrigin = formPrev.querySelector('#form-step-prev-1-0-input-0-0') as HTMLInputElement
             inputPrevOrigin.value = e.label;
         }
-                
+        
     })
 
     const changeDateStart$ = $((value:any) => {
@@ -224,8 +189,8 @@ export const QuotesEngine = component$((props:propsQE) => {
     const changeDestinations$=$((e:any)=>{
         if (stateContext.value.isMobile) {
             const formPrev = document.querySelector('#form-step-prev-1-0') as HTMLFormElement
-            const inputPrevOrigin = formPrev.querySelector('#form-step-prev-1-0-input-0-1') as HTMLInputElement
-            inputPrevOrigin.value = e.label.join(",");
+            const inputPrevDestination = formPrev.querySelector('#form-step-prev-1-0-input-0-1') as HTMLInputElement
+            inputPrevDestination.value = e.label.join(",");
         }        
     })
 
@@ -315,9 +280,12 @@ export const QuotesEngine = component$((props:propsQE) => {
             if(!error.includes(true))
             {
                 //loading.value = true
+                console.log(inputs)
                 contextLoading.value = {status:true, message:'Esperando respuesta...'}
                 inputs.map((input) => {
                     
+
+                    console.log((input as HTMLInputElement).name,(input as HTMLInputElement).value)
                     if ((input as HTMLInputElement).name)
                     {
                         newDataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
@@ -341,12 +309,19 @@ export const QuotesEngine = component$((props:propsQE) => {
                         }
                     }
                 })
-    
 
                 
-                newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
-                
 
+        
+                
+                const desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
+                const hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
+
+                console.log(hasta, desde);
+                
+                newDataForm.dias = dayjs(newDataForm.hasta).diff(dayjs(newDataForm.desde), 'day') + 1;
+                
+                console.log(newDataForm);
                 
                 origins.value.map(origin => {
                     if(origin.value == newDataForm.origen)
@@ -368,8 +343,8 @@ export const QuotesEngine = component$((props:propsQE) => {
                 // newDataForm.destinos = newDataForm.destinos;
     
     
-                newDataForm.desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
-                newDataForm.hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
+                //newDataForm.desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
+                //newDataForm.hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
                 (window as any)['dataLayer'].push({
                     'event': 'TrackEventGA4',
                     'category': 'Flujo asistencia',
@@ -700,237 +675,204 @@ export const QuotesEngine = component$((props:propsQE) => {
                 </Fragment>
                 :
                 <div class='row'>
-                    {
-                    stateContext.value.isMobile == false&&
-                    <>
-                        <div class='col-lg-5'>
-                            <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h3>
-                            <Form
-                                id='form-step-1-0'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'select',
-                                            label:'Origen',
-                                            name:'origen',
-                                            options:origins.value,
-                                            required:true,
-                                            onChange:$((e:any) => {changeOrigin$(e)}),
-                                            icon:'plane-departure',
-                                            value: resume?.value?.origen,
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'select-multiple',
-                                            label:'Destino(s)',
-                                            name:'destinos',
-                                            options:destinations.value,
-                                            required:true,
-                                            icon:'plane-arrival',
-                                            value: resume.value.destinos,
-                                        }
+                    {!stateContext.value.isMobile && (
+                        <>
+                            <div class='col-lg-5'>
+                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h3>
+                                <Form
+                                    id='form-step-1-0'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                type:'select',
+                                                label:'Origen',
+                                                name:'origen',
+                                                options:origins.value,
+                                                required:true,
+                                                onChange:$((e:any) => {changeOrigin$(e)}),
+                                                icon:'plane-departure',
+                                                value: resume?.value?.origen,
+                                            },
+                                            {
+                                                size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                type:'select-multiple',
+                                                label:'Destino(s)',
+                                                name:'destinos',
+                                                options:destinations.value,
+                                                required:true,
+                                                icon:'plane-arrival',
+                                                value: resume.value.destinos,
+                                            }
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-4'>
-                            <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h3>
-                            <Form
-                                id='form-step-1-1'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'date',
-                                            label:'Desde',
-                                            name:'desde',
-                                            min: inputStart.value.min,
-                                            onChange:$((e:any) => {changeDateStart$(e)}),
-                                            required:true,
-                                            icon:'calendar',
-                                            value: resume.value.desde,
-                                            onFocus:$(() => {closeInputDestination$()}),
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'date',
-                                            label:'Hasta',
-                                            name:'hasta',
-                                            min: inputEnd.value.min,
-                                            max: inputEnd.value.max,
-                                            onChange:changeDateEnd$,
-                                            required:true,
-                                            icon:'calendar',
-                                            value: resume.value.hasta,
-                                            onFocus:$(() => {closeInputDestination$()}),
-                                        }
+                                />
+                            </div>
+                            <div class='col-lg-4'>
+                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h3>
+                                <Form
+                                    id='form-step-1-1'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-12',
+                                                type:'date-range',
+                                                label:'Rango de fechas',
+                                                name:'rango-fechas',
+                                                min: inputStart.value.min,
+                                                max: inputEnd.value.max,
+                                                onChange: $((e:any) => {changeDateStart$(e)}),
+                                                required: true,
+                                                icon: 'calendar',
+                                                value: resume.value.rangoFechas,
+                                                onFocus: $(() => {closeInputDestination$()}),
+                                            }
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-3'>
-                            <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h3>
-                            <Form
-                                id='form-step-1-2'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-12',
-                                            type:'paxs',
-                                            name:'pasajeros',
-                                            required:true,
-                                            icon:'user-plus',
-                                            value:{[23]:stateContext.value[23]||0,[75]:stateContext.value[75]||0,[85]:stateContext.value[85]||0},
-                                        }
+                                />
+                            </div>
+                            <div class='col-lg-3'>
+                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h3>
+                                <Form
+                                    id='form-step-1-2'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-12',
+                                                type:'paxs',
+                                                name:'pasajeros',
+                                                required:true,
+                                                icon:'user-plus',
+                                                value:{[23]:stateContext.value[23]||0,[75]:stateContext.value[75]||0,[85]:stateContext.value[85]||0},
+                                            }
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
-                                {
-                                      location.url.pathname != '/'&&
-                                      location.url.pathname != '/quotes-engine/step-1/'&&
-                                      <div class='col-lg-6'>
-                                      <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
-                                      <Form
-                                          id='form-step-1-3'
-                                          form={[
-                                              {row:[
-                                                  {
-                                                      size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                                      type:'select',
-                                                      label:'Plan',
-                                                      name:'planseleccionado',
-                                                      options:planSelect.value,
-                                                      required:true,
-                                                      onChange:$((e:any) => {changePlan$(e)}),
-                                                      icon:'fa-solid fa-clipboard-check',
-                                                      value: stateContext.value?.plan?.idplan,
-                                                   }
-                                              ]}
-                                          ]}
-                                      />
-                                  </div>
-                                }
-                       
-                    </>
-                    }
+                                />
+                            </div>
+                            {location.url.pathname != '/' &&
+                             location.url.pathname != '/quotes-engine/step-1/' && (
+                                <div class='col-lg-6'>
+                                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
+                                    <Form
+                                        id='form-step-1-3'
+                                        form={[
+                                            {row:[
+                                                {
+                                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                    type:'select',
+                                                    label:'Plan',
+                                                    name:'planseleccionado',
+                                                    options:planSelect.value,
+                                                    required:true,
+                                                    onChange:$((e:any) => {changePlan$(e)}),
+                                                    icon:'fa-solid fa-clipboard-check',
+                                                    value: stateContext.value?.plan?.idplan,
+                                                }
+                                            ]}
+                                        ]}
+                                    />
+                                </div>
+                            )}
+                        </>
+                    )}
 
-                    {
-                    stateContext.value.isMobile == true&&
-                    <>
-                        <div class='col-lg-4'>
-                            <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿A dónde viajas?</h3>
-                            <Form
-                                id='form-step-prev-1-0'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'text',
-                                            label:'Origen',
-                                            placeholder:'Origen',
-                                            name:'origenprev',
-                                            onClick:onClickInput$,
-                                            icon:'plane-departure',
-                                            required:true,
-                                            value:resume.value.origenprev,
-                                            readOnly:true,
-                                        
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'text',
-                                            label:'Destino(s)',
-                                            placeholder:'Destino(s)',
-                                            name:'destinosprev',                                 
-                                            onClick:onClickInput$,
-                                            required:true,
-                                            icon:'plane-arrival',
-                                            value:resume.value?.destinosprev
-                                        }
+                    {stateContext.value.isMobile && (
+                        <>
+                            <div class='col-lg-4'>
+                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿A dónde viajas?</h3>
+                                <Form
+                                    id='form-step-prev-1-0'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                type:'text',
+                                                label:'Origen',
+                                                placeholder:'Origen',
+                                                name:'origenprev',
+                                                onClick:onClickInput$,
+                                                icon:'plane-departure',
+                                                required:true,
+                                                value:resume.value.origenprev,
+                                                readOnly:true,
+                                            },
+                                            {
+                                                size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                type:'text',
+                                                label:'Destino(s)',
+                                                placeholder:'Destino(s)',
+                                                name:'destinosprev',                                 
+                                                onClick:onClickInput$,
+                                                required:true,
+                                                icon:'plane-arrival',
+                                                value:resume.value?.destinosprev
+                                            }
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-5'>
-                            <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuándo viajas?</h3>
-                            <Form
-                                id='form-step-prev-1-1'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'date',
-                                            label:'Desde',
-                                            placeholder:'Desde',
-                                            name:'desde',
-                                            required:true,
-                                            icon:'calendar',
-                                            min: inputStart.value.min,
-                                            onClick:onClickInput$,
-                                            value: resume.value.desde,
-                                            readOnly:true,
-                                            //tabIndex:-1
-                                        },
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'date',
-                                            label:'Hasta',
-                                            placeholder:'Hasta',
-                                            name:'hasta',
-                                            required:true,
-                                            icon:'calendar',
-                                            min: inputEnd.value.min,
-                                            max: inputEnd.value.max,
-                                            onClick:onClickInput$,
-                                            value:resume.value.hasta,
-                                            readOnly:true,
-                                            tabIndex:-1
-                                        },
+                                />
+                            </div>
+                            <div class='col-lg-5'>
+                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuándo viajas?</h3>
+                                <Form
+                                    id='form-step-prev-1-1'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-12',
+                                                type:'date-range',
+                                                label:'Rango de fechas',
+                                                placeholder:'Rango de fechas',
+                                                name:'rango-fechas-prev',
+                                                required:true,
+                                                icon:'calendar',
+                                                min: inputStart.value.min,
+                                                max: inputEnd.value.max,
+                                                onClick:onClickInput$,
+                                                value: resume.value.rangoFechas,
+                                                readOnly:true,
+                                            }
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
-                        <div class='col-lg-3'>
-                            <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuántos viajan?</h3>
-                            <Form
-                                id='form-step-prev-1-2'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-12 col-sm-12 col-xs-12 col-6',
-                                            type:'text',
-                                            label:'Pasajeros',
-                                            placeholder:'Pasajeros',
-                                            name:'pasajerosprev',
-                                            onClick:onClickInput$,
-                                            required:true,
-                                            icon:'plane-departure',   
-                                            value:resume.value.pasajerosprev,
-                                            readOnly:true,                          
-                                        },
+                                />
+                            </div>
+                            <div class='col-lg-3'>
+                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuántos viajan?</h3>
+                                <Form
+                                    id='form-step-prev-1-2'
+                                    form={[
+                                        {row:[
+                                            {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-6',
+                                                type:'text',
+                                                label:'Pasajeros',
+                                                placeholder:'Pasajeros',
+                                                name:'pasajerosprev',
+                                                onClick:onClickInput$,
+                                                required:true,
+                                                icon:'plane-departure',   
+                                                value:resume.value.pasajerosprev,
+                                                readOnly:true,                          
+                                            },
+                                        ]}
                                     ]}
-                                ]}
-                            />
-                        </div>
+                                />
+                            </div>
 
-                        {
-                            location.url.pathname != '/'&&
-                            location.url.pathname != '/quotes-engine/step-1/'&&
-                            <div class='col-lg-6'>
-                            <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
-                            <Form
-                                id='form-step-1-3'
-                                form={[
-                                    {row:[
-                                        {
-                                            size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                            type:'select',
-                                            label:'Plan',
-                                            name:'prevplanseleccionado',
-                                            options:planSelect.value,
-                                            required:true,
+                            {location.url.pathname != '/' &&
+                             location.url.pathname != '/quotes-engine/step-1/' && (
+                                <div class='col-lg-6'>
+                                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
+                                    <Form
+                                        id='form-step-1-3'
+                                        form={[
+                                            {row:[
+                                                {
+                                                    size:'col-lg-6 col-sm-6 col-xs-12 col-6',
+                                                    type:'select',
+                                                    label:'Plan',
+                                                    name:'prevplanseleccionado',
+                                                    options:planSelect.value,
+                                                    required:true,
                                             onChange:$((e:any) => {changePlan$(e)}),
                                             icon:'fa-solid fa-clipboard-check',
                                             value: stateContext.value?.plan?.idplan,
@@ -939,13 +881,12 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 ]}
                             />
                         </div>
-                        }
-                    </>
-                    }   
+                            )}
+                        </>
+                    )}   
 
                     
-                    {
-                         modeResumeStep.value === false&&
+                    {modeResumeStep.value === false && (
                          <div class='row justify-content-center mt-2'>
                              <div class='col-lg-2 col-6'>
                                  <div class='d-grid gap-2'>
@@ -958,13 +899,12 @@ export const QuotesEngine = component$((props:propsQE) => {
                                  </div>
                              </div>
                          </div>
-                    }
+                    )}
                 </div>
             }
             
 
-            {
-            stateContext.value.isMobile == true&&
+            {stateContext.value.isMobile && (
             <div id="modal-mobile-travel" class="modal fade " tabIndex={-1} data-bs-backdrop="true" aria-hidden="true" >
                     <div class="modal-dialog modal-fullscreen-xs-down" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
@@ -1021,11 +961,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                 </div>
                 
             </div>
-            }
+            )}
 
 
-            {
-            stateContext.value.isMobile == true&&
+            {stateContext.value.isMobile && (
             <div id="modal-mobile-pax" class="modal fade modal-fullscreen-xs-down" >
                     <div class="modal-dialog" style={{height:'100% !important'}}>
                     <div class="modal-content" style={{height:'100% !important'}}>
@@ -1066,7 +1005,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                 </div>
                 
             </div>
-            }
+            )}
 
 
 

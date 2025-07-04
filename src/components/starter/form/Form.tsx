@@ -4,6 +4,7 @@ import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple"
 import { InputSelect } from "../inputs/input-select/InputSelect";
 import styles from './form.css?inline'
 import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
+import { DateRangePickerMUI } from "../inputs/input-date/input-date-range";
 import { DatePickerMUI } from "../inputs/input-date/input-date";
 
 interface propsInput
@@ -91,6 +92,33 @@ export const InputDate = component$((props:propsInputDate) => {
     return(
         <>
         <DatePickerMUI 
+        id={props.id}
+        name={props.name}
+        label={props.label}
+        placeholder={props.placeholder}
+        required={props.required} 
+        min={props.min} 
+        max={props.max}
+        defaultvalue={props.value} 
+        open={props.open} 
+        onChange$={(e:any) => {props.onChange && props.onChange(e)}}
+        onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
+       />
+        </>
+       
+       
+    )
+})
+
+
+interface propsInputDateRange {
+    [key:string] : any
+}
+export const InputDateRange = component$((props:propsInputDateRange) => {
+    
+    return(
+        <>
+        <DateRangePickerMUI 
         id={props.id}
         name={props.name}
         label={props.label}
@@ -365,8 +393,6 @@ export const Form = component$((props:propsForm) => {
         form.value = props.form        
     }) */
 
-
-
     return(
         <form id={props.id} class='needs-validation' noValidate autocomplete='off'>
             <div class='container p-0'>
@@ -448,6 +474,17 @@ export const Form = component$((props:propsForm) => {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
                                                     <InputDate
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'date-range')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputDateRange
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
                                                         {...columnInput}
                                                     />

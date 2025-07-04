@@ -70,6 +70,7 @@ export default defineConfig(({ command, mode }): UserConfig => {
       },
     },
     preview: {
+      hmr: true,
       headers: {
         // Do cache the server response in preview (non-adapter production build)
         "Cache-Control": "public, max-age=600",

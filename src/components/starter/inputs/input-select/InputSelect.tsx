@@ -91,12 +91,10 @@ export const InputSelect = component$((props:propInputSelect) => {
     })
 
     return(
-        <div class='dropdown drop-select text-center'>
+        <div class='dropdown drop-select text-center' style={{ position: 'relative', width: '100%' }}>
             <div class="dropdown-toggle"
-                data-bs-toggle="dropdown" 
-                data-bs-auto-close="outside" 
-                data-bs-reference="toggle" 
                 id={'dropdown-toggle-'+props.id}
+                style={{ position: 'relative', width: '100%' }}
             >
                 <div class='input-group '>
                     {
@@ -115,25 +113,19 @@ export const InputSelect = component$((props:propInputSelect) => {
                             required={props.required} 
                             value={defaultValue.value}
                             data-value={datasetValue.value}
-//                            data-label={defaultValue.value}
-                            onKeyUp$={(e) => getFiltertList$(e)}
-                            //readOnly={readOnly.value}
                             placeholder={props.label}
-                           /*  onChange$={(e:any) => {
-                                if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
-                                {
-                                    e.target.classList.remove('is-invalid')
-                                    e.target.classList.add('is-valid')
+                            onKeyUp$={(e) => {
+                                const target = e.target as HTMLInputElement | null;
+                                getFiltertList$(e);
+                                // Mostrar el dropdown solo si hay texto
+                                const dropdown = document.getElementById('dropdown-'+props.id);
+                                if(target && target.value.length > 0) {
+                                    dropdown && (dropdown.style.display = 'block');
+                                } else {
+                                    dropdown && (dropdown.style.display = 'none');
                                 }
-                                else
-                                {
-                                    e.target.classList.remove('is-valid')
-                                }
-                                getOptions$(e.target.value);
-                                //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
-                                
-                            }} */
-                            ///onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
+                            }}
+                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
                             {...props.dataAttributes}
                         />
@@ -142,35 +134,76 @@ export const InputSelect = component$((props:propInputSelect) => {
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <hr id={props.id}/>
-            <div class="row">
-                <div 
-                    id={'dropdown-'+props.id} 
-                    class='dropdown-menu p-4' 
-                    aria-labelledby={props.id} 
-                    style={{ overflow:'hidden'}}
-                    data-toggle="dropdown"
-                    >
-                    <div class='row inside' style={{ overflowY:'auto'}}>
-                        {
-                            options.value.length > 4 ?
-                            <>
-                            <div class='col-6'>
+            <hr id={props.id} style={{ margin: '0' }}/>
+            
+            <div 
+                id={'dropdown-'+props.id} 
+                class='dropdown-menu' 
+                aria-labelledby={props.id} 
+                style={{ 
+                    position: 'absolute',
+                    top: 'calc(100% - 1rem)',
+                    left: '0',
+                    right: '0',
+                    width: '100%',
+                    zIndex: '1050',
+                    display: 'none',
+                    overflow: 'hidden',
+                    padding: '0.5rem 0.5rem 0.5rem 0rem',
+                    marginTop: '0',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '1rem',
+                    backgroundColor: 'white'
+                }}
+            >
+                <div class='row inside g-0' style={{ overflowY:'auto', maxHeight: '300px'}}>
+                    {
+                        options.value.length > 4 ?
+                        <>
+                        <div class='col-6'>
+                        <ul class='list-group list-group-flush'>
+                            {
+                                options.value.map((option,iOption) => {
+                                    return(
+                                        iOption < (options.value.length / 2)
+                                        &&
+                                        <li 
+                                            key={iOption+1}
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
+                                            value={option.value} 
+                                            onClick$={() => {
+                                                getOptions$(option.value);
+                                                options.value = prevOptions.value
+                                                // Ocultar la lista después de seleccionar
+                                                const dropdown = document.getElementById('dropdown-'+props.id);
+                                                dropdown && (dropdown.style.display = 'none');
+                                            }}
+                                        >
+                                            {option.label}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                        </div>
+                        <div class='col-6' style={{ padding: '0rem 0.5rem 0rem 0rem'}}>
                             <ul class='list-group list-group-flush'>
-                                {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
                                 {
                                     options.value.map((option,iOption) => {
                                         return(
-                                            iOption < (options.value.length / 2)
+                                            iOption >= (options.value.length / 2)
                                             &&
                                             <li 
                                                 key={iOption+1}
-                                                class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
+                                                class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-gray' : 'list-group-item text-medium text-dark-gray'} 
                                                 value={option.value} 
                                                 onClick$={() => {
                                                     getOptions$(option.value);
-                                                    //props.onChange !== undefined && props.onChange(option);
                                                     options.value = prevOptions.value
+                                                    // Ocultar la lista después de seleccionar
+                                                    const dropdown = document.getElementById('dropdown-'+props.id);
+                                                    dropdown && (dropdown.style.display = 'none');
                                                 }}
                                             >
                                                 {option.label}
@@ -179,59 +212,34 @@ export const InputSelect = component$((props:propInputSelect) => {
                                     })
                                 }
                             </ul>
-                            </div>
-                            <div class='col-6'>
-                                <ul class='list-group list-group-flush'>
-                                    {
-                                        options.value.map((option,iOption) => {
-                                            return(
-                                                iOption >= (options.value.length / 2)
-                                                &&
-                                                <li 
-                                                    key={iOption+1}
-                                                    class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-gray' : 'list-group-item text-medium text-dark-gray'} 
-                                                    value={option.value} 
-                                                    onClick$={() => {
-                                                        getOptions$(option.value);
-                                                        //props.onChange !== undefined && props.onChange(option);
-                                                        options.value = prevOptions.value
-                                                    }}
-                                                >
-                                                    {option.label}
-                                                </li>
-                                            )
-                                        })
-                                    }
-                                </ul>
-                            </div>
-                            </>
-                            :
-                            <div class='col-12'>
-                            <ul class='list-group list-group-flush'>
-                                {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
-                                {
-                                    options.value.map((option,iOption) => {
-                                        return(
-                                            <li 
-                                                key={iOption+1}
-                                                class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
-                                                value={option.value} 
-                                                onClick$={() => {
-                                                    getOptions$(option.value);
-                                                    //props.onChange !== undefined && props.onChange(option);
-                                                    options.value = prevOptions.value
-                                                }}
-                                            >
-                                                {option.label}
-                                            </li>
-                                        )
-                                    })
-                                }
-                            </ul>
-                            </div>
-                        }
-                        
-                    </div>
+                        </div>
+                        </>
+                        :
+                        <div class='col-12'>
+                        <ul class='list-group list-group-flush'>
+                            {
+                                options.value.map((option,iOption) => {
+                                    return(
+                                        <li 
+                                            key={iOption+1}
+                                            class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
+                                            value={option.value} 
+                                            onClick$={() => {
+                                                getOptions$(option.value);
+                                                options.value = prevOptions.value
+                                                // Ocultar la lista después de seleccionar
+                                                const dropdown = document.getElementById('dropdown-'+props.id);
+                                                dropdown && (dropdown.style.display = 'none');
+                                            }}
+                                        >
+                                            {option.label}
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ul>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
