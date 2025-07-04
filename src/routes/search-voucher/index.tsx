@@ -1,9 +1,7 @@
-import { $, Fragment, useContext, component$, useOnWindow, useSignal, useStylesScoped$ } from "@builder.io/qwik";
+import { $,  useContext, component$, useOnWindow, useSignal, useStylesScoped$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
-
-import ImgContinentalAssistPlane from '~/media/icons/continental-assist-plane.webp?jsx'
 
 import styles from './index.css?inline'
 
@@ -25,7 +23,7 @@ export default component$(() => {
     useStylesScoped$(styles)
 
     //const objVoucher : {[key:string]:any,beneficiarios:[{[key:string]:any,beneficiosadicionales:any[]}],contactos:any[],beneficios:[{[key:string]:any,beneficios:any[]}]} = {beneficiarios:[{beneficiosadicionales:[]}],contactos:[{}],beneficios:[{beneficios:[]}]}
-    const objectVoucher: {[key:string]:any} = {}
+    //const objectVoucher: {[key:string]:any} = {}
     const vouchers = useSignal([])
     const contextLoading = useContext(LoadingContext)
     const msg =useSignal('')
