@@ -12,10 +12,11 @@ export const InputSelect = component$((props:propInputSelect) => {
     const array : any[] = []
 
     const defaultValue = useSignal('')
+    const inputValue = useSignal('') // Nueva señal para el valor del input
     const datasetValue = useSignal('')
     const options = useSignal(array)
     const prevOptions = useSignal(array)
-    //const readOnly = useSignal(false)
+    const isSearching = useSignal(false) // Para saber si estamos buscando
 
     useTask$(() => {
         prevOptions.value = props.options
@@ -24,17 +25,12 @@ export const InputSelect = component$((props:propInputSelect) => {
 
     const getOptions$ = $((value:any) => {
         const arrayObjects= [...props.options]        
-        /* arrayObjects.map(item => {
-            if(item.value == value)
-            {
-                defaultValue.value = item.label
-                datasetValue.value = item.value
-            }
-        }) */
        
         const findItem= arrayObjects.find(item=> item.value == value)
         defaultValue.value = findItem?.label||''
+        inputValue.value = findItem?.label||'' // Sincronizar ambas señales
         datasetValue.value = findItem?.value||''
+        isSearching.value = false // Ya no estamos buscando
 
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
@@ -46,24 +42,15 @@ export const InputSelect = component$((props:propInputSelect) => {
         }
     })
 
-    //useVisibleTask$(() => {
-       
-
-        /* if(navigator.userAgent.includes('Mobile'))
-        {
-            readOnly.value = true
-        }
-
-        if(props.readOnly != undefined)
-        {
-            readOnly.value = props.readOnly
-        } */
-    //})
-
     const getFiltertList$ = $((e:any) => {
-        if(e.target.value == '')
+        const searchValue = e.target.value
+        inputValue.value = searchValue // Actualizar el valor del input
+        isSearching.value = true // Estamos buscando
+        
+        if(searchValue == '')
         {
             options.value = prevOptions.value
+            isSearching.value = false
         }
         else
         {
@@ -77,7 +64,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                 const normalizedNewOption = String(newOption).toLowerCase();
 
                 // Normaliza el valor de entrada y convierte a minúsculas
-                const normalizedInput = String(e.target.value)
+                const normalizedInput = String(searchValue)
                     .normalize("NFD") // Descompone caracteres acentuados
                     .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
                 const normalizedInputLower = normalizedInput.toLowerCase();
@@ -87,6 +74,20 @@ export const InputSelect = component$((props:propInputSelect) => {
             })
 
             options.value = newList
+        }
+    })
+
+    const handleInputChange$ = $((e: any) => {
+        const target = e.target as HTMLInputElement
+        inputValue.value = target.value
+        getFiltertList$(e)
+        
+        // Mostrar el dropdown solo si hay texto
+        const dropdown = document.getElementById('dropdown-'+props.id);
+        if(target.value.length > 0) {
+            dropdown && (dropdown.style.display = 'block');
+        } else {
+            dropdown && (dropdown.style.display = 'none');
         }
     })
 
@@ -111,22 +112,20 @@ export const InputSelect = component$((props:propInputSelect) => {
                             id={props.id} 
                             name={props.name} 
                             required={props.required} 
-                            value={defaultValue.value}
+                            value={isSearching.value ? inputValue.value : defaultValue.value}
                             data-value={datasetValue.value}
                             placeholder={props.label}
-                            onKeyUp$={(e) => {
-                                const target = e.target as HTMLInputElement | null;
-                                getFiltertList$(e);
-                                // Mostrar el dropdown solo si hay texto
-                                const dropdown = document.getElementById('dropdown-'+props.id);
-                                if(target && target.value.length > 0) {
-                                    dropdown && (dropdown.style.display = 'block');
-                                } else {
-                                    dropdown && (dropdown.style.display = 'none');
-                                }
-                            }}
+                            onInput$={handleInputChange$}
+                            onKeyUp$={handleInputChange$}
                             onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
+                            onBlur$={(e) => {
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'
+                                // Pequeño delay para permitir el click en las opciones
+                                setTimeout(() => {
+                                    const dropdown = document.getElementById('dropdown-'+props.id);
+                                    dropdown && (dropdown.style.display = 'none');
+                                }, 150);
+                            }}
                             {...props.dataAttributes}
                         />
                         <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>

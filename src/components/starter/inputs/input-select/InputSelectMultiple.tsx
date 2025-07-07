@@ -12,15 +12,30 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
     const array : any[] = []
 
     const defaultValue = useSignal(array)
+    const inputValue = useSignal('') // Nueva señal para el valor del input
     const datasetValue = useSignal(array)
     const options = useSignal(array)
     const prevOptions = useSignal(array)
     const readOnly = useSignal(false)
-    const showDropdown = useSignal(false) // Nuevo signal para controlar la visibilidad
+    const showDropdown = useSignal(false)
+    const isSearching = useSignal(false) // Para saber si estamos buscando
 
     useTask$(() => {
         prevOptions.value = props.options
         options.value = props.options
+    })
+
+    // Convertir getDisplayValue a QRL usando $
+    const getDisplayValue$ = $(() => {
+        if (isSearching.value) {
+            return inputValue.value;
+        }
+        
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        if (cleanList.length === 0) {
+            return '';
+        }
+        return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
     })
 
     const getOptions$ = $((option:any) => {
@@ -28,6 +43,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         const newDataSetValues: string[] = Object.assign([],datasetValue.value)
         const input = document.querySelector('#'+props.id) as HTMLInputElement     
         options.value = []
+        
         if(datasetValue.value.includes(option.value))
         {
             datasetValue.value.map((item,index) => {
@@ -47,7 +63,13 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         defaultValue.value = [...newValues.filter(val => val !== ''), ''];
         datasetValue.value = newDataSetValues
 
+        // Actualizar el valor del input para reflejar la selección
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        inputValue.value = cleanList.length === 0 ? '' : cleanList.join(', ') + ', ';
+        
         options.value = prevOptions.value
+        isSearching.value = false // Ya no estamos buscando
+        showDropdown.value = false // Ocultar dropdown después de seleccionar
 
         input.focus()
     })
@@ -85,6 +107,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 const target = event.target as Node;
                 if (!dropdownElement.contains(target) && !dropdownMenuElement.contains(target)) {
                     showDropdown.value = false;
+                    isSearching.value = false;
                 }
             }
         };
@@ -103,16 +126,30 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         if (last !== '') {
             defaultValue.value.push('')
         }
+        // Sincronizar inputValue cuando se hace focus
+        if (!isSearching.value) {
+            inputValue.value = isSearching.value ? 
+                inputValue.value : 
+                (() => {
+                    const cleanList = defaultValue.value.filter((val) => val !== '');
+                    if (cleanList.length === 0) {
+                        return '';
+                    }
+                    return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
+                })();
+        }
     })
      
-
     const geFiltertList$ = $((e: any) => {
         const inputRawValue = e.target.value;
+        inputValue.value = inputRawValue; // Actualizar inmediatamente
+        isSearching.value = true; // Marcar que estamos buscando
     
         if (inputRawValue === '') {
             // Si el input está vacío, mostrar todas las opciones y ocultar el dropdown
             options.value = prevOptions.value;
             showDropdown.value = false;
+            isSearching.value = false;
             return;
         }
     
@@ -142,6 +179,23 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         options.value = newList;
     });
 
+    const handleInputChange$ = $((e: any) => {
+        geFiltertList$(e);
+    })
+
+    // Usar una computed signal para el valor del input
+    const displayValue = (() => {
+        if (isSearching.value) {
+            return inputValue.value;
+        }
+        
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        if (cleanList.length === 0) {
+            return '';
+        }
+        return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
+    })();
+
     return(
         <div class='dropdown drop-select text-center' style={{ position: 'relative', width: '100%' }}>
             <div class="dropdown-toggle"
@@ -162,24 +216,24 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                             name={props.name}
                             class='form-control form-control-select-multiple text-bold text-dark-blue' 
                             id={props.id}
-                            value={
-                                (() => {
-                                    const cleanList = defaultValue.value.filter((val) => val !== '');
-                                    if (cleanList.length === 0) {
-                                        return ''; // Si no hay elementos seleccionados, mostrar vacío
-                                    }
-                                    return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
-                                })()
-                            }                           
+                            value={displayValue}
                             data-value={datasetValue.value} 
                             placeholder={props.label} 
                             required={props.required}
-                            onKeyUp$={(e) => {
-                                geFiltertList$(e);
+                            onInput$={handleInputChange$}
+                            onKeyUp$={handleInputChange$}
+                            onFocus$={() => {
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1';
+                                getLastOption$();
                             }}
-                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0',
-                            props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
+                            onBlur$={() => {
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0';
+                                props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
+                                // Pequeño delay para permitir clicks en las opciones
+                                setTimeout(() => {
+                                    showDropdown.value = false;
+                                    isSearching.value = false;
+                                }, 150);
                             }}
                             onFocusin$={getLastOption$}
                             {...props.dataAttributes}
@@ -213,7 +267,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                     }}
                 >
 
-                    <div class='row inside g-0' style={{ overflowY: 'auto' }}>
+                    <div class='row inside g-0' style={{ overflowY: 'auto', maxHeight: '300px' }}>
                         <div class='col-6'>
                             <ul class='list-group list-group-flush'>
                                 {options.value.map((option, iOption) => {

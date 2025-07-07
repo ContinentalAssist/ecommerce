@@ -128,8 +128,14 @@ export const InputDateRange = component$((props:propsInputDateRange) => {
         max={props.max}
         defaultvalue={props.value} 
         open={props.open} 
-        onChange$={(e:any) => {props.onChange && props.onChange(e)}}
-        onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
+        startName={"desde"}
+        endName={"hasta"}
+        onChange$={(dateRange: {start: string, end: string}) => {
+            props.onChange && props.onChange(dateRange)
+        }}
+        onFocus$={(isOpen: boolean) => {
+            props.onFocus && props.onFocus(isOpen)
+        }}
        />
         </>
        
