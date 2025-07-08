@@ -11,8 +11,8 @@ export const InvoiceFormCO = component$(() => {
     const typePersonInvoice = useSignal('RS');
     const showInputInvoiceRS= useSignal(true);
     const disableVerificationCode= useSignal(true);
-    const array : any[] = []
-    const listadoCiudades = useSignal(array)
+    //const array : any[] = []
+   // const listadoCiudades = useSignal(array)
     const contextLoading = useContext(LoadingContext)
     
     const changeTypePerson$ = $((person:string) => {
@@ -37,7 +37,7 @@ export const InvoiceFormCO = component$(() => {
         }     
     })
      
-    const changeStateCO$  =  $(async(value:any) => {
+    /* const changeStateCO$  =  $(async(value:any) => {
         
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",
                   {method:"POST",body:JSON.stringify({idestado:Number(value),codigopais:stateContext.value.country})});
@@ -55,7 +55,7 @@ export const InvoiceFormCO = component$(() => {
 
                 stateContext.value = { ...stateContext.value, listadociudades:resCity }
                 contextLoading.value = {status:false, message:''}
-    })
+    }) */
 
     const getClientInvoice$ = $(async(e:any) => {
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -63,10 +63,10 @@ export const InvoiceFormCO = component$(() => {
         const inputApellidos = formInvoicing.querySelector('input[name="apellidos"]') as HTMLInputElement;
         const inputCorreo = formInvoicing.querySelector('input[name="correo"]') as HTMLInputElement;
         const inputDireccion = formInvoicing.querySelector('input[name="direccion"]') as HTMLInputElement;
-        const inputCodigoPostal = formInvoicing.querySelector('input[name="codigopostal"]') as HTMLInputElement;
+        //const inputCodigoPostal = formInvoicing.querySelector('input[name="codigopostal"]') as HTMLInputElement;
         const inputTelefono = formInvoicing.querySelector('input[name="telefono"]') as HTMLInputElement;
-        const selectEstado = formInvoicing.querySelector('#form-invoicing-select-4-0') as HTMLSelectElement;
-        const selectCiudad = formInvoicing.querySelector('#form-invoicing-select-4-1') as HTMLSelectElement;
+        //const selectEstado = formInvoicing.querySelector('#form-invoicing-select-4-0') as HTMLSelectElement;
+        //const selectCiudad = formInvoicing.querySelector('#form-invoicing-select-4-1') as HTMLSelectElement;
         contextLoading.value = {status:true, message:''}
 
         const body = {
@@ -81,17 +81,17 @@ export const InvoiceFormCO = component$(() => {
         
         if(data && data.resultado && data.resultado[0]){            
             typePersonInvoice.value = data.resultado[0].tipopersona || 'RS';
-            changeStateCO$(data.resultado[0].idestado);
+           // changeStateCO$(data.resultado[0].idestado);
             inputNombres.value = data.resultado[0].nombres || '';
             inputApellidos.value = data.resultado[0].apellidos || '';
             inputCorreo.value = data.resultado[0].email || '';
             inputTelefono.value = data.resultado[0].telefono || '';       
             inputDireccion.value = data.resultado[0].direccion || '';
-            inputCodigoPostal.value = data.resultado[0].codigopostal || '';
+          /*   inputCodigoPostal.value = data.resultado[0].codigopostal || '';
             selectEstado.value = data.resultado[0].nombreestado; 
             selectCiudad.value = data.resultado[0].nombreciudad;
             selectEstado.dataset.value =data.resultado[0].idestado;
-            selectCiudad.dataset.value=data.resultado[0].idciudad;
+            selectCiudad.dataset.value=data.resultado[0].idciudad; */
             
             
         }else
@@ -145,15 +145,15 @@ export const InvoiceFormCO = component$(() => {
                         form={[
 
                             {row:[
-                                {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
                                     {value:'CC',label:'CC'},
                                     {value:'PASAPORTE',label:'Pasaporte'},
                                     {value:'NIT',label:'NIT'},
                                 ], onChange:$((e:any)=>changeTypeIdPerson$(e))},
                             ]}, 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},
-                                {size:'col-xl-4 col-xs-4',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true,disabled:disableVerificationCode.value},
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},
+                                {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true,disabled:disableVerificationCode.value},
                             ]},
                                                                                 
                             
@@ -163,14 +163,19 @@ export const InvoiceFormCO = component$(() => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-6',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                                {size:'col-xl-6 col-xs-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                {size:'col-xl-6 col-xs-12',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                            ]},
+
+                             {row:[                                                            
+                                {size:'col-xl-12 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
+
                             ]},
                             
-                            {row:[
+                            /* {row:[
 
                                 {size:'col-xl-6 col-xs-6',type:'select',label:'Departamento',placeholder:'Departamento',name:'departamento',
-                                required:true,options:stateContext.value.listadoDepartamentos, onChange:$((e:any)=>changeStateCO$(e.value)),},
+                                required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateCO$(e.value)),},
                                 {size:'col-xl-6 col-xs-6',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
 
                             ]},
@@ -179,7 +184,7 @@ export const InvoiceFormCO = component$(() => {
                                 {size:'col-xl-8 col-xs-8',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
                                 {size:'col-xl-4 col-xs-4',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
 
-                            ]}, 
+                            ]},  */
                         ]}
                     />
                     :
@@ -188,15 +193,15 @@ export const InvoiceFormCO = component$(() => {
                         form={[                            
 
                             {row:[
-                                {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
                                     {value:'CC',label:'CC'},
                                     {value:'PASAPORTE',label:'Pasaporte'},
                                     {value:'NIT',label:'NIT'},
                                 ], onChange:$((e:any)=>changeTypeIdPerson$(e))},
                             ]}, 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
-                                {size:'col-xl-4 col-xs-4',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true, disabled:disableVerificationCode.value},
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
+                                {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true, disabled:disableVerificationCode.value},
                             ]},
                             {row:[
                                 {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true},
@@ -204,22 +209,26 @@ export const InvoiceFormCO = component$(() => {
                             
                         
                             {row:[
-                                {size:'col-xl-6 col-xs-6',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
-                            ]},
-                            
-                            {row:[
-                                
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Departamento',placeholder:'Departamento',name:'departamento',
-                                required:true,options:stateContext.value.listadoDepartamentos, onChange:$((e:any)=>changeStateCO$(e.value)),},
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
-
+                                {size:'col-xl-6 col-xs-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                    {size:'col-xl-6 col-xs-12',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
                             ]},
 
                             {row:[                                                            
+                                {size:'col-xl-12 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
+                            ]},
+                            
+                            /* {row:[
+                                
+                                {size:'col-xl-6 col-xs-6',type:'select',label:'Departamento',placeholder:'Departamento',name:'departamento',
+                                required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateCO$(e.value)),},
+                                {size:'col-xl-6 col-xs-6',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
+
+                            ]}, */
+
+                            /* {row:[                                                            
                                 {size:'col-xl-8 col-xs-8',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
                                 {size:'col-xl-4 col-xs-4',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
-                            ]}, 
+                            ]},  */
                         ]}
                     />
 

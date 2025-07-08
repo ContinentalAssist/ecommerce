@@ -90,11 +90,11 @@ export default component$(() => {
           {
              const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getStateMXCO",
                   {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
-                  const listadoDepartamento =await response.json();
+                  const listadoEstados =await response.json();
                   
-                  if (listadoDepartamento && listadoDepartamento.resultado[0]  && listadoDepartamento.resultado[0].departamentos &&Array.isArray(listadoDepartamento.resultado[0].departamentos)) {
-                      listadoDepartamento.resultado[0].departamentos.map((departamentos:any) => {
-                          resState.push({value:departamentos.idestado,label:departamentos.nombredepartamento})
+                  if (listadoEstados && listadoEstados.resultado[0]  && listadoEstados.resultado[0].estados &&Array.isArray(listadoEstados.resultado[0].estados)) {
+                      listadoEstados.resultado[0].estados.map((estado:any) => {
+                          resState.push({value:estado.idestado,label:estado.nombreestado,codigoestado:estado.codigoestado})
                       })
               
                   }  
@@ -113,7 +113,7 @@ export default component$(() => {
                   convertionRate = 1
                   currency = 'USD'
           }
-          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate},country:geoData.country, listadoDepartamentos:resState, listadociudades:[] }
+          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate},country:geoData.country, listadoestados:resState, listadociudades:[] }
 
         }
        

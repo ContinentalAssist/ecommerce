@@ -1,4 +1,4 @@
-import { $, component$,useSignal,useContext, useTask$, useVisibleTask$} from "@builder.io/qwik";
+import { $, component$,useSignal,useContext, useTask$} from "@builder.io/qwik";
 //import styles from './card-plan.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
@@ -161,9 +161,11 @@ export const InvoiceFormMX = component$(() => {
                         form={[
                             
                             {row:[                                                            
-                                {size:'col-xl-6 col-xs-6',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
                                 required:true,options:listadoRegimenesSat.value,},                      
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Forma de Pago',placeholder:'Forma de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},
+
                           
                             ]},                                                                                
                             
@@ -173,22 +175,22 @@ export const InvoiceFormMX = component$(() => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-6',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                                {size:'col-xl-6 col-xs-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                    {size:'col-xl-6 col-xs-12',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
                             ]},
                             
                             {row:[
                                 
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Estados',placeholder:'Estados',name:'departamento',
-                                required:true,options:stateContext.value.listadoDepartamentos, onChange:$((e:any)=>changeStateMX$(e.value))},
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'departamento',
+                                required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateMX$(e.value))},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value},
 
                             ]},
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-8',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
-                                {size:'col-xl-4 col-xs-4',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
 
                             ]}, 
                         ]}
@@ -199,9 +201,10 @@ export const InvoiceFormMX = component$(() => {
                         id='form-invoicing'
                         form={[
                             {row:[                                                            
-                                {size:'col-xl-6 col-xs-6',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
-                                required:true,options:listadoRegimenesSat.value,},                      
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},     
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Forma de Pago',placeholder:'Forma de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},                 
                                 ]},
                             {row:[
                                 {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true},
@@ -209,22 +212,22 @@ export const InvoiceFormMX = component$(() => {
                             
                         
                             {row:[
-                                {size:'col-xl-6 col-xs-6',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                    {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
+                                {size:'col-xl-6 col-xs-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
+                                    {size:'col-xl-6 col-xs-12',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
                             ]},
                             
                            {row:[
                                 
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Estados',placeholder:'Estados',name:'departamento',
-                                required:true,options:stateContext.value.listadoDepartamentos, onChange:$((e:any)=>changeStateMX$(e.value)),},
-                                {size:'col-xl-6 col-xs-6',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'estado',
+                                required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateMX$(e.value)),},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
 
                             ]},
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-8',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
-                                {size:'col-xl-4 col-xs-4',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
 
                             ]}, 
                         ]}

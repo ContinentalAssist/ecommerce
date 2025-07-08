@@ -444,8 +444,8 @@ export default component$(() => {
           
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
-        const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
-        const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
+       /*  const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement */
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
@@ -616,13 +616,13 @@ export default component$(() => {
             
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
-                const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
 
                 dataFormInvoicing.tipoPersona = radioTypePerson.value;
                 dataFormInvoicing.origenFactura = stateContext.value.country;
-                dataFormInvoicing.codigociudad = codigoCiudad;
-                dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
-                dataFormInvoicing.idestado = Number(inputState.dataset?.value);
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idciudad = null;//Number(inputCity.dataset?.value);
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
                 dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
                 dataRequest.facturacion = dataFormInvoicing;
             }
@@ -713,8 +713,8 @@ export default component$(() => {
 
         const dataForm : {[key:string]:any} = {}
         const dataFormInvoicing : {[key:string]:any} = {}
-        const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
-        const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
+        //const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        //const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
         const formNequi = document.querySelector('#form-nequi') as HTMLFormElement
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
@@ -817,13 +817,13 @@ export default component$(() => {
 
              if(checkInvoicing.checked === true && errorInvoicing === false)
             {
-                const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
 
                 dataFormInvoicing.tipoPersona = radioTypePerson.value;
                 dataFormInvoicing.origenFactura = stateContext.value.country;
-                dataFormInvoicing.codigociudad = codigoCiudad;
-                dataFormInvoicing.idestado = Number(inputState.dataset?.value);
-                dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                dataFormInvoicing.idciudad = null;//Number(inputCity.dataset?.value);
                 dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
                 Object.assign(dataRequest,{facturacion:dataFormInvoicing});
             }
@@ -878,8 +878,8 @@ export default component$(() => {
         let errorInvoicing = false
         const dataForm : {[key:string]:any} = {}
         const dataFormInvoicing : {[key:string]:any} = {}
-        const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
-        const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
+        //const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        //const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
         const formPSE = document.querySelector('#form-pse') as HTMLFormElement
         contextLoading.value = {status:true, message:'Realizando el pago...'};
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
@@ -989,13 +989,13 @@ export default component$(() => {
 
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
-                const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
                 
                 dataFormInvoicing.tipoPersona = radioTypePerson.value;
                 dataFormInvoicing.origenFactura = stateContext.value.country;
-                dataFormInvoicing.codigociudad = codigoCiudad;
-                dataFormInvoicing.idestado = Number(inputState.dataset?.value);
-                dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                dataFormInvoicing.idciudad = null; //Number(inputCity.dataset?.value);
                 dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
                 Object.assign(dataRequest,{facturacion:dataFormInvoicing});
             }
