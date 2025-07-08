@@ -284,12 +284,12 @@ export default component$(() => {
                 dataFormInvoicing.origenFactura = stateContext.value.country;
                 if (stateContext.value.country == 'CO') 
                 {
-                    const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
-                    const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
-                    const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
-                    dataFormInvoicing.codigociudad = codigoCiudad;
-                    dataFormInvoicing.idestado = Number(inputState.dataset?.value);
-                    dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
+                    //const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+                    //const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
+                    //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                    dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                    dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                    dataFormInvoicing.idciudad = null;//Number(inputCity.dataset?.value);
                     dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
 
                     
@@ -300,17 +300,22 @@ export default component$(() => {
                     const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
                     const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
                     const inputTaxRegime = document.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
+                    const inputPaymentGroupCode = document.querySelector('#form-invoicing-select-0-2') as HTMLSelectElement;
                     const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
+                    const codigoEstado = stateContext.value.listadoestados.find((state: any) => state.value == inputState?.dataset?.value)?.codigoestado || null;    
+                    const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
+                    const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
                     dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                     dataFormInvoicing.idestado = Number(inputState.dataset?.value);
+                    dataFormInvoicing.codigoestado = codigoEstado;
                     dataFormInvoicing.codigociudad = codigoCiudad;
                     dataFormInvoicing.codigoverificacion =0;
                     dataFormInvoicing.tipoid ='RFC';
                     dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
                     dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                     dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
-                    
+                    dataFormInvoicing.grupopagocodigo =paymentCode?.codigo;
                 }
                 dataRequest.facturacion = dataFormInvoicing
             }
