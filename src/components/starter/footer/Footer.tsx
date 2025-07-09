@@ -22,7 +22,7 @@ export const Footer = component$(() => {
         {country:'CO',label:'Anexo A',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20A%20-%20Seguro%20aplicable%20a%20Colombia%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
         {country:'MX',urls:[
             {label:'Anexo B',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20B%20-%20Seguro%20aplicable%20a%20M%C3%A9xico%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'},
-            {label:'Anexo D',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20D%20-%20Responsabilidad%20Civil%20Familiar%20%28Exclusivamente%20Para%20Planes%20Emitidos%20En%20Me%CC%81xico%29.pdf'}
+            {label:'Anexo D',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20D%20-%20Responsabilidad%20Civil%20Familiar%20%28Exclusivamente%20Para%20Planes%20Emitidos%20En%20M%C3%A9xico%29.pdf'}
         ]},
         {country:'',label:'Anexo C',url:'https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/ANEXO%20C%20-%20Seguro%20aplicable%20a%20Otros%20Pa%C3%ADses%20-%20Muerte%20accidental%20y%20p%C3%A9rdidas%20org%C3%A1nicas.pdf'}
     ]
