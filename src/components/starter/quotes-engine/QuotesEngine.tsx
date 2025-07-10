@@ -30,6 +30,8 @@ export const QuotesEngine = component$((props:propsQE) => {
     const updateInputEnd = $((newMin: string, newMax: string) => {
         inputEnd.value = { ...inputEnd.value, min: newMin, max: newMax, open:true };
       });
+    const dateRange = useSignal([null,null])
+    const destinationselected = useSignal([])
     const contextLoading = useContext(LoadingContext)
 
 
@@ -259,8 +261,8 @@ export const QuotesEngine = component$((props:propsQE) => {
       
     })
 
-    const getQuotesEngine$ = $(async() => {    
-            
+    const getQuotesEngine$ = $(async(event:Event) => {    
+            event.stopPropagation();
         
             const bs = (window as any)['bootstrap']
             const modal = new bs.Modal('#modalGroupPlan',{})
@@ -268,9 +270,14 @@ export const QuotesEngine = component$((props:propsQE) => {
             const forms = Array.from(quotesEngine.querySelectorAll('form'))
             const inputs = Array.from(document.querySelectorAll('input,select'))
             const error = [false,false,false]
-            const newDataForm : {[key:string]:any} = {}
-            newDataForm.edades = []
-            newDataForm.paisesdestino = []
+            const newDataForm: { [key: string]: any } = {
+                edades: [],
+                paisesdestino: [],
+                // ... otros campos que necesites
+            };
+
+            
+          
     
             forms.map((form,index) => {
                 inputs.map((input) => {          
@@ -282,12 +289,14 @@ export const QuotesEngine = component$((props:propsQE) => {
                     if(input.classList.value.includes('form-control-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
                     {
                         (input as HTMLInputElement).classList.add('is-invalid')
+                        
                         error[0] = true
                     }
                     else if(input.classList.value.includes('form-paxs') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
                     {
                         (input as HTMLInputElement).classList.add('is-invalid')
                         error[2] = true
+
                     }
                     else if((input as HTMLInputElement).value != '')
                     {
@@ -311,7 +320,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     form.classList.remove('was-validated')
                 }
             })
-    
+
             if(!error.includes(true))
             {
                 //loading.value = true
@@ -343,9 +352,11 @@ export const QuotesEngine = component$((props:propsQE) => {
                 })
     
 
-                
-                newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
-                
+                dateRange.value =[newDataForm.desde,newDataForm.hasta]
+
+                //newDataForm.dias = ((new Date(newDataForm.hasta).getTime() - new Date(newDataForm.desde).getTime()) / 1000 / 60 / 60 / 24) + 1
+                newDataForm.dias = dayjs(newDataForm.hasta).diff(dayjs(newDataForm.desde), 'day') + 1;
+
 
                 
                 origins.value.map(origin => {
@@ -396,7 +407,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                    
                     
                         Object.assign(dataForm,stateContext?.value)
-                        let error = false
+                        
                         if (location.url.pathname == '/') {
                             stateContext.value = {...stateContext.value,...newDataForm}
                             newDataForm.planfamiliar == 't' && modal.show();
@@ -421,11 +432,11 @@ export const QuotesEngine = component$((props:propsQE) => {
 
                          
                         
-                        error = dataPlans.error
+                       // error = dataPlans.error
                         stateContext.value.precioPlanes= []
     
                            
-                            if(error == false&&dataPlans.resultado.length > 0)
+                            if(dataPlans?.error == false&&dataPlans.resultado.length > 0)
                             {
                                 modeResumeStep.value = true
 
@@ -602,6 +613,14 @@ export const QuotesEngine = component$((props:propsQE) => {
         modeResumeStep.value = true;
         
     })
+
+    const actionModalStep$ = $(() =>{
+      
+      destinationselected.value =resume.value.destinos;
+      dateRange.value =[resume.value.desde,resume.value.hasta]
+
+      modeResumeStep.value = false
+    })
         
     return(
         <div class='container' id='quotes-engine'>
@@ -689,7 +708,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                           location.url.pathname != '/quotes-engine/step-4/'&&
                           location.url.pathname != '/quotes-engine/message/'&&
                           <div class='col-lg-1  col-xs-12 text-end '>
-                          <button type='button' class='btn btn-link text-medium text-light-blue mt-3' onClick$={()=>modeResumeStep.value = false}>Editar</button>
+                          <button type='button' class='btn btn-link text-medium text-light-blue mt-3' onClick$={actionModalStep$}>Editar</button>
                           </div>
                     }
                    
@@ -739,7 +758,24 @@ export const QuotesEngine = component$((props:propsQE) => {
                             <Form
                                 id='form-step-1-1'
                                 form={[
-                                    {row:[
+
+                                     {row:[
+                                        {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-12',
+                                                type:'date-range',
+                                                label:'Rango de fechas',
+                                                name:'rango-fechas',
+                                                min: inputStart.value.min,
+                                                max: inputEnd.value.max,
+                                                onChange: $((e:any) => {changeDateStart$(e)}),
+                                                required: true,
+                                                icon: 'calendar',
+                                                value: dateRange.value,
+                                                onFocus: $(() => {closeInputDestination$()}),
+                                        }
+                                    ]}
+                                  
+                                   /*  {row:[
                                         {
                                             size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                             type:'date',
@@ -765,7 +801,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                             value: resume.value.hasta,
                                             onFocus:$(() => {closeInputDestination$()}),
                                         }
-                                    ]}
+                                    ]} */
                                 ]}
                             />
                         </div>
@@ -858,7 +894,42 @@ export const QuotesEngine = component$((props:propsQE) => {
                             <Form
                                 id='form-step-prev-1-1'
                                 form={[
+
                                     {row:[
+                                       {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-12',
+                                                type:'date-range',
+                                                label:'Rango de fechas',
+                                                placeholder:'Rango de fechas',
+                                                name:'rango-fechas-prev',
+                                                required:true,
+                                                icon:'calendar',
+                                                min: inputStart.value.min,
+                                                max: inputEnd.value.max,
+                                                onClick:onClickInput$,
+                                                value: [resume.value.desde,resume.value.hasta],
+                                                
+                                        }
+                                      
+                                    ]}
+
+                                  /*   {row:[
+                                            {
+                                                size:'col-lg-12 col-sm-12 col-xs-12 col-12',
+                                                type:'date-range',
+                                                label:'Rango de fechas',
+                                                placeholder:'Rango de fechas',
+                                                name:'rango-fechas-prev',
+                                                required:true,
+                                                icon:'calendar',
+                                                min: inputStart.value.min,
+                                                max: inputEnd.value.max,
+                                                onClick:onClickInput$,
+                                                value: [resume.value.desde,resume.value.hasta],
+                                                readOnly:true,
+                                            }
+                                    ]} */
+                                    /* {row:[
                                         {
                                             size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                             type:'date',
@@ -888,7 +959,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                             readOnly:true,
                                             tabIndex:-1
                                         },
-                                    ]}
+                                    ]} */
                                 ]}
                             />
                         </div>
@@ -975,7 +1046,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     </div>
                     <div class="modal-body" style={{height:'100% !important',maxHeight:'100% !important'}}>
                         <div class="row">
-                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿A dónde viajas?</h5>
+                        <h5 class="modal-title text-semi-bold mb-sm-4 text-dark-blue" id="exampleModalLabel">¿A dónde viajas??</h5>
                         <br/>
                         <br/>
                         <Form
@@ -1003,7 +1074,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     icon:'plane-arrival',
                                     menuSize:{width:'549px', height:'394px'},
                                     onBlur:$((e:any) => {changeDestinations$(e)}),
-                                    value:resume.value.destinos
+                                    value:destinationselected.value
                                 }
                             ]}
                         ]}

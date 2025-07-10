@@ -22,7 +22,53 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         options.value = props.options
     })
 
-    const getOptions$ = $((option:any) => {
+ /*     const getOptions$ = $((option: any) => {
+        // Crear copias independientes de los arrays
+        const newValues: string[] = [...defaultValue.value];
+        const newDataSetValues: string[] = [...datasetValue.value];
+        const input = document.querySelector('#' + props.id) as HTMLInputElement;
+        options.value = [];
+        
+        
+        if (datasetValue.value.includes(option.value)) {
+            // Eliminar el valor de datasetValue
+            datasetValue.value.forEach((item, index) => {
+                if (item === option.value) {
+                    newValues.splice(index, 1);
+                    newDataSetValues.splice(index, 1);
+                }
+            });
+        } else {
+            // Agregar el nuevo valor
+            newValues.push(option.label);
+            newDataSetValues.push(option.value);
+        }
+        
+        
+        // Actualizar los valores originales
+        defaultValue.value = newValues;
+        datasetValue.value = newDataSetValues;
+        
+        // Asegúrate de que esto sea lo que deseas
+        options.value = prevOptions.value;
+
+        input.focus();
+    });
+ */
+/* const getOptions$ = $((option: any) => {
+    const newDataSetValues = datasetValue.value.includes(option.value)
+        ? datasetValue.value.filter(item => item !== option.value) // Eliminar
+        : [...datasetValue.value, option.value]; // Agregar
+
+    datasetValue.value = newDataSetValues;
+    defaultValue.value = newDataSetValues.map(value => {
+        const foundOption = props.options.find(opt => opt.value === value);
+        return foundOption ? foundOption.label : '';
+    });
+});
+ */
+
+const getOptions$ = $((option:any) => {
         const newValues: string[] = Object.assign([],defaultValue.value)
         const newDataSetValues: string[] = Object.assign([],datasetValue.value)
         const input = document.querySelector('#'+props.id) as HTMLInputElement     
@@ -50,23 +96,64 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         input.focus()
     })
 
-    useTask$(({ track })=>{
-        const value = track(()=>props.value);        
-        if (value) 
-        {
-            const optionsValues : any[] = props.value
 
-            props.options.map(option => {
-                optionsValues.map(value => {
-                    if(value == option.value)
-                    {
-                        getOptions$(option)
+useTask$(({ track }) => {
+    track(() => props.value);
+    
+    if (props.value) {
+        const currentSelectedIds = new Set(datasetValue.value);
+        const newValuesFromProps = props.value || [];
+
+        if (datasetValue.value.length === 0) {
+            // Caso: datasetValue está vacío → seleccionar todos los valores de props.value
+            const newLabels: string[] = [];
+            const newIds: string[] = [];
+            props.options.forEach(option => {
+                if (newValuesFromProps.includes(String(option.value))||newValuesFromProps.includes(Number(option.value))) {
+                    newLabels.push(option.label);
+                    newIds.push(option.value);
+                }
+            });
+
+             // Agregar una coma al final del último valor
+           /*  if (newLabels.length > 0) {
+                newLabels[newLabels.length - 1] += ',';
+            } */
+
+            // Actualización INMUTABLE de los signals
+            defaultValue.value = newLabels;
+            datasetValue.value = newIds;
+        } else {
+            // Caso: Agregar solo valores faltantes
+            const newLabels = [...defaultValue.value];
+            const newIds = [...datasetValue.value];
+            
+            newValuesFromProps.forEach((id:any)=> {
+                if (!currentSelectedIds.has(id)) {
+                    const option = props.options.find(opt => opt.value === id);
+                    if (option) {
+                        newLabels.push(option.label);
+                        newIds.push(option.value);
                     }
-                })
-            })
+                }
+            });
+
+             // Agregar una coma al final del último valor
+            /* if (newLabels.length > 0) {
+                newLabels[newLabels.length - 1] += ',';
+            } */
+            //datasetValue.value
+            // Actualización INMUTABLE
+            defaultValue.value = newLabels;
+            datasetValue.value = newIds;
+            
         }
-        
-    })
+    }
+});
+
+
+
+
 
     useVisibleTask$(() => {
         if(navigator.userAgent.includes('Mobile'))
@@ -109,7 +196,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         }
     })
 
-    const geFiltertList$ = $((e:any) => {
+    /* const geFiltertList$ = $((e:any) => {
         if(e.target.value == '')
         {
             options.value = prevOptions.value
@@ -157,7 +244,67 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                 options.value = newList
             }
         }
-    })
+    }) */
+
+
+const geFiltertList$ = $((e: any) => {
+    if (e.target.value == '') {
+        options.value = prevOptions.value;
+    } else {
+        if (defaultValue.value.length === 0) {
+            const newList = prevOptions.value.filter((option) => {
+                const newOption = String(option.label)
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+                const inputValue = String(e.target.value)
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+                return newOption.toLowerCase().includes(inputValue.toLowerCase());
+            });
+            options.value = newList;
+        } else {
+            const newValues: string[] = [...defaultValue.value]; // Usamos spread operator para clonar
+            const splitValues = e.target.value.split(',');
+            
+            // Obtenemos el último valor de forma segura
+            const lastIndex = newValues.length - 1;
+            const lastInputValue = splitValues.length > lastIndex 
+                ? splitValues[lastIndex].trim()
+                : '';
+            
+            if (lastInputValue) {
+                // Verificamos si hay una coma a la izquierda (en el valor anterior)
+                const leftCommaExists = lastIndex > 0 
+                    && newValues[lastIndex - 1].endsWith(',');
+                
+                // Actualizamos el valor actual
+                newValues[lastIndex] = lastInputValue;
+                
+                // Solo agregamos coma a la derecha si:
+                // 1. No existe coma a la izquierda
+                // 2. El valor no está vacío
+                if (!leftCommaExists && lastInputValue.length > 0) {
+                    newValues[lastIndex] += ',';
+                }
+            }
+
+            const newList = prevOptions.value.filter((option) => {
+                const newOption = String(option.label)
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+                
+                // Usamos el último valor sin la coma para comparar
+                const lastValue = newValues[lastIndex].replace(/,$/, '')
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
+                
+                return newOption.toLowerCase().includes(lastValue.toLowerCase());
+            });
+            
+            options.value = newList;
+        }
+    }
+});
 
     return(
         <div class='dropdown drop-select text-center'>
@@ -228,6 +375,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                                 key={`left-${iOption + 1}`}
                                                 class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
                                                 value={option.value}
+                                                 onClick$={(e) =>{ e.stopPropagation(); getOptions$(option);}}
                                             >
                                                 <div class="form-check">
                                                     <input
@@ -235,12 +383,11 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                                         type="checkbox"
                                                         id={`check-left-${iOption}`}
                                                         checked={isActive}
-                                                        onClick$={() => getOptions$(option)}
+                                                        onClick$={(e) =>{ e.stopPropagation();getOptions$(option);}}
                                                         aria-checked={isActive}
                                                     />
                                                     <label
-                                                        class="form-check-label"
-                                                        onClick$={() => getOptions$(option)}
+                                                        class="form-check-label"                                                       
                                                     >
                                                         {option.label}
                                                     </label>
@@ -262,6 +409,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                                 key={`right-${iOption + 1}`}
                                                 class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
                                                 value={option.value}
+                                                onClick$={(e) =>{ e.stopPropagation(); getOptions$(option);}}
                                             >
                                                 <div class="form-check">
                                                     <input
@@ -269,12 +417,11 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                                         type="checkbox"
                                                         id={`check-right-${iOption}`}
                                                         checked={isActive}
-                                                        onClick$={() => getOptions$(option)}
+                                                        onClick$={(e) =>{ e.stopPropagation(); getOptions$(option);}}
                                                         aria-checked={isActive}
                                                     />
                                                     <label
-                                                        class="form-check-label text-medium text-dark-gray"
-                                                        onClick$={() => getOptions$(option)}
+                                                        class="form-check-label text-medium text-dark-gray"                                                      
                                                     >
                                                         {option.label}
                                                     </label>
