@@ -140,7 +140,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     })
 
 
-    const changeDateEnd$ = $(() => {
+    /* const changeDateEnd$ = $(() => {
         const form = document.querySelector('#form-step-1-1') as HTMLFormElement
         const inputDateEnd = form.querySelector('input[name=hasta]') as HTMLInputElement
         const formatDateEnd = inputDateEnd.value.replaceAll('-','/')
@@ -152,7 +152,7 @@ export const QuotesEngine = component$((props:propsQE) => {
             const inputPrevDateEnd = formPrev.querySelector('#form-step-prev-1-1-input-0-1') as HTMLInputElement
             inputPrevDateEnd.value = String(formatDateEnd);
         }
-    })
+    }) */
 
     const onClickInput$ =$((e:any)=>{
         const bs = (window as any)['bootstrap']
