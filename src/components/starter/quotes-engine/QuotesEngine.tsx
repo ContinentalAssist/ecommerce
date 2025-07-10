@@ -18,7 +18,7 @@ export const QuotesEngine = component$((props:propsQE) => {
     const origins = useSignal(array)
     const destinations = useSignal(array)
     const planSelect = useSignal(array)
-    const dateEnd = useSignal('')
+    //const dateEnd = useSignal('')
     const object : {[key:string]:any} = {}
     const resume = useSignal(object)
     const inputStart =useSignal({min:'', max:'',open:false})

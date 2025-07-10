@@ -53,11 +53,12 @@
     "typescript": "5.4.5",
     "undici": "*",
     "vite": "5.3.5",
-    "vite-tsconfig-paths": "^4.2.1"
+    "vite-tsconfig-paths": "^4.2.1",
+    "@mui/x-date-pickers-pro": "^7.29.4",
+    "@mui/x-license": "^7.29.1"
   },
   "dependencies": {
-    "@mui/x-date-pickers-pro": "^7.29.4",
-    "@mui/x-license": "^7.29.1",
+
     "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.12",
