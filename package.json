@@ -32,9 +32,12 @@
     "@builder.io/qwik": "^1.8.0",
     "@builder.io/qwik-city": "^1.8.0",
     "@builder.io/qwik-react": "0.5.0",
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.14",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.2.0",
+    "@mui/x-date-pickers": "^8.8.0",
+    "@mui/x-date-pickers-pro": "^8.8.0",
+    "@mui/x-license": "^7.29.1",
     "@types/compression": "^1.7.2",
     "@types/eslint": "^8.56.10",
     "@types/express": "^4.17.19",
@@ -53,14 +56,13 @@
     "typescript": "5.4.5",
     "undici": "*",
     "vite": "5.3.5",
-    "vite-tsconfig-paths": "^4.2.1",
-    "@mui/x-date-pickers-pro": "^7.29.4",
-    "@mui/x-license": "^7.29.1"
+    "vite-tsconfig-paths": "^4.2.1"
   },
   "dependencies": {
 
     "@types/crypto-js": "^4.1.1",
     "crypto-js": "^4.1.1",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.12",
     "express": "^4.21.0"
   }

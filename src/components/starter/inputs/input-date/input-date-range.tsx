@@ -105,13 +105,13 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
 
   return (
     <div>
-      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
+      <Grid key={'key-' + props.id} size={{ xs: 12, md: 12 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Range Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
             <MobileDateRangePicker
               {...props}
-              label={props.label}
+              label={""}
               localeText={{
                 start: 'Desde',
                 end: 'Hasta',
@@ -132,7 +132,7 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
                       </InputAdornment>
                     ),
                     inputProps: {
-                      onClick: (event) => {
+                      onClick: (event:any) => {
                          event.stopPropagation();
                         setOpenMobile(true);
                         props.onFocus && props.onFocus(!openMobile);
@@ -141,7 +141,15 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
                   },
                 },
               }}
-              sx={{ width: '100%' }}
+               sx={{
+                '& .MuiPickersInputBase-root': {
+                  // Your custom styles here
+                  borderRadius:'30px !important'
+                },
+                '& .MuiPickersOutlinedInput-root': {
+                  // Your custom styles here
+                },
+              }}
               onChange={handleDateRangeChange}
             />
           </Box>
@@ -152,7 +160,7 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
           <Box display={{ xs: "none", sm: "block" }}>
             <DesktopDateRangePicker
               {...props}
-              label={props.label}
+              label={""}
               localeText={{
                 start: 'Desde',
                 end: 'Hasta',
@@ -178,7 +186,7 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
                       </InputAdornment>
                     ),
                     inputProps: {
-                      onClick: (event) => {
+                      onClick: (event:any) => {
                          event.stopPropagation();
                         setOpenDesktop(!openDesktop);
                         props.onFocus && props.onFocus(!openDesktop);

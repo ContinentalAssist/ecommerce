@@ -31,29 +31,24 @@ export default defineConfig(({ command, mode }): UserConfig => {
       partytownVite({ dest: join(__dirname, "dist", "~partytown") }),
     ],
     // This tells Vite which dependencies to pre-build in dev mode.
-     resolve: {
-     alias: {
-       "@mui/x-date-pickers-pro/AdapterDayjs": path.resolve(
-         __dirname,
-         "node_modules/@mui/x-date-pickers-pro/AdapterDayjs",
-          
-       ),
-       "node_modules/dayjs/plugin/weekOfYear": path.resolve(
-         __dirname,
-         "node_modules/dayjs/plugin/weekOfYear"),
-      "dayjs/plugin/weekOfYear": path.resolve(
-        __dirname,
-        "node_modules/dayjs/plugin/weekOfYear.js"
-      ),
-     },
-   },
-    optimizeDeps: {
-       esbuildOptions: {
-      resolveExtensions: ['.js', '.json', '.jsx', '.ts', '.tsx']
-    }
+   resolve: {
+   /*  alias: {
+      // Asegúrate de que Vite resuelva correctamente los módulos
+      '@mui/x-date-pickers-pro': '@mui/x-date-pickers-pro/dist/index.js',
+    }, */
+  },
+  /*   optimizeDeps: {
+     include: [
+    '@mui/x-date-pickers',
+    '@mui/x-date-pickers-pro',
+    'dayjs',
+  ],
+  esbuildOptions: {
+    resolveExtensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
+  },
       // Put problematic deps that break bundling here, mostly those with binaries.
       // For example ['better-sqlite3'] if you use that in server functions.
-    },
+    }, */
     /**
      * This is an advanced setting. It improves the bundling of your server code. To use it, make sure you understand when your consumed packages are dependencies or dev dependencies. (otherwise things will break in production)
      */

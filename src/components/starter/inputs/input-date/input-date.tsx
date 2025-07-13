@@ -57,7 +57,7 @@ const MyDateTimePicker = (props: DatePickerProps) => {
 
   return (
     <div>
-      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
+      <Grid key={'key-' + props.id} size={{ xs: 12, md: 12 }}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
@@ -79,7 +79,7 @@ const MyDateTimePicker = (props: DatePickerProps) => {
                       </InputAdornment>
                     ),
                     inputProps: {
-                      onClick: (event) => {
+                      onClick: (event:any) => {
                         event.stopPropagation();
                         setOpenMobile(true);
                       },
@@ -88,7 +88,7 @@ const MyDateTimePicker = (props: DatePickerProps) => {
                 },
               }}
               sx={{ width: '100%' }}
-              onChange={(newValue) => {
+              onChange={(newValue:any) => {
                 setValue(newValue);
                 if (newValue) {
                   props.onChange && props.onChange(newValue.format('YYYY/MM/DD'));
@@ -133,7 +133,7 @@ const MyDateTimePicker = (props: DatePickerProps) => {
                 },
               }}
               sx={{ width: '100%' }}
-              onChange={(newValue) => {
+              onChange={(newValue:any) => {
                 setValue(newValue);
                 if (newValue) {
                   props.onChange && props.onChange(newValue.format('YYYY/MM/DD'));

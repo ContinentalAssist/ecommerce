@@ -23,11 +23,31 @@ color: var(--ca-dark-blue);
     font-size: 1rem !important;
 
 }
+.MuiInputBase-root  .MuiPickersInputBase-root .MuiPickersOutlinedInput-root{
+    border: 1px solid var(--ca-gray);
+    border-radius: 30px !important;
+    color: var(--ca-dark-blue) !important;
+}
 
 .MuiOutlinedInput-notchedOutline
 {
     border: 1px solid var(--ca-gray) !important;
     border-color:var(--ca-gray) !important;
+}
+
+.css-vycme6-MuiPickersInputBase-root-MuiPickersOutlinedInput-root{
+    border-radius: 30px !important;
+}
+
+.MuiFormControl-root .MuiPickersInputBase-root .MuiPickersOutlinedInput-root{
+ border-radius: 30px !important;
+ border-color: gray;
+}
+
+
+.MuiFormControl-root .MuiPickersTextField-root{
+ border-radius: 30px !important;
+ border-color: gray;
 }
 
 /* .Mui-focused .MuiOutlinedInput-notchedOutline
