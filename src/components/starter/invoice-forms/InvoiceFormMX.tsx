@@ -33,7 +33,41 @@ export const InvoiceFormMX = component$(() => {
         stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
     })
 
-
+    useTask$(() => {
+        let observer: MutationObserver;
+        
+        const setupObserver = () => {
+            if (observer) {
+                observer.disconnect();
+            }
+            
+            observer = new MutationObserver((mutations) => {
+                const input = document.querySelector('input[name="codigopostal"]');
+                if (input) {
+                (input as HTMLInputElement).addEventListener('input', (e) => {
+                    const value = (e.target as HTMLInputElement).value;
+                    const numericValue = value.replace(/\D/g, '');
+                    const formattedValue = numericValue.slice(0, 6);
+                    (e.target as HTMLInputElement).value = formattedValue;
+                });
+                }
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        };
+        
+        setupObserver();
+        
+        // Reconectar cuando cambie el formulario
+        document.addEventListener('change', (e) => {
+            if ((e.target as HTMLElement).tagName === 'FORM') {
+                setupObserver();
+            }
+        });
+    });
 
     
     const changeTypePerson$ = $((person:string) => {
