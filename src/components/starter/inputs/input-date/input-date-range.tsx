@@ -2,10 +2,19 @@
 import { qwikify$ } from "@builder.io/qwik-react";
 import { useState } from 'react';
 import { LicenseInfo } from '@mui/x-license';
-LicenseInfo.setLicenseKey('5b3cb478e2a50cc92ccd56254e4eb447Tz0xMTU2NDAsRT0xNzgzMjA5NTk5MDAwLFM9cHJvLExNPXN1YnNjcmlwdGlvbixQVj1pbml0aWFsLEtWPTI=');
+
+// Configurar la licencia usando variable de entorno
+const MUI_X_LICENSE_KEY = import.meta.env.VITE_MUI_X_LICENSE_KEY;
+
+if (MUI_X_LICENSE_KEY) {
+  LicenseInfo.setLicenseKey(MUI_X_LICENSE_KEY);
+} else {
+  console.warn('MUI X License key not found. Please set VITE_MUI_X_LICENSE_KEY environment variable.');
+}
+
 import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
 import { DesktopDateRangePicker, MobileDateRangePicker, LocalizationProvider } from "@mui/x-date-pickers-pro";
-import { Grid, Box, InputAdornment, createSvgIcon } from "@mui/material";
+import { Grid, Box, InputAdornment, createSvgIcon, TextField } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
@@ -32,6 +41,7 @@ interface DateRangePickerProps {
   onFocus?: (isOpen: boolean) => void;
   startName?: string;
   endName?: string;
+  placeholder?: string;
   [key: string]: any;
 }
 
@@ -72,9 +82,16 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
 
   const formatDateRange = (dateRange: DateRange) => {
     return {
-      start: dateRange[0] ? dateRange[0].format('YYYY/MM/DD') : '',
-      end: dateRange[1] ? dateRange[1].format('YYYY/MM/DD') : ''
+      start: dateRange[0] ? dateRange[0].format('MM/DD/YYYY') : '',
+      end: dateRange[1] ? dateRange[1].format('MM/DD/YYYY') : ''
     };
+  };
+
+  // Función para formatear el rango de fechas para mostrar en el input
+  const formatDateRangeForDisplay = (dateRange: DateRange): string => {
+    if (!dateRange[0] || !dateRange[1]) return '';
+    const formatted = formatDateRange(dateRange);
+    return `${formatted.start} - ${formatted.end}`;
   };
 
   const handleDateRangeChange = (newValue: DateRange) => {
@@ -85,40 +102,59 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
     }
   };
 
+  const handleMobileInputClick = () => {
+    setOpenMobile(true);
+    props.onFocus && props.onFocus(true);
+  };
+
+  const handleMobileClose = () => {
+    setOpenMobile(false);
+    props.onFocus && props.onFocus(false);
+  };
+
   return (
     <div>
       <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Range Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
+            {/* Input visual único para mobile */}
+            <TextField
+              fullWidth
+              label={props.label}
+              placeholder={props.placeholder || 'Selecciona el rango de fechas'}
+              value={formatDateRangeForDisplay(value)}
+              onClick={handleMobileInputClick}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CalendarIcon />
+                  </InputAdornment>
+                ),
+                readOnly: true,
+              }}
+              sx={{
+                '& .MuiInputBase-input': {
+                  cursor: 'pointer',
+                },
+              }}
+            />
+            
+            {/* MobileDateRangePicker oculto - solo para la funcionalidad */}
             <MobileDateRangePicker
               {...props}
-              label={props.label}
               value={value}
               open={openMobile}
               onOpen={() => setOpenMobile(true)}
-              onClose={() => setOpenMobile(false)}
+              onClose={handleMobileClose}
               minDate={getValidDateOrDefault(props.min)}
               maxDate={getValidDateOrDefault(props.max)}
+              onChange={handleDateRangeChange}
               slotProps={{
                 textField: {
-                  InputProps: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <CalendarIcon />
-                      </InputAdornment>
-                    ),
-                    inputProps: {
-                      onClick: (event) => {
-                        event.stopPropagation();
-                        setOpenMobile(true);
-                      },
-                    },
-                  },
+                  sx: { display: 'none' } // Ocultar el input original
                 },
               }}
-              sx={{ width: '100%' }}
-              onChange={handleDateRangeChange}
             />
           </Box>
 
@@ -165,18 +201,20 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
               onChange={handleDateRangeChange}
             />
           </Box>
+          
+          {/* Inputs ocultos para los formularios */}
           {props.startName && (
             <input
               type="hidden"
               name={props.startName}
-              value={value[0] ? value[0].format('YYYY/MM/DD') : ''}
+              value={value[0] ? value[0].format('MM/DD/YYYY') : ''}
             />
           )}
           {props.endName && (
             <input
               type="hidden"
               name={props.endName}
-              value={value[1] ? value[1].format('YYYY/MM/DD') : ''}
+              value={value[1] ? value[1].format('MM/DD/YYYY') : ''}
             />
           )}
         </LocalizationProvider>
