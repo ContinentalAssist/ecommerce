@@ -45,6 +45,7 @@ export const Header = component$(() => {
     const totalPay = useSignal({divisa:'',total:0})
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const pathNameURL = useSignal('')
+    const country = useSignal('');
     const stepsMap = useSignal<StepsMap>(
         {
             '/quotes-engine/step-1/': { stepActive: 1, name: 'Planes' },
@@ -81,6 +82,12 @@ export const Header = component$(() => {
                 totalPay.value = {divisa:stateContext?.value?.plan?.codigomonedapago,total:Number(precioGrupal)}
     
             }
+    })
+
+    useTask$(({ track })=>{
+            const value = track(()=>stateContext.value.country);   
+             country.value = value;
+            
     })
 
     useOnWindow('scroll',$(() => {
@@ -223,15 +230,25 @@ export const Header = component$(() => {
                                 <li class="nav-item">
                                     <a title='chatpdf' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/chat-conditions" >Chatea con nuestras Condiciones</a>
                                 </li>
-                             {/*    <li class="nav-item">
+                                <li class="nav-item">
                                     <a title='Buscar Voucher' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/search-voucher" >Busca tu voucher</a>
-                                </li> */}
+                                </li>
                                 <li class="nav-item">
                                     <a title='Agentes' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://eva.continentalassist.com" target="_black" >Acceso agentes</a>
                                 </li>
-                               {/*  <li class="nav-item">
-                                    <a title='Corporativos' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="https://www.continentalassist.co/backmin/corp/signin.php" target="_black" >Acceso corporativo</a>
-                                </li> */}
+                                {
+                                    country.value === 'CO' &&
+                                    <li class="nav-item">
+                                        <a title='Facturacion' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/invoice" >Facturación</a>
+                                    </li>
+                                }
+                                {
+                                    country.value === 'MX' &&
+                                    <li class="nav-item">
+                                        <a title='Facturacion' class="nav-link text-semi-bold text-dark-blue" onClick$={(e) => {getLocation$(e)}} href="/invoice" >Facturación</a>
+                                    </li>
+                                }
+                                
                             </ul>
                         </div>
                     </div>

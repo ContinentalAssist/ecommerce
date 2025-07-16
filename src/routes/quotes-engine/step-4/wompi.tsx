@@ -8,6 +8,7 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 import { LoadingContext } from "~/root";
+import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
 
 
 
@@ -40,7 +41,7 @@ export default component$(() => {
     const wompiIdTransaccion =useSignal('')
     const contextLoading = useContext(LoadingContext)
 
-
+    
     const validateTransaccion$ = $(async() => {
         const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
         const dataValidation = await resValidation.json()
@@ -443,11 +444,14 @@ export default component$(() => {
           
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
+       /*  const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement */
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
         const dataFormInvoicing : {[key:string]:any} = {}
         const dataFormPayment : {[key:string]:any} = {}
-
+        const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
+      
         contextLoading.value = {status:true, message:'Realizando el pago...'};
 
         let error = false
@@ -500,9 +504,10 @@ export default component$(() => {
                 },stateContext.value.dataLayerPaxBenefits)
             );
         }
-   
+        
         if(checkInvoicing.checked === true)
         {
+            
             if(!formInvoicing.checkValidity())
             {
                 formInvoicing.classList.add('was-validated')
@@ -520,8 +525,10 @@ export default component$(() => {
                 })
             }
         }
-
-        if(error == false)
+    
+        
+        
+        if(error == false && errorInvoicing === false)
         {
             const resToken = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI+'tokens/cards',{
                 method: 'POST',
@@ -533,7 +540,7 @@ export default component$(() => {
                 {
                     number: dataForm.tdcnumero,
                     cvc: dataForm.tdccvv ,
-                    exp_month: String(dataForm.tdcmesexpiracion < 10 ? '0'+String(dataForm.tdcmesexpiracion) : dataForm.tdcmesexpiracion),
+                    exp_month: String( dataForm.tdcmesexpiracion),
                     exp_year: String(dataForm.tdcanoexpiracion),
                     card_holder: dataForm.tdctitular
                 }
@@ -609,8 +616,17 @@ export default component$(() => {
             
             if(checkInvoicing.checked === true && errorInvoicing === false)
             {
-                dataRequest.facturacion = dataFormInvoicing
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+
+                dataFormInvoicing.tipoPersona = radioTypePerson.value;
+                dataFormInvoicing.origenFactura = stateContext.value.country;
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idciudad = null;//Number(inputCity.dataset?.value);
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
+                dataRequest.facturacion = dataFormInvoicing;
             }
+
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
@@ -670,6 +686,8 @@ export default component$(() => {
             }
 
             //loading.value = true
+        }else{
+            contextLoading.value = {status:false, message:''}
         }
     })
 
@@ -691,8 +709,16 @@ export default component$(() => {
         contextLoading.value = {status:true, message:'Realizando el pago...'};
 
         let error = false
+        let errorInvoicing = false
+
         const dataForm : {[key:string]:any} = {}
+        const dataFormInvoicing : {[key:string]:any} = {}
+        //const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        //const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
         const formNequi = document.querySelector('#form-nequi') as HTMLFormElement
+        const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
+        const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
+        const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
 
         if(!formNequi.checkValidity())
         {
@@ -710,7 +736,28 @@ export default component$(() => {
             dataForm[input.name] = input.value
         }
 
-        if(error == false)
+        if(checkInvoicing.checked === true)
+        {
+            
+            if(!formInvoicing.checkValidity())
+            {
+                formInvoicing.classList.add('was-validated')
+                errorInvoicing = true
+            }
+            else
+            {
+                formInvoicing.classList.remove('was-validated')
+                errorInvoicing = false
+
+                const inputs = Array.from(formInvoicing.querySelectorAll('input,select'))
+
+                inputs.map((input) => {
+                    dataFormInvoicing[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+                })
+            }
+        }
+
+        if(error == false && errorInvoicing === false)
         {
             const newPaxs : any[] = []
             
@@ -766,6 +813,19 @@ export default component$(() => {
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                 ip_address:resume.value.resGeo.ip_address,
+            }
+
+             if(checkInvoicing.checked === true && errorInvoicing === false)
+            {
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+
+                dataFormInvoicing.tipoPersona = radioTypePerson.value;
+                dataFormInvoicing.origenFactura = stateContext.value.country;
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                dataFormInvoicing.idciudad = null;//Number(inputCity.dataset?.value);
+                dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
+                Object.assign(dataRequest,{facturacion:dataFormInvoicing});
             }
 
             const wompiRequest = {
@@ -808,14 +868,23 @@ export default component$(() => {
                     attempts.value = (attempts.value + 1)
                     stateContext.value.attempts =attempts.value
             }
+        }else{
+            contextLoading.value = {status:false, message:''}
         }
     })
 
     const getPSE$ = $(async() => {
         let error = false
+        let errorInvoicing = false
         const dataForm : {[key:string]:any} = {}
+        const dataFormInvoicing : {[key:string]:any} = {}
+        //const inputState = document.querySelector('#form-invoicing-select-4-0') as HTMLInputElement
+        //const inputCity = document.querySelector('#form-invoicing-select-4-1') as HTMLInputElement
         const formPSE = document.querySelector('#form-pse') as HTMLFormElement
         contextLoading.value = {status:true, message:'Realizando el pago...'};
+        const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
+        const checkInvoicing = document.querySelector('#invoicing') as HTMLInputElement
+        const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
 
         if(!formPSE.checkValidity())
         {
@@ -838,7 +907,28 @@ export default component$(() => {
             })
         }
 
-        if(error == false)
+        if(checkInvoicing.checked === true)
+        {
+            
+            if(!formInvoicing.checkValidity())
+            {
+                formInvoicing.classList.add('was-validated')
+                errorInvoicing = true
+            }
+            else
+            {
+                formInvoicing.classList.remove('was-validated')
+                errorInvoicing = false
+
+                const inputs = Array.from(formInvoicing.querySelectorAll('input,select'))
+
+                inputs.map((input) => {
+                    dataFormInvoicing[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
+                })
+            }
+        }
+
+        if(error == false && errorInvoicing === false)
         {
             const newPaxs : any[] = []
             
@@ -895,6 +985,19 @@ export default component$(() => {
                 idcotizacion:stateContext.value.idcotizacion ? stateContext.value.idcotizacion : '',
                 sandbox:import.meta.env.VITE_MY_PUBLIC_MODE_SANDBOX,
                 ip_address:resume.value.resGeo.ip_address,
+            }
+
+            if(checkInvoicing.checked === true && errorInvoicing === false)
+            {
+                //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
+                
+                dataFormInvoicing.tipoPersona = radioTypePerson.value;
+                dataFormInvoicing.origenFactura = stateContext.value.country;
+                dataFormInvoicing.codigociudad = null;//codigoCiudad;
+                dataFormInvoicing.idestado = null; //Number(inputState.dataset?.value);
+                dataFormInvoicing.idciudad = null; //Number(inputCity.dataset?.value);
+                dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
+                Object.assign(dataRequest,{facturacion:dataFormInvoicing});
             }
 
             const wompiRequest = {
@@ -939,6 +1042,8 @@ export default component$(() => {
                     attempts.value = (attempts.value + 1)
                     stateContext.value.attempts =attempts.value
             }
+        }else{
+            contextLoading.value = {status:false, message:''}
         } 
     }) 
    
@@ -982,31 +1087,7 @@ export default component$(() => {
                                             </div>
                                         </div>
                                         <div class='d-none' id='invoice'>
-                                            <Form
-                                                    id='form-invoicing'
-                                                    form={[
-                                                        {row:[
-                                                            {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true,onChange:$((e:any) => {getName$(e.target.value)})},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-4 col-xs-4',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
-                                                                {value:'RFC',label:'RFC'},
-                                                                {value:'CC',label:'CC'},
-                                                                {value:'PASAPORTE',label:'Pasaporte'},
-                                                                {value:'NIT',label:'NIT'}
-                                                            ]},
-                                                            {size:'col-xl-8 col-xs-8',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-12',type:'email',label:'Correo',placeholder:'Correo',name:'correo',required:true},
-                                                        ]},
-                                                        {row:[
-                                                            {size:'col-xl-6 col-xs-6',type:'tel',label:'Teléfono',placeholder:'Teléfono',name:'telefono',required:true},
-                                                            
-                                                            {size:'col-xl-6 col-xs-6',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
-                                                        ]}
-                                                    ]}
-                                                />
+                                            <InvoiceFormCO/>                   
                                         </div>
                                         <div class='container'>
                                             <div class='row justify-content-center'>
@@ -1066,7 +1147,7 @@ export default component$(() => {
                                 <hr/>
                                 </>
                             } */}
-                            {
+                            {/* {
                                 formPayment.value == 'BANCOLOMBIA_COLLECT'
                                 &&
                                 <>
@@ -1093,7 +1174,7 @@ export default component$(() => {
                                
 
 
-                            }
+                            } */}
                             {
                                     formPayment.value == 'NEQUI'
                                     &&
@@ -1155,6 +1236,22 @@ export default component$(() => {
                                     </div>
                                     <hr />
                                     <br/>
+
+                                       <div class='container'>
+                                            <div class='row'>
+                                                <div class='col-12'>
+                                                    <div class="form-check form-check-inline my-3">
+                                                        <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
+                                                        <label class="form-check-label" for={"invoicing"}>
+                                                            Requiero factura personalizada.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='d-none' id='invoice'>
+                                            <InvoiceFormCO/>
+                                        </div>
                                     </>
                                 }
                                 {
@@ -1218,6 +1315,22 @@ export default component$(() => {
                                        
                                     </div>
                                     <hr />
+
+                                    <div class='container'>
+                                            <div class='row'>
+                                                <div class='col-12'>
+                                                    <div class="form-check form-check-inline my-3">
+                                                        <input class="form-check-input" type="checkbox" id={"invoicing"} name='required_invoicing' onClick$={showForm$}/>
+                                                        <label class="form-check-label" for={"invoicing"}>
+                                                            Requiero factura personalizada.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='d-none' id='invoice'>
+                                            <InvoiceFormCO/>
+                                        </div>
                                     </>
                                     
                                 }    
