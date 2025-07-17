@@ -155,6 +155,14 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
                   sx: { display: 'none' } // Ocultar el input original
                 },
               }}
+              sx={{
+                '& .MuiMultiInputDateRangeField-separator': {
+                  display: 'none',
+                },
+                '& .MuiTypography-root.MuiMultiInputDateRangeField-separator': {
+                  display: 'none',
+                },
+              }}
             />
           </Box>
 

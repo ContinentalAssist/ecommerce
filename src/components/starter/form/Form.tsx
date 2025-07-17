@@ -2,6 +2,8 @@ import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.i
 import { InputPaxs } from "../inputs/input-paxs/InputPaxs";
 import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple";
 import { InputSelect } from "../inputs/input-select/InputSelect";
+import { DestinosSelect } from "../inputs/input-select/DestinosSelect";
+import { DestinosSelectMultiple } from "../inputs/input-select/DestinosSelectMultiple";
 import styles from './form.css?inline'
 import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
 import { DateRangePickerMUI } from "../inputs/input-date/input-date-range";
@@ -465,6 +467,28 @@ export const Form = component$((props:propsForm) => {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
                                                      <InputSelectMultiple
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'destinos-select')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <DestinosSelect
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'destinos-select-multiple')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <DestinosSelectMultiple
                                                         id={props.id+'-select-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     />

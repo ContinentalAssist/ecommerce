@@ -674,7 +674,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                         {row:[
                                             {
                                                 size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                                type:'select',
+                                                type:'destinos-select',
                                                 label:'Origen',
                                                 name:'origen',
                                                 options:origins.value,
@@ -685,7 +685,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                             },
                                             {
                                                 size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                                type:'select-multiple',
+                                                type:'destinos-select-multiple',
                                                 label:'Destino(s)',
                                                 name:'destinos',
                                                 options:destinations.value,
@@ -913,7 +913,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {row:[
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                    type:'select',
+                                    type:'destinos-select',
                                     label:'Origen',
                                     name:'origen',
                                     options:origins.value,required:true,
@@ -924,7 +924,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 },
                                 {
                                     size:'col-lg-6 col-sm-6 col-xs-12 col-6',
-                                    type:'select-multiple',
+                                    type:'destinos-select-multiple',
                                     label:'Destino(s)',
                                     name:'destinos',
                                     options:destinations.value,

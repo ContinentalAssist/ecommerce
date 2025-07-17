@@ -1,4 +1,4 @@
-import { $, component$, useSignal, useStylesScoped$, useTask$,useVisibleTask$  } from "@builder.io/qwik";
+import { $, component$, useSignal, useStylesScoped$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './input-select.css?inline'
 
 interface propsInputSelectMultiple {
@@ -6,20 +6,36 @@ interface propsInputSelectMultiple {
     options : any[]
 }
 
-export const InputSelectMultiple = component$((props:propsInputSelectMultiple) => {
+export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple) => {
     useStylesScoped$(styles)
 
     const array : any[] = []
 
     const defaultValue = useSignal(array)
+    const inputValue = useSignal('') // Nueva señal para el valor del input
     const datasetValue = useSignal(array)
     const options = useSignal(array)
     const prevOptions = useSignal(array)
     const readOnly = useSignal(false)
+    const showDropdown = useSignal(false)
+    const isSearching = useSignal(false) // Para saber si estamos buscando
 
     useTask$(() => {
         prevOptions.value = props.options
         options.value = props.options
+    })
+
+    // Convertir getDisplayValue a QRL usando $
+    const getDisplayValue$ = $(() => {
+        if (isSearching.value) {
+            return inputValue.value;
+        }
+        
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        if (cleanList.length === 0) {
+            return '';
+        }
+        return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
     })
 
     const getOptions$ = $((option:any) => {
@@ -27,6 +43,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
         const newDataSetValues: string[] = Object.assign([],datasetValue.value)
         const input = document.querySelector('#'+props.id) as HTMLInputElement     
         options.value = []
+        
         if(datasetValue.value.includes(option.value))
         {
             datasetValue.value.map((item,index) => {
@@ -43,9 +60,16 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
             newDataSetValues.push(option.value)
         }
         
-        defaultValue.value = newValues
+        defaultValue.value = [...newValues.filter(val => val !== ''), ''];
         datasetValue.value = newDataSetValues
+
+        // Actualizar el valor del input para reflejar la selección
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        inputValue.value = cleanList.length === 0 ? '' : cleanList.join(', ') + ', ';
+        
         options.value = prevOptions.value
+        isSearching.value = false // Ya no estamos buscando
+        showDropdown.value = false // Ocultar dropdown después de seleccionar
 
         input.focus()
     })
@@ -73,99 +97,110 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
             {
                 readOnly.value = true
             }
+
+        // Función para cerrar el dropdown al hacer clic fuera
+        const handleClickOutside = (event: Event) => {
+            const dropdownElement = document.querySelector('#dropdown-toggle-' + props.id);
+            const dropdownMenuElement = document.querySelector('#dropdown-' + props.id);
+            
+            if (dropdownElement && dropdownMenuElement) {
+                const target = event.target as Node;
+                if (!dropdownElement.contains(target) && !dropdownMenuElement.contains(target)) {
+                    showDropdown.value = false;
+                    isSearching.value = false;
+                }
+            }
+        };
+
+        // Agregar event listener
+        document.addEventListener('click', handleClickOutside);
+
+        // Cleanup: remover el event listener cuando el componente se desmonte
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
     })
-  /*   useVisibleTask$(() => {
-        if(props.value)
-        {
-            const optionsValues : any[] = props.value
-
-            props.options.map(option => {
-                optionsValues.map(value => {
-                    if(value == option.value)
-                    {
-                        getOptions$(option)
-                    }
-                })
-            })
-        }
-
-        if(navigator.userAgent.includes('Mobile'))
-        {
-            readOnly.value = true
-        }
-    }) */
 
     const getLastOption$ = $(() => {
-        if(defaultValue.value.length > 0)
-        {
-            defaultValue.value.map((val,iVal) => {
-                if(val === '')
-                {
-                    defaultValue.value.splice(iVal,1)
-                }
-            })
-
+        const last = defaultValue.value[defaultValue.value.length - 1]
+        if (last !== '') {
             defaultValue.value.push('')
         }
-    })
-
-    const geFiltertList$ = $((e:any) => {
-        if(e.target.value == '')
-        {
-            options.value = prevOptions.value
-        }
-        else
-        {
-            if(defaultValue.value.length === 0)
-            {
-                const newList = prevOptions.value.filter((option) => {
-                // Normaliza la opción y elimina los diacríticos
-                const newOption = String(option.label)
-                .normalize("NFD") // Descompone caracteres acentuados
-                .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
-
-                // Normaliza el valor de entrada y elimina diacríticos
-                const inputValue = String(e.target.value)
-                    .normalize("NFD") // Descompone caracteres acentuados
-                    .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
-
-                // Compara si la opción normalizada incluye el valor de entrada normalizado
-                return newOption.toLowerCase().includes(inputValue.toLowerCase());
-                })
-
-                options.value = newList
-            }
-            else
-            {
-                const newValues: string[] = Object.assign([],defaultValue.value)
-                newValues[newValues.length - 1] = e.target.value.split(',')[newValues.length - 1]
-
-                const newList = prevOptions.value.filter((option) => {
-                    // Normaliza la opción y elimina los diacríticos
-                const newOption = String(option.label)
-                .normalize("NFD") // Descompone caracteres acentuados
-                .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
-
-                // Normaliza el último valor de newValues y elimina diacríticos
-                const lastValue = String(newValues[newValues.length - 1])
-                    .normalize("NFD") // Descompone caracteres acentuados
-                    .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
-
-                  // Compara si la opción normalizada incluye el último valor normalizado
-                 return newOption.toLowerCase().includes(lastValue.toLowerCase());
-                })                
-                options.value = newList
-            }
+        // Sincronizar inputValue cuando se hace focus
+        if (!isSearching.value) {
+            inputValue.value = isSearching.value ? 
+                inputValue.value : 
+                (() => {
+                    const cleanList = defaultValue.value.filter((val) => val !== '');
+                    if (cleanList.length === 0) {
+                        return '';
+                    }
+                    return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
+                })();
         }
     })
+     
+    const geFiltertList$ = $((e: any) => {
+        const inputRawValue = e.target.value;
+        inputValue.value = inputRawValue; // Actualizar inmediatamente
+        isSearching.value = true; // Marcar que estamos buscando
+    
+        if (inputRawValue === '') {
+            // Si el input está vacío, mostrar todas las opciones y ocultar el dropdown
+            options.value = prevOptions.value;
+            showDropdown.value = false;
+            isSearching.value = false;
+            return;
+        }
+    
+        showDropdown.value = true;
+    
+        // Asegurar que el arreglo defaultValue tenga al menos un campo editable al final
+        if (defaultValue.value.length === 0 || defaultValue.value.at(-1) !== '') {
+            defaultValue.value.push('');
+        }
+    
+        // Extraer el texto que el usuario está escribiendo después de la última coma
+        const searchTerm = inputRawValue.split(',').at(-1)?.trim() || '';
+    
+        // Normalizar y filtrar las opciones basadas en el término actual
+        const newList = prevOptions.value.filter((option) => {
+            const optionText = String(option.label)
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+    
+            const inputText = searchTerm
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+    
+            return optionText.includes(inputText);
+        });
+    
+        options.value = newList;
+    });
+
+    const handleInputChange$ = $((e: any) => {
+        geFiltertList$(e);
+    })
+
+    // Usar una computed signal para el valor del input
+    const displayValue = (() => {
+        if (isSearching.value) {
+            return inputValue.value;
+        }
+        
+        const cleanList = defaultValue.value.filter((val) => val !== '');
+        if (cleanList.length === 0) {
+            return '';
+        }
+        return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
+    })();
 
     return(
-        <div class='dropdown drop-select text-center'>
+        <div class='dropdown drop-select text-center' style={{ position: 'relative', width: '100%' }}>
             <div class="dropdown-toggle"
-                data-bs-toggle="dropdown" 
-                data-bs-auto-close="outside" 
-                data-bs-reference="toggle" 
                 id={'dropdown-toggle-'+props.id}
+                style={{ position: 'relative', width: '100%' }}
             >
                 <div class='input-group '>
                     {
@@ -181,43 +216,58 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                             name={props.name}
                             class='form-control form-control-select-multiple text-bold text-dark-blue' 
                             id={props.id}
-                            value={defaultValue.value}  
+                            value={displayValue}
                             data-value={datasetValue.value} 
                             placeholder={props.label} 
                             required={props.required}
-                            onKeyUp$={(e) => geFiltertList$(e)}
-                            //readOnly={readOnly.value}
-                            onFocusin$={getLastOption$}
-                            /* onChange$={(e) => {                                
-                                if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
-                                {
-                                    e.target.classList.remove('is-invalid')
-                                    e.target.classList.add('is-valid')
-                                }
-                                else
-                                {
-                                    e.target.classList.remove('is-valid')
-                                }
-                            }} */
-                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0',
-                            props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
+                            onInput$={handleInputChange$}
+                            onKeyUp$={handleInputChange$}
+                            onFocus$={() => {
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1';
+                                getLastOption$();
                             }}
+                            onBlur$={() => {
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0';
+                                props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
+                                // Pequeño delay para permitir clicks en las opciones
+                                setTimeout(() => {
+                                    showDropdown.value = false;
+                                    isSearching.value = false;
+                                }, 150);
+                            }}
+                            onFocusin$={getLastOption$}
+                            {...props.dataAttributes}
                         />
                         <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
                 <i class="fa-solid fa-chevron-down"></i>
             </div>
-            <hr id={props.id}/>
-            <div class="row">
+            <hr id={props.id} style={{ margin: '0' }}/>
+            
+            {/* Usar renderizado condicional con showDropdown.value */}
+            {showDropdown.value && (
                 <div 
                     id={'dropdown-'+props.id} 
-                    class='dropdown-menu p-4' 
-                    aria-labelledby={props.id}
-                    style={{ overflow:'hidden'}}
+                    class='dropdown-menu show' 
+                    aria-labelledby={props.id} 
+                    style={{ 
+                        position: 'absolute',
+                        top: 'calc(100% - 1rem)',
+                        left: '0',
+                        zIndex: '1050',
+                        overflow: 'hidden',
+                        padding: '0.5rem 0.5rem 0.5rem 0rem',
+                        marginTop: '0',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        border: '1px solid #e5e7eb',
+                        borderRadius: '1rem',
+                        backgroundColor: 'white',
+                        width: '100%',                 
+                    }}
                 >
-                    <div class='row inside' style={{ overflowY: 'auto' }}>
+
+                    <div class='row inside g-0' style={{ overflowY: 'auto', maxHeight: '300px' }}>
                         <div class='col-6'>
                             <ul class='list-group list-group-flush'>
                                 {options.value.map((option, iOption) => {
@@ -248,11 +298,11 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                             </li>
                                         );
                                     }
-                                    return null; // Retorna null si no se cumple la condición
+                                    return null;
                                 })}
                             </ul>
                         </div>
-                        <div class='col-6'>
+                        <div class='col-6' style={{ padding: '0rem 0.5rem 0rem 0rem'}}>
                             <ul class='list-group list-group-flush'>
                                 {options.value.map((option, iOption) => {
                                     if (iOption >= options.value.length / 2) {
@@ -282,13 +332,13 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                                             </li>
                                         );
                                     }
-                                    return null; // Retorna null si no se cumple la condición
+                                    return null;
                                 })}
                             </ul>
                         </div>
                     </div>
                 </div>
-            </div>
+            )}
         </div>
     )
 })
