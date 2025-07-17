@@ -2,20 +2,24 @@
 import { qwikify$ } from "@builder.io/qwik-react";
 import { useState } from 'react';
 import { LicenseInfo } from '@mui/x-license';
-LicenseInfo.setLicenseKey('5b3cb478e2a50cc92ccd56254e4eb447Tz0xMTU2NDAsRT0xNzgzMjA5NTk5MDAwLFM9cHJvLExNPXN1YnNjcmlwdGlvbixQVj1pbml0aWFsLEtWPTI=');
-import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
-import { DatePicker, MobileDatePicker, LocalizationProvider } from "@mui/x-date-pickers-pro";
-import { Grid, Box, InputAdornment, createSvgIcon } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+
+// Configurar la licencia usando variable de entorno
+const MUI_X_LICENSE_KEY = import.meta.env.VITE_MUI_X_LICENSE_KEY;
+
+if (MUI_X_LICENSE_KEY) {
+  LicenseInfo.setLicenseKey(MUI_X_LICENSE_KEY);
+} else {
+  console.warn('MUI X License key not found. Please set VITE_MUI_X_LICENSE_KEY environment variable.');
+}
+
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker, MobileDatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { Grid, Box, InputAdornment, createSvgIcon, TextField } from "@mui/material";
+import dayjs from "../../../../utils/dayjs-config";
+import type { Dayjs } from "dayjs";
 import './input-date.css'
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale('es');
-
-const FlightLandIcon = createSvgIcon(
+const CalendarIcon = createSvgIcon(
   <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>,
   'CalendarIcon',
 );
@@ -28,19 +32,50 @@ interface DatePickerProps {
   max?: string;
   onChange?: (date: string) => void;
   onFocus?: (isOpen: boolean) => void;
+  name?: string;
+  placeholder?: string;
   [key: string]: any;
 }
 
-const MyDateTimePicker = (props: DatePickerProps) => {
-  const [value, setValue] = useState<Dayjs | null>(null);
+const MyDatePicker = (props: DatePickerProps) => {
+  const getValidDateOrDefault = (dateString?: string): Dayjs | undefined => {
+    if (!dateString) return undefined;
+    const date = dayjs(dateString);
+    return date.isValid() ? date : undefined;
+  };
+
+  const toNullIfUndefined = (date: Dayjs | undefined): Dayjs | null => {
+    return date === undefined ? null : date;
+  };
+
+  const [value, setValue] = useState<Dayjs | null>(() => {
+    const defaultDate = getValidDateOrDefault(props.defaultvalue);
+    return toNullIfUndefined(defaultDate);
+  });
+
   const [openDesktop, setOpenDesktop] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
-  // Función para obtener fecha válida o null
-  const getValidDateOrDefault = (dateString?: string): Dayjs | null => {
-    if (!dateString) return null;
-    const date = dayjs(dateString);
-    return date.isValid() ? date : null;
+  const formatDate = (date: Dayjs | null): string => {
+    return date ? date.format('MM/DD/YYYY') : '';
+  };
+
+  const handleDateChange = (newValue: Dayjs | null) => {
+    setValue(newValue);
+    if (newValue) {
+      const formatted = newValue.format('YYYY/MM/DD');
+      props.onChange && props.onChange(formatted);
+    }
+  };
+
+  const handleMobileInputClick = () => {
+    setOpenMobile(true);
+    props.onFocus && props.onFocus(true);
+  };
+
+  const handleMobileClose = () => {
+    setOpenMobile(false);
+    props.onFocus && props.onFocus(false);
   };
 
   return (
@@ -49,45 +84,49 @@ const MyDateTimePicker = (props: DatePickerProps) => {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
+            {/* Input visual único para mobile */}
+            <TextField
+              fullWidth
+              label={props.label}
+              placeholder={props.placeholder || 'Selecciona una fecha'}
+              value={formatDate(value)}
+              onClick={handleMobileInputClick}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <CalendarIcon />
+                  </InputAdornment>
+                ),
+                readOnly: true,
+              }}
+              sx={{
+                '& .MuiInputBase-input': {
+                  cursor: 'pointer',
+                },
+              }}
+            />
+            
+            {/* MobileDatePicker oculto - solo para la funcionalidad */}
             <MobileDatePicker
               {...props}
-              label={props.label}
               value={value}
               open={openMobile}
               onOpen={() => setOpenMobile(true)}
-              onClose={() => setOpenMobile(false)}
+              onClose={handleMobileClose}
               minDate={getValidDateOrDefault(props.min)}
               maxDate={getValidDateOrDefault(props.max)}
+              onChange={handleDateChange}
               slotProps={{
                 textField: {
-                  InputProps: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <FlightLandIcon />
-                      </InputAdornment>
-                    ),
-                    inputProps: {
-                      onClick: (event) => {
-                        event.stopPropagation();
-                        setOpenMobile(true);
-                      },
-                    },
-                  },
+                  sx: { display: 'none' } // Ocultar el input original
                 },
-              }}
-              sx={{ width: '100%' }}
-              onChange={(newValue) => {
-                setValue(newValue);
-                if (newValue) {
-                  props.onChange && props.onChange(newValue.format('YYYY/MM/DD'));
-                }
               }}
             />
           </Box>
 
-          
+          {/* Desktop Date Picker */}
           <Box display={{ xs: "none", sm: "block" }}>
-            <DatePicker
+            <DesktopDatePicker
               {...props}
               label={props.label}
               value={value}
@@ -107,7 +146,7 @@ const MyDateTimePicker = (props: DatePickerProps) => {
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <FlightLandIcon />
+                        <CalendarIcon />
                       </InputAdornment>
                     ),
                     inputProps: {
@@ -120,14 +159,18 @@ const MyDateTimePicker = (props: DatePickerProps) => {
                 },
               }}
               sx={{ width: '100%' }}
-              onChange={(newValue) => {
-                setValue(newValue);
-                if (newValue) {
-                  props.onChange && props.onChange(newValue.format('YYYY/MM/DD'));
-                }
-              }}
+              onChange={handleDateChange}
             />
           </Box>
+          
+          {/* Input oculto para formularios */}
+          {props.name && (
+            <input
+              type="hidden"
+              name={props.name}
+              value={value ? value.format('YYYY/MM/DD') : ''}
+            />
+          )}
         </LocalizationProvider>
       </Grid>
     </div>
@@ -135,6 +178,6 @@ const MyDateTimePicker = (props: DatePickerProps) => {
 };
 
 export const DatePickerMUI = qwikify$(
-  MyDateTimePicker, {
+  MyDatePicker, {
   eagerness: "visible",
 });

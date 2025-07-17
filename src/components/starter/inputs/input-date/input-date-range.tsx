@@ -12,17 +12,12 @@ if (MUI_X_LICENSE_KEY) {
   console.warn('MUI X License key not found. Please set VITE_MUI_X_LICENSE_KEY environment variable.');
 }
 
-import { AdapterDayjs } from '@mui/x-date-pickers-pro/AdapterDayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DesktopDateRangePicker, MobileDateRangePicker, LocalizationProvider } from "@mui/x-date-pickers-pro";
 import { Grid, Box, InputAdornment, createSvgIcon, TextField } from "@mui/material";
-import dayjs, { Dayjs } from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import dayjs from "../../../../utils/dayjs-config";
+import type { Dayjs } from "dayjs";
 import './input-date.css'
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale('es');
 
 const CalendarIcon = createSvgIcon(
   <path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"></path>,
