@@ -86,8 +86,7 @@ export default component$(() => {
             }
             
 
-            const resPlans = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansPrices",
-                {method:"POST",body:JSON.stringify(newBody)});
+            const resPlans = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansPrices", {method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newBody)});
             const dataPlans = await resPlans.json()
             
             error = dataPlans.error

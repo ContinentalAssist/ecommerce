@@ -39,7 +39,7 @@ export default component$(() => {
     const getVoucher = $( async( vouchercode: string)=>{
         let resVoucher : {[key:string]:any} = {}
 
-        const resData = await fetch("/api/getVoucher",{method:"POST",body:JSON.stringify({codigovoucher:vouchercode})});
+        const resData = await fetch("/api/getVoucher",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({codigovoucher:vouchercode})});
         const data = await resData.json()
         resVoucher = data
 
@@ -83,7 +83,7 @@ export default component$(() => {
          
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
-                const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
+                const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
                 if(dataValidation.resultado?.status == 'completed')
                 {
@@ -100,7 +100,7 @@ export default component$(() => {
             }
             else
             {
-                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:locationEnv.url.searchParams.get('id')})});
+                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
     
                 if(dataValidation.resultado.status == 'APPROVED')

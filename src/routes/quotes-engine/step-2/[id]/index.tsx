@@ -58,7 +58,7 @@ export default component$(() => {
         const resOrigins : any[] = []
         const resDestinations : any[] = []
 
-        const resDefaults = await fetch("/api/getDefaults",{method:"GET"});
+        const resDefaults = await fetch("/api/getDefaults",{method:"GET",headers: { 'Content-Type': 'application/json' }});
         const dataDefaults = await resDefaults.json()
         res = dataDefaults.resultado[0]
 
@@ -115,7 +115,7 @@ export default component$(() => {
                     ip:resGeo.ip_address,
                 }
 
-                const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+                const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataRequest)});
                 const dataAdditionals = await resAdditionals.json()
                 newRes = dataAdditionals.resultado
 
@@ -180,7 +180,7 @@ export default component$(() => {
             newResume[85] = 0
             newResume.edades = []
 
-            const resQuote = await fetch("/api/getQuote",{method:"POST",body:JSON.stringify({idcotizacion:Number(location.params.id.split('-')[0])})});
+            const resQuote = await fetch("/api/getQuote",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({idcotizacion:Number(location.params.id.split('-')[0])})});
             const dataQuote = await resQuote.json()
             newResume.idagencia = dataQuote.resultado[0].idagencia
             newResume.idcotizacion = dataQuote.resultado[0].idcotizacion
@@ -282,7 +282,7 @@ export default component$(() => {
                 ip:resGeoPrev.ip_address,
             }
 
-            const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",body:JSON.stringify(dataRequest)});
+            const resAdditionals = await fetch("/api/getPlanAdditionalsBenefits",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataRequest)});
             const dataAdditionals = await resAdditionals.json()
             newRes = dataAdditionals.resultado
 
@@ -542,7 +542,7 @@ export default component$(() => {
                 
                 let resValidPaxs : {[key:string]:any} = {}
 
-                const resPaxs = await fetch("/api/getPaxValidation",{method:"POST",body:JSON.stringify(dataRequest)});
+                const resPaxs = await fetch("/api/getPaxValidation",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataRequest)});
                 const dataPaxs = await resPaxs.json()
                 resValidPaxs = dataPaxs
     
