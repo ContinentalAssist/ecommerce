@@ -158,7 +158,13 @@ export const DestinosSelect = component$((props:propInputSelect) => {
             >
                 <div class='row inside g-0' style={{ overflowY:'auto', maxHeight: '300px'}}>
                     {
-                        options.value.length > 4 ?
+                        options.value.length === 0 && isSearching.value ? (
+                            <div class='col-12'>
+                                <div class='text-center text-medium text-dark-gray p-3'>
+                                    La búsqueda no corresponde con ningún país
+                                </div>
+                            </div>
+                        ) : options.value.length > 4 ?
                         <>
                         <div class='col-6'>
                         <ul class='list-group list-group-flush'>

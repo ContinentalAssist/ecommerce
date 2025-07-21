@@ -311,7 +311,18 @@ export const QuotesEngine = component$((props:propsQE) => {
 
             newDataForm.dias = dayjs(newDataForm.hasta).diff(dayjs(newDataForm.desde), 'day') + 1;
             
-
+            if (newDataForm.dias > 120) {
+                // Mostrar modal de error
+                const bs = (window as any)['bootstrap'];
+                const modal = new bs.Modal('#modal-date-range-validation', {});
+                modal.show();
+                
+                // Detener el loading
+                contextLoading.value = {status: false, message: ''};
+                
+                // No continuar con el proceso
+                return;
+            }
             
             origins.value.map(origin => {
                 if(origin.value == newDataForm.origen)
@@ -997,7 +1008,49 @@ export const QuotesEngine = component$((props:propsQE) => {
 
 
 
+            <div id="modal-date-range-validation" class="modal fade" tabIndex={-1} data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <div class="d-flex align-items-center">
+                    <div class="bg-warning bg-opacity-10 rounded-circle p-2 me-3">
+                        <i class="fa-solid fa-triangle-exclamation text-warning fs-5"></i>
+                    </div>
+                    <h5 class="modal-title text-dark-blue fw-semibold mb-0">
+                        Rango de fechas inválido
+                    </h5>
+                    </div>
+                </div>
+                <div class="modal-body text-center py-4">
+                    <div class="mb-4">
+                    <div class="bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
+                        style="width: 80px; height: 80px;">
+                        <i class="fa-solid fa-triangle-exclamation text-warning fa-2x"></i>
+                    </div>
+                    <p class="text-dark fs-5 mb-0 lh-base">
+                        Su cotización no puede superar los <strong class="text-primary">120 días</strong>
+                    </p>
+                    <small class="text-muted mt-2 d-block">
+                        Por favor, ajuste las fechas de su viaje para continuar
+                    </small>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 justify-content-center pt-0">
+                    <button 
+                    type="button" 
+                    class="btn btn-primary px-4 py-2 fw-semibold"
+                    data-bs-dismiss="modal"
+                    style="min-width: 120px;"
+                    >
+                    Regresar
+                    </button>
+                </div>
+                </div>
+            </div>
+            </div>
+
         </div>
         
+    
     )
 })
