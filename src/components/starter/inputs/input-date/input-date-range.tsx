@@ -107,6 +107,10 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
     props.onFocus && props.onFocus(false);
   };
 
+  // Nombres por defecto para los inputs ocultos
+  const startName = props.startName || "Desde";
+  const endName = props.endName || "Hasta";
+
   return (
     <div>
       <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
@@ -145,6 +149,10 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
               minDate={getValidDateOrDefault(props.min)}
               maxDate={getValidDateOrDefault(props.max)}
               onChange={handleDateRangeChange}
+              localeText={{
+                start: "Desde",
+                end: "Hasta"
+              }}
               slotProps={{
                 textField: {
                   sx: { display: 'none' } // Ocultar el input original
@@ -178,6 +186,10 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
               }}
               minDate={getValidDateOrDefault(props.min)}
               maxDate={getValidDateOrDefault(props.max)}
+              localeText={{
+                start: "Desde",
+                end: "Hasta"
+              }}
               slotProps={{
                 textField: {
                   InputProps: {
@@ -195,28 +207,30 @@ const MyDateRangePicker = (props: DateRangePickerProps) => {
                   },
                 },
               }}
-              sx={{ 
-                width: '100%',
-                '& .MuiDateRangePickerInput-root': {
-                  gap: '8px'
-                }
+              sx={{
+                '& .MuiMultiInputDateRangeField-separator': {
+                  display: 'none',
+                },
+                '& .MuiTypography-root.MuiMultiInputDateRangeField-separator': {
+                  display: 'none',
+                },
               }}
               onChange={handleDateRangeChange}
             />
           </Box>
           
           {/* Inputs ocultos para los formularios */}
-          {props.startName && (
+          {startName && (
             <input
               type="hidden"
-              name={props.startName}
+              name={startName}
               value={value[0] ? value[0].format('MM/DD/YYYY') : ''}
             />
           )}
-          {props.endName && (
+          {endName && (
             <input
               type="hidden"
-              name={props.endName}
+              name={endName}
               value={value[1] ? value[1].format('MM/DD/YYYY') : ''}
             />
           )}
