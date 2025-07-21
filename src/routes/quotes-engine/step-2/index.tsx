@@ -361,10 +361,7 @@ export default component$(() => {
             };
 
             try {
-                const resPaxs = await fetch('/api/getPaxValidation', {
-                    method: 'POST',
-                    body: JSON.stringify(dataRequest),
-                });
+                const resPaxs = await fetch('/api/getPaxValidation', {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataRequest)});
                 const dataPaxs = await resPaxs.json();
 
                 if (!dataPaxs.error) {

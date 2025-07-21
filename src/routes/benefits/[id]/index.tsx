@@ -30,7 +30,7 @@ export default component$(() => {
     const loading = useSignal(true)
 
     useVisibleTask$(async() => {
-        const resBenefits = await fetch("/api/getBenefits",{method:"POST",body:JSON.stringify({idplan:Number(location.params.id)})});
+        const resBenefits = await fetch("/api/getBenefits",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({idplan:Number(location.params.id)})});
         const dataBenefits = await resBenefits.json()
 
         plan.value = dataBenefits.resultado.nombreplan

@@ -165,7 +165,7 @@ export default component$(() => {
     useTask$(async() => {
         
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansBenefits",
-            {method:"POST",body:JSON.stringify({})});
+            {method:"POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({})});
         const data =await response.json();
         if (!data.error) {
             dataPlan.value = await data.resultado; 

@@ -38,8 +38,7 @@ export const QuotesEngine = component$((props:propsQE) => {
         const resOrigins : any[] = []
         const resDestinations : any[] = []
 
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansBenefits",
-            {method:"POST",body:JSON.stringify({})});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPlansBenefits", {method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({})});
         const data =await response.json();
         if (!data.error) {
             stateContext.value.planDefault =await data.resultado;               
@@ -381,7 +380,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                         idfuente: 2,
                         resGeo:stateContext.value.resGeo
                     }
-                    const resPlans = await fetch("/api/getPlansPrices",{method:"POST",body:JSON.stringify(newBody)});
+                    const resPlans = await fetch("/api/getPlansPrices", {method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newBody)});
                     const dataPlans = await resPlans.json()
 
 
