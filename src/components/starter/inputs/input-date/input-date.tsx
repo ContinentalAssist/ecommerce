@@ -57,7 +57,7 @@ const MyDatePicker = (props: DatePickerProps) => {
   const [openMobile, setOpenMobile] = useState(false);
 
   const formatDate = (date: Dayjs | null): string => {
-    return date ? date.format('MM/DD/YYYY') : '';
+    return date ? date.format('YYYY/MM/DD') : '';
   };
 
   const handleDateChange = (newValue: Dayjs | null) => {
@@ -77,6 +77,38 @@ const MyDatePicker = (props: DatePickerProps) => {
     setOpenMobile(false);
     props.onFocus && props.onFocus(false);
   };
+
+  // Filtrar solo las props que son válidas para los date pickers de MUI
+  const getDatePickerProps = () => {
+    const allowedProps = [
+      'disabled',
+      'readOnly',
+      'format',
+      'views',
+      'openTo',
+      'orientation',
+      'closeOnSelect',
+      'disableFuture',
+      'disablePast',
+      'shouldDisableDate',
+      'shouldDisableMonth',
+      'shouldDisableYear',
+      'dayOfWeekFormatter',
+      'localeText',
+      'timezone'
+    ];
+    
+    const filteredProps: any = {};
+    allowedProps.forEach(prop => {
+      if (props[prop] !== undefined) {
+        filteredProps[prop] = props[prop];
+      }
+    });
+    
+    return filteredProps;
+  };
+
+  const datePickerProps = getDatePickerProps();
 
   return (
     <div>
@@ -108,7 +140,7 @@ const MyDatePicker = (props: DatePickerProps) => {
             
             {/* MobileDatePicker oculto - solo para la funcionalidad */}
             <MobileDatePicker
-              {...props}
+              {...datePickerProps}
               value={value}
               open={openMobile}
               onOpen={() => setOpenMobile(true)}
@@ -127,7 +159,7 @@ const MyDatePicker = (props: DatePickerProps) => {
           {/* Desktop Date Picker */}
           <Box display={{ xs: "none", sm: "block" }}>
             <DesktopDatePicker
-              {...props}
+              {...datePickerProps}
               label={props.label}
               value={value}
               open={openDesktop}

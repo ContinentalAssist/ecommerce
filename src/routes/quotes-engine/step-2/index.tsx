@@ -317,10 +317,13 @@ export default component$(() => {
             const inputs = Array.from(form.querySelectorAll('input'));
             inputs.forEach((input) => {
                 const inputElement = input as HTMLInputElement;
-                if (inputElement.name === 'fechanacimiento') {
-                    dataForm[index][inputElement.name] = dayjs(inputElement.value).format('YYYY-MM-DD');
-                } else {
-                    dataForm[index][inputElement.name] = inputElement.value;
+                
+                if (inputElement.name && inputElement.name.trim() !== '') {
+                    if (inputElement.name === 'fechanacimiento') {
+                        dataForm[index][inputElement.name] = dayjs(inputElement.value).format('YYYY-MM-DD');
+                    } else {
+                        dataForm[index][inputElement.name] = inputElement.value;
+                    }
                 }
             });
         }
