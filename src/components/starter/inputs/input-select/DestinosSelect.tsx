@@ -45,12 +45,18 @@ export const DestinosSelect = component$((props:propInputSelect) => {
     const getFiltertList$ = $((e:any) => {
         const searchValue = e.target.value
         inputValue.value = searchValue // Actualizar el valor del input
-        isSearching.value = true // Estamos buscando
+        
+        // CORRECCIÓN: Solo marcar como searching si hay contenido
+        isSearching.value = searchValue.length > 0
         
         if(searchValue == '')
         {
             options.value = prevOptions.value
-            isSearching.value = false
+            // CORRECCIÓN: Limpiar el valor seleccionado cuando se borra todo
+            defaultValue.value = ''
+            datasetValue.value = ''
+            // Notificar el cambio al componente padre
+            props.onChange !== undefined && props.onChange({label:'', value:''});
         }
         else
         {
@@ -112,7 +118,8 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                             id={props.id} 
                             name={props.name} 
                             required={props.required} 
-                            value={isSearching.value ? inputValue.value : defaultValue.value}
+                            // CORRECCIÓN: Usar siempre inputValue para mostrar lo que está escribiendo el usuario
+                            value={inputValue.value}
                             data-value={datasetValue.value}
                             placeholder={props.label}
                             onInput$={handleInputChange$}

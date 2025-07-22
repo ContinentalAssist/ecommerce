@@ -236,33 +236,54 @@ export const QuotesEngine = component$((props:propsQE) => {
 
         forms.map((form,index) => {
             inputs.map((input) => {          
-                      
                 if ((input as HTMLInputElement).readOnly == true) {
                     (input as HTMLInputElement).removeAttribute('readonly');
-                    //input.setAttribute('readonly', '');
                 }
-                if(input.classList.value.includes('form-control-select') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
+                
+                // Validación para selects
+                if(input.classList.value.includes('form-control-select') && 
+                ((input as HTMLInputElement).required === true) && 
+                ((input as HTMLInputElement).value === ''))
                 {
                     (input as HTMLInputElement).classList.add('is-invalid')
                     error[0] = true
                 }
-                else if(input.classList.value.includes('form-paxs') && ((input as HTMLInputElement).required === true) && ((input as HTMLInputElement).value === ''))
+                // Validación para campos paxs
+                else if(input.classList.value.includes('form-paxs') && 
+                        ((input as HTMLInputElement).required === true) && 
+                        ((input as HTMLInputElement).value === ''))
                 {
                     (input as HTMLInputElement).classList.add('is-invalid')
                     error[2] = true
                 }
+                // ← NUEVA: Validación para date range picker
+                else if(input.classList.value.includes('form-date-range') && 
+                        ((input as HTMLInputElement).required === true))
+                {
+                    const startDate = (input as HTMLInputElement).dataset.start;
+                    const endDate = (input as HTMLInputElement).dataset.end;
+                    
+                    // Validar que ambas fechas estén presentes
+                    if(!startDate || !endDate || startDate === '' || endDate === '') {
+                        (input as HTMLInputElement).classList.add('is-invalid')
+                        error[3] = true // Nuevo índice de error para date ranges
+                    } else {
+                        (input as HTMLInputElement).classList.remove('is-invalid');
+                        (input as HTMLInputElement).classList.add('is-valid')
+                    }
+                }
+                // Validación para campos con valor
                 else if((input as HTMLInputElement).value != '')
                 {
                     (input as HTMLInputElement).classList.remove('is-invalid');
                     (input as HTMLInputElement).classList.add('is-valid')
-                }else{
+                }
+                // Campos vacíos
+                else {
                     (input as HTMLInputElement).classList.remove('is-invalid', 'is-valid');
-
-                    
-                    //error[2] = true
                 }
             })
-
+            
             if(!form.checkValidity())
             {
                 form.classList.add('was-validated')
@@ -615,7 +636,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     class="form-control-plaintext text-bold text-dark-blue ps-0" 
                                     id="fechas" 
                                     placeholder="Fechas de tu viaje"
-                                    value={stateContext.value.desde != undefined ? (stateContext.value.desde+' al '+stateContext.value.hasta) : ''}
+                                    value={stateContext.value.desde != undefined ? 
+                                        `${stateContext.value.desde} - ${stateContext.value.hasta}`
+                                        : ''
+                                    }
                                 />
                                 <label class='text-medium text-dark-gray ps-0' for="fechas">Fechas de tu viaje</label>
                             </div>
@@ -723,7 +747,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                                                 onChange: $((e:any) => {changeDateStart$(e)}),
                                                 required: true,
                                                 icon: 'calendar',
-                                                value: resume.value.rangoFechas,
+                                                value: stateContext.value.desde ? {
+                                                    start: stateContext.value.desde,
+                                                    end: stateContext.value.hasta
+                                                } : undefined,
                                                 onFocus: $(() => {closeInputDestination$()}),
                                             }
                                         ]}
@@ -827,7 +854,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                                                 min: inputStart.value.min,
                                                 max: inputEnd.value.max,
                                                 onClick:onClickInput$,
-                                                value: resume.value.rangoFechas,
+                                                value: stateContext.value.desde ? {
+                                                    start: stateContext.value.desde,
+                                                    end: stateContext.value.hasta
+                                                } : undefined,
                                                 readOnly:true,
                                             }
                                         ]}
@@ -1012,13 +1042,10 @@ export const QuotesEngine = component$((props:propsQE) => {
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-0 shadow-lg">
                 <div class="modal-header border-0 pb-0">
-                    <div class="d-flex align-items-center">
-                    <div class="bg-warning bg-opacity-10 rounded-circle p-2 me-3">
-                        <i class="fa-solid fa-triangle-exclamation text-warning fs-5"></i>
-                    </div>
-                    <h5 class="modal-title text-dark-blue fw-semibold mb-0">
-                        Rango de fechas inválido
-                    </h5>
+                    <div class="d-flex align-items-center justify-content-center w-100">
+                        <h5 class="modal-title text-dark-blue fw-semibold mb-0 text-center">
+                            Rango de fechas inválido
+                        </h5>
                     </div>
                 </div>
                 <div class="modal-body text-center py-4">
