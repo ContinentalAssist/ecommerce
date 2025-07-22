@@ -37,9 +37,9 @@ export default defineConfig(({ command, mode }): UserConfig => {
     // This tells Vite which dependencies to pre-build in dev mode.
     resolve: {
       alias: {
-        "@mui/x-date-pickers/LocalizationProvider": path.resolve(
+        "@mui/x-date-pickers-pro/LocalizationProvider": path.resolve(
           __dirname,
-          "node_modules/@mui/x-date-pickers/LocalizationProvider/index.js",
+          "node_modules/@mui/x-date-pickers-pro/LocalizationProvider/index.js",
         ),
         "@mui/x-date-pickers/AdapterDayjs": path.resolve(
           __dirname,

@@ -178,7 +178,6 @@ const MyDatePicker = (props: DatePickerProps) => {
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <CalendarIcon />
                       </InputAdornment>
                     ),
                     inputProps: {

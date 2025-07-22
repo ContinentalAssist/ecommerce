@@ -194,12 +194,12 @@ export default component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class='row justify-content-between cards '>
+                        <div class='row cards'>
                             {
                                 stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
                                     return(
                                         <div key={index+1} class='col-lg-4 col-sm-4' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
-                                            <div class={index == 1  ? 'card border-dark-blue ms-2 mb-5' : 'card border border-0 ms-2 mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
+                                            <div class={index == 1  ? 'card border-dark-blue mb-5' : 'card border border-0  mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
                                                 {
                                                     index == 1
                                                     &&

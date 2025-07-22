@@ -25,19 +25,6 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
         options.value = props.options
     })
 
-    // Convertir getDisplayValue a QRL usando $
-    const getDisplayValue$ = $(() => {
-        if (isSearching.value) {
-            return inputValue.value;
-        }
-        
-        const cleanList = defaultValue.value.filter((val) => val !== '');
-        if (cleanList.length === 0) {
-            return '';
-        }
-        return cleanList.join(', ') + (defaultValue.value.at(-1) === '' ? ', ' : '');
-    })
-
     const getOptions$ = $((option:any) => {
         const newValues: string[] = Object.assign([],defaultValue.value)
         const newDataSetValues: string[] = Object.assign([],datasetValue.value)
@@ -73,6 +60,47 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
 
         input.focus()
     })
+
+    // NUEVA FUNCIÓN: Sincronizar selecciones basándose en el texto del input
+    const syncSelectionsFromInput$ = $((inputText: string) => {
+        if (!inputText.trim()) {
+            // Si el input está vacío, limpiar todas las selecciones
+            defaultValue.value = [''];
+            datasetValue.value = [];
+            return;
+        }
+
+        // Obtener los países que están escritos en el input
+        const inputCountries = inputText
+            .split(',')
+            .map(country => country.trim())
+            .filter(country => country !== '');
+
+        // Encontrar las opciones que coinciden con el texto del input
+        const matchingOptions: any[] = [];
+        const matchingValues: string[] = [];
+
+        inputCountries.forEach(inputCountry => {
+            const matchedOption = prevOptions.value.find(option => {
+                const normalizedOption = String(option.label)
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase();
+                const normalizedInput = inputCountry
+                    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .toLowerCase();
+                return normalizedOption === normalizedInput;
+            });
+
+            if (matchedOption) {
+                matchingOptions.push(matchedOption.label);
+                matchingValues.push(matchedOption.value);
+            }
+        });
+
+        // Actualizar las selecciones solo con los países que coinciden exactamente
+        defaultValue.value = [...matchingOptions, ''];
+        datasetValue.value = matchingValues;
+    });
 
     useTask$(({ track })=>{
         const value = track(()=>props.value);        
@@ -144,6 +172,9 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
         const inputRawValue = e.target.value;
         inputValue.value = inputRawValue; // Actualizar inmediatamente
         isSearching.value = true; // Marcar que estamos buscando
+
+        // NUEVA LÓGICA: Sincronizar las selecciones basándose en el input
+        syncSelectionsFromInput$(inputRawValue);
     
         if (inputRawValue === '') {
             // Si el input está vacío, mostrar todas las opciones y ocultar el dropdown
@@ -268,74 +299,86 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                 >
 
                     <div class='row inside g-0' style={{ overflowY: 'auto', maxHeight: '300px' }}>
-                        <div class='col-6'>
-                            <ul class='list-group list-group-flush'>
-                                {options.value.map((option, iOption) => {
-                                    if (iOption < options.value.length / 2) {
-                                        const isActive = datasetValue.value.includes(option.value);
-                                        return (
-                                            <li
-                                                key={`left-${iOption + 1}`}
-                                                class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
-                                                value={option.value}
-                                            >
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="checkbox"
-                                                        id={`check-left-${iOption}`}
-                                                        checked={isActive}
-                                                        onClick$={() => getOptions$(option)}
-                                                        aria-checked={isActive}
-                                                    />
-                                                    <label
-                                                        class="form-check-label"
-                                                        onClick$={() => getOptions$(option)}
-                                                    >
-                                                        {option.label}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </ul>
-                        </div>
-                        <div class='col-6' style={{ padding: '0rem 0.5rem 0rem 0rem'}}>
-                            <ul class='list-group list-group-flush'>
-                                {options.value.map((option, iOption) => {
-                                    if (iOption >= options.value.length / 2) {
-                                        const isActive = datasetValue.value.includes(option.value);
-                                        return (
-                                            <li
-                                                key={`right-${iOption + 1}`}
-                                                class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
-                                                value={option.value}
-                                            >
-                                                <div class="form-check">
-                                                    <input
-                                                        class="form-check-input"
-                                                        type="checkbox"
-                                                        id={`check-right-${iOption}`}
-                                                        checked={isActive}
-                                                        onClick$={() => getOptions$(option)}
-                                                        aria-checked={isActive}
-                                                    />
-                                                    <label
-                                                        class="form-check-label text-medium text-dark-gray"
-                                                        onClick$={() => getOptions$(option)}
-                                                    >
-                                                        {option.label}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </ul>
-                        </div>
+                        {
+                            options.value.length === 0 && isSearching.value ? (
+                                <div class='col-12'>
+                                    <div class='text-center text-medium text-dark-gray p-3'>
+                                        La búsqueda no corresponde con ningún país
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <div class='col-6'>
+                                        <ul class='list-group list-group-flush'>
+                                            {options.value.map((option, iOption) => {
+                                                if (iOption < options.value.length / 2) {
+                                                    const isActive = datasetValue.value.includes(option.value);
+                                                    return (
+                                                        <li
+                                                            key={`left-${iOption + 1}`}
+                                                            class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
+                                                            value={option.value}
+                                                        >
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    type="checkbox"
+                                                                    id={`check-left-${iOption}`}
+                                                                    checked={isActive}
+                                                                    onClick$={() => getOptions$(option)}
+                                                                    aria-checked={isActive}
+                                                                />
+                                                                <label
+                                                                    class="form-check-label"
+                                                                    onClick$={() => getOptions$(option)}
+                                                                >
+                                                                    {option.label}
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    );
+                                                }
+                                                return null;
+                                            })}
+                                        </ul>
+                                    </div>
+                                    <div class='col-6' style={{ padding: '0rem 0.5rem 0rem 0rem'}}>
+                                        <ul class='list-group list-group-flush'>
+                                            {options.value.map((option, iOption) => {
+                                                if (iOption >= options.value.length / 2) {
+                                                    const isActive = datasetValue.value.includes(option.value);
+                                                    return (
+                                                        <li
+                                                            key={`right-${iOption + 1}`}
+                                                            class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
+                                                            value={option.value}
+                                                        >
+                                                            <div class="form-check">
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    type="checkbox"
+                                                                    id={`check-right-${iOption}`}
+                                                                    checked={isActive}
+                                                                    onClick$={() => getOptions$(option)}
+                                                                    aria-checked={isActive}
+                                                                />
+                                                                <label
+                                                                    class="form-check-label text-medium text-dark-gray"
+                                                                    onClick$={() => getOptions$(option)}
+                                                                >
+                                                                    {option.label}
+                                                                </label>
+                                                            </div>
+                                                        </li>
+                                                    );
+                                                }
+                                                return null;
+                                            })}
+                                        </ul>
+                                    </div>
+                                </>
+                            )
+                        }
                     </div>
                 </div>
             )}
