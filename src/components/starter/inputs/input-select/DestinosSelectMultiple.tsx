@@ -249,7 +249,7 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                             id={props.id}
                             value={displayValue}
                             data-value={datasetValue.value} 
-                            placeholder={props.label} 
+                            placeholder={props.placeholder || "Ingrese países de destino"}
                             required={props.required}
                             onInput$={handleInputChange$}
                             onKeyUp$={handleInputChange$}
@@ -272,7 +272,7 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                         <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
-                <i class="fa-solid fa-chevron-down"></i>
+                
             </div>
             <hr id={props.id} style={{ margin: '0' }}/>
             

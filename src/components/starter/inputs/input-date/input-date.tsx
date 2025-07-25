@@ -158,42 +158,44 @@ const MyDatePicker = (props: DatePickerProps) => {
 
           {/* Desktop Date Picker */}
           <Box display={{ xs: "none", sm: "block" }}>
-            <DesktopDatePicker
-              {...datePickerProps}
-              label={props.label}
-              value={value}
-              open={openDesktop}
-              onOpen={() => {
-                setOpenDesktop(true);
-                props.onFocus && props.onFocus(true);
-              }}
-              onClose={() => {
-                setOpenDesktop(false);
-                props.onFocus && props.onFocus(false);
-              }}
-              minDate={getValidDateOrDefault(props.min)}
-              maxDate={getValidDateOrDefault(props.max)}
-              slotProps={{
-                textField: {
-                  InputProps: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                      </InputAdornment>
-                    ),
-                    inputProps: {
-                      onClick: () => {
-                        setOpenDesktop(!openDesktop);
-                        props.onFocus && props.onFocus(!openDesktop);
-                      },
-                    },
+          <DesktopDatePicker
+            {...datePickerProps}
+            label={props.label}
+            value={value}
+            open={openDesktop}
+            onOpen={() => {
+              setOpenDesktop(true);
+              props.onFocus && props.onFocus(true);
+            }}
+            onClose={() => {
+              setOpenDesktop(false);
+              props.onFocus && props.onFocus(false);
+            }}
+            minDate={getValidDateOrDefault(props.min)}
+            maxDate={getValidDateOrDefault(props.max)}
+            slotProps={{
+              textField: {
+                InputProps: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <CalendarIcon /> {/* ¡Aquí falta el icono! */}
+                    </InputAdornment>
+                  ),
+                  endAdornment: null,
+                },
+                inputProps: {
+                  onClick: () => {
+                    setOpenDesktop(!openDesktop);
+                    props.onFocus && props.onFocus(!openDesktop);
                   },
                 },
-              }}
-              sx={{ width: '100%' }}
-              onChange={handleDateChange}
-            />
-          </Box>
-          
+              },
+            }}
+            sx={{ width: '100%' }}
+            onChange={handleDateChange}
+          />
+        </Box>
+                  
           {/* Input oculto para formularios */}
           {props.name && (
             <input
