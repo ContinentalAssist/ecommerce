@@ -165,3 +165,53 @@
         height: 290px !important;
     }
    }
+
+   .input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.floating-placeholder {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.floating-placeholder.active {
+    top: -8px;
+    left: 12px;
+    font-size: 0.75rem;
+    color: #0d6efd; /* azul claro animado */
+    background-color: white;
+    padding: 0 4px;
+}
+
+/* Añade o modifica estas reglas en tu archivo CSS */
+.form-floating>.form-control::placeholder {
+    font-size: 0.85rem !important;  /* Texto más pequeño */
+    color: #888 !important;         /* Color gris más suave */
+    opacity: 0;                     /* Inicialmente invisible */
+    transition: all 0.2s ease;
+}
+
+.form-floating>.form-control[data-show-placeholder]::placeholder,
+.form-floating>.form-control:focus::placeholder {
+    opacity: 1 !important;          /* Visible cuando se necesita */
+    transform: translateY(1px);     /* Pequeño ajuste de posición */
+}
+
+/* Asegurar que el label flotante no interfiera */
+.form-floating>label {
+    transition: all 0.2s ease;
+    pointer-events: none;           /* Permite hacer clic a través del label */
+}
+
+/* Ajuste para cuando hay valor */
+.form-floating>.form-control:not(:placeholder-shown)~label {
+    transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}

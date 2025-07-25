@@ -637,7 +637,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                     id="fechas" 
                                     placeholder="Fechas de tu viaje"
                                     value={stateContext.value.desde != undefined ? 
-                                        `${stateContext.value.desde} - ${stateContext.value.hasta}`
+                                        `${stateContext.value.desde} al ${stateContext.value.hasta}`
                                         : ''
                                     }
                                 />
@@ -716,6 +716,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                                 onChange:$((e:any) => {changeOrigin$(e)}),
                                                 icon:'plane-departure',
                                                 value: resume?.value?.origen,
+                                                placeholder: "Ingrese país de origen"  // Añade esto para personalizar el placeholder
                                             },
                                             {
                                                 size:'col-lg-6 col-sm-6 col-xs-12 col-6',
@@ -826,7 +827,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                                 size:'col-lg-6 col-sm-6 col-xs-12 col-6',
                                                 type:'text',
                                                 label:'Destino(s)',
-                                                placeholder:'Destino(s)',
+                                                placeholder:'Ingrese su destino',
                                                 name:'destinosprev',                                 
                                                 onClick:onClickInput$,
                                                 required:true,

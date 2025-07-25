@@ -7,6 +7,11 @@ import ImgContinentalAssistPrintTicket from '~/media/quotes-engine/continental-a
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 import { LoadingContext } from "~/root";
 
+declare global {
+    interface Window {
+        dataLayer: any[];
+    }
+}
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Mensaje de compra',
@@ -34,7 +39,65 @@ export default component$(() => {
     const typeMessage = useSignal(0)
     const desktop = useSignal(false)
     const contextLoading = useContext(LoadingContext)
+    const purchaseTracked = useSignal(false)
 
+   useTask$(({ track }) => {
+    const messageType = track(() => typeMessage.value);
+    const resumeData = track(() => resume.value);
+    
+    // Solo ejecutar para compra exitosa y cuando tengamos datos
+    if (messageType === 1 && 
+        !purchaseTracked.value &&
+        Object.keys(resumeData).length > 0 && 
+        resumeData.codigovoucher &&
+        typeof window !== 'undefined' && 
+        'dataLayer' in window) {
+        
+        // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
+        const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
+        
+        // Crear el item_id combinando país y algún identificador del plan
+        const itemId = `${countryCode}_${resumeData.codigovoucher}`;
+
+        // Enviar el evento purchase usando dataLayer
+        (window as any)['dataLayer'].push({
+            'event': 'purchase',
+            'transaction_id': resumeData.codigovoucher,
+            'value': Number(resumeData.total) || 0,
+            'currency': resumeData.codigomoneda || "USD",
+            'ecommerce': {
+                'transaction_id': resumeData.codigovoucher,
+                'value': Number(resumeData.total) || 0,
+                'tax': 0.00,
+                'shipping': 0.00,
+                'currency': resumeData.codigomoneda || "USD",
+                'coupon': '',
+                'items': [
+                    {
+                        'item_id': itemId,
+                        'item_name': resumeData.nombreplan || "",
+                        'coupon': '',
+                        'discount': 0.00,
+                        'index': 0,
+                        'item_brand': 'Continental Assist',
+                        'item_category': countryCode,
+                        'item_list_id': '',
+                        'item_list_name': '',
+                        'item_variant': '',
+                        'location_id': '',
+                        'price': Number(resumeData.total) || 0,
+                        'quantity': 1
+                    }
+                ]
+            }
+        });
+
+            // Marcar como rastreado para evitar duplicados
+            purchaseTracked.value = true;
+        } else {
+            // No enviar evento si no se cumplen condiciones
+        }
+    });
 
     const getVoucher = $( async( vouchercode: string)=>{
         let resVoucher : {[key:string]:any} = {}

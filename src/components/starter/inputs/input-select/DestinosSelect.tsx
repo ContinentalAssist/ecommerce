@@ -111,23 +111,29 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                             <i class={'fa-solid fa-'+props.icon} />
                         </span>
                     }
-                    <div class="form-floating">
+                    <div class="form-floating position-relative">
                         <input 
                             type='text' 
                             class='form-control form-control-select text-bold text-dark-blue' 
                             id={props.id} 
                             name={props.name} 
                             required={props.required} 
-                            // CORRECCIÓN: Usar siempre inputValue para mostrar lo que está escribiendo el usuario
                             value={inputValue.value}
                             data-value={datasetValue.value}
-                            placeholder={props.label}
+                            placeholder={props.placeholder || "Ingrese país de origen"}
                             onInput$={handleInputChange$}
                             onKeyUp$={handleInputChange$}
-                            onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                            onBlur$={(e) => {
-                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'
-                                // Pequeño delay para permitir el click en las opciones
+                            onFocus$={(e: Event) => {
+                                const target = e.target as HTMLInputElement;
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1';
+                                if (!inputValue.value) {
+                                    target.dataset.showPlaceholder = 'true';
+                                }
+                            }}
+                            onBlur$={(e: Event) => {
+                                const target = e.target as HTMLInputElement;
+                                (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0';
+                                delete target.dataset.showPlaceholder;
                                 setTimeout(() => {
                                     const dropdown = document.getElementById('dropdown-'+props.id);
                                     dropdown && (dropdown.style.display = 'none');
@@ -138,7 +144,7 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                         <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
                     </div>
                 </div>
-                <i class="fa-solid fa-chevron-down"></i>
+              
             </div>
             <hr id={props.id} style={{ margin: '0' }}/>
             
