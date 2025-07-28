@@ -139,7 +139,9 @@ export const InvoiceFormMX = component$(() => {
 
     const changeStateMX$  =  $(async(value:any) => {
         
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",{method:"POST",headers: { 'Content-Type': 'application/json' }});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",
+                    {method:"POST",headers: { 'Content-Type': 'application/json' }, body:JSON.stringify({idestado:Number(value),codigopais:stateContext.value.country})});
+
                     const listadociudad =await response.json();
                     const resCity : any[] = [];
 
