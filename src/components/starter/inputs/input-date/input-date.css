@@ -15,6 +15,11 @@ color: var(--ca-dark-blue);
     color: var(--ca-dark-blue) !important;
    
 }
+
+.MuiDateRangePickerInput-separator {
+  display: none !important;
+}
+
 .MuiInputBase-root .MuiOutlinedInput-input{
     margin-top: 0.438rem;
     padding-bottom: 0.625rem;

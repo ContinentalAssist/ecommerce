@@ -32,7 +32,7 @@ export default component$(() => {
     useVisibleTask$(async() => {
         if(location.url.search.includes('id') && !location.url.search.includes('env'))
         {
-            const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:location.url.searchParams.get('id')})});
+            const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id:location.url.searchParams.get('id')})});
             const dataValidation = await resValidation.json()
 
             if(dataValidation.resultado.status == 'completed')
@@ -46,7 +46,7 @@ export default component$(() => {
         }
         else
         {
-            const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:location.url.searchParams.get('id')})});
+            const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:location.url.searchParams.get('id')})});
             const dataValidation = await resValidation.json()
 
             if(dataValidation.resultado.status == 'APPROVED')

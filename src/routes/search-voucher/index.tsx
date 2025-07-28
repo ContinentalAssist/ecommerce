@@ -62,7 +62,7 @@ export default component$(() => {
           
             let resVoucher : {[key:string]:any} = {}
 
-            const resData = await fetch("/api/getVoucher",{method:"POST",body:JSON.stringify(dataForm)});
+            const resData = await fetch("/api/getVoucher",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataForm)});
             const data = await resData.json()
             resVoucher = data
 
@@ -91,7 +91,7 @@ export default component$(() => {
      
         if (value.escorporativo == 1) 
         {
-            const resData = await fetch("/api/getCorpVoucher",{method:"POST",
+            const resData = await fetch("/api/getCorpVoucher",{method:"POST",headers: { 'Content-Type': 'application/json' },
             body:JSON.stringify({
             voucher:  value.codindividual,
             beneficiarioDocumento: value.documento,
@@ -113,7 +113,7 @@ export default component$(() => {
 
  
 
-          const resData = await fetch("/api/getIndVoucher", {
+          const resData = await fetch("/api/getIndVoucher", {headers: { 'Content-Type': 'application/json' },
                 method: "POST",
                 body: JSON.stringify({
                     voucher: value.codindividual ?? value.codvoucher,

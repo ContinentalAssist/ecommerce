@@ -1,79 +1,196 @@
-.bg-step-3
-{
-   /*  background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
-    background-repeat: no-repeat;
-    background-size: 100%; */
+/* Estilos base - mantener originales */
+.bg-step-3 {
     background-color: #FAFAFA;
 }
 
-.resume .input-group-text
-{
+.resume .input-group-text {
     font-size: 1.125rem;
 }
 
-.steps-float
-{
+.steps-float {
     position: fixed;
     top: 1.25rem;
     z-index: 2000;
 }
 
 .steps-float,
-.steps-float>.row,
-.steps-float>.row>.col-12,
-.steps-float>.row>.col-12>.container,
-.steps-float>.row>.col-12>.container>.row
-{
+.steps-float > .row,
+.steps-float > .row > .col-12,
+.steps-float > .row > .col-12 > .container,
+.steps-float > .row > .col-12 > .container > .row {
     height: 0px;
 }
 
-.cards .card-img-top
-{
+/* Container principal - TODAS LAS CARDS DEL MISMO ANCHO */
+.cards {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+/* Cards individuales - MISMO ANCHO PARA TODAS + animación */
+.cards > div {
+    flex: 0 0 auto;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    animation: fadeInUp 0.6s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+/* Delay progresivo para cada card */
+.cards > div:nth-child(1) { animation-delay: 0.1s; }
+.cards > div:nth-child(2) { animation-delay: 0.2s; }
+.cards > div:nth-child(3) { animation-delay: 0.3s; }
+.cards > div:nth-child(4) { animation-delay: 0.4s; }
+.cards > div:nth-child(5) { animation-delay: 0.5s; }
+
+/* Keyframes para animación de entrada */
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efecto hover para cards */
+.cards .card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 650px;
+    transition: all 0.3s ease;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cards .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Imágenes - mantener tamaño original */
+.cards .card-img-top {
     width: 9.25rem;
     height: auto;
     align-self: center;
-    margin-top: 2.5rem;
+    margin-top: .5rem;
 }
 
-.cards h2
-{
+.cards .btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Border para card recomendada */
+.border-dark-blue {
+    border: 2px solid var(--ca-light-blue) !important;
+}
+
+/* Estados de las cards deshabilitadas - con transición suave */
+.cards > div[style*="opacity"] {
+    filter: grayscale(50%);
+    transition: all 0.3s ease;
+}
+
+.cards > div[style*="opacity"]:hover {
+    transform: none;
+    filter: grayscale(30%); /* Menos gris al hover */
+}
+
+/* Efectos adicionales para elementos interactivos */
+.cards .btn-link {
+    transition: all 0.2s ease;
+}
+
+.cards .btn-link:hover {
+    text-decoration: underline !important;
+    transform: scale(1.05);
+}
+
+/* Títulos principales - texto adaptativo SIN saltos de línea */
+.cards h1,
+.cards h2 {
     font-size: 2.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.1;
 }
 
-.cards .divisa small
-{
+/* Ajuste dinámico para títulos largos */
+.cards .card-title {
+    font-size: min(2.875rem, calc(100% / (length * 0.5)));
+    transform: scale(1);
+    transform-origin: center;
+    transition: transform 0.2s ease;
+}
+
+/* Subtítulos y precios */
+.cards .card-subtitle {
+    font-size: 2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cards .divisa small {
     font-size: 1.50rem;
+    white-space: nowrap;
 }
 
-.cards ul 
-{
+/* Lista de beneficios */
+.cards ul {
     color: var(--ca-light-blue);
     padding-left: 1.5rem;
+    margin-bottom: 1rem;
 }
 
-.cards ul li
-{
-    font-size: 0.813rem;
+.cards ul li {
+    font-size: min(0.813rem, calc(100vw / 25));
+    line-height: 1.3;
+    margin-bottom: 0.25rem;
+    word-break: break-word;
+    hyphens: auto;
 }
 
+/* CONTENEDOR DE BENEFICIOS */
+.cards .benefits-container {
+    height: 170px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+}
+
+/* Card body */
+.cards .card-body {
+    padding: .5rem 2rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Botones - MANTENER POSICIÓN Y ESTILO ORIGINAL */
 .cards .btn-outline-primary,
-.cards .btn-primary
-{
+.cards .btn-primary {
     position: relative;
     margin-bottom: -1.25rem;
     margin-left: 3.75rem;
     margin-right: 3.75rem;
     font-size: 1.688rem;
     border-width: 0.25rem;
+    flex-shrink: 0;
 }
 
-.border-dark-blue
-{
+/* Border para card recomendada */
+.border-dark-blue {
     border: 2px solid var(--ca-light-blue) !important;
 }
 
-.cards .card .card-recommended
-{
+/* Badge recomendado - con animación */
+.cards .card .card-recommended {
     position: absolute;
     align-self: center;
     width: 8.125rem;
@@ -86,141 +203,202 @@
     border-bottom-left-radius: 0.625rem;
     border-bottom-right-radius: 0.625rem;
     color: white;
+    animation: pulseGlow 2s infinite;
 }
 
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(var(--ca-light-blue-rgb, 0, 123, 255), 0.3);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(var(--ca-light-blue-rgb, 0, 123, 255), 0.6);
+    }
+}
 
-.modal-header h2
-{
+/* Modal styles */
+.modal-header h2 {
     width: calc(100% - 270px) !important;
     padding: 20px 20px 20px 20px;
 }
 
-.modal-header .img-fluid
-{
-right: 40px !important;
-}
-/* .bg-step-3
-{
-    background-image: url('/assets/img/home/continental-assist-bg-benefits-1920x1080.webp');
-    background-repeat: no-repeat;
-    background-size: 100%;
+.modal-header .img-fluid {
+    right: 40px !important;
 }
 
-.cards .card
-{
-    border-radius: 33px;
-    box-shadow: 6px 6px 9px #519DD130;
-    border: none;
-    padding-bottom: 40px;
-    margin-bottom: 60px;
+/* Botones link - animación */
+.cards .btn-link {
+    transition: all 0.2s ease;
 }
 
-.cards .card .card-recommended
-{
-    position: absolute;
-    display: flex;
-    background-color: var(--ca-dark-blue);
-    font-size: 10px;
-    text-align: center;
-    padding: 4px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    color: white;
-    right: 30px;
-    box-shadow: 2px 2px var(--ca-light-blue);
+.cards .btn-link:hover {
+    text-decoration: underline !important;
+    transform: scale(1.05);
 }
 
-.cards .card-body
-{
-    padding: 20px 10px 0px;
+/* Estados de las cards deshabilitadas */
+.cards > div[style*="opacity"] {
+    filter: grayscale(50%);
+    transition: all 0.3s ease;
 }
 
-.cards .card .img-star
-{
-    width: 20px;
-    height: auto;
+.cards > div[style*="opacity"]:hover {
+    transform: none;
+    filter: grayscale(30%);
 }
 
-.cards .card .img-fluid
-{
-    max-height: 100px;
-    width: auto;
+/* RESPONSIVE */
+
+/* Desktop grande (1200px+) */
+@media (min-width: 1200px) {
+    .cards > div {
+        width: 380px;
+        min-width: 400px;
+        max-width: 400px;
+    }
 }
 
-.cards button.btn-link
-{
-    background-color: transparent;
-    border: none;
-    position: relative;
-    top: -5px;
-}
-
-.cards .btn-outline-primary,
-.cards .btn-primary
-{
-    position: relative;
-    margin-bottom: -60px;
-    margin-left: 40px;
-    margin-right: 40px;
-}
-
-li div
-{
-    max-width: 230px;
-    white-space: nowrap !important;
-    text-overflow: ellipsis !important;
-    overflow: hidden !important;
-}
-
-.border-dark-blue
-{
-    border: 1px solid var(--ca-dark-blue) !important;
-}
-
-.table-striped>tbody>tr>*
-{
-    border-radius: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-.tr-title
-{
-    background-color: var(--ca-light-blue);
-}
-
-ul
-{
-    padding-left: 24px;
-    font-size: 12px;
-    color: var(--ca-light-blue);
-    line-height: 16px;
-    min-height: 130px;
-}
-
-@media (max-width: 575.98px)
-{
-    .row-mobile .col-xs-3
-    {
-        width: calc((100% / 12) * 3);
+/* Desktop (992px - 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .cards > div {
+        width: 320px;
+        min-width: 340px;
+        max-width: 340px;
     }
 
-    .row-mobile .col-xs-9
-    {
-        width: calc((100% / 12) * 9);
+    .cards .btn-outline-primary,
+    .cards .btn-primary {
+        margin-left: 2.5rem;
+        margin-right: 2.5rem;
+        font-size: 1.5rem;
+    }
+}
+
+/* Tablet landscape (768px - 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+    .cards > div {
+        width: 340px;
+        min-width: 340px;
+        max-width: 340px;
     }
 
-    .row-mobile .col-xs-6
-    {
-        width: calc((100% / 12) * 6);
+    .cards {
+        gap: 1rem;
     }
-} */
 
-@media (max-width: 575.98px)
-{
-    .modal-header h2
-    {
-        width: calc(100% - 170px) !important;
-        padding: 20px 20px 20px 20px;
+    .cards .btn-outline-primary,
+    .cards .btn-primary {
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 2rem;
+        font-size: 1rem;
     }
+}
+
+/* Tablet portrait (576px - 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .cards > div {
+        width: 400px;
+        min-width: 400px;
+        max-width: 400px;
+    }
+}
+
+/* Mobile large (481px - 575px) */
+@media (min-width: 481px) and (max-width: 575px) {
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    .cards > div {
+        width: 350px;
+        min-width: 350px;
+        max-width: 350px;
+    }
+
+    .cards .btn-outline-primary,
+    .cards .btn-primary {
+        margin-left: 2rem;
+        margin-right: 2rem;
+        margin-top: 2rem;
+        font-size: 1.4rem;
+    }
+}
+
+/* Mobile (480px y menos) */
+@media (max-width: 480px) {
+    .cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+
+    .cards > div {
+        width: min(320px, 100%);
+        min-width: min(320px, 100%);
+        max-width: min(320px, 100%);
+    }
+
+    .cards .btn-outline-primary,
+    .cards .btn-primary {
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        margin-top: 2rem;
+        font-size: 1.2rem;
+    }
+
+    .modal-header h2 {
+        width: calc(100% - 70px) !important;
+    }
+}
+
+/* Mobile muy pequeño (360px y menos) */
+@media (max-width: 360px) {
+    .cards > div {
+        width: min(300px, 100%);
+        min-width: min(300px, 100%);
+        max-width: min(300px, 100%);
+    }
+
+    .cards .btn-outline-primary,
+    .cards .btn-primary {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        margin-top: 2rem;
+        font-size: 1rem;
+    }
+
+    .cards ul li {
+        font-size: 0.75rem;
+    }
+}
+
+/* Ajuste automático de texto */
+@media (max-width: 768px) {
+    .cards .card-title {
+        font-size: min(2.5rem, 8vw);
+    }
+
+    .cards .card-subtitle {
+        font-size: min(1.8rem, 6vw);
+    }
+}
+
+/* Utilidad texto responsive */
+.text-responsive {
+    font-size: calc(1rem + 0.5vw);
+    line-height: 1.2;
+}
+
+/* Prevenir superposiciones con posicionamiento fijo */
+.cards .card-body .container .row:last-of-type {
+    margin-bottom: 2rem;
 }
