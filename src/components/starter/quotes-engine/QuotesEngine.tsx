@@ -701,7 +701,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                     {!stateContext.value.isMobile && (
                         <>
                             <div class='col-lg-5'>
-                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h3>
+                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h4>
                                 <Form
                                     id='form-step-1-0'
                                     form={[
@@ -733,7 +733,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-4'>
-                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h3>
+                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h4>
                                 <Form
                                     id='form-step-1-1'
                                     form={[
@@ -759,7 +759,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-3'>
-                                <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h3>
+                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h4>
                                 <Form
                                     id='form-step-1-2'
                                     form={[
