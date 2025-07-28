@@ -103,6 +103,7 @@ export const InputDate = component$((props:propsInputDate) => {
         max={props.max}
         defaultvalue={props.value} 
         open={props.open} 
+        disabled={props.disabled}
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
         onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
        />
@@ -372,6 +373,74 @@ export const InputNumber = (props:propsInputNumber) => {
     )
 }
 
+interface propsInputFloat {
+    [key: string]: any;
+}
+
+export const InputFloat = (props: propsInputFloat) => {
+    const dataAttributes = props.dataAttributes ? { ...props.dataAttributes } : {};
+
+    const validateBlur$ = $((target: any) => {
+        const input = document.querySelector('#' + target.id) as HTMLInputElement;
+        if (input.type === 'number') {
+            // Solo marcar inválido si el valor no es un número válido
+            if (isNaN(parseFloat(input.value)) || input.value === '') {
+                input.classList.add('is-invalid');
+                input.focus();
+            } else {
+                input.value = parseFloat(input.value).toFixed(2);
+                input.classList.remove('is-invalid');
+            }
+        }
+    });
+
+    return (
+        <div class='input-basic text-center'>
+            <div class='input-group'>
+                {
+                    props.icon &&
+                    <span
+                        class="input-group-text text-dark-gray"
+                        onClick$={() => {
+                            (document.querySelector('input[name=' + props.name + ']') as HTMLInputElement).focus();
+                        }}
+                    >
+                        <i class={'fa-solid fa-' + props.icon} />
+                    </span>
+                }
+                <div class="form-floating">
+                    <input
+                        class='form-control text-bold text-dark-blue'
+                        id={props.id}
+                        name={props.name}
+                        type='number'
+                        step='any'
+                        required={props.required}
+                        min={props.min}
+                        max={props.max}
+                        maxLength={props.maxLength}
+                        onChange$={(e) => { props.onChange && props.onChange(e) }}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        data-textonly={props.textOnly}
+                        onBlur$={e => validateBlur$(e.target)}
+                        disabled={props.disabled}
+                        {...dataAttributes}
+                    />
+                    <label
+                        class='form-label text-medium text-gray'
+                        for={props.id}
+                    >
+                        {props.label}
+                    </label>
+                    <div id={props.id + '-feedback'} class="invalid-feedback">
+                        Por favor ingrese un número decimal válido.
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 interface propsForm {
     [key:string] : any,
@@ -547,6 +616,17 @@ export const Form = component$((props:propsForm) => {
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex}
                                                         {...columnInput}
                                                     /> 
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'float')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputFloat
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
                                                 </div>
                                             )
                                         }
