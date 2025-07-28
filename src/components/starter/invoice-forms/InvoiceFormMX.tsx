@@ -13,6 +13,7 @@ export const InvoiceFormMX = component$(() => {
     const array : any[] = []
     const listadoCiudades = useSignal(array)
     const listadoRegimenesSat = useSignal(array)
+    const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
 
 
@@ -32,7 +33,23 @@ export const InvoiceFormMX = component$(() => {
         }
         stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
     })
-
+    
+    useTask$(async()=>{
+        let resForma : {[key:string]:any[]} = {}
+        const resFormaPago : any[] = []
+        const formaPagoSap = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayForms",{method:"POST"});
+        const dataDefaultsFormaPAgo = await formaPagoSap.json()
+        resForma = dataDefaultsFormaPAgo.resultado[0]
+        if (resForma && resForma.formaspago) 
+        {
+            resForma.formaspago.map((forma) => {
+                resFormaPago.push({value:forma.id, label:`${forma.nombre}`, clave:forma.clave})
+            })
+            listadoTiposPagos.value = resFormaPago;
+        }
+        stateContext.value = { ...stateContext.value, listadoTiposPagos:resFormaPago }
+    })
+    
     useTask$(() => {
         let observer: MutationObserver;
         
@@ -67,6 +84,41 @@ export const InvoiceFormMX = component$(() => {
                 setupObserver();
             }
         });
+    });
+
+    useTask$(() => {
+        let observer: MutationObserver;
+
+        const setupObserver = () => {
+            if (observer) {
+            observer.disconnect();
+            }
+
+            observer = new MutationObserver(() => {
+            const input = document.querySelector('input[name="id"]');
+            if (input && !input.getAttribute('data-uppercase-applied')) {
+                input.addEventListener('input', (e) => {
+                const el = e.target as HTMLInputElement;
+                el.value = el.value.toUpperCase();
+                });
+                input.setAttribute('data-uppercase-applied', 'true');
+            }
+            });
+
+            observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+            });
+        };
+
+        setupObserver();
+
+        // Limpia el observer cuando el componente se desmonta
+        return () => {
+            if (observer) {
+            observer.disconnect();
+            }
+        };
     });
 
     
@@ -111,9 +163,10 @@ export const InvoiceFormMX = component$(() => {
         const inputDireccion = formInvoicing.querySelector('input[name="direccion"]') as HTMLInputElement;
         const inputCodigoPostal = formInvoicing.querySelector('input[name="codigopostal"]') as HTMLInputElement;
         const inputTelefono = formInvoicing.querySelector('input[name="telefono"]') as HTMLInputElement;   
-        const selectRegimenFiscal = formInvoicing.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
-        const selectEstado = formInvoicing.querySelector('#form-invoicing-select-3-0') as HTMLSelectElement;
-        const selectCiudad = formInvoicing.querySelector('#form-invoicing-select-3-1') as HTMLSelectElement;
+        const inputRazonSocial = formInvoicing.querySelector('input[name="razonsocial"]') as HTMLInputElement;
+        const selectRegimenFiscal = formInvoicing.querySelector('[name="idregimenfiscal"]') as HTMLSelectElement;
+        const selectEstado = formInvoicing.querySelector('[name="estado"]') as HTMLSelectElement;
+        const selectCiudad = formInvoicing.querySelector('[name="ciudad"]') as HTMLSelectElement;
         contextLoading.value = {status:true, message:''}
 
         const body = {
@@ -122,30 +175,35 @@ export const InvoiceFormMX = component$(() => {
             origen: stateContext.value.country
         }
 
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",{method:"POST",headers: { 'Content-Type': 'application/json' }});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",
+                  {method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(body)});
+
         const data =await response.json();
-        
-        if(data && data.resultado && data.resultado[0]){
-            typePersonInvoice.value = data.resultado[0].tipopersona || 'RS';
-            changeStateMX$(data.resultado[0].idestado);
-            inputNombres.value = data.resultado[0].nombres || '';
-            inputApellidos.value = data.resultado[0].apellidos || '';
-            inputCorreo.value = data.resultado[0].email || '';
-            inputTelefono.value = data.resultado[0].telefono || '';          
-            inputDireccion.value = data.resultado[0].direccion || '';
-            inputCodigoPostal.value = data.resultado[0].codigopostal || '';
-            selectEstado.value = data.resultado[0].nombreestado; 
-            selectCiudad.value = data.resultado[0].nombreciudad;
-            selectEstado.dataset.value =data.resultado[0].idestado;
-            selectCiudad.dataset.value=data.resultado[0].idciudad; 
-            selectRegimenFiscal.dataset.value=data.resultado[0].idregimenfiscal;   
-            selectRegimenFiscal.value=data.resultado[0].clave +" - "+data.resultado[0].regimenfiscal;         
-            contextLoading.value = {status:false, message:''}
+        if (data && data.resultado && data.resultado[0]) {
+            const resultado = data.resultado[0];
+
+            typePersonInvoice.value = resultado.tipopersona || 'RS';
+            changeStateMX$(resultado.idestado);
+
+            if (inputNombres)         inputNombres.value = resultado.nombres || '';
+            if (inputApellidos)       inputApellidos.value = resultado.apellidos || '';
+            if (inputCorreo)          inputCorreo.value = resultado.email || '';
+            if (inputTelefono)        inputTelefono.value = resultado.telefono || '';
+            if (inputDireccion)       inputDireccion.value = resultado.direccion || '';
+            if (inputCodigoPostal)    inputCodigoPostal.value = resultado.codigopostal || '';
+            if (selectEstado)         selectEstado.value = resultado.nombreestado;
+            if (selectCiudad)         selectCiudad.value = resultado.nombreciudad;
+            if (selectEstado)         selectEstado.dataset.value = resultado.idestado;
+            if (selectCiudad)         selectCiudad.dataset.value = resultado.idciudad;
+            if (selectRegimenFiscal)  selectRegimenFiscal.dataset.value = resultado.idregimenfiscal;
+            if (selectRegimenFiscal)  selectRegimenFiscal.value = `${resultado.clave} - ${resultado.regimenfiscal}`;
+            if (inputRazonSocial)     inputRazonSocial.value = resultado.razonsocial || '';
+
+            contextLoading.value = { status: false, message: '' };
+        } else {
+            contextLoading.value = { status: false, message: '' };
         }
-        else
-        {
-            contextLoading.value = {status:false, message:''}
-        }
+
         
     })
 
@@ -196,11 +254,21 @@ export const InvoiceFormMX = component$(() => {
                                 {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
                                 {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
                                 required:true,options:listadoRegimenesSat.value,},                      
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Forma de Pago',placeholder:'Forma de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},
 
-                          
+
                             ]},                                                                                
                             
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                            ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                            ]},
+
                             {row:[                                                            
                                 {size:'col-xl-12',type:'text',label:'Nombres',placeholder:'Nombres',name:'nombres',required:true},
                                 {size:'col-xl-12',type:'text',label:'Apellidos',placeholder:'Apellidos',name:'apellidos',required:true},
@@ -213,7 +281,7 @@ export const InvoiceFormMX = component$(() => {
                             
                             {row:[
                                 
-                                {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'departamento',
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'estado',
                                 required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateMX$(e.value))},
                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value},
 
@@ -223,7 +291,7 @@ export const InvoiceFormMX = component$(() => {
                             {row:[                                                            
                                 {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
                                 {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
-
+            
                             ]}, 
                         ]}
                     />
@@ -236,8 +304,19 @@ export const InvoiceFormMX = component$(() => {
                                 {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
                                 {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
                                 required:true,options:listadoRegimenesSat.value,},     
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Forma de Pago',placeholder:'Forma de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},                 
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},                 
                                 ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                            ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                            ]},
+
                             {row:[
                                 {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true},
                             ]},                                                        
