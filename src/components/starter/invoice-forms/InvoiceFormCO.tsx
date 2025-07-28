@@ -1,4 +1,4 @@
-import { $, component$, useSignal,useContext} from "@builder.io/qwik";
+import { $, component$, useSignal,useContext, useTask$} from "@builder.io/qwik";
 //import styles from './card-plan.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
@@ -11,10 +11,27 @@ export const InvoiceFormCO = component$(() => {
     const typePersonInvoice = useSignal('RS');
     const showInputInvoiceRS= useSignal(true);
     const disableVerificationCode= useSignal(true);
-    //const array : any[] = []
+    const array : any[] = []
    // const listadoCiudades = useSignal(array)
+    const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
     
+    useTask$(async()=>{
+        let resForma : {[key:string]:any[]} = {}
+        const resFormaPago : any[] = []
+        const formaPagoSap = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayForms",{method:"POST"});
+        const dataDefaultsFormaPAgo = await formaPagoSap.json()
+        resForma = dataDefaultsFormaPAgo.resultado[0]
+        if (resForma && resForma.formaspago) 
+        {
+            resForma.formaspago.map((forma) => {
+                resFormaPago.push({value:forma.id, label:`${forma.nombre}`, clave:forma.clave})
+            })
+            listadoTiposPagos.value = resFormaPago;
+        }
+        stateContext.value = { ...stateContext.value, listadoTiposPagos:resFormaPago }
+    })
+
     const changeTypePerson$ = $((person:string) => {
         
         typePersonInvoice.value = person
@@ -76,27 +93,29 @@ export const InvoiceFormCO = component$(() => {
         }
 
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",
-                  {method:"POST",body:JSON.stringify(body)});
+                  {method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(body)});
         const data =await response.json();
         
-        if(data && data.resultado && data.resultado[0]){            
-            typePersonInvoice.value = data.resultado[0].tipopersona || 'RS';
-           // changeStateCO$(data.resultado[0].idestado);
-            inputNombres.value = data.resultado[0].nombres || '';
-            inputApellidos.value = data.resultado[0].apellidos || '';
-            inputCorreo.value = data.resultado[0].email || '';
-            inputTelefono.value = data.resultado[0].telefono || '';       
-            inputDireccion.value = data.resultado[0].direccion || '';
-          /*   inputCodigoPostal.value = data.resultado[0].codigopostal || '';
-            selectEstado.value = data.resultado[0].nombreestado; 
-            selectCiudad.value = data.resultado[0].nombreciudad;
-            selectEstado.dataset.value =data.resultado[0].idestado;
-            selectCiudad.dataset.value=data.resultado[0].idciudad; */
-            
-            
-        }else
-        {
-            contextLoading.value = {status:false, message:''}
+        if (data && data.resultado && data.resultado[0]) {
+            const resultado = data.resultado[0];
+            typePersonInvoice.value = resultado.tipopersona || 'RS';
+            // Validaciones seguras para cada campo
+            if (inputNombres)        inputNombres.value = resultado.nombres || '';
+            if (inputApellidos)      inputApellidos.value = resultado.apellidos || '';
+            if (inputCorreo)         inputCorreo.value = resultado.email || '';
+            if (inputTelefono)       inputTelefono.value = resultado.telefono || '';
+            if (inputDireccion)      inputDireccion.value = resultado.direccion || '';
+
+            /* Si decides reactivar los siguientes campos, ya tienen validación segura: */
+            // if (inputCodigoPostal)   inputCodigoPostal.value = resultado.codigopostal || '';
+            // if (selectEstado)        selectEstado.value = resultado.nombreestado;
+            // if (selectCiudad)        selectCiudad.value = resultado.nombreciudad;
+            // if (selectEstado)        selectEstado.dataset.value = resultado.idestado;
+            // if (selectCiudad)        selectCiudad.dataset.value = resultado.idciudad;
+
+            contextLoading.value = { status: false, message: '' };
+        } else {
+            contextLoading.value = { status: false, message: '' };
         }
        
     })
@@ -156,7 +175,16 @@ export const InvoiceFormCO = component$(() => {
                                 {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true,disabled:disableVerificationCode.value},
                             ]},
                                                                                 
-                            
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                            ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                            ]},
+
                             {row:[                                                            
                                 {size:'col-xl-6',type:'text',label:'Nombres',placeholder:'Nombres',name:'nombres',required:true},
                                 {size:'col-xl-6',type:'text',label:'Apellidos',placeholder:'Apellidos',name:'apellidos',required:true},
@@ -203,6 +231,17 @@ export const InvoiceFormCO = component$(() => {
                                 {size:'col-xl-8 col-xs-12',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
                                 {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true, disabled:disableVerificationCode.value},
                             ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                            ]},
+
+                            {row:[
+                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                            ]},
+
                             {row:[
                                 {size:'col-xl-12',type:'text',label:'Razón Social',placeholder:'Razón Social',name:'razonsocial',required:true},
                             ]},                                                        
