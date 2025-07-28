@@ -9,33 +9,31 @@ interface propInputSelect {
 export const InputSelect = component$((props:propInputSelect) => {
     useStylesScoped$(styles)
 
-    const array : any[] = []
-
     const defaultValue = useSignal('')
     const datasetValue = useSignal('')
-    const options = useSignal(array)
-    const prevOptions = useSignal(array)
-    //const readOnly = useSignal(false)
-     useTask$(({ track })=>{
+    const options = useSignal<any[]>([]) 
+    const prevOptions = useSignal<any[]>([]) 
+    
+    useTask$(({ track })=>{
         const value = track(()=>props.options);   
-        prevOptions.value = value
-        options.value = value    
-     })
- 
+      
+        const safeOptions = Array.isArray(value) ? value : [];
+        prevOptions.value = safeOptions
+        options.value = safeOptions    
+    })
 
     const getOptions$ = $((value:any) => {
+        
+        if (!Array.isArray(props.options)) {
+            console.warn('InputSelect: props.options no es un array válido');
+            return;
+        }
+
         const arrayObjects= [...props.options]        
-        /* arrayObjects.map(item => {
-            if(item.value == value)
-            {
-                defaultValue.value = item.label
-                datasetValue.value = item.value
-            }
-        }) */
        
-        const findItem= arrayObjects.find(item=> item.value == value)
-        defaultValue.value = findItem?.label||''
-        datasetValue.value = findItem?.value||''
+        const findItem= arrayObjects.find(item=> item?.value == value)
+        defaultValue.value = findItem?.label || ''
+        datasetValue.value = findItem?.value || ''
 
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
@@ -47,20 +45,6 @@ export const InputSelect = component$((props:propInputSelect) => {
         }
     })
 
-    //useVisibleTask$(() => {
-       
-
-        /* if(navigator.userAgent.includes('Mobile'))
-        {
-            readOnly.value = true
-        }
-
-        if(props.readOnly != undefined)
-        {
-            readOnly.value = props.readOnly
-        } */
-    //})
-
     const getFiltertList$ = $((e:any) => {
         if(e.target.value == '')
         {
@@ -68,28 +52,35 @@ export const InputSelect = component$((props:propInputSelect) => {
         }
         else
         {
-            const newList = prevOptions.value.filter((option) => {
-                // Normaliza la opción y elimina los diacríticos
-                const newOption = String(option.label)
-                .normalize("NFD") // Descompone caracteres acentuados
-                .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
+           
+            if (!Array.isArray(prevOptions.value)) {
+                return;
+            }
 
-                // Normaliza la opción sin diacríticos y convierte a minúsculas
+            const newList = prevOptions.value.filter((option) => {
+         
+                if (!option || !option.label) return false;
+
+                const newOption = String(option.label)
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "");
+
                 const normalizedNewOption = String(newOption).toLowerCase();
 
-                // Normaliza el valor de entrada y convierte a minúsculas
                 const normalizedInput = String(e.target.value)
-                    .normalize("NFD") // Descompone caracteres acentuados
-                    .replace(/[\u0300-\u036f]/g, ""); // Elimina diacríticos
+                    .normalize("NFD")
+                    .replace(/[\u0300-\u036f]/g, "");
                 const normalizedInputLower = normalizedInput.toLowerCase();
 
-                // Compara si la opción normalizada incluye el valor de entrada normalizado
                 return normalizedNewOption.includes(normalizedInputLower);
             })
 
             options.value = newList
         }
     })
+
+
+    const safeOptions = Array.isArray(options.value) ? options.value : [];
 
     return(
         <div class='dropdown drop-select text-center'>
@@ -116,26 +107,9 @@ export const InputSelect = component$((props:propInputSelect) => {
                             required={props.required} 
                             value={defaultValue.value}
                             data-value={datasetValue.value}
-//                            data-label={defaultValue.value}
                             onKeyUp$={(e) => getFiltertList$(e)}
-                            //readOnly={readOnly.value}
                             placeholder={props.label}
-                           /*  onChange$={(e:any) => {
-                                if(e.target.value !== '' && e.target.classList.value.includes('is-invalid'))
-                                {
-                                    e.target.classList.remove('is-invalid')
-                                    e.target.classList.add('is-valid')
-                                }
-                                else
-                                {
-                                    e.target.classList.remove('is-valid')
-                                }
-                                getOptions$(e.target.value);
-                                //props.onChange !== undefined && props.onChange({label:defaultValue.value, value:e.target.value});
-                                
-                            }} */
-                            ///onFocus$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '1'}}
-                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0'}}
+                            onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement)?.style && ((document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0')}}
                             {...props.dataAttributes}
                         />
                         <label class='form-label text-medium text-dark-gray' for={props.id}>{props.label}</label>
@@ -154,15 +128,17 @@ export const InputSelect = component$((props:propInputSelect) => {
                     >
                     <div class='row inside' style={{ overflowY:'auto'}}>
                         {
-                            options.value.length > 4 ?
+                            safeOptions.length > 4 ?
                             <>
                             <div class='col-6'>
                             <ul class='list-group list-group-flush'>
-                                {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
                                 {
-                                    options.value.map((option,iOption) => {
+                                    safeOptions.map((option,iOption) => {
+                               
+                                        if (!option) return null;
+                                        
                                         return(
-                                            iOption < (options.value.length / 2)
+                                            iOption < (safeOptions.length / 2)
                                             &&
                                             <li 
                                                 key={iOption+1}
@@ -170,7 +146,6 @@ export const InputSelect = component$((props:propInputSelect) => {
                                                 value={option.value} 
                                                 onClick$={() => {
                                                     getOptions$(option.value);
-                                                    //props.onChange !== undefined && props.onChange(option);
                                                     options.value = prevOptions.value
                                                 }}
                                             >
@@ -184,9 +159,12 @@ export const InputSelect = component$((props:propInputSelect) => {
                             <div class='col-6'>
                                 <ul class='list-group list-group-flush'>
                                     {
-                                        options.value.map((option,iOption) => {
+                                        safeOptions.map((option,iOption) => {
+                
+                                            if (!option) return null;
+                                            
                                             return(
-                                                iOption >= (options.value.length / 2)
+                                                iOption >= (safeOptions.length / 2)
                                                 &&
                                                 <li 
                                                     key={iOption+1}
@@ -194,7 +172,6 @@ export const InputSelect = component$((props:propInputSelect) => {
                                                     value={option.value} 
                                                     onClick$={() => {
                                                         getOptions$(option.value);
-                                                        //props.onChange !== undefined && props.onChange(option);
                                                         options.value = prevOptions.value
                                                     }}
                                                 >
@@ -209,9 +186,11 @@ export const InputSelect = component$((props:propInputSelect) => {
                             :
                             <div class='col-12'>
                             <ul class='list-group list-group-flush'>
-                                {/* <li class='list-group-item' value=''>Deseleccionar</li> */}
                                 {
-                                    options.value.map((option,iOption) => {
+                                    safeOptions.map((option,iOption) => {
+                                   
+                                        if (!option) return null;
+                                        
                                         return(
                                             <li 
                                                 key={iOption+1}
@@ -219,7 +198,6 @@ export const InputSelect = component$((props:propInputSelect) => {
                                                 value={option.value} 
                                                 onClick$={() => {
                                                     getOptions$(option.value);
-                                                    //props.onChange !== undefined && props.onChange(option);
                                                     options.value = prevOptions.value
                                                 }}
                                             >

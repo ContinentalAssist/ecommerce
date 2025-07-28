@@ -1432,5 +1432,10 @@
     }
 }
 
+@media (max-width: 1400px) {
+    .primera-seccion{
+        margin-top: 7rem !important;
+    }
+}
 
 

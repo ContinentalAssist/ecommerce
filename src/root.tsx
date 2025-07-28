@@ -80,16 +80,14 @@ export default component$(() => {
        
     resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
     
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate",
-          {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate", {method:"POST", headers: { 'Content-Type': 'application/json' }, body:JSON.stringify({codigopais:geoData.country})});
         const data =await response.json();
         const resState : any[] = [];
         if (!data.error) {
 
           if(geoData.country == 'CO' || geoData.country == 'MX')
           {
-             const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getStateMXCO",
-                  {method:"POST",body:JSON.stringify({codigopais:geoData.country})});
+             const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getStateMXCO", {method:"POST", headers: { 'Content-Type': 'application/json' }, body:JSON.stringify({codigopais:geoData.country})});
                   const listadoEstados =await response.json();
                   
                   if (listadoEstados && listadoEstados.resultado[0]  && listadoEstados.resultado[0].estados &&Array.isArray(listadoEstados.resultado[0].estados)) {

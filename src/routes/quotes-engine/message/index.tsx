@@ -7,6 +7,11 @@ import ImgContinentalAssistPrintTicket from '~/media/quotes-engine/continental-a
 import CurrencyFormatter from "~/utils/CurrencyFormater";
 import { LoadingContext } from "~/root";
 
+declare global {
+    interface Window {
+        dataLayer: any[];
+    }
+}
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Mensaje de compra',
@@ -34,12 +39,70 @@ export default component$(() => {
     const typeMessage = useSignal(0)
     const desktop = useSignal(false)
     const contextLoading = useContext(LoadingContext)
+    const purchaseTracked = useSignal(false)
 
+   useTask$(({ track }) => {
+    const messageType = track(() => typeMessage.value);
+    const resumeData = track(() => resume.value);
+    
+    // Solo ejecutar para compra exitosa y cuando tengamos datos
+    if (messageType === 1 && 
+        !purchaseTracked.value &&
+        Object.keys(resumeData).length > 0 && 
+        resumeData.codigovoucher &&
+        typeof window !== 'undefined' && 
+        'dataLayer' in window) {
+        
+        // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
+        const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
+        
+        // Crear el item_id combinando país y algún identificador del plan
+        const itemId = `${countryCode}_${resumeData.codigovoucher}`;
+
+        // Enviar el evento purchase usando dataLayer
+        (window as any)['dataLayer'].push({
+            'event': 'purchase',
+            'transaction_id': resumeData.codigovoucher,
+            'value': Number(resumeData.total) || 0,
+            'currency': resumeData.codigomoneda || "USD",
+            'ecommerce': {
+                'transaction_id': resumeData.codigovoucher,
+                'value': Number(resumeData.total) || 0,
+                'tax': 0.00,
+                'shipping': 0.00,
+                'currency': resumeData.codigomoneda || "USD",
+                'coupon': '',
+                'items': [
+                    {
+                        'item_id': itemId,
+                        'item_name': resumeData.nombreplan || "",
+                        'coupon': '',
+                        'discount': 0.00,
+                        'index': 0,
+                        'item_brand': 'Continental Assist',
+                        'item_category': countryCode,
+                        'item_list_id': '',
+                        'item_list_name': '',
+                        'item_variant': '',
+                        'location_id': '',
+                        'price': Number(resumeData.total) || 0,
+                        'quantity': 1
+                    }
+                ]
+            }
+        });
+
+            // Marcar como rastreado para evitar duplicados
+            purchaseTracked.value = true;
+        } else {
+            // No enviar evento si no se cumplen condiciones
+        }
+    });
 
     const getVoucher = $( async( vouchercode: string)=>{
         let resVoucher : {[key:string]:any} = {}
 
-        const resData = await fetch("/api/getVoucher",{method:"POST",body:JSON.stringify({codigovoucher:vouchercode})});
+        const resData = await fetch("/api/getVoucher",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({codigovoucher:vouchercode})});
         const data = await resData.json()
         resVoucher = data
 
@@ -83,7 +146,7 @@ export default component$(() => {
          
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
-                const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
+                const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
                 if(dataValidation.resultado?.status == 'completed')
                 {
@@ -100,7 +163,7 @@ export default component$(() => {
             }
             else
             {
-                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:locationEnv.url.searchParams.get('id')})});
+                const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
     
                 if(dataValidation.resultado.status == 'APPROVED')
