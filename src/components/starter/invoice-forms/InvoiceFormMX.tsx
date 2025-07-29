@@ -88,7 +88,7 @@ export const InvoiceFormMX = component$(() => {
             origen: stateContext.value.country
         }
 
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",{method:"POST",headers: { 'Content-Type': 'application/json' }});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",{method:"POST",body:JSON.stringify(body),headers: { 'Content-Type': 'application/json' }});
         const data =await response.json();
         
         if(data && data.resultado && data.resultado[0]){
