@@ -30,16 +30,20 @@ export default defineConfig(({ command, mode }): UserConfig => {
       qwikReact(),
       partytownVite({ dest: join(__dirname, "dist", "~partytown") }),
     ],
+    esbuild: {
+      // Configuración para ignorar las advertencias de claves duplicadas durante la compilación
+      logOverride: { 'duplicate-object-key': 'silent' },
+    },
     // This tells Vite which dependencies to pre-build in dev mode.
     resolve: {
       alias: {
-        "@mui/x-date-pickers/LocalizationProvider": path.resolve(
+        "@mui/x-date-pickers-pro/LocalizationProvider": path.resolve(
           __dirname,
-          "node_modules/@mui/x-date-pickers/LocalizationProvider/index.js",
+          "node_modules/@mui/x-date-pickers-pro/LocalizationProvider/index.js",
         ),
         "@mui/x-date-pickers/AdapterDayjs": path.resolve(
           __dirname,
-          "node_modules/@mui/x-date-pickers/AdapterDayjs/AdapterDayjs.js",
+          "node_modules/@mui/x-date-pickers/AdapterDayjs/index.js",
         ),
       },
     },

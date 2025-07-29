@@ -48,7 +48,7 @@ export default component$(() => {
 
     disableElement.value = true;
 
-    const resChat = await fetch("/api/getAskQuestion", { method: "POST", body: JSON.stringify(data) });
+    const resChat = await fetch("/api/getAskQuestion", { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
     const dataChat = await resChat.json() ?? {};
 
     const tempChat = [...dataChatBox.value];    

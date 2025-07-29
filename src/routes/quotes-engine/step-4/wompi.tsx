@@ -43,7 +43,7 @@ export default component$(() => {
 
     
     const validateTransaccion$ = $(async() => {
-        const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
+        const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
         const dataValidation = await resValidation.json()
 
     
@@ -249,7 +249,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
                 if(dataPay?.resultado.length > 0 &&dataPay?.resultado[0]?.wompiIdTransaccion)
@@ -275,7 +275,7 @@ export default component$(() => {
                 Object.assign(dataRequest,wompiRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
-                const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
                 if (dataPay.error) {
@@ -307,7 +307,7 @@ export default component$(() => {
             }
             else if(stateContext.value.wompiTipo == 'PSE')
             {
-                const resInstitutions = await fetch("/api/getInstitutionsW",{method:"POST",body:JSON.stringify({})});
+                const resInstitutions = await fetch("/api/getInstitutionsW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({})});
                 const dataInstitutions = await resInstitutions.json()
                
                 if(dataInstitutions.error == false)
@@ -347,12 +347,12 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado.length >0&&dataPay.resultado[0]?.wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
+                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     cash.value = {
@@ -632,7 +632,7 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             resPayment = dataPay
@@ -839,7 +839,7 @@ export default component$(() => {
             Object.assign(dataRequest,wompiRequest)
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
-            const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             if(dataPay.resultado[0]?.wompiIdTransaccion)
@@ -1015,7 +1015,7 @@ export default component$(() => {
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             if(dataPay.resultado[0]?.wompiIdTransaccion)

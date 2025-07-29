@@ -20,7 +20,7 @@ export const InvoiceFormMX = component$(() => {
     useTask$(async()=>{
         let res : {[key:string]:any[]} = {}
         const resTaxRegime : any[] = []
-        const taxRegime = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getTaxRegime",{method:"POST"});
+        const taxRegime = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getTaxRegime",{method:"POST",headers: { 'Content-Type': 'application/json' }});
         const dataDefaults = await taxRegime.json()
         res = dataDefaults.resultado[0]
         if (res && res.regimenfiscal) 
@@ -53,8 +53,7 @@ export const InvoiceFormMX = component$(() => {
 
     const changeStateMX$  =  $(async(value:any) => {
         
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",
-                    {method:"POST",body:JSON.stringify({idestado:Number(value),codigopais:stateContext.value.country})});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCityMXCO",{method:"POST",headers: { 'Content-Type': 'application/json' }});
                     const listadociudad =await response.json();
                     const resCity : any[] = [];
 
@@ -89,8 +88,7 @@ export const InvoiceFormMX = component$(() => {
             origen: stateContext.value.country
         }
 
-        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",
-                  {method:"POST",body:JSON.stringify(body)});
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getClientInvoice",{method:"POST",headers: { 'Content-Type': 'application/json' }});
         const data =await response.json();
         
         if(data && data.resultado && data.resultado[0]){

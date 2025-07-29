@@ -5,4 +5,4 @@ Disallow: /api
 Allow: /
 Allow: /quotes-engine
 
-Sitemap: http://continentalassist.com/sitemap.xml
+Sitemap: https://e-commerce.continentalassist.com/sitemap.xml

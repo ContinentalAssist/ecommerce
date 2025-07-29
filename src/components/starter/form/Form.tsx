@@ -2,8 +2,11 @@ import { $, component$, useSignal, useStylesScoped$, useTask$ } from "@builder.i
 import { InputPaxs } from "../inputs/input-paxs/InputPaxs";
 import { InputSelectMultiple } from "../inputs/input-select/InputSelectMultiple";
 import { InputSelect } from "../inputs/input-select/InputSelect";
+import { DestinosSelect } from "../inputs/input-select/DestinosSelect";
+import { DestinosSelectMultiple } from "../inputs/input-select/DestinosSelectMultiple";
 import styles from './form.css?inline'
 import stylesInputBasic from '../inputs/input-basic/input-basic.css?inline'
+import { DateRangePickerMUI } from "../inputs/input-date/input-date-range";
 import { DatePickerMUI } from "../inputs/input-date/input-date";
 
 interface propsInput
@@ -102,6 +105,39 @@ export const InputDate = component$((props:propsInputDate) => {
         open={props.open} 
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
         onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
+       />
+        </>
+       
+       
+    )
+})
+
+
+interface propsInputDateRange {
+    [key:string] : any
+}
+export const InputDateRange = component$((props:propsInputDateRange) => {
+    
+    return(
+        <>
+        <DateRangePickerMUI 
+        id={props.id}
+        name={props.name}
+        label={props.label}
+        placeholder={props.placeholder}
+        required={props.required} 
+        min={props.min} 
+        max={props.max}
+        defaultvalue={props.value} 
+        open={props.open} 
+        startName={"desde"}
+        endName={"hasta"}
+        onChange$={(dateRange: {start: string, end: string}) => {
+            props.onChange && props.onChange(dateRange)
+        }}
+        onFocus$={(isOpen: boolean) => {
+            props.onFocus && props.onFocus(isOpen)
+        }}
        />
         </>
        
@@ -361,8 +397,6 @@ export const Form = component$((props:propsForm) => {
     })
 
 
-
-
     return(
         <form id={props.id} class='needs-validation' noValidate autocomplete='off'>
             <div class='container p-0'>
@@ -439,11 +473,44 @@ export const Form = component$((props:propsForm) => {
                                                 </div>
                                             )
                                         }
+                                        else if(columnInput.type === 'destinos-select')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <DestinosSelect
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'destinos-select-multiple')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size}>
+                                                    <DestinosSelectMultiple
+                                                        id={props.id+'-select-'+rIndex+'-'+iIndex}
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
                                         else if(columnInput.type === 'date')
                                         {
                                             return(
                                                 <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
                                                     <InputDate
+                                                        id={props.id+'-input-'+rIndex+'-'+iIndex} 
+                                                        {...columnInput}
+                                                    />
+                                                </div>
+                                            )
+                                        }
+                                        else if(columnInput.type === 'date-range')
+                                        {
+                                            return(
+                                                <div key={props.id+'-'+rIndex+'-'+iIndex} class={columnInput.size} style={{marginBottom:'10px'}}>
+                                                    <InputDateRange
                                                         id={props.id+'-input-'+rIndex+'-'+iIndex} 
                                                         {...columnInput}
                                                     />

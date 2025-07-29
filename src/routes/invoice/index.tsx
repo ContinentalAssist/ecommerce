@@ -102,8 +102,7 @@ export default component$(() =>{
         if(errorInvoicing == false )
         {        
 
-            const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getRelationOrderInvoice",
-                  {method:"POST",body:JSON.stringify(dataFormInvoicing)});
+            const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getRelationOrderInvoice", {method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataFormInvoicing)});
             const data =await response.json();
 
             if (!data.error) 

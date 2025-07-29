@@ -43,7 +43,7 @@ export default component$(() => {
         ]
         let resSelects : {[key:string]:any} = {}
 
-        const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET"});
+        const resDefaults = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getDefaults",{method:"GET",headers: { 'Content-Type': 'application/json' }});
         const dataDefaults = await resDefaults.json()
         resSelects = dataDefaults
 
@@ -108,7 +108,7 @@ export default component$(() => {
             
             let resContact : {[key:string]:any} = {}
 
-            const resCont = await fetch("/api/getContact",{method:"POST",body:JSON.stringify(dataForm)});
+            const resCont = await fetch("/api/getContact",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataForm)});
             const dataContac = await resCont.json()
             resContact = dataContac
     
