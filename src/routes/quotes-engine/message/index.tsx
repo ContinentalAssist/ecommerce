@@ -32,7 +32,6 @@ export default component$(() => {
     useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const navigate = useNavigate()
-    //const loading = useSignal(true)
     const obj : {[key:string]:any} = {}
     const resume = useSignal(obj)
     const locationEnv = useLocation()
@@ -41,61 +40,59 @@ export default component$(() => {
     const contextLoading = useContext(LoadingContext)
     const purchaseTracked = useSignal(false)
 
-   useTask$(({ track }) => {
-    const messageType = track(() => typeMessage.value);
-    const resumeData = track(() => resume.value);
-    
-    // Solo ejecutar para compra exitosa y cuando tengamos datos
-    if (messageType === 1 && 
-        !purchaseTracked.value &&
-        Object.keys(resumeData).length > 0 && 
-        resumeData.codigovoucher &&
-        typeof window !== 'undefined' && 
-        'dataLayer' in window) {
+    useTask$(({ track }) => {
+        const messageType = track(() => typeMessage.value);
+        const resumeData = track(() => resume.value);
         
-        // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
-        const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
-        
-        // Crear el item_id combinando país y algún identificador del plan
-        const itemId = `${countryCode}_${resumeData.codigovoucher}`;
-
-        // Enviar el evento purchase usando dataLayer
-        (window as any)['dataLayer'].push({
-            'event': 'purchase',
-            'transaction_id': resumeData.codigovoucher,
-            'value': Number(resumeData.total) || 0,
-            'currency': resumeData.codigomoneda || "USD",
-            'ecommerce': {
+        // Solo ejecutar para compra exitosa y cuando tengamos datos
+        if (messageType === 1 && 
+            !purchaseTracked.value &&
+            Object.keys(resumeData).length > 0 && 
+            resumeData.codigovoucher &&
+            typeof window !== 'undefined' && 
+            'dataLayer' in window) {
+            
+            // Extraer el código de país del paisorigen (asumiendo formato "MÉXICO" -> "MX")
+            const countryCode = resumeData.paisorigen?.substring(0, 2).toUpperCase() || '';
+            
+            // Crear el item_id combinando país y algún identificador del plan
+            const itemId = `${countryCode}_${resumeData.codigovoucher}`;
+            
+            // Enviar el evento purchase usando dataLayer
+            (window as any)['dataLayer'].push({
+                'event': 'purchase',
                 'transaction_id': resumeData.codigovoucher,
                 'value': Number(resumeData.total) || 0,
-                'tax': 0.00,
-                'shipping': 0.00,
                 'currency': resumeData.codigomoneda || "USD",
-                'coupon': '',
-                'items': [
-                    {
-                        'item_id': itemId,
-                        'item_name': resumeData.nombreplan || "",
-                        'coupon': '',
-                        'discount': 0.00,
-                        'index': 0,
-                        'item_brand': 'Continental Assist',
-                        'item_category': countryCode,
-                        'item_list_id': '',
-                        'item_list_name': '',
-                        'item_variant': '',
-                        'location_id': '',
-                        'price': Number(resumeData.total) || 0,
-                        'quantity': 1
-                    }
-                ]
-            }
-        });
+                'ecommerce': {
+                    'transaction_id': resumeData.codigovoucher,
+                    'value': Number(resumeData.total) || 0,
+                    'tax': 0.00,
+                    'shipping': 0.00,
+                    'currency': resumeData.codigomoneda || "USD",
+                    'coupon': '',
+                    'items': [
+                        {
+                            'item_id': itemId,
+                            'item_name': resumeData.nombreplan || "",
+                            'coupon': '',
+                            'discount': 0.00,
+                            'index': 0,
+                            'item_brand': 'Continental Assist',
+                            'item_category': countryCode,
+                            'item_list_id': '',
+                            'item_list_name': '',
+                            'item_variant': '',
+                            'location_id': '',
+                            'price': Number(resumeData.total) || 0,
+                            'quantity': 1
+                        }
+                    ]
+                }
+            });
 
             // Marcar como rastreado para evitar duplicados
             purchaseTracked.value = true;
-        } else {
-            // No enviar evento si no se cumplen condiciones
         }
     });
 
@@ -107,58 +104,96 @@ export default component$(() => {
         resVoucher = data
 
         if(resVoucher.error == false){
-            resume.value = resVoucher.resultado[0]
-            
-            typeMessage.value = 1
-    
+            // Verificar si tenemos datos válidos del voucher
+            if (resVoucher.resultado && resVoucher.resultado.length > 0) {
+                const voucherData = resVoucher.resultado[0]
+                
+                // Mapeo mejorado de datos del voucher
+                const mappedVoucherData = {
+                    
+                    // Voucher
+                    codvoucher: voucherData.codvoucher ,
+
+                    // Fechas
+                    fechasalida: voucherData.fechasalida || 'Fecha no especificada',
+                    fecharegreso: voucherData.fecharegreso || 'Fecha no especificada',
+                    
+                }
+                
+                // Asignar los datos del voucher
+                resume.value = {
+                    ...resume.value, // Mantener datos del contexto si existen
+                    ...mappedVoucherData  // Sobrescribir con datos mapeados del voucher
+                }
+                
+                typeMessage.value = 1
+            } else {
+                typeMessage.value = 4 // Mostrar error
+            }
+        } else {
+            typeMessage.value = 4 // Mostrar error
         }
         contextLoading.value = {status:false, message:''};
-
     })
 
     useTask$(() => {        
         
         if(Object.keys(stateContext.value).length > 0)
         {
-            resume.value = stateContext.value
+            // Asignar datos del contexto al resume
+            const mappedContextData = {
+                // Plan
+                nombreplan: stateContext.value?.plan?.nombreplan || 'Plan no especificado',
+                
+                // País/Origen
+                paisorigen: stateContext.value?.paisorigen || 'País no especificado',
+                
+                // Destinos
+                paisesdestino: stateContext.value?.paisesdestino.join(', ') || 'Destino no especificado',
+
+                // Voucher
+                codigovoucher: stateContext.value?.codevoucher  || '',
+                
+                // Total y moneda
+                total: stateContext.value?.total?.total || 0,
+                
+                // Moneda
+                codigomoneda: stateContext.value?.total.divisa || 'USD'
+            }
             
-            if (resume?.value?.codevoucher != ''&&resume?.value?.paymentstutus == 'completed') {
+            // Asignar directamente los datos mapeados para evitar problemas de reactividad
+            resume.value = mappedContextData
+            
+            if (resume?.value?.codevoucher != '' && resume?.value?.paymentstutus == 'completed') {
                 if (stateContext?.value?.typeMessage == 1) {
                     getVoucher(resume?.value?.codevoucher);
-
                 }
-        
-                
+            }
+            else if (stateContext?.value?.codevoucher && stateContext?.value?.paymentstutus == 'completed') {
+                getVoucher(stateContext?.value?.codevoucher);
             }
             else{
-                typeMessage.value =stateContext?.value?.typeMessage
-
+                typeMessage.value = stateContext?.value?.typeMessage
             }
         }
     })
 
-  
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {        
 
         if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
-            //loading.value = true
-         
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
                 const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
+                
                 if(dataValidation.resultado?.status == 'completed')
                 {
-                    //voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
                     getVoucher(dataValidation.resultado.order_id)
-                    
                 }
                 else
                 {
-                    //voucher.value = {error:true,message:'Hubo un error en tu transaccion'}
                     typeMessage.value = 4
-                    //loading.value = false
                 }
             }
             else
@@ -169,23 +204,15 @@ export default component$(() => {
                 if(dataValidation.resultado.status == 'APPROVED')
                 {
                    getVoucher(dataValidation.resultado.reference)
-    
-                   // voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.reference}
-                 
                 }
                 else
                 {
-                   // voucher.value = {error:true,message:dataValidation.resultado.status_message}
                    typeMessage.value = 4
-                   //loading.value = false
                 }
             }
         }
-
-        
     })
 
-    
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
@@ -193,9 +220,7 @@ export default component$(() => {
             desktop.value = true
         }
         contextLoading.value = {status:false, message:''};
-
     })
-
 
     const redirectHome$ = $(() => {
         navigate('/');
@@ -204,7 +229,6 @@ export default component$(() => {
    
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-
 
             <div class='container-fluid'>
                 <div class='row bg-message'>
@@ -242,7 +266,7 @@ export default component$(() => {
                                         <div class='col-lg-6 col-sm-12  text-end'>
                                                     <p class='text-regular text-dark-gray mb-0'  style={{fontSize:'1.188rem'}}>Código de voucher:</p>
                                                     <p class='text-semi-bold text-blue mb-4' style={{fontSize:'1.375rem'}}>
-                                                         {resume.value.codigovoucher}
+                                                         {resume.value.codvoucher}
                                                     </p>
                                                 </div>
 
@@ -259,11 +283,10 @@ export default component$(() => {
                                            </div>
                                            <div class="col-sm-12">
                                            <span class="text-regular text-dark-gray ps-0" style={{fontSize:'1.188rem',}}>Código de voucher:</span><br/>
-                                                    <span class="text-bold text-dark-blue" style={{fontSize:'1.375rem'}}>{resume.value.codigovoucher}
+                                                    <span class="text-bold text-dark-blue" style={{fontSize:'1.375rem'}}>{resume.value.codvoucher}
                                                 </span>
                                            </div>
                                             
-
 
                                                                                                            
                                         </div>
@@ -278,7 +301,7 @@ export default component$(() => {
                                                 </span>
                                                 <p style={{marginLeft:'-6px'}}>
                                                 <span class="text-regular text-dark-gray ps-0" style={{fontSize:'0.75rem'}}>Origen / Destino(s)</span> <br/>                                                                            
-                                                <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}>{resume.value.nombrepais}  <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.destinos && String(resume.value.destinos).replaceAll(',',', ')}</span>
+                                                <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}>{resume.value.paisorigen}  <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',',', ')}</span>
                                                 </p>                                                            
                                             </div>
                                             </div> 
@@ -289,7 +312,7 @@ export default component$(() => {
                                                     </span>
                                                     <p style={{textAlign:'left'}}>
                                                     <span class="text-regular text-dark-gray ps-0" style={{fontSize:'0.75rem'}}>Fechas de tu viaje</span> <br/>                                                                            
-                                                        <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}> {resume.value.fechadesde} <span class='text-semi-bold text-dark-blue'> al </span>{resume.value.fechahasta}</span>
+                                                        <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}> {resume.value.fechasalida} <span class='text-semi-bold text-dark-blue'> al </span>{resume.value.fecharegreso}</span>
                                                     </p>                                                            
                                                 </div>
                                                 <hr/>
