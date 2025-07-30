@@ -355,9 +355,13 @@ export default component$(() => {
                 );
 
                // modalSuccess.show()
-               stateContext.value.paymentstutus =resPayment.resultado[0]?.authorizeTransaccion?.status||'';
-               stateContext.value.codevoucher =resPayment.resultado[0]?.orden?.codvoucher||'';
-               stateContext.value.typeMessage = 1
+               // Preservar todos los datos del contexto y agregar los nuevos datos del pago
+               stateContext.value = {
+                   ...stateContext.value, // Preservar todos los datos existentes
+                   paymentstutus: resPayment.resultado[0]?.authorizeTransaccion?.status||'',
+                   codevoucher: resPayment.resultado[0]?.orden?.codvoucher||'',
+                   typeMessage: 1
+               }
                await navigate('/quotes-engine/message')
             }
             else
