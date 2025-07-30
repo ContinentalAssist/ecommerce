@@ -9,49 +9,47 @@ type HeadersType = {
 };
 
 
-const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }, request:any) => {
+const ServiceRequest = async (url = '', dataSend = {}, onSuccess = (data: any) => { return data }, request: any) => {
     const headers: HeadersType = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'EVA-AUTH-USER': import.meta.env.VITE_MY_PUBLIC_WEB_KEY,
-            'Accept-Language':request.headers.get('Accept-Language')||'es'
+            'Accept-Language': request.headers.get('Accept-Language') || 'es',
         },
         body: JSON.stringify(dataSend),
     };
-    
-    // Validar si el encabezado x-forwarded-for existe
+
     const forwardedForHeader = request.headers.get('x-forwarded-for');
-    
     if (forwardedForHeader) {
         headers.headers['X-FORWARDED-FOR'] = forwardedForHeader;
-    }/* else{
-        headers.headers['X-FORWARDED-FOR'] = '2806:10be:7:2e9:62fc:9d:7f21:a6cc'
-    } */
-    
-    const logHeaders = (req: any) => {
-        return req;
-    };
+    }
 
     try {
-        const config = {
-            ...headers,
-            ...logHeaders
-        };
+        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, headers);
 
-        const response = await fetch(`${import.meta.env.VITE_MY_PUBLIC_WEB_API}${url}`, config);
-                
+        const raw = await response.text(); // Leer como texto por si no es JSON
+
         if (!response.ok) {
+            console.error('❌ Error en respuesta HTTP:', raw);
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const data = await response.json();
 
-        onSuccess(data);
+        // Intentar parsear JSON de forma segura
+        try {
+            const data = JSON.parse(raw);
+            onSuccess(data);
+        } catch (err) {
+            console.error('❌ Error al parsear JSON:', err, '\n📦 Respuesta cruda:', raw);
+            throw new Error('Invalid JSON response');
+        }
+
     } catch (error) {
-    
-            console.error('Falló al obtener datos:', error);
-        
+        console.error('Falló al obtener datos:', error);
+        // Re-lanzar para que el handler sepa que hubo un error
+        throw error;
     }
 };
+
 
 export default ServiceRequest;
