@@ -52,12 +52,12 @@ export default component$(() => {
             typeof window !== 'undefined' && 
             'dataLayer' in window) {
             
-            // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
-            const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
+            // Extraer el código de país del paisorigen (asumiendo formato "MÉXICO" -> "MX")
+            const countryCode = resumeData.paisorigen?.substring(0, 2).toUpperCase() || '';
             
             // Crear el item_id combinando país y algún identificador del plan
             const itemId = `${countryCode}_${resumeData.codigovoucher}`;
-
+            
             // Enviar el evento purchase usando dataLayer
             (window as any)['dataLayer'].push({
                 'event': 'purchase',
@@ -110,25 +110,14 @@ export default component$(() => {
                 
                 // Mapeo mejorado de datos del voucher
                 const mappedVoucherData = {
-                    // Plan
-                    nombreplan: voucherData.nombreplan || voucherData.plan || voucherData.nombre_plan || voucherData.plan_nombre || 'Plan no especificado',
                     
                     // Voucher
-                    codigovoucher: voucherData.codigovoucher || voucherData.codvoucher || voucherData.codigo_voucher || voucherData.voucher_code || vouchercode,
-                    
-                    // País/Origen
-                    nombrepais: voucherData.nombrepais || voucherData.pais || voucherData.nombre_pais || voucherData.origen || voucherData.pais_origen || 'País no especificado',
-                    
-                    // Destinos
-                    destinos: voucherData.destinos || voucherData.destino || voucherData.destinos_viaje || voucherData.paises_destino || 'Destino no especificado',
-                    
+                    codvoucher: voucherData.codvoucher ,
+
                     // Fechas
-                    fechadesde: voucherData.fechadesde || voucherData.fecha_desde || voucherData.fecha_salida || voucherData.desde || 'Fecha no especificada',
-                    fechahasta: voucherData.fechahasta || voucherData.fecha_hasta || voucherData.fecha_regreso || voucherData.hasta || 'Fecha no especificada',
+                    fechasalida: voucherData.fechasalida || 'Fecha no especificada',
+                    fecharegreso: voucherData.fecharegreso || 'Fecha no especificada',
                     
-                    // Total y moneda
-                    total: voucherData.total || voucherData.precio || voucherData.monto || voucherData.valor || 0,
-                    codigomoneda: voucherData.codigomoneda || voucherData.moneda || voucherData.divisa || 'USD'
                 }
                 
                 // Asignar los datos del voucher
@@ -154,56 +143,22 @@ export default component$(() => {
             // Asignar datos del contexto al resume
             const mappedContextData = {
                 // Plan
-                nombreplan: stateContext.value?.plan?.nombreplan || 
-                           stateContext.value?.nombreplan || 
-                           stateContext.value?.plan_nombre || 
-                           'Plan no especificado',
-                
-                // Voucher
-                codigovoucher: stateContext.value?.codevoucher || 
-                              stateContext.value?.codigovoucher || 
-                              stateContext.value?.voucher_code || 
-                              '',
+                nombreplan: stateContext.value?.plan?.nombreplan || 'Plan no especificado',
                 
                 // País/Origen
-                nombrepais: stateContext.value?.paisorigen || 
-                           stateContext.value?.nombrepais || 
-                           stateContext.value?.pais_origen || 
-                           stateContext.value?.origen || 
-                           'País no especificado',
+                paisorigen: stateContext.value?.paisorigen || 'País no especificado',
                 
                 // Destinos
-                destinos: stateContext.value?.paisesdestino || 
-                         stateContext.value?.destinos || 
-                         stateContext.value?.destinos_viaje || 
-                         stateContext.value?.paises_destino || 
-                         'Destino no especificado',
-                
-                // Fechas
-                fechadesde: stateContext.value?.desde || 
-                           stateContext.value?.fechadesde || 
-                           stateContext.value?.fecha_desde || 
-                           stateContext.value?.fecha_salida || 
-                           'Fecha no especificada',
-                
-                fechahasta: stateContext.value?.hasta || 
-                           stateContext.value?.fechahasta || 
-                           stateContext.value?.fecha_hasta || 
-                           stateContext.value?.fecha_regreso || 
-                           'Fecha no especificada',
+                paisesdestino: stateContext.value?.paisesdestino.join(', ') || 'Destino no especificado',
+
+                // Voucher
+                codigovoucher: stateContext.value?.codevoucher  || '',
                 
                 // Total y moneda
-                total: stateContext.value?.total?.total || 
-                       stateContext.value?.total || 
-                       stateContext.value?.monto || 
-                       stateContext.value?.valor || 
-                       0,
+                total: stateContext.value?.total?.total || 0,
                 
-                codigomoneda: stateContext.value?.plan?.codigomonedapago || 
-                             stateContext.value?.codigomoneda || 
-                             stateContext.value?.moneda || 
-                             stateContext.value?.divisa || 
-                             'USD'
+                // Moneda
+                codigomoneda: stateContext.value?.total.divisa || 'USD'
             }
             
             // Asignar directamente los datos mapeados para evitar problemas de reactividad
@@ -311,7 +266,7 @@ export default component$(() => {
                                         <div class='col-lg-6 col-sm-12  text-end'>
                                                     <p class='text-regular text-dark-gray mb-0'  style={{fontSize:'1.188rem'}}>Código de voucher:</p>
                                                     <p class='text-semi-bold text-blue mb-4' style={{fontSize:'1.375rem'}}>
-                                                         {resume.value.codigovoucher}
+                                                         {resume.value.codvoucher}
                                                     </p>
                                                 </div>
 
@@ -328,7 +283,7 @@ export default component$(() => {
                                            </div>
                                            <div class="col-sm-12">
                                            <span class="text-regular text-dark-gray ps-0" style={{fontSize:'1.188rem',}}>Código de voucher:</span><br/>
-                                                    <span class="text-bold text-dark-blue" style={{fontSize:'1.375rem'}}>{resume.value.codigovoucher}
+                                                    <span class="text-bold text-dark-blue" style={{fontSize:'1.375rem'}}>{resume.value.codvoucher}
                                                 </span>
                                            </div>
                                             
@@ -346,7 +301,7 @@ export default component$(() => {
                                                 </span>
                                                 <p style={{marginLeft:'-6px'}}>
                                                 <span class="text-regular text-dark-gray ps-0" style={{fontSize:'0.75rem'}}>Origen / Destino(s)</span> <br/>                                                                            
-                                                <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}>{resume.value.nombrepais}  <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.destinos && String(resume.value.destinos).replaceAll(',',', ')}</span>
+                                                <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}>{resume.value.paisorigen}  <span class='text-semi-bold text-dark-blue'> a </span> {resume.value.paisesdestino && String(resume.value.paisesdestino).replaceAll(',',', ')}</span>
                                                 </p>                                                            
                                             </div>
                                             </div> 
@@ -357,7 +312,7 @@ export default component$(() => {
                                                     </span>
                                                     <p style={{textAlign:'left'}}>
                                                     <span class="text-regular text-dark-gray ps-0" style={{fontSize:'0.75rem'}}>Fechas de tu viaje</span> <br/>                                                                            
-                                                        <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}> {resume.value.fechadesde} <span class='text-semi-bold text-dark-blue'> al </span>{resume.value.fechahasta}</span>
+                                                        <span class="text-bold text-dark-blue" style={{fontSize:'0.875rem'}}> {resume.value.fechasalida} <span class='text-semi-bold text-dark-blue'> al </span>{resume.value.fecharegreso}</span>
                                                     </p>                                                            
                                                 </div>
                                                 <hr/>
