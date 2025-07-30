@@ -108,19 +108,33 @@ export default component$(() => {
             if (resVoucher.resultado && resVoucher.resultado.length > 0) {
                 const voucherData = resVoucher.resultado[0]
                 
+                // Mapeo mejorado de datos del voucher
+                const mappedVoucherData = {
+                    // Plan
+                    nombreplan: voucherData.nombreplan || voucherData.plan || voucherData.nombre_plan || voucherData.plan_nombre || 'Plan no especificado',
+                    
+                    // Voucher
+                    codigovoucher: voucherData.codigovoucher || voucherData.codvoucher || voucherData.codigo_voucher || voucherData.voucher_code || vouchercode,
+                    
+                    // País/Origen
+                    nombrepais: voucherData.nombrepais || voucherData.pais || voucherData.nombre_pais || voucherData.origen || voucherData.pais_origen || 'País no especificado',
+                    
+                    // Destinos
+                    destinos: voucherData.destinos || voucherData.destino || voucherData.destinos_viaje || voucherData.paises_destino || 'Destino no especificado',
+                    
+                    // Fechas
+                    fechadesde: voucherData.fechadesde || voucherData.fecha_desde || voucherData.fecha_salida || voucherData.desde || 'Fecha no especificada',
+                    fechahasta: voucherData.fechahasta || voucherData.fecha_hasta || voucherData.fecha_regreso || voucherData.hasta || 'Fecha no especificada',
+                    
+                    // Total y moneda
+                    total: voucherData.total || voucherData.precio || voucherData.monto || voucherData.valor || 0,
+                    codigomoneda: voucherData.codigomoneda || voucherData.moneda || voucherData.divisa || 'USD'
+                }
+                
                 // Asignar los datos del voucher
                 resume.value = {
                     ...resume.value, // Mantener datos del contexto si existen
-                    ...voucherData,  // Sobrescribir con datos del voucher
-                    // Asegurar que los campos críticos estén presentes
-                    nombreplan: voucherData.nombreplan || voucherData.plan || 'Plan no especificado',
-                    codigovoucher: voucherData.codigovoucher || voucherData.codvoucher || vouchercode,
-                    nombrepais: voucherData.nombrepais || voucherData.pais || 'País no especificado',
-                    destinos: voucherData.destinos || voucherData.destino || 'Destino no especificado',
-                    fechadesde: voucherData.fechadesde || voucherData.fechasalida || 'Fecha no especificada',
-                    fechahasta: voucherData.fechahasta || voucherData.fecharegreso || 'Fecha no especificada',
-                    total: voucherData.total || voucherData.precio || 0,
-                    codigomoneda: voucherData.codigomoneda || voucherData.moneda || 'USD'
+                    ...mappedVoucherData  // Sobrescribir con datos mapeados del voucher
                 }
                 
                 typeMessage.value = 1
@@ -138,26 +152,73 @@ export default component$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
             // Asignar datos del contexto al resume
-            resume.value = {
-                ...stateContext.value,
-                // Asegurar que los campos críticos estén presentes desde el contexto
-                nombreplan: stateContext.value?.plan?.nombreplan || stateContext.value?.nombreplan || 'Plan no especificado',
-                codigovoucher: stateContext.value?.codevoucher || stateContext.value?.codigovoucher || '',
-                nombrepais: stateContext.value?.paisorigen || stateContext.value?.nombrepais || 'País no especificado',
-                destinos: stateContext.value?.paisesdestino || stateContext.value?.destinos || 'Destino no especificado',
-                fechadesde: stateContext.value?.desde || stateContext.value?.fechadesde || 'Fecha no especificada',
-                fechahasta: stateContext.value?.hasta || stateContext.value?.fechahasta || 'Fecha no especificada',
-                total: stateContext.value?.total?.total || stateContext.value?.total || 0,
-                codigomoneda: stateContext.value?.plan?.codigomonedapago || stateContext.value?.codigomoneda || 'USD'
+            const mappedContextData = {
+                // Plan
+                nombreplan: stateContext.value?.plan?.nombreplan || 
+                           stateContext.value?.nombreplan || 
+                           stateContext.value?.plan_nombre || 
+                           'Plan no especificado',
+                
+                // Voucher
+                codigovoucher: stateContext.value?.codevoucher || 
+                              stateContext.value?.codigovoucher || 
+                              stateContext.value?.voucher_code || 
+                              '',
+                
+                // País/Origen
+                nombrepais: stateContext.value?.paisorigen || 
+                           stateContext.value?.nombrepais || 
+                           stateContext.value?.pais_origen || 
+                           stateContext.value?.origen || 
+                           'País no especificado',
+                
+                // Destinos
+                destinos: stateContext.value?.paisesdestino || 
+                         stateContext.value?.destinos || 
+                         stateContext.value?.destinos_viaje || 
+                         stateContext.value?.paises_destino || 
+                         'Destino no especificado',
+                
+                // Fechas
+                fechadesde: stateContext.value?.desde || 
+                           stateContext.value?.fechadesde || 
+                           stateContext.value?.fecha_desde || 
+                           stateContext.value?.fecha_salida || 
+                           'Fecha no especificada',
+                
+                fechahasta: stateContext.value?.hasta || 
+                           stateContext.value?.fechahasta || 
+                           stateContext.value?.fecha_hasta || 
+                           stateContext.value?.fecha_regreso || 
+                           'Fecha no especificada',
+                
+                // Total y moneda
+                total: stateContext.value?.total?.total || 
+                       stateContext.value?.total || 
+                       stateContext.value?.monto || 
+                       stateContext.value?.valor || 
+                       0,
+                
+                codigomoneda: stateContext.value?.plan?.codigomonedapago || 
+                             stateContext.value?.codigomoneda || 
+                             stateContext.value?.moneda || 
+                             stateContext.value?.divisa || 
+                             'USD'
             }
             
-            if (resume?.value?.codevoucher != ''&&resume?.value?.paymentstutus == 'completed') {
+            // Asignar directamente los datos mapeados para evitar problemas de reactividad
+            resume.value = mappedContextData
+            
+            if (resume?.value?.codevoucher != '' && resume?.value?.paymentstutus == 'completed') {
                 if (stateContext?.value?.typeMessage == 1) {
                     getVoucher(resume?.value?.codevoucher);
                 }
             }
+            else if (stateContext?.value?.codevoucher && stateContext?.value?.paymentstutus == 'completed') {
+                getVoucher(stateContext?.value?.codevoucher);
+            }
             else{
-                typeMessage.value =stateContext?.value?.typeMessage
+                typeMessage.value = stateContext?.value?.typeMessage
             }
         }
     })
