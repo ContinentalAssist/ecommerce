@@ -547,9 +547,13 @@ export default component$(() => {
                 
                if (resPayment.resultado[0]?.openPayTransaccion?.status ==='charge_pending' && resPayment.resultado[0]?.openPayTransaccion?.payment_method)
                 {
-                stateContext.value.paymentstutus =resPayment.resultado[0]?.openPayTransaccion?.status||'';
-                stateContext.value.codevoucher =resPayment.resultado[0]?.openPayTransaccion?.order_id||'';
-                stateContext.value.typeMessage = 1
+                // Preservar todos los datos del contexto y agregar los nuevos datos del pago
+                stateContext.value = {
+                    ...stateContext.value, // Preservar todos los datos existentes
+                    paymentstutus: resPayment.resultado[0]?.openPayTransaccion?.status||'',
+                    codevoucher: resPayment.resultado[0]?.openPayTransaccion?.order_id||'',
+                    typeMessage: 1
+                }
                 await navigate(resPayment.resultado[0]?.openPayTransaccion?.payment_method.url)
                }
                 

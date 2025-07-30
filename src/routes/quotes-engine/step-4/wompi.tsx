@@ -83,9 +83,13 @@ export default component$(() => {
                 const url= dataValidation.resultado.payment_method.extra.async_payment_url;
                 navigate(url)
             }else{
-                stateContext.value.paymentstutus ='completed';
-                stateContext.value.codevoucher =dataValidation.resultado.reference;
-                stateContext.value.typeMessage = 1
+                // Preservar todos los datos del contexto y agregar los nuevos datos del pago
+                stateContext.value = {
+                    ...stateContext.value, // Preservar todos los datos existentes
+                    paymentstutus: 'completed',
+                    codevoucher: dataValidation.resultado.reference,
+                    typeMessage: 1
+                }
                 await navigate('/quotes-engine/message')
             }
            

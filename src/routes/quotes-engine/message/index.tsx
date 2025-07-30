@@ -32,7 +32,6 @@ export default component$(() => {
     useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const navigate = useNavigate()
-    //const loading = useSignal(true)
     const obj : {[key:string]:any} = {}
     const resume = useSignal(obj)
     const locationEnv = useLocation()
@@ -41,61 +40,59 @@ export default component$(() => {
     const contextLoading = useContext(LoadingContext)
     const purchaseTracked = useSignal(false)
 
-   useTask$(({ track }) => {
-    const messageType = track(() => typeMessage.value);
-    const resumeData = track(() => resume.value);
-    
-    // Solo ejecutar para compra exitosa y cuando tengamos datos
-    if (messageType === 1 && 
-        !purchaseTracked.value &&
-        Object.keys(resumeData).length > 0 && 
-        resumeData.codigovoucher &&
-        typeof window !== 'undefined' && 
-        'dataLayer' in window) {
+    useTask$(({ track }) => {
+        const messageType = track(() => typeMessage.value);
+        const resumeData = track(() => resume.value);
         
-        // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
-        const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
-        
-        // Crear el item_id combinando país y algún identificador del plan
-        const itemId = `${countryCode}_${resumeData.codigovoucher}`;
+        // Solo ejecutar para compra exitosa y cuando tengamos datos
+        if (messageType === 1 && 
+            !purchaseTracked.value &&
+            Object.keys(resumeData).length > 0 && 
+            resumeData.codigovoucher &&
+            typeof window !== 'undefined' && 
+            'dataLayer' in window) {
+            
+            // Extraer el código de país del nombrepais (asumiendo formato "MÉXICO" -> "MX")
+            const countryCode = resumeData.nombrepais?.substring(0, 2).toUpperCase() || '';
+            
+            // Crear el item_id combinando país y algún identificador del plan
+            const itemId = `${countryCode}_${resumeData.codigovoucher}`;
 
-        // Enviar el evento purchase usando dataLayer
-        (window as any)['dataLayer'].push({
-            'event': 'purchase',
-            'transaction_id': resumeData.codigovoucher,
-            'value': Number(resumeData.total) || 0,
-            'currency': resumeData.codigomoneda || "USD",
-            'ecommerce': {
+            // Enviar el evento purchase usando dataLayer
+            (window as any)['dataLayer'].push({
+                'event': 'purchase',
                 'transaction_id': resumeData.codigovoucher,
                 'value': Number(resumeData.total) || 0,
-                'tax': 0.00,
-                'shipping': 0.00,
                 'currency': resumeData.codigomoneda || "USD",
-                'coupon': '',
-                'items': [
-                    {
-                        'item_id': itemId,
-                        'item_name': resumeData.nombreplan || "",
-                        'coupon': '',
-                        'discount': 0.00,
-                        'index': 0,
-                        'item_brand': 'Continental Assist',
-                        'item_category': countryCode,
-                        'item_list_id': '',
-                        'item_list_name': '',
-                        'item_variant': '',
-                        'location_id': '',
-                        'price': Number(resumeData.total) || 0,
-                        'quantity': 1
-                    }
-                ]
-            }
-        });
+                'ecommerce': {
+                    'transaction_id': resumeData.codigovoucher,
+                    'value': Number(resumeData.total) || 0,
+                    'tax': 0.00,
+                    'shipping': 0.00,
+                    'currency': resumeData.codigomoneda || "USD",
+                    'coupon': '',
+                    'items': [
+                        {
+                            'item_id': itemId,
+                            'item_name': resumeData.nombreplan || "",
+                            'coupon': '',
+                            'discount': 0.00,
+                            'index': 0,
+                            'item_brand': 'Continental Assist',
+                            'item_category': countryCode,
+                            'item_list_id': '',
+                            'item_list_name': '',
+                            'item_variant': '',
+                            'location_id': '',
+                            'price': Number(resumeData.total) || 0,
+                            'quantity': 1
+                        }
+                    ]
+                }
+            });
 
             // Marcar como rastreado para evitar duplicados
             purchaseTracked.value = true;
-        } else {
-            // No enviar evento si no se cumplen condiciones
         }
     });
 
@@ -107,58 +104,80 @@ export default component$(() => {
         resVoucher = data
 
         if(resVoucher.error == false){
-            resume.value = resVoucher.resultado[0]
-            
-            typeMessage.value = 1
-    
+            // Verificar si tenemos datos válidos del voucher
+            if (resVoucher.resultado && resVoucher.resultado.length > 0) {
+                const voucherData = resVoucher.resultado[0]
+                
+                // Asignar los datos del voucher
+                resume.value = {
+                    ...resume.value, // Mantener datos del contexto si existen
+                    ...voucherData,  // Sobrescribir con datos del voucher
+                    // Asegurar que los campos críticos estén presentes
+                    nombreplan: voucherData.nombreplan || voucherData.plan || 'Plan no especificado',
+                    codigovoucher: voucherData.codigovoucher || voucherData.codvoucher || vouchercode,
+                    nombrepais: voucherData.nombrepais || voucherData.pais || 'País no especificado',
+                    destinos: voucherData.destinos || voucherData.destino || 'Destino no especificado',
+                    fechadesde: voucherData.fechadesde || voucherData.fechasalida || 'Fecha no especificada',
+                    fechahasta: voucherData.fechahasta || voucherData.fecharegreso || 'Fecha no especificada',
+                    total: voucherData.total || voucherData.precio || 0,
+                    codigomoneda: voucherData.codigomoneda || voucherData.moneda || 'USD'
+                }
+                
+                typeMessage.value = 1
+            } else {
+                typeMessage.value = 4 // Mostrar error
+            }
+        } else {
+            typeMessage.value = 4 // Mostrar error
         }
         contextLoading.value = {status:false, message:''};
-
     })
 
     useTask$(() => {        
         
         if(Object.keys(stateContext.value).length > 0)
         {
-            resume.value = stateContext.value
+            // Asignar datos del contexto al resume
+            resume.value = {
+                ...stateContext.value,
+                // Asegurar que los campos críticos estén presentes desde el contexto
+                nombreplan: stateContext.value?.plan?.nombreplan || stateContext.value?.nombreplan || 'Plan no especificado',
+                codigovoucher: stateContext.value?.codevoucher || stateContext.value?.codigovoucher || '',
+                nombrepais: stateContext.value?.paisorigen || stateContext.value?.nombrepais || 'País no especificado',
+                destinos: stateContext.value?.paisesdestino || stateContext.value?.destinos || 'Destino no especificado',
+                fechadesde: stateContext.value?.desde || stateContext.value?.fechadesde || 'Fecha no especificada',
+                fechahasta: stateContext.value?.hasta || stateContext.value?.fechahasta || 'Fecha no especificada',
+                total: stateContext.value?.total?.total || stateContext.value?.total || 0,
+                codigomoneda: stateContext.value?.plan?.codigomonedapago || stateContext.value?.codigomoneda || 'USD'
+            }
             
             if (resume?.value?.codevoucher != ''&&resume?.value?.paymentstutus == 'completed') {
                 if (stateContext?.value?.typeMessage == 1) {
                     getVoucher(resume?.value?.codevoucher);
-
                 }
-        
-                
             }
             else{
                 typeMessage.value =stateContext?.value?.typeMessage
-
             }
         }
     })
 
-  
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(async() => {        
 
         if (locationEnv.url.search.includes('id') || locationEnv.url.search.includes('env')) {
-            //loading.value = true
-         
             if(locationEnv.url.search.includes('id') && !locationEnv.url.search.includes('env'))
             {
                 const resValidation = await fetch("/api/getValidationTransactionOP",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id:locationEnv.url.searchParams.get('id')})});
                 const dataValidation = await resValidation.json()
+                
                 if(dataValidation.resultado?.status == 'completed')
                 {
-                    //voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.order_id}
                     getVoucher(dataValidation.resultado.order_id)
-                    
                 }
                 else
                 {
-                    //voucher.value = {error:true,message:'Hubo un error en tu transaccion'}
                     typeMessage.value = 4
-                    //loading.value = false
                 }
             }
             else
@@ -169,23 +188,15 @@ export default component$(() => {
                 if(dataValidation.resultado.status == 'APPROVED')
                 {
                    getVoucher(dataValidation.resultado.reference)
-    
-                   // voucher.value = {error:false,message:'Tu codigo de voucher es : '+dataValidation.resultado.reference}
-                 
                 }
                 else
                 {
-                   // voucher.value = {error:true,message:dataValidation.resultado.status_message}
                    typeMessage.value = 4
-                   //loading.value = false
                 }
             }
         }
-
-        
     })
 
-    
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {        
         if(!navigator.userAgent.includes('Mobile'))
@@ -193,9 +204,7 @@ export default component$(() => {
             desktop.value = true
         }
         contextLoading.value = {status:false, message:''};
-
     })
-
 
     const redirectHome$ = $(() => {
         navigate('/');
@@ -204,7 +213,6 @@ export default component$(() => {
    
     return(
         <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
-
 
             <div class='container-fluid'>
                 <div class='row bg-message'>
@@ -263,7 +271,6 @@ export default component$(() => {
                                                 </span>
                                            </div>
                                             
-
 
                                                                                                            
                                         </div>
