@@ -1,15 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config(); // Cargar variables de entorno
 
 // Tus rutas y prioridades
 const routes = [
-  { loc: 'https://continentalassist.com', priority: '1.00' },
-  { loc: 'https://continentalassist.com/about-us', priority: '0.90' },
-  { loc: 'https://continentalassist.com/contact-us', priority: '0.90' },
-  //{ loc: 'https://continentalassist.com/search-voucher', priority: '0.90' },
-  { loc: 'https://continentalassist.com/general-conditions', priority: '0.90' },
-  { loc: 'https://continentalassist.com/information-treatment-privacy-policies', priority: '0.90' },
-  { loc: 'https://continentalassist.com/invoice', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'', priority: '1.00' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/about-us', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/contact-us', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/search-voucher', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/general-conditions', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/information-treatment-privacy-policies', priority: '0.90' },
+  { loc: process.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+'/invoice', priority: '0.90' },
 ];
 
 const generateSitemap = () => {
