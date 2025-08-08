@@ -5,7 +5,7 @@ import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
 
 
-export const InvoiceFormMX = component$(() => {
+export const InvoiceFormMX = component$((props:any) => {
    // useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const typePersonInvoice = useSignal('RS');
@@ -13,8 +13,25 @@ export const InvoiceFormMX = component$(() => {
     const array : any[] = []
     const listadoCiudades = useSignal(array)
     const listadoRegimenesSat = useSignal(array)
+    const defaultListadoTiposPagos = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
+    //const dateVoucher= useSignal(dayjs().format('YYYY-MM-DD'));
+    const hideInputDataPayment= useSignal(false);
+    const hideInputSelectDataPayment= useSignal(false);
+    const typepaymentSelected= useSignal('');
+    const disabledInpuTypePayment= useSignal(true);
+
+    useTask$(({ track })=>{
+                const value = track(()=>props.modeFormPayment);   
+                
+               if (value == true) {
+                   hideInputDataPayment.value =true;  
+                   hideInputSelectDataPayment.value =true;      
+               }
+                
+               // contextLoading.value = {status:false, message:''};
+        })
 
 
 
@@ -46,6 +63,7 @@ export const InvoiceFormMX = component$(() => {
                 resFormaPago.push({value:forma.id, label:`${forma.nombre}`, clave:forma.clave})
             })
             listadoTiposPagos.value = resFormaPago;
+            defaultListadoTiposPagos.value = resFormaPago;
         }
         stateContext.value = { ...stateContext.value, listadoTiposPagos:resFormaPago }
     })
@@ -207,6 +225,27 @@ export const InvoiceFormMX = component$(() => {
         
     })
 
+    const changePaymentSelected$ = $(async (e:any) => {
+
+          if (e.value == 'PPD') {
+            disabledInpuTypePayment.value = true;
+            typepaymentSelected.value ='';
+            hideInputDataPayment.value =true;
+             const selectedDefault = defaultListadoTiposPagos.value.find((item:any) => item.clave == '99');
+             
+             listadoTiposPagos.value = Array(selectedDefault) ;
+            typepaymentSelected.value = selectedDefault.value;
+            
+          }else{
+            disabledInpuTypePayment.value = false;
+            const selectedDefault = defaultListadoTiposPagos.value.filter((item:any) => item.clave !== '99');             
+            listadoTiposPagos.value = selectedDefault;
+            hideInputDataPayment.value =false;
+            typepaymentSelected.value ='';
+          }
+          
+    })
+
     
 
     return(
@@ -251,22 +290,28 @@ export const InvoiceFormMX = component$(() => {
                         form={[
                             
                             {row:[                                                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
-                                required:true,options:listadoRegimenesSat.value,},                      
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},               
 
 
                             ]},                                                                                
                             
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
+                                    required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}],
+                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
+                                    required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
+                                    disabled: disabledInpuTypePayment.value, hidden:hideInputSelectDataPayment.value
+                                }, 
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value},
                             ]},
 
                             {row:[                                                            
@@ -301,20 +346,28 @@ export const InvoiceFormMX = component$(() => {
                         id='form-invoicing'
                         form={[
                             {row:[                                                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
-                                required:true,options:listadoRegimenesSat.value,},     
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},                 
-                                ]},
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},               
 
+
+                            ]},                                                                                
+                            
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
+                                    required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}],
+                                    onChange:$((e:any)=>changePaymentSelected$(e)),hidden:hideInputSelectDataPayment.value
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
+                                    required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
+                                    disabled: disabledInpuTypePayment.value, hidden:hideInputSelectDataPayment.value
+                                }, 
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required: !hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value},
                             ]},
 
                             {row:[

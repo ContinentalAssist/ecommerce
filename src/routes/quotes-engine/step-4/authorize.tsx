@@ -136,6 +136,26 @@ export default component$(() => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
+    const customFormValidity$ = $((form: HTMLFormElement)=> {
+        
+        console.log(form);
+            const visibleInputs = Array.from(form.elements).filter(
+                (element) => {
+                const el = element as HTMLElement;
+                return !(el.hidden || el.hasAttribute('hidden') || window.getComputedStyle(el).display === 'none');
+                }
+            );
+            
+            let isValid = true;
+            visibleInputs.forEach(input => {
+                if (input.hasAttribute('required') && !(input as HTMLInputElement).value) {
+                isValid = false;
+                input.classList.add('invalid-field'); // Estilo para marcar error
+                }
+            });
+            return isValid;
+    })
+
     const getPayment$ = $(async() => {
         //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
@@ -202,7 +222,9 @@ export default component$(() => {
 
         if(checkInvoicing.checked === true)
         {
-            if(!formInvoicing.checkValidity())
+            const isValid = await customFormValidity$(formInvoicing);
+
+            if(!isValid)
             {
                 formInvoicing.classList.add('was-validated')
                 errorInvoicing = true
@@ -215,10 +237,15 @@ export default component$(() => {
                 const inputs = Array.from(formInvoicing.querySelectorAll('input,select'))
 
                 inputs.map((input) => {
+                     console.log(inputs);
                     dataFormInvoicing[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
                 })
+                 
             }
+                    console.log(errorInvoicing,formInvoicing, dataFormInvoicing);
+
         }
+        
 
         if(error == false && errorInvoicing === false)
         {
@@ -296,15 +323,15 @@ export default component$(() => {
                 }
                 else if (stateContext.value.country === 'MX')
                 {
-                    const inputState = document.querySelector('#form-invoicing-select-3-0') as HTMLInputElement
-                    const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
+                    const inputState = document.querySelector('[name="estado"]') as HTMLSelectElement;
+                    const inputCity = document.querySelector('[name="ciudad"]') as HTMLSelectElement;
                     const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
-                    const inputTaxRegime = document.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
-                    const inputPaymentGroupCode = document.querySelector('#form-invoicing-select-0-2') as HTMLSelectElement;
+                    const inputTaxRegime = formInvoicing.querySelector('[name="idregimenfiscal"]') as HTMLSelectElement;
+                   // const inputPaymentGroupCode = document.querySelector('[name="formapago"]') as HTMLSelectElement;
                     const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
                     const codigoEstado = stateContext.value.listadoestados.find((state: any) => state.value == inputState?.dataset?.value)?.codigoestado || null;    
-                    const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
-                    const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
+                   // const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
+                    //const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
                     dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                     dataFormInvoicing.idestado = Number(inputState.dataset?.value);
@@ -315,11 +342,12 @@ export default component$(() => {
                     dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
                     dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                     dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
-                    dataFormInvoicing.grupopagocodigo =paymentCode?.codigo;
+                    dataFormInvoicing.grupopagocodigo =-1; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en PUE-Contado
+                    dataFormInvoicing.idtipopago =13; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en tarjeta de crédito
                 }
                 dataRequest.facturacion = dataFormInvoicing
             }
-
+            
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
@@ -436,7 +464,7 @@ export default component$(() => {
                                     </div>
                                     <div class='d-none' id='invoice'>
                                         { 
-                                            stateContext.value.country == 'MX' && <InvoiceFormMX/>
+                                            stateContext.value.country == 'MX' && <InvoiceFormMX modeFormPayment={true}/>
                                             || 
                                             stateContext.value.country == 'CO' && <InvoiceFormCO/>
                                         }

@@ -11,10 +11,16 @@ import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX"
 
 export default component$(() =>{
     useStylesScoped$(styles)
+    const  objectInfo = {
+        created_at: '',
+        preciototal: 0,
+        codigomoneda: ''
+    }
     const stateContext = useContext(WEBContext)
     const contextLoading = useContext(LoadingContext)
     const country = useSignal('');
     const msgTost =useSignal('')
+    const infoVoucher = useSignal(objectInfo)
     
     useTask$(({ track })=>{
             const value = track(()=>stateContext.value.country);   
@@ -81,7 +87,9 @@ export default component$(() =>{
                 const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
                 const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
-            
+                const inputTipoPAgo = document.querySelector('[name="tipopago"]') as HTMLSelectElement;
+                const tipoPago = stateContext.value.listadoTiposPagos.find((pay: any) => pay.value == inputTipoPAgo?.dataset?.value);
+                dataFormInvoicing.idtipopago = Number(tipoPago.value);
                 
                 dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                 dataFormInvoicing.idestado = Number(inputState.dataset?.value);
@@ -95,9 +103,7 @@ export default component$(() =>{
                 
             }
             
-            const inputTipoPAgo = document.querySelector('[name="tipopago"]') as HTMLSelectElement;
-            const tipoPago = stateContext.value.listadoTiposPagos.find((pay: any) => pay.value == inputTipoPAgo?.dataset?.value);
-            dataFormInvoicing.idtipopago = Number(tipoPago.value);
+            
             dataFormInvoicing.tipoPersona = radioTypePerson.value;
             dataFormInvoicing.origenFactura = country.value;
             dataFormInvoicing.codigovoucher = codvoucher;
@@ -115,6 +121,7 @@ export default component$(() =>{
                 (formInvoicing as HTMLFormElement).reset(); 
                 contextLoading.value = {status:false, message:''}
                 toastSuccess.show()
+                 infoVoucher.value = objectInfo
 
             }
             else{
@@ -130,6 +137,33 @@ export default component$(() =>{
          
     })
      
+    const validationCodeVoucher$ = $(async(e:any) => {
+        e.preventDefault();
+        if (e.target.value != '') {
+             const bs = (window as any)['bootstrap']
+            //const toastSuccess = new bs.Toast('#toast-success',{})
+            const toastError = new bs.Toast('#toast-error',{})
+            contextLoading.value = {status:true, message:''}
+            const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getValidationVoucher",
+                    {method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({codigovoucher:e.target.value})});
+            const data =await response.json();
+
+                if (data.error) 
+                {
+                    contextLoading.value = {status:false, message:''}
+                    msgTost.value = data.mensaje || 'Ocurrió un error';
+                    toastError.show()
+
+                }
+                else{
+                contextLoading.value = {status:false, message:''}
+                stateContext.value = { ...stateContext.value, fechaemision: data.resultado.created_at }
+                infoVoucher.value =data.resultado
+                }
+        }
+       
+        
+    });
 
     return (
         <div class='container-fluid'>
@@ -149,21 +183,29 @@ export default component$(() =>{
 
                                             <div class='row'>
 
-                                                                <div class='col-xl-12 col-sm-12 col-12'>
-                                                                    <input 
-                                                                        id='input-voucher' 
-                                                                        name='voucher' 
-                                                                        type='text' 
-                                                                        class='form-control text-center' 
-                                                                        placeholder="Ingresa tu voucher CA-XXXXXX-XX"
-                                                                      //  disabled={messageCupon.value.error == 'success'}
-                                                                       // onBlur$={getCupon$}
-                                                                       required={true}
-                                                                    />
+                                                <div class='col-xl-12 col-sm-12 col-12'>
+                                                    <input 
+                                                        id='input-voucher' 
+                                                        name='voucher' 
+                                                        type='text' 
+                                                        class='form-control text-center' 
+                                                        placeholder="Ingresa tu voucher CA-XXXXXX-XX"
+                                                        //  disabled={messageCupon.value.error == 'success'}
+                                                        onBlur$={validationCodeVoucher$}
+                                                        required={true}
+                                                    />
 
-                                                                </div>
-                                                                     
-                                                            </div>
+                                                </div>
+                            {
+                                infoVoucher.value.created_at &&
+                                <ul class="list-group list-group-horizontal mt-3 align-items-center justify-content-center">
+                                    <li class="list-group-item list-group-item-light"><b>Fecha de emisión:</b> {infoVoucher.value.created_at}</li>
+                                    <li class="list-group-item list-group-item-light"><b>Total voucher:</b> ${infoVoucher.value.preciototal} {infoVoucher.value.codigomoneda} </li>
+                                </ul>
+                            }
+                                               
+                                                        
+                                            </div>
                                             {
                                                country.value === 'CO'&&
                                                 <InvoiceFormCO/>

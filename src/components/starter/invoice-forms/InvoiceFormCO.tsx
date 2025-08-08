@@ -3,18 +3,35 @@ import { $, component$, useSignal,useContext, useTask$} from "@builder.io/qwik";
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
+import dayjs from "dayjs";
 
 
 export const InvoiceFormCO = component$(() => {
    // useStylesScoped$(styles)
     const stateContext = useContext(WEBContext)
     const typePersonInvoice = useSignal('RS');
+    const inputTypeDocument = useSignal('text');
     const showInputInvoiceRS= useSignal(true);
     const disableVerificationCode= useSignal(true);
     const array : any[] = []
    // const listadoCiudades = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
+    const dateVoucher= useSignal(dayjs().format('YYYY-MM-DD'));
+    const typeDocument = useSignal([
+        {value:'PASAPORTE',label:'Pasaporte'},
+        {value:'NIT',label:'NIT / CC'},
+    ]);
+
+    useTask$(({ track })=>{
+            const value = track(()=>stateContext.value.fechaemision);   
+            
+           if (value) {
+            dateVoucher.value =dayjs(value).format('YYYY-MM-DD') ?? null;            
+           }
+            
+           // contextLoading.value = {status:false, message:''};
+    })
     
     useTask$(async()=>{
         let resForma : {[key:string]:any[]} = {}
@@ -38,8 +55,15 @@ export const InvoiceFormCO = component$(() => {
 
         if(person == 'RS')
         {
+            typeDocument.value = [
+                {value:'PASAPORTE',label:'Pasaporte'},
+                {value:'NIT',label:'NIT / CC'},
+            ];
             showInputInvoiceRS.value = true
         }else{
+            typeDocument.value = [
+                {value:'NIT',label:'NIT'},
+            ];
             showInputInvoiceRS.value = false
         }
 
@@ -49,8 +73,10 @@ export const InvoiceFormCO = component$(() => {
       
         if(e.value == 'NIT'){
             disableVerificationCode.value = false
+            inputTypeDocument.value = 'number'
         }else{
             disableVerificationCode.value = true
+            inputTypeDocument.value = 'text'
         }     
     })
      
@@ -121,7 +147,7 @@ export const InvoiceFormCO = component$(() => {
     })
     
 
-    
+
     return(
         <>
 
@@ -164,25 +190,21 @@ export const InvoiceFormCO = component$(() => {
                         form={[
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
-                                    {value:'CC',label:'CC'},
-                                    {value:'PASAPORTE',label:'Pasaporte'},
-                                    {value:'NIT',label:'NIT'},
-                                ], onChange:$((e:any)=>changeTypeIdPerson$(e))},
+                                /* {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: dateVoucher.value, disabled: true}, */
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:typeDocument.value, onChange:$((e:any)=>changeTypeIdPerson$(e))},
                             ]}, 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},
+                                {size:'col-xl-8 col-xs-12',type:inputTypeDocument.value,label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},
                                 {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true,disabled:disableVerificationCode.value},
                             ]},
                                                                                 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                /* {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, */ 
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                               /*  {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true}, */
                             ]},
 
                             {row:[                                                            
@@ -221,25 +243,21 @@ export const InvoiceFormCO = component$(() => {
                         form={[                            
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:[
-                                    {value:'CC',label:'CC'},
-                                    {value:'PASAPORTE',label:'Pasaporte'},
-                                    {value:'NIT',label:'NIT'},
-                                ], onChange:$((e:any)=>changeTypeIdPerson$(e))},
+                                /* {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: dateVoucher.value, disabled: true}, */
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true, value:'NIT',options:typeDocument.value, onChange:$((e:any)=>changeTypeIdPerson$(e))},
                             ]}, 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'ID',placeholder:'ID',name:'id',required:true},
+                                {size:'col-xl-8 col-xs-12',type:'number',label:'ID',placeholder:'ID',name:'id',required:true},
                                 {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true, disabled:disableVerificationCode.value},
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                /* {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value},  */
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                              /*   {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true}, */
                             ]},
 
                             {row:[

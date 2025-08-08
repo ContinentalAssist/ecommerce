@@ -53,7 +53,7 @@ export const Input = (props:propsInput) => {
                         <i class={'text-dark-blue  fa-solid fa-'+props.icon} />
                     </span>
                 }
-                 <div class="form-floating">
+                 <div class="form-floating" hidden={props.hidden}>
                     <input class='form-control text-bold text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
@@ -71,6 +71,7 @@ export const Input = (props:propsInput) => {
                         readOnly={props.readOnly}
                         tabIndex={props.tabIndex}
                         disabled={props.disabled}
+                        hidden={props.hidden}
                         {...dataAttributes}
                         
                     />
@@ -104,6 +105,7 @@ export const InputDate = component$((props:propsInputDate) => {
         defaultvalue={props.value} 
         open={props.open} 
         disabled={props.disabled}
+        hidden={props.hidden}
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
         onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
        />
@@ -408,7 +410,7 @@ export const InputFloat = (props: propsInputFloat) => {
                         <i class={'fa-solid fa-' + props.icon} />
                     </span>
                 }
-                <div class="form-floating">
+                <div class="form-floating" hidden={props.hidden}>
                     <input
                         class='form-control text-bold text-dark-blue'
                         id={props.id}
@@ -425,11 +427,12 @@ export const InputFloat = (props: propsInputFloat) => {
                         data-textonly={props.textOnly}
                         onBlur$={e => validateBlur$(e.target)}
                         disabled={props.disabled}
+                        hidden={props.hidden}
                         {...dataAttributes}
                     />
                     <label
                         class='form-label text-medium text-gray'
-                        for={props.id}
+                        for={props.id} 
                     >
                         {props.label}
                     </label>

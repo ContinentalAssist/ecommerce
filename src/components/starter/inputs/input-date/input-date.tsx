@@ -1,6 +1,6 @@
 /** @jsxImportSource react */
 import { qwikify$ } from "@builder.io/qwik-react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LicenseInfo } from '@mui/x-license';
 
 // Configurar la licencia usando variable de entorno
@@ -78,6 +78,12 @@ const MyDatePicker = (props: DatePickerProps) => {
     props.onFocus && props.onFocus(false);
   };
 
+   // useEffect para escuchar cambios en props.defaultvalue
+  useEffect(() => {
+    const newValue = getValidDateOrDefault(props.defaultvalue);
+    setValue(toNullIfUndefined(newValue));
+  }, [props.defaultvalue]);
+
   // Filtrar solo las props que son válidas para los date pickers de MUI
   const getDatePickerProps = () => {
     const allowedProps = [
@@ -95,7 +101,8 @@ const MyDatePicker = (props: DatePickerProps) => {
       'shouldDisableYear',
       'dayOfWeekFormatter',
       'localeText',
-      'timezone'
+      'timezone',
+      'hidden'
     ];
     
     const filteredProps: any = {};
@@ -112,7 +119,7 @@ const MyDatePicker = (props: DatePickerProps) => {
 
   return (
     <div>
-      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
+      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12} sx={{display: props.hidden ? 'none' : 'block'}}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>

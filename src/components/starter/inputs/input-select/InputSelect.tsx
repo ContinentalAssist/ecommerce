@@ -38,10 +38,15 @@ export const InputSelect = component$((props:propInputSelect) => {
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
-    useTask$(()=>{
-        if(props.value)
+    useTask$(({track})=>{
+         const value = track(()=>props.value);   
+        
+        if(value)
         {
-            getOptions$(props.value)
+            getOptions$(value)
+        }else if (value === '') {
+            defaultValue.value = ''
+            datasetValue.value = ''
         }
     })
 
@@ -89,6 +94,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                 data-bs-auto-close="outside" 
                 data-bs-reference="toggle" 
                 id={'dropdown-toggle-'+props.id}
+                hidden={props.hidden}
             >
                 <div class='input-group '>
                     {
@@ -109,6 +115,8 @@ export const InputSelect = component$((props:propInputSelect) => {
                             data-value={datasetValue.value}
                             onKeyUp$={(e) => getFiltertList$(e)}
                             placeholder={props.label}
+                            disabled={props.disabled}
+                            hidden={props.hidden}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement)?.style && ((document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0')}}
                             {...props.dataAttributes}
                         />
