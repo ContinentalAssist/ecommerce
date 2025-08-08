@@ -14,7 +14,13 @@ export default component$(() =>{
     const  objectInfo = {
         created_at: '',
         preciototal: 0,
-        codigomoneda: ''
+        codigomoneda: '',
+        referenciapagofactura:'',
+        valorpagadofactura: 0,
+        fechapagofactura: '',
+        idformapagofactura: 0,
+        paymentgroupcode: ''
+
     }
     const stateContext = useContext(WEBContext)
     const contextLoading = useContext(LoadingContext)
@@ -157,7 +163,7 @@ export default component$(() =>{
                 }
                 else{
                 contextLoading.value = {status:false, message:''}
-                stateContext.value = { ...stateContext.value, fechaemision: data.resultado.created_at }
+                stateContext.value = { ...stateContext.value, infopayment: data.resultado }
                 infoVoucher.value =data.resultado
                 }
         }

@@ -20,7 +20,24 @@ export const InvoiceFormMX = component$((props:any) => {
     const hideInputDataPayment= useSignal(false);
     const hideInputSelectDataPayment= useSignal(false);
     const typepaymentSelected= useSignal('');
+    const paymentMethodSelected= useSignal('');
     const disabledInpuTypePayment= useSignal(true);
+    const disabledInputDataPayment= useSignal(false);
+    
+     const  objectInfo = {
+        created_at: '',
+        preciototal: 0,
+        codigomoneda: '',
+        referenciapagofactura:'',
+        valorpagadofactura: 0,
+        fechapagofactura: '',
+        idformapagofactura: 0,
+        paymentgroupcode: 0
+
+    }
+    
+   const infoVoucher = useSignal(objectInfo)
+    
 
     useTask$(({ track })=>{
                 const value = track(()=>props.modeFormPayment);   
@@ -28,6 +45,24 @@ export const InvoiceFormMX = component$((props:any) => {
                if (value == true) {
                    hideInputDataPayment.value =true;  
                    hideInputSelectDataPayment.value =true;      
+               }
+                
+               // contextLoading.value = {status:false, message:''};
+        })
+
+        useTask$(({ track })=>{
+                const value = track(()=>stateContext.value.infopayment);   
+              
+                
+               if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '') {
+                paymentMethodSelected.value = value.paymentgroupcode;
+                 setTimeout(() => {
+                     infoVoucher.value = value;
+                    disabledInputDataPayment.value = true;
+                    typepaymentSelected.value = value.idformapagofactura;  
+                     disabledInpuTypePayment.value = true;
+                }, 600);
+               
                }
                 
                // contextLoading.value = {status:false, message:''};
@@ -299,8 +334,8 @@ export const InvoiceFormMX = component$((props:any) => {
                             
                             {row:[
                                  {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
-                                    required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}],
-                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value
+                                    required:true,options:[{value:'-1',label:'PUE-Contado',codigo:-1},{value:'12',label:'PPD-Diferido',codigo:12}],
+                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
                                 },
                                 {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
                                     required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
@@ -309,9 +344,9 @@ export const InvoiceFormMX = component$((props:any) => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value, value: infoVoucher.value.valorpagadofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                             ]},
 
                             {row:[                                                            
@@ -355,8 +390,8 @@ export const InvoiceFormMX = component$((props:any) => {
                             
                             {row:[
                                  {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
-                                    required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}],
-                                    onChange:$((e:any)=>changePaymentSelected$(e)),hidden:hideInputSelectDataPayment.value
+                                    required:true,options:[{value:'-1',label:'PUE-Contado',codigo:-1},{value:'12',label:'PPD-Diferido',codigo:12}],
+                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
                                 },
                                 {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
                                     required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
@@ -365,9 +400,9 @@ export const InvoiceFormMX = component$((props:any) => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required: !hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value, value: infoVoucher.value.valorpagadofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                             ]},
 
                             {row:[
