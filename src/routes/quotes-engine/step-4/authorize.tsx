@@ -138,7 +138,6 @@ export default component$(() => {
 
     const customFormValidity$ = $((form: HTMLFormElement)=> {
         
-        console.log(form);
             const visibleInputs = Array.from(form.elements).filter(
                 (element) => {
                 const el = element as HTMLElement;
@@ -237,12 +236,10 @@ export default component$(() => {
                 const inputs = Array.from(formInvoicing.querySelectorAll('input,select'))
 
                 inputs.map((input) => {
-                     console.log(inputs);
                     dataFormInvoicing[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
                 })
                  
             }
-                    console.log(errorInvoicing,formInvoicing, dataFormInvoicing);
 
         }
         
