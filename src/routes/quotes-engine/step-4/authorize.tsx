@@ -339,7 +339,7 @@ export default component$(() => {
                     dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
                     dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                     dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
-                    dataFormInvoicing.grupopagocodigo =-1; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en PUE-Contado
+                    dataFormInvoicing.grupopagocodigo =8; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en PUE-Contado
                     dataFormInvoicing.idtipopago =13; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en tarjeta de crédito
                 }
                 dataRequest.facturacion = dataFormInvoicing

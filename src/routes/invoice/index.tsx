@@ -51,7 +51,7 @@ export default component$(() =>{
         const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
         let errorInvoicing = false;
         const codvoucher = (document.querySelector('#input-voucher') as HTMLInputElement).value || '';
-        contextLoading.value = {status:true, message:''}
+        contextLoading.value = {status:true, message:''}        
         if(!formInvoicing.checkValidity() || codvoucher == '')
         {
             formInvoicing.classList.add('was-validated');
@@ -59,7 +59,7 @@ export default component$(() =>{
             errorInvoicing = true
             contextLoading.value = {status:false, message:''}
         }
-        else
+        else if(errorInvoicing == false && formInvoicing.checkValidity()) 
         {
             formInvoicing.classList.remove('was-validated')
             errorInvoicing = false
@@ -90,8 +90,6 @@ export default component$(() =>{
                 const codigoEstado = stateContext.value.listadoestados.find((state: any) => state.value == inputState?.dataset?.value)?.codigoestado || null;    
                 const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
                 const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
-                const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
-                const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
                 const inputTipoPAgo = document.querySelector('[name="tipopago"]') as HTMLSelectElement;
                 const tipoPago = stateContext.value.listadoTiposPagos.find((pay: any) => pay.value == inputTipoPAgo?.dataset?.value);
@@ -105,7 +103,7 @@ export default component$(() =>{
                 dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                 dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
                 dataFormInvoicing.tipoid ='RFC';
-                dataFormInvoicing.grupopagocodigo =paymentCode?.codigo;
+                dataFormInvoicing.grupopagocodigo =Number(inputPaymentGroupCode?.dataset?.value);
                 
             }
             
@@ -114,6 +112,7 @@ export default component$(() =>{
             dataFormInvoicing.origenFactura = country.value;
             dataFormInvoicing.codigovoucher = codvoucher;
         }
+        console.log(dataFormInvoicing, errorInvoicing);
         
         if(errorInvoicing == false )
         {        

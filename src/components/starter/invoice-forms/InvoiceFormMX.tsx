@@ -13,6 +13,7 @@ export const InvoiceFormMX = component$((props:any) => {
     const array : any[] = []
     const listadoCiudades = useSignal(array)
     const listadoRegimenesSat = useSignal(array)
+    const listadoMethods = useSignal(array)
     const defaultListadoTiposPagos = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
@@ -32,7 +33,7 @@ export const InvoiceFormMX = component$((props:any) => {
         valorpagadofactura: 0,
         fechapagofactura: '',
         idformapagofactura: 0,
-        paymentgroupcode: 0
+        paymentgroupcode: null
 
     }
     
@@ -54,7 +55,7 @@ export const InvoiceFormMX = component$((props:any) => {
                 const value = track(()=>stateContext.value.infopayment);   
               
                 
-               if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '') {
+               if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '' && value?.referenciapagofactura !== null) {
                 paymentMethodSelected.value = value.paymentgroupcode;
                  setTimeout(() => {
                      infoVoucher.value = value;
@@ -83,6 +84,23 @@ export const InvoiceFormMX = component$((props:any) => {
             })
             listadoRegimenesSat.value = resTaxRegime;
         }
+
+        let resMethods : {[key:string]:any[]} = {}
+        const listMethods : any[] = []
+        const paymentMethods = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPaymentMethods",{method:"POST",headers: { 'Content-Type': 'application/json' }});
+        const dataDefaultsMethods = await paymentMethods.json()
+        resMethods = dataDefaultsMethods.resultado[0]
+         if (resMethods && resMethods.metodosPago) 
+        {
+            resMethods.metodosPago.map((methods) => {
+                listMethods.push({value:methods.id,label:methods.nombre})
+            })
+            listadoMethods.value = listMethods;
+        }
+        
+
+        
+
         stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
     })
     
@@ -261,8 +279,9 @@ export const InvoiceFormMX = component$((props:any) => {
     })
 
     const changePaymentSelected$ = $(async (e:any) => {
+console.log(e);
 
-          if (e.value == 'PPD') {
+          if (e.label !== 'Contado') {
             disabledInpuTypePayment.value = true;
             typepaymentSelected.value ='';
             hideInputDataPayment.value =true;
@@ -334,7 +353,7 @@ export const InvoiceFormMX = component$((props:any) => {
                             
                             {row:[
                                  {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
-                                    required:true,options:[{value:'-1',label:'PUE-Contado',codigo:-1},{value:'12',label:'PPD-Diferido',codigo:12}],
+                                    required:true,options:listadoMethods.value,
                                     onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
                                 },
                                 {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
@@ -390,7 +409,7 @@ export const InvoiceFormMX = component$((props:any) => {
                             
                             {row:[
                                  {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
-                                    required:true,options:[{value:'-1',label:'PUE-Contado',codigo:-1},{value:'12',label:'PPD-Diferido',codigo:12}],
+                                    required:true,options:listadoMethods.value,
                                     onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
                                 },
                                 {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
