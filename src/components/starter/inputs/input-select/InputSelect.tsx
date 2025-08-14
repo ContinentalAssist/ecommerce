@@ -90,7 +90,7 @@ export const InputSelect = component$((props:propInputSelect) => {
     return(
         <div class='dropdown drop-select text-center'>
             <div class="dropdown-toggle"
-                data-bs-toggle="dropdown" 
+                data-bs-toggle={props.disabled?'':"dropdown" }
                 data-bs-auto-close="outside" 
                 data-bs-reference="toggle" 
                 id={'dropdown-toggle-'+props.id}
