@@ -535,6 +535,23 @@ export default component$(() => {
                 </div>
             </div>
 
+            <section class="e-voucher-section">
+                <div class="col-lg-12 row-2 display-flex">
+                    <div class="col-1 align-left row-2">
+                        <img class="img-circulos" src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-Ecommerce-Circulos.png" alt="circulos" />
+                    </div>
+                    <div class="col-5 letras-grupo">
+                        <p class="evoucher-letras1"><b style="font-weight:900;">¡Lanzamos</b> nuestro <b class="evoucher-letra" style="white-space: nowrap;">E-voucher!</b></p>
+                        <p class="letras-titulos">La nueva forma de llevar tu plan <br /> de asistencia en tu celular.</p>
+                        <a href="" class="boton-passkit text-decoration-none">Ver tutorial</a>
+                    </div>
+                    <div class="col-6 container-celular" >
+                        <div class="img-telefono-evoucher"></div>
+                        <div class="img-luz-evoucher"></div>
+                    </div>
+                </div>
+            </section>
+
             <section class="qd-section">
 
                 <div class="qd-background">
