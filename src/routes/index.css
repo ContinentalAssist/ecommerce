@@ -1977,6 +1977,178 @@
     }
  }
 
+/* Estilos del Modal para Video Tutorial */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    backdrop-filter: blur(5px);
+}
+
+.modal-overlay.show {
+    display: flex;
+    opacity: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-container {
+    position: relative;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    transform: scale(0.7);
+    transition: transform 0.3s ease-in-out;
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+.modal-overlay.show .modal-container {
+    transform: scale(1);
+}
+
+.button-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    left: -43px;
+    margin: 20px;
+}
+
+.modal-close {
+    position: relative;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    font-size: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    line-height: 1;
+    padding-bottom: 5px;
+}
+
+.modal-close:hover {
+    background-color: none;
+    transform: scale(1.1);
+    color:#ffffff;
+}
+
+.modal-content {
+    padding: 0;
+    position: relative;
+}
+
+.tutorial-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+/* Mobile: < 768px */
+@media (max-width: 767px) {
+    .modal-container {
+        width: 95vw;
+        margin: 20px;
+        border-radius: 15px;
+    }
+    
+    .tutorial-video {
+        border-radius: 15px;
+    }
+    
+    .modal-close {       
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    .modal-container {
+        width: 95vw;
+        margin: 20px;
+        border-radius: 15px;
+    }
+    
+    .tutorial-video {
+        border-radius: 15px;
+    }
+    
+    .modal-close {       
+        width: 35px;
+        height: 35px;
+        font-size: 38px;
+    }
+}
+
+/* Tablet: 768px - 1024px */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .modal-container {
+        width: 80vw;
+        max-width: 700px;
+    }
+}
+
+/* Desktop: > 1024px */
+@media (min-width: 1025px) {
+    .modal-container {
+        width: 800px;
+        max-width: 800px;
+    }
+}
+
+/* Animación de entrada del modal */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+}
+
+/* Estilos adicionales para mejorar la experiencia */
+.modal-overlay.closing {
+    animation: modalFadeOut 0.3s ease-in-out forwards;
+}
+
+.modal-overlay.opening {
+    animation: modalFadeIn 0.3s ease-in-out forwards;
+}
+
+/* Prevenir scroll del body cuando el modal está abierto */
+body.modal-open {
+    overflow: hidden;
+}
+
     
 
 

@@ -142,6 +142,85 @@ export default component$(() => {
         })
     })
 
+    // Funciones para el modal del video tutorial
+    const openTutorialModal$ = $(() => {
+        const modal = document.getElementById('tutorialModal');
+        const video = document.getElementById('tutorialVideo') as HTMLVideoElement;
+        const body = document.body;
+        
+        if (modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('show');
+            }, 10);
+            body.classList.add('modal-open');
+            
+            // Reproducir video automáticamente
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(console.error);
+            }
+        }
+    });
+
+    const closeTutorialModal$ = $(() => {
+        const modal = document.getElementById('tutorialModal');
+        const video = document.getElementById('tutorialVideo') as HTMLVideoElement;
+        const body = document.body;
+        
+        if (modal) {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+            body.classList.remove('modal-open');
+            
+            // Pausar video
+            if (video) {
+                video.pause();
+            }
+        }
+    });
+
+    // Event listeners para el modal
+    useVisibleTask$(() => {
+        const openBtn = document.getElementById('openTutorialModal');
+        const closeBtn = document.getElementById('closeTutorialModal');
+        const modal = document.getElementById('tutorialModal');
+        
+        // Abrir modal
+        if (openBtn) {
+            openBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openTutorialModal$();
+            });
+        }
+        
+        // Cerrar modal con botón X
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeTutorialModal$);
+        }
+        
+        // Cerrar modal al hacer clic en el backdrop
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeTutorialModal$();
+                }
+            });
+        }
+        
+        // Cerrar modal con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const modal = document.getElementById('tutorialModal');
+                if (modal && modal.classList.contains('show')) {
+                    closeTutorialModal$();
+                }
+            }
+        });
+    });
+
    
     useTask$(({ track })=>{
         const newIsmobile = track(()=>stateContext.value.isMobile);        
@@ -543,7 +622,7 @@ export default component$(() => {
                     <div class="col-5 letras-grupo">
                         <p class="evoucher-letras1"><b style="font-weight:900;">¡Lanzamos</b> nuestro <b class="evoucher-letra" style="white-space: nowrap;">E-voucher!</b></p>
                         <p class="letras-titulos">La nueva forma de llevar tu plan <br /> de asistencia en tu celular.</p>
-                        <a href="" class="boton-passkit text-decoration-none">Ver tutorial</a>
+                        <a href="#" class="boton-passkit text-decoration-none" id="openTutorialModal">Ver tutorial</a>
                     </div>
                     <div class="col-6 container-celular" >
                         <div class="img-telefono-evoucher"></div>
@@ -551,6 +630,31 @@ export default component$(() => {
                     </div>
                 </div>
             </section>
+
+            {/* Modal para video tutorial */}
+            <div id="tutorialModal" class="modal-overlay">
+                <div>
+                    <div class="button-container">
+                            <a class="modal-close text-decoration-none" id="closeTutorialModal">&times;</a>
+
+                        </div>
+                    <div class="modal-container">
+                        <div class="modal-content">
+                            <video 
+                                id="tutorialVideo"
+                                controls 
+                                autoplay 
+                                muted 
+                                preload="metadata"
+                                class="tutorial-video"
+                            >
+                                <source src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/videos/Video%20promocional%20E-%20voucher%20(Horizontal).mp4" type="video/mp4" />
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <section class="qd-section">
 
