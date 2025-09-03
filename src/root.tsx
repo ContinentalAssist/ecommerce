@@ -137,7 +137,6 @@ export default component$(() => {
     await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
   })
   
-
  /*  useOnWindow('load',$(() => {
     
   })) */
@@ -147,13 +146,12 @@ export default component$(() => {
        //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
   })) */
 
-
-
   return (
     <QwikCityProvider>
     <head>
       <meta charset="utf-8" />
       <QwikPartytown forward={['gtag', 'dataLayer.push', 'clarity']} />
+	    <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/3abc652a5abb2aba53a26980/script.js"></script>
       <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11397008041" defer></script>
       <script type="text/javascript" dangerouslySetInnerHTML={`
         (function(c,l,a,r,i,t,y){
