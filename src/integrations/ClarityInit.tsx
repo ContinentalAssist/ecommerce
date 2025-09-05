@@ -20,7 +20,11 @@ function isLikelyBot() {
 function loadClarityOnce(id: string) {
   if ((window as any).clarity) return; // evitar doble carga
   (function (c: any, l: Document, a: string, r: string, i: string) {
-    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+    c[a] =
+      c[a] ||
+      function (...args: any[]) {
+        (c[a].q = c[a].q || []).push(args);
+      };
     const t = l.createElement(r) as HTMLScriptElement;
     t.async = true;
     t.src = 'https://www.clarity.ms/tag/' + i;
