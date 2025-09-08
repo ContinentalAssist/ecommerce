@@ -8,8 +8,8 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 import { LoadingContext } from "~/root";
-import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
-
+/* import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
+ */
 
 
 
@@ -509,7 +509,7 @@ export default component$(() => {
             );
         }
         
-        if(checkInvoicing.checked === true)
+        if(checkInvoicing?.checked === true)
         {
             
             if(!formInvoicing.checkValidity())
@@ -618,7 +618,7 @@ export default component$(() => {
                 }
             )
             
-            if(checkInvoicing.checked === true && errorInvoicing === false)
+            if(checkInvoicing?.checked === true && errorInvoicing === false)
             {
                 //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
 
@@ -695,7 +695,7 @@ export default component$(() => {
         }
     })
 
-    const showForm$ = $(() => {
+/*     const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement
 
         if(form.classList.value.includes('d-none'))
@@ -706,7 +706,7 @@ export default component$(() => {
         {
             form.classList.add('d-none')
         }
-    })
+    }) */
 
 
     const getPhoneNequi$ = $(async() => {
@@ -740,7 +740,7 @@ export default component$(() => {
             dataForm[input.name] = input.value
         }
 
-        if(checkInvoicing.checked === true)
+        if(checkInvoicing?.checked === true)
         {
             
             if(!formInvoicing.checkValidity())
@@ -819,7 +819,7 @@ export default component$(() => {
                 ip_address:resume.value.resGeo.ip_address,
             }
 
-             if(checkInvoicing.checked === true && errorInvoicing === false)
+             if(checkInvoicing?.checked === true && errorInvoicing === false)
             {
                 //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
 
@@ -911,7 +911,7 @@ export default component$(() => {
             })
         }
 
-        if(checkInvoicing.checked === true)
+        if(checkInvoicing?.checked === true)
         {
             
             if(!formInvoicing.checkValidity())
@@ -991,7 +991,7 @@ export default component$(() => {
                 ip_address:resume.value.resGeo.ip_address,
             }
 
-            if(checkInvoicing.checked === true && errorInvoicing === false)
+            if(checkInvoicing?.checked === true && errorInvoicing === false)
             {
                 //const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
                 
@@ -1078,7 +1078,8 @@ export default component$(() => {
                                                 ]}
                                             ]}
                                         />
-                                        <div class='container'>
+                                        {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                        {/* <div class='container'>
                                             <div class='row'>
                                                 <div class='col-12'>
                                                     <div class="form-check form-check-inline my-3">
@@ -1092,7 +1093,7 @@ export default component$(() => {
                                         </div>
                                         <div class='d-none' id='invoice'>
                                             <InvoiceFormCO/>                   
-                                        </div>
+                                        </div> */}
                                         <div class='container'>
                                             <div class='row justify-content-center'>
                                                 <div class='col-lg-6'>
@@ -1240,8 +1241,8 @@ export default component$(() => {
                                     </div>
                                     <hr />
                                     <br/>
-
-                                       <div class='container'>
+                                     {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                      {/*  <div class='container'>
                                             <div class='row'>
                                                 <div class='col-12'>
                                                     <div class="form-check form-check-inline my-3">
@@ -1255,7 +1256,7 @@ export default component$(() => {
                                         </div>
                                         <div class='d-none' id='invoice'>
                                             <InvoiceFormCO/>
-                                        </div>
+                                        </div> */}
                                     </>
                                 }
                                 {
@@ -1319,8 +1320,8 @@ export default component$(() => {
                                        
                                     </div>
                                     <hr />
-
-                                    <div class='container'>
+                                    {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                    {/* <div class='container'>
                                             <div class='row'>
                                                 <div class='col-12'>
                                                     <div class="form-check form-check-inline my-3">
@@ -1334,7 +1335,7 @@ export default component$(() => {
                                         </div>
                                         <div class='d-none' id='invoice'>
                                             <InvoiceFormCO/>
-                                        </div>
+                                        </div> */}
                                     </>
                                     
                                 }    

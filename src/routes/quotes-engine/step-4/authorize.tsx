@@ -9,8 +9,8 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 import { LoadingContext } from "~/root";
-import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
-import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX";
+/* import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
+import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX"; */
 
 
 
@@ -219,7 +219,7 @@ export default component$(() => {
             );
         }
 
-        if(checkInvoicing.checked === true)
+        if(checkInvoicing?.checked === true)
         {
             const isValid = await customFormValidity$(formInvoicing);
 
@@ -302,7 +302,7 @@ export default component$(() => {
                 }
             )
             
-            if(checkInvoicing.checked === true && errorInvoicing === false)
+            if(checkInvoicing?.checked === true && errorInvoicing === false)
             {
                 dataFormInvoicing.tipoPersona = radioTypePerson.value;
                 dataFormInvoicing.origenFactura = stateContext.value.country;
@@ -447,7 +447,7 @@ export default component$(() => {
                                             ]}
                                         ]}
                                     />
-                                    <div class='container'>
+                                    {/* <div class='container'>
                                         <div class='row'>
                                             <div class='col-12'>
                                                 <div class="form-check form-check-inline my-3">
@@ -458,14 +458,15 @@ export default component$(() => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class='d-none' id='invoice'>
+                                    </div> */}
+                                    {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                    {/* <div class='d-none' id='invoice'>
                                         { 
                                             stateContext.value.country == 'MX' && <InvoiceFormMX modeFormPayment={true}/>
                                             || 
                                             stateContext.value.country == 'CO' && <InvoiceFormCO/>
                                         }
-                                    </div>
+                                    </div> */}
                                     <div class='container'>
                                         <div class='row justify-content-center'>
                                             <div class='col-lg-6'>
