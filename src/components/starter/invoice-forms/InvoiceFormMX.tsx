@@ -1,12 +1,13 @@
-import { $, component$,useSignal,useContext, useTask$} from "@builder.io/qwik";
-//import styles from './card-plan.css?inline'
+import { $, component$,useSignal,useContext, useTask$,useStyles$} from "@builder.io/qwik";
+import styles from './invoiceForm.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
+import { isGeneratorFunction } from "util/types";
 
 
 export const InvoiceFormMX = component$((props:any) => {
-   // useStylesScoped$(styles)
+    useStyles$(styles)
     const stateContext = useContext(WEBContext)
     const typePersonInvoice = useSignal('RS');
     const hideInputInvoiceRS= useSignal(true);
@@ -14,6 +15,7 @@ export const InvoiceFormMX = component$((props:any) => {
     const listadoCiudades = useSignal(array)
     const listadoRegimenesSat = useSignal(array)
     const listadoMethods = useSignal(array)
+    const listadoMonedas = useSignal(array)
     const defaultListadoTiposPagos = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
@@ -24,7 +26,9 @@ export const InvoiceFormMX = component$((props:any) => {
     const paymentMethodSelected= useSignal('');
     const disabledInpuTypePayment= useSignal(true);
     const disabledInputDataPayment= useSignal(false);
-    
+    const disabledInputPaymentValue= useSignal(false);
+    const paymentValue= useSignal<number | null| ''>(null);
+    const selectedCurrency= useSignal('');
      const  objectInfo = {
         created_at: '',
         preciototal: 0,
@@ -33,7 +37,9 @@ export const InvoiceFormMX = component$((props:any) => {
         valorpagadofactura: 0,
         fechapagofactura: '',
         idformapagofactura: 0,
-        paymentgroupcode: null
+        paymentgroupcode: null,
+        idmonedafactura: null,
+        tasacambio:0
 
     }
     
@@ -53,18 +59,26 @@ export const InvoiceFormMX = component$((props:any) => {
 
         useTask$(({ track })=>{
                 const value = track(()=>stateContext.value.infopayment);   
-              
-                
-               if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '' && value?.referenciapagofactura !== null) {
+            
+              if (value != undefined &&JSON.stringify(value) !== JSON.stringify(infoVoucher.value) ) {
+                infoVoucher.value = value;
+                paymentValue.value = value.preciototal;
+                if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '' 
+                && value?.referenciapagofactura !== null) {
+                    
                 paymentMethodSelected.value = value.paymentgroupcode;
                  setTimeout(() => {
-                     infoVoucher.value = value;
+                    disabledInputPaymentValue.value = true;
                     disabledInputDataPayment.value = true;
                     typepaymentSelected.value = value.idformapagofactura;  
-                     disabledInpuTypePayment.value = true;
+                    disabledInpuTypePayment.value = true;
                 }, 600);
                
                }
+              }
+                
+                
+               
                 
                // contextLoading.value = {status:false, message:''};
         })
@@ -97,11 +111,23 @@ export const InvoiceFormMX = component$((props:any) => {
             })
             listadoMethods.value = listMethods;
         }
-        
+
+        let resCurrency : {[key:string]:any[]} = {}
+        const listCurrency : any[] = []
+        const currencyAvailable = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCurrencyAvailableMX",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({})});
+        const dataCurrencyAvailable = await currencyAvailable.json()
+        resCurrency = dataCurrencyAvailable.resultado[0]
+         if (resCurrency && resCurrency.monedas) 
+        {
+            resCurrency.monedas.map((currency) => {
+                listCurrency.push({value:currency.idmoneda,label:currency.codigo, code:currency.codigo})
+            })
+            listadoMonedas.value = listCurrency;
+        }        
 
         
 
-        stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
+        stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime, listadoMonedas:listCurrency }
     })
     
     useTask$(async()=>{
@@ -279,7 +305,6 @@ export const InvoiceFormMX = component$((props:any) => {
     })
 
     const changePaymentSelected$ = $(async (e:any) => {
-console.log(e);
 
           if (e.label !== 'Contado') {
             disabledInpuTypePayment.value = true;
@@ -299,6 +324,92 @@ console.log(e);
           }
           
     })
+
+    const getExchangeRate$ = $(async(e:any) =>{
+
+        selectedCurrency.value = e.label;
+       // paymentValue.value = null;
+        if (e.label == 'MXN' && infoVoucher.value.codigomoneda == 'USD') {
+            const conversion = Math.round((infoVoucher.value.preciototal * infoVoucher.value.tasacambio) * 100) / 100;
+            
+            paymentValue.value =conversion
+             disabledInputPaymentValue.value = false;
+        }
+        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'MXN'){
+
+            const conversion = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
+            paymentValue.value =conversion
+
+            disabledInputPaymentValue.value = false;
+            
+
+        }        
+        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
+            infoVoucher.value.referenciapagofactura != null) {
+            paymentValue.value =infoVoucher.value.preciototal
+            disabledInputPaymentValue.value = true;
+        }
+         else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
+            infoVoucher.value.referenciapagofactura == null) {
+            paymentValue.value =infoVoucher.value.preciototal
+            disabledInputPaymentValue.value = false;
+        }
+        
+        
+
+    })
+
+
+    const validatePayment$ = $(async (e: any) => {
+        e.preventDefault();
+
+        const porcentaje = 0.05;
+        const bs = (window as any)['bootstrap'];
+        const toastError = new bs.Toast('#toast-invoicemx-error', {});
+
+        // Obtener valor numérico ingresado
+        const valorIngresado = Number(e.target.value);
+
+        // Validar que sea número válido
+        if (isNaN(valorIngresado)) {
+            toastError.show();
+            paymentValue.value = null;
+            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
+            if (valorpagado) valorpagado.value = '';
+            return;
+        }
+
+        // Calcular precio base según moneda y tasa de cambio
+        let precioBase= 0;
+
+        if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'MXN') {
+            precioBase = Math.round(infoVoucher.value.preciototal * infoVoucher.value.tasacambio * 100) / 100;
+        } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'USD') {
+            precioBase = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
+        } else if (
+            (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'MXN') ||
+            (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'USD')
+        ) {
+            precioBase = Math.round(infoVoucher.value.preciototal * 100) / 100;
+        }/*  else {
+            precioBase = 0;
+        } */
+
+        // Calcular rango permitido
+        const minimo = Math.round(precioBase * (1 - porcentaje) * 100) / 100;
+        const maximo = Math.round(precioBase * (1 + porcentaje) * 100) / 100;
+
+        // Validar valor ingresado dentro del rango
+        if (valorIngresado >= minimo && valorIngresado <= maximo) {
+            paymentValue.value = valorIngresado;
+        } else {
+            toastError.show();
+            paymentValue.value = null;
+            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
+            if (valorpagado) valorpagado.value = '';
+        }
+        });
+
 
     
 
@@ -334,8 +445,10 @@ console.log(e);
 
             </div>
             
+
             
-        </div>
+            
+       
            {
                     hideInputInvoiceRS.value ?
 
@@ -363,9 +476,13 @@ console.log(e);
                             ]},
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value, value: infoVoucher.value.valorpagadofactura,disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
+                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+
                             ]},
 
                             {row:[                                                            
@@ -419,9 +536,13 @@ console.log(e);
                             ]},
 
                             {row:[
-                                {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: !hideInputSelectDataPayment.value, step: 'any', min: 0, hidden:hideInputDataPayment.value, value: infoVoucher.value.valorpagadofactura,disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
+                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+
                             ]},
 
                             {row:[
@@ -452,6 +573,24 @@ console.log(e);
                     />
 
            }
+           
+
+           <div id='toast-invoicemx-error' class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <div class='message'>
+                            <i class="fas fa-times-circle"/>
+                            <span class='text-start mx-2'>
+                                <b>El valor ingresado no se encuentra en el rango permitido</b>
+                             
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            
+         </div>
         </>
     )
 })

@@ -203,7 +203,7 @@ export const InvoiceFormCO = component$(() => {
                             ]},
 
                             {row:[
-                               /*  {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                               /*  {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: true, step: 'any', min: 0},
                                 {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true}, */
                             ]},
 
@@ -256,7 +256,7 @@ export const InvoiceFormCO = component$(() => {
                             ]},
 
                             {row:[
-                              /*   {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
+                              /*   {size:'col-xl-4 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: true, step: 'any', min: 0},
                                 {size:'col-xl-4 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true}, */
                             ]},
 

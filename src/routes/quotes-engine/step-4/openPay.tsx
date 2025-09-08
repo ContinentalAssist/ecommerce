@@ -580,7 +580,7 @@ export default component$(() => {
     })
 
 
-    const showForm$ = $(() => {
+    /* const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement
 
         if(form.classList.value.includes('d-none'))
@@ -591,7 +591,7 @@ export default component$(() => {
         {
             form.classList.add('d-none')
         }
-    })
+    }) */
 
 
    
@@ -641,7 +641,7 @@ export default component$(() => {
                                                     ]}
                                                 ]}
                                             />
-                                            <div class='container'>
+                                            {/* <div class='container'>
                                                 <div class='row'>
                                                     <div class='col-12'>
                                                         <div class="form-check form-check-inline my-3">
@@ -652,8 +652,9 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class='d-none' id='invoice'>                                                
+                                            </div> */}
+                                            {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                            {/* <div class='d-none' id='invoice'>                                                
                                                  <Form
                                                     id='form-invoicing'
                                                     form={[
@@ -679,7 +680,7 @@ export default component$(() => {
                                                         ]}
                                                     ]}
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div class='container'>
                                                 <div class='row justify-content-center'>
                                                     <div class='col-lg-6'>
