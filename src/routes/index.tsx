@@ -277,14 +277,14 @@ export default component$(() => {
                                 </button>
                             </div>
                             <div class="collapse show mt-8" id="collapseQuotesEngine">
-                                <h1 class='text-semi-bold text-blue'>
-                                    <span class='text-tin'>¿Buscando un</span><br class='mobile'/> seguro o
+                                <h1 class='text-medium text-blue'>
+                                    <span>¿Buscando un</span><br class='mobile'/> seguro o
                                     asistencia?
                                 </h1>
                                 <h2 class='h5 text-regular text-dark-gray '>Viaja internacionalmente con
                                     tranquilidad</h2>
                                 <hr class='divider mt-4 mb-4 '/>
-                                <div class="card card-body border-none shadow-lg">
+                                <div class="card card-body border-none shadow-lg card_cotizar">
                                     <QuotesEngine modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
                                 </div>
                             </div>

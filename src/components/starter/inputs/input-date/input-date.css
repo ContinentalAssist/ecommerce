@@ -10,7 +10,7 @@ color: var(--ca-dark-blue);
 
 .MuiInputBase-root
 {
-    border: 1px solid var(--ca-gray);
+    border: 0px solid var(--ca-gray);
     border-radius: 30px !important;
     color: var(--ca-dark-blue) !important;
    

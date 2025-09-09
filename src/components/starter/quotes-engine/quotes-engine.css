@@ -105,3 +105,33 @@
     }
    }
   
+
+.btn_cotizar_1{
+    box-shadow: none !important;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+    border-radius: 50px!important;
+}
+
+.btn-cancelar-edit{
+    border: 1px solid #1d2546;
+    border-radius: 50px;
+    background-color: transparent;
+    color: #1d2546;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+}
+
+.btn-cancelar-edit:hover{
+    border: 1px solid #1d2546;
+    background-color: transparent;
+    color: #1d2546;
+}
+
+.btn-cancelar-edit:active,
+.btn-cancelar-edit:focus{
+    border: 1px solid #1d2546;
+    background-color: var(--ca-blue);
+    color: white;
+    box-shadow: none;
+}

@@ -307,61 +307,7 @@ export const Header = component$(() => {
                    
                 </div> 
                 
-            </nav> 
-               <div class="info-quote-wrapper">
-            <div class="info-quote">
-                {
-                    pathNameURL.value != '/'&& pathNameURL.value.includes('quotes-engine') &&pathNameURL.value != '/quotes-engine/message/'&&
-                    <div class={"container pb-2 contenedor-resumen"}>
-                  
-                    <QuotesEngine   modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
-                       
-              
-                    </div>
-                }    
-
-                {
-                        
-                    pathNameURL.value != '/'&&pathNameURL.value.includes('quotes-engine') &&
-                    <div class='row mobile  text-center justify-content-center align-items-center' >
-                        <hr class='m-0' />
-                        <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
-                            <QuotesEngineSteps active={stepsMap.value[pathNameURL.value].stepActive} name={stepsMap.value[pathNameURL.value].name} steps={5}/>
-        
-                        </div>
-                        <div class="col-xs-12 d-flex justify-content-center align-items-center">
-                            <div class='col-xs-5' >
-                            {
-                                    pathNameURL.value === '/quotes-engine/step-2/'&&
-                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}} >
-                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
-                                            <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
-                                            {
-                                            totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
-                                            }
-                                            </span>
-                                        </div>
-                                  }
-                            </div>
-                            <div class={ pathNameURL.value == '/quotes-engine/step-1/'?'col-12':'col-xs-5'} >
-        
-                                  {
-                                      pathNameURL.value != '/quotes-engine/step-3/'&&
-                                      pathNameURL.value != '/quotes-engine/step-4/'&&
-                                      pathNameURL.value != '/quotes-engine/message/' &&
-                                      <SwitchDivisa
-                                            labels={['USD',stateContext.value?.currentRate?.code]}
-                                            value={ contextDivisa.divisaUSD ? 'base' : 'local'}
-                                            onChange={$((e:any) => {changeDivisa$(e)})}
-                                        />
-                                   }
-        
-                            </div>
-                        </div>
-                    </div>
-                } 
-            </div>
-            </div>
+            </nav>
         </header>
     );
 });

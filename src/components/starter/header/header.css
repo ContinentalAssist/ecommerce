@@ -104,13 +104,10 @@ span#header-step-currency .divisa
 
 @media screen and (max-width: 1300px) {
     .contenedor-header-1{
-        padding-top: 30px !important;
+        padding-top: 14px !important;
     }
 }
 
-.contenedor-resumen{
-    padding-top: 6rem;
-}
 
 
 @media (max-width: 575.98px)

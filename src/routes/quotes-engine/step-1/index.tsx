@@ -172,10 +172,10 @@ export default component$(() => {
    
 
     return(
-        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>          
+        <div class='container-fluid px-0'>          
             <div class='row bg-step-3 mb-3'>
                 <div class='col-lg-12'>
-                    <div class='container mb-5 mt-5'>
+                    <div class='container mb-5'>
                         <div class='row justify-content-center '>
                             {
                                stateContext.value && Array.isArray(stateContext.value.precioPlanes) && stateContext.value.precioPlanes.length === 0
@@ -185,12 +185,8 @@ export default component$(() => {
                                     <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
                                 </div>
                                 :
-                                <div class='col-lg-12 text-center mt-5 mb-4'>
-                                    <h1 class='text-semi-bold text-dark-blue'>
-                                        <span class='text-tin'>Elige </span> tu plan
-                                    </h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-blue'>Tenemos uno ideal para ti</h5>
+                                <div class='col-lg-12 text-center mt-1 mb-4'>
+                                    <h3 class='text-semi-bold text-dark-blue'>Elige tu plan</h3>
                                 </div>
                             }
                         </div>
@@ -207,74 +203,85 @@ export default component$(() => {
                                                         <p class='mb-0'>Recomendado</p>
                                                     </span>
                                                 }
-                                                {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
-                                                {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
-                                                {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                                                
+                                                {/* Título del plan */}
+                                                <div class='card-header text-center py-3' style={{background: 'transparent', border: 'none'}}>
+                                                    <h2 class='h2 card-title text-semi-bold text-light-blue mb-0'>
+                                                        {plan.nombreplan}                                                    
+                                                    </h2>   
+                                                </div>
+
+                                                {/* Imagen del plan */}
+                                                <div class='text-center py-3'>
+                                                    {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential' style={{width: '120px', height: 'auto'}}/>}
+                                                    {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete' style={{width: '120px', height: 'auto'}}/>}
+                                                    {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite' style={{width: '120px', height: 'auto'}}/>}
+                                                </div>
+
                                                 <div class='card-body px-4'>
-                                                    <div class='container'>
-                                                        <div class='row'>
-                                                            <div class='col-lg-12 text-center'>
-                                                                <h2 class='h1 card-title text-semi-bold text-light-blue mb-0'>
-                                                                    {plan.nombreplan}                                                    
-                                                                </h2>
-                                                            </div>
-                                                        </div>
-                                                        <div class='row'> 
-                                                            <div class='col-lg-12 text-center'>
-                                                                <small class='h5 text-dark-gray'>Cubre hasta 
-                                                                    <span class='text-bold'>
-                                                                        { ' ' + plan.cobertura }                                                                 
-                                                                    </span>
-                                                                </small>
-                                                                <br/>
-                                                                <button 
-                                                                    type='button' 
-                                                                    class='btn btn-link text-regular text-light-blue my-2' 
-                                                                    onClick$={() => {getBenefits$(index)}} 
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalBenefits"
-                                                                >
-                                                                    Ver más
-                                                                </button> 
-                                                            </div>
-                                                        </div>
-                                                        <div class='row'>
-                                                            <div class='col-lg-12 text-center'>
-                                                                <h2 class='card-subtitle text-semi-bold text-dark-blue mb-3' style={{marginTop:'-10px'}}>
-                                                                    {
-                                                                        plan.precio_grupal ?
-                                                                        contextDivisa.divisaUSD == true 
-                                                                        ? 
-                                                                        CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
-                                                                        : 
-                                                                        CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
-                                                                        :
-                                                                        <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
-                                                                    }
-                                                                </h2>
-                                                            </div>
-                                                        </div>
-                                                        <div class='row mt-1 mb-1 pb-3'>
-                                                            <div class='col-lg-12 text-center text-medium' style={{height:'170px'}}>                                                        
-                                                                     <ul class='text-start'>
-                                                                        {
-                                                                            plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,index:number)=>{
-                                                                                if (index<=4) {
-                                                                                  return   <li key={index}><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
-                                                                                }
-                                                                            })
-                                                                        }
-                                                                 </ul>
-                                                            </div>
-                                                        </div>
+                                                    {/* Cobertura */}
+                                                    <div class='text-center mb-3'>
+                                                        <small class='h5 text-dark-gray'>Cubre hasta 
+                                                            <span class='text-bold'>
+                                                                { ' ' + plan.cobertura }                                                                 
+                                                            </span>
+                                                        </small>
                                                     </div>
-                                                </div> 
-                                                <button 
-                                                    class={planSelected.value.idplan == plan.idplan ? 'btn btn-primary btn-lg' : 'btn btn-outline-primary btn-lg'} 
-                                                    onClick$={() => {getPlan$(plan)}}
-                                                >
-                                                    {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
-                                                </button> 
+
+                                                    {/* Precio */}
+                                                    <div class='text-center mb-4'>
+                                                        <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0'>
+                                                            {
+                                                                plan.precio_grupal ?
+                                                                contextDivisa.divisaUSD == true 
+                                                                ? 
+                                                                CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
+                                                                : 
+                                                                CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
+                                                                :
+                                                                <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
+                                                            }
+                                                        </h2>
+                                                    </div>
+
+                                                    {/* Botón de selección */}
+                                                    <div class='text-center mb-4'>
+                                                        <button 
+                                                            class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg w-100' : 'btn btn-warning btn-lg w-100'} 
+                                                            onClick$={() => {getPlan$(plan)}}
+                                                            style={{backgroundColor: '#FFD700', border: 'none', color: '#333', fontWeight: 'bold'}}
+                                                        >
+                                                            {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
+                                                        </button>
+                                                    </div>
+
+                                                    {/* Lista de beneficios */}
+                                                    <div class='mb-3' style={{height:'70px'}}>                                                        
+                                                        <ul class='text-start ps-3'>
+                                                            {
+                                                                plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,benefitIndex:number)=>{
+                                                                    if (benefitIndex<=1) {
+                                                                      return   <li key={benefitIndex} class='mb-2'><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                                    }
+                                                                })
+                                                            }
+                                                        </ul>
+                                                    </div>
+
+                                                    {/* Enlace Ver detalles */}
+                                                    <div class='text-center'>
+                                                        <button 
+                                                            type='button' 
+                                                            class='btn btn-link text-regular text-light-blue p-0' 
+                                                            onClick$={() => {getBenefits$(index)}} 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#modalBenefits"
+                                                            style={{textDecoration: 'underline'}}
+                                                        >
+                                                            Ver detalles
+                                                        </button> 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )

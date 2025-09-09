@@ -605,95 +605,120 @@ export const QuotesEngine = component$((props:propsQE) => {
             {
                 modeResumeStep.value=== true?
                 <Fragment>
-                    <div class='row justify-content-between'>
-                    <div class='col-3 col-xs-12'>
-                        <div class="input-group">
-                            <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-plane-departure fa-lg"/>
-                            </span>
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    readOnly 
-                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
-                                    id="fechas" 
-                                    placeholder="Origen / Destino(s)"
-                                    value={stateContext.value.paisorigen != undefined ? (stateContext.value.paisorigen+' a '+String(stateContext.value.paisesdestino).replaceAll(',',', ')): ''}
-                                />
-                                <label class='text-medium text-dark-gray ps-0' for="fechas">Origen / Destino(s)</label>
+                    <div class='row justify-content-between align-items-center'>
+                        {/* Origen */}
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                            <div class="input-group">
+                                <span class="input-group-text border border-0 bg-white">
+                                    <i class="fa-solid fa-plane-departure fa-lg"/>
+                                </span>
+                                <div class="form-floating">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                        id="origen" 
+                                        placeholder="Origen"
+                                        value={stateContext.value.paisorigen || ''}
+                                    />
+                                    <label class='text-medium text-dark-gray ps-0' htmlFor="origen">Origen</label>
+                                </div>
                             </div>
                         </div>
+
+                        {/* Destino */}
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                            <div class="input-group">
+                                <span class="input-group-text border border-0 bg-white">
+                                    <i class="fa-solid fa-plane-arrival fa-lg"/>
+                                </span>
+                                <div class="form-floating">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                        id="destino" 
+                                        placeholder="Destino"
+                                        value={Array.isArray(stateContext.value.paisesdestino) ? String(stateContext.value.paisesdestino).replaceAll(',',', ') : (stateContext.value.paisesdestino || '')}
+                                    />
+                                    <label class='text-medium text-dark-gray ps-0' htmlFor="destino">Destino</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Fechas de tu viaje (rango) */}
+                        <div class='col-3 col-xs-12 '>
+                            <div class="input-group">
+                                <span class="input-group-text border border-0 bg-white">
+                                    <i class="far fa-calendar fa-lg"></i>
+                                </span>
+                                <div class="form-floating">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                        id="fechas" 
+                                        placeholder="Fechas de tu viaje"
+                                        value={stateContext.value.desde != undefined ? 
+                                            `${stateContext.value.desde} al ${stateContext.value.hasta}`
+                                            : ''
+                                        }
+                                    />
+                                    <label class='text-medium text-dark-gray ps-0' htmlFor="fechas">Fechas de tu viaje</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Viajeros */}
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 '>
+                            <div class="input-group">
+                                <span class="input-group-text border border-0 bg-white">
+                                    <i class="fa-solid fa-user-plus fa-lg"/>
+                                </span>
+                                <div class="form-floating">
+                                    <input 
+                                        type="text" 
+                                        readOnly 
+                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                        id="viajeros" 
+                                        placeholder="Viajeros"
+                                        value={stateContext.value.pasajeros}
+                                    />
+                                    <label class='text-medium text-dark-gray ps-0' htmlFor="viajeros">Viajeros</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Plan seleccionado (no en step-1) */}
+                        {location.url.pathname != '/quotes-engine/step-1/' && (
+                            <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                                <div class="input-group">
+                                    <span class="input-group-text border border-0 bg-white">
+                                        <i class="fa-solid fa-clipboard-check fa-lg"/>
+                                    </span>
+                                    <div class="form-floating">
+                                        <input 
+                                            type="text" 
+                                            readOnly 
+                                            class="form-control-plaintext text-medium text-light-blue ps-0" 
+                                            id="plan" 
+                                            placeholder="Plan"
+                                            value={stateContext.value.plan?.nombreplan}
+                                        />
+                                        <label class='text-medium text-dark-gray ps-0' htmlFor="plan">Plan</label>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Editar */}
+                        {location.url.pathname != '/quotes-engine/step-4/' &&
+                         location.url.pathname != '/quotes-engine/message/' && (
+                            <div class='col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 text-end'>
+                                <button type='button' class='btn btn-link text-medium text-light-blue mt-2' onClick$={()=>modeResumeStep.value = false}>Editar</button>
+                            </div>
+                        )}
                     </div>
-                    <div class='col-3 col-xs-12'>
-                        <div class="input-group">
-                            <span class="input-group-text border border-0 bg-white">
-                                <i class="far fa-calendar fa-lg"></i>
-                            </span>
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    readOnly 
-                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
-                                    id="fechas" 
-                                    placeholder="Fechas de tu viaje"
-                                    value={stateContext.value.desde != undefined ? 
-                                        `${stateContext.value.desde} al ${stateContext.value.hasta}`
-                                        : ''
-                                    }
-                                />
-                                <label class='text-medium text-dark-gray ps-0' for="fechas">Fechas de tu viaje</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class='col-3 col-xs-6'>
-                        <div class="input-group">
-                            <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-user-plus fa-lg"/>
-                            </span>
-                            <div class="form-floating">
-                                <input 
-                                    type="text" 
-                                    readOnly 
-                                    class="form-control-plaintext text-bold text-dark-blue ps-0" 
-                                    id="fechas" 
-                                    placeholder="Viajeros"
-                                    value={stateContext.value.pasajeros}
-                                />
-                                <label class='text-medium text-dark-gray ps-0' for="fechas">Viajeros</label>
-                            </div>
-                        </div>
-                    </div>
-                    {
-                        location.url.pathname != '/quotes-engine/step-1/'&&
-                        <div class='col-2 col-xs-6'>
-                        <div class="input-group">
-                            <span class="input-group-text border border-0 bg-white">
-                                <i class="fa-solid fa-clipboard-check fa-lg"/>
-                            </span>
-                            <div class="form-floating">
-                            <input 
-                                    type="text" 
-                                    readOnly 
-                                    class="form-control-plaintext text-bold text-light-blue ps-0" 
-                                    id="plan" 
-                                    placeholder="Plan"
-                                    value={stateContext.value.plan?.nombreplan}
-                                />
-                                <label class='text-semi-bold text-dark-gray ps-0' for="plan">Plan</label>
-                            </div>
-                        </div>
-                        </div>
-                    }
-                    
-                    {
-                          location.url.pathname != '/quotes-engine/step-4/'&&
-                          location.url.pathname != '/quotes-engine/message/'&&
-                          <div class='col-lg-1  col-xs-12 text-end '>
-                          <button type='button' class='btn btn-link text-medium text-light-blue mt-3' onClick$={()=>modeResumeStep.value = false}>Editar</button>
-                          </div>
-                    }
-                    
-                </div>
 
                 </Fragment>
                 :
@@ -701,7 +726,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                     {!stateContext.value.isMobile && (
                         <>
                             <div class='col-lg-5'>
-                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿A dónde viajas?</h4>
+                                {location.url.pathname == '/' && (
+                                    <h4 class='mb-sm-4 text-dark-blue'>¿A dónde viajas?</h4>
+                                )}
                                 <Form
                                     id='form-step-1-0'
                                     form={[
@@ -733,7 +760,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-4'>
-                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h4>
+                            {location.url.pathname == '/' && (
+                                <h4 class='mb-sm-4 text-dark-blue'>¿Cuándo viajas?</h4>
+                            )}
                                 <Form
                                     id='form-step-1-1'
                                     form={[
@@ -759,7 +788,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-3'>
-                                <h4 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h4>
+                            {location.url.pathname == '/' && (
+                                <h4 class='mb-sm-4 text-dark-blue'>¿Cuántos viajan?</h4>
+                            )}
                                 <Form
                                     id='form-step-1-2'
                                     form={[
@@ -779,7 +810,6 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {location.url.pathname != '/' &&
                              location.url.pathname != '/quotes-engine/step-1/' && (
                                 <div class='col-lg-6'>
-                                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
                                     <Form
                                         id='form-step-1-3'
                                         form={[
@@ -806,7 +836,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                     {stateContext.value.isMobile && (
                         <>
                             <div class='col-lg-4'>
-                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿A dónde viajas?</h3>
+                                {location.url.pathname == '/' && (
+                                    <h3 class='mb-sm-4 text-center text-dark-blue'>¿A dónde viajas?</h3>
+                                )}
                                 <Form
                                     id='form-step-prev-1-0'
                                     form={[
@@ -839,7 +871,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-5'>
-                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuándo viajas?</h3>
+                                {location.url.pathname == '/' && (
+                                    <h3 class='mb-sm-4 text-center text-dark-blue'>¿Cuándo viajas?</h3>
+                                )}
                                 <Form
                                     id='form-step-prev-1-1'
                                     form={[
@@ -866,7 +900,9 @@ export const QuotesEngine = component$((props:propsQE) => {
                                 />
                             </div>
                             <div class='col-lg-3'>
-                                <h3 class='text-semi-bold mb-sm-4 text-center text-dark-blue'>¿Cuántos viajan?</h3>
+                                {location.url.pathname == '/' && (
+                                    <h3 class='mb-sm-4 text-center text-dark-blue'>¿Cuántos viajan?</h3>
+                                )}
                                 <Form
                                     id='form-step-prev-1-2'
                                     form={[
@@ -891,7 +927,6 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {location.url.pathname != '/' &&
                              location.url.pathname != '/quotes-engine/step-1/' && (
                                 <div class='col-lg-6'>
-                                    <h3 class='text-semi-bold mb-sm-4 text-dark-blue'>¿Cambiar Plan?</h3>
                                     <Form
                                         id='form-step-1-3'
                                         form={[
@@ -916,20 +951,22 @@ export const QuotesEngine = component$((props:propsQE) => {
                     )}   
 
                     
-                    {modeResumeStep.value === false && (
-                         <div class='row justify-content-center mt-2'>
-                             <div class='col-lg-2 col-6'>
+                    
+                         <div class='row justify-content-center mt-2 '>
+                        {modeResumeStep.value === false && location.url.pathname != '/' && (
+                            <div class='col-lg-2 col-sm-4 col-10'>
+                                <div class='d-grid gap-2'>
+                                    <button type='button' class='btn btn-cancelar-edit btn-lg text-medium' onClick$={getCancelQuotes$}>Cancelar</button>
+                                </div>
+                            </div>
+                        )}
+                             <div class='col-lg-2 col-sm-4 col-10 mb-2 mb-sm-0'>
                                  <div class='d-grid gap-2'>
-                                     <button type='button' class='btn btn-primary mb-3' onClick$={getCancelQuotes$}>Cancelar</button>
-                                 </div>
-                             </div>
-                             <div class='col-lg-2 col-6'>
-                                 <div class='d-grid gap-2'>
-                                     <button type='button' class='btn btn-primary' onClick$={getQuotesEngine$}>Buscar</button>
+                                     <button type='button' class='btn btn-primary btn_cotizar_1' onClick$={getQuotesEngine$}>Cotizar</button>
                                  </div>
                              </div>
                          </div>
-                    )}
+                    
                 </div>
             }
             
