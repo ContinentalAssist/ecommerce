@@ -135,3 +135,18 @@
     color: white;
     box-shadow: none;
 }
+
+/* Divider vertical minimalista entre items del resumen */
+.summary-item-divider {
+    position: relative;
+}
+
+.summary-item-divider:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 1px;
+    background-color: #e0e0e0;
+}

@@ -190,103 +190,105 @@ export default component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class='row cards'>
-                            {
-                                stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
-                                    return(
-                                        <div key={index+1} class='col-lg-4 col-sm-4' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
-                                            <div class={index == 1  ? 'card border-dark-blue mb-5' : 'card border border-0  mb-5 shadow-lg'} style={{maxWidth:'400px', maxHeight:'90%', minHeight:'90%'}}>
-                                                {
-                                                    index == 1
-                                                    &&
-                                                    <span class='card-recommended'>
-                                                        <p class='mb-0'>Recomendado</p>
-                                                    </span>
-                                                }
-                                                
-                                                {/* Título del plan */}
-                                                <div class='card-header text-center py-3' style={{background: 'transparent', border: 'none'}}>
-                                                    <h2 class='h2 card-title text-semi-bold text-light-blue mb-0'>
-                                                        {plan.nombreplan}                                                    
-                                                    </h2>   
-                                                </div>
-
-                                                {/* Imagen del plan */}
-                                                <div class='text-center py-3'>
-                                                    {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential' style={{width: '120px', height: 'auto'}}/>}
-                                                    {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete' style={{width: '120px', height: 'auto'}}/>}
-                                                    {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite' style={{width: '120px', height: 'auto'}}/>}
-                                                </div>
-
-                                                <div class='card-body px-4'>
-                                                    {/* Cobertura */}
-                                                    <div class='text-center mb-3'>
-                                                        <small class='h5 text-dark-gray'>Cubre hasta 
-                                                            <span class='text-bold'>
-                                                                { ' ' + plan.cobertura }                                                                 
+                        <div class='row justify-content-center'>
+                            <div class='cards-container'>
+                                <div class='cards'>
+                                    {
+                                        stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
+                                            return(
+                                                <div key={index+1} class='card-wrapper' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
+                                                    <div class={index == 1  ? 'card border-dark-blue mb-5' : 'card border border-0  mb-5'}>
+                                                        {
+                                                            index == 1
+                                                            &&
+                                                            <span class='card-recommended'>
+                                                                <p class='mb-0'>Recomendado</p>
                                                             </span>
-                                                        </small>
-                                                    </div>
+                                                        }
+                                                        
+                                                        {/* Título del plan */}
+                                                        <div class='card-header text-center pt-3' style={{background: 'transparent', border: 'none'}}>
+                                                            <h2 class='h2 card-title text-semi-bold text-light-blue mb-0 text-responsive'>
+                                                                {plan.nombreplan}                                                    
+                                                            </h2>   
+                                                        </div>
 
-                                                    {/* Precio */}
-                                                    <div class='text-center mb-4'>
-                                                        <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0'>
-                                                            {
-                                                                plan.precio_grupal ?
-                                                                contextDivisa.divisaUSD == true 
-                                                                ? 
-                                                                CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
-                                                                : 
-                                                                CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
-                                                                :
-                                                                <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
-                                                            }
-                                                        </h2>
-                                                    </div>
+                                                        {/* Imagen del plan */}
+                                                        <div class='text-center '>
+                                                            {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential' style={{width: '120px', height: 'auto'}}/>}
+                                                            {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete' style={{width: '120px', height: 'auto'}}/>}
+                                                            {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite' style={{width: '120px', height: 'auto'}}/>}
+                                                        </div>
 
-                                                    {/* Botón de selección */}
-                                                    <div class='text-center mb-4'>
-                                                        <button 
-                                                            class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg w-100' : 'btn btn-warning btn-lg w-100'} 
-                                                            onClick$={() => {getPlan$(plan)}}
-                                                            style={{backgroundColor: '#FFD700', border: 'none', color: '#333', fontWeight: 'bold'}}
-                                                        >
-                                                            {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
-                                                        </button>
-                                                    </div>
+                                                        <div class='card-body px-4'>
+                                                            {/* Cobertura */}
+                                                            <div class='text-center mb-1'>
+                                                                <span class='h6 text-dark-blue text-tin'>Cubre hasta 
+                                                                        { ' ' + plan.cobertura }                                                                 
+                                                                </span>
+                                                            </div>
 
-                                                    {/* Lista de beneficios */}
-                                                    <div class='mb-3' style={{height:'70px'}}>                                                        
-                                                        <ul class='text-start ps-3'>
-                                                            {
-                                                                plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,benefitIndex:number)=>{
-                                                                    if (benefitIndex<=1) {
-                                                                      return   <li key={benefitIndex} class='mb-2'><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                            {/* Precio */}
+                                                            <div class='text-center mb-1'>
+                                                                <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0 h5'>
+                                                                    {
+                                                                        plan.precio_grupal ?
+                                                                        contextDivisa.divisaUSD == true 
+                                                                        ? 
+                                                                        CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
+                                                                        : 
+                                                                        CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
+                                                                        :
+                                                                        <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
                                                                     }
-                                                                })
-                                                            }
-                                                        </ul>
-                                                    </div>
+                                                                </h2>
+                                                            </div>
 
-                                                    {/* Enlace Ver detalles */}
-                                                    <div class='text-center'>
-                                                        <button 
-                                                            type='button' 
-                                                            class='btn btn-link text-regular text-light-blue p-0' 
-                                                            onClick$={() => {getBenefits$(index)}} 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#modalBenefits"
-                                                            style={{textDecoration: 'underline'}}
-                                                        >
-                                                            Ver detalles
-                                                        </button> 
+                                                            {/* Botón de selección */}
+                                                            <div class='text-center mb-1'>
+                                                                <button 
+                                                                    class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg text-tin' : 'btn btn-warning btn-lg text-medium'} 
+                                                                    onClick$={() => {getPlan$(plan)}}
+                                                                    style={{backgroundColor: '#FFD700', border: 'none', color: '#333', width: 'auto', padding: '0.75rem 2rem'}}
+                                                                >
+                                                                    {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
+                                                                </button>
+                                                            </div>
+
+                                                            {/* Lista de beneficios */}
+                                                            <div class='mb-3'>                                                        
+                                                                <ul class='text-start ps-3'>
+                                                                    {
+                                                                        plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,benefitIndex:number)=>{
+                                                                            if (benefitIndex<=1) {
+                                                                              return   <li key={benefitIndex} class='mb-2'><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                                            }
+                                                                        })
+                                                                    }
+                                                                </ul>
+                                                            </div>
+
+                                                            {/* Enlace Ver detalles */}
+                                                            <div class='text-center'>
+                                                                <button 
+                                                                    type='button' 
+                                                                    class='btn btn-link text-medium text-light-blue p-0' 
+                                                                    onClick$={() => {getBenefits$(index)}} 
+                                                                    data-bs-toggle="modal" 
+                                                                    data-bs-target="#modalBenefits"
+                                                                    style={{textDecoration: 'underline', transition: 'none'}}
+                                                                >
+                                                                    Ver detalles
+                                                                </button> 
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
                         </div>
                         
                     </div>

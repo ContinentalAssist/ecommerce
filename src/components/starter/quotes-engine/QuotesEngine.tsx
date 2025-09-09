@@ -607,7 +607,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                 <Fragment>
                     <div class='row justify-content-between align-items-center'>
                         {/* Origen */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
                             <div class="input-group">
                                 <span class="input-group-text border border-0 bg-white">
                                     <i class="fa-solid fa-plane-departure fa-lg"/>
@@ -627,7 +627,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Destino */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
                             <div class="input-group">
                                 <span class="input-group-text border border-0 bg-white">
                                     <i class="fa-solid fa-plane-arrival fa-lg"/>
@@ -647,7 +647,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Fechas de tu viaje (rango) */}
-                        <div class='col-3 col-xs-12 '>
+                        <div class='col-3 col-xs-12 summary-item-divider'>
                             <div class="input-group">
                                 <span class="input-group-text border border-0 bg-white">
                                     <i class="far fa-calendar fa-lg"></i>
@@ -670,7 +670,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Viajeros */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 '>
+                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 summary-item-divider'>
                             <div class="input-group">
                                 <span class="input-group-text border border-0 bg-white">
                                     <i class="fa-solid fa-user-plus fa-lg"/>
@@ -691,7 +691,7 @@ export const QuotesEngine = component$((props:propsQE) => {
 
                         {/* Plan seleccionado (no en step-1) */}
                         {location.url.pathname != '/quotes-engine/step-1/' && (
-                            <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 '>
+                            <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
                                 <div class="input-group">
                                     <span class="input-group-text border border-0 bg-white">
                                         <i class="fa-solid fa-clipboard-check fa-lg"/>
@@ -715,7 +715,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                         {location.url.pathname != '/quotes-engine/step-4/' &&
                          location.url.pathname != '/quotes-engine/message/' && (
                             <div class='col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 text-end'>
-                                <button type='button' class='btn btn-link text-medium text-light-blue mt-2' onClick$={()=>modeResumeStep.value = false}>Editar</button>
+                                <button type='button' class='btn btn-link text-medium text-light-blue ' onClick$={()=>modeResumeStep.value = false}>Editar</button>
                             </div>
                         )}
                     </div>

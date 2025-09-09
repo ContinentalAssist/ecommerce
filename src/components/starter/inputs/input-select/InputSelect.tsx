@@ -107,7 +107,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                     <div class="form-floating">
                         <input 
                             type='text' 
-                            class='form-control form-control-select text-bold text-dark-blue' 
+                            class='form-control form-control-select text-mediumtext-dark-blue' 
                             id={props.id} 
                             name={props.name} 
                             required={props.required} 

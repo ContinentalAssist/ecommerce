@@ -441,7 +441,7 @@ export default component$(() => {
 });
 
     return(
-        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        <div class='container-fluid px-0'>
         <div class='container-fluid'>
             <div class='row bg-step-4'>
                 <div class='col-xl-12'>

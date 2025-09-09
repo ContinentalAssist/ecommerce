@@ -74,3 +74,9 @@ input::-webkit-inner-spin-button {
     border-bottom-left-radius: 0px;
     padding-left: revert;
 }
+
+/* Forzar text-medium en todos los inputs */
+.form-control {
+    font-family: GalanoGrotesque_Medium !important;
+    font-display: swap;
+}

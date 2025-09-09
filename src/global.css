@@ -116,7 +116,7 @@ section
 
 .text-bold
 {
-    font-family: GalanoGrotesque_Bold !important;
+    font-family: GalanoGrotesque_Bold ;
     font-display: swap;
 }
 
@@ -164,7 +164,7 @@ body[data-so='windows'] header .navbar-toggler i
 
 .btn
 {
-    font-family: GalanoGrotesque_Semi_Bold !important;
+    font-family: GalanoGrotesque_Semi_Bold;
     border-radius: 50px;
     font-display: swap;
 }

@@ -23,7 +23,7 @@ color: var(--ca-dark-blue);
 .MuiInputBase-root .MuiOutlinedInput-input{
     margin-top: 0.438rem;
     padding-bottom: 0.625rem;
-    font-family: GalanoGrotesque_Bold !important;
+    font-family: GalanoGrotesque_Medium !important;
     font-display: swap;
     font-size: 1rem !important;
 
@@ -63,7 +63,7 @@ color: var(--ca-dark-blue);
 .MuiInputBase-root .MuiOutlinedInput-input{
     margin-top: 0.438rem;
     padding-bottom: 0.625rem;
-    font-family: GalanoGrotesque_Bold !important;
+    font-family: GalanoGrotesque_Medium !important;
     font-display: swap;
     font-size: 1rem !important;
     margin-left: 0.625rem !important;

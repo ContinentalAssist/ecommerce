@@ -56,7 +56,7 @@ export const QuotesResume = component$(() => {
     });
 
     return (
-        <div style={{maxWidth: '1440px', margin: '0 auto'}}>
+        <div style={{maxWidth: '1350px', margin: '0 auto'}}>
             {/* Resumen de compra - Solo para quotes-engine */}
             {
                 pathNameURL.value != '/' && pathNameURL.value.includes('quotes-engine') && pathNameURL.value != '/quotes-engine/message/' &&

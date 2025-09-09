@@ -117,7 +117,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             type='text'
                             id={props.id} 
                             name={props.name} 
-                            class='form-control form-paxs text-bold text-dark-blue' 
+                            class='form-control form-paxs text-medium text-dark-blue' 
                             value={totalPaxsString.value} 
                             data-value={JSON.stringify(totalPaxsNumber.value)} 
                             required={props.required}
@@ -146,7 +146,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                 <div class='container'>
                     <div class='row mb-4 align-items-center'>
                         <div class='col-6 col-md-7'>
-                            <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos</h6>
+                            <h6 class='h5 text-medium text-dark-blue mb-0'>Adultos</h6>
                             <small>de 24 a 75 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
@@ -172,7 +172,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     </div>
                     <div class='row mb-4 align-items-center'>
                         <div class='col-6 col-md-7'>
-                            <h6 class='h5 text-bold text-dark-blue mb-0'>Niños y jóvenes</h6>
+                            <h6 class='h5 text-medium text-dark-blue mb-0'>Niños y jóvenes</h6>
                             <small>de 0 a 23 años</small>
                         </div>
                         <div class='col-6 col-md-5'>
@@ -198,7 +198,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     </div>
                     <div class='row mb-0 align-items-center'>
                         <div class='col-6 col-md-7'>
-                            <h6 class='h5 text-bold text-dark-blue mb-0'>Adultos mayores</h6>
+                            <h6 class='h5 text-medium text-dark-blue mb-0'>Adultos mayores</h6>
                             <small>de 76 a 85 años</small>
                         </div>
                         <div class='col-6 col-md-5'>

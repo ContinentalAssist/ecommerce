@@ -179,7 +179,7 @@ export const InputSelectMultiple = component$((props:propsInputSelectMultiple) =
                         <input 
                             type='text'
                             name={props.name}
-                            class='form-control form-control-select-multiple text-bold text-dark-blue' 
+                            class='form-control form-control-select-multiple text-medium text-dark-blue' 
                             id={props.id}
                             value={defaultValue.value}  
                             data-value={datasetValue.value} 
