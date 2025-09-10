@@ -607,10 +607,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                 <Fragment>
                     <div class='row justify-content-between align-items-center'>
                         {/* Origen */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
+                        <div class='summary-item-divider' style={{width: '15%'}}>
                             <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white">
-                                    <i class="fa-solid fa-plane-departure fa-lg"/>
+                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-from.png" alt="Avión" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
                                 </span>
                                 <div class="form-floating">
                                     <input 
@@ -627,10 +627,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Destino */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
+                        <div class='summary-item-divider' style={{width: '15%'}}>
                             <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white">
-                                    <i class="fa-solid fa-plane-arrival fa-lg"/>
+                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-to.png" alt="Avión" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
                                 </span>
                                 <div class="form-floating">
                                     <input 
@@ -647,10 +647,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Fechas de tu viaje (rango) */}
-                        <div class='col-3 col-xs-12 summary-item-divider'>
+                        <div class='summary-item-divider' style={{width: '25%'}}>
                             <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white">
-                                    <i class="far fa-calendar fa-lg"></i>
+                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
                                 </span>
                                 <div class="form-floating">
                                     <input 
@@ -670,10 +670,10 @@ export const QuotesEngine = component$((props:propsQE) => {
                         </div>
 
                         {/* Viajeros */}
-                        <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-6 summary-item-divider'>
+                        <div class='summary-item-divider' style={{width: '15%'}}>
                             <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white">
-                                    <i class="fa-solid fa-user-plus fa-lg"/>
+                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
                                 </span>
                                 <div class="form-floating">
                                     <input 
@@ -691,16 +691,16 @@ export const QuotesEngine = component$((props:propsQE) => {
 
                         {/* Plan seleccionado (no en step-1) */}
                         {location.url.pathname != '/quotes-engine/step-1/' && (
-                            <div class='col-xl-2 col-lg-2 col-md-4 col-sm-6 col-12 summary-item-divider'>
+                            <div class='summary-item-divider' style={{width: '15%'}}>
                                 <div class="input-group">
-                                    <span class="input-group-text border border-0 bg-white">
-                                        <i class="fa-solid fa-clipboard-check fa-lg"/>
+                                    <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plan.png" alt="Editar" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"/>
                                     </span>
                                     <div class="form-floating">
                                         <input 
                                             type="text" 
                                             readOnly 
-                                            class="form-control-plaintext text-medium text-light-blue ps-0" 
+                                            class="form-control-plaintext text-medium text-dark-blue ps-0" 
                                             id="plan" 
                                             placeholder="Plan"
                                             value={stateContext.value.plan?.nombreplan}
@@ -714,8 +714,11 @@ export const QuotesEngine = component$((props:propsQE) => {
                         {/* Editar */}
                         {location.url.pathname != '/quotes-engine/step-4/' &&
                          location.url.pathname != '/quotes-engine/message/' && (
-                            <div class='col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 text-end'>
-                                <button type='button' class='btn btn-link text-medium text-light-blue ' onClick$={()=>modeResumeStep.value = false}>Editar</button>
+                            <div class='text-end' style={{width: '10%'}}>
+                                <button type='button' class='btn btn-link text-medium text-dark-blue d-flex align-items-center' onClick$={()=>modeResumeStep.value = false}>
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-edit.png" alt="Editar" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"/>
+                                    Editar
+                                </button>
                             </div>
                         )}
                     </div>

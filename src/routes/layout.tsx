@@ -99,7 +99,7 @@ export default component$(() => {
             <Header />
             {
                 pathNameURL.value != '/' && pathNameURL.value.includes('quotes-engine') &&
-                <div style={{background: '#F4F4F4', padding: '120px 6% 9px 6%'}}>
+                <div class="container-resume-1" style={{background: '#F4F4F4'}}>
                     <QuotesResume />
                 </div>
             }

@@ -10,6 +10,7 @@ import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-e
 import styles from './index.css?inline'
 import dayjs from "dayjs";
 import { LoadingContext } from "~/root";
+import { saveQuoteData$ } from "~/utils/QuotePersistence";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -42,6 +43,17 @@ export default component$(() => {
     const desktop = useSignal(false)
     const indexImage = useSignal(0)
     const contextLoading = useContext(LoadingContext)
+
+    // Función local para guardar datos con QRL
+    const saveData = $((data: any) => {
+        if (typeof window !== 'undefined') {
+            try {
+                localStorage.setItem('continental_assist_quote_data', JSON.stringify(data));
+            } catch (error) {
+                console.warn('Error al guardar datos del cotizador:', error);
+            }
+        }
+    });
 
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {
@@ -104,6 +116,9 @@ export default component$(() => {
                     stateContext.value={
                         ...stateContext.value,
                         precioPlanes : resultado}
+                    
+                    // Guardar datos en localStorage
+                    saveData(stateContext.value)
 
                 }
                // loading.value = false
@@ -158,6 +173,10 @@ export default component$(() => {
             dataForm.total = {divisa:dataForm.plan.codigomonedapago,total:Number(dataForm.plan.precio_grupal)}; 
           
             stateContext.value = dataForm
+            
+            // Guardar datos en localStorage
+            saveData(stateContext.value)
+            
             contextLoading.value = {status:true, message:'Espere un momento...'}
 
             await navigate('/quotes-engine/step-2')
@@ -187,6 +206,7 @@ export default component$(() => {
                                 :
                                 <div class='col-lg-12 text-center mt-1 mb-4'>
                                     <h3 class='text-semi-bold text-dark-blue'>Elige tu plan</h3>
+                                    <h4 class='text-regular text-dark-blue'>Tenemos uno ideal para ti</h4>
                                 </div>
                             }
                         </div>

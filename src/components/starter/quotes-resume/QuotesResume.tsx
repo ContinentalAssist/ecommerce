@@ -59,7 +59,7 @@ export const QuotesResume = component$(() => {
         <div style={{maxWidth: '1350px', margin: '0 auto'}}>
             {/* Resumen de compra - Solo para quotes-engine */}
             {
-                pathNameURL.value != '/' && pathNameURL.value.includes('quotes-engine') && pathNameURL.value != '/quotes-engine/message/' &&
+                (pathNameURL.value == '/quotes-engine/step-1/' || pathNameURL.value == '/quotes-engine/step-2/') &&
                 <div class="info-quote-wrapper" style={{background: 'white', margin: '20px', borderRadius: '12px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginTop: '0'}}>
                     <div class="info-quote">
                         <div class="container p-2 contenedor-resumen">

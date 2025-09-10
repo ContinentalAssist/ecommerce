@@ -9,6 +9,7 @@ import { CardPaymentResume } from "~/components/starter/card-payment-resume/Card
 import styles from './index.css?inline'
 import { SwitchDivisa } from "~/components/starter/switch/SwitchDivisa";
 import { LoadingContext } from "~/root";
+import { saveQuoteData$ } from "~/utils/QuotePersistence";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Resumen de compra',
@@ -45,6 +46,17 @@ export default component$(() => {
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const desktop = useSignal(false)
     const contextLoading = useContext(LoadingContext)
+
+    // Función local para guardar datos con QRL
+    const saveData = $((data: any) => {
+        if (typeof window !== 'undefined') {
+            try {
+                localStorage.setItem('continental_assist_quote_data', JSON.stringify(data));
+            } catch (error) {
+                console.warn('Error al guardar datos del cotizador:', error);
+            }
+        }
+    });
 
     const array : any[] = []
     const paymentMethods = useSignal([
@@ -152,6 +164,10 @@ export default component$(() => {
         }
         newResume.total = {divisa:newResume.total.divisa,total:stateContext.value.subTotal}
         stateContext.value = newResume;
+        
+        // Guardar datos en localStorage
+        saveData(stateContext.value);
+        
         const input = document.querySelector('#input-cupon') as HTMLInputElement
         if (input) {
             input.value = '';
@@ -240,6 +256,10 @@ export default component$(() => {
             stateContext.value.cupon = messageCupon.value.cupon
             const newResume = Object.assign({},stateContext.value)            
             stateContext.value = newResume
+            
+            // Guardar datos en localStorage
+            saveData(stateContext.value);
+            
             //loading.value = false  
             removeCupon$();          
         }
@@ -318,6 +338,9 @@ export default component$(() => {
                     messageCupon.value = {error:'success',cupon: dataCupon, aplicado: true}
                     newResume.cupon = messageCupon.value.cupon;
                     stateContext.value = newResume
+                    
+                    // Guardar datos en localStorage
+                    saveData(stateContext.value);
                     contextLoading.value = {status:false, message:''}
                     
                 }
@@ -376,6 +399,9 @@ export default component$(() => {
         );
 
         stateContext.value = newResume
+        
+        // Guardar datos en localStorage
+        saveData(stateContext.value);
 
         await navigate('/quotes-engine/step-4')
         
@@ -475,15 +501,15 @@ export default component$(() => {
     })
 
     return(
-        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        <div class='container-fluid px-0'>
             <div class='container-fluid'>
                 <div class='row bg-step-5'>
                     <div class='col-xl-12'>
                         <div class='container'>
-                            <div class='row  justify-content-center mt-5'>
+                            <div class='row  justify-content-center '>
                                 {
                                   stateContext?.value?.total?.total >0 ?
-                                 <div class='col-lg-10 text-center mt-5 mb-3'>
+                                 <div class='col-lg-10 text-center mb-3'>
                                     <h1 class='text-semi-bold text-blue'>
                                         <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viajes
                                     </h1>

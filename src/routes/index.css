@@ -1452,3 +1452,15 @@
     margin-bottom: 20px !important;
     }
 }
+
+@media (max-width: 1230px) {
+.container-resume-1{
+    padding: 120px 3% 6px 3%;
+}
+}
+
+@media (min-width: 1231px) {
+.container-resume-1{
+    padding: 120px 6% 9px 6%;
+}
+}

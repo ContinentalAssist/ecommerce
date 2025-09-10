@@ -1,7 +1,7 @@
 /* variables globales */
 :root {
     --ca-blue: #00184C;
-    --ca-dark-blue: #1D2546;
+    --ca-dark-blue: #00184C;
     --ca-light-blue: #43D3FF;
     --ca-ultra-light-blue: #DBF0FB;
     --ca-yellow: #FEDF84;
@@ -218,6 +218,14 @@ body[data-so='windows'] .btn[disabled]
 .btn-outline-primary
 {
     border: 3px solid var(--ca-yellow);
+    background-color: white;
+    box-shadow: none !important;
+    color: var(--ca-blue);
+}
+
+.btn-outline-primary-regresar
+{
+    border: 1px solid var(--ca-blue);
     background-color: white;
     box-shadow: none !important;
     color: var(--ca-blue);

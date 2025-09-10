@@ -67,6 +67,20 @@ export default component$(() => {
     const contextLoading = useContext(LoadingContext)
     const headerStep = useSignal(false)
     const urlBlueAccess =  useSignal('');
+
+    // Limpiar datos del cotizador cuando se navega al home
+    useVisibleTask$(() => {
+        if (typeof window !== 'undefined') {
+            try {
+                localStorage.removeItem('continental_assist_quote_data');
+                // También limpiar el contexto actual
+                stateContext.value = {};
+            } catch (error) {
+                console.warn('Error al limpiar datos del cotizador:', error);
+            }
+        }
+    });
+
     // estructura base se actualiza con la data de los planes configurados en el servicio getPlansBenefits
     const dataPlan = useSignal([
         {

@@ -61,6 +61,21 @@ export default component$(() => {
   );
 
   useVisibleTask$(async () => {
+    // Restaurar datos del cotizador desde localStorage si existen
+    if (typeof window !== 'undefined') {
+      try {
+        const savedData = localStorage.getItem('continental_assist_quote_data');
+        if (savedData) {
+          const savedQuoteData = JSON.parse(savedData);
+          if (savedQuoteData && Object.keys(savedQuoteData).length > 0) {
+            resumeQuote.value = { ...resumeQuote.value, ...savedQuoteData };
+          }
+        }
+      } catch (error) {
+        console.warn('Error al cargar datos del cotizador:', error);
+      }
+    }
+
     let convertionRate: number;
     let currency: string;
 

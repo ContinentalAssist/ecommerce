@@ -102,17 +102,8 @@ export const CardPaymentResume = component$(() => {
     <div class="container ">
     <div class="row">
       <div class="col-left col-lg-5 col-md-12">
-     
-     
-      <ImgContinentalAssistPrintTicket
-            class="card-img-top"
-            title="continental-assist-print-ticket"
-            alt="continental-assist-print-ticket"
-          />
-          
-          <div id="card-pax" class="card  mb-3" >           
+        <div id="card-pax" class="card  mb-3" >           
           <div class="card-body">
-           
           <ul class="list-group" id="list-pax">
                     {Object.keys(stateContext.value).length > 0 &&
                       Array.isArray(stateContext.value?.asegurados) &&

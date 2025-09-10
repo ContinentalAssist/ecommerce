@@ -11,6 +11,7 @@ import { DIVISAContext } from "~/root";
 import CurrencyFormatter from '~/utils/CurrencyFormater';
 //import { QuotesEngineResume } from '../quotes-engine/QuotesEngineResume';
 import { QuotesEngine } from '../quotes-engine/QuotesEngine';
+import { clearQuoteData$ } from '~/utils/QuotePersistence';
 
 // Definir el tipo para cada paso
 interface Step {
@@ -199,6 +200,13 @@ export const Header = component$(() => {
         }
     })
 
+    // Función para limpiar datos del cotizador cuando se hace clic en el logo
+    const clearQuoteDataOnLogoClick$ = $(() => {
+        clearQuoteData$();
+        // También limpiar el contexto actual
+        stateContext.value = {};
+    })
+
     return (
         <header class={location.url.pathname.includes('quotes-engine')&&stateContext.value.isMobile===true?'header-step-content':''}>
             <nav class={pathNameURL.value === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
@@ -209,6 +217,7 @@ export const Header = component$(() => {
                     {/* &&pathNameURL.value != '/quotes-engine/step-2/'
                     pathNameURL.value != '/quotes-engine/step-1'&& */}
                     <a class={pathNameURL.value != '/' ? "navbar-brand navbar-brand-start":  "navbar-brand navbar-brand-center"} href="/" title="Inicio" 
+                    onClick$={() => clearQuoteDataOnLogoClick$()}
                     >
                         <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'60px'}} />
                     </a>
