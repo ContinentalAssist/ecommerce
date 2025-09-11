@@ -296,6 +296,19 @@ export const Header = component$(() => {
                                     </span>
                             </div>
                           }
+
+                          {/* Switch de divisa específico para step-3 */}
+                          {
+                            pathNameURL.value === '/quotes-engine/step-3/' &&
+                            <div class="d-flex align-items-center mt-2">
+                              
+                              <SwitchDivisa
+                                labels={['USD',stateContext.value?.currentRate?.code]}
+                                value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                onChange={$((e:any) => {changeDivisa$(e)})}
+                              />
+                            </div>
+                          }
                                 
                            {
                               pathNameURL.value != '/quotes-engine/step-3/'&&

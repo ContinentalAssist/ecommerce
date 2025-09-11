@@ -7,13 +7,13 @@
   }
   #card-pax
   {
-      margin-top:-60px;
+      margin-top:0px;
       min-height:550px !important;     
       height: auto !important;
       width:100%;
       z-index:10;
-      border-top-left-radius: 3px !important;
-      border-top-right-radius: 3px !important;
+      border-radius: 15px !important;
+      border: none !important;
   }
  }
 
@@ -28,13 +28,13 @@
   }
   #card-pax
   {
-      margin-top:-60px;
+      margin-top:0px;
       min-height:550px !important; 
       height: auto !important;    
       width:100%;
       z-index:10;
-      border-top-left-radius: 3px !important;
-      border-top-right-radius: 3px !important;
+      border-radius: 15px !important;
+      border: none !important;
   }
  }
 
@@ -65,20 +65,17 @@
   #card-pax
   {
       z-index:10;
-      margin-top: -60px;
+      margin-top: 0px;
       min-height: 680px;
       height: auto !important;
-      border-top-left-radius: 3px !important;
-      border-top-right-radius: 3px !important;
-      box-shadow: 0 0 10px gray;
+      border-radius: 15px !important;
+      border: none !important;
   }
 
   #card-right{
   
     min-height:500px;
-    border-top-left-radius:  3px !important;
-    border-bottom-left-radius: 3px !important;
-    box-shadow: 0 0 10px gray;
+  
    }
 
  }
@@ -138,7 +135,7 @@ float: right;
 
 .divisa-beneficio .divisa
 {
-  font-size: 0.9rem !important;
+  font-size: 1.1rem !important;
 }
 
 .divisa-total .divisa

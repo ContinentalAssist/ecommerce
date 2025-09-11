@@ -42,7 +42,6 @@ export default component$(() => {
     //const objectResume : {[key:string]:any} = {}
 
     //const resume = useSignal(objectResume)
-    const messageCupon = useSignal({error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0}, aplicado:false})
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const desktop = useSignal(false)
     const contextLoading = useContext(LoadingContext)
@@ -154,26 +153,6 @@ export default component$(() => {
         }        
     })
 
-    const removeCupon$ = $(async() => {        
-        messageCupon.value = {error:'',cupon:{codigocupon:'',idcupon:0,porcentaje:0},aplicado: false}
-        const newResume = Object.assign({},stateContext.value)
-       newResume.cupon={
-        idcupon:0,
-        codigocupon:'',
-        porcentaje: 0
-        }
-        newResume.total = {divisa:newResume.total.divisa,total:stateContext.value.subTotal}
-        stateContext.value = newResume;
-        
-        // Guardar datos en localStorage
-        saveData(stateContext.value);
-        
-        const input = document.querySelector('#input-cupon') as HTMLInputElement
-        if (input) {
-            input.value = '';
-        }
-        updateHeight$();
-    })
 
 
 
@@ -194,6 +173,12 @@ export default component$(() => {
                 })
             }
         
+    })
+
+    // Sincronizar divisaManual con contextDivisa cuando cambia desde el header
+    useTask$(({ track })=>{
+        const contextDivisaValue = track(()=>contextDivisa.divisaUSD);  
+        divisaManual.value = contextDivisaValue;
     })
 
 
@@ -247,23 +232,6 @@ export default component$(() => {
     } else {
         // Event not sent - missing requirements
     }
-})
-    // eslint-disable-next-line qwik/no-use-visible-task
-    useVisibleTask$(async() => {        
-        if(Object.keys(stateContext.value).length > 0)
-        {       
-                 
-            stateContext.value.cupon = messageCupon.value.cupon
-            const newResume = Object.assign({},stateContext.value)            
-            stateContext.value = newResume
-            
-            // Guardar datos en localStorage
-            saveData(stateContext.value);
-            
-            //loading.value = false  
-            removeCupon$();          
-        }
-       
     })
 
    /*  function buildMethodsButtons(){
@@ -303,58 +271,6 @@ export default component$(() => {
 
 
 
-    const getCupon$ = $(async() => {
-        const input = document.querySelector('#input-cupon') as HTMLInputElement
-
-        if(input.value != '')
-        {
-           
-            if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined)
-            {
-                const dataRequest = {
-                    idplan:stateContext.value.plan.idplan,
-                    codigocupon:input.value,
-                    ip:stateContext.value.resGeo.ip_address
-                }
-                
-                let resCupon : {[key:string]:any} = {}
-                contextLoading.value = {status:true, message:'Espere un momento...'}
-
-                //loading.value = true;
-                const resCuponValid = await fetch("/api/getCupon",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataRequest)});
-                const dataCupon = await resCuponValid.json()
-                resCupon = dataCupon
-                if(resCupon.error == false &&Number(resCupon.resultado[0]?.porcentaje)>0 )
-                {
-                    const dataCupon = Object.assign({},resCupon.resultado[0])
-                    const newResume = Object.assign({},stateContext.value)
-                    const discount = stateContext.value?.subTotal * parseFloat("0." + Number(resCupon.resultado[0].porcentaje))
-                    const newTotal = stateContext.value?.subTotal - discount
-                 
-                    newResume.total = {divisa:newResume.total.divisa,total:newTotal}
-                    
-                    stateContext.value = newResume 
-                    dataCupon.descuento = discount;
-                    messageCupon.value = {error:'success',cupon: dataCupon, aplicado: true}
-                    newResume.cupon = messageCupon.value.cupon;
-                    stateContext.value = newResume
-                    
-                    // Guardar datos en localStorage
-                    saveData(stateContext.value);
-                    contextLoading.value = {status:false, message:''}
-                    
-                }
-                else
-                {
-                    contextLoading.value = {status:false, message:''}
-                    messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
-                }
-                //loading.value = false;
-            }
-            updateHeight$();
-        }
-       
-    })
 
     
 
@@ -506,111 +422,37 @@ export default component$(() => {
                 <div class='row bg-step-5'>
                     <div class='col-xl-12'>
                         <div class='container'>
-                            <div class='row  justify-content-center '>
-                                {
-                                  stateContext?.value?.total?.total >0 ?
-                                 <div class='col-lg-10 text-center mb-3'>
-                                    <h1 class='text-semi-bold text-blue'>
-                                        <span class='text-tin'>Todo listo </span><br class='mobile'/> para tu viajes
-                                    </h1>
-                                    <hr class='divider my-3'/>
-                                 </div>
-                                  :
-                                  <div class='col-lg-12 text-center mt-5 mb-5'>
-                                          <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
-                                          <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
-                                  </div>
-                                }
                             
-
-                            </div>
-                            
-                            <br/>
                             <div class="row">
                                 <div class='col-lg-12 col-xl-12'>
                                 {
                                         stateContext?.value?.total?.total >0&&
                                         <CardPaymentResume>
                                         
-                                        <div class='container px-2 pt-4 pb-2'>
-                                                <div class='row mb-4'>
-                                                    <div class='col-lg-12'>
-                                                        <div class='container'>
-                                                            
-                                                            <div class='row row-mobile'>
-                                                                <div class='col-xl-10 col-sm-12 col-12'>
-                                                                    <input 
-                                                                        id='input-cupon' 
-                                                                        name='cupon' 
-                                                                        type='text' 
-                                                                        class='form-control text-center' 
-                                                                        placeholder="¿Tienes un cupón?"
-                                                                        disabled={messageCupon.value.error == 'success'}
-                                                                       // onBlur$={getCupon$}
-                                                                    />
+                                        <div class='container px-2  pb-2'>
 
+                                                <div class='row not-mobile'>                                                  
+                                                    {/* Card para USD */}
+                                                    <div class='col-12 mb-3 '>
+                                            <div 
+                                                class={`payment-card shadow-sm border-0 ${divisaManual.value ? 'active' : ''}`}
+                                                onClick$={() => changeDivisa$('base')}
+                                            >
+                                                            <div class='payment-card-header'>
+                                                                <div class='d-flex col-6 align-items-center'>
+                                                                    <h5 class='mb-0 text-dark-blue'>Pagar en USD</h5>
                                                                 </div>
-                                                                
-                                                                <div class='col-xl-2 col-sm-12 col-12'>
-                                                                <div class='d-grid gap-2 '>
-                                                                    {
-                                                                         messageCupon.value.aplicado ==false&&messageCupon.value.cupon.codigocupon == ''?
-                                                                         <button type='button' class='btn btn-primary' onClick$={getCupon$}>Aplicar</button>
-                                                                         :
-                                                                        <button type='button' class='btn btn-primary' onClick$={removeCupon$}>Remover</button>
-                                                                    }
-                                                                
-
-                                                                </div>
+                                                                <div class='payment-card-indicator col-6'>
                                                                     
-                                                                <br/>
-
                                                                 </div>
-                                                               
-                                                                <hr/>
-                                                                {
-                                                                    messageCupon.value.error != ''
-                                                                    &&
-                                                                    <div class='col-lg-12 mt-3'>
-                                                                        {
-                                                                            messageCupon.value.error == 'error'
-                                                                            &&
-                                                                            <div class="alert alert-danger text-semi-bold text-blue mb-0" role="alert">
-                                                                                Cupón <span class='text-semi-bold text-danger'>{messageCupon.value.cupon.codigocupon} no es valido!</span>
-                                                                            </div>
-                                                                        }
-                                                                        {
-                                                                            messageCupon.value.error == 'success'
-                                                                            &&
-                                                                            <div class="alert alert-success text-semi-bold text-blue mb-0" role="alert">
-                                                                                Cupón <span class='text-semi-bold text-success'> {messageCupon.value.cupon.codigocupon} </span> aplicado con éxito!
-                                                                            </div>
-                                                                        }
-                                                                    </div>
-                                                                }
-
-
-                                                                
                                                             </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class='row not-mobile'>
-                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago </p>
-                                                                                                    
-                                                        {
-                                                            
-                                                            listPaymentMethods.value.map((payment:any,index:number) => {
-                                                                
-                                                                return(
-                                                                    
-                                                                <div key={index}class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
-                                                                    <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center '  onClick$={() => {getPaymentMethod$(payment.method);}}>
-                                                                        {
-                                                                            payment.icons.length>0 
-                                                                            &&
-                                                                            payment.icons.map((icon:any,iIcon:number) => {
+                                                            {divisaManual.value && (
+                                                                <div class='payment-card-content'>
+                                                                    <div class='row'>
+                                                                        {paymentMethods.value[0].list.map((payment:any,index:number) => (
+                                                                            <div key={index} class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
+                                                                                <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center' onClick$={() => {getPaymentMethod$(payment.method);}}>
+                                                                                    {payment.icons.length>0 && payment.icons.map((icon:any,iIcon:number) => {
                                                                                 if (payment.title == 'Crédito / Débito' && iIcon ==0) {
                                                                                     return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
                                                                                 }
@@ -620,119 +462,161 @@ export default component$(() => {
                                                                                 else{
                                                                                     return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
                                                                                 }
-                                                                                
-                                                                            })
-                                                                        }
-                                                                        {
-                                                                            'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                            <i class={payment.fontawesome}/>
-                                                                        }
+                                                                                    })}
+                                                                                    {'fontawesome'in payment && payment.fontawesome.length>0 && <i class={payment.fontawesome}/>}
                                                                     </div>   
                                                                     <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                                 </div>
 
-                                                                )
-                                                            }) 
-                                                            
-                                                            
-                                                        }
-                                                        { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
-                                                            <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
-                                                            <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
-                                                        }
+                                                    {/* Card para divisas locales (MXN/COP) */}
+                                                    <div class='col-12 mb-3'>
+                                            <div 
+                                                class={`payment-card shadow-sm border-0 ${!divisaManual.value ? 'active' : ''}`}
+                                                onClick$={() => changeDivisa$('local')}
+                                            >
+                                                            <div class='payment-card-header'>
+                                                                <div class='d-flex align-items-center'>
+                                                                    <h5 class='mb-0 text-dark-blue'>
+                                                                        Pagar en {stateContext.value?.resGeo?.country == 'MX' ? 'MXN' : stateContext.value?.resGeo?.country == 'CO' ? 'COP' : 'Moneda Local'}
+                                                                    </h5>
+                                                                </div>
+                                                                <div class='payment-card-indicator'>
+                                                                </div>
+                                                            </div>
+                                                            {!divisaManual.value && (
+                                                                <div class='payment-card-content'>
+                                                                    {stateContext.value?.resGeo?.country == 'MX' ? (
+                                                                        <div class='alert alert-warning'>
+                                                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                                                            <strong>Lo sentimos,</strong> actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                                            <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div class='row'>
+                                                                            {listPaymentMethods.value.map((payment:any,index:number) => (
+                                                                                <div key={index} class='col-lg-4 col-md-4 g-0 d-flex align-items-center'>
+                                                                                    <div id='btn-pay-method' class='d-flex justify-content-center align-items-center text-center' onClick$={() => {getPaymentMethod$(payment.method);}}>
+                                                                                        {payment.icons.length>0 && payment.icons.map((icon:any,iIcon:number) => {
+                                                                                            if (payment.title == 'Crédito / Débito' && iIcon ==0) {
+                                                                                                return(<img key={index+'-'+iIcon} class='d-block' src={icon} width={'30'} height={'20'} />)
+                                                                                            }
+                                                                                            if (payment.title == 'Crédito / Débito') {
+                                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'20'} height={'20'} />)
+                                                                                            } 
+                                                                                            else{
+                                                                                                return(<img key={index+'-'+iIcon} class='' src={icon} width={'30'} height={'30'} />)
+                                                                                            }
+                                                                                        })}
+                                                                                        {'fontawesome'in payment && payment.fontawesome.length>0 && <i class={payment.fontawesome}/>}
+                                                                                    </div>   
+                                                                                    <p class="text-decoration-none text-dark-blue mt-3">{payment.title}</p>                                                                                    
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
                                                 </div>
                                               
 
                                                
 
                                                 <div class='container mobile'>
-                                                    <div class="row d-flex justify-content-center">
-
-                                                    <p class=' text-semi-bold text-blue  text-center'> Selecciona método de pago </p>
-                                                   
-                                                                                            
-                                                   {
-                                                       listPaymentMethods.value.map((payment:any,index:number) => {
-                                                           
-                                                           return(
-                                                              
-                                                           <div key={index}class='col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center'>
+                                                    
+                                                    {/* Card para USD - Mobile */}
+                                                    <div class='row mobile mb-3'>
+                                                        <div class='col-12'>
+                                                            <div 
+                                                                class={`payment-card-mobile ${divisaManual.value ? 'active' : ''}`}
+                                                                onClick$={() => changeDivisa$('base')}
+                                                            >
+                                                                <div class='payment-card-header-mobile'>
+                                                                    <div class='d-flex align-items-center justify-content-between'>
+                                                                        <div class='d-flex align-items-center'>
+                                                                           
+                                                                            <h6 class='mb-0 text-dark-blue'>Pagar en USD</h6>
+                                                                        </div>
+                                                                        <div class='payment-card-indicator'>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                {divisaManual.value && (
+                                                                    <div class='payment-card-content-mobile'>
+                                                                        <div class="row d-flex justify-content-center">
+                                                                            {paymentMethods.value[0].list.map((payment:any,index:number) => (
+                                                                                <div key={index} class='col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center'>
                                                               <p class="title-method text-medium text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
                                                                <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);}}>
-                                                                   {
-                                                                       payment.icons.length>0 
-                                                                       &&
-                                                                       payment.icons.map((icon:any,iIcon:number) => {
+                                                                                        {payment.icons.length>0 && payment.icons.map((icon:any,iIcon:number) => {
                                                                            return(<img key={index+'-'+iIcon}  src={icon} width={'17'} height={'17'} />)
-                                                                       })
-                                                                   }
-                                                                   {
-                                                                       'fontawesome'in payment && payment.fontawesome.length>0 &&
-                                                                       <i class={payment.fontawesome}/>
-                                                                   }
+                                                                                        })}
+                                                                                        {'fontawesome'in payment && payment.fontawesome.length>0 && <i class={payment.fontawesome}/>}
+                                                                                    </div>   
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
                                                                </div>   
                                                            </div>
      
-                                                           )
-                                                       })                                                      
-                                                      
-                                                   }
-                                                   { stateContext.value?.resGeo?.country == 'MX' && !divisaManual.value &&
-                                                    <p class="text-semi-bold text-blue ">Lo sentimos, actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
-                                                    <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).</p>
-                                                   }
-                                                    </div>
-                                                   
-                                                    
-                                                </div>
-
-                                                <br/>
-                                                <div class="payment">
-                                                <p class=' text-semi-bold text-blue  text-center'> Cambiar moneda de pago </p>
-                                                <SwitchDivisa
-                                                labels={['USD',stateContext.value?.currentRate?.code]}
-                                                value={contextDivisa.divisaUSD ? 'base' : 'local'}
-                                                onChange={$((e:any) => {changeDivisa$(e)})}
-                                                />
-                                                {
-                                                        stateContext.value.idcotizacion == undefined
-                                                        &&
-                                                        <div class='col-lg-12 col-md-12 col-12 ps-3'>
-                                                        <div id='buttons' class='row row-mobile mt-4 '>                                                                    
-                                                                <div class="form-check form-check-inline">
-                                                                    <input 
-                                                                        class="form-check-input" 
-                                                                        type="checkbox" 
-                                                                        id={"send-quote"} 
-                                                                        name='sendquote' 
-                                                                        onClick$={(e) => {sendQuote$(e)}}
-                                                                    />
-                                                                    <label class="form-check-label" for={"send-quote"}>Enviar cotización</label>
+                                                    {/* Card para divisas locales - Mobile */}
+                                                    <div class='row mobile mb-3'>
+                                                        <div class='col-12'>
+                                                            <div 
+                                                                class={`payment-card-mobile ${!divisaManual.value ? 'active' : ''}`}
+                                                                onClick$={() => changeDivisa$('local')}
+                                                            >
+                                                                <div class='payment-card-header-mobile'>
+                                                                    <div class='d-flex align-items-center justify-content-between'>
+                                                                        <div class='d-flex align-items-center'>
+                                                                            
+                                                                            <h6 class='mb-0 text-dark-blue'>
+                                                                                Pagar en {stateContext.value?.resGeo?.country == 'MX' ? 'MXN' : stateContext.value?.resGeo?.country == 'CO' ? 'COP' : 'Moneda Local'}
+                                                                            </h6>
+                                                                        </div>
+                                                                        <div class='payment-card-indicator'>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                }
-
-                                                    <div id='form-send' class='row mt-3 d-none'>
-                                                    <hr/>
-                                                        <div class='col-lg-12'>
-                                                            <Form 
-                                                                id='form-send-quote'
-                                                                form={[{row:[
-                                                                    {size:'col-lg-6',type:'text',label:'Nombre',placeholder:'Nombre',name:'nombre',required:true},
-                                                                    {size:'col-lg-6',type:'email',label:'Correo',placeholder:'Correo', name:'correo',required:true}
-                                                                ]}]}
-                                                            />
-                                                        </div>
-                                                        <div class='col-lg-2 col-md-6 col-12'>
-                                                            <div class='d-grid gap-2'>
-                                                                <label for='btnSendQuote'></label>
-                                                                <button id='btnSendQuote' class='btn btn-success btn-lg mt-4' onClick$={getSendQuote$}>Enviar</button>
+                                                                {!divisaManual.value && (
+                                                                    <div class='payment-card-content-mobile'>
+                                                                        {stateContext.value?.resGeo?.country == 'MX' ? (
+                                                                            <div class='alert alert-warning'>
+                                                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                                                <strong>Lo sentimos,</strong> actualmente la pasarela en pesos mexicanos (MXN) no está disponible.
+                                                                                <br/> Para continuar con su compra, por favor elija pagar en dólares estadounidenses (USD).
+                                                                            </div>
+                                                                        ) : (
+                                                                            <div class="row d-flex justify-content-center">
+                                                                                {listPaymentMethods.value.map((payment:any,index:number) => (
+                                                                                    <div key={index} class='col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center'>
+                                                                                        <p class="title-method text-medium text-decoration-none text-dark-blue mt-3">{payment.title}</p>  
+                                                                                        <div class='icons' style={{border:'2px solid lightgray',borderRadius:'10px', padding:'9px',margin:'5px',cursor:'pointer' }} onClick$={() => {getPaymentMethod$(payment.method);}}>
+                                                                                            {payment.icons.length>0 && payment.icons.map((icon:any,iIcon:number) => {
+                                                                                                return(<img key={index+'-'+iIcon}  src={icon} width={'17'} height={'17'} />)
+                                                                                            })}
+                                                                                            {'fontawesome'in payment && payment.fontawesome.length>0 && <i class={payment.fontawesome}/>}
+                                                                                        </div>   
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
 
                                         </div>
                                        

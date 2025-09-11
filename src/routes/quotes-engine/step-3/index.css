@@ -68,4 +68,107 @@
 .title-method
 {
     font-size:0.75rem ;
+}
+
+/* Estilos para las cards de pago */
+.payment-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.payment-card:hover {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.payment-card.active {
+    border-color: var(--ca-light-blue);
+    background-color: #f8f9ff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.payment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.payment-card-indicator {
+    font-size: 1.2rem;
+}
+
+.payment-card-content {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Estilos para mobile */
+.payment-card-mobile {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.payment-card-mobile:hover {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.payment-card-mobile.active {
+    border-color: var(--ca-light-blue);
+    background-color: #f8f9ff;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.payment-card-header-mobile {
+    margin-bottom: 10px;
+}
+
+.payment-card-content-mobile {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Animación suave para el contenido */
+.payment-card-content,
+.payment-card-content-mobile {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras para los botones de método de pago dentro de las cards */
+.payment-card #btn-pay-method,
+.payment-card-mobile .icons {
+    transition: all 0.2s ease;
+}
+
+.payment-card #btn-pay-method:hover,
+.payment-card-mobile .icons:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 } 
