@@ -248,10 +248,29 @@ export default component$(() => {
                                         </div>
                              
                                 <div class="col-lg-6 col-sm-12">
-                                <ImgContinentalAssistPrintTicket class="img-ticket"  title='continental-assist-print-ticket' alt='continental-assist-print-ticket'/>
                                 <div class="card" id="card-pax" style={{borderTopLeftRadius:'3px !important', borderTopRightRadius:'3px !important'}}>
+                                        <div class="row fondo-card-message" style={{
+                                                    backgroundImage: 'url(/assets/img/icons/fondo-card-mesagge.png)',
+                                                    backgroundSize: 'cover',
+                                                    backgroundPosition: 'center',
+                                                    backgroundRepeat: 'no-repeat',
+                                                    height: '100%',
+                                                    width: '100%',
+                                                    borderRadius: '8px 8px 0 0',
+                                                    position: 'relative',
+                                                    overflow: 'hidden'
+                                         }}>
+                                             <div class="col-lg-12 d-flex align-items-center justify-content-center" style={{minHeight: '120px'}}>
+                                                 <div class="text-center text-white">
+                                                     <h3 class="mb-0" style={{textShadow: '2px 2px 4px rgba(0,0,0,0.5)'}}>
+                                                         ¡Disfruta tu viaje!
+                                                     </h3>
+                                                 </div>
+                                             </div>
+                                         </div>
                                     <div class="card-body">
                                         <div class="container  m-2">
+                                         
                                         <div class="row not-mobile">
                                         <div class='col-lg-6 col-sm-12 '>                                                
                                             <div class="input-group">

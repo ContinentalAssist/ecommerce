@@ -78,22 +78,22 @@ export default component$(() => {
 
 
     return(
-        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        <div class='container-fluid px-0'>
         
 
                 <div class='container-fluid'>
-                <div class='row bg-step-5'>
+                <div class='row bg-step-6'>
                     <div class='col-xl-12'>
 
                     
                           
                          <div class='container'>
-                            <div class='row  justify-content-center mt-5'>
+                            <div class='row  justify-content-center'>
 
                                 {
                                       stateContext?.value?.total?.total === undefined ?
                                       <Fragment>
-                                        <div class='col-lg-12 text-center mt-5 mb-5'>
+                                        <div class='col-lg-12 text-center  mb-5'>
                                               <h2 class='h1 text-semi-bold text-dark-blue'>Lo sentimos!</h2>
                                               <h5 class='text-dark-blue'>Hubo un error en la búsqueda, vuelve a intentarlo.</h5>
                                       </div>
@@ -108,15 +108,15 @@ export default component$(() => {
                                       </Fragment>
                                       
                                     :
-                                    <div class='col-lg-10 text-center mt-5 mb-3'>
-                                     <h1 class='text-semi-bold text-blue'>Método de pago</h1>                                   
-                                    <hr class='divider my-3'/>
+                                    <div class='col-lg-10 text-center'>
+                                     <h3 class='text-semi-bold text-blue'>Método de pago</h3>                                   
+                                    <hr class='divider my-4'/>
                                     </div>
                                 }
                             
                             </div>
 
-                            <br/>
+                            
                             {
                                    stateContext?.value?.total?.total != undefined ?
                                    <div class="row">
@@ -138,7 +138,7 @@ export default component$(() => {
                                    formPayment.value == 'authorize'
                                    &&
                                    <Authorize />
-                                                                  }
+                               }
                                                                  
                                    </div>
                                </div>: null

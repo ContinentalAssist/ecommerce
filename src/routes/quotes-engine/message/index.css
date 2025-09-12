@@ -38,3 +38,12 @@
         margin-left: 30px;
     }
    }
+
+   .fondo-card-message{
+    background-image: url('public\assets\img\icons\fondo-card-mesagge.png');
+    background-size: cover;
+    background-position: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+   }

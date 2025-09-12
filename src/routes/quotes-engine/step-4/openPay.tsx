@@ -625,22 +625,27 @@ export default component$(() => {
                                     <ImgIconBanksIxe  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
                                     </div>                                
                                 </div>
-                                       <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+                                {/* Card solo para el formulario de pago */}
+                                <div class="card shadow-sm mb-4 border-0">
+                                    <div class="card-body p-4">
+                                        <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                            <Form
-                                                id='form-payment-method'
-                                                form={[
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                        {size:'col-xl-4 col-xs-12 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                    ]}
+                                        <Form
+                                            id='form-payment-method'
+                                            form={[
+                                                {row:[
+                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                                ]},
+                                                {row:[
+                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                                    {size:'col-xl-4 col-xs-12 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
                                                 ]}
-                                            />
+                                            ]}
+                                        />
+                                    </div>
+                                </div>
                                             {/* <div class='container'>
                                                 <div class='row'>
                                                     <div class='col-12'>
@@ -683,15 +688,14 @@ export default component$(() => {
                                             </div> */}
                                             <div class='container'>
                                                 <div class='row justify-content-center'>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                            
+                                                    <div class='col-lg-6 d-flex justify-content-end'>
+                                                        <div class='col-8 d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
                                                         </div>
                                                     </div>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
+                                                    <div class='col-lg-6 d-flex justify-content-start'>
+                                                        <div class='col-8 d-grid gap-2 mt-4'>
+                                                            <button type='button' class='btn btn_cotizar_1' onClick$={getPayment$}>Realizar pago</button>
                                                             {
                                                                 attempts.value > 0
                                                                 &&
@@ -724,10 +728,9 @@ export default component$(() => {
                              </div>
                              <hr class="mt-4"/>
                              <div class="row">
-                                <div class='col-lg-6'>
-                                    <div class='d-grid gap-2 mt-4'>
-                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                        
+                                <div class='col-lg-6 d-flex justify-content-end'>
+                                    <div class='col-8 d-grid gap-2 mt-4'>
+                                        <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
                                     </div>
                                 </div>
                             </div>
@@ -768,12 +771,11 @@ export default component$(() => {
 
                              <hr class="mt-4"/>
                              <div class="row">
-                                <div class='col-lg-6'>
-                                        <div class='d-grid gap-2 mt-4'>
-                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                            
-                                        </div>
+                                <div class='col-lg-6 d-flex justify-content-end'>
+                                    <div class='col-8 d-grid gap-2 mt-4'>
+                                        <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
                                     </div>
+                                </div>
                             </div>
                              </>
                                                         

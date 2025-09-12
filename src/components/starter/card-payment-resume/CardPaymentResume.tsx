@@ -8,6 +8,7 @@ import {
   useTask$,
   useVisibleTask$,
 } from "@builder.io/qwik";
+import { useLocation } from "@builder.io/qwik-city";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import { LoadingContext } from "~/root";
@@ -28,6 +29,7 @@ export const CardPaymentResume = component$(() => {
   const stateContext = useContext(WEBContext);
   const contextDivisa = useContext(DIVISAContext);
   const contextLoading = useContext(LoadingContext);
+  const location = useLocation();
   const indexPax = useSignal(0);
   const totalPay = useSignal({ divisa: "", total: 0 });
   const messageCupon = useSignal({
@@ -395,21 +397,21 @@ export const CardPaymentResume = component$(() => {
         <div class="col-right col-lg-7 col-md-12">
           {/* Header del formulario de pago */}
           <div class="row justify-content-center">
-            {stateContext?.value?.total?.total > 0 ? (
+            {stateContext?.value?.total?.total > 0 && !location.url.pathname.includes('/step-4') ? (
               <div class="col-lg-10 text-center mb-3">
                 <h3 class="text-semi-bold text-blue">
                   Todo listo <br class="mobile" /> para tu viaje
                 </h3>
                 <h4 class="text-regular text-blue">Elije como pagar</h4>
               </div>
-            ) : (
+            ) : stateContext?.value?.total?.total <= 0 ? (
               <div class="col-lg-12 text-center mt-5 mb-5">
                 <h2 class="h1 text-semi-bold text-dark-blue">Lo sentimos!</h2>
                 <h5 class="text-dark-blue">
                   Hubo un error en la búsqueda, vuelve a intentarlo.
                 </h5>
               </div>
-            )}
+            ) : null}
           </div>
           <div class="row">
             <div class="col-12">
@@ -455,10 +457,11 @@ export const CardPaymentResume = component$(() => {
         </div>
         <div class="col-left col-lg-5 col-md-12 ">
           {/* Card del Cupón */}
-          <div
-            class="card mb-3 shadow-sm border-0"
-            style={{ borderRadius: "15px !important" }}
-          >
+          {!location.url.pathname.includes('/step-4') && (
+            <div
+              class="card mb-3 shadow-sm border-0"
+              style={{ borderRadius: "15px !important" }}
+            >
             <div class="card-body p-3">
               <div class="d-flex align-items-center gap-2">
                 <div class="flex-grow-1">
@@ -534,6 +537,7 @@ export const CardPaymentResume = component$(() => {
               )}
             </div>
           </div>
+          )}
 
           {/* Card de Resumen de Viajeros */}
           <div id="card-pax" class="card  mb-3 shadow-sm">
@@ -580,21 +584,21 @@ export const CardPaymentResume = component$(() => {
                           <div class="row">
                             <div class="col-lg-8 px-4">
                               <div class="d-none d-lg-flex align-items-center">
-                                <h4
+                                <h5
                                   class="text-medium text-dark-blue text-start"
                                   style={{ marginBottom: 0 }}
                                 >
                                   {pax.nombres} {pax.apellidos}
-                                </h4>
+                                </h5>
                               </div>
 
                               <div class="d-flex d-lg-none align-items-center justify-content-center">
-                                <h4
+                                <h5
                                   class="text-medium text-dark-blue text-center"
                                   style={{ marginBottom: 0 }}
                                 >
                                   {pax.nombres} {pax.apellidos}
-                                </h4>
+                                </h5>
                               </div>
                             </div>
                             <div class="col-lg-4 ps-0 pe-4">
@@ -653,11 +657,7 @@ export const CardPaymentResume = component$(() => {
 
                             <div
                               id={"collapse-" + (index + 1)}
-                              class={
-                                index == 0
-                                  ? "collapse-pax collapse show"
-                                  : " collapse-pax collapse"
-                              }
+                              class="collapse-pax collapse"
                               aria-labelledby="headingTwo"
                               data-parent="#accordion"
                               style={{
@@ -1027,88 +1027,6 @@ export const CardPaymentResume = component$(() => {
             </div>
           </div>
 
-          {/* Card de Envío de Cotización */}
-          {stateContext.value?.idcotizacion == undefined && (
-            <div class="card mb-3 shadow-sm" style={{ borderRadius: '15px !important', border: 'none !important' }}>
-              <div class="card-body m-2">
-                <div class="row ">
-                  <div class="col-lg-12">
-                    <div class="form-check form-check-inline">
-                      <input 
-                        class="form-check-input" 
-                        type="checkbox" 
-                        id="send-quote" 
-                        name="sendquote" 
-                        onClick$={toggleQuoteForm$}
-                      />
-                      <label class="form-check-label" for="send-quote">
-                        Enviar cotización
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                {showQuoteForm.value && (
-                  <div class="row ">
-                    <hr class="hr-gray"/>
-                    <div class="col-lg-12">
-                      <Form 
-                        id="form-send-quote-email"
-                        form={[{
-                          row: [
-                            { size: 'col-lg-6', type: 'text', label: 'Nombre', placeholder: 'Nombre', name: 'nombre', required: true },
-                            { size: 'col-lg-6', type: 'email', label: 'Correo', placeholder: 'Correo', name: 'correo', required: true }
-                          ]
-                        }]}
-                      />
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-12">
-                      <div class="d-grid gap-2">
-                        <label for="btnSendQuote"></label>
-                        <button id="btnSendQuote" class="btn btn-success btn-lg mt-4" onClick$={sendQuote$}>
-                          Enviar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Toasts para notificaciones */}
-          <div class="toast-container position-fixed bottom-0 p-3">
-            <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-              <div class="d-flex">
-                <div class="toast-body">
-                  <div class="message">
-                    <i class="fas fa-check-circle"/>
-                    <span class="text-start">
-                      <b>Tu cotización se ha enviado!</b>
-                      <br/>
-                      <small>Por favor revisa tu bandeja de entrada o spam.</small>
-                    </span>
-                  </div>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-            </div>
-            <div id="toast-error" class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-              <div class="d-flex">
-                <div class="toast-body">
-                  <div class="message">
-                    <i class="fas fa-times-circle"/>
-                    <span class="text-start">
-                      <b>Ocurrió un error!</b>
-                      <br/>
-                      <small>Si el error persiste llama a nuestros números de contacto.</small>
-                    </span>
-                  </div>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

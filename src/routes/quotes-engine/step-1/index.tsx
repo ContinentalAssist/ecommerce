@@ -267,9 +267,9 @@ export default component$(() => {
                                                             {/* Botón de selección */}
                                                             <div class='text-center mb-1'>
                                                                 <button 
-                                                                    class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg text-tin' : 'btn btn-warning btn-lg text-medium'} 
+                                                                    class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg text-medium' : 'btn btn-warning btn-lg text-medium'} 
                                                                     onClick$={() => {getPlan$(plan)}}
-                                                                    style={{backgroundColor: '#FFD700', border: 'none', color: '#333', width: 'auto', padding: '0.75rem 2rem'}}
+                                                                    style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: 'auto', padding: '0.75rem 2rem'}}
                                                                 >
                                                                     {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
                                                                 </button>

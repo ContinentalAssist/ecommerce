@@ -628,21 +628,26 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-
+                                                <div class='row'>
+                                                    <div class='col-xl-12 col-sm-6 col-xs-12 d-flex justify-content-center'>
+                                                    {
+                                                        stateContext?.value?.total?.total >0&&
+                                                        <div class='col-xl-6 col-sm-6 col-xs-12 pe-2 d-flex justify-content-center'>
+                                                            <div class='col-10 d-grid gap-2 mt-2'>
+                                                                <button type='button' class='btn btn-cancelar-edit btn-lg' onClick$={()=>navigate('/quotes-engine/step-2')}>Regresar</button>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    </div>
+                                                  
+                                                </div>
                                         </div>
                                        
                                             
                                         </CardPaymentResume>    
                                 }                            
                                 </div>
-                                {
-                                     stateContext?.value?.total?.total >0&&
-                                     <div class='col-xl-5 col-sm-5 col-xs-12 pe-4'>
-                                        <div class='d-grid gap-2 ms-3 mt-2'>
-                                            <button type='button' class='btn btn-outline-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-2')}>Regresar</button>
-                                        </div>
-                                     </div>
-                                }
+                               
                                 
                             </div>
                             <br/>
