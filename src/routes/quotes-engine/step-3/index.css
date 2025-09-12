@@ -88,11 +88,7 @@
     transform: translateY(-2px);
 }
 
-.payment-card.active {
-    border-color: var(--ca-light-blue);
-    background-color: #f8f9ff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
+
 
 .payment-card-header {
     display: flex;
@@ -125,12 +121,6 @@
 
 .payment-card-mobile:hover {
     border-color: var(--ca-light-blue);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-}
-
-.payment-card-mobile.active {
-    border-color: var(--ca-light-blue);
-    background-color: #f8f9ff;
     box-shadow: 0 3px 10px rgba(0,0,0,0.15);
 }
 
@@ -171,4 +161,99 @@
 .payment-card-mobile .icons:hover {
     transform: scale(1.05);
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Estilos para los logos de métodos de pago */
+.payment-logo {
+    width: 45px;
+    height: 28px;
+    object-fit: contain;
+    transition: all 0.2s ease;
+    filter: grayscale(20%);
+}
+
+.payment-logo:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+}
+
+/* Ajustes específicos para diferentes logos */
+.payment-logo[alt="Visa"] {
+    width: 50px;
+    height: auto;
+}
+
+.payment-logo[alt="artboard"] {
+    width: 50px;
+    height: auto;
+}
+
+.payment-logo[alt="Mastercard"] {
+    width: 52px;
+    height: auto;
+}
+
+.payment-logo[alt="American Express"] {
+    width: 48px;
+    height: auto;
+}
+
+.payment-logo[alt="PSE"] {
+    width: 38px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.payment-logo[alt="Nequi"] {
+    width: 50px;
+    height: auto;
+}
+
+/* Responsive para mobile */
+@media (max-width: 768px) {
+    .payment-logo {
+        width: 45px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Visa"] {
+        width: 42px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Mastercard"] {
+        width: 44px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="American Express"] {
+        width: 40px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="PSE"] {
+        width: 38px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Nequi"] {
+        width: 42px;
+        height: auto;
+    }
+}
+
+/* Animación para el contenedor de logos */
+.payment-card-indicator .d-flex {
+    animation: fadeInLogos 0.5s ease-in-out;
+}
+
+@keyframes fadeInLogos {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 } 

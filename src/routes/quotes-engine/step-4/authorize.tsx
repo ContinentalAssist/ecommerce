@@ -211,8 +211,8 @@ export default component$(() => {
                     'adultos_mayores': resume.value[85],
                     'page': '/quotes-engine/step-4',
                     'label': resume.value.plan.nombreplan,
-                    'descuento': stateContext.value.cupon.porcentaje,
-                    'cupon': stateContext.value.cupon.codigocupon,
+                    'descuento': stateContext.value.cupon?.porcentaje || 0,
+                    'cupon': stateContext.value.cupon?.codigocupon || '',
                     'total': resume.value.total.total,
                     'metodo_de_pago': 'tarjeta de crédito'
                 },stateContext.value.dataLayerPaxBenefits)
@@ -288,11 +288,16 @@ export default component$(() => {
                         idmoneda:resume.value.plan.idmonedapago,
                     },
                     idplataformapago:2,
-                    cupon:{
-                        idcupon:resume.value?.cupon?.idcupon,
-                        codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje,
-                        descuento:resume.value?.cupon?.descuento||0
+                    cupon:resume.value?.cupon ? {
+                        idcupon:resume.value.cupon.idcupon,
+                        codigocupon:resume.value.cupon.codigocupon,
+                        porcentaje:resume.value.cupon.porcentaje,
+                        descuento:resume.value.cupon.descuento||0
+                    } : {
+                        idcupon: null,
+                        codigocupon: '',
+                        porcentaje: 0,
+                        descuento: 0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -349,9 +354,9 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
-            const dataPay = await resPay.json()
-            resPayment = dataPay
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const dataPay = await resPay.json()
+                resPayment = dataPay
 
             if(resPayment.error == false)
             {
@@ -372,8 +377,8 @@ export default component$(() => {
                         'adultos_mayores': resume.value[85],
                         'page': '/quotes-engine/step-4',
                         'option': resume.value.plan.nombreplan,
-                        'descuento': stateContext.value.cupon.porcentaje,
-                        'cupon': stateContext.value.cupon.codigocupon,
+                        'descuento': stateContext.value.cupon?.porcentaje || 0,
+                        'cupon': stateContext.value.cupon?.codigocupon || '',
                         'total': resume.value.total.total,
                         'metodo_de_pago': 'tarjeta de crédito'
                     },stateContext.value.dataLayerPaxBenefits)
@@ -387,19 +392,19 @@ export default component$(() => {
                    codevoucher: resPayment.resultado[0]?.orden?.codvoucher||'',
                    typeMessage: 1
                }
-               await navigate('/quotes-engine/message')
+                   await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
                     stateContext.value.typeMessage = 2
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
                 else
                 {
                     stateContext.value.typeMessage = 3
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)

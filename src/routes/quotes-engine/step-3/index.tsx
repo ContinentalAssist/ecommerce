@@ -442,8 +442,13 @@ export default component$(() => {
                                                                 <div class='d-flex col-6 align-items-center'>
                                                                     <h5 class='mb-0 text-dark-blue'>Pagar en USD</h5>
                                                                 </div>
-                                                                <div class='payment-card-indicator col-6'>
-                                                                    
+                                                                <div class='payment-card-indicator col-6 justify-content-end d-flex align-items-center'>
+                                                                    <div class='d-flex align-items-center gap-2'>
+                                                                        <img src="/assets/img/icons/visa.png" alt="Visa" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/mastercard.png" alt="Mastercard" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/artboard.png" alt="artboard" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/american-express.png" alt="American Express" class="payment-logo" />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             {divisaManual.value && (
@@ -486,7 +491,13 @@ export default component$(() => {
                                                                         Pagar en {stateContext.value?.resGeo?.country == 'MX' ? 'MXN' : stateContext.value?.resGeo?.country == 'CO' ? 'COP' : 'Moneda Local'}
                                                                     </h5>
                                                                 </div>
-                                                                <div class='payment-card-indicator'>
+                                                                <div class='payment-card-indicator justify-content-end'>
+                                                                    <div class='d-flex align-items-center gap-2'>
+                                                                        <img src="/assets/img/icons/visa.png" alt="Visa" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/mastercard.png" alt="Mastercard" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/nequi.png" alt="Nequi" class="payment-logo" />
+                                                                        <img src="/assets/img/icons/pse.png" alt="PSE" class="payment-logo" />
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                             {!divisaManual.value && (

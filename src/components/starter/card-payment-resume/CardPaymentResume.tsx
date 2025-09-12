@@ -51,16 +51,6 @@ export const CardPaymentResume = component$(() => {
     }
   });
 
-  const updateHeight$ = $(() => {
-    const cardPax = document.getElementById("card-pax");
-    const cardRight = document.getElementById("card-right");
-
-    if (cardPax && cardRight) {
-      const newHeight = cardRight.offsetHeight + 52;
-      cardPax.style.height = `${newHeight}px`;
-    }
-  });
-
   // Inicializar el cupón desde el estado global si existe
   useVisibleTask$(async () => {
     if (Object.keys(stateContext.value).length > 0) {
@@ -205,6 +195,16 @@ export const CardPaymentResume = component$(() => {
     });
   });
 
+  // Función para calcular descuento
+  const calculateDiscount = $((subTotal: number, percentage: number) => {
+  
+    const decimalValue = percentage / 100;
+    
+    const discount = subTotal * decimalValue;
+
+    return Math.round(discount * 100) / 100;
+  });
+
   const getCupon$ = $(async () => {
     const input = document.querySelector("#input-cupon") as HTMLInputElement;
 
@@ -239,26 +239,40 @@ export const CardPaymentResume = component$(() => {
         ) {
           const dataCupon = Object.assign({}, resCupon.resultado[0]);
           const newResume = Object.assign({}, stateContext.value);
-          const discount =
-            stateContext.value?.subTotal *
-            parseFloat("0." + Number(resCupon.resultado[0].porcentaje));
-          const newTotal = stateContext.value?.subTotal - discount;
 
-          newResume.total = { divisa: newResume.total.divisa, total: newTotal };
+          try {
+            // Cálculo del descuento
+            const discount = await calculateDiscount(
+              stateContext.value?.subTotal, 
+              Number(resCupon.resultado[0].porcentaje)
+            );
+            const newTotal = stateContext.value?.subTotal - discount;
 
-          stateContext.value = newResume;
-          dataCupon.descuento = discount;
-          messageCupon.value = {
-            error: "success",
-            cupon: dataCupon,
-            aplicado: true,
-          };
-          newResume.cupon = messageCupon.value.cupon;
-          stateContext.value = newResume;
+            newResume.total = { divisa: newResume.total.divisa, total: newTotal };
 
-          // Guardar datos en localStorage
-          saveData(stateContext.value);
-          contextLoading.value = { status: false, message: "" };
+            stateContext.value = newResume;
+            dataCupon.descuento = discount;
+            messageCupon.value = {
+              error: "success",
+              cupon: dataCupon,
+              aplicado: true,
+            };
+            newResume.cupon = messageCupon.value.cupon;
+            stateContext.value = newResume;
+
+            // Guardar datos en localStorage
+            saveData(stateContext.value);
+            contextLoading.value = { status: false, message: "" };
+            
+          } catch (error) {
+            console.error('Error en el cálculo del descuento:', error);
+            contextLoading.value = { status: false, message: "" };
+            messageCupon.value = {
+              error: "error",
+              cupon: { codigocupon: input.value, idcupon: 0, porcentaje: 0 },
+              aplicado: false,
+            };
+          }
         } else {
           contextLoading.value = { status: false, message: "" };
           messageCupon.value = {
@@ -269,7 +283,7 @@ export const CardPaymentResume = component$(() => {
         }
         //loading.value = false;
       }
-      updateHeight$();
+      // updateHeight$(); // Ya no es necesario con fit-content
     }
   });
 
@@ -298,13 +312,13 @@ export const CardPaymentResume = component$(() => {
     if (input) {
       input.value = "";
     }
-    updateHeight$();
+    // updateHeight$(); // Ya no es necesario con fit-content
   });
 
   // Función para mostrar/ocultar el formulario de envío de cotización
   const toggleQuoteForm$ = $((e: any) => {
     showQuoteForm.value = e.target.checked;
-    updateHeight$();
+    // updateHeight$(); // Ya no es necesario con fit-content
   });
 
   // Función para enviar la cotización por email (replicada exactamente del step-3)
@@ -453,7 +467,7 @@ export const CardPaymentResume = component$(() => {
                     name="cupon"
                     type="text"
                     class="form-control text-center"
-                    placeholder="¿Tienes un cupón?"
+                    placeholder="Ingresar código de cupón"
                     disabled={messageCupon.value.aplicado}
                     style={{
                       border: "1px solid #e0e0e0",
@@ -881,12 +895,12 @@ export const CardPaymentResume = component$(() => {
                               <div class="beneficios-adicionales-container ms-5 mt-3">
                                 <div class="row">
                                   <div
-                                    class="col-lg-8 col-xs-6 text-medium"
+                                    class="col-lg-7 col-xs-6 text-medium"
                                     style={{ fontSize: "1.1rem" }}
                                   >
                                     Sub total por persona
                                   </div>
-                                  <div class="col-lg-4 col-xs-6">
+                                  <div class="col-lg-5 col-xs-6">
                                     <h4
                                       class="divisa-plan-sub text-bold text-dark-blue text-end me-3"
                                       style={{ fontSize: "1.1rem" }}

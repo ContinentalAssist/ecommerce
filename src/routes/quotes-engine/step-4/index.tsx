@@ -138,7 +138,7 @@ export default component$(() => {
                                    formPayment.value == 'authorize'
                                    &&
                                    <Authorize />
-                               }
+                                                                  }
                                                                  
                                    </div>
                                </div>: null
