@@ -280,76 +280,57 @@ export default component$(() => {
        
     }) */
 
-
-
-
-    // Función para calcular descuento
-    const calculateDiscount = $((subTotal: number, percentage: number) => {
-        const decimalValue = percentage / 100;
-        const discount = subTotal * decimalValue;
-        return Math.round(discount * 100) / 100;
-    });
-
     const getCupon$ = $(async() => {
         const input = document.querySelector('#input-cupon') as HTMLInputElement
-
-        if(input.value != '')
-        {
-            if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined)
-            {
+        if(input.value != '') {
+            
+            if(stateContext.value?.resGeo?.ip_address != '' || stateContext.value?.resGeo?.ip_ != undefined) {
                 const dataRequest = {
-                    idplan:stateContext.value.plan.idplan,
-                    codigocupon:input.value,
-                    ip:stateContext.value.resGeo.ip_address
+                    idplan: stateContext.value.plan.idplan,
+                    codigocupon: input.value,
+                    ip: stateContext.value.resGeo.ip_address
                 }
                 
-                let resCupon : {[key:string]:any} = {}
-                contextLoading.value = {status:true, message:'Espere un momento...'}
-
-                try {
-                    const resCuponValid = await fetch("/api/getCupon",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataRequest)});
-                    const dataCupon = await resCuponValid.json()
-                    resCupon = dataCupon
+                let resCupon: {[key:string]:any} = {}
+                contextLoading.value = {status: true, message: 'Espere un momento...'}
+                
+                const resCuponValid = await fetch("/api/getCupon", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataRequest)
+                });
+                
+                const dataCupon = await resCuponValid.json()
+                resCupon = dataCupon
+                
+                if(resCupon.error == false && Number(resCupon.resultado[0]?.porcentaje) > 0) {
+                    const dataCupon = Object.assign({}, resCupon.resultado[0])
+                    const newResume = Object.assign({}, stateContext.value)
                     
-                    if(resCupon.error == false &&Number(resCupon.resultado[0]?.porcentaje)>0 )
-                    {
-                        const dataCupon = Object.assign({},resCupon.resultado[0])
-                        const newResume = Object.assign({},stateContext.value)
-                        
-                        // Cálculo del descuento usando la función mejorada
-                        const discount = await calculateDiscount(
-                            stateContext.value?.subTotal, 
-                            Number(resCupon.resultado[0].porcentaje)
-                        );
-                        const newTotal = stateContext.value?.subTotal - discount
-                     
-                        newResume.total = {divisa:newResume.total.divisa,total:newTotal}
-                        
-                        stateContext.value = newResume 
-                        dataCupon.descuento = discount;
-                        messageCupon.value = {error:'success',cupon: dataCupon, aplicado: true}
-                        newResume.cupon = messageCupon.value.cupon;
-                        stateContext.value = newResume
-                        contextLoading.value = {status:false, message:''}
-                        
+                    //Dividir entre 100 para obtener el porcentaje correcto
+                    const discount = stateContext.value?.subTotal * (Number(resCupon.resultado[0].porcentaje) / 100)
+                    const newTotal = stateContext.value?.subTotal - discount
+                 
+                    newResume.total = {divisa: newResume.total.divisa, total: newTotal}
+                    stateContext.value = newResume 
+                    dataCupon.descuento = discount;
+                    messageCupon.value = {error: 'success', cupon: dataCupon, aplicado: true}
+                    newResume.cupon = messageCupon.value.cupon;
+                    stateContext.value = newResume
+                    contextLoading.value = {status: false, message: ''}
+                    
+                } else {
+                    contextLoading.value = {status: false, message: ''}
+                    messageCupon.value = {
+                        error: 'error',
+                        cupon: {codigocupon: input.value, idcupon: 0, porcentaje: 0},
+                        aplicado: false
                     }
-                    else
-                    {
-                        contextLoading.value = {status:false, message:''}
-                        messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
-                    }
-                } catch (error) {
-                    console.error('Error en el cálculo del descuento:', error);
-                    contextLoading.value = {status:false, message:''}
-                    messageCupon.value = {error:'error',cupon:{codigocupon:input.value,idcupon:0,porcentaje:0},aplicado: false}
                 }
             }
             updateHeight$();
         }
     })
-
-    
-
 
     const getPaymentMethod$ = $( async(method:string) => {
         const newResume = Object.assign({},stateContext.value)
