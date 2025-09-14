@@ -180,6 +180,14 @@ export const CardPaymentResume = component$(() => {
     }
   }
 
+  // Función para determinar si un viajero debe estar expandido por defecto
+  const shouldBeExpandedByDefault = (index: number) => {
+    const totalTravelers = stateContext.value?.asegurados?.length || 0;
+    // Si hay solo 1 viajero, expandir por defecto
+    // Si hay más de 1 viajero, colapsar todo por defecto
+    return totalTravelers === 1;
+  };
+
   const openCollapsPax$ = $((key: string) => {
     const bs = (window as any)["bootstrap"];
 
@@ -657,7 +665,7 @@ export const CardPaymentResume = component$(() => {
 
                             <div
                               id={"collapse-" + (index + 1)}
-                              class="collapse-pax collapse"
+                              class={`collapse-pax collapse ${shouldBeExpandedByDefault(index) ? 'show' : ''}`}
                               aria-labelledby="headingTwo"
                               data-parent="#accordion"
                               style={{

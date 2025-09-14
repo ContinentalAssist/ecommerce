@@ -255,4 +255,84 @@
         opacity: 1;
         transform: translateX(0);
     }
+}
+
+/* Estilos para el formulario de pago integrado */
+.payment-form-container {
+    padding: 15px 0;
+}
+
+.payment-form-container h6 {
+    color: var(--ca-light-blue);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.payment-form-container .form-control {
+    border-radius: 8px !important;
+    border: 2px solid #e0e0e0;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.payment-form-container .form-control:focus {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.payment-form-container .btn {
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.payment-form-container .btn_cotizar_1 {
+    background-color: var(--ca-light-blue);
+    border-color: var(--ca-light-blue);
+    color: white;
+}
+
+.payment-form-container .btn_cotizar_1:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.payment-form-container .btn-cancelar-edit {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.payment-form-container .btn-cancelar-edit:hover {
+    background-color: #545b62;
+    border-color: #4e555b;
+    transform: translateY(-2px);
+}
+
+/* Animación suave para el formulario */
+.payment-form-container {
+    animation: slideInForm 0.4s ease-out;
+}
+
+@keyframes slideInForm {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive para el formulario */
+@media (max-width: 768px) {
+    .payment-form-container .col-8 {
+        width: 100% !important;
+    }
+    
+    .payment-form-container .d-flex {
+        justify-content: center !important;
+    }
 } 
