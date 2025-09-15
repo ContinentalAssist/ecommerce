@@ -20,11 +20,11 @@ export const CoverSection = component$(() => {
 
               {/* Coberturas */}
               <div class="col-lg-8">
-                  <div class="row g-4">
+                  <div class="row">
                       {/* Blue Access */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-star coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/creation-outline.png" alt="blue-acces"/>
                               <div>
                               <h4 class="coverage-title">Blue Access</h4>
                                   <p class="coverage-description">Accede más de 1.600 salas VIP en el mundo si tu
@@ -36,7 +36,7 @@ export const CoverSection = component$(() => {
                       {/* Cese de operaciones de aerolínea */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-clock coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/clock-fast.png" alt="operacion"/>
                               <div>
                                   <h4 class="coverage-title">Cese de operaciones de aerolínea</h4>
                                   <p class="coverage-description">Vuelve a casa si tu vuelo se cancela.</p>
@@ -47,7 +47,7 @@ export const CoverSection = component$(() => {
                       {/* Teleconsulta médica */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-file-medical-alt coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/cellphone-text.png" alt="telemedicina"/>
                               <div>
                                   <h4 class="coverage-title">Teleconsulta médica pre y post viaje</h4>
                                   <p class="coverage-description">Asistencia médica antes, durante y después de tu
@@ -59,7 +59,7 @@ export const CoverSection = component$(() => {
                       {/* Repatriación administrativa */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-user-circle coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/account-convert.png" alt="telemedicina"/>
                               <div>
                                   <h4 class="coverage-title">Repatriación administrativa</h4>
                                   <p class="coverage-description">Te respaldamos si tienes imprevistos
@@ -71,7 +71,7 @@ export const CoverSection = component$(() => {
                       {/* Conferencia con médico */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-medkit coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/medical-bag.png" alt="telemedicina"/>
                               <div>
                                   <h4 class="coverage-title">Conferencia con médico de cabecera en país de
                                       origen</h4>
@@ -84,7 +84,7 @@ export const CoverSection = component$(() => {
                       {/* Compra protegida */}
                       <div class="col-md-6 cover-pading">
                           <div class="coverage-item">
-                              <i class="fas fa-file-invoice-dollar coverage-icon"></i>
+                              <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/file-alert-outline.png" alt="telemedicina"/>
                               <div>
                                   <h4 class="coverage-title">Compra protegida</h4>
                                   <p class="coverage-description">Robo cubierto por compras tecnológicas en el

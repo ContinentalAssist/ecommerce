@@ -9,8 +9,6 @@ import styles from './index.css?inline';
 import { HomeHeader } from '~/components/home/HomeHeader';
 import { MetricSection } from '~/components/home/MetricSection'; // Importamos el nuevo componente
 import { AboutUsSection } from '~/components/home/AboutUsSection';
-import { PlansSection } from '~/components/home/PlansSection';
-import { SpecialCoveragesSection } from '~/components/home/SpecialCoveragesSection';
 import { BlueAccessSection } from '~/components/home/BlueAccessSection';
 import { ComplementsSection } from '~/components/home/ComplementsSection';
 import { TestimonialsSection } from '~/components/home/TestimonialsSection';

@@ -118,6 +118,7 @@ section
 {
     font-family: GalanoGrotesque_Bold !important;
     font-display: swap;
+    font-weight: 300;
 }
 
 /* colores de textos */
@@ -187,7 +188,7 @@ body[data-so='windows'] .btn[disabled]
 .btn-primary
 {
     background-color: var(--ca-yellow);
-    border: 2px solid var(--ca-dark-yellow);
+    border: 2px solid var(--ca-yellow);
     box-shadow: 0 0 10px gray;
     color: var(--ca-blue);
 }

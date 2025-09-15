@@ -15,32 +15,33 @@ export const TestimonialsSection = component$(() => {
                     <div class='row align-content-center'>
                         <div class='col-xl-12'>
                             <div class='container'>
-                                <div class='row justify-content-center'>
-                                    <div class='col-xl-8 col-md-7 text-center'>
-                                        <ImgContinentalAssistStars class='img-fluid' loading="lazy"
-                                                                   title='continental-assist-icon-stars'
-                                                                   alt='continental-assist-icon-stars'/>
-                                    </div>
-                                </div>
+
                                 <div class='row justify-content-center'>
                                     <div class='col-xl-12 text-center'>
                                         <h2 class='h1 text-semi-bold text-blue'>
-                                            <span class='text-tin'>La voz de</span> <br
-                                            class='mobile'/> nuestros
-                                            clientes
+                                            <span class='text-bold-pq'>Lo que dicen nuestros viajeros</span>
                                         </h2>
-                                        <hr class='divider my-3'/>
-                                        <h3 class='h5 text-dark-gray'>Conectamos con sus historias.</h3>
+                                        <h3 class='h5 text-dark-gray'>Historias reales de personas que viajaron protegidas.</h3>
+                                    </div>
+                                </div>
+                                <div class='row justify-content-center'>
+                                    <div class='col-xl-8 col-md-7 text-center'>
+                                        <ImgContinentalAssistStars class='img-start' loading="lazy"
+                                                                   title='continental-assist-icon-stars'
+                                                                   alt='continental-assist-icon-stars'
+
+                                        />
                                     </div>
                                 </div>
                             </div>
                             <div class="carrusel-coments mx-auto py-2">
-                                <div class='row-fluid not-mobile mx-auto'style="width: 75%;">
+                                <div class='row-fluid not-mobile mx-auto' style="width: 75%;">
                                     <div class='col-lg-12'>
                                         <div id="carouselCommentsNotMobile" class="carousel carousel-dark slide"
                                              data-bs-ride="carousel" data-bs-touch="true">
 
-                                                <button class="carousel-control-prev custom-carousel-btn" type="button" data-bs-target="#carouselCommentsNotMobile" data-bs-slide="prev">
+                                            <button class="carousel-control-prev custom-carousel-btn" type="button"
+                                                    data-bs-target="#carouselCommentsNotMobile" data-bs-slide="prev">
                                                     <span class="custom-carousel-icon" aria-hidden="true">‹</span>
                                                     <span class="visually-hidden">Anterior</span>
                                                 </button>

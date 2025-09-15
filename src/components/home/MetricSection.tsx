@@ -10,11 +10,11 @@ export const MetricSection = component$(() => {
                     <div class="col-md-12 d-flex justify-content-center text-center">
                         <div class="col-md-4 mt-4">
                             <div class='mb-4'>
-                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-Ecommerce-Circulos.png" alt="" width='100' height='100'/>
+                                <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/shield-account-outline.png" alt="" width='80' height='80'/>
                             </div>
                             <div class="qs-metrics-titulo">
                                 <p>
-                                    <span class="h3 text-bold text-blue">+30 Años Experiencia </span>
+                                    <span class="h3 text-bold-metric text-blue">+30 Años Experiencia </span>
                                 </p>
                                 <p class="font-tamanio"> Líderes en el mercado de seguros de viaje </p>
                             </div>
@@ -22,12 +22,12 @@ export const MetricSection = component$(() => {
                         <div class="col-md-4 mt-4">
                             <div class='mb-4'>
                                 <img
-                                    src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-Ecommerce-Circulos.png"
-                                    alt="" width='100' height='100'/>
+                                    src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/web.png"
+                                    alt="" width='80' height='80'/>
                             </div>
                             <div class="qs-metrics-titulo">
                                 <p>
-                                    <span class="h3 text-bold text-blue">100% respaldo global </span>
+                                    <span class="h3 text-bold-metric text-blue">100% respaldo global </span>
                                 </p>
                                 <p class="font-tamanio">Cobertura en más de 90 países </p>
                             </div>
@@ -35,12 +35,12 @@ export const MetricSection = component$(() => {
                         <div class="col-md-4 mt-4">
                             <div class='mb-4'>
                                 <img
-                                    src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-Ecommerce-Circulos.png"
-                                    alt="" width='100' height='100'/>
+                                    src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/headphones.png"
+                                    alt="" width='80' height='80'/>
                             </div>
                             <div class="qs-metrics-titulo">
                                 <p>
-                                    <span class="h3 text-bold text-blue">Atención 24/7 </span>
+                                    <span class="h3 text-bold-metric text-blue">Atención 24/7 </span>
                                 </p>
                                 <p class="font-tamanio"> Asistencia inmediata cuando la necesites </p>
                             </div>
