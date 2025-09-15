@@ -24,8 +24,7 @@ export const QuotesResume = component$(() => {
         '/quotes-engine/step-1/': { stepActive: 1, name: 'Planes' },
         '/quotes-engine/step-2/': { stepActive: 2, name: 'Complementos' },
         '/quotes-engine/step-3/': { stepActive: 3, name: 'Método' },
-        '/quotes-engine/step-4/': { stepActive: 4, name: 'Método' },
-        '/quotes-engine/message/': { stepActive: 5, name: 'Pago' },
+        '/quotes-engine/message/': { stepActive: 4, name: 'Pago' },
     });
 
     // Función para cambiar divisa
@@ -73,15 +72,15 @@ export const QuotesResume = component$(() => {
             {
                 pathNameURL.value != '/' && pathNameURL.value.includes('quotes-engine') &&
                 <div class='row mobile text-center justify-content-center align-items-center'>
-                    <hr class='m-0' />
+                
                     <div class='col-xs-12 d-flex justify-content-center align-items-center' style={{padding:'20px'}}>
-                        <QuotesEngineSteps active={stepsMap.value[pathNameURL.value].stepActive} name={stepsMap.value[pathNameURL.value].name} steps={5}/>
+                        <QuotesEngineSteps active={stepsMap.value[pathNameURL.value as keyof typeof stepsMap.value]?.stepActive || 1} name={stepsMap.value[pathNameURL.value as keyof typeof stepsMap.value]?.name || 'Paso'} steps={4}/>
                     </div>
                     <div class="col-xs-12 d-flex justify-content-center align-items-center">
-                        <div class='col-xs-5'>
+                        <div class='col-xs-5 d-none d-lg-block'>
                             {
                                 pathNameURL.value === '/quotes-engine/step-2/' &&
-                                <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}}>
+                                <div class='icons mx-4' style={{border:'1px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}}>
                                     <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
                                     <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
                                         {
@@ -91,8 +90,10 @@ export const QuotesResume = component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class={pathNameURL.value == '/quotes-engine/step-1/'?'col-12':'col-xs-5'}>
+                        <div class={`${pathNameURL.value == '/quotes-engine/step-1/'?'col-12':'col-xs-5'} d-lg-block`}>
                             {
+                                pathNameURL.value != '/quotes-engine/step-1/' &&
+                                pathNameURL.value != '/quotes-engine/step-2/' &&
                                 pathNameURL.value != '/quotes-engine/step-3/' &&
                                 pathNameURL.value != '/quotes-engine/step-4/' &&
                                 pathNameURL.value != '/quotes-engine/message/' &&

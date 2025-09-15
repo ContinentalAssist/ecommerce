@@ -556,7 +556,7 @@ export default component$(() => {
 
                               {/* Sección de resumen del plan - replicando CardPaymentResume */}
                               <div class='row mt-4'>
-                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" >
                                   {/* Imagen del plan seleccionado */}
                                   {resume.value?.nombreplan?.toLowerCase().includes('essential') && (
                                     <ImgContinentalAssistBagEssential 
@@ -586,7 +586,7 @@ export default component$(() => {
                                     />
                                   )}
                                 </div>
-                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center">
                                   <label class="label-resume text-dark-gray">
                                     <span class="text-tin">Plan </span>
                                     <br />
@@ -598,7 +598,7 @@ export default component$(() => {
                                     </span>
                                   </label>
                                 </div>
-                                <div class="col-6 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                                <div class="col-6 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" >
                                   <p class="text-regular text-blue mb-0">
                                     {" "}
                                     {`Total para ${resume.value?.viajeros || "1"} viajero${resume.value?.viajeros > 1 ? 's' : ''}`}

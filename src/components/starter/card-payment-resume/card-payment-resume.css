@@ -76,6 +76,12 @@
   
    }
 
+  #card-right-mobile{
+  
+    min-height:500px;
+  
+   }
+
  }
 
  .hr-gray
@@ -121,7 +127,7 @@
 }
 .divisa-plan-sub .divisa 
 {
-  font-size: 1.2rem !important;
+  font-size: 0.80rem ;
 
 }
 
@@ -138,7 +144,7 @@ float: right;
 
 .divisa-total .divisa
 {
-  font-size: 2rem !important;
+  font-size: 1.3rem ;
 }
 .precio-strike
 {

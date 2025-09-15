@@ -7,7 +7,7 @@
 
 .progressbar .progress
 {
-    border: 2px solid var(--ca-gray);
+    border: 1px solid var(--ca-gray);
     border-radius: 30px;
     width: 213px;
 /*     float: right;

@@ -498,10 +498,10 @@ export default component$(() => {
                                             return(
                                                 <div key={index+1} class="card px-lg-5 shadow-sm" id={'card-'+addBenefit.idpasajero}>
                                                     <div class='container'>   
-                                                        <div class="row mobile text-center p-3">
-                                                            <div class='col-xl-8 col-sm-8 col-xs-12'>
-                                                                <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
-                                                                <p class='text-tin text-dark-blue'>
+                                                        <div class="row mobile d-flex d-lg-none justify-content-center text-center p-3">
+                                                            <div class='col-lg-6 col-md-8 col-6'>
+                                                            <h4 class='text-semi-bold me-3 mb-0 text-light-blue'>Viajero #{addBenefit.idpasajero}</h4>
+                                                                <p class='text-tin text-dark-blue mb-0'>
                                                                     De
                                                                     {addBenefit.edad == '23' && ' 0 a 23 '}
                                                                     {addBenefit.edad == '75' && ' 24 a 75 '}
@@ -509,21 +509,22 @@ export default component$(() => {
                                                                     años
                                                                 </p>
                                                             </div>
-                                                            <div class="col-xl-4  col-sm-4 col-xs-12">
+                                                            <div class="col-lg-4 col-md-4 col-6">
                                                                 <div class='d-grid gap-2'>
-                                                                    <button 
+                                                                <button 
                                                                         type='button' 
-                                                                        class='btn btn-primary mt-2 mt-sm-0' 
+                                                                        class='btn btn-benefits mt-2 mt-md-0 text-light-blue text-decoration-underline d-flex align-items-center' 
                                                                         onClick$={() => {getAdditionalsbBenefits$(index)}} 
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#modalAdditionals"
+                                                                        style={{fontSize:'0.73rem', padding:'0', justifyContent:'end'}}
                                                                     >
-                                                                        Adquiere beneficios adicionales
+                                                                        <span>Adquiere beneficios </span> <span class="fas fa-chevron-down ms-1"></span>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>                                                         
-                                                        <div class='row p-3'>
+                                                        <div class='row '>
                                                         
                                                         <div class="row not-mobile">
                                                         <div class='col-xl-8 col-sm-8 col-xs-12 d-flex align-items-center'>
@@ -589,7 +590,7 @@ export default component$(() => {
                                                     </div>
                                                     <div class='text-center'>
                                                         <div class='mobile'>
-                                                            <button type="button" class='btn btn-collapse p-0 mb-3' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
+                                                            <button type="button" class='btn btn-collapse p-0 mb-3 mb-0 border-0' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
                                                                 <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
                                                             </button>
                                                         </div>
@@ -653,12 +654,12 @@ export default component$(() => {
                                                 </div>
                                             </div>
                                             <div class='row row-mobile justify-content-center mt-3 mb-5'>
-                                                <div class='col-lg-2 col-sm-3 col-xs-3'>
+                                                <div class='col-lg-2 col-sm-5 col-xs-5'>
                                                     <div class='d-grid gap-2'>
                                                         <button type='button' class='btn btn-cancelar-edit btn-lg text-medium' onClick$={()=>navigate('/quotes-engine/step-1')}>Regresar</button>                                                            
                                                     </div>
                                                 </div>
-                                                <div class='col-lg-2 col-sm-3 col-xs-3'>
+                                                <div class='col-lg-2 col-sm-5 col-xs-5'>
                                                     <div class='d-grid gap-2'>
                                                         <button type='button' class='btn btn-primary btn_cotizar_1' onClick$={getPaxs$}>Siguiente</button>
                                                     </div>
@@ -702,15 +703,15 @@ export default component$(() => {
                                                         {benefit.idbeneficioadicional == '35' && <ImgContinentalAssistMedicine class='img-fluid' title='continental-assist-medicine' alt='continental-assist-medicine'/>}
                                                     </div>
                                                     <div class="col-md-7">
-                                                        <h5 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h5>
+                                                        <h2 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h2>
                                                         {benefit.idbeneficioadicional == '37' && <p class="card-text text-blue">{benefit.descripcion}</p>}
                                                         {benefit.idbeneficioadicional == '36' && <p class="card-text text-blue">{benefit.descripcion}</p>}
                                                         {benefit.idbeneficioadicional == '35' && <p class="card-text text-blue">{benefit.descripcion}</p>}
-                                                        <h4 class="card-text text-semi-bold text-dark-blue mb-4">
+                                                        <p class="card-text text-semi-bold text-dark-blue mb-4 benefit-price" style={{fontSize:'2rem'}}>
                                                             {
                                                                 divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)
                                                             }
-                                                        </h4>
+                                                        </p>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class='d-grid gap-2'>
@@ -719,7 +720,7 @@ export default component$(() => {
                                                                 ? 
                                                                 <button class='btn btn-primary' onClick$={() => {deleteAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Remover</button>
                                                                 :
-                                                                <button class='btn btn-outline-primary' disabled={benefit.disabled === true} onClick$={() => {getAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Agregar</button>
+                                                                <button class='btn btn-primary btn_cotizar_1' disabled={benefit.disabled === true} onClick$={() => {getAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Agregar</button>
                                                             }
                                                         </div>
                                                     </div>

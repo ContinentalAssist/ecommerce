@@ -1,7 +1,7 @@
 header .navbar
 {
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 header .bg-light
@@ -59,10 +59,7 @@ header .offcanvas .nav-link
     color: white;
 }
 
-header .navbar-brand
-{
-    margin-right: 10px;
-}
+
 
 .skiptranslate .skiptranslate
 {
@@ -99,7 +96,7 @@ header .navbar-brand
 
 span#header-step-currency .divisa
 {
-    font-size: 0.875rem !important;
+    font-size: 0.875rem ;
 }
 
 @media screen and (max-width: 1300px) {
@@ -121,11 +118,7 @@ span#header-step-currency .divisa
         left: 20px;
     }
 
-    header .navbar-brand
-    {
-        position: absolute;
-        left: calc(50vw - 90px);
-    }
+   
 
     .modal-backdrop{
         position: relative !important;
@@ -136,18 +129,11 @@ span#header-step-currency .divisa
     }
 }
 
-@media (min-width: 720px)
-{
-    header .navbar-brand-center
-    {
-        position: absolute;
-        /* margin-left: 60px; */
-        left: calc(50vw - 100px);
-    }
 
-    header .navbar-brand-start
-    {
-        position: absolute;
-        margin-left: 90px;
-    }
+
+.mobile-currency-container {
+    min-width: 80px; /* Asegura espacio consistente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

@@ -756,7 +756,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {/* Fechas */}
                             <div class='col-8 d-flex align-items-center'>
                                 <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
-                                <span class='text-dark-blue' style={{fontSize: '0.90rem'}}>
+                                <span class='text-dark-blue fw-bold' style={{fontSize: '0.90rem'}}>
                                     {stateContext.value.desde != undefined ? 
                                         `${stateContext.value.desde} - ${stateContext.value.hasta}`
                                         : ''
@@ -767,7 +767,7 @@ export const QuotesEngine = component$((props:propsQE) => {
                             {/* Pasajeros */}
                             <div class='col-2 d-flex align-items-center pe-0'>
                                 <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
-                                <span class='text-dark-blue' style={{fontSize: '0.90rem'}}>
+                                <span class='text-dark-blue fw-bold' style={{fontSize: '0.90rem'}}>
                                     {typeof stateContext.value.pasajeros === 'string' ? 
                                         stateContext.value.pasajeros.split(' ')[0] : 
                                         stateContext.value.pasajeros

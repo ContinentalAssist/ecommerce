@@ -1510,7 +1510,7 @@ export default component$(() => {
                 <div class="col-lg-12 col-xl-12">
                   {stateContext?.value?.total?.total > 0 && (
                     <CardPaymentResume>
-                      <div class="container px-2  pb-2">
+                      <div class="container px-0  pb-2">
                         <div class="row not-mobile">
                           {/* Card para USD */}
                           <div class="col-12 mb-3 ">
@@ -2306,8 +2306,8 @@ export default component$(() => {
 
                         <div class="container mobile">
                           {/* Card para USD - Mobile */}
-                          <div class="row mobile mb-3">
-                            <div class="col-12">
+                          <div class="row mobile mb-3 px-0">
+                            <div class="col-12 px-0">
                               <div
                                 class={`payment-card-mobile ${divisaManual.value ? "active" : ""}`}
                                 onClick$={() => changeDivisa$("base")}
@@ -2456,7 +2456,7 @@ export default component$(() => {
 
                           {/* Card para divisas locales - Mobile */}
                           <div class="row mobile mb-3">
-                            <div class="col-12">
+                            <div class="col-12 px-0">
                               <div
                                 class={`payment-card-mobile ${!divisaManual.value ? "active" : ""}`}
                                 onClick$={() => changeDivisa$("local")}
@@ -2766,7 +2766,7 @@ export default component$(() => {
                                                     <div class="col-8 d-grid gap-2">
                                                       <button
                                                         type="button"
-                                                        class="btn btn-cancelar-edit"
+                                                        class="btn btn-cancelar-edit btn-lg text-medium"
                                                         onClick$={() => {
                                                           showPaymentForm.value = false;
                                                           selectedPaymentMethod.value = '';
@@ -2831,63 +2831,6 @@ export default component$(() => {
               </div>
               <br />
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="toast-container position-fixed bottom-0 p-3">
-        <div
-          id="toast-success"
-          class="toast align-items-center text-bg-success border-0"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div class="d-flex">
-            <div class="toast-body">
-              <div class="message">
-                <i class="fas fa-check-circle" />
-                <span class="text-start">
-                  <b>Tu cotizacion se ha enviado!</b>
-                  <br />
-                  <small>Por favor revisa tu bandeja de entrada o spam.</small>
-                </span>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="btn-close btn-close-white me-2 m-auto"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-            ></button>
-          </div>
-        </div>
-        <div
-          id="toast-error"
-          class="toast align-items-center text-bg-danger border-0"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div class="d-flex">
-            <div class="toast-body">
-              <div class="message">
-                <i class="fas fa-times-circle" />
-                <span class="text-start">
-                  <b>Ocurrio un error!</b>
-                  <br />
-                  <small>
-                    Si el error persiste llama a nuestros números de contacto.
-                  </small>
-                </span>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="btn-close btn-close-white me-2 m-auto"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-            ></button>
           </div>
         </div>
       </div>

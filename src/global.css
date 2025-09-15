@@ -335,7 +335,7 @@ body[data-so='windows'] .modal-header h2
 
 .card
 {
-    border-radius: 30px !important;
+    border-radius: 12px !important;
 }
 
 /* sombras */
@@ -396,7 +396,7 @@ body[data-so='windows'] .modal-header h2
 
 .divisa
 {
-    font-size: 1.75rem;
+    font-size: 0.80rem;
 }
 
 @media (max-width: 575.98px)

@@ -209,7 +209,7 @@ export default component$(() => {
         <div class='container-fluid px-0'>          
             <div class='row bg-step-3 mb-3'>
                 <div class='col-lg-12'>
-                    <div class='container mb-5'>
+                    <div class='container mb-5 px-0'>
                         <div class='row justify-content-center '>
                             {
                                stateContext.value && Array.isArray(stateContext.value.precioPlanes) && stateContext.value.precioPlanes.length === 0
@@ -338,7 +338,7 @@ export default component$(() => {
                                             stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
                                                 return(
                                                     <div key={index+1} class='mobile-card-slide' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
-                                                        <div class={index == 1  ? 'mobile-card border-dark-blue' : 'mobile-card'}>
+                                                        <div class={index == 1  ? 'mobile-card border-dark-blue shadow-ms' : 'mobile-card '}>
                                                             {
                                                                 index == 1
                                                                 &&
@@ -404,7 +404,7 @@ export default component$(() => {
                                                                     <button 
                                                                         class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning text-medium' : 'btn btn-warning text-medium'} 
                                                                         onClick$={() => {getPlan$(plan)}}
-                                                                        style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: '100%', padding: '0.75rem 1rem'}}
+                                                                        style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: '75%', fontSize: '1.25rem', lineHeight: '1.2rem'}}
                                                                     >
                                                                         {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
                                                                     </button>
