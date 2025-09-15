@@ -774,4 +774,220 @@
     margin-bottom: 2rem;
 }
 
+/* ===== CARRUSEL MÓVIL ===== */
+
+/* Contenedor principal del carrusel móvil */
+.mobile-carousel-container {
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0 auto;
+}
+
+/* Wrapper del carrusel */
+.mobile-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+/* Carrusel principal */
+.mobile-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+/* Ocultar scrollbar en WebKit */
+.mobile-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+/* Slide individual */
+.mobile-card-slide {
+    flex: 0 0 85%;
+    max-width: 75%;
+}
+
+/* Card móvil */
+.mobile-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    height: auto;
+    width: 100%;
+    position: relative;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+/* Card recomendada */
+.mobile-card.border-dark-blue {
+    border: 2px solid var(--ca-light-blue) !important;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+}
+
+/* Badge recomendado móvil */
+.mobile-card-recommended {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--ca-light-blue);
+    color: white;
+    padding: 0.25rem 1rem;
+    border-radius: 0 0 8px 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 10;
+}
+
+/* Header de la card móvil */
+.mobile-card-header {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+/* Título de la card móvil */
+.mobile-card-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ca-light-blue);
+    font-weight: 600;
+}
+
+/* Imagen de la card móvil */
+.mobile-card-img {
+    width: 140px;
+    height: auto;
+    margin: 0 auto 1rem;
+    display: block;
+}
+
+/* Body de la card móvil */
+.mobile-card-body {
+    padding: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Precio de la card móvil */
+.mobile-card-price {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    margin: 0;
+    color: var(--ca-dark-blue);
+    font-weight: 600;
+}
+
+/* Botón de la card móvil */
+.mobile-card .btn {
+    font-size: 1.5rem;
+    padding: 0.75rem 1rem;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.mobile-card .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Indicadores del carrusel */
+.mobile-carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 0 1rem;
+}
+
+.mobile-carousel-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mobile-carousel-indicator.active {
+    background-color: var(--ca-light-blue);
+    transform: scale(1.2);
+}
+
+.mobile-carousel-indicator:hover {
+    background-color: var(--ca-light-blue);
+    opacity: 0.7;
+}
+
+/* Responsive para carrusel móvil */
+@media (max-width: 480px) {
+    .mobile-card-slide {
+        flex: 0 0 85%;
+        min-width: 70%;
+    }
+    
+    .mobile-card {
+        padding: 1rem;
+    }
+    
+    .mobile-card-title {
+        font-size: 1.8rem;
+    }
+    
+    .mobile-card-img {
+        width: 130px;
+    }
+    
+    .mobile-card-price {
+        font-size: 1.1rem;
+    }
+    
+    .mobile-card .btn {
+        font-size: 1.3rem;
+        padding: 0.65rem 0.8rem;
+    }
+}
+
+@media (max-width: 360px) {
+    .mobile-card-slide {
+        flex: 0 0 85%;
+        max-width: 75%;
+    }
+    
+    .mobile-card {
+        padding: 0.8rem;
+    }
+    
+    .mobile-card-title {
+        font-size: 1.5rem;
+    }
+    
+    .mobile-card-img {
+        width: 120px;
+    }
+    
+    .mobile-card-price {
+        font-size: 1rem;
+    }
+    
+    .mobile-card .btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.7rem;
+    }
+}
+
 

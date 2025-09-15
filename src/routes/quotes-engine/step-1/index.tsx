@@ -139,8 +139,23 @@ export default component$(() => {
 
     const getBenefits$ = $((index:number) => {
         benefitsPlan.value = stateContext.value.precioPlanes[index]
-        indexImage.value = index
-        
+    })
+
+    const scrollToSlide = $((index: number) => {
+        const carousel = document.getElementById('mobilePlansCarousel');
+        if (carousel) {
+            const slideWidth = carousel.offsetWidth;
+            carousel.scrollTo({
+                left: index * slideWidth,
+                behavior: 'smooth'
+            });
+            
+            // Actualizar indicadores
+            const indicators = document.querySelectorAll('.mobile-carousel-indicator');
+            indicators.forEach((indicator, i) => {
+                indicator.classList.toggle('active', i === index);
+            });
+        }
     })
 
     const getForm$ = $(async() => {
@@ -210,104 +225,199 @@ export default component$(() => {
                                 </div>
                             }
                         </div>
-                        <div class='row justify-content-center'>
-                            <div class='cards-container'>
-                                <div class='cards'>
-                                    {
-                                        stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
-                                            return(
-                                                <div key={index+1} class='card-wrapper' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
-                                                    <div class={index == 1  ? 'card border-dark-blue mb-5' : 'card border border-0  mb-5'}>
-                                                        {
-                                                            index == 1
-                                                            &&
-                                                            <span class='card-recommended'>
-                                                                <p class='mb-0'>Recomendado</p>
-                                                            </span>
-                                                        }
-                                                        
-                                                        {/* Título del plan */}
-                                                        <div class='card-header text-center pt-3' style={{background: 'transparent', border: 'none'}}>
-                                                            <h2 class='h2 card-title text-semi-bold text-light-blue mb-0 text-responsive'>
-                                                                {plan.nombreplan}                                                    
-                                                            </h2>   
-                                                        </div>
-
-                                                        {/* Imagen del plan */}
-                                                        <div class='text-center '>
-                                                            {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential' style={{width: '120px', height: 'auto'}}/>}
-                                                            {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete' style={{width: '120px', height: 'auto'}}/>}
-                                                            {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite' style={{width: '120px', height: 'auto'}}/>}
-                                                        </div>
-
-                                                        <div class='card-body px-4'>
-                                                            {/* Cobertura */}
-                                                            <div class='text-center mb-1'>
-                                                                <span class='h6 text-dark-blue text-tin'>Cubre hasta 
-                                                                        { ' ' + plan.cobertura }                                                                 
+                        {/* Versión Desktop */}
+                        <div class='d-none d-lg-block'>
+                            <div class='row justify-content-center'>
+                                <div class='cards-container'>
+                                    <div class='cards'>
+                                        {
+                                            stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
+                                                return(
+                                                    <div key={index+1} class='card-wrapper' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
+                                                        <div class={index == 1  ? 'card border-dark-blue mb-5' : 'card border border-0  mb-5'}>
+                                                            {
+                                                                index == 1
+                                                                &&
+                                                                <span class='card-recommended'>
+                                                                    <p class='mb-0'>Recomendado</p>
                                                                 </span>
+                                                            }
+                                                            
+                                                            {/* Título del plan */}
+                                                            <div class='card-header text-center pt-3' style={{background: 'transparent', border: 'none'}}>
+                                                                <h2 class='h2 card-title text-semi-bold text-light-blue mb-0 text-responsive'>
+                                                                    {plan.nombreplan}                                                    
+                                                                </h2>   
                                                             </div>
 
-                                                            {/* Precio */}
-                                                            <div class='text-center mb-1'>
-                                                                <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0 h5'>
-                                                                    {
-                                                                        plan.precio_grupal ?
-                                                                        contextDivisa.divisaUSD == true 
-                                                                        ? 
-                                                                        CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
-                                                                        : 
-                                                                        CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
-                                                                        :
-                                                                        <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
-                                                                    }
-                                                                </h2>
+                                                            {/* Imagen del plan */}
+                                                            <div class='text-center '>
+                                                                {index == 0 && <ImgContinentalAssistBagEssential class='card-img-top' title='continental-assist-bag-essential' alt='continental-assist-bag-essential' style={{width: '120px', height: 'auto'}}/>}
+                                                                {index == 1 && <ImgContinentalAssistBagComplete class='card-img-top' title='continental-assist-bag-complete' alt='continental-assist-bag-complete' style={{width: '120px', height: 'auto'}}/>}
+                                                                {index == 2 && <ImgContinentalAssistBagElite class='card-img-top' title='continental-assist-bag-elite' alt='continental-assist-bag-elite' style={{width: '120px', height: 'auto'}}/>}
                                                             </div>
 
-                                                            {/* Botón de selección */}
-                                                            <div class='text-center mb-1'>
-                                                                <button 
-                                                                    class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg text-medium' : 'btn btn-warning btn-lg text-medium'} 
-                                                                    onClick$={() => {getPlan$(plan)}}
-                                                                    style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: 'auto', padding: '0.75rem 2rem'}}
-                                                                >
-                                                                    {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
-                                                                </button>
-                                                            </div>
+                                                            <div class='card-body px-4'>
+                                                                {/* Cobertura */}
+                                                                <div class='text-center mb-1'>
+                                                                    <span class='h6 text-dark-blue text-tin'>Cubre hasta 
+                                                                            { ' ' + plan.cobertura }                                                                 
+                                                                    </span>
+                                                                </div>
 
-                                                            {/* Lista de beneficios */}
-                                                            <div class='mb-3'>                                                        
-                                                                <ul class='text-start ps-3'>
-                                                                    {
-                                                                        plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,benefitIndex:number)=>{
-                                                                            if (benefitIndex<=1) {
-                                                                              return   <li key={benefitIndex} class='mb-2'><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
-                                                                            }
-                                                                        })
-                                                                    }
-                                                                </ul>
-                                                            </div>
+                                                                {/* Precio */}
+                                                                <div class='text-center mb-1'>
+                                                                    <h2 class='card-subtitle text-semi-bold text-dark-blue mb-0 h5'>
+                                                                        {
+                                                                            plan.precio_grupal ?
+                                                                            contextDivisa.divisaUSD == true 
+                                                                            ? 
+                                                                            CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
+                                                                            : 
+                                                                            CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
+                                                                            :
+                                                                            <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
+                                                                        }
+                                                                    </h2>
+                                                                </div>
 
-                                                            {/* Enlace Ver detalles */}
-                                                            <div class='text-center'>
-                                                                <button 
-                                                                    type='button' 
-                                                                    class='btn btn-link text-medium text-light-blue p-0' 
-                                                                    onClick$={() => {getBenefits$(index)}} 
-                                                                    data-bs-toggle="modal" 
-                                                                    data-bs-target="#modalBenefits"
-                                                                    style={{textDecoration: 'underline', transition: 'none'}}
-                                                                >
-                                                                    Ver detalles
-                                                                </button> 
+                                                                {/* Botón de selección */}
+                                                                <div class='text-center mb-1'>
+                                                                    <button 
+                                                                        class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning btn-lg text-medium' : 'btn btn-warning btn-lg text-medium'} 
+                                                                        onClick$={() => {getPlan$(plan)}}
+                                                                        style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: 'auto', padding: '0.75rem 2rem'}}
+                                                                    >
+                                                                        {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
+                                                                    </button>
+                                                                </div>
+
+                                                                {/* Lista de beneficios */}
+                                                                <div class='mb-3'>                                                        
+                                                                    <ul class='text-start ps-3'>
+                                                                        {
+                                                                            plan.beneficiosasignados[0]['beneficios'].map((beneficio:any,benefitIndex:number)=>{
+                                                                                if (benefitIndex<=1) {
+                                                                                  return   <li key={benefitIndex} class='mb-2'><span class='text-dark-gray'>{beneficio.nombrebeneficio}: </span><span class='text-semi-bold text-blue'>{beneficio.cobertura}.</span></li>
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    </ul>
+                                                                </div>
+
+                                                                {/* Enlace Ver detalles */}
+                                                                <div class='text-center'>
+                                                                    <button 
+                                                                        type='button' 
+                                                                        class='btn btn-link text-medium text-light-blue p-0' 
+                                                                        onClick$={() => {getBenefits$(index)}} 
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalBenefits"
+                                                                        style={{textDecoration: 'underline', transition: 'none'}}
+                                                                    >
+                                                                        Ver detalles
+                                                                    </button> 
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Versión Mobile con Carrusel */}
+                        <div class='d-lg-none'>
+                            <div class='mobile-carousel-container'>
+                                <div class='mobile-carousel-wrapper'>
+                                    <div class='mobile-carousel' id='mobilePlansCarousel'>
+                                        {
+                                            stateContext.value?.precioPlanes?.map((plan:any,index:number) => {                                                                                                     
+                                                return(
+                                                    <div key={index+1} class='mobile-card-slide' style={{opacity:!plan.precio_grupal ?'0.3':'none', pointerEvents:!plan.precio_grupal ?'none':'all'}}>
+                                                        <div class={index == 1  ? 'mobile-card border-dark-blue' : 'mobile-card'}>
+                                                            {
+                                                                index == 1
+                                                                &&
+                                                                <span class='mobile-card-recommended'>
+                                                                    <p class='mb-0'>Recomendado</p>
+                                                                </span>
+                                                            }
+                                                            
+                                                            {/* Título del plan */}
+                                                            <div class='mobile-card-header text-center pt-3'>
+                                                                <h2 class='mobile-card-title text-semi-bold text-light-blue mb-0'>
+                                                                    {plan.nombreplan}                                                    
+                                                                </h2>   
+                                                            </div>
+
+                                                            {/* Imagen del plan */}
+                                                            <div class='text-center'>
+                                                                {index == 0 && <ImgContinentalAssistBagEssential class='mobile-card-img' title='continental-assist-bag-essential' alt='continental-assist-bag-essential'/>}
+                                                                {index == 1 && <ImgContinentalAssistBagComplete class='mobile-card-img' title='continental-assist-bag-complete' alt='continental-assist-bag-complete'/>}
+                                                                {index == 2 && <ImgContinentalAssistBagElite class='mobile-card-img' title='continental-assist-bag-elite' alt='continental-assist-bag-elite'/>}
+                                                            </div>
+
+                                                            <div class='mobile-card-body px-3'>
+                                                                {/* Enlace Ver detalles */}
+                                                                <div class='text-center mb-2'>
+                                                                    <button 
+                                                                        type='button' 
+                                                                        class='btn btn-link text-small text-light-blue p-0' 
+                                                                        onClick$={() => {getBenefits$(index)}} 
+                                                                        data-bs-toggle="modal" 
+                                                                        data-bs-target="#modalBenefits"
+                                                                        style={{textDecoration: 'underline', transition: 'none'}}
+                                                                    >
+                                                                        Ver detalles
+                                                                    </button> 
+                                                                </div>
+
+                                                                {/* Cobertura */}
+                                                                <div class='text-center mb-2'>
+                                                                    <span class='text-small text-dark-gray'>Cubre hasta 
+                                                                            { ' ' + plan.cobertura }                                                                 
+                                                                    </span>
+                                                                </div>
+
+                                                                {/* Precio */}
+                                                                <div class='text-center mb-3'>
+                                                                    <h2 class='mobile-card-price text-semi-bold text-dark-blue mb-0'>
+                                                                        {
+                                                                            plan.precio_grupal ?
+                                                                            contextDivisa.divisaUSD == true 
+                                                                            ? 
+                                                                            CurrencyFormatter(plan.codigomonedapago,plan.precio_grupal)
+                                                                            : 
+                                                                            CurrencyFormatter(stateContext.value?.currentRate?.code,plan.precio_grupal * stateContext.value?.currentRate?.rate)
+                                                                            :
+                                                                            <p class="divisa text-semi-bold text-dark-blue"> No disponible</p>
+                                                                        }
+                                                                    </h2>
+                                                                </div>
+
+                                                                {/* Botón de selección */}
+                                                                <div class='text-center'>
+                                                                    <button 
+                                                                        class={planSelected.value.idplan == plan.idplan ? 'btn btn-warning text-medium' : 'btn btn-warning text-medium'} 
+                                                                        onClick$={() => {getPlan$(plan)}}
+                                                                        style={{backgroundColor: 'var(--ca-yellow)', border: 'none', color: '#333', width: '100%', padding: '0.75rem 1rem'}}
+                                                                    >
+                                                                        {planSelected.value.idplan == plan.idplan ? 'Seleccionado' : 'Seleccionar'}
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+                                </div>
+                                
                             </div>
                         </div>
                         

@@ -287,7 +287,7 @@ export default component$(() => {
   // Función para inicializar token de Wompi
   const initializeWompiToken$ = $(async () => {
     try {
-      const res = await fetch("https://production.wompi.co/v1/merchants/" + import.meta.env.VITE_MY_PUBLIC_WOMPI_PUBLIC_KEY);
+      const res = await fetch(import.meta.env.VITE_MY_PUBLIC_API_WOMPI + '/merchants/' + import.meta.env.VITE_MY_PUBLIC_API_WOMPI_KEY);
       const data = await res.json();
       if (data.data) {
         wSessionId.value = data.data.presigned_acceptance.acceptance_token;
@@ -1213,26 +1213,6 @@ export default component$(() => {
     }
   });
 
-  const getPayment$ = $(async () => {
-    // Determinar qué función de pago usar según el método seleccionado
-    if (selectedPaymentMethod.value === 'CARD' && stateContext.value.resGeo.country === 'CO') {
-      await getWompiPayment$();
-    } else if (selectedPaymentMethod.value === 'NEQUI') {
-      await getNequiPayment$();
-    } else if (selectedPaymentMethod.value === 'PSE') {
-      await getPSEPayment$();
-    } else if (selectedPaymentMethod.value === 'CARD' && stateContext.value.resGeo.country === 'MX') {
-      await getOpenPayPayment$();
-    } else if (selectedPaymentMethod.value === 'SPEI') {
-      await getSPEIPayment$();
-    } else if (selectedPaymentMethod.value === 'OXXO') {
-      await getOXXOPayment$();
-    } else {
-      // Para USD (Authorize.net) - función original
-      await getAuthorizePayment$();
-    }
-  });
-
   const getAuthorizePayment$ = $(async () => {
     const form = document.querySelector('#form-payment-method') as HTMLFormElement;
     const dataForm: { [key: string]: any } = {};
@@ -1402,6 +1382,26 @@ export default component$(() => {
         attempts.value = (attempts.value + 1);
         stateContext.value.attempts = attempts.value;
       }
+    }
+  });
+
+  const getPayment$ = $(async () => {
+    // Determinar qué función de pago usar según el método seleccionado
+    if (selectedPaymentMethod.value === 'CARD' && stateContext.value.resGeo.country === 'CO') {
+      await getWompiPayment$();
+    } else if (selectedPaymentMethod.value === 'NEQUI') {
+      await getNequiPayment$();
+    } else if (selectedPaymentMethod.value === 'PSE') {
+      await getPSEPayment$();
+    } else if (selectedPaymentMethod.value === 'CARD' && stateContext.value.resGeo.country === 'MX') {
+      await getOpenPayPayment$();
+    } else if (selectedPaymentMethod.value === 'SPEI') {
+      await getSPEIPayment$();
+    } else if (selectedPaymentMethod.value === 'OXXO') {
+      await getOXXOPayment$();
+    } else {
+      // Para USD (Authorize.net) - función original
+      await getAuthorizePayment$();
     }
   });
 

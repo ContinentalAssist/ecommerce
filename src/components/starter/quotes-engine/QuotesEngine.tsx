@@ -605,122 +605,186 @@ export const QuotesEngine = component$((props:propsQE) => {
             {
                 modeResumeStep.value=== true?
                 <Fragment>
-                    <div class='row justify-content-between align-items-center'>
-                        {/* Origen */}
-                        <div class='summary-item-divider' style={{width: '15%'}}>
-                            <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
-                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-from.png" alt="Avión" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
-                                </span>
-                                <div class="form-floating">
-                                    <input 
-                                        type="text" 
-                                        readOnly 
-                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
-                                        id="origen" 
-                                        placeholder="Origen"
-                                        value={stateContext.value.paisorigen || ''}
-                                    />
-                                    <label class='text-medium text-dark-gray ps-0' htmlFor="origen">Origen</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Destino */}
-                        <div class='summary-item-divider' style={{width: '15%'}}>
-                            <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
-                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-to.png" alt="Avión" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
-                                </span>
-                                <div class="form-floating">
-                                    <input 
-                                        type="text" 
-                                        readOnly 
-                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
-                                        id="destino" 
-                                        placeholder="Destino"
-                                        value={Array.isArray(stateContext.value.paisesdestino) ? String(stateContext.value.paisesdestino).replaceAll(',',', ') : (stateContext.value.paisesdestino || '')}
-                                    />
-                                    <label class='text-medium text-dark-gray ps-0' htmlFor="destino">Destino</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Fechas de tu viaje (rango) */}
-                        <div class='summary-item-divider' style={{width: '25%'}}>
-                            <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
-                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
-                                </span>
-                                <div class="form-floating">
-                                    <input 
-                                        type="text" 
-                                        readOnly 
-                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
-                                        id="fechas" 
-                                        placeholder="Fechas de tu viaje"
-                                        value={stateContext.value.desde != undefined ? 
-                                            `${stateContext.value.desde} al ${stateContext.value.hasta}`
-                                            : ''
-                                        }
-                                    />
-                                    <label class='text-medium text-dark-gray ps-0' htmlFor="fechas">Fechas de tu viaje</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Viajeros */}
-                        <div class='summary-item-divider' style={{width: '15%'}}>
-                            <div class="input-group">
-                                <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
-                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
-                                </span>
-                                <div class="form-floating">
-                                    <input 
-                                        type="text" 
-                                        readOnly 
-                                        class="form-control-plaintext text-medium text-dark-blue ps-0" 
-                                        id="viajeros" 
-                                        placeholder="Viajeros"
-                                        value={stateContext.value.pasajeros}
-                                    />
-                                    <label class='text-medium text-dark-gray ps-0' htmlFor="viajeros">Viajeros</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Plan seleccionado (no en step-1) */}
-                        {location.url.pathname != '/quotes-engine/step-1/' && (
+                    {/* Versión Desktop */}
+                    <div class='d-none d-lg-block'>
+                        <div class='row justify-content-between align-items-center'>
+                            {/* Origen */}
                             <div class='summary-item-divider' style={{width: '15%'}}>
                                 <div class="input-group">
-                                    <span class="input-group-text border border-0 bg-white" style="padding: 0.375rem 0.5rem;">
-                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plan.png" alt="Editar" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"/>
+                                    <span class="input-group-text border border-0 bg-white" style={{padding: '0.375rem 0.5rem'}}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-from.png" alt="Avión" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
                                     </span>
                                     <div class="form-floating">
                                         <input 
                                             type="text" 
                                             readOnly 
                                             class="form-control-plaintext text-medium text-dark-blue ps-0" 
-                                            id="plan" 
-                                            placeholder="Plan"
-                                            value={stateContext.value.plan?.nombreplan}
+                                            id="origen" 
+                                            placeholder="Origen"
+                                            value={stateContext.value.paisorigen || ''}
                                         />
-                                        <label class='text-medium text-dark-gray ps-0' htmlFor="plan">Plan</label>
+                                        <label class='text-medium text-dark-gray ps-0' htmlFor="origen">Origen</label>
                                     </div>
                                 </div>
                             </div>
-                        )}
 
-                        {/* Editar */}
-                        {location.url.pathname != '/quotes-engine/step-4/' &&
-                         location.url.pathname != '/quotes-engine/message/' && (
-                            <div class='text-end' style={{width: '10%'}}>
-                                <button type='button' class='btn btn-link text-medium text-dark-blue d-flex align-items-center' onClick$={()=>modeResumeStep.value = false}>
-                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-edit.png" alt="Editar" style="width: 1rem; height: 1rem; margin-right: 0.5rem;"/>
-                                    Editar
-                                </button>
+                            {/* Destino */}
+                            <div class='summary-item-divider' style={{width: '15%'}}>
+                                <div class="input-group">
+                                    <span class="input-group-text border border-0 bg-white" style={{padding: '0.375rem 0.5rem'}}>
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-to.png" alt="Avión" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                    </span>
+                                    <div class="form-floating">
+                                        <input 
+                                            type="text" 
+                                            readOnly 
+                                            class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                            id="destino" 
+                                            placeholder="Destino"
+                                            value={Array.isArray(stateContext.value.paisesdestino) ? String(stateContext.value.paisesdestino).replaceAll(',',', ') : (stateContext.value.paisesdestino || '')}
+                                        />
+                                        <label class='text-medium text-dark-gray ps-0' htmlFor="destino">Destino</label>
+                                    </div>
+                                </div>
                             </div>
-                        )}
+
+                            {/* Fechas de tu viaje (rango) */}
+                            <div class='summary-item-divider' style={{width: '25%'}}>
+                                <div class="input-group">
+                                    <span class="input-group-text border border-0 bg-white" style={{padding: '0.375rem 0.5rem'}}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                    </span>
+                                    <div class="form-floating">
+                                        <input 
+                                            type="text" 
+                                            readOnly 
+                                            class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                            id="fechas" 
+                                            placeholder="Fechas de tu viaje"
+                                            value={stateContext.value.desde != undefined ? 
+                                                `${stateContext.value.desde} al ${stateContext.value.hasta}`
+                                                : ''
+                                            }
+                                        />
+                                        <label class='text-medium text-dark-gray ps-0' htmlFor="fechas">Fechas de tu viaje</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Viajeros */}
+                            <div class='summary-item-divider' style={{width: '15%'}}>
+                                <div class="input-group">
+                                    <span class="input-group-text border border-0 bg-white" style={{padding: '0.375rem 0.5rem'}}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                    </span>
+                                    <div class="form-floating">
+                                        <input 
+                                            type="text" 
+                                            readOnly 
+                                            class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                            id="viajeros" 
+                                            placeholder="Viajeros"
+                                            value={stateContext.value.pasajeros}
+                                        />
+                                        <label class='text-medium text-dark-gray ps-0' htmlFor="viajeros">Viajeros</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Plan seleccionado (no en step-1) */}
+                            {location.url.pathname != '/quotes-engine/step-1/' && (
+                                <div class='summary-item-divider' style={{width: '15%'}}>
+                                    <div class="input-group">
+                                        <span class="input-group-text border border-0 bg-white" style={{padding: '0.375rem 0.5rem'}}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plan.png" alt="Editar" style={{width: '1rem', height: '1rem', marginRight: '0.5rem'}}/>
+                                        </span>
+                                        <div class="form-floating">
+                                            <input 
+                                                type="text" 
+                                                readOnly 
+                                                class="form-control-plaintext text-medium text-dark-blue ps-0" 
+                                                id="plan" 
+                                                placeholder="Plan"
+                                                value={stateContext.value.plan?.nombreplan}
+                                            />
+                                            <label class='text-medium text-dark-gray ps-0' htmlFor="plan">Plan</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Editar */}
+                            {location.url.pathname != '/quotes-engine/step-4/' &&
+                             location.url.pathname != '/quotes-engine/message/' && (
+                                <div class='text-end' style={{width: '10%'}}>
+                                    <button type='button' class='btn btn-link text-medium text-dark-blue d-flex align-items-center' onClick$={()=>modeResumeStep.value = false}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-edit.png" alt="Editar" style={{width: '1rem', height: '1rem', marginRight: '0.5rem'}}/>
+                                        Editar
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Versión Mobile */}
+                    <div class='d-lg-none'>
+                        {/* Primera Row: Origen-Destino (6 cols) y Plan (6 cols) */}
+                        <div class='row align-items-center mb-3'>
+                            {/* Origen y Destino */}
+                            <div class='col-8 d-flex align-items-center'>
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-from.png" alt="Avión" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                <span class='text-dark-blue fw-bold' style={{fontSize: '0.90rem'}}>
+                                    {stateContext.value.paisorigen || ''} - {Array.isArray(stateContext.value.paisesdestino) ? String(stateContext.value.paisesdestino).replaceAll(',',', ') : (stateContext.value.paisesdestino || '')}
+                                </span>
+                            </div>
+                            
+                            {/* Plan */}
+                            <div class='col-4 text-end'>
+                                {location.url.pathname != '/quotes-engine/step-1/' && (
+                                    <span class='text-light-blue fw-bold' style={{fontSize: '0.90rem'}}>
+                                        {stateContext.value.plan?.nombreplan || 'plan no seleccionado'}
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Separador HR */}
+                        <hr />
+
+                        {/* Segunda Row: Fechas (5 cols), Pasajeros (3 cols), Editar (4 cols) */}
+                        <div class='row align-items-center'>
+                            {/* Fechas */}
+                            <div class='col-8 d-flex align-items-center'>
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                <span class='text-dark-blue' style={{fontSize: '0.90rem'}}>
+                                    {stateContext.value.desde != undefined ? 
+                                        `${stateContext.value.desde} - ${stateContext.value.hasta}`
+                                        : ''
+                                    }
+                                </span>
+                            </div>
+
+                            {/* Pasajeros */}
+                            <div class='col-2 d-flex align-items-center pe-0'>
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                                <span class='text-dark-blue' style={{fontSize: '0.90rem'}}>
+                                    {typeof stateContext.value.pasajeros === 'string' ? 
+                                        stateContext.value.pasajeros.split(' ')[0] : 
+                                        stateContext.value.pasajeros
+                                    }
+                                </span>
+                            </div>
+
+                            {/* Editar */}
+                            {location.url.pathname != '/quotes-engine/step-4/' &&
+                             location.url.pathname != '/quotes-engine/message/' && (
+                                <div class='col-2 text-end'>
+                                    <button type='button' class='btn btn-link text-dark-blue d-flex align-items-center justify-content-end' style={{fontSize: '0.75rem', textDecoration: 'underline'}} onClick$={()=>modeResumeStep.value = false}>
+                                        <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-edit.png" alt="Editar" style={{width: '1rem', height: '1rem', marginRight: '0.5rem'}}/>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                 </Fragment>
