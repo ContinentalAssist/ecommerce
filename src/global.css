@@ -50,13 +50,10 @@ body
     overflow-x: hidden !important;
     font-family: GalanoGrotesque !important;
     font-display: swap;
-    top: 0px !important;
+    top: 0 !important;
 }
 
-section
-{
-    overflow-x: hidden !important;
-}
+
 
 /* alturas */
 .h-25

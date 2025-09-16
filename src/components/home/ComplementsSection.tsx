@@ -2,7 +2,7 @@ import { component$ } from '@builder.io/qwik';
 
 export const ComplementsSection = component$(() => {
     return (
-        <div class='bg-home-complements'>
+        <div class='bg-home-complements d-none'>
             <div class='col-lg-12 d-flex align-items-center justify-content-center p-5'>
                 <div class="col-md-6 text-right">
                     <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/complementos.png" alt="prexistencia" />

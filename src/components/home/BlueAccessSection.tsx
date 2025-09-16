@@ -6,9 +6,9 @@ export interface BlueAccessSectionProps {
 
 export const BlueAccessSection = component$((_props: BlueAccessSectionProps) => {
     return (
-        <div class="bg-home-blue-access" id="blue-access-section d-flex align-items-center justify-content-center" style={{ minHeight: '75vh' }}>
+        <div class="bg-home-blue-access" id="blue-access-section d-flex align-items-center justify-content-center " style={{ minHeight: '75vh' }}>
             <div class="col-md-12">
-                <div class="container py-5 text-center">
+                <div class="container py-5 text-center d-none">
                     <img
                         class="img-bluaccess-logo"
                         src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/xentralpass.png"

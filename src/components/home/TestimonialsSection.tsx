@@ -9,7 +9,7 @@ import ImgContinentalAssistSuiza from '~/media/flags/continental-assist-suiza.we
 
 export const TestimonialsSection = component$(() => {
     return (
-        <div class='bg-home-testimonials'>
+        <div class='bg-home-testimonials '>
             <div class='col-lg-12'>
                 <div class='container-fluid'>
                     <div class='row align-content-center'>
