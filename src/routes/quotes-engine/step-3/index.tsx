@@ -1642,25 +1642,13 @@ export default component$(() => {
                                         }
                                       ]}
                                     />
-                                    <div class="row justify-content-center mt-3">
-                                      <div class="col-lg-6 d-flex justify-content-end">
-                                        <div class="col-8 d-grid gap-2">
+                                    <div class="row d-flex justify-content-center mt-3">
+                                      
+                                      <div class="col-lg-12 d-flex justify-content-center">
+                                        <div class="col-4 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn-cancelar-edit"
-                                            onClick$={() => {
-                                              changeDivisa$("local");
-                                            }}
-                                          >
-                                            Regresar
-                                          </button>
-                                        </div>
-                                      </div>
-                                      <div class="col-lg-6 d-flex justify-content-start">
-                                        <div class="col-8 d-grid gap-2">
-                                          <button
-                                            type="button"
-                                            class="btn btn_cotizar_1"
+                                            class="btn  btn_cotizar_1"
                                             onClick$={getPayment$}
                                           >
                                             Realizar pago
@@ -1782,7 +1770,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn-cancelar-edit"
+                                            class="btn btn-cancelar-edit btn-lg text-medium"
                                             onClick$={() => {
                                               showPaymentForm.value = false;
                                               selectedPaymentMethod.value = '';
@@ -1796,7 +1784,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn_cotizar_1"
+                                            class="btn  btn_cotizar_1"
                                             onClick$={getOpenPayPayment$}
                                           >
                                             Realizar pago
@@ -1828,7 +1816,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn-cancelar-edit"
+                                            class="btn btn-cancelar-edit btn-lg text-medium"
                                             onClick$={() => {
                                               showPaymentForm.value = false;
                                               selectedPaymentMethod.value = '';
@@ -1842,7 +1830,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn_cotizar_1"
+                                            class="btn  btn_cotizar_1"
                                             onClick$={getSPEIPayment$}
                                           >
                                             Generar referencia
@@ -1874,7 +1862,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn-cancelar-edit"
+                                            class="btn btn-cancelar-edit btn-lg text-medium"
                                             onClick$={() => {
                                               showPaymentForm.value = false;
                                               selectedPaymentMethod.value = '';
@@ -1888,7 +1876,7 @@ export default component$(() => {
                                         <div class="col-8 d-grid gap-2">
                                           <button
                                             type="button"
-                                            class="btn btn_cotizar_1"
+                                            class="btn  btn_cotizar_1"
                                             onClick$={getOXXOPayment$}
                                           >
                                             Generar código
@@ -2091,7 +2079,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn-cancelar-edit"
+                                                      class="btn btn-cancelar-edit btn-lg text-medium"
                                                       onClick$={() => {
                                                         showPaymentForm.value = false;
                                                         selectedPaymentMethod.value = '';
@@ -2105,7 +2093,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn_cotizar_1"
+                                                      class="btn  btn_cotizar_1"
                                                       onClick$={getPSEPayment$}
                                                     >
                                                       Realizar pago
@@ -2152,7 +2140,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn-cancelar-edit"
+                                                      class="btn btn-cancelar-edit btn-lg text-medium"
                                                       onClick$={() => {
                                                         showPaymentForm.value = false;
                                                         selectedPaymentMethod.value = '';
@@ -2166,7 +2154,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn_cotizar_1"
+                                                      class="btn  btn_cotizar_1"
                                                       onClick$={getNequiPayment$}
                                                     >
                                                       Realizar pago
@@ -2265,7 +2253,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn-cancelar-edit"
+                                                      class="btn btn-cancelar-edit btn-lg text-medium"
                                                       onClick$={() => {
                                                         showPaymentForm.value = false;
                                                         selectedPaymentMethod.value = '';
@@ -2279,7 +2267,7 @@ export default component$(() => {
                                                   <div class="col-8 d-grid gap-2">
                                                     <button
                                                       type="button"
-                                                      class="btn btn_cotizar_1"
+                                                      class="btn  btn_cotizar_1"
                                                       onClick$={getWompiPayment$}
                                                     >
                                                       Realizar pago
@@ -2319,7 +2307,28 @@ export default component$(() => {
                                         Pagar en USD
                                       </h6>
                                     </div>
-                                    <div class="payment-card-indicator"></div>
+                                    <div class="payment-card-indicator d-flex align-items-center gap-1">
+                                      <img
+                                        src="/assets/img/icons/visa.png"
+                                        alt="Visa"
+                                        class="payment-logo"
+                                      />
+                                      <img
+                                        src="/assets/img/icons/mastercard.png"
+                                        alt="Mastercard"
+                                        class="payment-logo"
+                                      />
+                                      <img
+                                        src="/assets/img/icons/artboard.png"
+                                        alt="artboard"
+                                        class="payment-logo"
+                                      />
+                                      <img
+                                        src="/assets/img/icons/american-express.png"
+                                        alt="American Express"
+                                        class="payment-logo"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                                 {divisaManual.value && (
@@ -2417,24 +2426,11 @@ export default component$(() => {
                                         ]}
                                       />
                                       <div class="row justify-content-center mt-3">
-                                        <div class="col-lg-6 d-flex justify-content-end">
-                                          <div class="col-8 d-grid gap-2">
-                                            <button
-                                              type="button"
-                                              class="btn btn-cancelar-edit"
-                                              onClick$={() => {
-                                                changeDivisa$("local");
-                                              }}
-                                            >
-                                              Regresar
-                                            </button>
-                                          </div>
-                                        </div>
                                         <div class="col-lg-6 d-flex justify-content-start">
                                           <div class="col-8 d-grid gap-2">
                                             <button
                                               type="button"
-                                              class="btn btn_cotizar_1"
+                                              class="btn  btn_cotizar_1"
                                               onClick$={getPayment$}
                                             >
                                               Realizar pago
@@ -2444,6 +2440,19 @@ export default component$(() => {
                                                 {attempts.value} intentos
                                               </span>
                                             )}
+                                          </div>
+                                        </div>
+                                        <div class="col-lg-6 d-flex justify-content-end mt-2">
+                                          <div class="col-8 d-grid gap-2">
+                                            <button
+                                              type="button"
+                                              class="btn btn-cancelar-edit btn-lg text-medium"
+                                              onClick$={() => {
+                                                changeDivisa$("local");
+                                              }}
+                                            >
+                                              Regresar
+                                            </button>
                                           </div>
                                         </div>
                                       </div>
@@ -2475,7 +2484,55 @@ export default component$(() => {
                                             : "Moneda Local"}
                                       </h6>
                                     </div>
-                                    <div class="payment-card-indicator"></div>
+                                    <div class="payment-card-indicator d-flex align-items-center gap-1">
+                                      {stateContext.value?.resGeo?.country === 'CO' ? (
+                                        <>
+                                          <img
+                                            src="/assets/img/icons/visa.png"
+                                            alt="Visa"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/mastercard.png"
+                                            alt="Mastercard"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/pse.png"
+                                            alt="PSE"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/nequi.png"
+                                            alt="Nequi"
+                                            class="payment-logo"
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <img
+                                            src="/assets/img/icons/visa.png"
+                                            alt="Visa"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/mastercard.png"
+                                            alt="Mastercard"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/artboard.png"
+                                            alt="artboard"
+                                            class="payment-logo"
+                                          />
+                                          <img
+                                            src="/assets/img/icons/american-express.png"
+                                            alt="American Express"
+                                            class="payment-logo"
+                                          />
+                                        </>
+                                      )}
+                                    </div>
                                   </div>
                                 </div>
                                 {!divisaManual.value && (
@@ -2500,25 +2557,25 @@ export default component$(() => {
                                               (payment: any, index: number) => (
                                                 <div
                                                   key={index}
-                                                  class="col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 align-self-center text-center"
+                                                  class="col-lg-4 col-md-6 col-sm-6 col-xs-4 g-0 d-flex justify-content-center align-items-center icons"
+                                                  style={{
+                                                    border: "1px solid lightgray",
+                                                    borderRadius: "10px",
+                                                    padding: "9px",
+                                                    margin: "5px",
+                                                    cursor: "pointer",
+                                                  }}
+                                                  onClick$={() => {
+                                                    getPaymentMethod$(
+                                                      payment.method
+                                                    );
+                                                  }}
                                                 >
                                                   <p class="title-method text-medium text-decoration-none text-dark-blue mt-3">
                                                     {payment.title}
                                                   </p>
                                                   <div
-                                                    class="icons"
-                                                    style={{
-                                                      border: "2px solid lightgray",
-                                                      borderRadius: "10px",
-                                                      padding: "9px",
-                                                      margin: "5px",
-                                                      cursor: "pointer",
-                                                    }}
-                                                    onClick$={() => {
-                                                      getPaymentMethod$(
-                                                        payment.method
-                                                      );
-                                                    }}
+                                                   
                                                   >
                                                     {payment.icons.length > 0 &&
                                                       payment.icons.map(
@@ -2588,25 +2645,11 @@ export default component$(() => {
                                                   ]}
                                                 />
                                                 <div class="row justify-content-center mt-3">
-                                                  <div class="col-lg-6 d-flex justify-content-end">
-                                                    <div class="col-8 d-grid gap-2">
-                                                      <button
-                                                        type="button"
-                                                        class="btn btn-cancelar-edit"
-                                                        onClick$={() => {
-                                                          showPaymentForm.value = false;
-                                                          selectedPaymentMethod.value = '';
-                                                        }}
-                                                      >
-                                                        Regresar
-                                                      </button>
-                                                    </div>
-                                                  </div>
                                                   <div class="col-lg-6 d-flex justify-content-start">
                                                     <div class="col-8 d-grid gap-2">
                                                       <button
                                                         type="button"
-                                                        class="btn btn_cotizar_1"
+                                                        class="btn  btn_cotizar_1"
                                                         onClick$={getPSEPayment$}
                                                       >
                                                         Realizar pago
@@ -2616,6 +2659,20 @@ export default component$(() => {
                                                           {attempts.value} intentos
                                                         </span>
                                                       )}
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-lg-6 d-flex justify-content-end mt-2">
+                                                    <div class="col-8 d-grid gap-2">
+                                                      <button
+                                                        type="button"
+                                                        class="btn btn-cancelar-edit btn-lg text-medium"
+                                                        onClick$={() => {
+                                                          showPaymentForm.value = false;
+                                                          selectedPaymentMethod.value = '';
+                                                        }}
+                                                      >
+                                                        Regresar
+                                                      </button>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -2649,25 +2706,11 @@ export default component$(() => {
                                                   ]}
                                                 />
                                                 <div class="row justify-content-center mt-3">
-                                                  <div class="col-lg-6 d-flex justify-content-end">
-                                                    <div class="col-8 d-grid gap-2">
-                                                      <button
-                                                        type="button"
-                                                        class="btn btn-cancelar-edit"
-                                                        onClick$={() => {
-                                                          showPaymentForm.value = false;
-                                                          selectedPaymentMethod.value = '';
-                                                        }}
-                                                      >
-                                                        Regresar
-                                                      </button>
-                                                    </div>
-                                                  </div>
                                                   <div class="col-lg-6 d-flex justify-content-start">
                                                     <div class="col-8 d-grid gap-2">
                                                       <button
                                                         type="button"
-                                                        class="btn btn_cotizar_1"
+                                                        class="btn  btn_cotizar_1"
                                                         onClick$={getNequiPayment$}
                                                       >
                                                         Realizar pago
@@ -2677,6 +2720,20 @@ export default component$(() => {
                                                           {attempts.value} intentos
                                                         </span>
                                                       )}
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-lg-6 d-flex justify-content-end mt-2">
+                                                    <div class="col-8 d-grid gap-2">
+                                                      <button
+                                                        type="button"
+                                                        class="btn btn-cancelar-edit btn-lg text-medium"
+                                                        onClick$={() => {
+                                                          showPaymentForm.value = false;
+                                                          selectedPaymentMethod.value = '';
+                                                        }}
+                                                      >
+                                                        Regresar
+                                                      </button>
                                                     </div>
                                                   </div>
                                                 </div>
@@ -2762,7 +2819,23 @@ export default component$(() => {
                                                   ]}
                                                 />
                                                 <div class="row justify-content-center mt-3">
-                                                  <div class="col-lg-6 d-flex justify-content-end">
+                                                  <div class="col-lg-6 d-flex justify-content-start">
+                                                    <div class="col-8 d-grid gap-2">
+                                                      <button
+                                                        type="button"
+                                                        class="btn  btn_cotizar_1"
+                                                        onClick$={getWompiPayment$}
+                                                      >
+                                                        Realizar pago
+                                                      </button>
+                                                      {attempts.value > 0 && (
+                                                        <span class="text-center rounded-pill text-bg-warning">
+                                                          {attempts.value} intentos
+                                                        </span>
+                                                      )}
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-lg-6 d-flex justify-content-end mt-2">
                                                     <div class="col-8 d-grid gap-2">
                                                       <button
                                                         type="button"
@@ -2774,22 +2847,6 @@ export default component$(() => {
                                                       >
                                                         Regresar
                                                       </button>
-                                                    </div>
-                                                  </div>
-                                                  <div class="col-lg-6 d-flex justify-content-start">
-                                                    <div class="col-8 d-grid gap-2">
-                                                      <button
-                                                        type="button"
-                                                        class="btn btn_cotizar_1"
-                                                        onClick$={getWompiPayment$}
-                                                      >
-                                                        Realizar pago
-                                                      </button>
-                                                      {attempts.value > 0 && (
-                                                        <span class="text-center rounded-pill text-bg-warning">
-                                                          {attempts.value} intentos
-                                                        </span>
-                                                      )}
                                                     </div>
                                                   </div>
                                                 </div>

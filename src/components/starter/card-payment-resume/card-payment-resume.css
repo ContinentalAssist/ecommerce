@@ -76,12 +76,6 @@
   
    }
 
-  #card-right-mobile{
-  
-    min-height:500px;
-  
-   }
-
  }
 
  .hr-gray
@@ -142,10 +136,21 @@ float: right;
   font-size: 1.1rem !important;
 }
 
-.divisa-total .divisa
+@media (max-width: 575.98px)
 {
-  font-size: 1.3rem ;
+  .divisa-total .divisa
+  {
+    font-size: 1.3rem ;
+  }
 }
+@media (min-width: 577px)
+{
+  .divisa-total .divisa
+  {
+    font-size: 2rem ;
+  }
+}
+
 .precio-strike
 {
   color: red;

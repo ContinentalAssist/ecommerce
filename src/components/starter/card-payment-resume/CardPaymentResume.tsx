@@ -549,7 +549,7 @@ export const CardPaymentResume = component$(() => {
                         <li class="list-group" key={index + 1}>
                           <div class="row">
                             <div class="col-12 d-flex">
-                            <div class="col-lg-8 px-3">
+                            <div class="col-lg-8  col-md-8  col-sm-8  col-xs-8  px-3">
                               <div class="d-none d-lg-flex align-items-start">
                                 <h5
                                   class="text-medium text-dark-blue text-align-start"
@@ -568,7 +568,7 @@ export const CardPaymentResume = component$(() => {
                                 </h5>
                               </div>
                             </div>
-                            <div class="col-lg-4 ps-0 pe-5">
+                            <div class="col-lg-4 ps-0 pe-1">
                             </div>
                               <div class="mobile text-center">
                                 <p

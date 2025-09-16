@@ -210,34 +210,70 @@
 /* Responsive para mobile */
 @media (max-width: 768px) {
     .payment-logo {
-        width: 45px;
-        height: auto;
-    }
-    
-    .payment-logo[alt="Visa"] {
-        width: 42px;
-        height: auto;
-    }
-    
-    .payment-logo[alt="Mastercard"] {
-        width: 44px;
-        height: auto;
-    }
-    
-    .payment-logo[alt="American Express"] {
         width: 40px;
         height: auto;
     }
     
+    .payment-logo[alt="Visa"] {
+        width: 37px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Mastercard"] {
+        width: 39px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="American Express"] {
+        width: 35px;
+        height: auto;
+    }
+    
     .payment-logo[alt="PSE"] {
-        width: 38px;
+        width: 33px;
         height: auto;
     }
     
     .payment-logo[alt="Nequi"] {
-        width: 42px;
+        width: 37px;
         height: auto;
     }
+}
+
+/* Estilos para logos de pago en mobile (más pequeños) */
+.payment-logo-mobile {
+    width: 20px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Visa"] {
+    width: 18px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Mastercard"] {
+    width: 19px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="American Express"] {
+    width: 17px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="PSE"] {
+    width: 16px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Nequi"] {
+    width: 18px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Wompi"] {
+    width: 18px;
+    height: auto;
 }
 
 /* Animación para el contenedor de logos */
@@ -279,35 +315,6 @@
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.payment-form-container .btn {
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.payment-form-container .btn_cotizar_1 {
-    background-color: var(--ca-light-blue);
-    border-color: var(--ca-light-blue);
-    color: white;
-}
-
-.payment-form-container .btn_cotizar_1:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
-    transform: translateY(-2px);
-}
-
-.payment-form-container .btn-cancelar-edit {
-    background-color: #6c757d;
-    border-color: #6c757d;
-    color: white;
-}
-
-.payment-form-container .btn-cancelar-edit:hover {
-    background-color: #545b62;
-    border-color: #4e555b;
-    transform: translateY(-2px);
-}
 
 /* Animación suave para el formulario */
 .payment-form-container {
@@ -335,3 +342,48 @@
         justify-content: center !important;
     }
 } 
+
+.btn_cotizar_1{
+    background-color: var(--ca-yellow);
+    box-shadow: none !important;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+    border-radius: 50px!important;
+}
+
+.btn_cotizar_1:hover{
+    background-color: var(--ca-yellow) !important;
+    border-color: var(--ca-yellow) !important;
+    color: #1d2546 !important;
+}
+
+.btn_cotizar_1:active,
+.btn_cotizar_1:focus{
+    background-color: var(--ca-yellow) !important;
+    border-color: var(--ca-yellow) !important;
+    color: #1d2546 !important;
+    box-shadow: none !important;
+}
+
+.btn-cancelar-edit{
+    border: 1px solid #1d2546;
+    border-radius: 50px;
+    background-color: transparent;
+    color: #1d2546;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+}
+
+.btn-cancelar-edit:hover{
+    border: 1px solid #1d2546;
+    background-color: transparent;
+    color: #1d2546;
+}
+
+.btn-cancelar-edit:active,
+.btn-cancelar-edit:focus{
+    border: 1px solid #1d2546;
+    background-color: var(--ca-blue);
+    color: white;
+    box-shadow: none;
+}

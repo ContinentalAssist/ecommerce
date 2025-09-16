@@ -394,9 +394,19 @@ body[data-so='windows'] .modal-header h2
     background: var(--ca-light-blue);
 }
 
-.divisa
+@media (max-width: 575.98px)
 {
-    font-size: 0.80rem;
+    .divisa
+    {
+        font-size: 0.80rem;
+    }
+}
+@media (min-width: 577px)
+{
+    .divisa
+    {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 575.98px)
