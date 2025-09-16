@@ -7,7 +7,7 @@
     --ca-yellow: #F9D35A;
     --ca-dark-yellow: #FEDF8361;
     /* --ca-gray: #ADADAD; */
-    --ca-gray: #D3D3D3;
+    --ca-gray: #b0b0b0;
     /* --ca-dark-gray: #5F5F5E; */
     --ca-dark-gray: #656565;
     --ca-light-gray: #EFEFEF;
@@ -50,13 +50,10 @@ body
     overflow-x: hidden !important;
     font-family: GalanoGrotesque !important;
     font-display: swap;
-    top: 0px !important;
+    top: 0 !important;
 }
 
-section
-{
-    overflow-x: hidden !important;
-}
+
 
 /* alturas */
 .h-25
@@ -118,6 +115,7 @@ section
 {
     font-family: GalanoGrotesque_Bold ;
     font-display: swap;
+    font-weight: 300;
 }
 
 /* colores de textos */
@@ -187,7 +185,7 @@ body[data-so='windows'] .btn[disabled]
 .btn-primary
 {
     background-color: var(--ca-yellow);
-    border: 2px solid var(--ca-dark-yellow);
+    border: 2px solid var(--ca-yellow);
     box-shadow: 0 0 10px gray;
     color: var(--ca-blue);
 }
@@ -341,7 +339,7 @@ body[data-so='windows'] .modal-header h2
 /* sombras */
 .card.shadow-lg
 {
-    box-shadow: 0 0rem 1rem rgba(0,0,0,.175)!important;
+    box-shadow: 0 0 1rem rgba(0,0,0,.175)!important;
 }
 
 /* descripciones */
@@ -352,7 +350,7 @@ body[data-so='windows'] .modal-header h2
 
 .divider
 {
-    margin: 0px;
+    margin: 0;
     width: 100px;
     color: var(--ca-blue);
     border: 1.4px solid var(--ca-blue);
@@ -517,7 +515,47 @@ body[data-so='windows'] .modal-header h2
     {
         display: inherit;
     }
-    } 
+
+    /* Layout personalizado para AboutUsSection */
+.section-about {
+  width: 100%;
+  margin: 0 auto;
+}
+.aboutus-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+.aboutus-video-col {
+  flex: 0 0 70%;
+  max-width: 70%;
+  padding-right: 2rem;
+  display: flex;
+  align-items: center;
+}
+.aboutus-content-col {
+  flex: 0 0 30%;
+  max-width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Restaurar .qs-content si se perdió */
+.qs-content {
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 991px) {
+  .aboutus-flex {
+    flex-direction: column;
+  }
+  .aboutus-video-col, .aboutus-content-col {
+    max-width: 100%;
+    flex: 0 0 100%;
+    padding-right: 0;
+  }
+}
+    }
 
 @media (min-width: 992px)
 {
