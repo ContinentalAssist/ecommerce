@@ -237,6 +237,7 @@
     .payment-logo[alt="Nequi"] {
         width: 37px;
         height: auto;
+        margin-left: 5px;
     }
 }
 
@@ -386,4 +387,11 @@
     background-color: var(--ca-blue);
     color: white;
     box-shadow: none;
+}
+
+.payment-method-card:hover {
+    background-color: #f0f0f0;
+    transition: background-color 0.2s ease-in-out;
+    transform: scale(1.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }

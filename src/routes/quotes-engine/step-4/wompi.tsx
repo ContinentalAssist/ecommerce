@@ -13,7 +13,7 @@ import { LoadingContext } from "~/root";
 
 
 
-export default component$(() => {
+export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
@@ -1053,36 +1053,32 @@ export default component$(() => {
    
     return(
         <>
-             <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                            {
-                                formPayment.value == 'CARD'
-                                &&
-                                <div class='row justify-content-center'>
-                                
-                                {/* Card solo para el formulario de pago */}
-                                <div class="card shadow-sm mb-4 border-0">
-                                    <div class="card-body p-4">
-                                        <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
+            {/* Formulario de pago Wompi */}
+            {
+                formPayment.value == 'CARD'
+                &&
+                <>
+                    {/* Card solo para el formulario de pago */}
+                    <div class="card shadow-none mb-1 border-0">
+                        <div class="card-body p-0">
+                            <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                        <Form
-                                            id='form-payment-method'
-                                            form={[
-                                                {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                ]}
-                                            ]}
-                                        />
-                                    </div>
-                                </div>
+                            <Form
+                                id='form-payment-method'
+                                form={[
+                                    {row:[
+                                        {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                    ]},
+                                    {row:[
+                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                        {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                    ]}
+                                ]}
+                            />
+                        </div>
+                    </div>
                                         {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                         {/* <div class='container'>
                                             <div class='row'>
@@ -1099,27 +1095,27 @@ export default component$(() => {
                                         <div class='d-none' id='invoice'>
                                             <InvoiceFormCO/>                   
                                         </div> */}
-                                        <div class='container'>
-                                            <div class='row justify-content-center'>
-                                                <div class='col-lg-6 d-flex justify-content-end'>
-                                                    <div class='col-8 d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                    </div>
-                                                </div>
-                                                <div class='col-lg-6 d-flex justify-content-start'>
-                                                    <div class='col-8 d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn_cotizar_1' onClick$={()=>{getPayment$()}}>Realizar pago</button>
-                                                        {
-                                                            attempts.value > 0
-                                                            &&
-                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class='container'>
+                        <div class='row justify-content-center'>
+                            <div class='col-lg-6 d-flex justify-content-end'>
+                                <div class='col-8 d-grid gap-2 mt-4'>
+                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                 </div>
-                            }
+                            </div>
+                            <div class='col-lg-6 d-flex justify-content-start'>
+                                <div class='col-8 d-grid gap-2 mt-4'>
+                                    <button type='button' class='btn btn_cotizar_1' onClick$={()=>{getPayment$()}}>Realizar pago</button>
+                                    {
+                                        attempts.value > 0
+                                        &&
+                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
                            {/*  {
                                 formPayment.value == 'BANCOLOMBIA_QR'
                                 &&
@@ -1142,7 +1138,7 @@ export default component$(() => {
                                         <div class='row justify-content-center mb-4'>
                                             <div class='col-lg-6 d-flex justify-content-end'>
                                                 <div class='col-8 d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                 </div>
                                             </div>
                                             
@@ -1197,8 +1193,8 @@ export default component$(() => {
                                                  <br/>
                                                 
                                                 {/* Card solo para el formulario de pago de Nequi */}
-                                                <div class="card shadow-sm mb-4 border-0">
-                                                    <div class="card-body p-4">
+                                                <div class="card shadow-none mb-0 border-0">
+                                                    <div class="card-body p-0">
                                                         <h5 class='text-medium text-blue text-start mb-4'> Ingresa tu número de celular Nequi</h5>
 
                                                         <div class="row">
@@ -1239,7 +1235,7 @@ export default component$(() => {
                                                     <div class='row justify-content-center'>
                                                         <div class='col-lg-6'>
                                                             <div class='col-12 d-grid gap-2 mt-4 justify-content-center'>
-                                                                <button type='button' class='btn btn-cancelar-edit ' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                                <button type='button' class='btn btn-cancelar-edit ' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1248,8 +1244,7 @@ export default component$(() => {
                                             }
 
                                     </div>
-                                    <hr />
-                                    <br/>
+                                    
                                      {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                       {/*  <div class='container'>
                                             <div class='row'>
@@ -1280,8 +1275,8 @@ export default component$(() => {
                                     <br/>
                                     
                                     {/* Card solo para el formulario de pago de PSE */}
-                                    <div class="card shadow-sm mb-4 border-0">
-                                        <div class="card-body p-4">
+                                    <div class="card shadow-none mb-1 border-0">
+                                        <div class="card-body p-0">
                                             <h5 class='text-medium text-blue text-start mb-4'> Ingresa tu información bancaria</h5>
 
                                             <Form
@@ -1304,14 +1299,14 @@ export default component$(() => {
                                     </div>
 
                                     <div class='container'>
-                                        <div class='row justify-content-center mb-4'>
+                                        <div class='row justify-content-center mb-1'>
                                             <div class='col-lg-6 d-flex justify-content-end'>
-                                                <div class='col-8 d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                                <div class='col-8 d-grid gap-2 mt-1'>
+                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                 </div>
                                             </div>
                                             <div class='col-lg-6 d-flex justify-content-start'>
-                                                <div class='col-8 d-grid gap-2 mt-4'>
+                                                <div class='col-8 d-grid gap-2 mt-1'>
                                                     <button type='button' class='btn btn_cotizar_1' onClick$={getPSE$}>Realizar pago</button>
                                                     {
                                                     attempts.value > 0
@@ -1322,13 +1317,9 @@ export default component$(() => {
                                             </div>
                                         </div>
                                     </div>
-                                      
-                                     
-                                    <br/>
-                                    <br/>
-                                       
+    
                                     </div>
-                                    <hr />
+                                    
                                     {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                     {/* <div class='container'>
                                             <div class='row'>
@@ -1349,11 +1340,6 @@ export default component$(() => {
                                     
                                 }    
 
-                       </CardPaymentResume>
-                    </div>
-                </div>
-            </div>
-           
         </>
     )
 })

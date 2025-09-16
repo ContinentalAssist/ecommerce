@@ -352,83 +352,29 @@ export default component$(() => {
 
 
                       <div class='col-lg-6 col-sm-12'>
-                        <div class='card mt-4 shadow-ms' id='card-pax' style={{ borderRadius: '12px', overflow: 'visible' }}>
+                        <div class='card mt-4 shadow-ms card-message-container' id='card-pax'>
                           {/* Header con imagen de fondo */}
-                          <div
-                            class='card-header-image'
-                            style={{
-                              backgroundImage: 'url(/assets/img/icons/fondo-card-mesagge.png)',
-                              backgroundSize: 'cover',
-                              backgroundPosition: 'center',
-                              backgroundRepeat: 'no-repeat',
-                              height: '120px',
-                              width: '100%',
-                              borderRadius: '12px 12px 0 0',
-                              position: 'relative',
-                              overflow: 'visible', // Permitir que la imagen se extienda fuera del contenedor
-                            }}
-                          >
+                          <div class='card-header-image card-header-message'>
                             {/* Overlay opcional para mejor contraste */}
-                            <div
-                              style={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                backgroundColor: 'rgba(0,0,0,0.1)', // Overlay muy sutil
-                                borderRadius: '12px 12px 0 0',
-                              }}
-                            ></div>
+                            <div class='card-header-overlay'></div>
 
                             {/* Contenido del header con estructura row */}
-                            <div
-                              class='row h-auto'
-                              style={{
-                                position: 'relative',
-                                zIndex: 1,
-                                margin: 0,
-                                padding: '3%',
-                              }}
-                            >
+                            <div class='row h-auto card-header-content'>
                               {/* Columna para el texto "Disfruta tu viaje" como imagen */}
-                              <div
-                                class='col-6 d-flex  justify-content-start'
-                                style={{
-                                  padding: '3%',
-                                }}
-                              >
+                              <div class='col-6 d-flex justify-content-start card-header-text-column'>
                                 <img
                                   src='/assets/img/icons/tipografia-mesagge.png'
                                   alt='Disfruta tu viaje'
-                                  style={{
-                                    maxWidth: '100%',
-                                    height: 'auto',
-                                    maxHeight: '60px',
-                                    margin:'0 auto', // Ajusta según el tamaño que necesites
-                                  }}
+                                  class='card-header-text-image'
                                 />
                               </div>
 
                               {/* Columna para la imagen de la familia */}
-                              <div
-                                class='col-6 d-flex align-items-end justify-content-end'
-                                style={{
-                                  padding: '3% 3% 0 3%',
-                                  position: 'relative'
-                                  ,
-                                }}
-                              >
+                              <div class='col-6 d-flex align-items-end justify-content-end card-header-image-column'>
                                 <img
                                   src='/assets/img/icons/personas-mesagge.png'
                                   alt='Familia de viajeros'
-                                  style={{
-                                    maxWidth: '100%',
-                                    height: 'auto',
-                                    maxHeight: '180px',
-                                    objectFit: 'contain',
-                                    transform: 'translateY(-88px)', 
-                                  }}
+                                  class='card-header-family-image'
                                 />
                               </div>
                             </div>
@@ -458,28 +404,98 @@ export default component$(() => {
                                   </p>
                                 </div>
                               </div>
-                              <div class='row mobile text-center'>
-                                <div class='col-sm-12'>
-                                  <p>
-                                    <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '1.375rem' }}>
-                                      Plan{' '}
-                                    </span>
-                                    <span class='text-bold text-light-blue' style={{ fontSize: '1.375rem' }}>
-                                      {resume.value?.nombreplan}
-                                    </span>
-                                  </p>
-                                </div>
-                                <div class='col-sm-12'>
-                                  <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '1.188rem' }}>
+                              <div class='row mobile'>
+                                <div class='col-sm-12 col-xs-12 '>
+                                  <div class='d-flex justify-content-center'>
+                                <div class='col-sm-6 col-xs-6'>
+                                  <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '0.80rem' }}>
                                     Código de voucher:
                                   </span>
                                   <br />
-                                  <span class='text-bold text-dark-blue' style={{ fontSize: '1.375rem' }}>
+                                  <span class='text-medium text-dark-blue' style={{ fontSize: '1.1rem' }}>
                                     {resume.value.codvoucher}
                                   </span>
                                 </div>
+                                <div class='col-sm-6 col-xs-6 d-flex justify-content-end'>
+                                  <div class='input-group'>
+                                     <span class='input-group-text border border-0 ' style={{ backgroundColor: 'white' }}>
+                                     <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Viajeros" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
+                                     </span>
+                                     <p style={{ textAlign: 'left' }}>
+                                       <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '0.80rem' }}>
+                                         Viajeros
+                                       </span>{' '}
+                                       <br />
+                                       <span class='text-regular text-dark-blue' style={{ fontSize: '1rem' }}>
+                                         {resume.value?.viajeros || '1'} viajero{resume.value?.viajeros > 1 ? 's' : ''}
+                                       </span>
+                                     </p>
+                                   </div>
+                                </div>
+                                </div>
+                                <div class='col-lg-12 col-sm-12'>
+                                <hr class='hr-compra' />
+                                <div class='input-group' style={{ backgroundColor: 'white' }}>
+                                  <span class='input-group-text border border-0 ps-0' style={{ backgroundColor: 'white' }}>
+                                  <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-plane-from.png" alt="Avión" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
+                                  </span>
+                                  <p style={{ marginLeft: '-6px' }}>
+                                    <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '0.70rem' }}>
+                                      Origen / Destino(s)
+                                    </span>{' '}
+                                    <br />
+                                    <span class='text-regular text-dark-blue' style={{ fontSize: '0.85rem' }}>
+                                      {resume.value.paisorigen} <span class='text-regular text-dark-blue'> a </span>{' '}
+                                      {resume.value.paisesdestino &&
+                                        String(resume.value.paisesdestino).replaceAll(',', ', ')}
+                                    </span>
+                                  </p>
+                                </div>
                               </div>
+                              <div class='row '>
+                                
+                                  <div class='d-flex justify-content-start gap-2'>
+                                <div class='col-lg-4 col-sm-6 col-xs-6'>
+                                  <div class='input-group'>
+                                    <span class='input-group-text border border-0 ps-0' style={{ backgroundColor: 'white' }}>
+                                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
+                                    </span>
+                                    <p style={{ textAlign: 'left' }}>
+                                      <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '0.70rem' }}>
+                                        Ida
+                                      </span>{' '}
+                                      <br />
+                                      <span class='text-regular text-dark-blue' style={{ fontSize: '0.85rem' }}>
+                                        {' '}
+                                        {resume.value.fechasalida}
+                                      </span>
+                                    </p>
+                                  </div>
+                                </div>
+                                 <div class='col-lg-4 col-sm-6 col-xs-6'>
+                                   <div class='input-group'>
+                                     <span class='input-group-text border border-0 ps-0' style={{ backgroundColor: 'white' }}>
+                                     <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
+                                     </span>
+                                     <p style={{ textAlign: 'left' }}>
+                                       <span class='text-regular text-dark-gray ps-0' style={{ fontSize: '0.70rem' }}>
+                                         Vuelta
+                                       </span>{' '}
+                                       <br />
+                                       <span class='text-regular text-dark-blue' style={{ fontSize: '0.85rem' }}>
+                                         {' '}
+                                         {resume.value.fecharegreso}
+                                       </span>
+                                     </p>
+                                   </div>
+                                 </div>
+                                 </div>
+                                 </div>
+                                </div>
+                              </div>
+                            
 
+                              <div class='row not-mobile'>
                               <div class='col-lg-12 col-sm-12'>
                                 <hr class='hr-compra' />
                                 <div class='input-group' style={{ backgroundColor: 'white' }}>
@@ -500,8 +516,8 @@ export default component$(() => {
                                 </div>
                               </div>
                               <div class='row'>
-                                <div class='col-lg-4 col-sm-12'>
-                                  <div class='input-group'>
+                                <div class='col-lg-4 col-sm-12 pe-0'>
+                                  <div class='input-group pe-0'>
                                     <span class='input-group-text border border-0 ps-0' style={{ backgroundColor: 'white' }}>
                                     <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
                                     </span>
@@ -517,7 +533,7 @@ export default component$(() => {
                                     </p>
                                   </div>
                                 </div>
-                                 <div class='col-lg-4 col-sm-12'>
+                                 <div class='col-lg-4 col-sm-12 pe-0'>
                                    <div class='input-group'>
                                      <span class='input-group-text border border-0 ps-0' style={{ backgroundColor: 'white' }}>
                                      <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-date.png" alt="Calendario" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
@@ -534,7 +550,7 @@ export default component$(() => {
                                      </p>
                                    </div>
                                  </div>
-                                 <div class='col-lg-4 col-sm-12'>
+                                 <div class='col-lg-4 col-sm-12 pe-0'>
                                    <div class='input-group'>
                                      <span class='input-group-text border border-0 ' style={{ backgroundColor: 'white' }}>
                                      <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Viajeros" style="width: 1.2rem; height: 1.2rem; margin-right: 0.5rem;"/>
@@ -551,77 +567,124 @@ export default component$(() => {
                                    </div>
                                  </div>
                               </div>
-
+                              </div>
                               <hr class='hr-compra' />
 
                               {/* Sección de resumen del plan - replicando CardPaymentResume */}
-                              <div class='row mt-4'>
-                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" >
-                                  {/* Imagen del plan seleccionado */}
-                                  {resume.value?.nombreplan?.toLowerCase().includes('essential') && (
-                                    <ImgContinentalAssistBagEssential 
-                                      class="img-fluid" 
-                                      loading="lazy"
-                                      title="continental-assist-bag-essential"
-                                      alt="continental-assist-bag-essential"
-                                      style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
-                                    />
-                                  )}
-                                  {resume.value?.nombreplan?.toLowerCase().includes('complete') && (
-                                    <ImgContinentalAssistBagComplete 
-                                      class="img-fluid" 
-                                      loading="lazy"
-                                      title="continental-assist-bag-complete"
-                                      alt="continental-assist-bag-complete"
-                                      style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
-                                    />
-                                  )}
-                                  {resume.value?.nombreplan?.toLowerCase().includes('elite') && (
-                                    <ImgContinentalAssistBagElite 
-                                      class="img-fluid" 
-                                      loading="lazy"
-                                      title="continental-assist-bag-elite"
-                                      alt="continental-assist-bag-elite"
-                                      style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
-                                    />
-                                  )}
-                                </div>
-                                <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center">
-                                  <label class="label-resume text-dark-gray">
-                                    <span class="text-tin">Plan </span>
-                                    <br />
-                                    <span
-                                      class="text-medium text-dark-blue"
-                                      style={{ fontSize: "1.1rem" }}
-                                    >
-                                      {resume.value?.nombreplan}
-                                    </span>
-                                  </label>
-                                </div>
-                                <div class="col-6 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" >
-                                  <p class="text-regular text-blue mb-0">
-                                    {" "}
-                                    {`Total para ${resume.value?.viajeros || "1"} viajero${resume.value?.viajeros > 1 ? 's' : ''}`}
-                                  </p>
-                                  <h3 class="divisa-total text-bold text-blue mb-4">
-                                    {CurrencyFormatter(resume.value?.codigomoneda, resume.value?.total)}
-                                  </h3>
+                              <div class="col-12 col-xs-12 text-start mx-2 d-lg-none">
+                              <div class="row">
+                                <div class="col-12 d-flex justify-content-center align-items-center h-auto">
+                                  <div class="col-2 col-xs-2 col-md-2 d-flex flex-column">
+                                    {/* Imagen del plan seleccionado */}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('essential') && (
+                                      <ImgContinentalAssistBagEssential 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-essential"
+                                        alt="continental-assist-bag-essential"
+                                        style={{ maxWidth: "60px", height: "auto" }}
+                                      />
+                                    )}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('complete') && (
+                                      <ImgContinentalAssistBagComplete 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-complete"
+                                        alt="continental-assist-bag-complete"
+                                        style={{ maxWidth: "60px", height: "auto" }}
+                                      />
+                                    )}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('elite') && (
+                                      <ImgContinentalAssistBagElite 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-elite"
+                                        alt="continental-assist-bag-elite"
+                                        style={{ maxWidth: "60px", height: "auto" }}
+                                      />
+                                    )}
+                                  </div>
+                                  <div class="col-3 col-xs-3 col-md-3 d-flex flex-column text-center">
+                                    <label class="label-resume text-dark-gray">
+                                      <span class="text-tin">Plan </span>
+                                      <br />
+                                      <span
+                                        class="text-medium text-dark-blue"
+                                        style={{ fontSize: "0.80rem" }}
+                                      >
+                                        {resume.value?.nombreplan}
+                                      </span>
+                                    </label>
+                                  </div>
+                                  <div class="col-7 col-xs-7 col-md-7 d-flex flex-column text-end">
+                                    <p class="text-regular text-blue mb-0 pe-4" style={{ fontSize: "0.80rem" }}>
+                                      {`Total para ${resume.value?.viajeros || "1"} viajero${resume.value?.viajeros > 1 ? 's' : ''}`}
+                                    </p>
+                                    <h2 class="divisa-total text-bold text-blue mb-0 pe-4">
+                                      {CurrencyFormatter(resume.value?.codigomoneda, resume.value?.total)}
+                                    </h2>
+                                  </div>
                                 </div>
                               </div>
+                            </div>
 
-                              <div class='row mobile'>
-                                <div class='col-sm-12  text-center'>
-                                  <p class='text-regular text-blue mb-0'>Total</p>
-                                  <h3 class='h1 text-semi-bold text-blue mb-4'>
-                                    {CurrencyFormatter(resume.value?.codigomoneda, resume.value?.total)}
-                                  </h3>
+
+                            <div class="col-12 col-xs-12 text-end mx-2 d-none d-lg-block">
+                              <div class="row">
+                                <div class="col-12 d-flex justify-content-center align-items-center h-auto px-0">
+                                  <div class="col-4 col-xs-2 col-md-2 d-flex flex-column">
+                                    {/* Imagen del plan seleccionado */}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('essential') && (
+                                      <ImgContinentalAssistBagEssential 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-essential"
+                                        alt="continental-assist-bag-essential"
+                                        style={{ maxWidth: "100px", height: "auto" }}
+                                      />
+                                    )}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('complete') && (
+                                      <ImgContinentalAssistBagComplete 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-complete"
+                                        alt="continental-assist-bag-complete"
+                                        style={{ maxWidth: "100px", height: "auto" }}
+                                      />
+                                    )}
+                                    {resume.value?.nombreplan?.toLowerCase().includes('elite') && (
+                                      <ImgContinentalAssistBagElite 
+                                        class="img-fluid" 
+                                        loading="lazy"
+                                        title="continental-assist-bag-elite"
+                                        alt="continental-assist-bag-elite"
+                                        style={{ maxWidth: "100px", height: "auto" }}
+                                      />
+                                    )}
+                                  </div>
+                                  <div class="col-3 col-xs-3 col-md-3 d-flex flex-column text-center">
+                                    <label class="label-resume text-dark-gray">
+                                      <span class="text-tin">Plan </span>
+                                      <br />
+                                      <span
+                                        class="text-medium text-dark-blue"
+                                        style={{ fontSize: "0.80rem" }}
+                                      >
+                                        {resume.value?.nombreplan}
+                                      </span>
+                                    </label>
+                                  </div>
+                                  <div class="col-5 col-xs-7 col-md-7 d-flex flex-column">
+                                    <p class="text-regular text-blue mb-0 pe-5">
+                                      {`Total para ${resume.value?.viajeros || "1"} viajero${resume.value?.viajeros > 1 ? 's' : ''}`}
+                                    </p>
+                                    <h6 class="divisa-total text-bold text-blue mb-0 pe-5">
+                                      {CurrencyFormatter(resume.value?.codigomoneda, resume.value?.total)}
+                                    </h6>
+                                  </div>
                                 </div>
-
-                                {/*   <div class="col-sm-12 text-center mt-4">
-                                                    <button type='button' class='btn btn-primary btn-lg' >Descargar vouchers</button>
-                                                </div>
- */}
                               </div>
+                            </div>
                             </div>
                           </div>
                         </div>

@@ -4,7 +4,7 @@
     --ca-dark-blue: #00184C;
     --ca-light-blue: #43D3FF;
     --ca-ultra-light-blue: #DBF0FB;
-    --ca-yellow: #FEDF84;
+    --ca-yellow: #F9D35A;
     --ca-dark-yellow: #FEDF8361;
     /* --ca-gray: #ADADAD; */
     --ca-gray: #D3D3D3;
@@ -398,7 +398,7 @@ body[data-so='windows'] .modal-header h2
 {
     .divisa
     {
-        font-size: 0.80rem;
+        font-size: 1.5rem;
     }
 }
 @media (min-width: 577px)

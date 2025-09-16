@@ -155,7 +155,21 @@ export default component$(() => {
             return isValid;
     })
 
+    const handlePaymentTouch$ = $(async(e: TouchEvent) => {
+        // Prevenir el comportamiento por defecto del touch
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Llamar a la función de pago
+        await getPayment$();
+    });
+
     const getPayment$ = $(async() => {
+        // Prevenir múltiples ejecuciones simultáneas
+        if (contextLoading.value.status) {
+            return;
+        }
+        
         //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
@@ -430,34 +444,27 @@ export default component$(() => {
 
     return(
         <>
-            <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                             <div class='row justify-content-center'>
-                                <div class='col-lg-12'>
-                                
-                                {/* Card solo para el formulario de pago */}
-                                <div class="card shadow-sm mb-4 border-0">
-                                    <div class="card-body p-4">
-                                        <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
+            {/* Formulario de pago Authorize */}
+            <div class="card shadow-0 mb-1 border-0">
+                <div class="card-body p-1">
+                    <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                        <Form
-                                            id='form-payment-method'
-                                            form={[
-                                                {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                ]}
-                                            ]}
-                                        />
-                                    </div>
-                                </div>
+                    <Form
+                        id='form-payment-method'
+                        form={[
+                            {row:[
+                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                            ]},
+                            {row:[
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                            ]}
+                        ]}
+                    />
+                </div>
+            </div>
                                     {/* <div class='container'>
                                         <div class='row'>
                                             <div class='col-12'>
@@ -478,34 +485,28 @@ export default component$(() => {
                                             stateContext.value.country == 'CO' && <InvoiceFormCO/>
                                         }
                                     </div> */}
-                                    <div class='container'>
-                                        <div class='row justify-content-center'>
-                                            <div class='col-lg-6 d-flex justify-content-end'>
-                                                <div class='col-8 d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>                                                        
-                                                </div>
-                                            </div>
-
-                                            <div class='col-lg-6 d-flex justify-content-start'>
-                                                <div class='col-8 d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn_cotizar_1' onClick$={getPayment$}>Realizar pago</button>
-                                                    {
-                                                        attempts.value > 0
-                                                        &&
-                                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardPaymentResume>
-
+            <div class='container'>
+                <div class='row justify-content-center'>
+                    <div class='col-lg-6 d-flex justify-content-center'>
+                        <div class='col-9 d-grid gap-2 mt-4'>
+                            <button 
+                                type='button' 
+                                class='btn btn_cotizar_1' 
+                                onClick$={getPayment$}
+                                onTouchStart$={handlePaymentTouch$}
+                                style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+                            >
+                                Realizar pago
+                            </button>
+                            {
+                                attempts.value > 0
+                                &&
+                                <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-           
         </>
     )
 })

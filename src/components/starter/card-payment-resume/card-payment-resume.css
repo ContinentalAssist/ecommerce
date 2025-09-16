@@ -106,18 +106,104 @@
   background-color: #FAFAFA;
 }
 
- .collapse-pax .collapse 
- {
-  &:not(.show) {
-    display: none;
+/* Estilos base para los elementos de colapso */
+.collapse-pax {
+  overflow: hidden;
+  opacity: 0;
+  height: 0;
+  transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Asegurar que el contenido no se vea durante la transición */
+  visibility: hidden;
+}
+
+.collapse-pax.show {
+  opacity: 1;
+  height: auto;
+  visibility: visible;
+}
+
+.collapse-pax.collapsing {
+  opacity: 0.6; /* Opacidad intermedia durante la transición */
+  visibility: visible;
+  transition: height 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Transición suave para el ícono de chevron */
+.fa-chevron-down {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.fa-chevron-down.rotated {
+  transform: rotate(180deg);
+}
+
+/* Transiciones para el botón de viajero */
+.mobile p[style*="cursor: pointer"] {
+  transition: all 0.2s ease-in-out;
+  position: relative;
+}
+
+.mobile p[style*="cursor: pointer"]:hover {
+  transform: translateY(-1px);
+  opacity: 0.8;
+}
+
+.mobile p[style*="cursor: pointer"]:active {
+  transform: translateY(0);
+  transition: transform 0.1s ease-in-out;
+}
+
+/* Transiciones para el contenido interno */
+.collapse-pax .row {
+  transition: opacity 0.2s ease-in-out 0.1s; /* Delay ligero para suavizar */
+}
+
+.collapse-pax .input-group {
+  transition: opacity 0.2s ease-in-out 0.1s;
+}
+
+.collapse-pax .beneficios-adicionales-container {
+  transition: opacity 0.2s ease-in-out 0.15s; /* Delay un poco mayor */
+}
+
+/* Mejorar la visibilidad durante las transiciones */
+.collapse-pax.show .row,
+.collapse-pax.show .input-group,
+.collapse-pax.show .beneficios-adicionales-container {
+  opacity: 1;
+}
+
+.collapse-pax:not(.show) .row,
+.collapse-pax:not(.show) .input-group,
+.collapse-pax:not(.show) .beneficios-adicionales-container {
+  opacity: 0;
+}
+
+/* Asegurar que las transiciones sean suaves en diferentes dispositivos */
+@media (prefers-reduced-motion: reduce) {
+  .collapse-pax,
+  .collapse-pax.collapsing,
+  .fa-chevron-down,
+  .mobile p[style*="cursor: pointer"] {
+    transition: none;
   }
 }
 
-.collapse-pax .collapsing 
-{
-  height: 0;
-  overflow: hidden;
-  transition: height 0.35s ease-in-out;
+/* Mejoras adicionales para la experiencia de usuario */
+.collapse-pax hr {
+  transition: opacity 0.2s ease-in-out;
+}
+
+.collapse-pax.show hr {
+  opacity: 1;
+}
+
+.collapse-pax:not(.show) hr {
+  opacity: 0;
 }
 .divisa-plan-sub .divisa 
 {

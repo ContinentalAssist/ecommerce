@@ -108,6 +108,29 @@
         border-radius: 30px;
         border: 2px solid var(--ca-gray) !important;
     }
+
+    /* Estilos específicos para el botón en mobile */
+    .btn_cotizar_1 {
+        min-height: 48px !important;
+        min-width: 48px !important;
+        padding: 12px 24px !important;
+        font-size: 1.1rem !important;
+        z-index: 10 !important;
+        position: relative !important;
+        cursor: pointer !important;
+    }
+
+    /* Asegurar que el contenedor del botón no bloquee los eventos */
+    .col-9.d-grid.gap-2.mt-4 {
+        pointer-events: auto !important;
+        z-index: 5 !important;
+    }
+
+    /* Mejorar la respuesta táctil */
+    .btn_cotizar_1:active {
+        transform: scale(0.98) !important;
+        transition: transform 0.1s ease !important;
+    }
 }
 
 @media (min-width: 1680px)
@@ -160,6 +183,13 @@
     font-size: 1.25rem !important;
     font-family: GalanoGrotesque !important;
     border-radius: 50px!important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
 }
 
 .btn_cotizar_1:hover{

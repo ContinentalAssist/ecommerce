@@ -189,35 +189,117 @@ export const CardPaymentResume = component$(() => {
   };
 
   const openCollapsPax$ = $((key: string) => {
-    const bs = (window as any)["bootstrap"];
+    const targetElement = document.getElementById(key) as HTMLElement;
+    if (!targetElement) return;
 
-    const collapseTwo = new bs.Collapse("#" + key, {});
-    collapseTwo.hide();
+    // Verificar si el elemento está actualmente visible
+    const isCurrentlyVisible = targetElement.classList.contains("show");
 
-    const collapse = document.querySelectorAll(".collapse");
+    // Cerrar todos los otros elementos de colapso
+    const allCollapses = document.querySelectorAll(".collapse-pax");
+    allCollapses.forEach((item) => {
+      if (item.id !== key) {
+        const element = item as HTMLElement;
 
-    collapse.forEach((item) => {
-      if (item.id != key) {
-        //item.classList.add('collapsing')
-        //item.classList.remove('collapsing')
-        item.classList.remove("show");
+        // Añadir clase de transición de cierre
+        element.classList.add("collapsing");
+        element.classList.remove("show");
+
+        // Obtener altura actual para animación suave
+        const currentHeight = element.scrollHeight;
+        element.style.height = currentHeight + "px";
+
+        // Forzar reflow para que el navegador registre la altura inicial
+        element.offsetHeight;
+
+        // Aplicar altura 0 para cerrar
+        element.style.height = "0px";
+
+        // Limpiar después de la transición
+        setTimeout(() => {
+          element.classList.remove("collapsing");
+          element.style.height = "";
+        }, 500);
       }
     });
+
+    if (isCurrentlyVisible) {
+      // Colapsar el elemento actual
+      targetElement.classList.add("collapsing");
+      targetElement.classList.remove("show");
+
+      // Establecer altura actual antes de colapsar
+      const currentHeight = targetElement.scrollHeight;
+      targetElement.style.height = currentHeight + "px";
+
+      // Forzar reflow
+      targetElement.offsetHeight;
+
+      // Colapsar a altura 0
+      targetElement.style.height = "0px";
+
+      // Limpiar después de la transición
+      setTimeout(() => {
+        targetElement.classList.remove("collapsing");
+        targetElement.style.height = "";
+      }, 500);
+    } else {
+      // Expandir el elemento actual
+      targetElement.classList.add("collapsing");
+
+      // Establecer altura inicial en 0
+      targetElement.style.height = "0px";
+
+      // Forzar reflow
+      targetElement.offsetHeight;
+
+      // Calcular y aplicar altura final
+      const contentHeight = targetElement.scrollHeight;
+      targetElement.style.height = contentHeight + "px";
+
+      // Después de la transición, añadir clase show y limpiar
+      setTimeout(() => {
+        targetElement.classList.add("show");
+        targetElement.classList.remove("collapsing");
+        targetElement.style.height = ""; // Permite que sea responsive
+      }, 500);
+    }
+
+    // Actualizar el ícono de chevron
+    updateChevronIcon(key, !isCurrentlyVisible);
   });
+
+  // Función auxiliar para actualizar el ícono del chevron
+  const updateChevronIcon = (key: string, isOpen: boolean) => {
+    const targetElement = document.getElementById(key);
+    if (targetElement) {
+      const parentListItem = targetElement.closest("li");
+      if (parentListItem) {
+        const chevronIcon = parentListItem.querySelector(".fa-chevron-down");
+        if (chevronIcon) {
+          if (isOpen) {
+            chevronIcon.classList.add("rotated");
+          } else {
+            chevronIcon.classList.remove("rotated");
+          }
+        }
+      }
+    }
+  };
 
   // Función para calcular descuento
   const calculateDiscount = $((subTotal: number, percentage: number) => {
-  
     const decimalValue = percentage / 100;
-    
+
     const discount = subTotal * decimalValue;
 
     return Math.round(discount * 100) / 100;
   });
 
   const getCupon$ = $(async () => {
-    const input = document.querySelector("#input-cupon") as HTMLInputElement || 
-                  document.querySelector("#input-cupon-mobile") as HTMLInputElement;
+    const input =
+      (document.querySelector("#input-cupon") as HTMLInputElement) ||
+      (document.querySelector("#input-cupon-mobile") as HTMLInputElement);
 
     if (input.value != "") {
       if (
@@ -254,12 +336,15 @@ export const CardPaymentResume = component$(() => {
           try {
             // Cálculo del descuento
             const discount = await calculateDiscount(
-              stateContext.value?.subTotal, 
+              stateContext.value?.subTotal,
               Number(resCupon.resultado[0].porcentaje)
             );
             const newTotal = stateContext.value?.subTotal - discount;
 
-            newResume.total = { divisa: newResume.total.divisa, total: newTotal };
+            newResume.total = {
+              divisa: newResume.total.divisa,
+              total: newTotal,
+            };
 
             stateContext.value = newResume;
             dataCupon.descuento = discount;
@@ -274,9 +359,8 @@ export const CardPaymentResume = component$(() => {
             // Guardar datos en localStorage
             saveData(stateContext.value);
             contextLoading.value = { status: false, message: "" };
-            
           } catch (error) {
-            console.error('Error en el cálculo del descuento:', error);
+            console.error("Error en el cálculo del descuento:", error);
             contextLoading.value = { status: false, message: "" };
             messageCupon.value = {
               error: "error",
@@ -320,8 +404,10 @@ export const CardPaymentResume = component$(() => {
     saveData(stateContext.value);
 
     const input = document.querySelector("#input-cupon") as HTMLInputElement;
-    const inputMobile = document.querySelector("#input-cupon-mobile") as HTMLInputElement;
-    
+    const inputMobile = document.querySelector(
+      "#input-cupon-mobile"
+    ) as HTMLInputElement;
+
     if (input) {
       input.value = "";
     }
@@ -339,71 +425,83 @@ export const CardPaymentResume = component$(() => {
 
   // Función para enviar la cotización por email (replicada exactamente del step-3)
   const sendQuote$ = $(async () => {
-    const form = document.querySelector('#form-send-quote-email') as HTMLFormElement
-    const inputs = Array.from(form.querySelectorAll('input'))
-    const bs = (window as any)['bootstrap']
-    const toastSuccess = new bs.Toast('#toast-success',{})
-    const toastError = new bs.Toast('#toast-error',{})
-    let error = false
-    const dataForm : {[key:string]:any} = {}
+    const form = document.querySelector(
+      "#form-send-quote-email"
+    ) as HTMLFormElement;
+    const inputs = Array.from(form.querySelectorAll("input"));
+    const bs = (window as any)["bootstrap"];
+    const toastSuccess = new bs.Toast("#toast-success", {});
+    const toastError = new bs.Toast("#toast-error", {});
+    let error = false;
+    const dataForm: { [key: string]: any } = {};
 
-    if(!form.checkValidity())
-    {
-        form.classList.add('was-validated')
-        error = true
+    if (!form.checkValidity()) {
+      form.classList.add("was-validated");
+      error = true;
+    } else {
+      form.classList.remove("was-validated");
+
+      inputs.map((input) => {
+        dataForm[(input as HTMLInputElement).name] = (
+          input as HTMLInputElement
+        ).value;
+      });
     }
-    else
-    {
-        form.classList.remove('was-validated')
-        
-        inputs.map((input) => {
-            dataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
-        })
+
+    if (error == false) {
+      const planescotizados: any[] = [];
+
+      stateContext.value.planescotizados.map((plan: any) => {
+        planescotizados.push({
+          idplan: plan.idplan,
+          precio: plan.precio_grupal,
+        });
+      });
+
+      dataForm.cotizacion = {
+        fecha: {
+          desde: stateContext.value.desde,
+          hasta: stateContext.value.hasta,
+          dias: stateContext.value.dias,
+        },
+        origen: stateContext.value.origen,
+        destinos: stateContext.value.destinos,
+        pasajeros: stateContext.value.asegurados,
+        planfamiliar: stateContext.value.planfamiliar,
+        plan: {
+          idplan: stateContext.value.plan.idplan,
+          nombreplan: stateContext.value.plan.nombreplan,
+          precio: stateContext.value.plan.precio_grupal,
+        },
+        total: stateContext.value.total.total,
+        moneda: { codigomoneda: stateContext.value.total.divisa },
+        planescotizados: planescotizados,
+        contacto: stateContext.value.contacto,
+        edades: stateContext.value.edades,
+        ip_address: stateContext.value.resGeo.ip_address,
+      };
+
+      let resQuote: { [key: string]: any } = {};
+
+      const resSendQuote = await fetch("/api/getSendEmailQuote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dataForm),
+      });
+      const dataSendQuote = await resSendQuote.json();
+
+      resQuote = dataSendQuote;
+
+      if (resQuote.error == false) {
+        toastSuccess.show();
+        // Limpiar el formulario después del envío exitoso
+        showQuoteForm.value = false;
+        form.reset();
+      } else {
+        toastError.show();
+      }
     }
-
-    if(error == false)
-    {
-        const planescotizados : any[] = []
-
-        stateContext.value.planescotizados.map((plan:any) => {
-            planescotizados.push({idplan:plan.idplan,precio:plan.precio_grupal})
-        })
-
-        dataForm.cotizacion = { 
-            fecha:{desde:stateContext.value.desde,hasta:stateContext.value.hasta,dias:stateContext.value.dias}, 
-            origen:stateContext.value.origen,
-            destinos:stateContext.value.destinos,
-            pasajeros:stateContext.value.asegurados, 
-            planfamiliar:stateContext.value.planfamiliar, 
-            plan:{idplan:stateContext.value.plan.idplan,nombreplan:stateContext.value.plan.nombreplan,precio:stateContext.value.plan.precio_grupal}, 
-            total:stateContext.value.total.total, 
-            moneda:{codigomoneda:stateContext.value.total.divisa}, 
-            planescotizados:planescotizados, 
-            contacto:stateContext.value.contacto, 
-            edades:stateContext.value.edades,
-            ip_address:stateContext.value.resGeo.ip_address,
-        }
-
-        let resQuote : {[key:string]:any} = {}
-
-        const resSendQuote = await fetch("/api/getSendEmailQuote",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify(dataForm)});
-        const dataSendQuote = await resSendQuote.json()
-      
-        resQuote = dataSendQuote
-
-        if(resQuote.error == false)
-        {
-            toastSuccess.show()
-            // Limpiar el formulario después del envío exitoso
-            showQuoteForm.value = false
-            form.reset()
-        }
-        else
-        {
-            toastError.show()
-        }
-    }
-  })
+  });
 
   return (
     <div class="container ">
@@ -411,7 +509,8 @@ export const CardPaymentResume = component$(() => {
         <div class="col-right col-lg-7 col-md-12">
           {/* Header del formulario de pago */}
           <div class="row justify-content-center">
-            {stateContext?.value?.total?.total > 0 && !location.url.pathname.includes('/step-4') ? (
+            {stateContext?.value?.total?.total > 0 &&
+            !location.url.pathname.includes("/step-4") ? (
               <div class="col-lg-10 text-center mb-3">
                 <h3 class="text-semi-bold text-blue">
                   Todo listo para tu viaje
@@ -429,90 +528,99 @@ export const CardPaymentResume = component$(() => {
           </div>
 
           {/* Card del Cupón - Mobile */}
-          {!location.url.pathname.includes('/step-4') && (
+          {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-lg-none"
               style={{ borderRadius: "15px !important" }}
             >
-            <div class="card-body p-3">
-              <div class="d-flex align-items-center gap-2">
-                <div class="flex-grow-1">
-                  <input
-                    id="input-cupon-mobile"
-                    name="cupon"
-                    type="text"
-                    class="form-control text-center"
-                    placeholder="Ingresar código de cupón"
-                    disabled={messageCupon.value.aplicado}
-                    style={{
-                      border: "1px solid #e0e0e0",
-                      borderRadius: "30px",
-                      padding: "8px",
-                    }}
-                  />
+              <div class="card-body p-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="flex-grow-1">
+                    <input
+                      id="input-cupon-mobile"
+                      name="cupon"
+                      type="text"
+                      class="form-control text-center"
+                      placeholder="Ingresar código de cupón"
+                      disabled={messageCupon.value.aplicado}
+                      style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "30px",
+                        padding: "8px",
+                      }}
+                    />
+                  </div>
+
+                  <div class="flex-shrink-0">
+                    {messageCupon.value.aplicado == false &&
+                    messageCupon.value.cupon.codigocupon == "" ? (
+                      <button
+                        type="button"
+                        class="btn btn-primary btn_cotizar_1"
+                        onClick$={getCupon$}
+                        style={{
+                          minWidth: "80px",
+                          fontSize: "1rem !important",
+                        }}
+                      >
+                        Validar
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        class="btn btn-primary btn_cotizar_1"
+                        onClick$={removeCupon$}
+                        style={{
+                          minWidth: "80px",
+                          fontSize: "1rem !important",
+                        }}
+                      >
+                        Remover
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <div class="flex-shrink-0">
-                  {messageCupon.value.aplicado == false &&
-                  messageCupon.value.cupon.codigocupon == "" ? (
-                    <button
-                      type="button"
-                      class="btn btn-primary btn_cotizar_1"
-                      onClick$={getCupon$}
-                      style={{ minWidth: "80px", fontSize: "1rem !important" }}
-                    >
-                      Validar
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      class="btn btn-primary btn_cotizar_1"
-                      onClick$={removeCupon$}
-                      style={{ minWidth: "80px", fontSize: "1rem !important" }}
-                    >
-                      Remover
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {messageCupon.value.error != "" && (
-                <div
-                  class="col-lg-12 
+                {messageCupon.value.error != "" && (
+                  <div
+                    class="col-lg-12 
                "
-                >
-                  {messageCupon.value.error == "error" && (
-                    <div
-                      class="alert alert-danger text-semi-bold text-blue mb-0"
-                      role="alert"
-                    >
-                      Cupón{" "}
-                      <span class="text-semi-bold text-danger">
-                        {messageCupon.value.cupon.codigocupon} no es valido!
-                      </span>
-                    </div>
-                  )}
-                  {messageCupon.value.error == "success" && (
-                    <div
-                      class="alert alert-success text-semi-bold text-blue mb-0"
-                      role="alert"
-                    >
-                      Cupón{" "}
-                      <span class="text-semi-bold text-success">
-                        {" "}
-                        {messageCupon.value.cupon.codigocupon}{" "}
-                      </span>{" "}
-                      aplicado con éxito!
-                    </div>
-                  )}
-                </div>
-              )}
+                  >
+                    {messageCupon.value.error == "error" && (
+                      <div
+                        class="alert alert-danger text-semi-bold text-blue mb-0"
+                        role="alert"
+                      >
+                        Cupón{" "}
+                        <span class="text-semi-bold text-danger">
+                          {messageCupon.value.cupon.codigocupon} no es valido!
+                        </span>
+                      </div>
+                    )}
+                    {messageCupon.value.error == "success" && (
+                      <div
+                        class="alert alert-success text-semi-bold text-blue mb-0"
+                        role="alert"
+                      >
+                        Cupón{" "}
+                        <span class="text-semi-bold text-success">
+                          {" "}
+                          {messageCupon.value.cupon.codigocupon}{" "}
+                        </span>{" "}
+                        aplicado con éxito!
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           )}
 
           {/* Card de Resumen de Viajeros - Solo Mobile */}
-          <div id="card-pax-mobile" class="card border-0 mb-3 shadow-sm d-lg-none">
+          <div
+            id="card-pax-mobile"
+            class="card border-0 mb-3 shadow-sm d-lg-none"
+          >
             <div class="card-body">
               <div class="col-lg-12 col-xs-12 d-lg-flex px-3">
                 <div class="d-flex justify-content-between align-items-center w-100">
@@ -522,16 +630,23 @@ export const CardPaymentResume = component$(() => {
                     </h5>
                   </div>
                   <div class="d-flex align-items-center">
-                  <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png" alt="Usuario" style={{width: '1.2rem', height: '1.2rem', marginRight: '0.5rem'}}/>
+                    <img
+                      src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-passengers.png"
+                      alt="Usuario"
+                      style={{
+                        width: "1.2rem",
+                        height: "1.2rem",
+                        marginRight: "0.5rem",
+                      }}
+                    />
                     <div>
                       <div
                         class="text-semi-bold text-dark-blue"
                         style={{ fontSize: "0.875rem", lineHeight: "1" }}
                       >
-                        {typeof stateContext.value.pasajeros === 'string' ? 
-                                        stateContext.value.pasajeros.split(' ')[0] : 
-                                        stateContext.value.pasajeros
-                                    }
+                        {typeof stateContext.value.pasajeros === "string"
+                          ? stateContext.value.pasajeros.split(" ")[0]
+                          : stateContext.value.pasajeros}
                       </div>
                     </div>
                   </div>
@@ -540,7 +655,7 @@ export const CardPaymentResume = component$(() => {
               <div class="col-12 px-2">
                 <hr class="hr-gray" />
               </div>
-              <ul class="list-group" id="list-pax">
+              <ul class="list-group" id="list-pax-mobile">
                 {Object.keys(stateContext.value).length > 0 &&
                   Array.isArray(stateContext.value?.asegurados) &&
                   stateContext.value?.asegurados.map(
@@ -549,27 +664,32 @@ export const CardPaymentResume = component$(() => {
                         <li class="list-group" key={index + 1}>
                           <div class="row">
                             <div class="col-12 d-flex">
-                            <div class="col-lg-8  col-md-8  col-sm-8  col-xs-8  px-3">
-                              <div class="d-none d-lg-flex align-items-start">
-                                <h5
-                                  class="text-medium text-dark-blue text-align-start"
-                                  style={{ marginBottom: 0, fontSize: '0.95rem' }}
-                                >
-                                  {pax.nombres} {pax.apellidos}
-                                </h5>
-                              </div>
+                              <div class="col-lg-8  col-md-8  col-sm-8  col-xs-8  px-3">
+                                <div class="d-none d-lg-flex align-items-start">
+                                  <h5
+                                    class="text-medium text-dark-blue text-align-start"
+                                    style={{
+                                      marginBottom: 0,
+                                      fontSize: "0.95rem",
+                                    }}
+                                  >
+                                    {pax.nombres} {pax.apellidos}
+                                  </h5>
+                                </div>
 
-                              <div class="d-flex d-lg-none align-items-start justify-content-start">
-                                <h5
-                                  class="text-medium text-dark-blue text-align-start"
-                                  style={{ marginBottom: 0, fontSize: '0.95rem' }}
-                                >
-                                  {pax.nombres} {pax.apellidos}
-                                </h5>
+                                <div class="d-flex d-lg-none align-items-start justify-content-start">
+                                  <h5
+                                    class="text-medium text-dark-blue text-align-start"
+                                    style={{
+                                      marginBottom: 0,
+                                      fontSize: "0.95rem",
+                                    }}
+                                  >
+                                    {pax.nombres} {pax.apellidos}
+                                  </h5>
+                                </div>
                               </div>
-                            </div>
-                            <div class="col-lg-4 ps-0 pe-1">
-                            </div>
+                              <div class="col-lg-4 ps-0 pe-1"></div>
                               <div class="mobile text-center">
                                 <p
                                   class="text-light-blue"
@@ -598,7 +718,7 @@ export const CardPaymentResume = component$(() => {
 
                             <div
                               id={"collapse-" + (index + 1)}
-                              class={`collapse-pax collapse ${shouldBeExpandedByDefault(index) ? 'show' : ''}`}
+                              class={`collapse-pax collapse ${shouldBeExpandedByDefault(index) ? "show" : ""}`}
                               aria-labelledby="headingTwo"
                               data-parent="#accordion"
                               style={{
@@ -607,7 +727,6 @@ export const CardPaymentResume = component$(() => {
                                 marginRight: 0,
                               }}
                             >
-                              
                               <div class="row px-3">
                                 <div class="col-lg-8 col-xs-12">
                                   <div class="input-group">
@@ -683,7 +802,6 @@ export const CardPaymentResume = component$(() => {
                                       </label>
                                     </div>
                                   </div>
-                               
                                 </div>
                                 <div class="col-6">
                                   <div class="input-group">
@@ -703,14 +821,13 @@ export const CardPaymentResume = component$(() => {
                                           style="width: 1rem; height: 1rem; margin-right: 0.2rem;"
                                         />
                                       </span>
-                                      
-                                        <span
-                                          class="text-medium text-dark-blue"
-                                          style={{ fontSize: "0.80rem" }}
-                                        >
-                                          {stateContext.value?.plan.nombreplan}
-                                        </span>
-                                   
+
+                                      <span
+                                        class="text-medium text-dark-blue"
+                                        style={{ fontSize: "0.80rem" }}
+                                      >
+                                        {stateContext.value?.plan.nombreplan}
+                                      </span>
                                     </div>
                                   </div>
 
@@ -731,7 +848,6 @@ export const CardPaymentResume = component$(() => {
                                     </h6>
                                   )}
                                 </div>
-                                
 
                                 {pax.beneficiosadicionalesSeleccionados.length >
                                   0 && (
@@ -763,7 +879,6 @@ export const CardPaymentResume = component$(() => {
                                             <span class="text-tin text-dark-gray ps-0">
                                               Beneficios adicionales
                                             </span>
-                                            
                                           </p>
                                         </div>
                                       </div>
@@ -866,102 +981,106 @@ export const CardPaymentResume = component$(() => {
               </ul>
               <div class="col-12 col-xs-12 text-end mx-2 ">
                 <div class="col-12 pe-3 pb-1 pt-1">
-                                <hr class="hr-gray" />
-                              </div>
-                  <div class="row">
-                    <div class="col-12 d-flex justify-content-center align-items-center h-auto">
-                      <div class="col-2 col-xs-2 col-md-2 d-flex flex-column ">
-                        {/* Imagen del plan seleccionado */}
-                        {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('essential') && (
-                          <ImgContinentalAssistBagEssential 
-                            class="img-fluid" 
-                            loading="lazy"
-                            title="continental-assist-bag-essential"
-                            alt="continental-assist-bag-essential"
-                            style={{ maxWidth: "50px", height: "auto",}}
-                          />
-                        )}
-                        {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('complete') && (
-                          <ImgContinentalAssistBagComplete 
-                            class="img-fluid" 
-                            loading="lazy"
-                            title="continental-assist-bag-complete"
-                            alt="continental-assist-bag-complete"
-                            style={{ maxWidth: "50px", height: "auto",}}
-                          />
-                        )}
-                        {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('elite') && (
-                          <ImgContinentalAssistBagElite 
-                            class="img-fluid" 
-                            loading="lazy"
-                            title="continental-assist-bag-elite"
-                            alt="continental-assist-bag-elite"
-                            style={{ maxWidth: "50px", height: "auto",}}
-                          />
-                        )}
-                      </div>
-                      <div class="col-3 col-xs-3 col-md-3 d-flex flex-column ">
-                        <label class="label-resume text-dark-gray">
-                          <span class="text-tin">Plan </span>
-                          <br />
-                          <span
-                            class="text-medium text-dark-blue"
-                            style={{ fontSize: "0.80rem" }}
-                          >
-                            {stateContext.value?.plan.nombreplan}
-                          </span>
-                        </label>
-                      </div>
-                      <div class="col-7 col-xs-7 col-md-7 d-flex flex-column ">
-                        
-                        <h6 class="divisa-total text-bold text-blue mb-0 pe-4">
-                          {stateContext.value?.cupon &&
-                            stateContext.value?.cupon?.codigocupon && (
-                              <>
-                                <strike class="precio-strike">
-                                  {stateContext.value?.total &&
-                                    (contextDivisa.divisaUSD == true
-                                      ? CurrencyFormatter(
-                                          stateContext.value?.total?.divisa,
-                                          stateContext.value?.subTotal
-                                        )
-                                      : CurrencyFormatter(
-                                          stateContext.value?.currentRate?.code,
-                                          stateContext.value?.subTotal *
-                                            stateContext.value?.currentRate?.rate
-                                        ))}
-                                </strike>
-                                <br />
-                              </>
-                            )}
-                          {
-                            /* totalPay.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) :
+                  <hr class="hr-gray" />
+                </div>
+                <div class="row">
+                  <div class="col-12 d-flex justify-content-center align-items-center h-auto">
+                    <div class="col-2 col-xs-2 col-md-2 d-flex flex-column ">
+                      {/* Imagen del plan seleccionado */}
+                      {stateContext.value?.plan?.nombreplan
+                        ?.toLowerCase()
+                        .includes("essential") && (
+                        <ImgContinentalAssistBagEssential
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-essential"
+                          alt="continental-assist-bag-essential"
+                          style={{ maxWidth: "50px", height: "auto" }}
+                        />
+                      )}
+                      {stateContext.value?.plan?.nombreplan
+                        ?.toLowerCase()
+                        .includes("complete") && (
+                        <ImgContinentalAssistBagComplete
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-complete"
+                          alt="continental-assist-bag-complete"
+                          style={{ maxWidth: "50px", height: "auto" }}
+                        />
+                      )}
+                      {stateContext.value?.plan?.nombreplan
+                        ?.toLowerCase()
+                        .includes("elite") && (
+                        <ImgContinentalAssistBagElite
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-elite"
+                          alt="continental-assist-bag-elite"
+                          style={{ maxWidth: "50px", height: "auto" }}
+                        />
+                      )}
+                    </div>
+                    <div class="col-3 col-xs-3 col-md-3 d-flex flex-column ">
+                      <label class="label-resume text-dark-gray">
+                        <span class="text-tin">Plan </span>
+                        <br />
+                        <span
+                          class="text-medium text-dark-blue"
+                          style={{ fontSize: "0.80rem" }}
+                        >
+                          {stateContext.value?.plan.nombreplan}
+                        </span>
+                      </label>
+                    </div>
+                    <div class="col-7 col-xs-7 col-md-7 d-flex flex-column ">
+                      <h6 class="divisa-total text-bold text-blue mb-0 pe-4">
+                        {stateContext.value?.cupon &&
+                          stateContext.value?.cupon?.codigocupon && (
+                            <>
+                              <strike class="precio-strike">
+                                {stateContext.value?.total &&
+                                  (contextDivisa.divisaUSD == true
+                                    ? CurrencyFormatter(
+                                        stateContext.value?.total?.divisa,
+                                        stateContext.value?.subTotal
+                                      )
+                                    : CurrencyFormatter(
+                                        stateContext.value?.currentRate?.code,
+                                        stateContext.value?.subTotal *
+                                          stateContext.value?.currentRate?.rate
+                                      ))}
+                              </strike>
+                              <br />
+                            </>
+                          )}
+                        {
+                          /* totalPay.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) :
                                 CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate)) */
-                            stateContext.value?.total &&
-                              (contextDivisa.divisaUSD == true
-                                ? CurrencyFormatter(
-                                    stateContext.value?.total?.divisa,
-                                    stateContext.value?.total?.total
-                                  )
-                                : CurrencyFormatter(
-                                    stateContext.value?.currentRate?.code,
-                                    stateContext.value?.total?.total *
-                                      stateContext.value?.currentRate?.rate
-                                  ))
-                          }
-                        </h6>
-                      </div>
+                          stateContext.value?.total &&
+                            (contextDivisa.divisaUSD == true
+                              ? CurrencyFormatter(
+                                  stateContext.value?.total?.divisa,
+                                  stateContext.value?.total?.total
+                                )
+                              : CurrencyFormatter(
+                                  stateContext.value?.currentRate?.code,
+                                  stateContext.value?.total?.total *
+                                    stateContext.value?.currentRate?.rate
+                                ))
+                        }
+                      </h6>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
           <div class="row">
             <div class="col-12">
               <div
                 id="card-right"
-                
                 style={{
                   borderRadius: "15px !important",
                   border: "none !important",
@@ -1001,89 +1120,94 @@ export const CardPaymentResume = component$(() => {
         </div>
         <div class="col-left col-lg-5 col-md-12 ">
           {/* Card del Cupón - Desktop */}
-          {!location.url.pathname.includes('/step-4') && (
+          {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-none d-lg-block"
               style={{ borderRadius: "15px !important" }}
             >
-            <div class="card-body p-3">
-              <div class="d-flex align-items-center gap-2">
-                <div class="flex-grow-1">
-                  <input
-                    id="input-cupon"
-                    name="cupon"
-                    type="text"
-                    class="form-control text-center"
-                    placeholder="Ingresar código de cupón"
-                    disabled={messageCupon.value.aplicado}
-                    style={{
-                      border: "1px solid #e0e0e0",
-                      borderRadius: "30px",
-                      padding: "8px",
-                    }}
-                  />
+              <div class="card-body p-3">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="flex-grow-1">
+                    <input
+                      id="input-cupon"
+                      name="cupon"
+                      type="text"
+                      class="form-control text-center"
+                      placeholder="Ingresar código de cupón"
+                      disabled={messageCupon.value.aplicado}
+                      style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "30px",
+                        padding: "8px",
+                      }}
+                    />
+                  </div>
+
+                  <div class="flex-shrink-0">
+                    {messageCupon.value.aplicado == false &&
+                    messageCupon.value.cupon.codigocupon == "" ? (
+                      <button
+                        type="button"
+                        class="btn btn-primary btn_cotizar_1"
+                        onClick$={getCupon$}
+                        style={{
+                          minWidth: "80px",
+                          fontSize: "1rem !important",
+                        }}
+                      >
+                        Validar
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        class="btn btn-primary btn_cotizar_1"
+                        onClick$={removeCupon$}
+                        style={{
+                          minWidth: "80px",
+                          fontSize: "1rem !important",
+                        }}
+                      >
+                        Remover
+                      </button>
+                    )}
+                  </div>
                 </div>
 
-                <div class="flex-shrink-0">
-                  {messageCupon.value.aplicado == false &&
-                  messageCupon.value.cupon.codigocupon == "" ? (
-                    <button
-                      type="button"
-                      class="btn btn-primary btn_cotizar_1"
-                      onClick$={getCupon$}
-                      style={{ minWidth: "80px", fontSize: "1rem !important" }}
-                    >
-                      Validar
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      class="btn btn-primary btn_cotizar_1"
-                      onClick$={removeCupon$}
-                      style={{ minWidth: "80px", fontSize: "1rem !important" }}
-                    >
-                      Remover
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {messageCupon.value.error != "" && (
-                <div
-                  class="col-lg-12 
+                {messageCupon.value.error != "" && (
+                  <div
+                    class="col-lg-12 
                "
-                >
-                  {messageCupon.value.error == "error" && (
-                    <div
-                      class="alert alert-danger text-semi-bold text-blue mb-0"
-                      role="alert"
-                    >
-                      Cupón{" "}
-                      <span class="text-semi-bold text-danger">
-                        {messageCupon.value.cupon.codigocupon} no es valido!
-                      </span>
-                    </div>
-                  )}
-                  {messageCupon.value.error == "success" && (
-                    <div
-                      class="alert alert-success text-semi-bold text-blue mb-0"
-                      role="alert"
-                    >
-                      Cupón{" "}
-                      <span class="text-semi-bold text-success">
-                        {" "}
-                        {messageCupon.value.cupon.codigocupon}{" "}
-                      </span>{" "}
-                      aplicado con éxito!
-                    </div>
-                  )}
-                </div>
-              )}
+                  >
+                    {messageCupon.value.error == "error" && (
+                      <div
+                        class="alert alert-danger text-semi-bold text-blue mb-0"
+                        role="alert"
+                      >
+                        Cupón{" "}
+                        <span class="text-semi-bold text-danger">
+                          {messageCupon.value.cupon.codigocupon} no es valido!
+                        </span>
+                      </div>
+                    )}
+                    {messageCupon.value.error == "success" && (
+                      <div
+                        class="alert alert-success text-semi-bold text-blue mb-0"
+                        role="alert"
+                      >
+                        Cupón{" "}
+                        <span class="text-semi-bold text-success">
+                          {" "}
+                          {messageCupon.value.cupon.codigocupon}{" "}
+                        </span>{" "}
+                        aplicado con éxito!
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
           )}
 
-          
           {/* Card de Resumen de Viajeros - Solo Desktop */}
           <div id="card-pax" class="card  mb-3 shadow-sm d-none d-lg-block">
             <div class="card-body">
@@ -1119,7 +1243,7 @@ export const CardPaymentResume = component$(() => {
               <div class="col-12 px-2">
                 <hr class="hr-gray" />
               </div>
-              <ul class="list-group" id="list-pax">
+              <ul class="list-group" id="list-pax-desktop">
                 {Object.keys(stateContext.value).length > 0 &&
                   Array.isArray(stateContext.value?.asegurados) &&
                   stateContext.value?.asegurados.map(
@@ -1147,31 +1271,29 @@ export const CardPaymentResume = component$(() => {
                               </div>
                             </div>
                             <div class="col-lg-4 ps-0 pe-4">
-                              <div class="row not-mobile">
-                                <div class=" d-flex flex-column text-end">
-                                  <p
-                                    class="text-light-blue"
-                                    style={{
-                                      padding: 0,
-                                      margin: 0,
-                                      cursor: "pointer",
-                                    }}
-                                    onClick$={() => {
-                                      openCollapsPax$(
-                                        String("collapse-" + (index + 1))
-                                      );
-                                      indexPax.value = index;
-                                    }}
+                              <div class="not-mobile d-flex flex-column text-end">
+                                <p
+                                  class="text-light-blue"
+                                  style={{
+                                    padding: 0,
+                                    margin: 0,
+                                    cursor: "pointer",
+                                  }}
+                                  onClick$={() => {
+                                    openCollapsPax$(
+                                      String("collapse-desktop-" + (index + 1))
+                                    );
+                                    indexPax.value = index;
+                                  }}
+                                >
+                                  <span
+                                    class="text-semi-bold"
+                                    style={{ marginRight: "5px" }}
                                   >
-                                    <span
-                                      class="text-semi-bold"
-                                      style={{ marginRight: "5px" }}
-                                    >
-                                      Viajero #{index + 1}
-                                    </span>
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                  </p>
-                                </div>
+                                    Viajero #{index + 1}
+                                  </span>
+                                  <i class="fa-solid fa-chevron-down"></i>
+                                </p>
                               </div>
 
                               <div class="mobile text-center">
@@ -1201,8 +1323,8 @@ export const CardPaymentResume = component$(() => {
                             </div>
 
                             <div
-                              id={"collapse-" + (index + 1)}
-                              class={`collapse-pax collapse ${shouldBeExpandedByDefault(index) ? 'show' : ''}`}
+                              id={"collapse-desktop-" + (index + 1)}
+                              class={`collapse-pax collapse ${shouldBeExpandedByDefault(index) ? "show" : ""}`}
                               aria-labelledby="headingTwo"
                               data-parent="#accordion"
                               style={{
@@ -1479,41 +1601,65 @@ export const CardPaymentResume = component$(() => {
                   )}
               </ul>
               <div class="col-12 col-xs-12 text-end mx-2 ">
-              <div class="col-12 pe-3 pb-3 pt-1">
-                              <hr class="hr-gray" />
-                            </div>
+                <div class="col-12 pe-3 pb-3 pt-1">
+                  <hr class="hr-gray" />
+                </div>
                 <div class="row">
-                  <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                  <div
+                    class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center"
+                    style={{ minHeight: "120px" }}
+                  >
                     {/* Imagen del plan seleccionado */}
-                    {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('essential') && (
-                      <ImgContinentalAssistBagEssential 
-                        class="img-fluid" 
+                    {stateContext.value?.plan?.nombreplan
+                      ?.toLowerCase()
+                      .includes("essential") && (
+                      <ImgContinentalAssistBagEssential
+                        class="img-fluid"
                         loading="lazy"
                         title="continental-assist-bag-essential"
                         alt="continental-assist-bag-essential"
-                        style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
+                        style={{
+                          maxWidth: "120px",
+                          height: "auto",
+                          paddingBottom: "30px",
+                        }}
                       />
                     )}
-                    {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('complete') && (
-                      <ImgContinentalAssistBagComplete 
-                        class="img-fluid" 
+                    {stateContext.value?.plan?.nombreplan
+                      ?.toLowerCase()
+                      .includes("complete") && (
+                      <ImgContinentalAssistBagComplete
+                        class="img-fluid"
                         loading="lazy"
                         title="continental-assist-bag-complete"
                         alt="continental-assist-bag-complete"
-                        style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
+                        style={{
+                          maxWidth: "120px",
+                          height: "auto",
+                          paddingBottom: "30px",
+                        }}
                       />
                     )}
-                    {stateContext.value?.plan?.nombreplan?.toLowerCase().includes('elite') && (
-                      <ImgContinentalAssistBagElite 
-                        class="img-fluid" 
+                    {stateContext.value?.plan?.nombreplan
+                      ?.toLowerCase()
+                      .includes("elite") && (
+                      <ImgContinentalAssistBagElite
+                        class="img-fluid"
                         loading="lazy"
                         title="continental-assist-bag-elite"
                         alt="continental-assist-bag-elite"
-                        style={{ maxWidth: "120px", height: "auto", paddingBottom: "30px" }}
+                        style={{
+                          maxWidth: "120px",
+                          height: "auto",
+                          paddingBottom: "30px",
+                        }}
                       />
                     )}
                   </div>
-                  <div class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                  <div
+                    class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center"
+                    style={{ minHeight: "120px" }}
+                  >
                     <label class="label-resume text-dark-gray">
                       <span class="text-tin">Plan </span>
                       <br />
@@ -1525,7 +1671,10 @@ export const CardPaymentResume = component$(() => {
                       </span>
                     </label>
                   </div>
-                  <div class="col-6 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center" style={{ minHeight: "120px" }}>
+                  <div
+                    class="col-6 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center"
+                    style={{ minHeight: "120px" }}
+                  >
                     <p class="text-regular text-blue mb-0">
                       {" "}
                       {`Total para ${stateContext.value?.pasajeros || ""}`}
@@ -1571,8 +1720,6 @@ export const CardPaymentResume = component$(() => {
               </div>
             </div>
           </div>
-
-          
         </div>
       </div>
     </div>
