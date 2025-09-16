@@ -7,10 +7,8 @@ export const MetricSection = component$(() => {
         <section class="metrics-section">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-12 d-flex justify-content-center align-items-center text-center mt-4"
-                         id="metrics-section">
-
-                        <div class="col-6 col-md-4 mt-4">
+                    <div class="col-md-12 d-flex justify-content-center align-items-center text-center mt-4" id="metrics-section">
+                        <div class="col-6 col-md-3 mt-4 p-2">
                             <div class='mb-4'>
                                 <img
                                     src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/shield-account-outline.png"
@@ -20,10 +18,23 @@ export const MetricSection = component$(() => {
                                 <p>
                                     <span class="h3 text-bold-metric text-blue">+30 Años Experiencia </span>
                                 </p>
-                                <p class="font-tamanio"> Líderes en el mercado de seguros de viaje </p>
+                                <p class="font-tamanio"> Amplia trayectoria en el mercado de asistencia internacional. </p>
                             </div>
                         </div>
-                        <div class="col-6 col-md-4 mt-4">
+                        <div class="col-6 col-md-3 mt-4 p-2">
+                            <div class='mb-4'>
+                                <img
+                                    src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/maletinchulo.png"
+                                    alt="" width='80' height='80'/>
+                            </div>
+                            <div class="qs-metrics-titulo">
+                                <p>
+                                    <span class="h3 text-bold-metric text-blue">100% Respaldo </span>
+                                </p>
+                                <p class="font-tamanio">Somos la única compañía de asistencia en viaje que cuenta con reaseguro. </p>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mt-4 p-2">
                             <div class='mb-4'>
                                 <img
                                     src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/web.png"
@@ -31,15 +42,15 @@ export const MetricSection = component$(() => {
                             </div>
                             <div class="qs-metrics-titulo">
                                 <p>
-                                    <span class="h3 text-bold-metric text-blue">100% respaldo global </span>
+                                    <span class="h3 text-bold-metric text-blue">178.000 Red Global </span>
                                 </p>
-                                <p class="font-tamanio">Cobertura en más de 190 países </p>
+                                <p class="font-tamanio">Contamos con más de 178 mil proveedores listos para asistirte en cualquier parte del mundo. </p>
                             </div>
                         </div>
-                        <div class="col-12 col-md-4 mt-4">
+                        <div class="col-6 col-md-3 mt-4 p-2">
                             <div class='mb-4'>
                                 <img
-                                    src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/headphones.png"
+                                    src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/shield-account-outline.png"
                                     alt="" width='80' height='80'/>
                             </div>
                             <div class="qs-metrics-titulo">
@@ -55,7 +66,7 @@ export const MetricSection = component$(() => {
 
             <div class="col-md-12 d-none" id="metrics-section-mobile">
                 <div class="row px-2">
-                    <div class="col-6 col-md-4 mt-4">
+                    <div class="col-6 col-md-6 mt-4">
                         <div class='mb-4'>
                             <img
                                 src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/shield-account-outline.png"
@@ -65,10 +76,25 @@ export const MetricSection = component$(() => {
                             <p>
                                 <span class="h3 text-bold-metric text-blue">+30 Años Experiencia </span>
                             </p>
-                            <p class="font-tamanio"> Líderes en el mercado de seguros de viaje </p>
+                            <p class="font-tamanio"> Amplia trayectoria en el mercado de asistencia internacional. </p>
                         </div>
                     </div>
-                    <div class="col-6 col-md-4 mt-4">
+                    <div class="col-6 col-md-6 mt-4">
+                        <div class='mb-4'>
+                            <img
+                                src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/maletinchulo.png"
+                                alt="" width='80' height='80'/>
+                        </div>
+                        <div class="qs-metrics-titulo">
+                            <p>
+                                <span class="h3 text-bold-metric text-blue">100% respaldo </span>
+                            </p>
+                            <p class="font-tamanio">Somos la única compañía de asistencia en viaje que cuenta con reaseguro. </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-6 col-md-6 mt-4">
                         <div class='mb-4'>
                             <img
                                 src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/web.png"
@@ -76,14 +102,12 @@ export const MetricSection = component$(() => {
                         </div>
                         <div class="qs-metrics-titulo">
                             <p>
-                                <span class="h3 text-bold-metric text-blue">100% respaldo global </span>
+                                <span class="h3 text-bold-metric text-blue">178.000 Red Global</span>
                             </p>
-                            <p class="font-tamanio">Cobertura en más de 190 países </p>
+                            <p class="font-tamanio"> Contamos con más de 178 mil proveedores listos para asistirte en cualquier parte del mundo. </p>
                         </div>
                     </div>
-                </div>
-                <div class="row mt-5">
-                    <div class="col-md-4 mt-4">
+                    <div class="col-6 col-md-6 mt-4">
                         <div class='mb-4'>
                             <img
                                 src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/headphones.png"
@@ -93,7 +117,8 @@ export const MetricSection = component$(() => {
                             <p>
                                 <span class="h3 text-bold-metric text-blue">Atención 24/7 </span>
                             </p>
-                            <p class="font-tamanio"> Asistencia inmediata cuando la necesites </p>
+                            <p class="font-tamanio">
+                                Operamos de manera ininterrumpida a nivel global. </p>
                         </div>
                     </div>
                 </div>

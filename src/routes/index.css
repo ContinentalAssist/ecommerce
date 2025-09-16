@@ -32,8 +32,8 @@
 }
 
 .section-title-about {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 600;
     color: var(--ca-blue);
     margin-bottom: 1.5rem;
     text-align: left;
@@ -47,7 +47,7 @@
 
 .section-title {
     font-size: 2rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--ca-blue);
     margin-bottom: 1.5rem;
     text-align: left;
@@ -59,7 +59,7 @@
 }
 
 .content-cover {
-    padding: 0 15%;
+    padding: 0 10%;
 }
 
 .highlight {
@@ -568,6 +568,12 @@
     .metrics-section-mobile {
         margin: 30px 0 !important;
     }
+
+    .color-text-blue-primary {
+        color: var(--ca-blue);
+        font-size: 1.5rem;
+        margin-top: 120px;
+    }
 }
 
 /* Mobile Portrait */
@@ -600,9 +606,9 @@
     }
 
     .bg-home-blue-access {
-        background-image: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/XentralPass-Desktop-bg") !important;
+        background-image: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/xentralpassupperleft.png");
         background-size: cover;
-        background-position: center;
+        background-repeat: no-repeat;
     }
 
     .bg-home-blue-access .line-dots-left {
@@ -627,14 +633,17 @@
         text-align: center;
     }
 
-    .home,
-    #container-quote {
+    .home, #container-quote {
         min-height: 100vh !important;
+    }
+
+    .cover-pading{
+        padding: 10px 0 !important;
     }
 }
 
 .img-bluaccess-logo{
-    width: 250px;
+    width: 200px;
     height: auto;
 }
 
@@ -810,7 +819,7 @@
 
 @media (max-width: 1194px) {
     .bg-home-blue-access {
-        background-image: url("/assets/img/home/continental-assist-bg-blue-access-1920x1080.webp");
+        background-image: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/XentralPass-Desktop-bg");
         background-size: 100vw 100%;
         background-repeat: no-repeat;
     }
@@ -864,9 +873,8 @@
         display: block !important;
     }
 
-
-    .qs-content {
-        padding: 40px 0 !important;
+    .font-tamanio {
+        font-size: 0.9rem;
     }
 
     #metrics-section{
@@ -879,7 +887,6 @@
         justify-content: center;
         align-items: baseline;
         gap: 0.5rem;
-        margin-bottom: 2rem;
     }
 
     .qs-title-light,
@@ -937,6 +944,7 @@
     #metrics-section-mobile{
         /*align-items: center;*/
         text-align: center;
+        padding: 10px;
     }
 
     .img-fluid-planet {
@@ -997,13 +1005,85 @@
     }
 
     #metrics-section-mobile > * .h3{
-        font-size: 1.2rem !important;
+        font-size: 1rem !important;
     }
 
     #metrics-section-mobile > * p {
         line-height: 1 !important;
     }
 
+    #qs-top-mobile{
+        display: block !important;
+    }
+
+    .qs-top {
+        display: none !important;
+    }
+
+    .section-title{
+        text-align: center;
+        font-size: 1.4rem;
+        line-height: 1 !important;
+    }
+
+    .mostrar-btn{
+        display: block;
+    }
+
+    .bg-home-blue-access {
+        background-image: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/xentralpassupperleft.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    .text-while-blueaccess{
+        font-size: 1.8rem;
+    }
+
+    .text-white-blue{
+        font-size: 0.9rem;
+    }
+
+    .blue-cuadreado{
+        width: 100%;
+    }
+
+    .coverage-item img{
+        max-height: 40px;
+    }
+
+    .text-white-blue-cuadrado{
+        font-size: 0.9rem;
+    }
+
+    .vertical-line-cyan {
+        display: inline-block;
+        width: 3px;
+        height: 50px;
+        margin: 0 10px;
+    }
+
+    .btn-blueaccess{
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    #faqsAccordion {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .text-title-complements{
+        padding: 20px 0;
+        font-size: 1.8rem;
+        font-weight: bold;
+        text-align: center;
+        color: var(--ca-blue);
+    }
+
+    .bg-home-testimonials {
+        background-color: #f4f4f4;
+        padding: 40px 0;
+    }
 }
 
 @media (max-width: 1201px) {
@@ -1066,7 +1146,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-        margin-bottom: 1.5rem;
+        margin-top: 1.5rem;
         word-break: break-word;
     }
 
@@ -1138,6 +1218,10 @@
         align-content: center;
         grid-template-columns: repeat(2, 1fr);
     }
+
+    .cover-pading{
+        padding: 10px 0 !important;
+    }
 }
 
 @media (min-width: 1201px) {
@@ -1199,6 +1283,10 @@
     .img-fluid-planet {
         height: 500px;
         padding: 0 50px;
+    }
+
+    .cover-pading{
+        padding: 10px 30px !important;
     }
 }
 
@@ -1392,7 +1480,6 @@
     .qd-title-bold {
         font-size: 3.5rem;
         font-weight: 1000;
-        letter-spacing: -0.06em;
         color: #00184b;
         line-height: 0.9;
         letter-spacing: 0.02em;

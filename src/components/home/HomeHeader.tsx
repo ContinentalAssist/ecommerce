@@ -14,8 +14,8 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
             <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen'>
                 <div id='container-quote' class='row align-content-center justify-content-center'
                      style={{minHeight: '75vh'}}>
-                    <div class='col-xl-12 text-center primera-seccion'>
-                        <div class=" my-5 margin-header col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
+                    <div class='col-xl-12 text-center'>
+                        <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="color-text-blue-primary">
                                     Viajando con tranquilidad,<br/> <span
