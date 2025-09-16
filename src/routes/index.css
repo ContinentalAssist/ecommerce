@@ -85,6 +85,11 @@
     transform: translateY(-2px);
 }
 
+
+#complements-section{
+    display: flex;
+}
+
 .margin-header{
     margin-top: 50px!important;
 }
@@ -560,6 +565,10 @@
         margin-top: 5rem;
     }
 
+    .padignt-top{
+        padding-top: 3.5rem !important;
+    }
+
     #collapseQuotesEngine-moblie{
         display: flex !important;
     }
@@ -783,7 +792,9 @@
         width: 8%;
     }
 
-
+    .padignt-top{
+        padding-top: 2rem !important;
+    }
 
     .qs-bg-left {
         background-color: var(--ca-dark-blue);
@@ -825,6 +836,10 @@
         background-image: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/XentralPass-Desktop-bg");
         background-size: 100vw 100%;
         background-repeat: no-repeat;
+    }
+
+    .padignt-top{
+        padding-top: 2rem !important;
     }
 
     .bg-vibe .col-lg-4 {
@@ -874,6 +889,10 @@
 
     #metrics-section-mobile{
         display: block !important;
+    }
+
+    .padignt-top{
+        padding-top: 2rem !important;
     }
 
     .font-tamanio {

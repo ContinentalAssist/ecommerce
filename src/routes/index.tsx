@@ -37,16 +37,6 @@ export const head: DocumentHead = {
 export default component$(() => {
     useStylesScoped$(styles);
 
-    const stateContext = useContext(WEBContext);
-    const location = useLocation();
-    const terms = useSignal(false);
-    const isMobile = useSignal(false);
-    const modeResumeStep = useSignal(false);
-    const contextLoading = useContext(LoadingContext);
-    const headerStep = useSignal(false);
-    const urlBlueAccess = useSignal('');
-
-
     const stateContext = useContext(WEBContext)
     const location = useLocation()
     const terms = useSignal(false)

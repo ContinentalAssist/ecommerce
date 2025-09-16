@@ -93,7 +93,7 @@ export const MetricSection = component$(() => {
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4">
+                <div class="row padignt-top">
                     <div class="col-6 col-md-6 mt-4">
                         <div class='mb-4'>
                             <img
