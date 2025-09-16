@@ -26,10 +26,10 @@ export const QuotesEngineSteps = component$((props:propsQuotesEngineSteps) => {
     return(
         <div class='progressbar mx-4 mt-1'>
             <label class='text-dark-blue'>
-                <span class='text-bold'>{props.name} /</span> Paso { props.active} de {props.steps}
+                Paso { props.active} de {props.steps}
             </label>
             <div class="progress" role="progressbar">
-                <div class="progress-bar" style={{width:(20* props.active)+'%'}}/>
+                <div class="progress-bar" style={{width:(25* props.active)+'%'}}/>
             </div>
         </div>
     )

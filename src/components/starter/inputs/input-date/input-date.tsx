@@ -1,6 +1,7 @@
 /** @jsxImportSource react */
 import { qwikify$ } from "@builder.io/qwik-react";
-import { useState } from 'react';
+import { useState, useEffect, useRef, FocusEvent } from 'react';
+
 import { LicenseInfo } from '@mui/x-license';
 
 // Configurar la licencia usando variable de entorno
@@ -55,17 +56,18 @@ const MyDatePicker = (props: DatePickerProps) => {
 
   const [openDesktop, setOpenDesktop] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
+   const popperRef = useRef<HTMLDivElement>(null);
 
-  const formatDate = (date: Dayjs | null): string => {
-    return date ? date.format('YYYY/MM/DD') : '';
-  };
-
-  const handleDateChange = (newValue: Dayjs | null) => {
+  const handleDateChange = (newValue: Dayjs | null, context: any) => {
     setValue(newValue);
-    if (newValue) {
+    if (context.validationError === null && newValue) {
       const formatted = newValue.format('YYYY/MM/DD');
       props.onChange && props.onChange(formatted);
     }
+  };
+
+  const formatDate = (date: Dayjs | null): string => {
+    return date ? date.format('YYYY/MM/DD') : '';
   };
 
   const handleMobileInputClick = () => {
@@ -77,6 +79,12 @@ const MyDatePicker = (props: DatePickerProps) => {
     setOpenMobile(false);
     props.onFocus && props.onFocus(false);
   };
+
+   // useEffect para escuchar cambios en props.defaultvalue
+  useEffect(() => {
+    const newValue = getValidDateOrDefault(props.defaultvalue);
+    setValue(toNullIfUndefined(newValue));
+  }, [props.defaultvalue]);
 
   // Filtrar solo las props que son válidas para los date pickers de MUI
   const getDatePickerProps = () => {
@@ -95,7 +103,8 @@ const MyDatePicker = (props: DatePickerProps) => {
       'shouldDisableYear',
       'dayOfWeekFormatter',
       'localeText',
-      'timezone'
+      'timezone',
+      'hidden'
     ];
     
     const filteredProps: any = {};
@@ -112,7 +121,7 @@ const MyDatePicker = (props: DatePickerProps) => {
 
   return (
     <div>
-      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12}>
+      <Grid key={'key-' + props.id} item xs={12} sm={12} lg={12} sx={{display: props.hidden ? 'none' : 'block'}}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           {/* Mobile Date Picker */}
           <Box display={{ lg: "none", md: "none", sm: "none", xs: "block" }}>
@@ -158,44 +167,46 @@ const MyDatePicker = (props: DatePickerProps) => {
 
           {/* Desktop Date Picker */}
           <Box display={{ xs: "none", sm: "block" }}>
-          <DesktopDatePicker
-            {...datePickerProps}
-            label={props.label}
-            value={value}
-            open={openDesktop}
-            onOpen={() => {
-              setOpenDesktop(true);
-              props.onFocus && props.onFocus(true);
-            }}
-            onClose={() => {
-              setOpenDesktop(false);
-              props.onFocus && props.onFocus(false);
-            }}
-            minDate={getValidDateOrDefault(props.min)}
-            maxDate={getValidDateOrDefault(props.max)}
-            slotProps={{
-              textField: {
+            <DesktopDatePicker
+              {...datePickerProps}
+              label={props.label}
+              value={value}
+              open={openDesktop}
+              closeOnSelect={true}
+              onClose={() => setOpenDesktop(false)}
+              minDate={getValidDateOrDefault(props.min)}
+              maxDate={getValidDateOrDefault(props.max)}
+              onChange={handleDateChange}
+              slotProps={{
+                textField: {
                 InputProps: {
                   startAdornment: (
                     <InputAdornment position="start">
-                      <CalendarIcon /> {/* ¡Aquí falta el icono! */}
+                      <CalendarIcon /> 
                     </InputAdornment>
                   ),
                   endAdornment: null,
                 },
-                inputProps: {
-                  onClick: () => {
-                    setOpenDesktop(!openDesktop);
-                    props.onFocus && props.onFocus(!openDesktop);
+                  inputProps: {
+                    onFocus: (event: FocusEvent<HTMLInputElement>) => {
+                      if (!popperRef.current?.contains(event.relatedTarget as Node)) {
+                        setOpenDesktop(true);
+                      }
+                    },
+                    onClick: () => {
+                      setOpenDesktop(true);
+                    },
+                    readOnly: true,
                   },
                 },
-              },
-            }}
-            sx={{ width: '100%' }}
-            onChange={handleDateChange}
-          />
-        </Box>
-                  
+                popper: {
+                  ref: popperRef,
+                },
+              }}
+              sx={{ width: '100%' }}
+            />
+          </Box>  
+
           {/* Input oculto para formularios */}
           {props.name && (
             <input

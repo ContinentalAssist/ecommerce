@@ -9,8 +9,8 @@ import { ParseTwoDecimal } from "~/utils/ParseTwoDecimal";
 import styles from './index.css?inline'
 import { CardPaymentResume } from "~/components/starter/card-payment-resume/CardPaymentResume";
 import { LoadingContext } from "~/root";
-import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
-import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX";
+/* import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
+import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX"; */
 
 
 
@@ -136,7 +136,40 @@ export default component$(() => {
         tdcexpiration.value = newExpiration[0]+'/'+e.value
     })
 
+    const customFormValidity$ = $((form: HTMLFormElement)=> {
+        
+            const visibleInputs = Array.from(form.elements).filter(
+                (element) => {
+                const el = element as HTMLElement;
+                return !(el.hidden || el.hasAttribute('hidden') || window.getComputedStyle(el).display === 'none');
+                }
+            );
+            
+            let isValid = true;
+            visibleInputs.forEach(input => {
+                if (input.hasAttribute('required') && !(input as HTMLInputElement).value) {
+                isValid = false;
+                input.classList.add('invalid-field'); // Estilo para marcar error
+                }
+            });
+            return isValid;
+    })
+
+    const handlePaymentTouch$ = $(async(e: TouchEvent) => {
+        // Prevenir el comportamiento por defecto del touch
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Llamar a la función de pago
+        await getPayment$();
+    });
+
     const getPayment$ = $(async() => {
+        // Prevenir múltiples ejecuciones simultáneas
+        if (contextLoading.value.status) {
+            return;
+        }
+        
         //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
@@ -192,17 +225,19 @@ export default component$(() => {
                     'adultos_mayores': resume.value[85],
                     'page': '/quotes-engine/step-4',
                     'label': resume.value.plan.nombreplan,
-                    'descuento': stateContext.value.cupon.porcentaje,
-                    'cupon': stateContext.value.cupon.codigocupon,
+                    'descuento': stateContext.value.cupon?.porcentaje || 0,
+                    'cupon': stateContext.value.cupon?.codigocupon || '',
                     'total': resume.value.total.total,
                     'metodo_de_pago': 'tarjeta de crédito'
                 },stateContext.value.dataLayerPaxBenefits)
             );
         }
 
-        if(checkInvoicing.checked === true)
+        if(checkInvoicing?.checked === true)
         {
-            if(!formInvoicing.checkValidity())
+            const isValid = await customFormValidity$(formInvoicing);
+
+            if(!isValid)
             {
                 formInvoicing.classList.add('was-validated')
                 errorInvoicing = true
@@ -217,8 +252,11 @@ export default component$(() => {
                 inputs.map((input) => {
                     dataFormInvoicing[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
                 })
+                 
             }
+
         }
+        
 
         if(error == false && errorInvoicing === false)
         {
@@ -264,11 +302,16 @@ export default component$(() => {
                         idmoneda:resume.value.plan.idmonedapago,
                     },
                     idplataformapago:2,
-                    cupon:{
-                        idcupon:resume.value?.cupon?.idcupon,
-                        codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje,
-                        descuento:resume.value?.cupon?.descuento||0
+                    cupon:resume.value?.cupon ? {
+                        idcupon:resume.value.cupon.idcupon,
+                        codigocupon:resume.value.cupon.codigocupon,
+                        porcentaje:resume.value.cupon.porcentaje,
+                        descuento:resume.value.cupon.descuento||0
+                    } : {
+                        idcupon: null,
+                        codigocupon: '',
+                        porcentaje: 0,
+                        descuento: 0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -278,7 +321,7 @@ export default component$(() => {
                 }
             )
             
-            if(checkInvoicing.checked === true && errorInvoicing === false)
+            if(checkInvoicing?.checked === true && errorInvoicing === false)
             {
                 dataFormInvoicing.tipoPersona = radioTypePerson.value;
                 dataFormInvoicing.origenFactura = stateContext.value.country;
@@ -296,15 +339,15 @@ export default component$(() => {
                 }
                 else if (stateContext.value.country === 'MX')
                 {
-                    const inputState = document.querySelector('#form-invoicing-select-3-0') as HTMLInputElement
-                    const inputCity = document.querySelector('#form-invoicing-select-3-1') as HTMLInputElement
+                    const inputState = document.querySelector('[name="estado"]') as HTMLSelectElement;
+                    const inputCity = document.querySelector('[name="ciudad"]') as HTMLSelectElement;
                     const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
-                    const inputTaxRegime = document.querySelector('#form-invoicing-select-0-1') as HTMLSelectElement;
-                    const inputPaymentGroupCode = document.querySelector('#form-invoicing-select-0-2') as HTMLSelectElement;
+                    const inputTaxRegime = formInvoicing.querySelector('[name="idregimenfiscal"]') as HTMLSelectElement;
+                   // const inputPaymentGroupCode = document.querySelector('[name="formapago"]') as HTMLSelectElement;
                     const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
                     const codigoEstado = stateContext.value.listadoestados.find((state: any) => state.value == inputState?.dataset?.value)?.codigoestado || null;    
-                    const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
-                    const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
+                   // const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
+                    //const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
                     dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                     dataFormInvoicing.idestado = Number(inputState.dataset?.value);
@@ -315,18 +358,19 @@ export default component$(() => {
                     dataFormInvoicing.idregimenfiscal = Number(regimenfiscal.value);
                     dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                     dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
-                    dataFormInvoicing.grupopagocodigo =paymentCode?.codigo;
+                    dataFormInvoicing.grupopagocodigo =8; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en PUE-Contado
+                    dataFormInvoicing.idtipopago =13; // se asigna un valor por defecto, ya  que los pagos por authorize se realizan en tarjeta de crédito
                 }
                 dataRequest.facturacion = dataFormInvoicing
             }
-
+            
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
-            const dataPay = await resPay.json()
-            resPayment = dataPay
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const dataPay = await resPay.json()
+                resPayment = dataPay
 
             if(resPayment.error == false)
             {
@@ -347,8 +391,8 @@ export default component$(() => {
                         'adultos_mayores': resume.value[85],
                         'page': '/quotes-engine/step-4',
                         'option': resume.value.plan.nombreplan,
-                        'descuento': stateContext.value.cupon.porcentaje,
-                        'cupon': stateContext.value.cupon.codigocupon,
+                        'descuento': stateContext.value.cupon?.porcentaje || 0,
+                        'cupon': stateContext.value.cupon?.codigocupon || '',
                         'total': resume.value.total.total,
                         'metodo_de_pago': 'tarjeta de crédito'
                     },stateContext.value.dataLayerPaxBenefits)
@@ -362,19 +406,19 @@ export default component$(() => {
                    codevoucher: resPayment.resultado[0]?.orden?.codvoucher||'',
                    typeMessage: 1
                }
-               await navigate('/quotes-engine/message')
+                   await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
                     stateContext.value.typeMessage = 2
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
                 else
                 {
                     stateContext.value.typeMessage = 3
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)
@@ -400,29 +444,28 @@ export default component$(() => {
 
     return(
         <>
-            <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                             <div class='row justify-content-center'>
-                                <div class='col-lg-12'>
-                                <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+            {/* Formulario de pago Authorize */}
+            <div class="card shadow-0 mb-1 border-0">
+                <div class="card-body p-1">
+                    <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                    <Form
-                                        id='form-payment-method'
-                                        form={[
-                                            {row:[
-                                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                            ]},
-                                            {row:[
-                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                            ]}
-                                        ]}
-                                    />
-                                    <div class='container'>
+                    <Form
+                        id='form-payment-method'
+                        form={[
+                            {row:[
+                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                            ]},
+                            {row:[
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                            ]}
+                        ]}
+                    />
+                </div>
+            </div>
+                                    {/* <div class='container'>
                                         <div class='row'>
                                             <div class='col-12'>
                                                 <div class="form-check form-check-inline my-3">
@@ -433,42 +476,37 @@ export default component$(() => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class='d-none' id='invoice'>
+                                    </div> */}
+                                    {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                    {/* <div class='d-none' id='invoice'>
                                         { 
-                                            stateContext.value.country == 'MX' && <InvoiceFormMX/>
+                                            stateContext.value.country == 'MX' && <InvoiceFormMX modeFormPayment={true}/>
                                             || 
                                             stateContext.value.country == 'CO' && <InvoiceFormCO/>
                                         }
-                                    </div>
-                                    <div class='container'>
-                                        <div class='row justify-content-center'>
-                                            <div class='col-lg-6'>
-                                                <div class='d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>                                                        
-                                                </div>
-                                            </div>
-
-                                            <div class='col-lg-6'>
-                                                <div class='d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                    {
-                                                        attempts.value > 0
-                                                        &&
-                                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardPaymentResume>
-
+                                    </div> */}
+            <div class='container'>
+                <div class='row justify-content-center'>
+                    <div class='col-lg-6 d-flex justify-content-center'>
+                        <div class='col-9 d-grid gap-2 mt-4'>
+                            <button 
+                                type='button' 
+                                class='btn btn_cotizar_1' 
+                                onClick$={getPayment$}
+                                onTouchStart$={handlePaymentTouch$}
+                                style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+                            >
+                                Realizar pago
+                            </button>
+                            {
+                                attempts.value > 0
+                                &&
+                                <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-           
         </>
     )
 })

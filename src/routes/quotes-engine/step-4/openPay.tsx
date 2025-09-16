@@ -580,7 +580,7 @@ export default component$(() => {
     })
 
 
-    const showForm$ = $(() => {
+    /* const showForm$ = $(() => {
         const form = document.querySelector('#invoice') as HTMLFormElement
 
         if(form.classList.value.includes('d-none'))
@@ -591,57 +591,60 @@ export default component$(() => {
         {
             form.classList.add('d-none')
         }
-    })
+    }) */
 
 
    
     return(
         <>
-            <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                        {
-                             formPayment.value == 'CARD'
-                             &&
-                             <div class='row'>
-                                <div class='col-4 pb-2'>
-                                <p class=' text-regular text-dark-gray  text-start pb-0 mb-1'>Tarjetas de crédito</p>
-                                    <div class='col-12'>
-                                    <ImgIconBanksVisa  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
-                                    <ImgIconBanksMaster  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
-                                    <ImgIconBanksAmerican  class='img-fluid ps-1' style={{ width: '30px', height: 'auto'}} />
-                                    <ImgIconBanksCarnet   class='img-fluid' style={{ width: '70px', height: 'auto'}} />
-                                    </div>
-                                </div>
-                                <div class='col-8 pb-2'>
-                                <p class=' text-regular text-dark-gray  text-start pb-0 mb-0'>Tarjetas de débito</p>
-                                    <div class='col-12'>
-                                    <ImgIconBanksBBVA  class='img-fluid ' style={{ width: 'auto', height: '18px'}} />
-                                    <ImgIconBanksSantander  class='img-fluid ' style={{ width: '80px', height: 'auto'}} />
-                                    <ImgIconBanksHsbc  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
-                                    <ImgIconBanksScotiabank  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
-                                    <ImgIconBanksInbursa  class='img-fluid ' style={{ width: 'auto', height: '45px'}} />
-                                    <ImgIconBanksIxe  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
-                                    </div>                                
-                                </div>
-                                       <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+            {/* Formulario de pago OpenPay */}
+            {
+                formPayment.value == 'CARD'
+                &&
+                <>
+                    <div class='row'>
+                        <div class='col-4 pb-2'>
+                            <p class=' text-regular text-dark-gray  text-start pb-0 mb-1'>Tarjetas de crédito</p>
+                            <div class='col-12'>
+                                <ImgIconBanksVisa  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
+                                <ImgIconBanksMaster  class='img-fluid px-1' style={{ width: 'auto', height: '20px'}} />
+                                <ImgIconBanksAmerican  class='img-fluid ps-1' style={{ width: '30px', height: 'auto'}} />
+                                <ImgIconBanksCarnet   class='img-fluid' style={{ width: '70px', height: 'auto'}} />
+                            </div>
+                        </div>
+                        <div class='col-8 pb-2'>
+                            <p class=' text-regular text-dark-gray  text-start pb-0 mb-0'>Tarjetas de débito</p>
+                            <div class='col-12'>
+                                <ImgIconBanksBBVA  class='img-fluid ' style={{ width: 'auto', height: '18px'}} />
+                                <ImgIconBanksSantander  class='img-fluid ' style={{ width: '80px', height: 'auto'}} />
+                                <ImgIconBanksHsbc  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                                <ImgIconBanksScotiabank  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                                <ImgIconBanksInbursa  class='img-fluid ' style={{ width: 'auto', height: '45px'}} />
+                                <ImgIconBanksIxe  class='img-fluid ' style={{ width: 'auto', height: '30px'}} />
+                            </div>                                
+                        </div>
+                        {/* Card solo para el formulario de pago */}
+                        <div class="card shadow-sm mb-4 border-0">
+                            <div class="card-body p-4">
+                                <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                            <Form
-                                                id='form-payment-method'
-                                                form={[
-                                                    {row:[
-                                                        {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                    ]},
-                                                    {row:[
-                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                        {size:'col-xl-4 col-xs-12 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                    ]}
-                                                ]}
-                                            />
-                                            <div class='container'>
+                                <Form
+                                    id='form-payment-method'
+                                    form={[
+                                        {row:[
+                                            {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                            {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                        ]},
+                                        {row:[
+                                            {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                            {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                            {size:'col-xl-4 col-xs-12 credit-card',type:'number',placeholder:'CVV',label:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                        ]}
+                                    ]}
+                                />
+                            </div>
+                        </div>
+                                            {/* <div class='container'>
                                                 <div class='row'>
                                                     <div class='col-12'>
                                                         <div class="form-check form-check-inline my-3">
@@ -652,8 +655,9 @@ export default component$(() => {
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class='d-none' id='invoice'>                                                
+                                            </div> */}
+                                            {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
+                                            {/* <div class='d-none' id='invoice'>                                                
                                                  <Form
                                                     id='form-invoicing'
                                                     form={[
@@ -679,116 +683,100 @@ export default component$(() => {
                                                         ]}
                                                     ]}
                                                 />
-                                            </div>
-                                            <div class='container'>
-                                                <div class='row justify-content-center'>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                            {
-                                                                attempts.value > 0
-                                                                &&
-                                                                <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                             </div>                             
-                        }
-                        {
-                             formPayment.value == 'STORE'
-                             &&
-                             <>
-                               <h6 class="text-semi-bold text-dark-blue">Pago en comercio</h6>
-                               <hr/>
-                             <div class="row">
-                                <div class='img-card text-center'>
-                                    <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'30%'}} alt='continental-assist-barcode-paynet'/>
-                                    <br/>
-                                    <small>{store.value.intention}</small>
-                                    <br/>
-                                    <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} style={{width:'80%'}} alt='continental-assist-stores-paynet'/>
-                                    <br/>
-                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
+                                            </div> */}
+                        <div class='container'>
+                            <div class='row justify-content-center'>
+                                <div class='col-lg-6 d-flex justify-content-end'>
+                                    <div class='col-8 d-grid gap-2 mt-4'>
+                                        <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                                    </div>
                                 </div>
-
-                              
-                             </div>
-                             <hr class="mt-4"/>
-                             <div class="row">
-                                <div class='col-lg-6'>
-                                    <div class='d-grid gap-2 mt-4'>
-                                        <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                        
+                                <div class='col-lg-6 d-flex justify-content-start'>
+                                    <div class='col-8 d-grid gap-2 mt-4'>
+                                        <button type='button' class='btn btn_cotizar_1' onClick$={getPayment$}>Realizar pago</button>
+                                        {
+                                            attempts.value > 0
+                                            &&
+                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                        }
                                     </div>
                                 </div>
                             </div>
-                             </>
-                             
-                            
-                        }
-
-                        {
-                             formPayment.value == 'BANK_ACCOUNT'
-                             &&
-                             <>
-                             <h6 class="text-semi-bold text-dark-blue">Pago en banco</h6>
-                             <hr/>
-                             <div class="row text-dark-blue">
-                            
-                                 <h4 class="text-semi-bold ">Datos para el pago:</h4>
-                                 <div class="main-payment-container">
-                                     <span class="text-medium ">Número de convenio</span>
-                                     <span class="dotted-line"></span>
-                                     <span class="text-medium">{bank.value.agreement}</span>
-                                 </div>
-                                 <div class="main-payment-container">
-                                     <span class="text-medium">Referencia de pago</span>
-                                     <span class="dotted-line"></span>
-                                     <span class="text-medium">{bank.value.intention}</span>
-                                 </div>   
-
-                                 <div class='img-card text-center'>
-                                    <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_SPEI_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
-                                </div>
-                                <br/>
-                                <br/>
-
-                                
-                             </div>
-                           
-
-                             <hr class="mt-4"/>
-                             <div class="row">
-                                <div class='col-lg-6'>
-                                        <div class='d-grid gap-2 mt-4'>
-                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                            
-                                        </div>
-                                    </div>
+                        </div>
+                    </div>                             
+                </>
+            }
+            {
+                formPayment.value == 'STORE'
+                &&
+                <>
+                    <h6 class="text-semi-bold text-dark-blue">Pago en comercio</h6>
+                    <hr/>
+                    <div class="row">
+                        <div class='img-card text-center'>
+                            <img src={store.value.barcode} class='img-fluid' width={0} height={0} style={{width:'30%'}} alt='continental-assist-barcode-paynet'/>
+                            <br/>
+                            <small>{store.value.intention}</small>
+                            <br/>
+                            <img src='https://s3.amazonaws.com/images.openpay/Horizontal_1.gif' class='img-fluid' width={0} height={0} style={{width:'80%'}} alt='continental-assist-stores-paynet'/>
+                            <br/>
+                            <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_PAYNET_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+store.value.intention} type='button' class='btn btn-primary' download>Descargar</a>
+                        </div>
+                    </div>
+                    <hr class="mt-4"/>
+                    <div class="row">
+                        <div class='col-lg-6 d-flex justify-content-end'>
+                            <div class='col-8 d-grid gap-2 mt-4'>
+                                <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
                             </div>
-                             </>
-                                                        
-                        }
-                        </CardPaymentResume>
+                        </div>
+                    </div>
+                </>
+            }
+
+            {
+                formPayment.value == 'BANK_ACCOUNT'
+                &&
+                <>
+                    <h6 class="text-semi-bold text-dark-blue">Pago en banco</h6>
+                    <hr/>
+                    <div class="row text-dark-blue">
+                        <h4 class="text-semi-bold ">Datos para el pago:</h4>
+                        <div class="main-payment-container">
+                            <span class="text-medium ">Número de convenio</span>
+                            <span class="dotted-line"></span>
+                            <span class="text-medium">{bank.value.agreement}</span>
+                        </div>
+                        <div class="main-payment-container">
+                            <span class="text-medium">Referencia de pago</span>
+                            <span class="dotted-line"></span>
+                            <span class="text-medium">{bank.value.intention}</span>
+                        </div>   
+
+                        <div class='img-card text-center'>
+                            <a href={import.meta.env.VITE_MY_PUBLIC_WEB_API_SPEI_PDF+import.meta.env.VITE_MY_PUBLIC_WEB_API_ID_OPEN_PAY+'/'+bank.value.id} type='button' class='btn btn-primary' download>Descargar</a>
+                        </div>
+                        <br/>
+                        <br/>
                     </div>
 
-                    {
-                    dataError.value !=''&&<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <hr class="mt-4"/>
+                    <div class="row">
+                        <div class='col-lg-6 d-flex justify-content-end'>
+                            <div class='col-8 d-grid gap-2 mt-4'>
+                                <button type='button' class='btn btn-cancelar-edit' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
+
+            {
+                dataError.value !=''&&<div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <strong>Ocurrio un error!</strong> Revisa porfavor la información ingresada.
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick$={()=>{dataError.value =''}}></button>
-                    </div>
-                    } 
                 </div>
-            </div>
-
+            } 
         </>
     )
 })

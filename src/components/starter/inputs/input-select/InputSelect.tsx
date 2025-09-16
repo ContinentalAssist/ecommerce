@@ -38,10 +38,15 @@ export const InputSelect = component$((props:propInputSelect) => {
         props.onChange !== undefined && props.onChange({label:defaultValue.value, value:datasetValue.value});
     })
 
-    useTask$(()=>{
-        if(props.value)
+    useTask$(({track})=>{
+         const value = track(()=>props.value);   
+        
+        if(value)
         {
-            getOptions$(props.value)
+            getOptions$(value)
+        }else if (value === '') {
+            defaultValue.value = ''
+            datasetValue.value = ''
         }
     })
 
@@ -85,10 +90,11 @@ export const InputSelect = component$((props:propInputSelect) => {
     return(
         <div class='dropdown drop-select text-center'>
             <div class="dropdown-toggle"
-                data-bs-toggle="dropdown" 
+                data-bs-toggle={props.disabled?'':"dropdown" }
                 data-bs-auto-close="outside" 
                 data-bs-reference="toggle" 
                 id={'dropdown-toggle-'+props.id}
+                hidden={props.hidden}
             >
                 <div class='input-group '>
                     {
@@ -101,7 +107,7 @@ export const InputSelect = component$((props:propInputSelect) => {
                     <div class="form-floating">
                         <input 
                             type='text' 
-                            class='form-control form-control-select text-bold text-dark-blue' 
+                            class='form-control form-control-select text-mediumtext-dark-blue' 
                             id={props.id} 
                             name={props.name} 
                             required={props.required} 
@@ -109,6 +115,8 @@ export const InputSelect = component$((props:propInputSelect) => {
                             data-value={datasetValue.value}
                             onKeyUp$={(e) => getFiltertList$(e)}
                             placeholder={props.label}
+                            disabled={props.disabled}
+                            hidden={props.hidden}
                             onBlur$={() => {(document.querySelector('hr[id='+props.id+']') as HTMLHRElement)?.style && ((document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0')}}
                             {...props.dataAttributes}
                         />

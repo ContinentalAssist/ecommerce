@@ -1,7 +1,7 @@
 /* variables globales */
 :root {
     --ca-blue: #00184C;
-    --ca-dark-blue: #1D2546;
+    --ca-dark-blue: #00184C;
     --ca-light-blue: #43D3FF;
     --ca-ultra-light-blue: #DBF0FB;
     --ca-yellow: #F9D35A;
@@ -113,7 +113,7 @@ body
 
 .text-bold
 {
-    font-family: GalanoGrotesque_Bold !important;
+    font-family: GalanoGrotesque_Bold ;
     font-display: swap;
     font-weight: 300;
 }
@@ -162,7 +162,7 @@ body[data-so='windows'] header .navbar-toggler i
 
 .btn
 {
-    font-family: GalanoGrotesque_Semi_Bold !important;
+    font-family: GalanoGrotesque_Semi_Bold;
     border-radius: 50px;
     font-display: swap;
 }
@@ -216,6 +216,14 @@ body[data-so='windows'] .btn[disabled]
 .btn-outline-primary
 {
     border: 3px solid var(--ca-yellow);
+    background-color: white;
+    box-shadow: none !important;
+    color: var(--ca-blue);
+}
+
+.btn-outline-primary-regresar
+{
+    border: 1px solid var(--ca-blue);
     background-color: white;
     box-shadow: none !important;
     color: var(--ca-blue);
@@ -325,7 +333,7 @@ body[data-so='windows'] .modal-header h2
 
 .card
 {
-    border-radius: 30px !important;
+    border-radius: 12px !important;
 }
 
 /* sombras */
@@ -384,9 +392,19 @@ body[data-so='windows'] .modal-header h2
     background: var(--ca-light-blue);
 }
 
-.divisa
+@media (max-width: 575.98px)
 {
-    font-size: 1.75rem;
+    .divisa
+    {
+        font-size: 1.5rem;
+    }
+}
+@media (min-width: 577px)
+{
+    .divisa
+    {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 575.98px)

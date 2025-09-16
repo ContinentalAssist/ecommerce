@@ -6,15 +6,29 @@ import styles from './index.css?inline'
 import { LoadingContext } from "~/root";
 import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
 import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX";
+import dayjs from "dayjs";
 
 
 
 export default component$(() =>{
     useStylesScoped$(styles)
+    const  objectInfo = {
+        created_at: '',
+        preciototal: 0,
+        codigomoneda: '',
+        referenciapagofactura:'',
+        valorpagadofactura: 0,
+        fechapagofactura: '',
+        idformapagofactura: 0,
+        paymentgroupcode: '',
+        tasacambio:0
+
+    }
     const stateContext = useContext(WEBContext)
     const contextLoading = useContext(LoadingContext)
     const country = useSignal('');
     const msgTost =useSignal('')
+    const infoVoucher = useSignal(objectInfo)
     
     useTask$(({ track })=>{
             const value = track(()=>stateContext.value.country);   
@@ -39,15 +53,33 @@ export default component$(() =>{
         const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
         let errorInvoicing = false;
         const codvoucher = (document.querySelector('#input-voucher') as HTMLInputElement).value || '';
-        contextLoading.value = {status:true, message:''}
-        if(!formInvoicing.checkValidity() || codvoucher == '')
+        const inputPago = (document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement);
+        const valorpagado = inputPago && inputPago.value ? parseFloat(inputPago.value) : 0;
+
+        contextLoading.value = {status:true, message:''}        
+        if(country.value === 'MX' )
         {
-            formInvoicing.classList.add('was-validated');
-            (document.querySelector('#input-voucher') as HTMLInputElement).classList.add('is-invalid');
-            errorInvoicing = true
-            contextLoading.value = {status:false, message:''}
+            if(!formInvoicing.checkValidity() || codvoucher == ''|| valorpagado == 0)
+            {
+                formInvoicing.classList.add('was-validated');
+                (document.querySelector('#input-voucher') as HTMLInputElement).classList.add('is-invalid');
+                errorInvoicing = true
+                contextLoading.value = {status:false, message:''}
+            }
+            
+        }else if (country.value === 'CO' ) {
+            if(!formInvoicing.checkValidity())
+            {
+                formInvoicing.classList.add('was-validated');
+                (document.querySelector('#input-voucher') as HTMLInputElement).classList.add('is-invalid');
+                errorInvoicing = true
+                contextLoading.value = {status:false, message:''}
+            }
+             
         }
-        else
+        
+        
+        if(errorInvoicing == false && formInvoicing.checkValidity()) 
         {
             formInvoicing.classList.remove('was-validated')
             errorInvoicing = false
@@ -78,11 +110,12 @@ export default component$(() =>{
                 const codigoEstado = stateContext.value.listadoestados.find((state: any) => state.value == inputState?.dataset?.value)?.codigoestado || null;    
                 const codigoCiudad = stateContext.value.listadociudades.find((city: any) => city.value == inputCity?.dataset?.value)?.codigociudad || null;
                 const regimenfiscal = stateContext.value.listadoRegimenesSat.find((tax: any) => tax.value == inputTaxRegime?.dataset?.value);
-                const paymentGroupCode =[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]
-                const paymentCode = paymentGroupCode.find((code: any) => code.value == inputPaymentGroupCode?.dataset?.value);
 
-            
-                
+                const inputTipoPAgo = document.querySelector('[name="tipopago"]') as HTMLSelectElement;
+                const tipoPago = stateContext.value.listadoTiposPagos.find((pay: any) => pay.value == inputTipoPAgo?.dataset?.value);
+                dataFormInvoicing.idtipopago = Number(tipoPago.value);
+                const monedafactura = document.querySelector('[name="idmonedafactura"]') as HTMLSelectElement;
+                const idmonedafactura = stateContext.value.listadoMonedas.find((currency: any) => currency.value == monedafactura?.dataset?.value)?.value || null;
                 dataFormInvoicing.idciudad = Number(inputCity.dataset?.value);
                 dataFormInvoicing.idestado = Number(inputState.dataset?.value);
                 dataFormInvoicing.codigoestado = codigoEstado;
@@ -91,17 +124,18 @@ export default component$(() =>{
                 dataFormInvoicing.claveregimenfiscal =regimenfiscal.clave ||'';
                 dataFormInvoicing.usocfdi =regimenfiscal.usocfdi||'';
                 dataFormInvoicing.tipoid ='RFC';
-                dataFormInvoicing.grupopagocodigo =paymentCode?.codigo;
+                dataFormInvoicing.grupopagocodigo =Number(inputPaymentGroupCode?.dataset?.value);
+                dataFormInvoicing.valorpagadofactura= valorpagado;
+                dataFormInvoicing.idmonedafactura=idmonedafactura;
+                dataFormInvoicing.fechapagofactura=dayjs(dataFormInvoicing.fechapagofactura).format('YYYY-MM-DD');
                 
             }
             
-            const inputTipoPAgo = document.querySelector('[name="tipopago"]') as HTMLSelectElement;
-            const tipoPago = stateContext.value.listadoTiposPagos.find((pay: any) => pay.value == inputTipoPAgo?.dataset?.value);
-            dataFormInvoicing.idtipopago = Number(tipoPago.value);
+            
             dataFormInvoicing.tipoPersona = radioTypePerson.value;
             dataFormInvoicing.origenFactura = country.value;
             dataFormInvoicing.codigovoucher = codvoucher;
-        }
+        }    
         
         if(errorInvoicing == false )
         {        
@@ -114,8 +148,14 @@ export default component$(() =>{
                 (document.querySelector('#input-voucher') as HTMLInputElement).value = '';
                 (formInvoicing as HTMLFormElement).reset(); 
                 contextLoading.value = {status:false, message:''}
-                toastSuccess.show()
-
+               
+                 infoVoucher.value = objectInfo
+                stateContext.value = { ...stateContext.value, infopayment: objectInfo}
+               
+                 toastSuccess.show()
+                 setTimeout(() => {
+                     window.location.reload();
+                 }, 1000);
             }
             else{
                 msgTost.value = data.mensaje || 'Ocurrió un error';
@@ -130,6 +170,34 @@ export default component$(() =>{
          
     })
      
+    const validationCodeVoucher$ = $(async(e:any) => {
+        e.preventDefault();
+        if (e.target.value != '') {
+             const bs = (window as any)['bootstrap']
+            //const toastSuccess = new bs.Toast('#toast-success',{})
+            const toastError = new bs.Toast('#toast-error',{})
+            contextLoading.value = {status:true, message:''}
+            const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getValidationVoucher",
+                    {method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({codigovoucher:e.target.value,codigopais:country.value})});
+            const data =await response.json();
+
+                if (data.error) 
+                {
+                    contextLoading.value = {status:false, message:''}
+                    msgTost.value = data.mensaje || 'Ocurrió un error';
+                    toastError.show()
+
+                }
+                else{
+                contextLoading.value = {status:false, message:''}
+                data.resultado.preciototal = parseFloat(data.resultado.preciototal);
+                stateContext.value = { ...stateContext.value, infopayment: data.resultado }
+                infoVoucher.value =data.resultado
+                }
+        }
+       
+        
+    });
 
     return (
         <div class='container-fluid'>
@@ -149,21 +217,30 @@ export default component$(() =>{
 
                                             <div class='row'>
 
-                                                                <div class='col-xl-12 col-sm-12 col-12'>
-                                                                    <input 
-                                                                        id='input-voucher' 
-                                                                        name='voucher' 
-                                                                        type='text' 
-                                                                        class='form-control text-center' 
-                                                                        placeholder="Ingresa tu voucher CA-XXXXXX-XX"
-                                                                      //  disabled={messageCupon.value.error == 'success'}
-                                                                       // onBlur$={getCupon$}
-                                                                       required={true}
-                                                                    />
+                                                <div class='col-xl-12 col-sm-12 col-12'>
+                                                    <input 
+                                                        id='input-voucher' 
+                                                        name='voucher' 
+                                                        type='text' 
+                                                        class='form-control text-center' 
+                                                        placeholder="Ingresa tu voucher CA-XXXXXX-XX"
+                                                        //  disabled={messageCupon.value.error == 'success'}
+                                                        onBlur$={validationCodeVoucher$}
+                                                        required={true}
+                                                    />
 
-                                                                </div>
-                                                                     
-                                                            </div>
+                                                </div>
+                            {
+                                infoVoucher.value.created_at &&
+                                <ul class="list-group list-group-horizontal mt-3 align-items-center justify-content-center">
+                                    <li class="list-group-item list-group-item-light"><b>Fecha de emisión:</b> {infoVoucher.value.created_at}</li>
+                                    <li class="list-group-item list-group-item-light"><b>Tasa de Cambio:</b> {infoVoucher.value.tasacambio}</li>
+                                    <li class="list-group-item list-group-item-light"><b>Total voucher:</b> ${infoVoucher.value.preciototal} {infoVoucher.value.codigomoneda} </li>
+                                </ul>
+                            }
+                                               
+                                                        
+                                            </div>
                                             {
                                                country.value === 'CO'&&
                                                 <InvoiceFormCO/>

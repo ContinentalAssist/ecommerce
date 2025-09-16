@@ -1,20 +1,87 @@
-import { $, component$,useSignal,useContext, useTask$} from "@builder.io/qwik";
-//import styles from './card-plan.css?inline'
+import { $, component$,useSignal,useContext, useTask$,useStyles$} from "@builder.io/qwik";
+import styles from './invoiceForm.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
+import { isGeneratorFunction } from "util/types";
 
 
-export const InvoiceFormMX = component$(() => {
-   // useStylesScoped$(styles)
+export const InvoiceFormMX = component$((props:any) => {
+    useStyles$(styles)
     const stateContext = useContext(WEBContext)
     const typePersonInvoice = useSignal('RS');
     const hideInputInvoiceRS= useSignal(true);
     const array : any[] = []
     const listadoCiudades = useSignal(array)
     const listadoRegimenesSat = useSignal(array)
+    const listadoMethods = useSignal(array)
+    const listadoMonedas = useSignal(array)
+    const defaultListadoTiposPagos = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
+    //const dateVoucher= useSignal(dayjs().format('YYYY-MM-DD'));
+    const hideInputDataPayment= useSignal(false);
+    const hideInputSelectDataPayment= useSignal(false);
+    const typepaymentSelected= useSignal('');
+    const paymentMethodSelected= useSignal('');
+    const disabledInpuTypePayment= useSignal(true);
+    const disabledInputDataPayment= useSignal(false);
+    const disabledInputPaymentValue= useSignal(false);
+    const paymentValue= useSignal<number | null| ''>(null);
+    const selectedCurrency= useSignal('');
+     const  objectInfo = {
+        created_at: '',
+        preciototal: 0,
+        codigomoneda: '',
+        referenciapagofactura:'',
+        valorpagadofactura: 0,
+        fechapagofactura: '',
+        idformapagofactura: 0,
+        paymentgroupcode: null,
+        idmonedafactura: null,
+        tasacambio:0
+
+    }
+    
+   const infoVoucher = useSignal(objectInfo)
+    
+
+    useTask$(({ track })=>{
+                const value = track(()=>props.modeFormPayment);   
+                
+               if (value == true) {
+                   hideInputDataPayment.value =true;  
+                   hideInputSelectDataPayment.value =true;      
+               }
+                
+               // contextLoading.value = {status:false, message:''};
+        })
+
+        useTask$(({ track })=>{
+                const value = track(()=>stateContext.value.infopayment);   
+            
+              if (value != undefined &&JSON.stringify(value) !== JSON.stringify(infoVoucher.value) ) {
+                infoVoucher.value = value;
+                paymentValue.value = value.preciototal;
+                if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '' 
+                && value?.referenciapagofactura !== null) {
+                    
+                paymentMethodSelected.value = value.paymentgroupcode;
+                 setTimeout(() => {
+                    disabledInputPaymentValue.value = true;
+                    disabledInputDataPayment.value = true;
+                    typepaymentSelected.value = value.idformapagofactura;  
+                    disabledInpuTypePayment.value = true;
+                }, 600);
+               
+               }
+              }
+                
+                
+               
+                
+               // contextLoading.value = {status:false, message:''};
+        })
 
 
 
@@ -31,7 +98,36 @@ export const InvoiceFormMX = component$(() => {
             })
             listadoRegimenesSat.value = resTaxRegime;
         }
-        stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime }
+
+        let resMethods : {[key:string]:any[]} = {}
+        const listMethods : any[] = []
+        const paymentMethods = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPaymentMethods",{method:"POST",headers: { 'Content-Type': 'application/json' }});
+        const dataDefaultsMethods = await paymentMethods.json()
+        resMethods = dataDefaultsMethods.resultado[0]
+         if (resMethods && resMethods.metodosPago) 
+        {
+            resMethods.metodosPago.map((methods) => {
+                listMethods.push({value:methods.id,label:methods.nombre})
+            })
+            listadoMethods.value = listMethods;
+        }
+
+        let resCurrency : {[key:string]:any[]} = {}
+        const listCurrency : any[] = []
+        const currencyAvailable = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCurrencyAvailableMX",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({})});
+        const dataCurrencyAvailable = await currencyAvailable.json()
+        resCurrency = dataCurrencyAvailable.resultado[0]
+         if (resCurrency && resCurrency.monedas) 
+        {
+            resCurrency.monedas.map((currency) => {
+                listCurrency.push({value:currency.idmoneda,label:currency.codigo, code:currency.codigo})
+            })
+            listadoMonedas.value = listCurrency;
+        }        
+
+        
+
+        stateContext.value = { ...stateContext.value, listadoRegimenesSat:resTaxRegime, listadoMonedas:listCurrency }
     })
     
     useTask$(async()=>{
@@ -46,6 +142,7 @@ export const InvoiceFormMX = component$(() => {
                 resFormaPago.push({value:forma.id, label:`${forma.nombre}`, clave:forma.clave})
             })
             listadoTiposPagos.value = resFormaPago;
+            defaultListadoTiposPagos.value = resFormaPago;
         }
         stateContext.value = { ...stateContext.value, listadoTiposPagos:resFormaPago }
     })
@@ -207,6 +304,113 @@ export const InvoiceFormMX = component$(() => {
         
     })
 
+    const changePaymentSelected$ = $(async (e:any) => {
+
+          if (e.label !== 'Contado') {
+            disabledInpuTypePayment.value = true;
+            typepaymentSelected.value ='';
+            hideInputDataPayment.value =true;
+             const selectedDefault = defaultListadoTiposPagos.value.find((item:any) => item.clave == '99');
+             
+             listadoTiposPagos.value = Array(selectedDefault) ;
+            typepaymentSelected.value = selectedDefault.value;
+            
+          }else{
+            disabledInpuTypePayment.value = false;
+            const selectedDefault = defaultListadoTiposPagos.value.filter((item:any) => item.clave !== '99');             
+            listadoTiposPagos.value = selectedDefault;
+            hideInputDataPayment.value =false;
+            typepaymentSelected.value ='';
+          }
+          
+    })
+
+    const getExchangeRate$ = $(async(e:any) =>{
+
+        selectedCurrency.value = e.label;
+       // paymentValue.value = null;
+        if (e.label == 'MXN' && infoVoucher.value.codigomoneda == 'USD') {
+            const conversion = Math.round((infoVoucher.value.preciototal * infoVoucher.value.tasacambio) * 100) / 100;
+            
+            paymentValue.value =conversion
+             disabledInputPaymentValue.value = false;
+        }
+        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'MXN'){
+
+            const conversion = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
+            paymentValue.value =conversion
+
+            disabledInputPaymentValue.value = false;
+            
+
+        }        
+        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
+            infoVoucher.value.referenciapagofactura != null) {
+            paymentValue.value =infoVoucher.value.preciototal
+            disabledInputPaymentValue.value = true;
+        }
+         else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
+            infoVoucher.value.referenciapagofactura == null) {
+            paymentValue.value =infoVoucher.value.preciototal
+            disabledInputPaymentValue.value = false;
+        }
+        
+        
+
+    })
+
+
+    const validatePayment$ = $(async (e: any) => {
+        e.preventDefault();
+
+        const porcentaje = 0.05;
+        const bs = (window as any)['bootstrap'];
+        const toastError = new bs.Toast('#toast-invoicemx-error', {});
+
+        // Obtener valor numérico ingresado
+        const valorIngresado = Number(e.target.value);
+
+        // Validar que sea número válido
+        if (isNaN(valorIngresado)) {
+            toastError.show();
+            paymentValue.value = null;
+            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
+            if (valorpagado) valorpagado.value = '';
+            return;
+        }
+
+        // Calcular precio base según moneda y tasa de cambio
+        let precioBase= 0;
+
+        if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'MXN') {
+            precioBase = Math.round(infoVoucher.value.preciototal * infoVoucher.value.tasacambio * 100) / 100;
+        } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'USD') {
+            precioBase = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
+        } else if (
+            (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'MXN') ||
+            (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'USD')
+        ) {
+            precioBase = Math.round(infoVoucher.value.preciototal * 100) / 100;
+        }/*  else {
+            precioBase = 0;
+        } */
+
+        // Calcular rango permitido
+        const minimo = Math.round(precioBase * (1 - porcentaje) * 100) / 100;
+        const maximo = Math.round(precioBase * (1 + porcentaje) * 100) / 100;
+
+        // Validar valor ingresado dentro del rango
+        if (valorIngresado >= minimo && valorIngresado <= maximo) {
+            paymentValue.value = valorIngresado;
+        } else {
+            toastError.show();
+            paymentValue.value = null;
+            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
+            if (valorpagado) valorpagado.value = '';
+        }
+        });
+
+
     
 
     return(
@@ -241,8 +445,10 @@ export const InvoiceFormMX = component$(() => {
 
             </div>
             
+
             
-        </div>
+            
+       
            {
                     hideInputInvoiceRS.value ?
 
@@ -251,22 +457,32 @@ export const InvoiceFormMX = component$(() => {
                         form={[
                             
                             {row:[                                                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
-                                required:true,options:listadoRegimenesSat.value,},                      
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},               
 
 
                             ]},                                                                                
                             
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
+                                    required:true,options:listadoMethods.value,
+                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
+                                    required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
+                                    disabled: disabledInpuTypePayment.value, hidden:hideInputSelectDataPayment.value
+                                }, 
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
+                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+
                             ]},
 
                             {row:[                                                            
@@ -301,20 +517,32 @@ export const InvoiceFormMX = component$(() => {
                         id='form-invoicing'
                         form={[
                             {row:[                                                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
-                                required:true,options:listadoRegimenesSat.value,},     
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',required:true,options:[{value:'PUE',label:'PUE-Contado',codigo:-1},{value:'PPD',label:'PPD-Diferido',codigo:12}]},                 
-                                ]},
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
+                                required:true,options:listadoRegimenesSat.value,},               
 
+
+                            ]},                                                                                
+                            
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago', required:true, options:listadoTiposPagos.value}, 
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: new Date().toISOString().split('T')[0], disabled: true},
+                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Método de Pago',placeholder:'Método de Pago',name:'formapago',
+                                    required:true,options:listadoMethods.value,
+                                    onChange:$((e:any)=>changePaymentSelected$(e)), hidden:hideInputSelectDataPayment.value, value:paymentMethodSelected.value,  disabled:disabledInputDataPayment.value
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'select', label:'Forma de Pago', placeholder:'Forma de Pago', name:'tipopago',
+                                    required:true, options:listadoTiposPagos.value,value: typepaymentSelected.value, 
+                                    disabled: disabledInpuTypePayment.value, hidden:hideInputSelectDataPayment.value
+                                }, 
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'float', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagado', required: true, step: 'any', min: 0},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:true},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
+                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                },
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+
                             ]},
 
                             {row:[
@@ -345,6 +573,24 @@ export const InvoiceFormMX = component$(() => {
                     />
 
            }
+           
+
+           <div id='toast-invoicemx-error' class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        <div class='message'>
+                            <i class="fas fa-times-circle"/>
+                            <span class='text-start mx-2'>
+                                <b>El valor ingresado no se encuentra en el rango permitido</b>
+                             
+                            </span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            
+         </div>
         </>
     )
 })

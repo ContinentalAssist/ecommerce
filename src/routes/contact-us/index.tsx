@@ -91,7 +91,7 @@ export default component$(() => {
             inputs.map((input) => {
                 dataForm[(input as HTMLInputElement).name] = (input as HTMLInputElement).value
 
-                if(input.classList.value.includes('form-select'))
+                if(input.classList.value.includes('form-control-select'))
                 {
                     dataForm[(input as HTMLInputElement).name] = String((input as HTMLInputElement).dataset.value)
                 }

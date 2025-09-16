@@ -9,6 +9,7 @@ import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
 import gtm from './utils/GTM';
 import gtag from './utils/GTAG';
+import { ClarityInit } from './integrations/ClarityInit';
 import "./global.css";
 import { initializeGenesys } from './utils/genesys';
 
@@ -60,6 +61,21 @@ export default component$(() => {
   );
 
   useVisibleTask$(async () => {
+    // Restaurar datos del cotizador desde localStorage si existen
+    if (typeof window !== 'undefined') {
+      try {
+        const savedData = localStorage.getItem('continental_assist_quote_data');
+        if (savedData) {
+          const savedQuoteData = JSON.parse(savedData);
+          if (savedQuoteData && Object.keys(savedQuoteData).length > 0) {
+            resumeQuote.value = { ...resumeQuote.value, ...savedQuoteData };
+          }
+        }
+      } catch (error) {
+        console.warn('Error al cargar datos del cotizador:', error);
+      }
+    }
+
     let convertionRate: number;
     let currency: string;
 
@@ -228,6 +244,7 @@ export default component$(() => {
       <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KB4C9T86" height="0" width="0" style="display:none;visibility:hidden"></iframe>
       </noscript>
+      <ClarityInit />
       <RouterOutlet />
       <script async type="text/javascript" src='/assets/icons/all.min.js' />
       <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>

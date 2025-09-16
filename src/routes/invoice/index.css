@@ -4,3 +4,14 @@
     border: 2px solid lightgray;
     margin-bottom: 6px;
 }
+
+.list-group-horizontal>.list-group-item:first-child:not(:last-child)
+{
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.list-group-horizontal>.list-group-item:last-child:not(:first-child){
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}

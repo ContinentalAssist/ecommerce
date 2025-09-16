@@ -53,8 +53,8 @@ export const Input = (props:propsInput) => {
                         <i class={'text-dark-blue  fa-solid fa-'+props.icon} />
                     </span>
                 }
-                 <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                 <div class="form-floating" hidden={props.hidden}>
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type='text'
@@ -71,6 +71,7 @@ export const Input = (props:propsInput) => {
                         readOnly={props.readOnly}
                         tabIndex={props.tabIndex}
                         disabled={props.disabled}
+                        hidden={props.hidden}
                         {...dataAttributes}
                         
                     />
@@ -104,6 +105,7 @@ export const InputDate = component$((props:propsInputDate) => {
         defaultvalue={props.value} 
         open={props.open} 
         disabled={props.disabled}
+        hidden={props.hidden}
         onChange$={(e:any) => {props.onChange && props.onChange(e)}}
         onFocus$={(e:any) => {props.onFocus && props.onFocus(e)}}
        />
@@ -193,7 +195,7 @@ export const InputMail = (props:propsInputMail) => {
                     </span>
                 }
                 <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type='email' 
@@ -271,7 +273,7 @@ export const InputPhone = (props:propsInputPhone) => {
                     </span>
                 }
                 <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type={'tel'} 
@@ -342,7 +344,7 @@ export const InputNumber = (props:propsInputNumber) => {
                     </span>
                 }
                  <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type={'number'}
@@ -359,7 +361,7 @@ export const InputNumber = (props:propsInputNumber) => {
                         {...dataAttributes}
                     />
                     <label 
-                        class='form-label text-bold text-dark-gray' 
+                        class='form-label text-medium text-dark-gray' 
                         for={props.id}
                     >
                         {props.label}
@@ -408,9 +410,9 @@ export const InputFloat = (props: propsInputFloat) => {
                         <i class={'fa-solid fa-' + props.icon} />
                     </span>
                 }
-                <div class="form-floating">
+                <div class="form-floating" hidden={props.hidden}>
                     <input
-                        class='form-control text-bold text-dark-blue'
+                        class='form-control text-medium text-dark-blue'
                         id={props.id}
                         name={props.name}
                         type='number'
@@ -425,11 +427,12 @@ export const InputFloat = (props: propsInputFloat) => {
                         data-textonly={props.textOnly}
                         onBlur$={e => validateBlur$(e.target)}
                         disabled={props.disabled}
+                        hidden={props.hidden}
                         {...dataAttributes}
                     />
                     <label
                         class='form-label text-medium text-gray'
-                        for={props.id}
+                        for={props.id} 
                     >
                         {props.label}
                     </label>

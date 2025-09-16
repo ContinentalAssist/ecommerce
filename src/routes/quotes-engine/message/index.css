@@ -1,40 +1,194 @@
-.bg-message{
-    background-color: #FAFAFA;
+.bg-message {
+    background-color: #F4F4F4;
 }
 
-.steps-float
-{
+.steps-float {
     position: fixed;
     top: 20px;
     z-index: 2000;
 }
 
-/* Override for small devices */
-@media  (max-width: 767.98px) {
-    .img-ticket{
-        margin-top: 0px;
-        margin-left: -15px;
-        width: 108%;
-        min-width: 305px;
+/* Estilos para el header de la card con imagen */
+#card-pax {
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  /* Importante para que los border-radius funcionen correctamente */
+}
+
+.card-header-image {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    min-height: 120px;
+    border-radius: 12px 12px 0 0 !important;
+    position: relative;
+}
+
+
+/* Estilos para las imágenes dentro del header */
+.card-header-image img {
+    filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3)); /* Sombra sutil para mejor visibilidad */
+}
+
+/* Responsividad para las imágenes del header */
+@media (max-width: 575.98px) {
+    .card-header-image {
+        min-height: 100px;
     }
-    #card-pax
-    {
+    
+    .card-header-image img {
+      height: auto !important; /* Imágenes más pequeñas en móviles */
+    }
+    
+    #card-pax {
         margin-top: -20px;
+        border-radius: 12px;
     }
-   }
+}
 
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .card-header-image {
+        min-height: 110px;
+    }
+    
+    .card-header-image img {
+        height: auto !important; /* Tamaño intermedio en tablets */
+    }
+    
+    #card-pax {
+        margin-top: -20px;
+        border-radius: 12px;
+    }
+}
 
-/* Override for large devices */
 @media (min-width: 768px) {
-    .img-ticket{
-      
-        width: 100%;
+    .card-header-image {
+        min-height: 120px;
     }
-
-    #card-pax
-    {
+    
+    #card-pax {
         margin-top: -20px;
         max-width: 90%;
         margin-left: 30px;
+        border-radius: 12px;
     }
-   }
+}
+
+/* Remover la clase anterior que podría estar causando conflictos */
+.fondo-card-message {
+    /* Esta clase ya no es necesaria con el nuevo enfoque */
+}
+
+/* Estilos adicionales para mejorar la apariencia */
+.card-body {
+    background-color: white;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Asegurar que el texto sea legible sobre la imagen */
+.card-header-image h3 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    font-weight: 600;
+    margin: 0;
+}
+
+.hr-compra {
+    width: 96%;
+}
+
+.btn_cotizar_1{
+    box-shadow: none !important;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+    border-radius: 50px!important;
+}
+
+/* Estilos para el fragmento de la card de mensaje */
+.card-message-container {
+    border-radius: 12px;
+    overflow: visible;
+}
+
+.card-header-message {
+    background-image: url(/assets/img/icons/fondo-card-mesagge.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 120px;
+    width: 100%;
+    border-radius: 12px 12px 0 0;
+    position: relative;
+    overflow: visible;
+}
+
+.card-header-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 12px 12px 0 0;
+}
+
+.card-header-content {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 3%;
+    overflow: visible;
+}
+
+.card-header-text-column {
+    padding: 3%;
+}
+
+.card-header-image-column {
+    padding: 3% 3% 0 3%;
+    position: relative;
+    overflow: visible;
+}
+
+.card-header-text-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 60px;
+    margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+.card-header-family-image {
+    max-width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+    transform: translateY(-88px);
+    position: relative;
+    z-index: 10;
+}
+}
+
+@media (max-width: 767.98px) {
+    .card-header-family-image {
+        max-width: 100%;
+        height: auto;
+        max-height: 180px;
+        object-fit: contain;
+        transform: translateY(-160px);
+        position: relative;
+        z-index: 10;
+    }
+}
+
+@media (min-width: 1250px) {
+    .card-header-family-image {
+        max-width: 100%;
+        height: auto;
+        max-height: 180px;
+        object-fit: contain;
+        transform: translateY(-93px);
+        position: relative;
+        z-index: 10;
+    }
+    }
