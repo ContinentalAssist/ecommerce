@@ -525,6 +525,8 @@
         max-width: 320px;
         height: auto;
     }
+
+
     
     .cards .card-title { font-size: 0.4rem; }
     .cards .card-img-top { width: 90px; }
@@ -581,7 +583,9 @@
     .cards-container {
         max-width: 100%;
     }
-    
+
+
+
     .cards {
         flex-direction: column;
         align-items: center;
@@ -609,7 +613,12 @@
     .cards-container {
         max-width: 100%;
     }
-    
+
+    complements-section-mobile >* img{
+        height: 50% !important;
+        width: auto !important;
+    }
+
     .cards {
         flex-direction: column;
         align-items: center;

@@ -9,16 +9,16 @@ export interface HomeHeaderProps {
 
 export const HomeHeader = component$((props: HomeHeaderProps) => {
     return (
-        <div class='home' style={{minHeight:'75vh'}}>
+        <div class='home' style={{minHeight:'75vh', marginTop: '70px'}}>
             <div class='bg-home-header position-absolute' />
-            <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen'>
+            <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen position-top-home'>
                 <div id='container-quote' class='row align-content-center justify-content-center'
                      style={{minHeight: '75vh'}}>
                     <div class='col-xl-12 text-center home-magin'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="color-text-blue-primary">
-                                    Viajando con tranquilidad,<br/> <span
+                                    Viaja con tranquilidad,<br/> <span
                                     class="text-bold ">protegido</span> en todo <br/>momento
                                 </h1>
                             </div>
@@ -38,7 +38,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                        Viajando con tranquilidad,<br/> <span
+                                        viaja con tranquilidad,<br/> <span
                                         class="text-bold color-text-blue-home">protegido</span> en todo <br/>momento
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>

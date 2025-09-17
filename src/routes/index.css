@@ -151,6 +151,7 @@
     height: 400px;
 }
 
+
 /* Common row margins */
 .bg-home-plans .row,
 .bg-home-benefits .row,
@@ -182,6 +183,8 @@
     background-color: #f4f4f4;
     color: var(--ca-light-blue);
 }
+
+
 
 
 .accordion-item{
@@ -562,11 +565,11 @@
 /* Mobile First - Smallest screens */
 @media (max-width: 400px) {
     .tittle-collapse {
-        margin-top: 5rem;
+        margin-top: 6rem;
     }
 
     .padignt-top{
-        padding-top: 3.5rem !important;
+        margin-top: 3.5rem !important;
     }
 
     #collapseQuotesEngine-moblie{
@@ -584,8 +587,9 @@
     .color-text-blue-primary {
         color: var(--ca-blue);
         font-size: 1.5rem;
-        margin-top: 120px;
+        margin-top: 150px;
     }
+
 }
 
 /* Mobile Portrait */
@@ -652,6 +656,8 @@
     .cover-pading{
         padding: 10px 0 !important;
     }
+
+
 }
 
 .img-bluaccess-logo{
@@ -677,7 +683,39 @@
     #banner-text-mobile{
         display: none !important;
     }
+    .position-top-home{
+        top: -20px !important;
+    }
+
+    #complements-section-mobile img {
+        display: none;
+    }
+
+    #complements-section-desktop{
+        display: block;
+    }
 }
+
+@media (min-width: 401px ) and (max-width: 750px) and (orientation: landscape) {
+    .padignt-top{
+        margin-top: 3.5rem !important;
+    }
+
+    .color-text-blue-primary {
+        color: var(--ca-blue);
+        font-size: 1.5rem;
+        margin-top: 80px;
+    }
+
+    #collapseQuotesEngine-moblie{
+        display: flex !important;
+    }
+
+    #banner-text-mobile{
+        display: none !important;
+    }
+}
+
 
 /* Small screens - QD Content */
 @media (max-width: 650px) {
@@ -732,6 +770,7 @@
         margin: 0;
     }
 
+
     .qd-title-light {
         font-weight: 300;
     }
@@ -770,6 +809,7 @@
         display: block;
         margin-bottom: 2px solid var(--ca-cyan);
     }
+
 }
 
 /* Tablet and small desktop */
@@ -813,10 +853,11 @@
         background-color: var(--ca-cyan);
     }
 
-    .home,
     #container-quote {
         min-height: 100vh !important;
     }
+
+
 }
 
 @media (max-width: 919.98px) {
@@ -933,6 +974,10 @@
         display: block !important;
     }
 
+
+    .home{
+        margin-top: 0px !important;
+    }
 
     .padignt-top{
         padding-top: 2rem !important;
@@ -1149,6 +1194,7 @@
         background-color: #f4f4f4;
         padding: 40px 0;
     }
+
 }
 
 @media (max-width: 1201px) {
@@ -1174,6 +1220,7 @@
         align-content: center;
         grid-template-columns: repeat(2, 1fr);
     }
+
 }
 
 @media (min-width: 651px) and (max-width: 1200px) {
@@ -1260,10 +1307,12 @@
         display: block;
         margin-bottom: 2px solid var(--ca-cyan);
     }
+
 }
 
 /* Desktop styles */
 @media (min-width: 1200px) {
+
     .qs-metrics-top {
         gap: 13px;
         align-items: center;
@@ -1287,6 +1336,7 @@
     .cover-pading{
         padding: 10px 0 !important;
     }
+
 }
 
 @media (min-width: 1201px) {
