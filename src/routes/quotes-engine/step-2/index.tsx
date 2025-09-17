@@ -677,7 +677,7 @@ export default component$(() => {
                 </div>  
             </div>            
         </div>
-        <div id='modalAdditionals' class="modal fade" aria-hidden="false">
+        <div id='modalAdditionals' class="modal fade modal-backdrop-mobile" aria-hidden="false">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header d-flex">  

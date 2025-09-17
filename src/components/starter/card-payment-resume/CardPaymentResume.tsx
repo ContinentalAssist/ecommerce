@@ -891,12 +891,12 @@ export const CardPaymentResume = component$(() => {
                                             <li
                                               key={iBenefit}
                                               class="text-semi-bold text-blue"
-                                              style={{ fontSize: "1.1rem" }}
+                                              style={{ fontSize: "0.875rem" }}
                                             >
                                               <div class="row">
                                                 <div
                                                   class="col-lg-8 col-xs-6 text-medium"
-                                                  style={{ fontSize: "1.1rem" }}
+                                                  style={{ fontSize: "0.875rem" }}
                                                 >
                                                   {
                                                     benefit.nombrebeneficioadicional
@@ -906,7 +906,7 @@ export const CardPaymentResume = component$(() => {
                                                   <h4
                                                     class="divisa-beneficio text-medium mb-2"
                                                     style={{
-                                                      fontSize: "1.1rem",
+                                                      fontSize: "0.875rem",
                                                     }}
                                                   >
                                                     {contextDivisa.divisaUSD ==
@@ -1512,12 +1512,12 @@ export const CardPaymentResume = component$(() => {
                                             <li
                                               key={iBenefit}
                                               class="text-semi-bold text-blue"
-                                              style={{ fontSize: "1.1rem" }}
+                                              style={{ fontSize: "0.875rem" }}
                                             >
                                               <div class="row">
                                                 <div
                                                   class="col-lg-8 col-xs-6 text-medium"
-                                                  style={{ fontSize: "1.1rem" }}
+                                                  style={{ fontSize: "0.875rem" }}
                                                 >
                                                   {
                                                     benefit.nombrebeneficioadicional
@@ -1527,7 +1527,7 @@ export const CardPaymentResume = component$(() => {
                                                   <h4
                                                     class="divisa-beneficio text-medium mb-2"
                                                     style={{
-                                                      fontSize: "1.1rem",
+                                                      fontSize: "0.80rem",
                                                     }}
                                                   >
                                                     {contextDivisa.divisaUSD ==

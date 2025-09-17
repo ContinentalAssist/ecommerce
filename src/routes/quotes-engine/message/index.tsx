@@ -693,7 +693,7 @@ export default component$(() => {
                         <div class='col-lg-6 d-flex justify-content-center'>
                           <div class='d-grid gap-2'>
                             <p class='text-regular text-dark-gray'>
-                              <span class='text-regular text-dark-gray'  style={{ fontSize: '0.85rem' }}>
+                              <span class='text-regular text-dark-gray'  style={{ fontSize: '1rem' }}>
                                 En breve recibirás un correo con la confirmación de tu compra.
                               </span>
                             </p>
