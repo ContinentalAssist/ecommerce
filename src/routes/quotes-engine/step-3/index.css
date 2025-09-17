@@ -207,35 +207,45 @@
     height: auto;
 }
 
+/* Estilos para los títulos de las tarjetas de pago */
+.payment-card-title {
+    font-size: 1.25rem;
+  
+}
+
 /* Responsive para mobile */
 @media (max-width: 768px) {
+    .payment-card-title {
+        font-size: 0.80rem;
+    }
+    
     .payment-logo {
         width: 40px;
         height: auto;
     }
     
     .payment-logo[alt="Visa"] {
-        width: 37px;
+        width: 30px;
         height: auto;
     }
     
     .payment-logo[alt="Mastercard"] {
-        width: 39px;
+        width: 30px;
         height: auto;
     }
     
     .payment-logo[alt="American Express"] {
-        width: 35px;
+        width: 30px;
         height: auto;
     }
     
     .payment-logo[alt="PSE"] {
-        width: 33px;
+        width: 30px;
         height: auto;
     }
     
     .payment-logo[alt="Nequi"] {
-        width: 37px;
+        width: 30px;
         height: auto;
         margin-left: 5px;
     }

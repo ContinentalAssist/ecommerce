@@ -160,11 +160,16 @@ export default component$(() => {
                     idmoneda:resume.value.plan.idmonedapago,
                 },
                 idplataformapago:3,
-                cupon:{
-                    idcupon:resume.value?.cupon?.idcupon,
-                    codigocupon:resume.value?.cupon?.codigocupon,
-                    porcentaje:resume.value?.cupon?.porcentaje,
+                cupon:resume.value?.cupon ? {
+                    idcupon:resume.value.cupon.idcupon,
+                    codigocupon:resume.value.cupon.codigocupon,
+                    porcentaje:resume.value.cupon.porcentaje,
                     descuento:montodescuento
+                } : {
+                    idcupon: null,
+                    codigocupon: '',
+                    porcentaje: 0,
+                    descuento: 0
                 },
                 contacto:[resume.value.contacto],
                 ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -485,11 +490,16 @@ export default component$(() => {
                         idmoneda:resume.value.plan.idmonedapago,
                     },
                     idplataformapago:3,
-                    cupon:{
-                        idcupon:resume.value?.cupon?.idcupon,
-                        codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje,
+                    cupon:resume.value?.cupon ? {
+                        idcupon:resume.value.cupon.idcupon,
+                        codigocupon:resume.value.cupon.codigocupon,
+                        porcentaje:resume.value.cupon.porcentaje,
                         descuento:montodescuento
+                    } : {
+                        idcupon: null,
+                        codigocupon: '',
+                        porcentaje: 0,
+                        descuento: 0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',

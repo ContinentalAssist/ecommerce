@@ -103,31 +103,40 @@ export const CardPaymentResume = component$(() => {
   function calculateSubTotal() {
     const paxSub: any[] = [];
     stateContext.value?.asegurados.map((pax: any) => {
-      const precioBase =
-        pax.edad >= stateContext.value?.plan?.edadprecioincremento
-          ? stateContext.value?.plan?.precioincrementoedad
-          : stateContext.value?.plan?.precioindividual;
+      // Calcular beneficios adicionales
+      const beneficiosAdicionales = pax.beneficiosadicionalesSeleccionados.reduce(
+        (sum: number, value: any) => {
+          return sum + Number(value.precio);
+        },
+        0
+      );
 
-      if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
-        paxSub.push(
-          pax.beneficiosadicionalesSeleccionados.reduce(
-            (sum: number, value: any) => {
-              return sum + Number(value.precio);
-            },
-            0
-          ) + precioBase
-        );
+      // Verificar si aplica promoción menor (plan familiar + edad 0-24)
+      const aplicaPromocionMenor = 
+        stateContext.value?.planfamiliar === "t" && pax.edad >= 0 && pax.edad <= 24;
+
+      // Si aplica promoción menor, solo cobrar beneficios adicionales
+      if (aplicaPromocionMenor) {
+        if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
+          paxSub.push(beneficiosAdicionales);
+        } else {
+          paxSub.push(beneficiosAdicionales * stateContext.value?.currentRate?.rate);
+        }
       } else {
-        paxSub.push(
-          pax.beneficiosadicionalesSeleccionados.reduce(
-            (sum: number, value: any) => {
-              return sum + Number(value.precio);
-            },
-            0
-          ) *
-            stateContext.value?.currentRate?.rate +
+        // Lógica normal: precio del plan + beneficios adicionales
+        const precioBase =
+          pax.edad >= stateContext.value?.plan?.edadprecioincremento
+            ? stateContext.value?.plan?.precioincrementoedad
+            : stateContext.value?.plan?.precioindividual;
+
+        if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
+          paxSub.push(beneficiosAdicionales + precioBase);
+        } else {
+          paxSub.push(
+            beneficiosAdicionales * stateContext.value?.currentRate?.rate +
             precioBase * stateContext.value?.currentRate?.rate
-        );
+          );
+        }
       }
     });
     return paxSub[indexPax.value];
@@ -151,30 +160,38 @@ export const CardPaymentResume = component$(() => {
   }
 
   function calculateIndividualSubTotal(pax: any) {
-    //precio se valida edad viajero para calcular el precio
+    // Calcular beneficios adicionales
+    const beneficiosAdicionales = pax.beneficiosadicionalesSeleccionados.reduce(
+      (sum: number, value: any) => {
+        return sum + Number(value.precio);
+      },
+      0
+    );
+
+    // Verificar si aplica promoción menor (plan familiar + edad 0-24)
+    const aplicaPromocionMenor = 
+      stateContext.value?.planfamiliar === "t" && pax.edad >= 0 && pax.edad <= 24;
+
+    // Si aplica promoción menor, solo cobrar beneficios adicionales
+    if (aplicaPromocionMenor) {
+      if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
+        return beneficiosAdicionales;
+      } else {
+        return beneficiosAdicionales * stateContext.value?.currentRate?.rate;
+      }
+    }
+
+    // Lógica normal: precio del plan + beneficios adicionales
     const precioBase =
       pax.edad >= stateContext.value?.plan?.edadprecioincremento
         ? stateContext.value?.plan?.precioincrementoedad
         : stateContext.value?.plan?.precioindividual;
 
     if (stateContext.value?.total && contextDivisa.divisaUSD == true) {
-      return (
-        pax.beneficiosadicionalesSeleccionados.reduce(
-          (sum: number, value: any) => {
-            return sum + Number(value.precio);
-          },
-          0
-        ) + precioBase
-      );
+      return beneficiosAdicionales + precioBase;
     } else {
       return (
-        pax.beneficiosadicionalesSeleccionados.reduce(
-          (sum: number, value: any) => {
-            return sum + Number(value.precio);
-          },
-          0
-        ) *
-          stateContext.value?.currentRate?.rate +
+        beneficiosAdicionales * stateContext.value?.currentRate?.rate +
         precioBase * stateContext.value?.currentRate?.rate
       );
     }
@@ -1454,7 +1471,7 @@ export const CardPaymentResume = component$(() => {
                                 </div>
                                 <div class="col-6 ps-0">
                                   {stateContext.value?.planfamiliar == "t" &&
-                                  pax.edad <= 23 ? (
+                                  pax.edad >= 0 && pax.edad <= 24 ? (
                                     <p
                                       class="text-bold text-dark-blue text-end"
                                       style={{ fontSize: "0.875rem" }}

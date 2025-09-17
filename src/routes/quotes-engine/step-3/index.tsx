@@ -384,7 +384,7 @@ export default component$(() => {
                             >
                               <div class="payment-card-header">
                                 <div class="d-flex col-6 align-items-center">
-                                  <h5 class="mb-0 text-dark-blue">
+                                  <h5 class="mb-0 text-dark-blue payment-card-title">
                                     Pagar en Dólares
                                   </h5>
                                 </div>
@@ -429,8 +429,8 @@ export default component$(() => {
                               onClick$={() => changeDivisa$("local")}
                             >
                               <div class="payment-card-header">
-                                <div class="d-flex align-items-center">
-                                  <h5 class="mb-0 text-dark-blue">
+                                <div class="d-flex col-6 align-items-center">
+                                  <h5 class="mb-0 text-dark-blue payment-card-title">
                                     Pagar en{" "}
                                     {stateContext.value?.resGeo?.country == "MX"
                                       ? "Pesos Mexicanos"
@@ -440,7 +440,7 @@ export default component$(() => {
                                         : "Moneda Local"}
                                   </h5>
                                 </div>
-                                <div class="payment-card-indicator justify-content-end">
+                                <div class="payment-card-indicator col-6 justify-content-end d-flex align-items-center">
                                   <div class="d-flex align-items-center gap-2">
                                     <img
                                       src="/assets/img/icons/visa.png"
@@ -452,16 +452,33 @@ export default component$(() => {
                                       alt="Mastercard"
                                       class="payment-logo"
                                     />
-                                    <img
-                                      src="/assets/img/icons/nequi.png"
-                                      alt="Nequi"
-                                      class="payment-logo"
-                                    />
-                                    <img
-                                      src="/assets/img/icons/pse.png"
-                                      alt="PSE"
-                                      class="payment-logo"
-                                    />
+                                    {stateContext.value?.resGeo?.country === "MX" ? (
+                                      <>
+                                        <img
+                                          src="/assets/img/icons/OXXO-Logo.png"
+                                          alt="OXXO"
+                                          class="payment-logo"
+                                        />
+                                        <img
+                                          src="/assets/img/icons/spei-mx.png"
+                                          alt="SPEI"
+                                          class="payment-logo"
+                                        />
+                                      </>
+                                    ) : stateContext.value?.resGeo?.country === "CO" ? (
+                                      <>
+                                        <img
+                                          src="/assets/img/icons/nequi.png"
+                                          alt="Nequi"
+                                          class="payment-logo"
+                                        />
+                                        <img
+                                          src="/assets/img/icons/pse.png"
+                                          alt="PSE"
+                                          class="payment-logo"
+                                        />
+                                      </>
+                                    ) : null}
                                   </div>
                                 </div>
                               </div>
