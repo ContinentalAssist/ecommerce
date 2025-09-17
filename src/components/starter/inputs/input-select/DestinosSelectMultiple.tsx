@@ -245,7 +245,7 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                         <input 
                             type='text'
                             name={props.name}
-                            class='form-control form-control-select-multiple text-bold text-dark-blue' 
+                            class='form-control form-control-select-multiple text-medium text-dark-blue' 
                             id={props.id}
                             value={displayValue}
                             data-value={datasetValue.value} 

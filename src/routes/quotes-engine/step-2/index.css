@@ -3,7 +3,7 @@
    /*  background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
     background-repeat: no-repeat;
     background-size: 100vw auto; */
-    background-color: #FAFAFA;
+    background-color: #F4F4F4;
 }
 
 .resume .input-group-text
@@ -62,7 +62,7 @@
 }
 
 .divisa{
-    font-size: 0.875rem !important;
+    font-size: 1.8rem;
 }
 
 .form-check-inline{
@@ -73,12 +73,14 @@
     margin-right:0.313rem;
 }
 
-@media (max-width: 575.98px)
-{
-    .btn-collapse
-    {
-        position: relative;
-        right: 0px;
-        padding: 0px !important;
+/* Modal backdrop styles - Mobile first (rgba(0, 0, 0, 0.5)) */
+.modal-backdrop-mobile {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Desktop styles (rgba(0, 0, 0, 0.2)) */
+@media (min-width: 992px) {
+    .modal-backdrop-mobile {
+        background-color: rgba(0, 0, 0, 0.2) !important;
     }
 }

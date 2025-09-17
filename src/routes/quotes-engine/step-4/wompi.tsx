@@ -13,7 +13,7 @@ import { LoadingContext } from "~/root";
 
 
 
-export default component$(() => {
+export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
     useStylesScoped$(styles)
 
     const stateContext = useContext(WEBContext)
@@ -1053,31 +1053,32 @@ export default component$(() => {
    
     return(
         <>
-             <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                            {
-                                formPayment.value == 'CARD'
-                                &&
-                                <div class='row justify-content-center'>
-                                        <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+            {/* Formulario de pago Wompi */}
+            {
+                formPayment.value == 'CARD'
+                &&
+                <>
+                    {/* Card solo para el formulario de pago */}
+                    <div class="card shadow-none mb-1 border-0">
+                        <div class="card-body p-0">
+                            <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                    <div class='col-lg-12'>
-                                        <Form
-                                            id='form-payment-method'
-                                            form={[
-                                                {row:[
-                                                    {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                    {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                                ]},
-                                                {row:[
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                    {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                    {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                                ]}
-                                            ]}
-                                        />
+                            <Form
+                                id='form-payment-method'
+                                form={[
+                                    {row:[
+                                        {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                        {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjetas',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                                    ]},
+                                    {row:[
+                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                        {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                        {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                                    ]}
+                                ]}
+                            />
+                        </div>
+                    </div>
                                         {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                         {/* <div class='container'>
                                             <div class='row'>
@@ -1094,30 +1095,27 @@ export default component$(() => {
                                         <div class='d-none' id='invoice'>
                                             <InvoiceFormCO/>                   
                                         </div> */}
-                                        <div class='container'>
-                                            <div class='row justify-content-center'>
-                                                <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                            
-                                                        </div>
-                                                </div>
-                                                <div class='col-lg-6'>
-                                                    <div class='d-grid gap-2 mt-4'>
-                                                        <button type='button' class='btn btn-primary' onClick$={()=>{getPayment$()}}>Realizar pago</button>
-                                                        {
-                                                            attempts.value > 0
-                                                            &&
-                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                          
+                    <div class='container'>
+                        <div class='row justify-content-center'>
+                            <div class='col-lg-6 d-flex justify-content-end'>
+                                <div class='col-12 d-grid gap-2 mt-4'>
+                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                 </div>
-                            }
+                            </div>
+                            <div class='col-lg-6 d-flex justify-content-start'>
+                                <div class='col-12 d-grid gap-2 mt-4'>
+                                    <button type='button' class='btn btn_cotizar_1' onClick$={()=>{getPayment$()}}>Realizar pago</button>
+                                    {
+                                        attempts.value > 0
+                                        &&
+                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            }
                            {/*  {
                                 formPayment.value == 'BANCOLOMBIA_QR'
                                 &&
@@ -1138,10 +1136,9 @@ export default component$(() => {
 
                                     <div class='container'>
                                         <div class='row justify-content-center mb-4'>
-                                            <div class='col-lg-6'>
-                                                <div class='d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                    
+                                            <div class='col-lg-6 d-flex justify-content-end'>
+                                                <div class='col-8 d-grid gap-2 mt-4'>
+                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                 </div>
                                             </div>
                                             
@@ -1194,53 +1191,60 @@ export default component$(() => {
 
                                                  <br/>
                                                  <br/>
-                                                <div class="col-lg-9 col-sm-12 mt-4">
-                                               
-                                                   
-                                                <Form
-                                                        id='form-nequi'
-                                                        form={[
-                                                            {row:[
-                                                                {size:'col-xl-12',type:'phone',label:'Número celular de tu cuenta Nequi',name:'phone_number',
-                                                                placeholder:'Número celular de tu cuenta Nequi',required:true},
-                                                            ]}
-                                                        ]}
-                                                    />
-                                                    
+                                                
+                                                {/* Card solo para el formulario de pago de Nequi */}
+                                                <div class="card shadow-none mb-0 border-0">
+                                                    <div class="card-body p-0">
+                                                        <h5 class='text-medium text-blue text-start mb-4'> Ingresa tu número de celular Nequi</h5>
 
-                                                </div>
-                                                    
-                                                <div class='col-lg-3 mt-4'>
-                                                    <div class='d-grid gap-2 mt-2'>
-                                                        <button type='button' class='btn btn-primary' onClick$={getPhoneNequi$}>Pagar</button>
-                                                        {
-                                                             attempts.value > 0
-                                                             &&
-                                                             <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                             
-                                                        }
+                                                        <div class="row">
+                                                            <div class="col-lg-9 col-sm-12">
+                                                                <Form
+                                                                    id='form-nequi'
+                                                                    form={[
+                                                                        {row:[
+                                                                            {size:'col-xl-12 mb-0',type:'phone',label:'Número celular de tu cuenta Nequi',name:'phone_number',
+                                                                            placeholder:'Número celular de tu cuenta Nequi',required:true},
+                                                                        ]}
+                                                                    ]}
+                                                                />
+                                                            </div>
+                                                                
+                                                            <div class='col-lg-3 d-flex align-items-center'>
+                                                                <div class='d-grid gap-2 w-100 mt-3'>
+                                                                    <button type='button' class='btn btn_cotizar_1' onClick$={getPhoneNequi$}>Pagar</button>
+                                                                    {
+                                                                         attempts.value > 0
+                                                                         &&
+                                                                         <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                                         
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="mt-4">
+                                                            <small class="text-regular"><b>Recuerda que es necesario tener la app de Nequi instalada en tu celular <br/>
+                                                                                        para poder completar el pago usando este método.</b></small>                                     
+                                                            <small class="text-regular"><b>Inicia la app de Nequi al momento de realizar el pago y espera la notificacion para autorizar tu compra</b></small> 
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <small class="text-regular"><b>Recuerda que es necesario tener la app de Nequi instalada en tu celular <br/>
-                                                                            para poder completar el pago usando este método.</b></small>                                     
-                                                <small class="text-regular"><b>Inicia la app de Nequi al momento de realizar el pago y espera la notificacion para autorizar tu compra</b></small> 
-
-                                                <br/>                                               
-                                                <br/>
-
-                                                <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                            
+                                                <div class='container'>
+                                                    <div class='row justify-content-center'>
+                                                        <div class='col-lg-12'>
+                                                            <div class='col-12 d-flex gap-2 mt-4 justify-content-center'>
+                                                                <button type='button' class='btn btn-cancelar-edit ' onClick$={()=>onGoBack$?.()}>Regresar</button>
+                                                            </div>
                                                         </div>
+                                                    </div>
                                                 </div>
                                                 </>
                                             }
 
                                     </div>
-                                    <hr />
-                                    <br/>
+                                    
                                      {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                       {/*  <div class='container'>
                                             <div class='row'>
@@ -1267,14 +1271,14 @@ export default component$(() => {
                                     <hr/>
                                     <div class='row justify-content-center'>
                                     
-                                    <div class="d-flex justify-content-start mb-4">
-                       
-                                    </div>
+                                    <br/>
+                                    <br/>
+                                    
+                                    {/* Card solo para el formulario de pago de PSE */}
+                                    <div class="card shadow-none mb-1 border-0">
+                                        <div class="card-body p-0">
+                                            <h5 class='text-medium text-blue text-start mb-4'> Ingresa tu información bancaria</h5>
 
-                                 
-                                    <br/>
-                                    <br/>
-                                        <div class='col-lg-12 '>
                                             <Form
                                                 id='form-pse'
                                                 form={[
@@ -1291,35 +1295,31 @@ export default component$(() => {
                                                     ]},
                                                 ]}
                                             />
-                                            <div class='container'>
-                                                <div class='row justify-content-center mb-4'>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                    <div class='col-lg-6'>
-                                                        <div class='d-grid gap-2 mt-4'>
-                                                            <button type='button' class='btn btn-primary' onClick$={getPSE$}>Realizar pago</button>
-                                                            {
-                                                            attempts.value > 0
-                                                            &&
-                                                            <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                            }
-                                                        </div>
-                                                    </div>
+                                        </div>
+                                    </div>
+
+                                    <div class='container'>
+                                        <div class='row justify-content-center mb-1'>
+                                            <div class='col-lg-6 d-flex justify-content-end'>
+                                                <div class='col-12 d-grid gap-2 mt-1'>
+                                                    <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                 </div>
                                             </div>
-                                          
+                                            <div class='col-lg-6 d-flex justify-content-start'>
+                                                <div class='col-12 d-grid gap-2 mt-1'>
+                                                    <button type='button' class='btn btn_cotizar_1' onClick$={getPSE$}>Realizar pago</button>
+                                                    {
+                                                    attempts.value > 0
+                                                    &&
+                                                    <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                                                    }
+                                                </div>
+                                            </div>
                                         </div>
-                                      
-                                     
-                                    <br/>
-                                    <br/>
-                                       
                                     </div>
-                                    <hr />
+    
+                                    </div>
+                                    
                                     {/* DESACTIVAR FORMULARIO DE FACTURA, SOLO DISPONIBLE DESDE EL LINK */} 
                                     {/* <div class='container'>
                                             <div class='row'>
@@ -1340,11 +1340,6 @@ export default component$(() => {
                                     
                                 }    
 
-                       </CardPaymentResume>
-                    </div>
-                </div>
-            </div>
-           
         </>
     )
 })

@@ -11,6 +11,7 @@ import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.
 import dayjs from "dayjs";
 import styles from './index.css?inline'
 import { LoadingContext } from "~/root";
+import { saveQuoteData$ } from "~/utils/QuotePersistence";
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Tus datos y complementos',
@@ -40,6 +41,16 @@ export default component$(() => {
     const divisaManual = useSignal(contextDivisa.divisaUSD)
     const contextLoading = useContext(LoadingContext)
 
+    // Función local para guardar datos con QRL
+    const saveData = $((data: any) => {
+        if (typeof window !== 'undefined') {
+            try {
+                localStorage.setItem('continental_assist_quote_data', JSON.stringify(data));
+            } catch (error) {
+                console.warn('Error al guardar datos del cotizador:', error);
+            }
+        }
+    });
 
     const desktop = useSignal(false)
     // eslint-disable-next-line qwik/no-use-visible-task
@@ -139,6 +150,9 @@ export default component$(() => {
                         },
                         asegurados: newAdditionalBenefit
                     };
+                    
+                    // Guardar datos en localStorage
+                    saveData(stateContext.value);
 
         }
     });
@@ -203,6 +217,10 @@ export default component$(() => {
             dataLayerPaxBenefits:dataLayer,
             asegurados: dataBenefits
         };
+        
+        // Guardar datos en localStorage
+        saveData(stateContext.value);
+        
         (window as any)['dataLayer'].push(
             Object.assign({
                 'event': 'TrackEventGA4',
@@ -271,6 +289,9 @@ export default component$(() => {
             dataLayerPaxBenefits:dataLayer,
             asegurados: dataBenefits
         };
+        
+        // Guardar datos en localStorage
+        saveData(stateContext.value);
 
         (window as any)['dataLayer'].push(
             Object.assign({
@@ -420,6 +441,10 @@ export default component$(() => {
                         );
 
                         stateContext.value = newStateContext;
+                        
+                        // Guardar datos en localStorage
+                        saveData(stateContext.value);
+                        
                         contextLoading.value = { status: true, message: 'Espere un momento...' };
                         await navigate('/quotes-engine/step-3');
                     }
@@ -441,21 +466,20 @@ export default component$(() => {
 });
 
     return(
-        <div class='container-fluid px-0' style={{paddingTop:'78px'}}>
+        <div class='container-fluid px-0'>
         <div class='container-fluid'>
             <div class='row bg-step-4'>
                 <div class='col-xl-12'>
                     <div class='container'>
-                        <div class='row  justify-content-center mt-5'>
+                        <div class='row  justify-content-center'>
                             {
                                stateContext.value.plan&& stateContext.value.plan.adicionalesdefault&&stateContext.value.plan.adicionalesdefault.length > 0                             
                                 ?                                
-                                <div class='col-xl-10 text-center mb-3 mt-5'>
-                                    <h1 class='text-semi-bold text-blue'>
-                                        <span class='text-tin'>Tus datos</span> <br class='mobile'/> y complementos
-                                    </h1>
-                                    <hr class='divider my-3'/>
-                                    <h5 class='text-dark-blue'>Ingresa la información de los viajeros <br class='mobile'/> y elige beneficios opcionales</h5>
+                                <div class='col-xl-10 text-center mb-3'>
+                                    <h2 class='text-semi-bold text-blue'>
+                                        <span class='text-semi-bold'>Tus datos <br class='mobile'/>y complementos</span>
+                                    </h2>
+                                    <h5 class='text-dark-blue text-tin mb-3'>Ingresa la información de los viajeros <br class='mobile'/> y elige beneficios opcionales</h5>
                                 </div>
                                 :
                                 <div class='col-lg-12 text-center mt-5 mb-5'>
@@ -472,12 +496,12 @@ export default component$(() => {
                                         stateContext.value.plan? */
                                        Array.isArray(stateContext.value?.asegurados) &&stateContext.value.asegurados.map((addBenefit:any,index:number) => {
                                             return(
-                                                <div key={index+1} class="card px-lg-5 shadow-lg" id={'card-'+addBenefit.idpasajero}>
+                                                <div key={index+1} class="card px-lg-5 shadow-sm" id={'card-'+addBenefit.idpasajero}>
                                                     <div class='container'>   
-                                                        <div class="row mobile text-center p-3">
-                                                            <div class='col-xl-8 col-sm-8 col-xs-12'>
-                                                                <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
-                                                                <p class='text-tin text-dark-blue'>
+                                                        <div class="row mobile d-flex d-lg-none justify-content-center text-center p-3">
+                                                            <div class='col-lg-6 col-md-8 col-6'>
+                                                            <h4 class='text-semi-bold me-3 mb-0 text-light-blue'>Viajero #{addBenefit.idpasajero}</h4>
+                                                                <p class='text-tin text-dark-blue mb-0'>
                                                                     De
                                                                     {addBenefit.edad == '23' && ' 0 a 23 '}
                                                                     {addBenefit.edad == '75' && ' 24 a 75 '}
@@ -485,26 +509,27 @@ export default component$(() => {
                                                                     años
                                                                 </p>
                                                             </div>
-                                                            <div class="col-xl-4  col-sm-4 col-xs-12">
+                                                            <div class="col-lg-4 col-md-4 col-6">
                                                                 <div class='d-grid gap-2'>
-                                                                    <button 
+                                                                <button 
                                                                         type='button' 
-                                                                        class='btn btn-primary mt-2 mt-sm-0' 
+                                                                        class='btn btn-benefits mt-2 mt-md-0 text-light-blue text-decoration-underline d-flex align-items-center' 
                                                                         onClick$={() => {getAdditionalsbBenefits$(index)}} 
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#modalAdditionals"
+                                                                        style={{fontSize:'0.73rem', padding:'0', justifyContent:'end'}}
                                                                     >
-                                                                        Adquiere beneficios adicionales
+                                                                        <span>Adquiere beneficios </span> <span class="fas fa-chevron-down ms-1"></span>
                                                                     </button>
                                                                 </div>
                                                             </div>
                                                         </div>                                                         
-                                                        <div class='row p-3'>
+                                                        <div class='row '>
                                                         
                                                         <div class="row not-mobile">
-                                                        <div class='col-xl-8 col-sm-8 col-xs-12'>
-                                                                <h4 class='text-semi-bold text-dark-blue'>Viajero #{addBenefit.idpasajero}</h4>
-                                                                <p class='text-tin text-dark-blue'>
+                                                        <div class='col-xl-8 col-sm-8 col-xs-12 d-flex align-items-center'>
+                                                                <h4 class='text-semi-bold me-3 mb-0 text-light-blue'>Viajero #{addBenefit.idpasajero}</h4>
+                                                                <p class='text-tin text-dark-blue mb-0'>
                                                                     De
                                                                     {addBenefit.edad == '23' && ' 0 a 23 '}
                                                                     {addBenefit.edad == '75' && ' 24 a 75 '}
@@ -513,31 +538,23 @@ export default component$(() => {
                                                                 </p>
                                                             </div>
                                                             <div class="col-xl-4  col-sm-4 col-xs-12">
-                                                                <div class='d-grid gap-2'>
+                                                                <div class='d-grid gap-2 justify-content-end'>
                                                                     <button 
                                                                         type='button' 
-                                                                        class='btn btn-primary mt-2 mt-sm-0' 
+                                                                        class='btn btn-benefits mt-2 mt-sm-0 text-light-blue text-decoration-underline d-flex align-items-center' 
                                                                         onClick$={() => {getAdditionalsbBenefits$(index)}} 
                                                                         data-bs-toggle="modal" 
                                                                         data-bs-target="#modalAdditionals"
                                                                     >
-                                                                        Adquiere beneficios adicionales
-                                                                    </button>
-
-                                                                    <button type="button" class='btn btn-collapse not-mobile' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
-                                                                        <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
+                                                                        <span>Adquiere beneficios </span> <span class="fas fa-chevron-down ms-1"></span>
                                                                     </button>
                                                                 </div>
                                                             </div>
-                                                           
-
                                                         </div>
                                                         
                                                         </div>
                                                     </div>
                                                     <div class="collapse show" id={"collapseExample-"+index}>
-                                                        <hr class='m-0' />
-
                                                         <div class='card-body px-3 text-start'>
                                                             <div class='container'>
                                                                 <div class="row">
@@ -573,7 +590,7 @@ export default component$(() => {
                                                     </div>
                                                     <div class='text-center'>
                                                         <div class='mobile'>
-                                                            <button type="button" class='btn btn-collapse p-0 mb-3' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
+                                                            <button type="button" class='btn btn-collapse p-0 mb-3 mb-0 border-0' data-bs-toggle="collapse" data-bs-target={"#collapseExample-"+index}>
                                                                 <i id={"icon-collapse-"+index} class="fas fa-chevron-down text-light-blue" />
                                                             </button>
                                                         </div>
@@ -588,20 +605,19 @@ export default component$(() => {
                                         <div class='container p-0'>
                                             <div class='row'>
                                                 <div class='col-lg-12'>
-                                                    <div class='card px-lg-5 shadow-lg'>
+                                                    <div class='card px-lg-5 shadow-sm'>
                                                         <div class='container'>
                                                         <div class='row not-mobile p-3'>
                                                                 <div class='col-lg-12'>
-                                                                    <h5 class='text-semi-bold text-dark-blue'>Contacto de emergencia</h5>
+                                                                    <h5 class='text-semi-bold text-light-blue'>Contacto de emergencia</h5>
                                                                 </div>
                                                             </div>
                                                             <div class='row mobile text-center p-3'>
                                                                 <div class='col-lg-12'>
-                                                                    <h5 class='text-semi-bold text-dark-blue'>Contacto de emergencia</h5>
+                                                                    <h5 class='text-semi-bold text-light-blue'>Contacto de emergencia</h5>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <hr class='m-0' />
                                                         <div class='card-body px-3 text-start'>
                                                             <div class='container'>
                                                                 <div class='row'>
@@ -638,14 +654,14 @@ export default component$(() => {
                                                 </div>
                                             </div>
                                             <div class='row row-mobile justify-content-center mt-3 mb-5'>
-                                                <div class='col-lg-4 col-sm-6 col-xs-6'>
+                                                <div class='col-lg-2 col-sm-5 col-xs-5'>
                                                     <div class='d-grid gap-2'>
-                                                        <button type='button' class='btn btn-outline-primary btn-lg' onClick$={()=>navigate('/quotes-engine/step-1')}>Regresar</button>                                                            
+                                                        <button type='button' class='btn btn-cancelar-edit btn-lg text-medium' onClick$={()=>navigate('/quotes-engine/step-1')}>Regresar</button>                                                            
                                                     </div>
                                                 </div>
-                                                <div class='col-xl-4 col-sm-6 col-xs-6'>
+                                                <div class='col-lg-2 col-sm-5 col-xs-5'>
                                                     <div class='d-grid gap-2'>
-                                                        <button type='button' class='btn btn-primary btn-lg' onClick$={getPaxs$}>Siguiente</button>
+                                                        <button type='button' class='btn btn-primary btn_cotizar_1' onClick$={getPaxs$}>Siguiente</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -661,7 +677,7 @@ export default component$(() => {
                 </div>  
             </div>            
         </div>
-        <div id='modalAdditionals' class="modal fade" aria-hidden="false">
+        <div id='modalAdditionals' class="modal fade modal-backdrop-mobile" aria-hidden="false">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header d-flex">  
@@ -687,15 +703,15 @@ export default component$(() => {
                                                         {benefit.idbeneficioadicional == '35' && <ImgContinentalAssistMedicine class='img-fluid' title='continental-assist-medicine' alt='continental-assist-medicine'/>}
                                                     </div>
                                                     <div class="col-md-7">
-                                                        <h5 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h5>
+                                                        <h2 class="card-title text-semi-bold text-light-blue">{benefit.nombrebeneficioadicional}</h2>
                                                         {benefit.idbeneficioadicional == '37' && <p class="card-text text-blue">{benefit.descripcion}</p>}
                                                         {benefit.idbeneficioadicional == '36' && <p class="card-text text-blue">{benefit.descripcion}</p>}
                                                         {benefit.idbeneficioadicional == '35' && <p class="card-text text-blue">{benefit.descripcion}</p>}
-                                                        <h4 class="card-text text-semi-bold text-dark-blue mb-4">
+                                                        <p class="card-text text-semi-bold text-dark-blue mb-4 benefit-price" style={{fontSize:'2rem'}}>
                                                             {
                                                                 divisaManual.value == true ? CurrencyFormatter(benefit.codigomonedapago,benefit.precio) : CurrencyFormatter(stateContext.value.currentRate.code,benefit.precio * stateContext.value.currentRate.rate)
                                                             }
-                                                        </h4>
+                                                        </p>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class='d-grid gap-2'>
@@ -704,7 +720,7 @@ export default component$(() => {
                                                                 ? 
                                                                 <button class='btn btn-primary' onClick$={() => {deleteAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Remover</button>
                                                                 :
-                                                                <button class='btn btn-outline-primary' disabled={benefit.disabled === true} onClick$={() => {getAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Agregar</button>
+                                                                <button class='btn btn-primary btn_cotizar_1' disabled={benefit.disabled === true} onClick$={() => {getAdditional$(index,additionalsBenefitsPlan.value.idpasajero,benefit)}}>Agregar</button>
                                                             }
                                                         </div>
                                                     </div>

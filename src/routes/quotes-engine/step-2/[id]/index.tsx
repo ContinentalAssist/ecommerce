@@ -856,7 +856,7 @@ export default component$(() => {
                     </div>  
                 </div>            
             </div>
-            <div id='modalAdditionals' class="modal fade">
+            <div id='modalAdditionals' class="modal fade modal-backdrop-mobile">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">  

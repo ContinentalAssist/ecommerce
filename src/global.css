@@ -1,13 +1,13 @@
 /* variables globales */
 :root {
     --ca-blue: #00184C;
-    --ca-dark-blue: #1D2546;
+    --ca-dark-blue: #00184C;
     --ca-light-blue: #43D3FF;
     --ca-ultra-light-blue: #DBF0FB;
-    --ca-yellow: #FEDF84;
+    --ca-yellow: #F9D35A;
     --ca-dark-yellow: #FEDF8361;
     /* --ca-gray: #ADADAD; */
-    --ca-gray: #D3D3D3;
+    --ca-gray: #b0b0b0;
     /* --ca-dark-gray: #5F5F5E; */
     --ca-dark-gray: #656565;
     --ca-light-gray: #EFEFEF;
@@ -50,13 +50,10 @@ body
     overflow-x: hidden !important;
     font-family: GalanoGrotesque !important;
     font-display: swap;
-    top: 0px !important;
+    top: 0 !important;
 }
 
-section
-{
-    overflow-x: hidden !important;
-}
+
 
 /* alturas */
 .h-25
@@ -116,8 +113,9 @@ section
 
 .text-bold
 {
-    font-family: GalanoGrotesque_Bold !important;
+    font-family: GalanoGrotesque_Bold ;
     font-display: swap;
+    font-weight: 300;
 }
 
 /* colores de textos */
@@ -164,7 +162,7 @@ body[data-so='windows'] header .navbar-toggler i
 
 .btn
 {
-    font-family: GalanoGrotesque_Semi_Bold !important;
+    font-family: GalanoGrotesque_Semi_Bold;
     border-radius: 50px;
     font-display: swap;
 }
@@ -187,7 +185,7 @@ body[data-so='windows'] .btn[disabled]
 .btn-primary
 {
     background-color: var(--ca-yellow);
-    border: 2px solid var(--ca-dark-yellow);
+    border: 2px solid var(--ca-yellow);
     box-shadow: 0 0 10px gray;
     color: var(--ca-blue);
 }
@@ -218,6 +216,14 @@ body[data-so='windows'] .btn[disabled]
 .btn-outline-primary
 {
     border: 3px solid var(--ca-yellow);
+    background-color: white;
+    box-shadow: none !important;
+    color: var(--ca-blue);
+}
+
+.btn-outline-primary-regresar
+{
+    border: 1px solid var(--ca-blue);
     background-color: white;
     box-shadow: none !important;
     color: var(--ca-blue);
@@ -327,13 +333,13 @@ body[data-so='windows'] .modal-header h2
 
 .card
 {
-    border-radius: 30px !important;
+    border-radius: 12px !important;
 }
 
 /* sombras */
 .card.shadow-lg
 {
-    box-shadow: 0 0rem 1rem rgba(0,0,0,.175)!important;
+    box-shadow: 0 0 1rem rgba(0,0,0,.175)!important;
 }
 
 /* descripciones */
@@ -344,7 +350,7 @@ body[data-so='windows'] .modal-header h2
 
 .divider
 {
-    margin: 0px;
+    margin: 0;
     width: 100px;
     color: var(--ca-blue);
     border: 1.4px solid var(--ca-blue);
@@ -386,9 +392,19 @@ body[data-so='windows'] .modal-header h2
     background: var(--ca-light-blue);
 }
 
-.divisa
+@media (max-width: 575.98px)
 {
-    font-size: 1.75rem;
+    .divisa
+    {
+        font-size: 1.5rem;
+    }
+}
+@media (min-width: 577px)
+{
+    .divisa
+    {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 575.98px)
@@ -499,7 +515,47 @@ body[data-so='windows'] .modal-header h2
     {
         display: inherit;
     }
-    } 
+
+    /* Layout personalizado para AboutUsSection */
+.section-about {
+  width: 100%;
+  margin: 0 auto;
+}
+.aboutus-flex {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  width: 100%;
+}
+.aboutus-video-col {
+  flex: 0 0 70%;
+  max-width: 70%;
+  padding-right: 2rem;
+  display: flex;
+  align-items: center;
+}
+.aboutus-content-col {
+  flex: 0 0 30%;
+  max-width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+/* Restaurar .qs-content si se perdió */
+.qs-content {
+  margin-bottom: 1.5rem;
+}
+@media (max-width: 991px) {
+  .aboutus-flex {
+    flex-direction: column;
+  }
+  .aboutus-video-col, .aboutus-content-col {
+    max-width: 100%;
+    flex: 0 0 100%;
+    padding-right: 0;
+  }
+}
+    }
 
 @media (min-width: 992px)
 {

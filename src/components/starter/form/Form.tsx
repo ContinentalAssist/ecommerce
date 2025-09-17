@@ -54,7 +54,7 @@ export const Input = (props:propsInput) => {
                     </span>
                 }
                  <div class="form-floating" hidden={props.hidden}>
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type='text'
@@ -195,7 +195,7 @@ export const InputMail = (props:propsInputMail) => {
                     </span>
                 }
                 <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type='email' 
@@ -273,7 +273,7 @@ export const InputPhone = (props:propsInputPhone) => {
                     </span>
                 }
                 <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type={'tel'} 
@@ -344,7 +344,7 @@ export const InputNumber = (props:propsInputNumber) => {
                     </span>
                 }
                  <div class="form-floating">
-                    <input class='form-control text-bold text-dark-blue' 
+                    <input class='form-control text-medium text-dark-blue' 
                         id={props.id} 
                         name={props.name} 
                         type={'number'}
@@ -361,7 +361,7 @@ export const InputNumber = (props:propsInputNumber) => {
                         {...dataAttributes}
                     />
                     <label 
-                        class='form-label text-bold text-dark-gray' 
+                        class='form-label text-medium text-dark-gray' 
                         for={props.id}
                     >
                         {props.label}
@@ -412,7 +412,7 @@ export const InputFloat = (props: propsInputFloat) => {
                 }
                 <div class="form-floating" hidden={props.hidden}>
                     <input
-                        class='form-control text-bold text-dark-blue'
+                        class='form-control text-medium text-dark-blue'
                         id={props.id}
                         name={props.name}
                         type='number'
