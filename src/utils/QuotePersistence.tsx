@@ -39,6 +39,9 @@ export const clearQuoteData$ = $(() => {
   }
 });
 
+// Exportar también como QRL para compatibilidad
+export const clearQuoteDataQrl = clearQuoteData$;
+
 // Función para verificar si hay datos guardados
 export const hasQuoteData$ = $(() => {
   if (typeof window !== 'undefined') {
