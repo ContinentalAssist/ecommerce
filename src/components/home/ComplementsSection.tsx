@@ -26,23 +26,23 @@ export const ComplementsSection = component$(() => {
                 </div>
             </div>
 
-            <div class=' p-5 d-block d-sm-none'>
+            <div class='p-5 d-block d-sm-none text-center ' id="complements-section-desktop">
 
                 <div>
-                    <h1 class="text-title-complements text-semi-bold">Complementos ideales para tu viaje</h1>
+                    <h1 class="text-title-complements text-semi-bold ">Complementos ideales para tu viaje</h1>
                 </div>
                 <div class='col-md-6 text-left '>
                     <div class=" margin-bottom-complements">
                         <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Group39.png" alt="mama"
-                             height="120"/>
+                             height="100"/>
                     </div>
                     <div class="margin-bottom-complements">
                         <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Group40.png" alt="furamaa"
-                             height="120"/>
+                             height="100"/>
                     </div>
                     <div class="margin-bottom-complements">
                         <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Group41.png" alt="deporte"
-                             height="120"/>
+                             height="100"/>
                     </div>
                 </div>
             </div>
