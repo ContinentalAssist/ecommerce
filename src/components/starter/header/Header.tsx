@@ -219,19 +219,20 @@ export const Header = component$(() => {
                             </button>
                         </div>
                         
-                        {/* Logo centrado - 5 columnas en step-1, 7 columnas en step-2 */}
-                        <div class={`${pathNameURL.value === '/quotes-engine/step-2/' ? 'col-7' : 'col-5'} text-center`}>
+                        {/* Logo centrado - 5 columnas en step-1, 7 columnas en step-2, 5 columnas en step-3 */}
+                        <div class={`${pathNameURL.value === '/quotes-engine/step-2/' ? 'col-7' : 'col-5'} d-flex justify-content-center align-items-center`}>
                             <a class="navbar-brand" href="/" title="Inicio"
                             onClick$={() => clearQuoteDataOnLogoClick$()}
+                            style={{transform: 'translateX(32px)'}}
                             >
                                 <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'30px'}} />
                             </a>
                         </div>
                         
-                        {/* Switch de divisa - 4 columnas en step-1, 2 columnas en step-2 */}
+                        {/* Switch de divisa - 4 columnas en step-1, 2 columnas en step-2, 4 columnas en step-3 */}
                         <div class={`${pathNameURL.value === '/quotes-engine/step-2/' ? 'col-2' : 'col-4'} text-end pe-0`}>
                             {
-                                pathNameURL.value === '/quotes-engine/step-1/' ? (
+                                (pathNameURL.value === '/quotes-engine/step-1/' || pathNameURL.value === '/quotes-engine/step-3/') ? (
                                     <div style={{transform: 'scale(0.8)', transformOrigin: 'center'}}>
                                         <SwitchDivisa
                                             labels={['USD',stateContext.value?.currentRate?.code]}
@@ -253,12 +254,20 @@ export const Header = component$(() => {
                                 <i class="fas fa-bars"></i>
                             </button>
                             
-                            {/* Logo a la izquierda al lado del botón hamburguesa */}
-                            <a class="navbar-brand ms-3" href="/" title="Inicio" 
-                            onClick$={() => clearQuoteDataOnLogoClick$()}
-                            >
-                                <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'50px'}} />
-                            </a>
+                            {/* Logo - centrado solo en home, normal en otras páginas */}
+                            {pathNameURL.value === '/' ? (
+                                <a class="navbar-brand position-absolute start-50 translate-middle-x" href="/" title="Inicio" 
+                                onClick$={() => clearQuoteDataOnLogoClick$()}
+                                >
+                                    <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'50px'}} />
+                                </a>
+                            ) : (
+                                <a class="navbar-brand ms-3" href="/" title="Inicio" 
+                                onClick$={() => clearQuoteDataOnLogoClick$()}
+                                >
+                                    <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'50px'}} />
+                                </a>
+                            )}
                         </div>
                         
                         {/* Espacio para mantener el balance en desktop */}

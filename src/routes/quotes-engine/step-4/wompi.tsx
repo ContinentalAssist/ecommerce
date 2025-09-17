@@ -1098,12 +1098,12 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
                     <div class='container'>
                         <div class='row justify-content-center'>
                             <div class='col-lg-6 d-flex justify-content-end'>
-                                <div class='col-8 d-grid gap-2 mt-4'>
+                                <div class='col-12 d-grid gap-2 mt-4'>
                                     <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                 </div>
                             </div>
                             <div class='col-lg-6 d-flex justify-content-start'>
-                                <div class='col-8 d-grid gap-2 mt-4'>
+                                <div class='col-12 d-grid gap-2 mt-4'>
                                     <button type='button' class='btn btn_cotizar_1' onClick$={()=>{getPayment$()}}>Realizar pago</button>
                                     {
                                         attempts.value > 0
@@ -1211,7 +1211,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
                                                             </div>
                                                                 
                                                             <div class='col-lg-3 d-flex align-items-center'>
-                                                                <div class='d-grid gap-2 w-100'>
+                                                                <div class='d-grid gap-2 w-100 mt-3'>
                                                                     <button type='button' class='btn btn_cotizar_1' onClick$={getPhoneNequi$}>Pagar</button>
                                                                     {
                                                                          attempts.value > 0
@@ -1233,8 +1233,8 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
                                                 <div class='container'>
                                                     <div class='row justify-content-center'>
-                                                        <div class='col-lg-6'>
-                                                            <div class='col-12 d-grid gap-2 mt-4 justify-content-center'>
+                                                        <div class='col-lg-12'>
+                                                            <div class='col-12 d-flex gap-2 mt-4 justify-content-center'>
                                                                 <button type='button' class='btn btn-cancelar-edit ' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                             </div>
                                                         </div>
@@ -1301,12 +1301,12 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
                                     <div class='container'>
                                         <div class='row justify-content-center mb-1'>
                                             <div class='col-lg-6 d-flex justify-content-end'>
-                                                <div class='col-8 d-grid gap-2 mt-1'>
+                                                <div class='col-12 d-grid gap-2 mt-1'>
                                                     <button type='button' class='btn btn-cancelar-edit' onClick$={()=>onGoBack$?.()}>Regresar</button>
                                                 </div>
                                             </div>
                                             <div class='col-lg-6 d-flex justify-content-start'>
-                                                <div class='col-8 d-grid gap-2 mt-1'>
+                                                <div class='col-12 d-grid gap-2 mt-1'>
                                                     <button type='button' class='btn btn_cotizar_1' onClick$={getPSE$}>Realizar pago</button>
                                                     {
                                                     attempts.value > 0

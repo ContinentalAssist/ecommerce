@@ -113,7 +113,7 @@ span#header-step-currency .divisa
     {
         position: fixed;
         bottom: 20px;
-        width: calc(100% - 120px);
+        width: 380px;
         /* right: 20px; */
         left: 20px;
     }

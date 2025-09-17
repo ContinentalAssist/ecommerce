@@ -268,6 +268,68 @@
     right: 40px !important;
 }
 
+/* Modal height adjustments */
+#modalBenefits .modal-dialog {
+    max-height: 90vh;
+    height: auto;
+}
+
+#modalBenefits .modal-content {
+    max-height: 90vh;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+#modalBenefits .modal-body {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(90vh - 120px);
+    padding: 1.5rem;
+}
+
+/* Modal backdrop styles - Mobile first (rgba(0, 0, 0, 0.5)) */
+.modal-backdrop-mobile {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Desktop styles (rgba(0, 0, 0, 0.2)) */
+@media (min-width: 992px) {
+    .modal-backdrop-mobile {
+        background-color: rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    /* Desktop modal height adjustments */
+    #modalBenefits .modal-dialog {
+        max-height: 85vh;
+    }
+    
+    #modalBenefits .modal-content {
+        max-height: 85vh;
+    }
+    
+    #modalBenefits .modal-body {
+        max-height: calc(85vh - 120px);
+    }
+}
+
+/* Mobile modal height adjustments */
+@media (max-width: 991px) {
+    #modalBenefits .modal-dialog {
+        max-height: 80vh;
+        margin: 1rem;
+    }
+    
+    #modalBenefits .modal-content {
+        max-height: 80vh;
+    }
+    
+    #modalBenefits .modal-body {
+        max-height: calc(80vh - 100px);
+        padding: 1rem;
+    }
+}
+
 /* Botones link - sin animación */
 .cards .btn-link {
     transition: none;
