@@ -312,6 +312,7 @@ export default component$(() => {
       newResume.authorizeTipo = method;
     }
 
+
     (window as any)["dataLayer"].push(
       Object.assign(
         {
