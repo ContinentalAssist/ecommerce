@@ -49,7 +49,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 </div>
                             </div>
                             <div class="show margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
-                                <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/mujer.png"
+                                <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/ecommchica.png"
                                      alt="mujer-header" width="420" height="420"/>
                             </div>
                         </div>
