@@ -167,7 +167,6 @@ export default component$(() => {
 
     const getAdditional$ = $((index:number,idpax:number,benefit:object) => {
         const dataBenefits: any[] = [...stateContext.value.asegurados]
-        const dataLayer : {[key:string]:any} = {}
         let totalUpgrade=0;
         dataBenefits.map((pax,indexP) => {
             if(pax.idpasajero == idpax)
@@ -202,7 +201,6 @@ export default component$(() => {
                 benefitsDataLayer.push(additional.nombrebeneficioadicional)
             })
 
-            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
         })
         
         
@@ -214,26 +212,16 @@ export default component$(() => {
                 divisa: stateContext.value.plan.codigomonedapago,
                 total: total,
             },
-            dataLayerPaxBenefits:dataLayer,
             asegurados: dataBenefits
         };
         
         // Guardar datos en localStorage
         saveData(stateContext.value);
         
-        (window as any)['dataLayer'].push(
-            Object.assign({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 3 :: beneficios',
-                'cta': 'Agregar',
-            },dataLayer)
-        );
     })
 
     const deleteAdditional$ = $((index:number,idpax:number,benefit:{[key:string]:any}) => {
         const dataBenefits: {[key:string]:any,beneficiosadicionalesSeleccionados:any[],beneficiosadicionales:any[]}[] = [...stateContext.value.asegurados]
-        const dataLayer : {[key:string]:any} = {}
         let totalUpgrade=0;
         dataBenefits.map((pax,indexP) => {
             if(pax.idpasajero == idpax)
@@ -275,7 +263,6 @@ export default component$(() => {
                 benefitsDataLayer.push(additional.nombrebeneficioadicional)
             })
 
-            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
         })
         const total = stateContext.value.total.total - totalUpgrade;
         
@@ -286,21 +273,12 @@ export default component$(() => {
                 divisa: stateContext.value.plan.codigomonedapago,
                 total: total,
             },
-            dataLayerPaxBenefits:dataLayer,
             asegurados: dataBenefits
         };
         
         // Guardar datos en localStorage
         saveData(stateContext.value);
 
-        (window as any)['dataLayer'].push(
-            Object.assign({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 3 :: beneficios',
-                'cta': 'Remover',
-            },dataLayer)
-        );
     })
 
 
@@ -418,27 +396,6 @@ export default component$(() => {
                         };
                         
 
-                        (window as any)['dataLayer'].push(
-                            Object.assign(
-                                {
-                                    event: 'TrackEventGA4',
-                                    category: 'Flujo asistencia',
-                                    action: 'Paso 3 :: beneficios',
-                                    origen: newStateContext.paisorigen,
-                                    destino: newStateContext.paisesdestino,
-                                    desde: newStateContext.desde,
-                                    hasta: newStateContext.hasta,
-                                    adultos: newStateContext[75],
-                                    niños_y_jovenes: newStateContext[23],
-                                    adultos_mayores: newStateContext[85],
-                                    page: '/quotes-engine/step-2',
-                                    option: newStateContext.plan.nombreplan,
-                                    precio: Math.ceil(newStateContext.total.total),
-                                    cta: 'siguiente',
-                                },
-                                stateContext.value.dataLayerPaxBenefits
-                            )
-                        );
 
                         stateContext.value = newStateContext;
                         

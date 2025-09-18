@@ -119,14 +119,6 @@ export default component$(() => {
             bg.style.opacity = '1';
         }
 
-        (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-        (window as any)['dataLayer'].push({
-            'event': 'TrackEventGA4',
-            'category': 'interacciones usuarios',
-            'action': 'clic',
-            'label': '¡quiero comprar!',
-            'Page': '/'+location.url.pathname.split('/')[1],
-        });
     });
 
     useTask$(({ track }) => {

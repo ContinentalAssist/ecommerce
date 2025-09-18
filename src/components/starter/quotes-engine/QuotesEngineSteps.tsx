@@ -12,7 +12,6 @@ export const QuotesEngineSteps = component$((props:propsQuotesEngineSteps) => {
     // const navigate = useNavigate()
 
     // const getPreviusStep$ = $((step:number) => {
-    //     (window as any)['dataLayer'].push({
     //         'event': 'TrackEvent',
     //         'Category': 'Interacciones',
     //         'Action': 'Click',

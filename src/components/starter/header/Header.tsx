@@ -155,34 +155,12 @@ export const Header = component$(() => {
         }
         else
         {
-            (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'interacciones usuarios',
-                'action': 'clic',
-                'label': '¡quiero comprar!',
-                'Page': '/'+location.url.pathname.split('/')[1],
-            })
         }
     }) */
 
     const getLocation$ = $((e: MouseEvent) => {
         const target = e.currentTarget as HTMLElement;
         
-        if (!(window as any)['dataLayer']) {
-          console.warn('dataLayer no está inicializado');
-          return;
-        }
-      
-        const eventData: GA4EventData = {
-          event: 'TrackEventGA4',
-          category: 'interacciones usuarios',
-          action: 'menu',
-          label:  target?.textContent ?? 'Elemento sin texto',
-          page: target.getAttribute('href') || ''
-        };
-      
-        (window as any)['dataLayer'].push(eventData);
       });
 
     const changeDivisa$ = $((divisa:string) => {

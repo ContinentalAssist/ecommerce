@@ -492,26 +492,6 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
             
             error = false;
 
-            (window as any)['dataLayer'].push(
-                Object.assign({
-                    'event': 'TrackEventGA4',
-                    'category': 'Flujo asistencia',
-                    'action': 'Paso 5 :: pago',
-                    'origen': resume.value.paisorigen,
-                    'destino': resume.value.paisesdestino,
-                    'desde': resume.value.desde,
-                    'hasta': resume.value.hasta,
-                    'adultos': resume.value[75],
-                    'niños_y_jovenes': resume.value[23],
-                    'adultos_mayores': resume.value[85],
-                    'page': '/quotes-engine/step-4',
-                    'label': resume.value.plan.nombreplan,
-                    'descuento': stateContext.value.cupon.porcentaje,
-                    'cupon': stateContext.value.cupon.codigocupon,
-                    'total': resume.value.total.total,
-                    'metodo_de_pago': 'tarjeta de crédito'
-                },stateContext.value.dataLayerPaxBenefits)
-            );
         }
         
         if(checkInvoicing?.checked === true)
@@ -654,26 +634,6 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
             if(resPayment.error == false)
             {
 
-                (window as any)['dataLayer'].push(
-                    Object.assign({
-                        'event': 'TrackEventGA4',
-                        'category': 'Flujo asistencia',
-                        'action': 'Paso 6 :: compra exitosa',
-                        'origen': resume.value.paisorigen,
-                        'destino': resume.value.paisesdestino,
-                        'desde': resume.value.desde,
-                        'hasta': resume.value.hasta,
-                        'adultos': resume.value[75],
-                        'niños_y_jovenes': resume.value[23],
-                        'adultos_mayores': resume.value[85],
-                        'page': '/quotes-engine/step-4',
-                        'option': resume.value.plan.nombreplan,
-                        'descuento': stateContext.value.cupon.porcentaje,
-                        'cupon': stateContext.value.cupon.codigocupon,
-                        'total': resume.value.total.total,
-                        'metodo_de_pago': 'tarjeta de crédito'
-                    },stateContext.value.dataLayerPaxBenefits)
-                );
                contextLoading.value = {status:true, message:'Estamos procesando tu pago ...'};
 
                const id=resPayment?.resultado[0]?.wompiIdTransaccion?.id;

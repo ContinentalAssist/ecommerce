@@ -367,20 +367,6 @@ export const QuotesEngine = component$((props:propsQE) => {
 
             newDataForm.desde= dayjs(newDataForm.desde).format('YYYY-MM-DD');
             newDataForm.hasta= dayjs(newDataForm.hasta).format('YYYY-MM-DD');
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 1 :: buscador',
-                'origen': newDataForm.paisorigen,
-                'destino': newDataForm.paisesdestino,
-                'desde': newDataForm.desde,
-                'hasta': newDataForm.hasta,
-                'adultos':newDataForm[75],
-                'niños_y_jovenes': newDataForm[23],
-                'adultos_mayores': newDataForm[85],
-                'page': 'home',
-                'cta': 'buscar'
-            });
  
             if(newDataForm.edades.length > 0)
             {                
@@ -581,20 +567,6 @@ export const QuotesEngine = component$((props:propsQE) => {
 
     const getCancelQuotes$ = $(() => {
 
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 1 :: buscador',
-                'origen': '',
-                'destino': '',
-                'desde': '',
-                'hasta': '',
-                'adultos': 0,
-                'niños_y_jovenes': 0,
-                'adultos_mayores': 0,
-                'page': 'home',
-                'cta': 'cancelar'
-            });
              
         modeResumeStep.value = true;
         

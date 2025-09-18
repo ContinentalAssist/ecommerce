@@ -167,22 +167,6 @@ export default component$(() => {
             dataForm.plan = planSelected.value
             dataForm.planescotizados = plans.value;
             
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 2 :: plan',
-                'origen': dataForm.paisorigen,
-                'destino': dataForm.paisesdestino,
-                'desde': dayjs(dataForm.desde).format('YYYY-MM-DD'),
-                'hasta':  dayjs(dataForm.hasta).format('YYYY-MM-DD'),
-                'adultos': dataForm[75],
-                'niños_y_jovenes': dataForm[23],
-                'adultos_mayores': dataForm[85],
-                'page': '/quotes-engeni/step-1',
-                'option': planSelected.value.nombreplan,
-                'precio':dataForm.plan.precio_grupal,
-                'cta': 'seleccionar',
-            });
 
             dataForm.subTotal =dataForm.plan.precio_grupal; 
             dataForm.total = {divisa:dataForm.plan.codigomonedapago,total:Number(dataForm.plan.precio_grupal)}; 

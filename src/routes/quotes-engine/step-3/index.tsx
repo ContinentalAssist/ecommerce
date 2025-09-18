@@ -224,49 +224,6 @@ export default component$(() => {
     }
     contextLoading.value = { status: false, message: "" };
 
-    // Implementación del evento add_to_cart usando dataLayer
-    if (
-      typeof window !== "undefined" &&
-      "dataLayer" in window &&
-      Object.keys(stateContext.value).length > 0
-    ) {
-      const aseguradosCount = stateContext.value.asegurados?.length || 0;
-      const planPrice = stateContext.value.plan?.precio_grupal || 0;
-      const totalValue = stateContext.value.total?.total || 0;
-      const discount = stateContext.value.cupon?.porcentaje
-        ? totalValue * parseFloat("0." + stateContext.value.cupon.porcentaje)
-        : 0;
-
-      // Envío del evento add_to_cart usando dataLayer
-      (window as any)["dataLayer"].push({
-        event: "add_to_cart",
-        currency: "USD",
-        value: totalValue,
-        ecommerce: {
-          currency: "USD",
-          value: totalValue,
-          items: [
-            {
-              item_id: `${stateContext.value.resGeo?.country || ""}_${stateContext.value.plan?.idplan || ""}`,
-              item_name: stateContext.value.plan?.nombreplan || "",
-              coupon: stateContext.value.cupon?.codigocupon || "",
-              discount: discount,
-              index: 0,
-              item_brand: "Continental Assist",
-              item_category: stateContext.value.resGeo?.country || "",
-              item_list_id: "",
-              item_list_name: "",
-              item_variant: "",
-              location_id: "",
-              price: planPrice,
-              quantity: aseguradosCount,
-            },
-          ],
-        },
-      });
-    } else {
-      // Event not sent - missing requirements
-    }
   });
 
   /*  function buildMethodsButtons(){
@@ -313,29 +270,6 @@ export default component$(() => {
     }
 
 
-    (window as any)["dataLayer"].push(
-      Object.assign(
-        {
-          event: "TrackEventGA4",
-          category: "Flujo asistencia",
-          action: "Paso 4 :: resumen de compra",
-          origen: newResume.paisorigen,
-          destino: newResume.paisesdestino,
-          desde: newResume.desde,
-          hasta: newResume.hasta,
-          adultos: newResume[75],
-          niños_y_jovenes: newResume[23],
-          adultos_mayores: newResume[85],
-          page: "/quotes-engine/step-3",
-          option: newResume.plan.nombreplan,
-          descuento: newResume?.cupon?.porcentaje || 0,
-          cupon: newResume?.cupon?.codigocupon || "",
-          total: Math.ceil(newResume.total.total),
-          cta: "ir a pagar",
-        },
-        stateContext.value.dataLayerPaxBenefits
-      )
-    );
 
     stateContext.value = newResume;
 
