@@ -25,12 +25,8 @@ export const AboutUsSection = component$(() => {
                         </div>
                         <div>
                             <p class="qs-description-about ">
-                                En Continental Assist somos una organización internacional dedicada a
-                                <strong class="text-bold"> proteger y acompañar a los viajeros </strong>
-                                en cualquier parte del mundo. Ofrecemos planes de asistencia médica, legal y personal
-                                para que viajes con
-                                <strong class="text-bold"> tranquilidad y respaldo</strong> ante cualquier
-                                imprevisto.
+                                Somos una compañía norteamericana de asistencia en viaje con ADN 100% latino. Te protegemos con un servicio de alcance global para afrontar cualquier desafío que pueda surgir en el extranjero.
+                                Con más de 30 años de experiencia, respaldamos a nuestros viajeros de forma integral, brindando tranquilidad y confianza en cada recorrido.
                             </p>
                         </div>
 
