@@ -389,6 +389,25 @@ export const QuotesEngine = component$((props:propsQE) => {
                     else {
 
       
+                    // Validar que todos los datos necesarios estén presentes
+                    if (!stateContext.value.resGeo || !stateContext.value.resGeo.ip_address) {
+                        console.error('Datos de geolocalización faltantes:', stateContext.value.resGeo);
+                        contextLoading.value = {status: false, message: ''};
+                        return;
+                    }
+
+                    if (!newDataForm.edades || newDataForm.edades.length === 0) {
+                        console.error('Datos de edades faltantes:', newDataForm.edades);
+                        contextLoading.value = {status: false, message: ''};
+                        return;
+                    }
+
+                    if (!newDataForm.origen || !newDataForm.destinos || newDataForm.destinos.length === 0) {
+                        console.error('Datos de origen/destino faltantes:', {origen: newDataForm.origen, destinos: newDataForm.destinos});
+                        contextLoading.value = {status: false, message: ''};
+                        return;
+                    }
+
                     const newBody = {
                         edades:newDataForm.edades,                            
                         origen: newDataForm.origen,
@@ -398,11 +417,25 @@ export const QuotesEngine = component$((props:propsQE) => {
                         idfuente: 2,
                         resGeo:stateContext.value.resGeo
                     }
+                    
+                    console.log('Enviando datos de cotización:', newBody);
+                    
                     const resPlans = await fetch("/api/getPlansPrices", {method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newBody)});
+                    
+                    if (!resPlans.ok) {
+                        console.error('Error HTTP:', resPlans.status, resPlans.statusText);
+                        contextLoading.value = {status: false, message: ''};
+                        return;
+                    }
+                    
                     const dataPlans = await resPlans.json()
+                    console.log('Respuesta del servidor:', dataPlans);
 
-
-                     
+                    if (dataPlans.error) {
+                        console.error('Error en la respuesta del servidor:', dataPlans);
+                        contextLoading.value = {status: false, message: ''};
+                        return;
+                    }
                     
                     error = dataPlans.error
                     stateContext.value.precioPlanes= []

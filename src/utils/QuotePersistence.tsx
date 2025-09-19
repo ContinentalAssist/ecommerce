@@ -39,6 +39,20 @@ export const clearQuoteData$ = $(() => {
   }
 });
 
+// Función para limpiar datos del cotizador y contexto cuando se regresa al home
+export const clearQuoteDataAndContext$ = $((context: any) => {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.removeItem(QUOTE_STORAGE_KEY);
+      if (context && typeof context === 'object' && 'value' in context) {
+        context.value = {};
+      }
+    } catch (error) {
+      console.warn('Error al limpiar datos del cotizador y contexto:', error);
+    }
+  }
+});
+
 // Exportar también como QRL para compatibilidad
 export const clearQuoteDataQrl = clearQuoteData$;
 
