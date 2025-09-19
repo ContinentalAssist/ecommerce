@@ -370,7 +370,7 @@ export const QuotesEngine = component$((props:propsQE) => {
  
             if(newDataForm.edades.length > 0)
             {                
-                newDataForm.planfamiliar = (newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] >= 2 && newDataForm[85] == 0)?'t':'f'
+                newDataForm.planfamiliar = (newDataForm[23] > 0 && newDataForm[23] <= 4 && newDataForm[75] == 2 && newDataForm[85] == 0)?'t':'f'
 
               
                 
