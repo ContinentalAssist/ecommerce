@@ -39,6 +39,7 @@ export default component$(() => {
   const desktop = useSignal(false);
   const contextLoading = useContext(LoadingContext);
   const purchaseTracked = useSignal(false);
+  const isInitializing = useSignal(true);
 
   // Función local para guardar datos con QRL (igual que en los steps)
   const saveData = $((data: any) => {
@@ -75,44 +76,70 @@ export default component$(() => {
   });
 
   const getVoucher = $(async (vouchercode: string) => {
-    let resVoucher: { [key: string]: any } = {};
+    try {
+      let resVoucher: { [key: string]: any } = {};
 
-    const resData = await fetch('/api/getVoucher', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ codigovoucher: vouchercode }),
-    });
-    const data = await resData.json();
-    resVoucher = data;
-
-    if (resVoucher.error == false) {
-      // Verificar si tenemos datos válidos del voucher
-      if (resVoucher.resultado && resVoucher.resultado.length > 0) {
-        const voucherData = resVoucher.resultado[0];
-
-        // Mapeo mejorado de datos del voucher
-        const mappedVoucherData = {
-          // Voucher
-          codvoucher: voucherData.codvoucher,
-
-          // Fechas
-          fechasalida: voucherData.fechasalida || 'Fecha no especificada',
-          fecharegreso: voucherData.fecharegreso || 'Fecha no especificada',
-        };
-
-        // Asignar los datos del voucher
-        resume.value = {
-          ...resume.value, // Mantener datos del contexto si existen
-          ...mappedVoucherData, // Sobrescribir con datos mapeados del voucher
-        };
-
+      const resData = await fetch('/api/getVoucher', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ codigovoucher: vouchercode }),
+      });
+      
+      if (!resData.ok) {
+        console.warn('Error en respuesta HTTP del voucher:', resData.status, resData.statusText);
+        // Si hay error en la API, pero el pago fue aprobado, mostrar éxito con datos limitados
         typeMessage.value = 1;
-      } else {
-        typeMessage.value = 4; // Mostrar error
+        isInitializing.value = false;
+        contextLoading.value = { status: false, message: '' };
+        return;
       }
-    } else {
-      typeMessage.value = 4; // Mostrar error
+
+      const data = await resData.json();
+      resVoucher = data;
+
+      if (resVoucher.error == false) {
+        // Verificar si tenemos datos válidos del voucher
+        if (resVoucher.resultado && resVoucher.resultado.length > 0) {
+          const voucherData = resVoucher.resultado[0];
+
+          // Mapeo mejorado de datos del voucher
+          const mappedVoucherData = {
+            // Voucher
+            codvoucher: voucherData.codvoucher,
+
+            // Fechas
+            fechasalida: voucherData.fechasalida || 'Fecha no especificada',
+            fecharegreso: voucherData.fecharegreso || 'Fecha no especificada',
+          };
+
+          // Asignar los datos del voucher
+          resume.value = {
+            ...resume.value, // Mantener datos del contexto si existen
+            ...mappedVoucherData, // Sobrescribir con datos mapeados del voucher
+          };
+
+          typeMessage.value = 1;
+          isInitializing.value = false;
+        } else {
+          // Si no hay datos del voucher pero el pago fue aprobado, mostrar éxito
+          console.warn('No se encontraron datos del voucher, pero el pago fue aprobado');
+          typeMessage.value = 1;
+          isInitializing.value = false;
+        }
+      } else {
+        // Si hay error en la respuesta pero el pago fue aprobado, mostrar éxito
+        console.warn('Error en respuesta del voucher, pero el pago fue aprobado:', resVoucher);
+        typeMessage.value = 1;
+        isInitializing.value = false;
+      }
+    } catch (error) {
+      console.error('Error al obtener voucher:', error);
+      // Si hay error de red o parsing, pero el pago fue aprobado, mostrar éxito
+      console.warn('Error de conexión al obtener voucher, pero el pago fue aprobado');
+      typeMessage.value = 1;
+      isInitializing.value = false;
     }
+    
     contextLoading.value = { status: false, message: '' };
   });
 
@@ -151,12 +178,20 @@ export default component$(() => {
 
       if (resume?.value?.codevoucher != '' && stateContext.value?.paymentstutus == 'completed') {
         if (stateContext?.value?.typeMessage == 1) {
+          // Para pagos aprobados, no establecer typeMessage hasta que getVoucher termine
           getVoucher(resume?.value?.codevoucher);
+        } else {
+          // Para otros casos, establecer inmediatamente
+          typeMessage.value = stateContext?.value?.typeMessage;
+          isInitializing.value = false;
         }
       } else if (stateContext?.value?.codevoucher && stateContext?.value?.paymentstutus == 'completed') {
+        // Para pagos aprobados, no establecer typeMessage hasta que getVoucher termine
         getVoucher(stateContext?.value?.codevoucher);
       } else {
+        // Para pagos rechazados, establecer inmediatamente
         typeMessage.value = stateContext?.value?.typeMessage;
+        isInitializing.value = false;
       }
     }
   });
@@ -205,13 +240,16 @@ export default component$(() => {
 
       // Si tenemos datos del voucher, mostrar mensaje de éxito
       if (savedData.codevoucher) {
-        typeMessage.value = 1;
         // Intentar obtener el voucher si no tenemos los datos completos
         if (!savedData.codvoucher) {
           getVoucher(savedData.codevoucher);
+        } else {
+          typeMessage.value = 1;
+          isInitializing.value = false;
         }
       } else {
         typeMessage.value = savedData.typeMessage || 1;
+        isInitializing.value = false;
       }
       return;
     }
@@ -229,6 +267,7 @@ export default component$(() => {
           getVoucher(dataValidation.resultado.order_id);
         } else {
           typeMessage.value = 4;
+          isInitializing.value = false;
         }
       } else {
         const resValidation = await fetch('/api/getValidationTransactionW', {
@@ -244,6 +283,7 @@ export default component$(() => {
           getVoucher(dataValidation.resultado.reference);
         } else {
           typeMessage.value = 4;
+          isInitializing.value = false;
         }
       }
     }
@@ -285,7 +325,22 @@ export default component$(() => {
             <div class='container '>
               <div class='row'>
                 <div class='col-lg-12 col-xl-12 '>
-                  {Number(typeMessage.value) == 1 && (
+                  {isInitializing.value && (
+                    <div class='row justify-content-center' style={{ minHeight: '70vh' }}>
+                      <div class='col-lg-12 text-center mt-5'>
+                        <div class='spinner-border text-primary' role='status'>
+                          <span class='visually-hidden'>Cargando...</span>
+                        </div>
+                        <p class='h3 text-semi-bold text-blue mt-3'>
+                          Procesando tu pago...
+                        </p>
+                        <p class='text-dark-gray'>
+                          Por favor espera mientras verificamos el estado de tu transacción.
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  {!isInitializing.value && Number(typeMessage.value) == 1 && (
                     <div class='row justify-content-center'>
                       <div class='col-lg-12 text-center '>
                         <p class='h1 text-semi-bold text-blue'>
@@ -657,7 +712,7 @@ export default component$(() => {
                     </div>
                   )}
 
-                  {Number(typeMessage.value) == 2 && (
+                  {!isInitializing.value && Number(typeMessage.value) == 2 && (
                     <>
                       <div class='row justify-content-center' style={{ minHeight: '70vh' }}>
                         <div class='col-lg-12 text-center mt-5'>
@@ -687,7 +742,7 @@ export default component$(() => {
                     </>
                   )}
 
-                  {Number(typeMessage.value) == 3 && (
+                  {!isInitializing.value && Number(typeMessage.value) == 3 && (
                     <>
                       <div class='row justify-content-center' style={{ minHeight: '70vh' }}>
                         <div class='col-lg-12 text-center mt-5'>
@@ -712,7 +767,7 @@ export default component$(() => {
                     </>
                   )}
 
-                  {Number(typeMessage.value) == 4 && (
+                  {!isInitializing.value && Number(typeMessage.value) == 4 && (
                     <>
                       <div class='row justify-content-center' style={{ minHeight: '70vh' }}>
                         <div class='col-lg-12 text-center mt-5'>
