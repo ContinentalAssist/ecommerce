@@ -60,13 +60,19 @@ export default component$(() => {
 
   useVisibleTask$(async () => {
     // Restaurar datos del cotizador desde localStorage si existen
+    // Solo restaurar si no estamos en el home para evitar conflictos
     if (typeof window !== 'undefined') {
       try {
-        const savedData = localStorage.getItem('continental_assist_quote_data');
-        if (savedData) {
-          const savedQuoteData = JSON.parse(savedData);
-          if (savedQuoteData && Object.keys(savedQuoteData).length > 0) {
-            resumeQuote.value = { ...resumeQuote.value, ...savedQuoteData };
+        // Verificar si estamos en el home
+        const isHome = window.location.pathname === '/';
+        
+        if (!isHome) {
+          const savedData = localStorage.getItem('continental_assist_quote_data');
+          if (savedData) {
+            const savedQuoteData = JSON.parse(savedData);
+            if (savedQuoteData && Object.keys(savedQuoteData).length > 0) {
+              resumeQuote.value = { ...resumeQuote.value, ...savedQuoteData };
+            }
           }
         }
       } catch (error) {

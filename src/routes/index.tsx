@@ -46,16 +46,47 @@ export default component$(() => {
     const headerStep = useSignal(false)
     const urlBlueAccess =  useSignal('');
 
-    // Limpiar datos del cotizador cuando se navega al home
-    useVisibleTask$(() => {
+    // Función para limpiar datos del cotizador
+    const clearQuoteData = $(() => {
         if (typeof window !== 'undefined') {
             try {
                 localStorage.removeItem('continental_assist_quote_data');
-                // También limpiar el contexto actual
-                stateContext.value = {};
+                // Limpiar el contexto actual pero preservar datos esenciales
+                const essentialData = {
+                    isMobile: stateContext.value.isMobile,
+                    resGeo: stateContext.value.resGeo,
+                    currentRate: stateContext.value.currentRate,
+                    country: stateContext.value.country,
+                    listadoestados: stateContext.value.listadoestados,
+                    listadociudades: stateContext.value.listadociudades,
+                    planDefault: stateContext.value.planDefault,
+                    ux: stateContext.value.ux
+                };
+                stateContext.value = essentialData;
             } catch (error) {
                 console.warn('Error al limpiar datos del cotizador:', error);
             }
+        }
+    });
+
+    // Limpiar datos del cotizador cuando se navega al home
+    useVisibleTask$(() => {
+        clearQuoteData();
+    });
+
+    // Limpiar datos cuando el usuario regresa al home usando los botones del navegador
+    useOnWindow('popstate', $(() => {
+        // Verificar si estamos en el home después del popstate
+        if (location.url.pathname === '/') {
+            clearQuoteData();
+        }
+    }));
+
+    // Limpiar datos cuando se detecta navegación al home
+    useTask$(({ track }) => {
+        const pathName = track(() => location.url.pathname);
+        if (pathName === '/') {
+            clearQuoteData();
         }
     });
 
