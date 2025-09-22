@@ -53,8 +53,7 @@ export const CoverSection = component$(() => {
                                    alt="telemedicina"/>
                               <div>
                                   <h4 class="coverage-title">Teleconsulta médica pre y post viaje</h4>
-                                  <p class="coverage-description">Asistencia médica antes, durante y después de tu
-                                      viaje.</p>
+                                  <p class="coverage-description">Asistencia médica 15 días antes y  15 después de tu viaje.</p>
                               </div>
                           </div>
                       </div>
