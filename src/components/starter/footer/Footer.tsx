@@ -76,7 +76,7 @@ export const Footer = component$(() => {
                                     <div class='row justify-content-center'>
                                         <div class='col-sm-2  col-xs-2 text-center mb-3 mx-3'>
                                             <a title='Inicio' href="/">
-                                            <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="margin-top: 18px; width: 75px; height: 45px;" title='continental-assist-logo' alt='continental-assist-logo' />
+                                            <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="margin: 18px 15px 0 0; width: 75px; height: 45px;" title='continental-assist-logo' alt='continental-assist-logo' />
                                             </a>
                                         </div>
                                         <div class='col-sm-2  col-xs-2 text-center align-content-center'>
@@ -141,7 +141,7 @@ export const Footer = component$(() => {
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-3 col-sm-12 col-xs-12 text-center mb-3'>
                                             <a title='Inicio' href="/">
-                                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="margin-top: 18px; width: 75px; height: 45px;" title='continental-assist-logo' alt='continental-assist-logo' />
+                                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="margin: 18px 15px 0 0; width: 75px; height: 45px;" title='continental-assist-logo' alt='continental-assist-logo' />
                                             </a>
                                         </div>
                                         <div class='col-lg-2 col-sm-12 col-xs-2 text-center align-content-center'>
