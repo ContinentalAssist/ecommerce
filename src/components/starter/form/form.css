@@ -61,16 +61,22 @@ input::-webkit-inner-spin-button {
 }
 .input-basic .form-floating>.form-control
 {
-    border: 2px solid var(--ca-gray);
+    border: 1px solid var(--ca-gray);
     border-radius: 30px;
     padding-left: 20px;
 }
 
 .input-basic .input-group-text~.form-floating>.form-control
 {
-    border: 2px solid var(--ca-gray);
+    border: 1px solid var(--ca-gray);
     border-left: 0px;
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     padding-left: revert;
+}
+
+/* Forzar text-medium en todos los inputs */
+.form-control {
+    font-family: GalanoGrotesque_Medium !important;
+    font-display: swap;
 }

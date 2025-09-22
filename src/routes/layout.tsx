@@ -1,4 +1,4 @@
-import { $, component$, Slot,  useStyles$ ,useContext} from '@builder.io/qwik';
+import { $, component$, Slot,  useStyles$ ,useContext, useSignal, useTask$} from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { RequestHandler } from '@builder.io/qwik-city';
 import { Header } from '~/components/starter/header/Header';
@@ -10,6 +10,7 @@ import {  useLocation, useNavigate } from '@builder.io/qwik-city';
 import { Loading } from '~/components/starter/loading/Loading';
 import { LoadingContext } from "~/root";
 import { WEBContext } from "~/root";
+import { QuotesResume } from '~/components/starter/quotes-resume/QuotesResume';
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -44,6 +45,13 @@ export default component$(() => {
         const location = useLocation()
         const contextLoading = useContext(LoadingContext)
         const stateContext = useContext(WEBContext)
+        const pathNameURL = useSignal('')
+        
+        // Task para actualizar la URL
+        useTask$(({ track }) => {
+            const pathName = track(() => location.url.pathname);  
+            pathNameURL.value = pathName;
+        });
 
 
     
@@ -89,6 +97,12 @@ export default component$(() => {
     return (
         <>
             <Header />
+            {
+                pathNameURL.value != '/' && pathNameURL.value.includes('quotes-engine') &&
+                <div class="container-resume-1" style={{background: '#F4F4F4'}}>
+                    <QuotesResume />
+                </div>
+            }
             <main>
             {
                 stateContext.value.isMobile === false?

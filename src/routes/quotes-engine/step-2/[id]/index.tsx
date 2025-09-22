@@ -370,7 +370,6 @@ export default component$(() => {
 
     const getAdditional$ = $((index:number,idpax:number,benefit:object) => {
         const dataBenefits: any[] = additionalsBenefits.value
-        const dataLayer : {[key:string]:any} = {}
 
         dataBenefits.map((pax,indexP) => {
             if(pax.idpasajero == idpax)
@@ -405,24 +404,13 @@ export default component$(() => {
                 benefitsDataLayer.push(additional.nombrebeneficioadicional)
             })
 
-            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
         })
 
-        stateContext.value.dataLayerPaxBenefits = dataLayer;
 
-        (window as any)['dataLayer'].push(
-            Object.assign({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 3 :: beneficios',
-                'cta': 'Agregar',
-            },dataLayer)
-        );
     })
 
     const deleteAdditional$ = $((index:number,idpax:number,benefit:{[key:string]:any}) => {
         const dataBenefits: {[key:string]:any,beneficiosadicionales:any[],beneficiosadicionalesDefault:any[]}[] = additionalsBenefits.value
-        const dataLayer : {[key:string]:any} = {}
 
         dataBenefits.map((pax,indexP) => {
             if(pax.idpasajero == idpax)
@@ -462,19 +450,9 @@ export default component$(() => {
                 benefitsDataLayer.push(additional.nombrebeneficioadicional)
             })
 
-            dataLayer['viajero'+pax.idpasajero] = String(benefitsDataLayer)
         })
 
-        stateContext.value.dataLayerPaxBenefits = dataLayer;
 
-        (window as any)['dataLayer'].push(
-            Object.assign({
-                'event': 'TrackEventGA4',
-                'category': 'Flujo asistencia',
-                'action': 'Paso 3 :: beneficios',
-                'cta': 'Remover',
-            },dataLayer)
-        );
     })
 
     const getPaxs$ = $(async() => {
@@ -585,24 +563,6 @@ export default component$(() => {
                             newStateContext.subTotal = prevTotal.value 
                             newStateContext.total = totalPay.value;
 
-                            (window as any)['dataLayer'].push(
-                                Object.assign({
-                                    'event': 'TrackEventGA4',
-                                    'category': 'Flujo asistencia',
-                                    'action': 'Paso 3 :: beneficios',
-                                    'origen': newStateContext.paisorigen,
-                                    'destino': newStateContext.paisesdestino,
-                                    'desde': newStateContext.desde,
-                                    'hasta': newStateContext.hasta,
-                                    'adultos': newStateContext[75],
-                                    'niños y jovenes': newStateContext[23],
-                                    'adultos mayores': newStateContext[85],
-                                    'page': 'home',
-                                    'label': newStateContext.plan.nombreplan,
-                                    'precio': newStateContext.total.total,
-                                    'cta': 'siguiente',
-                                },stateContext.value.dataLayerPaxBenefits)
-                            );
 
                             const dataFormContact : {[key:string]:any} = {}
 
@@ -640,24 +600,6 @@ export default component$(() => {
                         newStateContext.subTotal = prevTotal.value 
                         newStateContext.total = totalPay.value;
 
-                        (window as any)['dataLayer'].push(
-                            Object.assign({
-                                'event': 'TrackEventGA4',
-                                'category': 'Flujo asistencia',
-                                'action': 'Paso 3 :: beneficios',
-                                'origen': newStateContext.paisorigen,
-                                'destino': newStateContext.paisesdestino,
-                                'desde': newStateContext.desde,
-                                'hasta': newStateContext.hasta,
-                                'adultos': newStateContext[75],
-                                'niños y jovenes': newStateContext[23],
-                                'adultos mayores': newStateContext[85],
-                                'page': 'home',
-                                'label': newStateContext.plan.nombreplan,
-                                'precio': newStateContext.total.total,
-                                'cta': 'siguiente',
-                            },stateContext.value.dataLayerPaxBenefits)
-                        );
 
                         stateContext.value = Object.assign(stateContext.value,newStateContext)
     
@@ -856,7 +798,7 @@ export default component$(() => {
                     </div>  
                 </div>            
             </div>
-            <div id='modalAdditionals' class="modal fade">
+            <div id='modalAdditionals' class="modal fade modal-backdrop-mobile">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">  

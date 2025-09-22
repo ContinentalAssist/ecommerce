@@ -27,15 +27,6 @@ export const CardPlan = component$((props:propsCardPlan) => {
         
         modal.show();
 
-        (window as any)['dataLayer'].push({
-            'event': 'TrackEventGA4',
-            'category': 'interacciones usuario',
-            'action': 'clic',
-            'label': 'Ver mas',
-            'option': id,
-            'page': 'Home',
-            'cta': 'Ver mas'
-        });
     }) 
 
     return(

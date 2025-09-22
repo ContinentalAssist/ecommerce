@@ -155,7 +155,21 @@ export default component$(() => {
             return isValid;
     })
 
+    const handlePaymentTouch$ = $(async(e: TouchEvent) => {
+        // Prevenir el comportamiento por defecto del touch
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Llamar a la función de pago
+        await getPayment$();
+    });
+
     const getPayment$ = $(async() => {
+        // Prevenir múltiples ejecuciones simultáneas
+        if (contextLoading.value.status) {
+            return;
+        }
+        
         //const bs = (window as any)['bootstrap']
         const form = document.querySelector('#form-payment-method') as HTMLFormElement
         const dataForm : {[key:string]:any} = {}
@@ -197,26 +211,6 @@ export default component$(() => {
             
             error = false;
 
-            (window as any)['dataLayer'].push(
-                Object.assign({
-                    'event': 'TrackEventGA4',
-                    'category': 'Flujo asistencia',
-                    'action': 'Paso 5 :: pago',
-                    'origen': resume.value.paisorigen,
-                    'destino': resume.value.paisesdestino,
-                    'desde': resume.value.desde,
-                    'hasta': resume.value.hasta,
-                    'adultos': resume.value[75],
-                    'niños_y_jovenes': resume.value[23],
-                    'adultos_mayores': resume.value[85],
-                    'page': '/quotes-engine/step-4',
-                    'label': resume.value.plan.nombreplan,
-                    'descuento': stateContext.value.cupon.porcentaje,
-                    'cupon': stateContext.value.cupon.codigocupon,
-                    'total': resume.value.total.total,
-                    'metodo_de_pago': 'tarjeta de crédito'
-                },stateContext.value.dataLayerPaxBenefits)
-            );
         }
 
         if(checkInvoicing?.checked === true)
@@ -288,11 +282,16 @@ export default component$(() => {
                         idmoneda:resume.value.plan.idmonedapago,
                     },
                     idplataformapago:2,
-                    cupon:{
-                        idcupon:resume.value?.cupon?.idcupon,
-                        codigocupon:resume.value?.cupon?.codigocupon,
-                        porcentaje:resume.value?.cupon?.porcentaje,
-                        descuento:resume.value?.cupon?.descuento||0
+                    cupon:resume.value?.cupon ? {
+                        idcupon:resume.value.cupon.idcupon,
+                        codigocupon:resume.value.cupon.codigocupon,
+                        porcentaje:resume.value.cupon.porcentaje,
+                        descuento:resume.value.cupon.descuento||0
+                    } : {
+                        idcupon: null,
+                        codigocupon: '',
+                        porcentaje: 0,
+                        descuento: 0
                     },
                     contacto:[resume.value.contacto],
                     ux:stateContext.value.ux ? stateContext.value.ux : '',
@@ -349,35 +348,15 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
-            const dataPay = await resPay.json()
-            resPayment = dataPay
+                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const dataPay = await resPay.json()
+                resPayment = dataPay
 
             if(resPayment.error == false)
             {
                // urlvoucher.value = resPayment.resultado;
 
 
-                (window as any)['dataLayer'].push(
-                    Object.assign({
-                        'event': 'TrackEventGA4',
-                        'category': 'Flujo asistencia',
-                        'action': 'Paso 6 :: compra exitosa',
-                        'origen': resume.value.paisorigen,
-                        'destino': resume.value.paisesdestino,
-                        'desde': resume.value.desde,
-                        'hasta': resume.value.hasta,
-                        'adultos': resume.value[75],
-                        'niños_y_jovenes': resume.value[23],
-                        'adultos_mayores': resume.value[85],
-                        'page': '/quotes-engine/step-4',
-                        'option': resume.value.plan.nombreplan,
-                        'descuento': stateContext.value.cupon.porcentaje,
-                        'cupon': stateContext.value.cupon.codigocupon,
-                        'total': resume.value.total.total,
-                        'metodo_de_pago': 'tarjeta de crédito'
-                    },stateContext.value.dataLayerPaxBenefits)
-                );
 
                // modalSuccess.show()
                // Preservar todos los datos del contexto y agregar los nuevos datos del pago
@@ -387,19 +366,19 @@ export default component$(() => {
                    codevoucher: resPayment.resultado[0]?.orden?.codvoucher||'',
                    typeMessage: 1
                }
-               await navigate('/quotes-engine/message')
+                   await navigate('/quotes-engine/message')
             }
             else
             {
                 if(attempts.value < 2)
                 {
                     stateContext.value.typeMessage = 2
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
                 else
                 {
                     stateContext.value.typeMessage = 3
-                    await navigate('/quotes-engine/message')
+                        await navigate('/quotes-engine/message')
                 }
 
                 attempts.value = (attempts.value + 1)
@@ -425,28 +404,27 @@ export default component$(() => {
 
     return(
         <>
-            <div class='container-fluid'>
-                <div class='row mb-5'>
-                    <div class='col-lg-12'>
-                        <CardPaymentResume>
-                             <div class='row justify-content-center'>
-                                <div class='col-lg-12'>
-                                <p class=' text-semi-bold text-blue  text-end'> Ingresa la información de tu tarjeta</p>
+            {/* Formulario de pago Authorize */}
+            <div class="card shadow-0 mb-1 border-0">
+                <div class="card-body p-1">
+                    <h5 class='text-medium text-blue text-start mb-4'> Ingresa la información de tu tarjeta</h5>
 
-                                    <Form
-                                        id='form-payment-method'
-                                        form={[
-                                            {row:[
-                                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
-                                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
-                                            ]},
-                                            {row:[
-                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
-                                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
-                                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
-                                            ]}
-                                        ]}
-                                    />
+                    <Form
+                        id='form-payment-method'
+                        form={[
+                            {row:[
+                                {size:'col-xl-12',type:'text',label:'Nombre completo',placeholder:'Nombre completo',name:'tdctitular',required:true,onChange:$((e:any) => {getName$(e.target.value)}),textOnly:'true', dataAttributes: { 'data-openpay-card':'holder_name' }},
+                                {size:'col-xl-12 credit-card',type:'number',label:'Número de tarjeta',placeholder:'Número de tarjeta',name:'tdcnumero',required:true,onChange:getCardNumber$,disableArrows:true, dataAttributes: { 'data-openpay-card': 'card_number' }},
+                            ]},
+                            {row:[
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Mes',placeholder:'Mes',name:'tdcmesexpiracion',readOnly:true,required:true,options:months.value,onChange:$((e:any) => {getMonth$(e)}), dataAttributes: { 'data-openpay-card':'expiration_month' }},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Año',placeholder:'Año',name:'tdcanoexpiracion',readOnly:true,required:true,options:years.value,onChange:$((e:any) => {getYear$(e)}), dataAttributes: { 'data-openpay-card':'expiration_year' }},
+                                {size:'col-xl-4 col-xs-12 credit-card',type:'number',label:'CVV',placeholder:'CVV',name:'tdccvv',min:'0000',maxLength:'9999',required:true,disableArrows:true, dataAttributes: { 'data-openpay-card':'cvv2' }}
+                            ]}
+                        ]}
+                    />
+                </div>
+            </div>
                                     {/* <div class='container'>
                                         <div class='row'>
                                             <div class='col-12'>
@@ -467,34 +445,28 @@ export default component$(() => {
                                             stateContext.value.country == 'CO' && <InvoiceFormCO/>
                                         }
                                     </div> */}
-                                    <div class='container'>
-                                        <div class='row justify-content-center'>
-                                            <div class='col-lg-6'>
-                                                <div class='d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-outline-primary' onClick$={()=>navigate('/quotes-engine/step-3')}>Regresar</button>                                                        
-                                                </div>
-                                            </div>
-
-                                            <div class='col-lg-6'>
-                                                <div class='d-grid gap-2 mt-4'>
-                                                    <button type='button' class='btn btn-primary' onClick$={getPayment$}>Realizar pago</button>
-                                                    {
-                                                        attempts.value > 0
-                                                        &&
-                                                        <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </CardPaymentResume>
-
+            <div class='container'>
+                <div class='row justify-content-center'>
+                    <div class='col-lg-6 d-flex justify-content-center'>
+                        <div class='col-9 d-grid gap-2 mt-4'>
+                            <button 
+                                type='button' 
+                                class='btn btn_cotizar_1' 
+                                onClick$={getPayment$}
+                                onTouchStart$={handlePaymentTouch$}
+                                style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
+                            >
+                                Realizar pago
+                            </button>
+                            {
+                                attempts.value > 0
+                                &&
+                                <span class='text-center rounded-pill text-bg-warning'>{attempts.value} intentos</span>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
-           
         </>
     )
 })

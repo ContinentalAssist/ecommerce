@@ -11,8 +11,9 @@ export const SwitchDivisa = component$((props:propsSwitch) => {
 
     const active = useSignal('')
 
-    useTask$(() => {
-        active.value = props.value
+    useTask$(({ track }) => {
+        const value = track(() => props.value)
+        active.value = value
     })
     // eslint-disable-next-line qwik/no-use-visible-task
     useVisibleTask$(() => {

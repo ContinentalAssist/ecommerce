@@ -3,7 +3,7 @@
     /* background-image: url('/assets/img/quotes-engine/continental-assist-bg-step-1-1920x1080.webp');
     background-repeat: no-repeat;
     background-size: 100vw auto; */
-    background-color: #FAFAFA;
+    background-color: #F4F4F4;
 
 }
 
@@ -37,20 +37,19 @@
 
 #btn-pay-method
 {
-    border: 2px solid lightgray;
+    border: 1px solid #f1eddf;
     min-width: 72px;
     width:72px; 
     height:46px;
-    border-radius:10px;
+    border-radius:12px;
     margin:5px;
     cursor:pointer;
-    box-shadow: 0 0 10px gray;
 
 }
 
 #btn-pay-method:hover
 {
-    background-color: #FEDF84;
+    background-color: #FFF;
 }
 
 @media (max-width: 575.98px)
@@ -68,4 +67,341 @@
 .title-method
 {
     font-size:0.75rem ;
+}
+
+/* Estilos para las cards de pago */
+.payment-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.payment-card:hover {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+
+
+.payment-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.payment-card-indicator {
+    font-size: 1.2rem;
+}
+
+.payment-card-content {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Estilos para mobile */
+.payment-card-mobile {
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.payment-card-mobile:hover {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.payment-card-header-mobile {
+    margin-bottom: 10px;
+}
+
+.payment-card-content-mobile {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Animación suave para el contenido */
+.payment-card-content,
+.payment-card-content-mobile {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejoras para los botones de método de pago dentro de las cards */
+.payment-card #btn-pay-method,
+.payment-card-mobile .icons {
+    transition: all 0.2s ease;
+}
+
+.payment-card #btn-pay-method:hover,
+.payment-card-mobile .icons:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Estilos para los logos de métodos de pago */
+.payment-logo {
+    width: 45px;
+    height: 28px;
+    object-fit: contain;
+    transition: all 0.2s ease;
+    filter: grayscale(20%);
+}
+
+.payment-logo:hover {
+    transform: scale(1.1);
+    filter: grayscale(0%);
+}
+
+/* Ajustes específicos para diferentes logos */
+.payment-logo[alt="Visa"] {
+    width: 50px;
+    height: auto;
+}
+
+.payment-logo[alt="artboard"] {
+    width: 50px;
+    height: auto;
+}
+
+.payment-logo[alt="Mastercard"] {
+    width: 52px;
+    height: auto;
+}
+
+.payment-logo[alt="American Express"] {
+    width: 48px;
+    height: auto;
+}
+
+.payment-logo[alt="PSE"] {
+    width: 38px;
+    height: auto;
+    margin-left: 10px;
+}
+
+.payment-logo[alt="Nequi"] {
+    width: 50px;
+    height: auto;
+}
+
+/* Estilos para los títulos de las tarjetas de pago */
+.payment-card-title {
+    font-size: 1.25rem;
+  
+}
+
+/* Responsive para mobile */
+@media (max-width: 768px) {
+    .payment-card-title {
+        font-size: 0.80rem;
+    }
+    
+    .payment-logo {
+        width: 40px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Visa"] {
+        width: 30px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Mastercard"] {
+        width: 30px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="American Express"] {
+        width: 30px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="PSE"] {
+        width: 30px;
+        height: auto;
+    }
+    
+    .payment-logo[alt="Nequi"] {
+        width: 30px;
+        height: auto;
+        margin-left: 5px;
+    }
+}
+
+/* Estilos para logos de pago en mobile (más pequeños) */
+.payment-logo-mobile {
+    width: 20px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Visa"] {
+    width: 18px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Mastercard"] {
+    width: 19px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="American Express"] {
+    width: 17px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="PSE"] {
+    width: 16px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Nequi"] {
+    width: 18px;
+    height: auto;
+}
+
+.payment-logo-mobile[alt="Wompi"] {
+    width: 18px;
+    height: auto;
+}
+
+/* Animación para el contenedor de logos */
+.payment-card-indicator .d-flex {
+    animation: fadeInLogos 0.5s ease-in-out;
+}
+
+@keyframes fadeInLogos {
+    from {
+        opacity: 0;
+        transform: translateX(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Estilos para el formulario de pago integrado */
+.payment-form-container {
+    padding: 15px 0;
+}
+
+.payment-form-container h6 {
+    color: var(--ca-light-blue);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.payment-form-container .form-control {
+    border-radius: 8px !important;
+    border: 2px solid #e0e0e0;
+    margin-bottom: 10px;
+    transition: all 0.3s ease;
+}
+
+.payment-form-container .form-control:focus {
+    border-color: var(--ca-light-blue);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+/* Animación suave para el formulario */
+.payment-form-container {
+    animation: slideInForm 0.4s ease-out;
+}
+
+@keyframes slideInForm {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive para el formulario */
+@media (max-width: 768px) {
+    .payment-form-container .col-8 {
+        width: 100% !important;
+    }
+    
+    .payment-form-container .d-flex {
+        justify-content: center !important;
+    }
 } 
+
+.btn_cotizar_1{
+    background-color: var(--ca-yellow);
+    box-shadow: none !important;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+    border-radius: 50px!important;
+}
+
+.btn_cotizar_1:hover{
+    background-color: var(--ca-yellow) !important;
+    border-color: var(--ca-yellow) !important;
+    color: #1d2546 !important;
+}
+
+.btn_cotizar_1:active,
+.btn_cotizar_1:focus{
+    background-color: var(--ca-yellow) !important;
+    border-color: var(--ca-yellow) !important;
+    color: #1d2546 !important;
+    box-shadow: none !important;
+}
+
+.btn-cancelar-edit{
+    border: 1px solid #1d2546;
+    border-radius: 50px;
+    background-color: transparent;
+    color: #1d2546;
+    font-size: 1.25rem !important;
+    font-family: GalanoGrotesque !important;
+}
+
+.btn-cancelar-edit:hover{
+    border: 1px solid #1d2546;
+    background-color: transparent;
+    color: #1d2546;
+}
+
+.btn-cancelar-edit:active,
+.btn-cancelar-edit:focus{
+    border: 1px solid #1d2546;
+    background-color: var(--ca-blue);
+    color: white;
+    box-shadow: none;
+}
+
+.payment-method-card:hover {
+    background-color: #f0f0f0;
+    transition: background-color 0.2s ease-in-out;
+    transform: scale(1.05);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}

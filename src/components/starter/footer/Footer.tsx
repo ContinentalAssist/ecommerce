@@ -200,7 +200,7 @@ export const Footer = component$(() => {
                         
                             <span>
                                 <p class='title-country text-white ms-2 text-semi-bold'>Bogotá, Colombia  </p>
-                                <p class='text-white ms-2 text-regular-1'>Autopista norte # 114 – 44, oficina 504</p>    
+                                <p class='text-white ms-2 text-regular-1'>Autopista norte # 114 – 44, oficina 603</p>
                                 <p class='text-white ms-2 text-regular-1'> +(57) 601 508 6267</p>  
                                 <p class='text-white ms-2 text-regular-1'>info@continentalassist.com</p>                         
                             </span>

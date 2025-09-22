@@ -10,7 +10,7 @@ import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import CurrencyFormatter from '~/utils/CurrencyFormater';
 //import { QuotesEngineResume } from '../quotes-engine/QuotesEngineResume';
-import { QuotesEngine } from '../quotes-engine/QuotesEngine';
+import { clearQuoteData$ } from '~/utils/QuotePersistence';
 
 // Definir el tipo para cada paso
 interface Step {
@@ -51,8 +51,7 @@ export const Header = component$(() => {
             '/quotes-engine/step-1/': { stepActive: 1, name: 'Planes' },
             '/quotes-engine/step-2/': { stepActive: 2, name: 'Complementos' },
             '/quotes-engine/step-3/': { stepActive: 3, name: 'Método' },
-            '/quotes-engine/step-4/': { stepActive: 4, name: 'Método' },
-            '/quotes-engine/message/': { stepActive: 5, name: 'Pago' },
+            '/quotes-engine/message/': { stepActive: 4, name: 'Pago' },
         }
     )
     const modeResumeStep = useSignal(true)
@@ -156,34 +155,12 @@ export const Header = component$(() => {
         }
         else
         {
-            (window as any)['dataLayer'] = (window as any)['dataLayer'] || [];
-            (window as any)['dataLayer'].push({
-                'event': 'TrackEventGA4',
-                'category': 'interacciones usuarios',
-                'action': 'clic',
-                'label': '¡quiero comprar!',
-                'Page': '/'+location.url.pathname.split('/')[1],
-            })
         }
     }) */
 
     const getLocation$ = $((e: MouseEvent) => {
         const target = e.currentTarget as HTMLElement;
         
-        if (!(window as any)['dataLayer']) {
-          console.warn('dataLayer no está inicializado');
-          return;
-        }
-      
-        const eventData: GA4EventData = {
-          event: 'TrackEventGA4',
-          category: 'interacciones usuarios',
-          action: 'menu',
-          label:  target?.textContent ?? 'Elemento sin texto',
-          page: target.getAttribute('href') || ''
-        };
-      
-        (window as any)['dataLayer'].push(eventData);
       });
 
     const changeDivisa$ = $((divisa:string) => {
@@ -199,19 +176,80 @@ export const Header = component$(() => {
         }
     })
 
+    // Función para limpiar datos del cotizador cuando se hace clic en el logo
+    const clearQuoteDataOnLogoClick$ = $(() => {
+        clearQuoteData$();
+        // También limpiar el contexto actual
+        stateContext.value = {};
+    })
+
     return (
         <header class={location.url.pathname.includes('quotes-engine')&&stateContext.value.isMobile===true?'header-step-content':''}>
             <nav class={pathNameURL.value === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
                 <div class={"container pt-2 pb-2 contenedor-header-1"}>
-                    <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    {/* &&pathNameURL.value != '/quotes-engine/step-2/'
-                    pathNameURL.value != '/quotes-engine/step-1'&& */}
-                    <a class={pathNameURL.value != '/' ? "navbar-brand navbar-brand-start":  "navbar-brand navbar-brand-center"} href="/" title="Inicio" 
-                    >
-                        <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'60px'}} />
-                    </a>
+                    {/* Layout para mobile */}
+                    <div class="col-12 d-lg-none row align-items-center">
+                        {/* Botón hamburguesa - 3 columnas */}
+                        <div class="col-3">
+                            <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
+                                <i class="fas fa-bars"></i>
+                            </button>
+                        </div>
+                        
+                        {/* Logo centrado - 5 columnas en step-1, 7 columnas en step-2, 5 columnas en step-3 */}
+                        <div class={`${pathNameURL.value === '/quotes-engine/step-2/' ? 'col-7' : 'col-5'} d-flex justify-content-center align-items-center`}>
+                            <a class="navbar-brand" href="/" title="Inicio"
+                            onClick$={() => clearQuoteDataOnLogoClick$()}
+                            style={{transform: 'translateX(32px)'}}
+                            >
+                                <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'30px'}} />
+                            </a>
+                        </div>
+                        
+                        {/* Switch de divisa - 4 columnas en step-1, 2 columnas en step-2, 4 columnas en step-3 */}
+                        <div class={`${pathNameURL.value === '/quotes-engine/step-2/' ? 'col-2' : 'col-4'} text-end pe-0`}>
+                            {
+                                (pathNameURL.value === '/quotes-engine/step-1/' || pathNameURL.value === '/quotes-engine/step-3/') ? (
+                                    <div style={{transform: 'scale(0.8)', transformOrigin: 'center'}}>
+                                        <SwitchDivisa
+                                            labels={['USD',stateContext.value?.currentRate?.code]}
+                                            value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                            onChange={$((e:any) => {changeDivisa$(e)})}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div></div>
+                                )
+                            }
+                        </div>
+                    </div>
+                    
+                    {/* Layout para desktop */}
+                    <div class="d-none d-lg-flex justify-content-between align-items-center">
+                        <div class="d-flex align-items-center">
+                            <button id='Menu' class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvasLg" aria-controls="navbarOffcanvasLg" aria-label='Menu'>
+                                <i class="fas fa-bars"></i>
+                            </button>
+                            
+                            {/* Logo - centrado solo en home, normal en otras páginas */}
+                            {pathNameURL.value === '/' ? (
+                                <a class="navbar-brand position-absolute start-50 translate-middle-x" href="/" title="Inicio" 
+                                onClick$={() => clearQuoteDataOnLogoClick$()}
+                                >
+                                    <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'50px'}} />
+                                </a>
+                            ) : (
+                                <a class="navbar-brand ms-3" href="/" title="Inicio" 
+                                onClick$={() => clearQuoteDataOnLogoClick$()}
+                                >
+                                    <ImgContinentalAssistLogotipo title='continental-assist-logotipo' alt='continental-assist-logotipo' style={{width:'auto', height:'50px'}} />
+                                </a>
+                            )}
+                        </div>
+                        
+                        {/* Espacio para mantener el balance en desktop */}
+                        <div style={{width: '120px'}}></div>
+                    </div>
                     <div class="offcanvas offcanvas-start" tabIndex={-1} id="navbarOffcanvasLg" aria-labelledby="navbarOffcanvasLgLabel" style={{zIndex:3000}}>
                         <div class="offcanvas-header d-flex justify-content-end">
                             <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel"></h5>
@@ -269,16 +307,18 @@ export const Header = component$(() => {
                         }} type='button' id='btn-quotes-header' class="btn btn-primary" >¡Quiero comprar!</button>
 
                     }
+                    
+                    
                     {
                         
                         pathNameURL.value != '/'&&pathNameURL.value.includes('quotes-engine') &&
                         <div class={'not-mobile'}>
                             
-                                <QuotesEngineSteps active={stepsMap.value[pathNameURL.value].stepActive} name={stepsMap.value[pathNameURL.value].name} steps={5}/>
+                                <QuotesEngineSteps active={stepsMap.value[pathNameURL.value].stepActive} name={stepsMap.value[pathNameURL.value].name} steps={4}/>
                           
                           {
                             pathNameURL.value === '/quotes-engine/step-2/'&&
-                            <div class='icons mx-0' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0 9px 9px',margin:'0px', minWidth:'120px'}} >
+                            <div class='icons mx-0' style={{border:'none',borderRadius:'33px', padding:'9px 0 9px 9px',margin:'0px', minWidth:'120px'}} >
                                     <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
                                     <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
                                     {
@@ -287,8 +327,48 @@ export const Header = component$(() => {
                                     </span>
                             </div>
                           }
+
+                          {/* Switch de divisa para step-1 en desktop */}
+                          {
+                            pathNameURL.value === '/quotes-engine/step-1/' &&
+                            <div class="d-flex align-items-center mx-2">
+                                <SwitchDivisa
+                                    labels={['USD',stateContext.value?.currentRate?.code]}
+                                    value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                    onChange={$((e:any) => {changeDivisa$(e)})}
+                                />
+                            </div>
+                          }
+
+                          {/* Switch de divisa para step-2 en desktop */}
+                          {
+                            pathNameURL.value === '/quotes-engine/step-2/' &&
+                            <div class="d-flex align-items-center mx-2">
+                                <SwitchDivisa
+                                    labels={['USD',stateContext.value?.currentRate?.code]}
+                                    value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                    onChange={$((e:any) => {changeDivisa$(e)})}
+                                />
+                            </div>
+                          }
+
+                          {/* Switch de divisa específico para step-3 */}
+                          {
+                            pathNameURL.value === '/quotes-engine/step-3/' &&
+                            <div class="d-flex align-items-center mt-2">
+                              
+                              <SwitchDivisa
+                                labels={['USD',stateContext.value?.currentRate?.code]}
+                                value={contextDivisa.divisaUSD ? 'base' : 'local'}
+                                onChange={$((e:any) => {changeDivisa$(e)})}
+                              />
+                            </div>
+                          }
+
                                 
                            {
+                              pathNameURL.value != '/quotes-engine/step-1/'&&
+                              pathNameURL.value != '/quotes-engine/step-2/'&&
                               pathNameURL.value != '/quotes-engine/step-3/'&&
                               pathNameURL.value != '/quotes-engine/step-4/'&&
                               pathNameURL.value != '/quotes-engine/message/' &&
@@ -307,61 +387,7 @@ export const Header = component$(() => {
                    
                 </div> 
                 
-            </nav> 
-               <div class="info-quote-wrapper">
-            <div class="info-quote">
-                {
-                    pathNameURL.value != '/'&& pathNameURL.value.includes('quotes-engine') &&pathNameURL.value != '/quotes-engine/message/'&&
-                    <div class={"container pb-2 contenedor-resumen"}>
-                  
-                    <QuotesEngine   modeResumeStep={modeResumeStep} headerStep={headerStep.value}/>
-                       
-              
-                    </div>
-                }    
-
-                {
-                        
-                    pathNameURL.value != '/'&&pathNameURL.value.includes('quotes-engine') &&
-                    <div class='row mobile  text-center justify-content-center align-items-center' >
-                        <hr class='m-0' />
-                        <div class='col-xs-12 d-flex justify-content-center align-items-center '  style={{padding:'20px'}} >
-                            <QuotesEngineSteps active={stepsMap.value[pathNameURL.value].stepActive} name={stepsMap.value[pathNameURL.value].name} steps={5}/>
-        
-                        </div>
-                        <div class="col-xs-12 d-flex justify-content-center align-items-center">
-                            <div class='col-xs-5' >
-                            {
-                                    pathNameURL.value === '/quotes-engine/step-2/'&&
-                                    <div class='icons mx-4' style={{border:'2px solid lightgray',borderRadius:'33px', padding:'9px 0',margin:'0px', minWidth:'120px'}} >
-                                            <i class="fa-solid fa-basket-shopping text-end" style={{paddingRight:'5px'}}/>
-                                            <span id='header-step-currency' class='text-bold text-dark-blue'>                                                 
-                                            {
-                                            totalPay.value.total && (divisaManual.value == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) : CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate))
-                                            }
-                                            </span>
-                                        </div>
-                                  }
-                            </div>
-                            <div class={ pathNameURL.value == '/quotes-engine/step-1/'?'col-12':'col-xs-5'} >
-        
-                                  {
-                                      pathNameURL.value != '/quotes-engine/step-3/'&&
-                                      pathNameURL.value != '/quotes-engine/step-4/'&&
-                                      pathNameURL.value != '/quotes-engine/message/' &&
-                                      <SwitchDivisa
-                                            labels={['USD',stateContext.value?.currentRate?.code]}
-                                            value={ contextDivisa.divisaUSD ? 'base' : 'local'}
-                                            onChange={$((e:any) => {changeDivisa$(e)})}
-                                        />
-                                   }
-        
-                            </div>
-                        </div>
-                    </div>
-                } 
-            </div>
-            </div>
+            </nav>
         </header>
     );
 });
