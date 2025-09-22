@@ -13,7 +13,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
             <div class='bg-home-header position-absolute' />
             <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen position-top-home'>
                 <div id='container-quote' class='row align-content-center justify-content-center'
-                     style={{minHeight: '75vh'}}>
+                     style={{minHeight: '80vh'}}>
                     <div class='col-xl-12 text-center home-magin'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
@@ -23,7 +23,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 </h1>
                             </div>
                         </div>
-                        <div class="card card-body border-none shadow-lg">
+                        <div class="card card-body border-none shadow-lg mt-4">
                             <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep}/>
                         </div>
                         <div class="d-flex col-md-12" id="banner-text-mobile">
