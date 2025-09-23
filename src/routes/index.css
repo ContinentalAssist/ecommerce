@@ -440,7 +440,7 @@
 
 /* Video containers */
 .qs-video {
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -451,6 +451,16 @@
 .img-fluid-planet {
     display: block;
     border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.qs-video video {
+    border-radius: 12px !important;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Bg Vibe Section */
@@ -1039,7 +1049,7 @@
         max-width: 100%;
         height: 250px;
         align-items: unset;
-        overflow: hidden;
+        overflow: visible;
     }
 
     .qs-video img,
@@ -1051,6 +1061,13 @@
         height: 250px;
     }
 
+    .qs-video video {
+        border-radius: 12px !important;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     #metrics-section-mobile{
         /*align-items: center;*/
         text-align: center;
@@ -1059,6 +1076,7 @@
 
     .img-fluid-planet {
         padding: 0;
+        border-radius: 12px;
     }
 
     .qs-metricz {
@@ -1403,11 +1421,22 @@
 
     .qs-video {
         height: 450px;
+        overflow: visible;
     }
 
     .img-fluid-planet {
-        height: 500px;
+        height: 100%;
         padding: 0 50px;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 12px;
+    }
+
+    .qs-video video {
+        border-radius: 12px !important;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     .cover-pading{

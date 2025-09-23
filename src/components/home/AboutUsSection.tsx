@@ -29,10 +29,9 @@ export const AboutUsSection = component$(() => {
                                 Con más de 30 años de experiencia, respaldamos a nuestros viajeros de forma integral, brindando tranquilidad y confianza en cada recorrido.
                             </p>
                         </div>
-
                     </div>
                 </div>
-                <div class="qs-top d-none" id='qs-top-mobile'>
+                <div class="qs-top d-none mt-4" id='qs-top-mobile'>
                     <div class="qs-info">
                         <div class="qs-title">
                             <h5 class="section-title-about text-semi-bold">¿Quiénes Somos?</h5>
