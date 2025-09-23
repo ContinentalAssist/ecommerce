@@ -170,6 +170,7 @@ export default component$(() => {
     <QwikCityProvider>
     <head>
       <meta charset="utf-8" />
+      <meta name="attribution-reporting" content="disable" />
       <meta name="keywords" content="
               seguro, 
               seguro viajes,
@@ -247,6 +248,15 @@ export default component$(() => {
       <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
       <script async src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
       <script async src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
+      <script dangerouslySetInnerHTML={`
+          console.log('Attribution Reporting Status:','disable');
+          // Verificar si los headers se están aplicando
+          fetch(window.location.href, {method: 'HEAD'})
+            .then(response => {
+              console.log('Attribution-Reporting header:', response.headers.get('Attribution-Reporting'));
+            })
+            .catch(console.error);
+      `} />
       {!isDev && <ServiceWorkerRegister />}
     </body>
     </QwikCityProvider>
