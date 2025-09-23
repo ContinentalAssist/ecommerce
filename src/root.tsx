@@ -8,6 +8,7 @@ import { QwikPartytown } from './components/partytown/partytown';
 import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
 import { ClarityInit } from './integrations/ClarityInit';
+import { GTMInit } from './integrations/GTMInit';
 import "./global.css";
 import { initializeGenesys } from './utils/genesys';
 
@@ -240,6 +241,7 @@ export default component$(() => {
     </head>
     <body data-so={so.value} data-device={device.value}>
       <ClarityInit />
+      <GTMInit />
       <RouterOutlet />
       <script async type="text/javascript" src='/assets/icons/all.min.js' />
       <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
