@@ -81,9 +81,12 @@ export const GTMInit = component$(() => {
     if (!isProdHost(location.hostname)) return; // Solo dominios válidos
     if (isLikelyBot()) return;                 // Ignora crawlers/bots
 
-    // Cargar GTM
-    loadGTMOnce(GTM_CONTAINER_ID);
-    loadGTMNoScript(GTM_CONTAINER_ID);
+    // Retrasar la carga de GTM para evitar conflictos con Qwik
+    // Esto permite que Qwik complete su hidratación antes de que GTM interfiera
+    setTimeout(() => {
+      loadGTMOnce(GTM_CONTAINER_ID);
+      loadGTMNoScript(GTM_CONTAINER_ID);
+    }, 1000); // 1 segundo de retraso
   });
 
   return null;
