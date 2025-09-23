@@ -73,28 +73,28 @@ export const Footer = component$(() => {
                          <div class='mobile'>
                             <div class='col-sm-12 mt-3'>
                                 <div class='container'>
-                                    <div class='row justify-content-center'>
-                                        <div class='col-sm-2  col-xs-2 text-center mb-3 mx-3'>
+                                    <div class='row justify-content-center align-items-center flex-nowrap'>
+                                        <div class='col-auto text-center me-3 mt-0'>
                                             <a title='Inicio' href="/">
-                                                <ImgContinentalAssistLogo style={{width:'55px', height:'35px', marginTop:'15px'}} title='continental-assist-logo' alt='continental-assist-logo'/>
+                                            <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="width: 60px; height: 35px;" title='continental-assist-logo' alt='continental-assist-logo' />
                                             </a>
                                         </div>
-                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                        <div class='col-auto text-center align-content-center me-2'>
                                         <a title='LinkedIn' href="https://www.linkedin.com/company/continentalassist" rel="noopener" target="_blank">
                                                 <i class="fab fa-linkedin text-white fa-2xl"></i>
                                             </a>
                                         </div>
-                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                        <div class='col-auto text-center align-content-center me-2'>
                                             <a title='Instagram' href="https://instagram.com/continentalassist" rel="noopener" target="_blank">
                                                 <i class="fab fa-instagram-square text-white fa-2xl"></i>
                                             </a>
                                         </div>
-                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                        <div class='col-auto text-center align-content-center me-2'>
                                             <a title='Facebook' href='https://www.facebook.com/continentalassist' rel="noopener" target="_blank">
                                                 <i class="fab fa-facebook-square text-white fa-2xl"></i>
                                             </a>
                                         </div>
-                                        <div class='col-sm-2  col-xs-2 text-center align-content-center'>
+                                        <div class='col-auto text-center align-content-center'>
                                             <a title='Youtube' href="https://www.youtube.com/channel/UCzEhpTYaKckVnVKIR_thZHg" rel="noopener" target="_blank">
                                                 <i class="fab fa-youtube-square text-white fa-2xl"></i>
                                             </a>
@@ -141,7 +141,7 @@ export const Footer = component$(() => {
                                     <div class='row justify-content-center'>
                                         <div class='col-lg-3 col-sm-12 col-xs-12 text-center mb-3'>
                                             <a title='Inicio' href="/">
-                                                <ImgContinentalAssistLogo title='continental-assist-logo' alt='continental-assist-logo' style={{marginTop:'18px'}}/>
+                                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/logo-min-02.png" style="margin: 18px 15px 0 0; width: 75px; height: 45px;" title='continental-assist-logo' alt='continental-assist-logo' />
                                             </a>
                                         </div>
                                         <div class='col-lg-2 col-sm-12 col-xs-2 text-center align-content-center'>

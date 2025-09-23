@@ -96,14 +96,8 @@ export const Header = component$(() => {
             const navbar = document.querySelector('.navbar') as HTMLElement
             const page = document.querySelector('body') as HTMLElement
             
-            if(page.getClientRects()[0]['y'] <= -50)
-            {
-                navbar.classList.add('bg-light')
-            }
-            else
-            {
-                navbar.classList.remove('bg-light')
-            }
+            // Mantener siempre el background del navbar
+            navbar.classList.add('bg-light')
 
             if(page.getClientRects()[0]['y'] <= -200)
             {
@@ -185,7 +179,7 @@ export const Header = component$(() => {
 
     return (
         <header class={location.url.pathname.includes('quotes-engine')&&stateContext.value.isMobile===true?'header-step-content':''}>
-            <nav class={pathNameURL.value === '/' ? 'navbar fixed-top' : 'navbar bg-light fixed-top'}>
+            <nav class="navbar bg-light fixed-top">
                 <div class={"container pt-2 pb-2 contenedor-header-1"}>
                     {/* Layout para mobile */}
                     <div class="col-12 d-lg-none row align-items-center">

@@ -209,7 +209,7 @@ export default component$(() =>{
                                 <div class='col-lg-12 text-center'>
                                     <h2 class='h1 text-semi-bold text-dark-blue mb-3'>Facturación</h2>
                                     <hr class='divider my-5'></hr>
-                                    <h3 class='h5 text-dark-gray'>¡Importante antes de enviar el formulario, verificar sus datos de facturación!</h3>
+                                    <h3 class='h5 text-dark-gray'>¡Importante antes de enviar el formulario, verifica tus datos de facturación!</h3>
                                     <h3 class='h5 text-dark-gray'>Todos los campos son requeridos</h3>
 
                                     <div class='card mt-5 pt-3 pb-4 px-lg-5 shadow-lg'>
