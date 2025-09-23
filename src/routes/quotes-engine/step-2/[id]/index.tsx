@@ -6,6 +6,7 @@ import { Loading } from "~/components/starter/loading/Loading";
 import { QuotesEngineSteps } from "~/components/starter/quotes-engine/QuotesEngineSteps";
 import { WEBContext } from "~/root";
 import DateFormat from "~/utils/DateFormat";
+import { trackAddToCart } from '~/integrations/gtm-events';
 
 import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
 import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
@@ -582,7 +583,6 @@ export default component$(() => {
                     }
                     else
                     {
-                        
                         const cards = Array.from(containerForms.querySelectorAll('.card'))
     
                         cards.map((card,index) => {
@@ -602,6 +602,23 @@ export default component$(() => {
 
 
                         stateContext.value = Object.assign(stateContext.value,newStateContext)
+                        
+                        // Trackear add_to_cart en GTM
+                        try {
+                            trackAddToCart({
+                                currency: stateContext.value.total?.divisa || 'USD',
+                                value: stateContext.value.total?.total || 0,
+                                items: [], // No se usa en la nueva estructura
+                                countryCode: stateContext.value.resGeo?.country || '',
+                                planId: stateContext.value.plan?.idplan || '',
+                                planName: stateContext.value.plan?.nombreplan || '',
+                                couponCode: stateContext.value.cupon?.codigocupon || '',
+                                discount: 0, // Calcular si tienes descuentos
+                                passengersCount: newStateContext.asegurados?.length || 1
+                            });
+                        } catch (error) {
+                            // Error silencioso para no interrumpir el flujo
+                        }
     
                         navigate('/quotes-engine/step-3')
                     }

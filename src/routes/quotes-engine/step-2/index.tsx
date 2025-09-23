@@ -5,6 +5,7 @@ import { Form } from "~/components/starter/form/Form";
 import { WEBContext } from "~/root";
 import { DIVISAContext } from "~/root";
 import CurrencyFormatter from "~/utils/CurrencyFormater";
+import { trackAddToCart } from '~/integrations/gtm-events';
 import ImgContinentalAssistMedicine from '~/media/icons/continental-assist-medicine.webp?jsx'
 import ImgContinentalAssistPregnancy from '~/media/icons/continental-assist-pregnancy.webp?jsx'
 import ImgContinentalAssistSports from '~/media/icons/continental-assist-sports.webp?jsx'
@@ -401,6 +402,23 @@ export default component$(() => {
                         
                         // Guardar datos en localStorage
                         saveData(stateContext.value);
+                        
+                        // Trackear add_to_cart en GTM
+                        try {
+                            trackAddToCart({
+                                currency: stateContext.value.total?.divisa || 'USD',
+                                value: stateContext.value.total?.total || 0,
+                                items: [], // No se usa en la nueva estructura
+                                countryCode: stateContext.value.resGeo?.country || '',
+                                planId: stateContext.value.plan?.idplan || '',
+                                planName: stateContext.value.plan?.nombreplan || '',
+                                couponCode: stateContext.value.cupon?.codigocupon || '',
+                                discount: 0, // Calcular si tienes descuentos
+                                passengersCount: newStateContext.asegurados?.length || 1
+                            });
+                        } catch (error) {
+                            // Error silencioso para no interrumpir el flujo
+                        }
                         
                         contextLoading.value = { status: true, message: 'Espere un momento...' };
                         await navigate('/quotes-engine/step-3');
