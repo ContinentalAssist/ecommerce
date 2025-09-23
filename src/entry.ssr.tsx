@@ -18,10 +18,21 @@ import { manifest } from "@qwik-client-manifest";
 import Root from "./root";
 
 export default function (opts: RenderToStreamOptions) {
+  // Agregar headers para desactivar Attribution Reporting API
+  if (opts.serverData?.response) {
+    const response = opts.serverData.response;
+    
+    // Solución directa: desactivar la API problemática
+    response.headers.set('Attribution-Reporting', 'disable');
+    
+    // Opcional: headers específicos si necesitas la funcionalidad
+    // response.headers.set('Attribution-Reporting-Eligible', 'trigger');
+    // response.headers.set('Attribution-Reporting-Support', 'os');
+  }
+
   return renderToStream(<Root />, {
     manifest,
     ...opts,
-    // Use container attributes to set attributes on the html tag.
     containerAttributes: {
       lang: "en-us",
       ...opts.containerAttributes,
