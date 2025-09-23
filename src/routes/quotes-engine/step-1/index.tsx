@@ -11,6 +11,7 @@ import styles from './index.css?inline'
 import dayjs from "dayjs";
 import { LoadingContext } from "~/root";
 import { saveQuoteData$ } from "~/utils/QuotePersistence";
+import { trackFormStart, formatTravelInfo } from '~/integrations/gtm-events';
 
 export const head: DocumentHead = {
     title : 'Continental Assist | Elige tu plan',
@@ -175,6 +176,18 @@ export default component$(() => {
             
             // Guardar datos en localStorage
             saveData(stateContext.value)
+            
+            // Trackear inicio de formulario en GTM
+            try {
+                const travelInfo = formatTravelInfo(stateContext.value);
+                trackFormStart({
+                    form_name: 'quote_engine',
+                    plan_selected: planSelected.value.nombreplan || planSelected.value.name,
+                    ...travelInfo
+                });
+            } catch (error) {
+                // Error silencioso para no interrumpir el flujo
+            }
             
             contextLoading.value = {status:true, message:'Espere un momento...'}
 

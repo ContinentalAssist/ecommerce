@@ -9,6 +9,7 @@ import ImgContinentalAssistBagComplete from '~/media/icons/continental-assist-ba
 import ImgContinentalAssistBagElite from '~/media/icons/continental-assist-bag-elite.webp?jsx';
 import CurrencyFormatter from '~/utils/CurrencyFormater';
 import { LoadingContext } from '~/root';
+import { trackPurchase } from '~/integrations/gtm-events';
 
 
 export const head: DocumentHead = {
@@ -72,7 +73,23 @@ export default component$(() => {
     const messageType = track(() => typeMessage.value);
     const resumeData = track(() => resume.value);
 
-    // Solo ejecutar para compra exitosa y cuando tengamos datos
+    // Trackear purchase cuando la compra es exitosa (typeMessage = 1)
+    if (messageType === 1 && resumeData && !purchaseTracked.value) {
+      try {
+        trackPurchase({
+          transaction_id: resumeData.codigovoucher || stateContext.value.codevoucher || 'unknown_transaction',
+          currency: resumeData.codigomoneda || stateContext.value.total?.divisa || 'USD',
+          value: resumeData.total || stateContext.value.total?.total || 0,
+          items: [], // No se usa en la nueva estructura
+          countryCode: stateContext.value.resGeo?.country || '',
+          planName: resumeData.nombreplan || stateContext.value.plan?.nombreplan || ''
+        });
+        
+        purchaseTracked.value = true;
+      } catch (error) {
+        // Error silencioso para no interrumpir el flujo
+      }
+    }
   });
 
   const getVoucher = $(async (vouchercode: string) => {
