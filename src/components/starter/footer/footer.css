@@ -15,12 +15,37 @@ footer .bg-secondary
     color: var(--ca-blue);
 }
 
-footer i,
-footer img
+footer i
 {
     font-size: 50px;
     color: white;
     margin-top: 24px;
+}
+
+footer img
+{
+    font-size: 50px;
+    color: white;
+   
+}
+
+/* Mejorar espaciado entre elementos del footer solo en móvil */
+.mobile footer .row.justify-content-center {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+
+.mobile footer .col-auto {
+    flex-shrink: 0;
+    padding: 0.25rem;
+}
+
+/* Ajustar espaciado del logo solo en móvil */
+.mobile footer img {
+    margin: 0;
+    display: block;
+    margin: 0 auto;
 }
 
 .title-country
@@ -36,5 +61,25 @@ footer img
         font-size: 8px;
         margin-bottom: 30px;
     }
-
+    
+    /* Mejorar espaciado en móviles - una sola fila */
+    .mobile footer .row.justify-content-center {
+        gap: 0.25rem;
+        justify-content: space-around;
+        padding: 0 1rem;
+    }
+    
+    .mobile footer .col-auto {
+        padding: 0.1rem;
+        margin: 0;
+    }
+    
+    .mobile footer i {
+        font-size: 1.5rem !important;
+    }
+    
+    .mobile footer img {
+        width: 50px !important;
+        height: 30px !important;
+    }
 }
