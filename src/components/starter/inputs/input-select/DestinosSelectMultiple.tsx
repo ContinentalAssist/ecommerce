@@ -318,6 +318,8 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                             key={`left-${iOption + 1}`}
                                                             class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
                                                             value={option.value}
+                                                            onClick$={() => getOptions$(option)}
+                                                            style={{ cursor: 'pointer' }}
                                                         >
                                                             <div class="form-check">
                                                                 <input
@@ -325,12 +327,14 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                                     type="checkbox"
                                                                     id={`check-left-${iOption}`}
                                                                     checked={isActive}
-                                                                    onClick$={() => getOptions$(option)}
+                                                                    onClick$={(e) => {
+                                                                        e.stopPropagation();
+                                                                        getOptions$(option);
+                                                                    }}
                                                                     aria-checked={isActive}
                                                                 />
                                                                 <label
                                                                     class="form-check-label"
-                                                                    onClick$={() => getOptions$(option)}
                                                                 >
                                                                     {option.label}
                                                                 </label>
@@ -352,6 +356,8 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                             key={`right-${iOption + 1}`}
                                                             class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
                                                             value={option.value}
+                                                            onClick$={() => getOptions$(option)}
+                                                            style={{ cursor: 'pointer' }}
                                                         >
                                                             <div class="form-check">
                                                                 <input
@@ -359,12 +365,14 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                                     type="checkbox"
                                                                     id={`check-right-${iOption}`}
                                                                     checked={isActive}
-                                                                    onClick$={() => getOptions$(option)}
+                                                                    onClick$={(e) => {
+                                                                        e.stopPropagation();
+                                                                        getOptions$(option);
+                                                                    }}
                                                                     aria-checked={isActive}
                                                                 />
                                                                 <label
                                                                     class="form-check-label text-medium text-dark-gray"
-                                                                    onClick$={() => getOptions$(option)}
                                                                 >
                                                                     {option.label}
                                                                 </label>

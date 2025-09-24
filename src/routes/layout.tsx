@@ -1,4 +1,4 @@
-import { $, component$, Slot,  useStyles$ ,useContext, useSignal, useTask$} from '@builder.io/qwik';
+import { $, component$, Slot,  useStyles$ ,useContext, useSignal, useTask$, useVisibleTask$} from '@builder.io/qwik';
 import { routeLoader$ } from '@builder.io/qwik-city';
 import type { RequestHandler } from '@builder.io/qwik-city';
 import { Header } from '~/components/starter/header/Header';
@@ -10,6 +10,7 @@ import {  useLocation, useNavigate } from '@builder.io/qwik-city';
 import { Loading } from '~/components/starter/loading/Loading';
 import { LoadingContext } from "~/root";
 import { WEBContext } from "~/root";
+import { trackRouteChange } from '~/integrations/gtm-events';
 import { QuotesResume } from '~/components/starter/quotes-resume/QuotesResume';
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
@@ -51,6 +52,12 @@ export default component$(() => {
         useTask$(({ track }) => {
             const pathName = track(() => location.url.pathname);  
             pathNameURL.value = pathName;
+        });
+
+        // Emitir evento de cambio de ruta a GTM
+        useVisibleTask$(({ track }) => {
+            const pathName = track(() => location.url.pathname);
+            trackRouteChange(pathName);
         });
 
 

@@ -1,7 +1,7 @@
 import { component$, useVisibleTask$ } from '@builder.io/qwik';
 
-const CLARITY_ID = 't65sjv929c';
-const ALLOWED_HOSTS = ['www.continentalassist.com', 'continentalassist.com'];
+const CLARITY_ID = import.meta.env.VITE_CLARITY_ID || '';
+const ALLOWED_HOSTS = (import.meta.env.VITE_ALLOWED_HOSTS || '').split(',').filter(Boolean);
 
 function isProdHost(hostname: string) {
   return ALLOWED_HOSTS.includes(hostname);
@@ -35,9 +35,11 @@ function loadClarityOnce(id: string) {
 
 export const ClarityInit = component$(() => {
   useVisibleTask$(() => {
-    if (!import.meta.env.PROD) return;         // Solo en build de prod
+    // Validaciones de seguridad
+    if (!CLARITY_ID) return;                    // No hay Clarity ID configurado
+    if (!import.meta.env.PROD) return;          // Solo en build de prod
     if (!isProdHost(location.hostname)) return; // Solo dominios válidos
-    if (isLikelyBot()) return;                 // Ignora crawlers/bots
+    if (isLikelyBot()) return;                  // Ignora crawlers/bots
 
     loadClarityOnce(CLARITY_ID);
   });
