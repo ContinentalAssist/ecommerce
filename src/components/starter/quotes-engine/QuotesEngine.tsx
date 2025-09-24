@@ -252,11 +252,29 @@ export const QuotesEngine = component$((props:propsQE) => {
                 }
                 // Validación para campos paxs
                 else if(input.classList.value.includes('form-paxs') && 
-                        ((input as HTMLInputElement).required === true) && 
-                        ((input as HTMLInputElement).value === ''))
+                        ((input as HTMLInputElement).required === true))
                 {
-                    (input as HTMLInputElement).classList.add('is-invalid')
-                    error[2] = true
+                    // Obtener el valor del data-value que contiene el JSON con los pasajeros
+                    const dataValue = (input as HTMLInputElement).dataset.value;
+                    if (!dataValue || dataValue === '{}') {
+                        (input as HTMLInputElement).classList.add('is-invalid')
+                        error[2] = true
+                    } else {
+                        try {
+                            const paxData = JSON.parse(dataValue);
+                            const totalPax = (paxData[23] || 0) + (paxData[75] || 0) + (paxData[85] || 0);
+                            if (totalPax === 0) {
+                                (input as HTMLInputElement).classList.add('is-invalid')
+                                error[2] = true
+                            } else {
+                                (input as HTMLInputElement).classList.remove('is-invalid');
+                                (input as HTMLInputElement).classList.add('is-valid')
+                            }
+                        } catch (e) {
+                            (input as HTMLInputElement).classList.add('is-invalid')
+                            error[2] = true
+                        }
+                    }
                 }
                 // ← NUEVA: Validación para date range picker
                 else if(input.classList.value.includes('form-date-range') && 
