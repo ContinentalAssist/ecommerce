@@ -16,14 +16,16 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
     
     const totalPaxsString = useSignal('')
     const readOnly = useSignal(false)
+    const isInitialized = useSignal(false)
 
-    // Inicializar valores desde props
-    useTask$(({ track })=>{
-        const value = track(()=>props.value);        
-        if (value) {
+    // Inicializar valores desde props (solo una vez)
+    useVisibleTask$(({ track }) => {
+        const value = track(() => props.value);
+        if (value && !isInitialized.value) {
             adultos.value = value[75] || 0
             ninos.value = value[23] || 0
             adultosM.value = value[85] || 0
+            isInitialized.value = true
         }
         readOnly.value = true
     })
@@ -78,6 +80,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                     trackPaxInteraction('add', 'senior', adultosM.value);
                     break;
             }
+            // Marcar como inicializado cuando el usuario interactúa
+            isInitialized.value = true;
         }
     })
 
@@ -96,6 +100,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                 trackPaxInteraction('remove', 'senior', adultosM.value);
                 break;
         }
+        // Marcar como inicializado cuando el usuario interactúa
+        isInitialized.value = true;
     })
 
     return(
@@ -116,7 +122,7 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                             id={props.id} 
                             name={props.name} 
                             class='form-control form-paxs text-medium text-dark-blue' 
-                            value={totalPaxsString.value} 
+                            value={totalPaxsString.value || ''} 
                             data-value={JSON.stringify({23: ninos.value, 75: adultos.value, 85: adultosM.value})} 
                             required={props.required}
                             readOnly={readOnly.value}
