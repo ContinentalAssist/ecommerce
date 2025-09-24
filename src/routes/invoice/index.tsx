@@ -211,7 +211,6 @@ export default component$(() =>{
                                     <hr class='divider my-5'></hr>
                                     <h3 class='h5 text-dark-gray'>¡Importante antes de enviar el formulario, verifica tus datos de facturación!</h3>
                                     <h3 class='h5 text-dark-gray'>Todos los campos son requeridos</h3>
-
                                     <div class='card mt-5 pt-3 pb-4 px-lg-5 shadow-lg'>
                                         <div class='card-body px-5 text-start'>
 
