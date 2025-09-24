@@ -1,5 +1,6 @@
-import { $, component$, useSignal, useStyles$, useTask$ } from "@builder.io/qwik";
+import { $, component$, useSignal, useStyles$, useTask$, useVisibleTask$ } from "@builder.io/qwik";
 import styles from './input-paxs.css?inline'
+import { trackComponentReady, trackPaxInteraction } from '~/integrations/gtm-events';
 
 interface propsInputPaxs {
     [key:string] : any
@@ -26,6 +27,11 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         }
         readOnly.value = true
     })
+
+    // Emitir evento cuando el componente esté listo
+    useVisibleTask$(() => {
+        trackComponentReady('InputPaxs', props.id);
+    });
 
     // Actualizar string cuando cambien los valores
     useTask$(({ track }) => {
@@ -61,12 +67,15 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
             switch(tipo) {
                 case '75':
                     adultos.value = Math.min(adultos.value + 1, 14);
+                    trackPaxInteraction('add', 'adult', adultos.value);
                     break;
                 case '23':
                     ninos.value = Math.min(ninos.value + 1, 14);
+                    trackPaxInteraction('add', 'child', ninos.value);
                     break;
                 case '85':
                     adultosM.value = Math.min(adultosM.value + 1, 14);
+                    trackPaxInteraction('add', 'senior', adultosM.value);
                     break;
             }
         }
@@ -76,22 +85,26 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
         switch(tipo) {
             case '75':
                 adultos.value = Math.max(adultos.value - 1, 0);
+                trackPaxInteraction('remove', 'adult', adultos.value);
                 break;
             case '23':
                 ninos.value = Math.max(ninos.value - 1, 0);
+                trackPaxInteraction('remove', 'child', ninos.value);
                 break;
             case '85':
                 adultosM.value = Math.max(adultosM.value - 1, 0);
+                trackPaxInteraction('remove', 'senior', adultosM.value);
                 break;
         }
     })
 
     return(
-        <div class='dropdown drop-paxs text-center'>
+        <div class='dropdown drop-paxs text-center' data-gtm="input-paxs" data-component="InputPaxs">
             <div class="dropdown-toggle"
                 data-bs-toggle="dropdown" 
                 data-bs-auto-close="outside" 
-                data-bs-reference="toggle" 
+                data-bs-reference="toggle"
+                data-gtm="paxs-dropdown-toggle"
             >
                 <div class='input-group '>
                     <span class="input-group-text text-dark-blue">
@@ -154,6 +167,8 @@ export const InputPaxs = component$((props:propsInputPaxs) => {
                                     class='btn-icon-circle' 
                                     onClick$={() => {addPaxs$('75')}}
                                     disabled={(adultos.value + ninos.value + adultosM.value) >= 8}
+                                    data-gtm="add-adult"
+                                    data-pax-type="adult"
                                 >
                                     <i class="fas fa-plus"/>
                                 </button>
