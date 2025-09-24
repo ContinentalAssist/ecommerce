@@ -1,7 +1,7 @@
 import { component$, useVisibleTask$ } from '@builder.io/qwik';
 
-const GTM_CONTAINER_ID = 'GTM-KB4C9T86';
-const ALLOWED_HOSTS = ['www.continentalassist.com', 'continentalassist.com'];
+const GTM_CONTAINER_ID = import.meta.env.VITE_GTM_CONTAINER_ID || '';
+const ALLOWED_HOSTS = (import.meta.env.VITE_ALLOWED_HOSTS || '').split(',').filter(Boolean);
 
 function isProdHost(hostname: string) {
   return ALLOWED_HOSTS.includes(hostname);
@@ -77,13 +77,19 @@ function loadGTMNoScript(containerId: string) {
 
 export const GTMInit = component$(() => {
   useVisibleTask$(() => {
-    if (!import.meta.env.PROD) return;         // Solo en build de prod
+    // Validaciones de seguridad
+    if (!GTM_CONTAINER_ID) return;              // No hay Container ID configurado
+    if (!import.meta.env.PROD) return;          // Solo en build de prod
     if (!isProdHost(location.hostname)) return; // Solo dominios válidos
-    if (isLikelyBot()) return;                 // Ignora crawlers/bots
+    if (isLikelyBot()) return;                  // Ignora crawlers/bots
 
-    // Cargar GTM
-    loadGTMOnce(GTM_CONTAINER_ID);
-    loadGTMNoScript(GTM_CONTAINER_ID);
+    // Verificar que estamos en el cliente
+    if (typeof window !== 'undefined') {
+      // Cargar GTM inmediatamente pero sin anti-flicker
+      // Qwik ya maneja la hidratación de forma eficiente
+      loadGTMOnce(GTM_CONTAINER_ID);
+      loadGTMNoScript(GTM_CONTAINER_ID);
+    }
   });
 
   return null;

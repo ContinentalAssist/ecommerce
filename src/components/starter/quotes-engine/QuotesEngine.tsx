@@ -236,7 +236,9 @@ export const QuotesEngine = component$((props:propsQE) => {
 
         forms.map((form,index) => {
             inputs.map((input) => {          
-                if ((input as HTMLInputElement).readOnly == true) {
+                // NO remover readonly de campos paxs para evitar conflictos con GTM
+                if ((input as HTMLInputElement).readOnly == true && 
+                    !input.classList.value.includes('form-paxs')) {
                     (input as HTMLInputElement).removeAttribute('readonly');
                 }
                 

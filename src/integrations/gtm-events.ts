@@ -1,5 +1,12 @@
 // Utilidades para tracking de eventos con Google Tag Manager
 
+// Declarar dataLayer globalmente
+declare global {
+  interface Window { 
+    dataLayer: any[] 
+  }
+}
+
 interface GTMDataLayer {
   event: string;
   [key: string]: any;
@@ -253,5 +260,59 @@ export function formatTravelInfo(context: any): {
   result.seniors = context[85] || 0;         // adultos_mayores
   
   return result;
+}
+
+//FUNCIONES PARA INTEGRACIÓN CON QWIK
+
+// Función para inicializar dataLayer si no existe
+export function initDataLayer(): void {
+  if (typeof window !== 'undefined') {
+    window.dataLayer = window.dataLayer || [];
+  }
+}
+
+// Función para emitir eventos a GTM
+export function pushGTMEvent(eventData: Record<string, any>): void {
+  if (typeof window !== 'undefined') {
+    initDataLayer();
+    window.dataLayer.push(eventData);
+  }
+}
+
+// Eventos específicos para componentes
+export function trackComponentReady(componentName: string, componentId?: string): void {
+  pushGTMEvent({
+    event: 'component_ready',
+    component: componentName,
+    component_id: componentId
+  });
+}
+
+// Evento de cambio de ruta
+export function trackRouteChange(path: string, pageTitle?: string): void {
+  pushGTMEvent({
+    event: 'route_change',
+    path: path,
+    page_title: pageTitle || (typeof document !== 'undefined' ? document.title : '')
+  });
+}
+
+// Evento de interacción con pasajeros
+export function trackPaxInteraction(action: 'add' | 'remove', paxType: 'adult' | 'child' | 'senior', count: number): void {
+  pushGTMEvent({
+    event: 'pax_interaction',
+    action: action,
+    pax_type: paxType,
+    count: count
+  });
+}
+
+// Evento de formulario completado
+export function trackFormComplete(formName: string, formData?: Record<string, any>): void {
+  pushGTMEvent({
+    event: 'form_complete',
+    form_name: formName,
+    form_data: formData
+  });
 }
 
