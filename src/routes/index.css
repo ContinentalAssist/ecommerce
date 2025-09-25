@@ -924,7 +924,7 @@
 
     .bg-home-header {
         background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
-        background-size: cover;
+        background-size: auto;
         background-repeat: no-repeat;
         background-position: center;
         -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);

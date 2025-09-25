@@ -38,7 +38,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                        viaja con tranquilidad,<br/> <span
+                                        Viaja con tranquilidad,<br/> <span
                                         class="text-bold color-text-blue-home">protegido</span> en todo <br/>momento
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
