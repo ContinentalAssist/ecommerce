@@ -9,7 +9,7 @@ export interface HomeHeaderProps {
 
 export const HomeHeader = component$((props: HomeHeaderProps) => {
     return (
-        <div class='home' style={{minHeight:'75vh', marginTop: '70px'}}>
+        <div class='home'>
             <div class='bg-home-header position-absolute' />
             <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen position-top-home'>
                 <div id='container-quote' class='row align-content-center justify-content-center'
@@ -17,7 +17,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                     <div class='col-xl-12 text-center home-magin'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
-                                <h1 class="color-text-blue-primary">
+                                <h1 class="color-text-blue-primary mt-3">
                                     Viaja con tranquilidad,<br/> <span
                                     class="text-bold ">protegido</span> en todo <br/>momento
                                 </h1>
@@ -26,7 +26,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                         <div class="card card-body border-none shadow-lg mt-4">
                             <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep}/>
                         </div>
-                        <div class="d-flex col-md-12" id="banner-text-mobile">
+                        <div class="d-flex " id="banner-text-mobile">
 
                             <div class="collapse margin-header col-md-6" id="collapseBtnQuotesEngine">
 
@@ -38,7 +38,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                        viaja con tranquilidad,<br/> <span
+                                        Viaja con tranquilidad,<br/> <span
                                         class="text-bold color-text-blue-home">protegido</span> en todo <br/>momento
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
@@ -49,8 +49,14 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 </div>
                             </div>
                             <div class="show margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
-                                <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/ecommchica.png"
-                                     alt="mujer-header" width="420" height="420"/>
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/imagen-header-familia_Eco.png"
+                                     alt="mujer-header" class="img-family"/>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center  justify-content-center">
+                            <div class="show margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/imagen-header-familia_Eco.png"
+                                     alt="mujer-header" class="img-family"/>
                             </div>
                         </div>
                         {/*<div class='position-absolute' style={{left: 0, right: 0, bottom: 0, zIndex: 1}}>*/}
