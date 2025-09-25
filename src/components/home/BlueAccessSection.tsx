@@ -56,7 +56,7 @@ export const BlueAccessSection = component$((_props: BlueAccessSectionProps) => 
                     </div>
                     <div class="div-btn-blueaccess">
                         <button class="btn btn-blueaccess btn-lg mt-4 mb-4" onClick$={() => {
-                            window.open('https://xentralpass.testingcontinentalassist.tech/', '_blank');
+                            window.open('https://www.xentralpass.com', '_blank');
                         }}>Registra tus vuelos aquí
                         </button>
                     </div>
