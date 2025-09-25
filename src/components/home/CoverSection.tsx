@@ -27,7 +27,7 @@ export const CoverSection = component$(() => {
                               <img src="https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/creation-outline.png"
                                    alt="blue-acces"/>
                               <div>
-                                  <h4 class="coverage-title">Blue Access</h4>
+                                  <h4 class="coverage-title">Xentral Pass</h4>
                                   <p class="coverage-description">Accede más de 1.600 salas VIP en el mundo si tu
                                       vuelo se demora.</p>
                               </div>
