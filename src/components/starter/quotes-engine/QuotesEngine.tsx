@@ -1044,7 +1044,7 @@ export const QuotesEngine = component$((props:propsQE) => {
 
                     
                     
-                         <div class='row justify-content-center mt-2 '>
+                         <div class='row justify-content-center mt-2 ms-1'>
                         {modeResumeStep.value === false && location.url.pathname != '/' && (
                             <div class='col-lg-2 col-sm-4 col-10'>
                                 <div class='d-grid gap-2'>
