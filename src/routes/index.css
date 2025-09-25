@@ -16,16 +16,17 @@
 /* =====================
    Reglas base y generales
    ===================== */
+@media (min-width: 769px) {
 .bg-home-header {
     background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-    mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 93%, rgba(0,0,0,0) 100%);
     width: 100%;
     height: 100%;
 }
+}
+
 .bg-home-header .img-fluid {
     height: 100vh;
     margin-left: -40%;
@@ -195,8 +196,9 @@
 }
 
 .home {
-    min-height: 75vh;
+    min-height: 85vh;
     position: relative;
+    margin-top: 70px;
 }
 
 .text-bold-pq{
@@ -528,7 +530,7 @@
     padding-left: 40px;
     color: white;
     text-align: left;
-    font-size: 2.2rem;
+    font-size: 3.2rem;
     font-weight: 400;
 }
 
@@ -536,7 +538,7 @@
     padding-left: 40px;
     color: white;
     text-align: left;
-    font-size: 1.1rem;
+    font-size: 1.6rem;
     font-weight: 300;
     line-height: 1.4;
 }
@@ -544,13 +546,75 @@
 .image-mujer{
     position: absolute;
     right: 0;
-    top: 42%;
+    top: 27%;
 }
 
-.bg-vibe p {
-    margin-top: 80px;
+.text-Familiar{
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--ca-blue);
+    margin-bottom: 0;
+    text-align: left;
 }
 
+.img-family{
+    width: 78%;
+    height: 100%;
+}
+
+.mensaje-familiar{
+    margin: 1% 8% 1% 8%;
+}
+
+@media (max-width: 1400px) {
+
+    .image-mujer{
+        position: absolute;
+        right: 0;
+        top: 30%;
+    }
+
+    .img-family{
+        width: 70%;
+        height: 100%;
+    }
+
+    .text-while{
+        padding-left: 40px;
+        color: white;
+        text-align: left;
+        font-size: 2.2rem;
+        font-weight: 400;
+    }
+    
+    .text-sub-while{
+        padding-left: 40px;
+        color: white;
+        text-align: left;
+        font-size: 1.1rem;
+        font-weight: 300;
+        line-height: 1.4;
+    }
+
+    .text-Familiar{
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--ca-blue);
+        margin-bottom: 0;
+        text-align: left;
+    }
+
+    .home {
+        min-height: 95vh;
+        position: relative;
+        margin-top: 70px;
+    }
+
+    .mensaje-familiar{
+        margin: 1% 10% 1% 6%;
+    }
+    
+}
 
 .text-bold-metric{
     font-size: 1.6rem;
@@ -568,6 +632,9 @@
     color: white;
 }
 
+.bg-vibe p {
+    margin-top: 80px;
+}
 /* =====================
    Media Queries
    ===================== */
@@ -694,7 +761,7 @@
         display: none !important;
     }
     .position-top-home{
-        top: -20px !important;
+        top: 67px !important;
     }
 
     #complements-section-mobile img {
@@ -836,7 +903,36 @@
     #collapseQuotesEngine-moblie{
         display: flex !important;
     }
+    
+    .image-mujer {
+        position: relative !important;
+        top: -42px !important;
+        right: auto !important;
+        text-align: center;
+        margin-top: 20px;
+    }
+    
+    .image-mujer .img-family {
+        width: 85% !important;
+        height: auto !important;
+       
+    }
 
+    .margin-header{
+        margin: 20px 0!important;
+    }
+
+    .bg-home-header {
+        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 93%, rgba(0,0,0,0) 100%);
+        width: 100%;
+        height: 100%;
+    }
+   
     .qs-bg-left,
     .qd-bg-left {
         width: 8%;
@@ -965,8 +1061,8 @@
         font-size: 1.5rem;
     }
     #collapseQuotesEngine img{
-        height: 350px !important;
-        width: auto !important;
+        height: 100% !important;
+        width: 62% !important;
     }
 
     .bg-home-header{
@@ -975,7 +1071,57 @@
     .text-sub-while{
         font-size: 1rem;
     }
+
+    .image-mujer {
+        position: absolute;
+        right: 0;
+        top: 41%;
+    }
+
+    .home {
+        min-height: 100vh;
+        position: relative;
+        margin-top: 120px;
+    }
 }
+
+
+@media (min-width: 769px) and (max-width: 991px) {
+    .home-magin{
+        margin-top: 3rem !important;
+    }
+    .text-while{
+        font-size: 1.5rem;
+    }
+    #collapseQuotesEngine img{
+        height: 100% !important;
+        width: 62% !important;
+    }
+
+    .bg-home-header{
+        min-height: 80vh !important;
+    }
+    .text-sub-while{
+        font-size: 1rem;
+    }
+
+    .image-mujer {
+        position: absolute;
+        right: 0;
+        top: 41%;
+    }
+
+    .mensaje-familiar{
+        margin: 1% auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .mensaje-familiar{
+        margin: 1% auto;
+    }
+}
+
 
 /* Large mobile and small tablets */
 @media (max-width: 1200px) {
@@ -1211,16 +1357,6 @@
     .bg-home-testimonials {
         background-color: #f4f4f4;
         padding: 40px 0;
-    }
-
-}
-
-@media (max-width: 1400px) {
-
-    .image-mujer{
-        position: absolute;
-        right: 0;
-        top: 22%;
     }
 
 }
