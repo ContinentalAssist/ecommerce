@@ -111,6 +111,7 @@
     font-size: 1.25rem !important;
     font-family: GalanoGrotesque !important;
     border-radius: 50px!important;
+    z-index: 1000 !important;
 }
 
 .btn-cancelar-edit{
