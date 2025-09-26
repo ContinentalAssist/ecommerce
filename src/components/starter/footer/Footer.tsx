@@ -135,6 +135,8 @@ export const Footer = component$(() => {
                                 }
                                 <br/>
                                 <a title='Tratamiento Informacion' href='https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Pol%C3%ADtica%20de%20Tratamiento%20de%20la%20Informaci%C3%B3n%20y%20Privacidad%20Continental%20Assist.pdf' target='_blank' rel="noopener" class='text-regular text-white'>Políticas de Tratamiento de la Información y Privacidad</a>
+                                <br/>
+                                <a title='Tratamiento Informacion' href='https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Politica%20de%20Tratamiento%20de%20Datos%20Continental%20Assist.pdf' target='_blank' rel="noopener" class='text-regular text-white'>Política de Tratamiento de Datos</a>
                             </div>
                             <div class='not-mobile col-lg-6 col-sm-12 mt-3'>
                                 <div class='container'>

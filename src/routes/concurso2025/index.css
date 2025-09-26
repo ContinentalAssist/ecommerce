@@ -1,0 +1,191 @@
+/* Estilos para la página Concurso 2025 - Términos y Condiciones */
+
+.bg-concurso2025 {
+    min-height: 100vh;
+    background-color: white;
+}
+
+.bg-concurso2025-content {
+    background-color: white;
+    padding: 3rem 0;
+}
+
+/* Contenedor principal de términos */
+.terminos-container {
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Cada sección de término */
+.termino-item {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.termino-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+/* Títulos de cada sección */
+.termino-titulo {
+    color: var(--ca-blue);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--ca-light-blue);
+}
+
+/* Contenido de párrafos */
+.termino-contenido {
+    color: #333;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+/* Listas ordenadas y no ordenadas */
+.termino-lista {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.termino-lista li {
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* Para listas ordenadas */
+.termino-item ol.termino-lista {
+    list-style-type: decimal;
+}
+
+.termino-item ol.termino-lista li {
+    padding-left: 0.5rem;
+}
+
+/* Para listas no ordenadas */
+.termino-item ul.termino-lista {
+    list-style-type: disc;
+}
+
+.termino-item ul.termino-lista li {
+    padding-left: 0.5rem;
+}
+
+/* Sección de nota importante */
+.termino-nota {
+    background-color: #f8f9fa;
+    border-left: 4px solid var(--ca-light-blue);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.termino-nota p {
+    margin-bottom: 1rem;
+    color: var(--ca-blue);
+    font-weight: 600;
+}
+
+.termino-nota .termino-lista {
+    padding-left: 1.5rem;
+}
+
+/* Enlaces */
+.termino-contenido a,
+.termino-lista a {
+    color: var(--ca-blue);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.termino-contenido a:hover,
+.termino-lista a:hover {
+    color: var(--ca-dark-blue);
+    text-decoration: underline;
+}
+
+/* Texto en negrita */
+strong {
+    color: var(--ca-blue);
+    font-weight: 700;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .bg-concurso2025-content {
+        padding: 2rem 0;
+    }
+    
+    .termino-item {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .termino-titulo {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .termino-contenido {
+        font-size: 0.95rem;
+    }
+    
+    .termino-lista {
+        padding-left: 1.2rem;
+    }
+    
+    .termino-lista li {
+        font-size: 0.95rem;
+    }
+    
+    .termino-nota {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .bg-concurso2025-content {
+        padding: 1.5rem 0;
+    }
+    
+    .termino-item {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+    }
+    
+    .termino-titulo {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .termino-contenido {
+        font-size: 0.9rem;
+    }
+    
+    .termino-lista {
+        padding-left: 1rem;
+    }
+    
+    .termino-lista li {
+        font-size: 0.9rem;
+    }
+    
+    .termino-nota {
+        padding: 0.8rem;
+    }
+}
+
+/* Estilo para el divider */
+.divider {
+    border: none;
+    height: 3px;
+    background: linear-gradient(90deg, var(--ca-light-blue), var(--ca-blue));
+    border-radius: 2px;
+    margin: 1rem auto;
+    width: 100px;
+}
