@@ -127,7 +127,7 @@ export default component$(() =>{
                 dataFormInvoicing.grupopagocodigo =Number(inputPaymentGroupCode?.dataset?.value);
                 dataFormInvoicing.valorpagadofactura= valorpagado;
                 dataFormInvoicing.idmonedafactura=idmonedafactura;
-                dataFormInvoicing.fechapagofactura=dayjs(dataFormInvoicing.fechapagofactura).format('YYYY-MM-DD');
+                dataFormInvoicing.fechapagofactura=dayjs(dataFormInvoicing.fechapagofactura).isValid() ? dayjs(dataFormInvoicing.fechapagofactura).format('YYYY-MM-DD'):'';
                 
             }
             
