@@ -27,6 +27,7 @@ export const InvoiceFormMX = component$((props:any) => {
     const disabledInpuTypePayment= useSignal(true);
     const disabledInputDataPayment= useSignal(false);
     const disabledInputPaymentValue= useSignal(false);
+    const requiredReference= useSignal(false);
     const paymentValue= useSignal<number | null| ''>(null);
     const selectedCurrency= useSignal('');
      const  objectInfo = {
@@ -311,7 +312,7 @@ export const InvoiceFormMX = component$((props:any) => {
             typepaymentSelected.value ='';
             hideInputDataPayment.value =true;
              const selectedDefault = defaultListadoTiposPagos.value.find((item:any) => item.clave == '99');
-             
+             requiredReference.value = false; 
              listadoTiposPagos.value = Array(selectedDefault) ;
             typepaymentSelected.value = selectedDefault.value;
             
@@ -321,6 +322,7 @@ export const InvoiceFormMX = component$((props:any) => {
             listadoTiposPagos.value = selectedDefault;
             hideInputDataPayment.value =false;
             typepaymentSelected.value ='';
+            requiredReference.value = true;
           }
           
     })
@@ -476,12 +478,12 @@ export const InvoiceFormMX = component$((props:any) => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                                 {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
-                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
-                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
 
                             ]},
 
@@ -536,12 +538,12 @@ export const InvoiceFormMX = component$((props:any) => {
                             ]},
 
                             {row:[
-                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required: !hideInputSelectDataPayment.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                                 {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
-                                options:listadoMonedas.value,required:!hideInputSelectDataPayment.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
-                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required: !hideInputSelectDataPayment.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
 
                             ]},
 
