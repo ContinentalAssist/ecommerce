@@ -38,13 +38,12 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                        Viaja con tranquilidad,<br/> <span
+                                    Viaja con tranquilidad,<br/> <span
                                         class="text-bold color-text-blue-home">protegido</span> en todo <br/>momento
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
-                                        Más de <span class='text-bold'>10 millones de viajeros </span> han
-                                        confiado<br/>
-                                        en nuestras asistencias en <br/>todo el mundo
+                                    <span style={{fontSize:'25px', marginRight:'13px'}}>⭐⭐⭐⭐⭐</span> Más de <span class='text-bold'>10 millones de viajeros </span> han
+                                        confiado en nuestras asistencias en <br/>todo el mundo
                                     </h2>
                                 </div>
                             </div>
