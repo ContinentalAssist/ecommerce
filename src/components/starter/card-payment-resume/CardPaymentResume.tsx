@@ -314,8 +314,8 @@ export const CardPaymentResume = component$(() => {
   });
 
   const getCupon$ = $(async () => {
-    // se selecciona el input según el dispositivo
-    const isMobile = window.innerWidth <= 991; 
+    // Detectar si estamos en móvil de forma más robusta
+    const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     const input = isMobile 
       ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
@@ -429,8 +429,8 @@ export const CardPaymentResume = component$(() => {
     // Guardar datos en localStorage
     saveData(stateContext.value);
 
-    // Detectar si estamos en móvil o desktop basado en el breakpoint de Bootstrap
-    const isMobile = window.innerWidth <= 991; // Bootstrap lg breakpoint
+    // Detectar si estamos en móvil de forma más robusta
+    const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     
     const input = isMobile 
       ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)

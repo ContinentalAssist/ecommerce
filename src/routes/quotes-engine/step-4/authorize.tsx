@@ -36,7 +36,9 @@ export default component$(() => {
     useTask$(({ track }) => {
         const total = track(() => stateContext.value.total?.total);
         if (total !== undefined && Object.keys(stateContext.value).length > 0) {
-            resume.value = stateContext.value;
+            if (resume.value.total?.total !== total) {
+                resume.value = { ...stateContext.value };
+            }
         }
     });
 
