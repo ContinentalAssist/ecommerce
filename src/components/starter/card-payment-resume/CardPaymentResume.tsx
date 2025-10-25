@@ -345,13 +345,23 @@ export const CardPaymentResume = component$(() => {
         };
 
         //loading.value = true;
-        const resCuponValid = await fetch("/api/getCupon", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataRequest),
-        });
-        const dataCupon = await resCuponValid.json();
-        resCupon = dataCupon;
+        
+        try {
+          const resCuponValid = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCupon", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataRequest),
+          });
+          const dataCupon = await resCuponValid.json();
+          resCupon = dataCupon;
+        
+          alert(`Función de validación de cupón funcionando correctamente!\n\nStatus: ${resCuponValid.status}\nRespuesta OK: ${resCuponValid.ok}\nDatos recibidos: ${JSON.stringify(dataCupon, null, 2)}`);
+        } catch (error) {
+          
+          alert(`Error en la validación de cupón!\n\nError: ${error}\n\nLa petición falló. Revisa la consola para más detalles.`);
+          console.error("Error en validación de cupón:", error);
+          return; 
+        }
         if (
           resCupon.error == false &&
           Number(resCupon.resultado[0]?.porcentaje) > 0
