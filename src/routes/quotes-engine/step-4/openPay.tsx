@@ -48,6 +48,13 @@ export default component$(() => {
     const dataError = useSignal('')
     const contextLoading = useContext(LoadingContext)
 
+    // Sincronizar resume.value con stateContext.value cuando cambie el total (incluyendo descuentos)
+    useTask$(({ track }) => {
+        const total = track(() => stateContext.value.total?.total);
+        if (total !== undefined && Object.keys(stateContext.value).length > 0) {
+            resume.value = stateContext.value;
+        }
+    });
 
     /* useTask$(({ track }) => {
         const loading = track(()=>isLoading.value);  

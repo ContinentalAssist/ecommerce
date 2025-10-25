@@ -314,9 +314,18 @@ export const CardPaymentResume = component$(() => {
   });
 
   const getCupon$ = $(async () => {
-    const input =
-      (document.querySelector("#input-cupon") as HTMLInputElement) ||
-      (document.querySelector("#input-cupon-mobile") as HTMLInputElement);
+    // se selecciona el input según el dispositivo
+    const isMobile = window.innerWidth <= 991; 
+    
+    const input = isMobile 
+      ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
+      : (document.querySelector("#input-cupon") as HTMLInputElement);
+
+    if (!input) {
+      console.error("No se pudo encontrar el input de cupón");
+      contextLoading.value = { status: false, message: "" };
+      return;
+    }
 
     if (input.value != "") {
       if (
@@ -420,16 +429,15 @@ export const CardPaymentResume = component$(() => {
     // Guardar datos en localStorage
     saveData(stateContext.value);
 
-    const input = document.querySelector("#input-cupon") as HTMLInputElement;
-    const inputMobile = document.querySelector(
-      "#input-cupon-mobile"
-    ) as HTMLInputElement;
+    // Detectar si estamos en móvil o desktop basado en el breakpoint de Bootstrap
+    const isMobile = window.innerWidth <= 991; // Bootstrap lg breakpoint
+    
+    const input = isMobile 
+      ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
+      : (document.querySelector("#input-cupon") as HTMLInputElement);
 
     if (input) {
       input.value = "";
-    }
-    if (inputMobile) {
-      inputMobile.value = "";
     }
     // updateHeight$(); // Ya no es necesario con fit-content
   });

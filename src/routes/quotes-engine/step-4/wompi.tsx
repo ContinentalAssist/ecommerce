@@ -41,6 +41,13 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
     const wompiIdTransaccion =useSignal('')
     const contextLoading = useContext(LoadingContext)
 
+    // Sincronizar resume.value con stateContext.value cuando cambie el total (incluyendo descuentos)
+    useTask$(({ track }) => {
+        const total = track(() => stateContext.value.total?.total);
+        if (total !== undefined && Object.keys(stateContext.value).length > 0) {
+            resume.value = stateContext.value;
+        }
+    });
     
     const validateTransaccion$ = $(async() => {
         const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
