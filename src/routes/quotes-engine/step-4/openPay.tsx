@@ -47,14 +47,7 @@ export default component$(() => {
     //const isLoading = useSignal(false);
     const dataError = useSignal('')
     const contextLoading = useContext(LoadingContext)
-
-    // Sincronizar resume.value con stateContext.value al montar el componente
-    useVisibleTask$(() => {
-        if (Object.keys(stateContext.value).length > 0) {
-            resume.value = { ...stateContext.value };
-        }
-    });
-
+    
     /* useTask$(({ track }) => {
         const loading = track(()=>isLoading.value);  
         props.setLoading(loading, '')
@@ -140,6 +133,9 @@ export default component$(() => {
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
+
+            // Sincronizar con el estado actual (incluye cupón aplicado)
+            resume.value = stateContext.value;
 
             const montodescuento= Number(resume.value?.cupon?.descuento)>0?
             Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
@@ -448,6 +444,10 @@ export default component$(() => {
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
+            
+            // Sincronizar con el estado actual (incluye cupón aplicado)
+            resume.value = stateContext.value;
+            
             const montodescuento= Number(resume.value?.cupon?.descuento)>0?
             Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
 
