@@ -32,13 +32,10 @@ export default component$(() => {
     const attempts = useSignal(stateContext.value.attempts|| 0)
     const contextLoading = useContext(LoadingContext)
 
-    // Sincronizar resume.value con stateContext.value cuando cambie el total (incluyendo descuentos)
-    useTask$(({ track }) => {
-        const total = track(() => stateContext.value.total?.total);
-        if (total !== undefined && Object.keys(stateContext.value).length > 0) {
-            if (resume.value.total?.total !== total) {
-                resume.value = { ...stateContext.value };
-            }
+    // Sincronizar resume.value con stateContext.value al montar el componente
+    useVisibleTask$(() => {
+        if (Object.keys(stateContext.value).length > 0) {
+            resume.value = { ...stateContext.value };
         }
     });
 
