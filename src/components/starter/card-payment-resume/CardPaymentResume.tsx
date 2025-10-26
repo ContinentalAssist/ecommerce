@@ -314,9 +314,18 @@ export const CardPaymentResume = component$(() => {
   });
 
   const getCupon$ = $(async () => {
-    const input =
-      (document.querySelector("#input-cupon") as HTMLInputElement) ||
-      (document.querySelector("#input-cupon-mobile") as HTMLInputElement);
+    // Detectar si estamos en móvil de forma más robusta
+    const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    const input = isMobile 
+      ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
+      : (document.querySelector("#input-cupon") as HTMLInputElement);
+
+    if (!input) {
+      console.error("No se pudo encontrar el input de cupón");
+      contextLoading.value = { status: false, message: "" };
+      return;
+    }
 
     if (input.value != "") {
       if (
@@ -336,13 +345,15 @@ export const CardPaymentResume = component$(() => {
         };
 
         //loading.value = true;
-        const resCuponValid = await fetch("/api/getCupon", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(dataRequest),
-        });
-        const dataCupon = await resCuponValid.json();
-        resCupon = dataCupon;
+        
+          const resCuponValid = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCupon", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dataRequest),
+          });
+          const dataCupon = await resCuponValid.json();
+          resCupon = dataCupon;
+        
         if (
           resCupon.error == false &&
           Number(resCupon.resultado[0]?.porcentaje) > 0
@@ -420,16 +431,15 @@ export const CardPaymentResume = component$(() => {
     // Guardar datos en localStorage
     saveData(stateContext.value);
 
-    const input = document.querySelector("#input-cupon") as HTMLInputElement;
-    const inputMobile = document.querySelector(
-      "#input-cupon-mobile"
-    ) as HTMLInputElement;
+    // Detectar si estamos en móvil de forma más robusta
+    const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    const input = isMobile 
+      ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
+      : (document.querySelector("#input-cupon") as HTMLInputElement);
 
     if (input) {
       input.value = "";
-    }
-    if (inputMobile) {
-      inputMobile.value = "";
     }
     // updateHeight$(); // Ya no es necesario con fit-content
   });

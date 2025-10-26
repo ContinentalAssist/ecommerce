@@ -32,8 +32,6 @@ export default component$(() => {
     const attempts = useSignal(stateContext.value.attempts|| 0)
     const contextLoading = useContext(LoadingContext)
 
-
-
     useTask$(() => {
         if(Object.keys(stateContext.value).length > 0)
         {
@@ -155,14 +153,6 @@ export default component$(() => {
             return isValid;
     })
 
-    const handlePaymentTouch$ = $(async(e: TouchEvent) => {
-        // Prevenir el comportamiento por defecto del touch
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Llamar a la función de pago
-        await getPayment$();
-    });
 
     const getPayment$ = $(async() => {
         // Prevenir múltiples ejecuciones simultáneas
@@ -257,6 +247,9 @@ export default component$(() => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
 
+            // Sincronizar con el estado actual (incluye cupón aplicado)
+            resume.value = stateContext.value;
+
             const dataRequest = Object.assign(
                 dataForm,
                 {
@@ -348,7 +341,7 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 resPayment = dataPay
 
@@ -453,7 +446,6 @@ export default component$(() => {
                                 type='button' 
                                 class='btn btn_cotizar_1' 
                                 onClick$={getPayment$}
-                                onTouchStart$={handlePaymentTouch$}
                                 style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
                             >
                                 Realizar pago

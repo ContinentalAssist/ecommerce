@@ -47,8 +47,7 @@ export default component$(() => {
     //const isLoading = useSignal(false);
     const dataError = useSignal('')
     const contextLoading = useContext(LoadingContext)
-
-
+    
     /* useTask$(({ track }) => {
         const loading = track(()=>isLoading.value);  
         props.setLoading(loading, '')
@@ -135,6 +134,9 @@ export default component$(() => {
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
 
+            // Sincronizar con el estado actual (incluye cupón aplicado)
+            resume.value = stateContext.value;
+
             const montodescuento= Number(resume.value?.cupon?.descuento)>0?
             Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
             const dataRequest = {
@@ -189,7 +191,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado[0].openPayTransaccion)
@@ -215,7 +217,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado[0]?.openPayTransaccion)
@@ -244,7 +246,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
  
                 if(dataPay?.resultado[0]?.openPayTransaccion)
@@ -442,6 +444,10 @@ export default component$(() => {
                 newPaxs[index].fechaNac = newPaxs[index].fechanacimiento.split('-').reverse().join('/')
                 newPaxs[index].edad = CalculateAge(newPaxs[index].fechanacimiento)
             })
+            
+            // Sincronizar con el estado actual (incluye cupón aplicado)
+            resume.value = stateContext.value;
+            
             const montodescuento= Number(resume.value?.cupon?.descuento)>0?
             Number(resume.value?.cupon?.descuento) * Number(ParseTwoDecimal(stateContext.value.currentRate.rate)):0;
 
@@ -502,7 +508,7 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
             resPayment = dataPay
 
