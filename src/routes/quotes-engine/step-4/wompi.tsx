@@ -42,7 +42,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
     const contextLoading = useContext(LoadingContext)
     
     const validateTransaccion$ = $(async() => {
-        const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
+        const resValidation = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:wompiIdTransaccion.value})});
         const dataValidation = await resValidation.json()
 
     
@@ -315,7 +315,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
             }
             else if(stateContext.value.wompiTipo == 'PSE')
             {
-                const resInstitutions = await fetch("/api/getInstitutionsW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({})});
+                const resInstitutions = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getInstitutionsW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({})});
                 const dataInstitutions = await resInstitutions.json()
                
                 if(dataInstitutions.error == false)
@@ -360,7 +360,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
                 if(dataPay?.resultado.length >0&&dataPay.resultado[0]?.wompiIdTransaccion)
                 {
-                    const resValidation = await fetch("/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
+                    const resValidation = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getValidationTransactionW",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({id_transaction:dataPay.resultado[0].wompiIdTransaccion.id})});
                     const dataValidation = await resValidation.json()
 
                     cash.value = {
