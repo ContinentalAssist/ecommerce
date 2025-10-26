@@ -191,7 +191,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado[0].openPayTransaccion)
@@ -217,7 +217,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado[0]?.openPayTransaccion)
@@ -246,7 +246,7 @@ export default component$(() => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
  
                 if(dataPay?.resultado[0]?.openPayTransaccion)
@@ -508,7 +508,7 @@ export default component$(() => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
             resPayment = dataPay
 

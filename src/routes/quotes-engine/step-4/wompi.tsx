@@ -257,7 +257,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
                 if(dataPay?.resultado.length > 0 &&dataPay?.resultado[0]?.wompiIdTransaccion)
@@ -283,7 +283,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
                 Object.assign(dataRequest,wompiRequest)
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
                 
                 if (dataPay.error) {
@@ -355,7 +355,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
                 const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-                const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+                const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
                 const dataPay = await resPay.json()
 
                 if(dataPay?.resultado.length >0&&dataPay.resultado[0]?.wompiIdTransaccion)
@@ -628,7 +628,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
             let resPayment : {[key:string]:any} = {}
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             resPayment = dataPay
@@ -824,7 +824,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
             Object.assign(dataRequest,wompiRequest)
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             if(dataPay.resultado[0]?.wompiIdTransaccion)
@@ -1008,7 +1008,7 @@ export default component$<{ onGoBack$?: () => void }>(({ onGoBack$ }) => {
 
             const dataRequestEncrypt = EncryptAES(dataRequest,import.meta.env.VITE_MY_PUBLIC_WEB_KEY)
 
-            const resPay = await fetch("/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
+            const resPay = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getPayment",{method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({data:dataRequestEncrypt})});
             const dataPay = await resPay.json()
 
             if(dataPay.resultado[0]?.wompiIdTransaccion)
