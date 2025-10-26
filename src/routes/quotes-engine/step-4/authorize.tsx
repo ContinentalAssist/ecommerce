@@ -153,14 +153,6 @@ export default component$(() => {
             return isValid;
     })
 
-    const handlePaymentTouch$ = $(async(e: TouchEvent) => {
-        // Prevenir el comportamiento por defecto del touch
-        e.preventDefault();
-        e.stopPropagation();
-        
-        // Llamar a la función de pago
-        await getPayment$();
-    });
 
     const getPayment$ = $(async() => {
         // Prevenir múltiples ejecuciones simultáneas
@@ -454,7 +446,6 @@ export default component$(() => {
                                 type='button' 
                                 class='btn btn_cotizar_1' 
                                 onClick$={getPayment$}
-                                onTouchStart$={handlePaymentTouch$}
                                 style="touch-action: manipulation; -webkit-tap-highlight-color: transparent;"
                             >
                                 Realizar pago
