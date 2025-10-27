@@ -42,6 +42,15 @@ export const DestinosSelect = component$((props:propInputSelect) => {
         }
     })
 
+    const handleOptionSelect$ = $((option: any, event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+        getOptions$(option.value);
+        options.value = prevOptions.value
+        const dropdown = document.getElementById('dropdown-'+props.id);
+        dropdown && (dropdown.style.display = 'none');
+    });
+
     const getFiltertList$ = $((e:any) => {
         const searchValue = e.target.value
         inputValue.value = searchValue // Actualizar el valor del input
@@ -137,7 +146,7 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                                 setTimeout(() => {
                                     const dropdown = document.getElementById('dropdown-'+props.id);
                                     dropdown && (dropdown.style.display = 'none');
-                                }, 150);
+                                }, 300); // Aumentado a 300ms
                             }}
                             {...props.dataAttributes}
                         />
@@ -190,12 +199,12 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                                             key={iOption+1}
                                             class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
                                             value={option.value} 
-                                            onClick$={() => {
-                                                getOptions$(option.value);
-                                                options.value = prevOptions.value
-                                                // Ocultar la lista después de seleccionar
-                                                const dropdown = document.getElementById('dropdown-'+props.id);
-                                                dropdown && (dropdown.style.display = 'none');
+                                            onMouseDown$={(e) => handleOptionSelect$(option, e)}
+                                            onTouchEnd$={(e) => handleOptionSelect$(option, e)}
+                                            style={{ 
+                                                cursor: 'pointer', 
+                                                userSelect: 'none',
+                                                padding: '8px 12px'
                                             }}
                                         >
                                             {option.label}
@@ -216,12 +225,12 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                                                 key={iOption+1}
                                                 class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-gray' : 'list-group-item text-medium text-dark-gray'} 
                                                 value={option.value} 
-                                                onClick$={() => {
-                                                    getOptions$(option.value);
-                                                    options.value = prevOptions.value
-                                                    // Ocultar la lista después de seleccionar
-                                                    const dropdown = document.getElementById('dropdown-'+props.id);
-                                                    dropdown && (dropdown.style.display = 'none');
+                                                onMouseDown$={(e) => handleOptionSelect$(option, e)}
+                                                onTouchEnd$={(e) => handleOptionSelect$(option, e)}
+                                                style={{ 
+                                                    cursor: 'pointer', 
+                                                    userSelect: 'none',
+                                                    padding: '8px 12px'
                                                 }}
                                             >
                                                 {option.label}
@@ -242,12 +251,12 @@ export const DestinosSelect = component$((props:propInputSelect) => {
                                             key={iOption+1}
                                             class={datasetValue.value == option.value ? 'list-group-item active text-medium text-dark-blue' : 'list-group-item text-medium text-dark-gray'} 
                                             value={option.value} 
-                                            onClick$={() => {
-                                                getOptions$(option.value);
-                                                options.value = prevOptions.value
-                                                // Ocultar la lista después de seleccionar
-                                                const dropdown = document.getElementById('dropdown-'+props.id);
-                                                dropdown && (dropdown.style.display = 'none');
+                                            onMouseDown$={(e) => handleOptionSelect$(option, e)}
+                                            onTouchEnd$={(e) => handleOptionSelect$(option, e)}
+                                            style={{ 
+                                                cursor: 'pointer', 
+                                                userSelect: 'none',
+                                                padding: '8px 12px'
                                             }}
                                         >
                                             {option.label}

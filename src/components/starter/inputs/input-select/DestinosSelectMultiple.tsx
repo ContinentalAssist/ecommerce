@@ -214,6 +214,12 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
         geFiltertList$(e);
     })
 
+    const handleOptionSelect$ = $((option: any, event: any) => {
+        event.preventDefault();
+        event.stopPropagation();
+        getOptions$(option);
+    });
+
     // Usar una computed signal para el valor del input
     const displayValue = (() => {
         if (isSearching.value) {
@@ -260,11 +266,10 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                             onBlur$={() => {
                                 (document.querySelector('hr[id='+props.id+']') as HTMLHRElement).style.opacity = '0';
                                 props.onBlur !== undefined && props.onBlur({label:defaultValue.value,value:datasetValue.value});
-                                // Pequeño delay para permitir clicks en las opciones
                                 setTimeout(() => {
                                     showDropdown.value = false;
                                     isSearching.value = false;
-                                }, 150);
+                                }, 300);
                             }}
                             onFocusin$={getLastOption$}
                             {...props.dataAttributes}
@@ -318,8 +323,13 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                             key={`left-${iOption + 1}`}
                                                             class={`list-group-item text-medium ${isActive ? 'active text-dark-blue' : 'text-dark-gray'}`}
                                                             value={option.value}
-                                                            onClick$={() => getOptions$(option)}
-                                                            style={{ cursor: 'pointer' }}
+                                                            onMouseDown$={(e) => handleOptionSelect$(option, e)}
+                                                            onTouchEnd$={(e) => handleOptionSelect$(option, e)}
+                                                            style={{ 
+                                                                cursor: 'pointer', 
+                                                                userSelect: 'none',
+                                                                padding: '8px 12px'
+                                                            }}
                                                         >
                                                             <div class="form-check">
                                                                 <input
@@ -327,10 +337,12 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                                     type="checkbox"
                                                                     id={`check-left-${iOption}`}
                                                                     checked={isActive}
-                                                                    onClick$={(e) => {
+                                                                    onMouseDown$={(e) => {
+                                                                        e.preventDefault();
                                                                         e.stopPropagation();
                                                                         getOptions$(option);
                                                                     }}
+                                                                    onChange$={(e) => e.preventDefault()}
                                                                     aria-checked={isActive}
                                                                 />
                                                                 <label
@@ -356,8 +368,13 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                             key={`right-${iOption + 1}`}
                                                             class={`list-group-item text-semi-bold ${isActive ? 'active text-dark-blue' : 'text-dark-blue'}`}
                                                             value={option.value}
-                                                            onClick$={() => getOptions$(option)}
-                                                            style={{ cursor: 'pointer' }}
+                                                            onMouseDown$={(e) => handleOptionSelect$(option, e)}
+                                                            onTouchEnd$={(e) => handleOptionSelect$(option, e)}
+                                                            style={{ 
+                                                                cursor: 'pointer', 
+                                                                userSelect: 'none',
+                                                                padding: '8px 12px'
+                                                            }}
                                                         >
                                                             <div class="form-check">
                                                                 <input
@@ -365,10 +382,12 @@ export const DestinosSelectMultiple = component$((props:propsInputSelectMultiple
                                                                     type="checkbox"
                                                                     id={`check-right-${iOption}`}
                                                                     checked={isActive}
-                                                                    onClick$={(e) => {
+                                                                    onMouseDown$={(e) => {
+                                                                        e.preventDefault();
                                                                         e.stopPropagation();
                                                                         getOptions$(option);
                                                                     }}
+                                                                    onChange$={(e) => e.preventDefault()}
                                                                     aria-checked={isActive}
                                                                 />
                                                                 <label
