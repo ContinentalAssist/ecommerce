@@ -8,7 +8,7 @@ export const FaqsSection = component$(() => {
                 <div class='container d-flex flex-column align-items-center py-5'>
                     <div class='text-center'>
                         <h1 class='text-bold-pq text-semi-bold'>Preguntas frecuentes</h1>
-                        <p class='p-4'>Todo lo que necesitas saber de tu seguro de viaje </p>
+                        <p class='p-4'>Todo lo que necesitas saber de tu asistencia en viaje</p>
                     </div>
                     <div class="accordion" id="faqsAccordion">
                         <div class="accordion-item">
