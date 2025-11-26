@@ -9,6 +9,7 @@ import { RouterHead } from "./components/router-head/router-head";
 import { isDev } from "@builder.io/qwik/build";
 import { ClarityInit } from './integrations/ClarityInit';
 import { GTMInit } from './integrations/GTMInit';
+import { BlackFridayBanner } from './components/common/BlackFridayBanner';
 import "./global.css";
 import { initializeGenesys } from './utils/genesys';
 
@@ -55,7 +56,7 @@ export default component$(() => {
         resumeQuote.value = { ...resumeQuote.value, isMobile: true }
     }else{
         resumeQuote.value = { ...resumeQuote.value, isMobile: false }
-    }
+      }
     })
   );
 
@@ -66,7 +67,7 @@ export default component$(() => {
       try {
         // Verificar si estamos en el home
         const isHome = window.location.pathname === '/';
-        
+
         if (!isHome) {
           const savedData = localStorage.getItem('continental_assist_quote_data');
           if (savedData) {
@@ -87,91 +88,91 @@ export default component$(() => {
     if (/mobile/i.test(navigator.userAgent)) {
       resumeQuote.value = { ...resumeQuote.value, isMobile: true }
     }else{
-        resumeQuote.value = { ...resumeQuote.value, isMobile: false }
+      resumeQuote.value = { ...resumeQuote.value, isMobile: false }
     }
 
     const geoData = await fetch('https://us-central1-db-service-01.cloudfunctions.net/get-location')
-        .then((response) => {
+      .then((response) => {
             return(response.json())
-        })
-        /* const geoData ={
-              ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
-              country: "CO"
-          } */ 
-       
+      })
+    /* const geoData ={
+          ip_address: "2806:10be:7:2e9:62fc:9d:7f21:a6cc",
+          country: "CO"
+      } */
+
     resumeQuote.value = { ...resumeQuote.value, resGeo: geoData }
-    
+
         const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getExchangeRate", {method:"POST", headers: { 'Content-Type': 'application/json' }, body:JSON.stringify({codigopais:geoData.country})});
         const data =await response.json();
         const resState : any[] = [];
-        if (!data.error) {
+    if (!data.error) {
 
           if(geoData.country == 'CO' || geoData.country == 'MX')
           {
              const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getStateMXCO", {method:"POST", headers: { 'Content-Type': 'application/json' }, body:JSON.stringify({codigopais:geoData.country})});
                   const listadoEstados =await response.json();
-                  
-                  if (listadoEstados && listadoEstados.resultado[0]  && listadoEstados.resultado[0].estados &&Array.isArray(listadoEstados.resultado[0].estados)) {
-                      listadoEstados.resultado[0].estados.map((estado:any) => {
-                          resState.push({value:estado.idestado,label:estado.nombreestado,codigoestado:estado.codigoestado})
-                      })
-              
-                  }  
-          }
-          switch (geoData.country) 
-          {
-              case 'CO':                
-                  convertionRate = data.resultado[0]?.valor
-                  currency = 'COP'                        
-                  break;
-              case 'MX':
-                  convertionRate = data.resultado[0]?.valor
-                  currency = 'MXN'
-                  break; 
-              default:
-                  convertionRate = 1
-                  currency = 'USD'
-          }
-          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate},country:geoData.country, listadoestados:resState, listadociudades:[] }
+
+        if (listadoEstados && listadoEstados.resultado[0] && listadoEstados.resultado[0].estados && Array.isArray(listadoEstados.resultado[0].estados)) {
+          listadoEstados.resultado[0].estados.map((estado: any) => {
+            resState.push({ value: estado.idestado, label: estado.nombreestado, codigoestado: estado.codigoestado })
+          })
 
         }
-       
+      }
+          switch (geoData.country) 
+          {
+        case 'CO':
+          convertionRate = data.resultado[0]?.valor
+          currency = 'COP'
+          break;
+        case 'MX':
+          convertionRate = data.resultado[0]?.valor
+          currency = 'MXN'
+          break;
+        default:
+          convertionRate = 1
+          currency = 'USD'
+      }
+          resumeQuote.value = { ...resumeQuote.value, currentRate: {code:currency,rate:convertionRate},country:geoData.country, listadoestados:resState, listadociudades:[] }
+
+    }
+
   })
 
- 
+
   useVisibleTask$(async()=>{
     if(navigator.userAgent.includes('Windows'))
       {
-          so.value = 'windows'
-      }
-  
+      so.value = 'windows'
+    }
+
       if(navigator.userAgent.includes('Mobile'))
       {
-          device.value = 'mobile'
-      }
-  
+      device.value = 'mobile'
+    }
+
 
     await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
   })
-  
 
- /*  useOnWindow('load',$(() => {
-    
-  })) */
 
-/*   useOnWindow('load',$(async() => {
-       await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
-       //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
-  })) */
+  /*  useOnWindow('load',$(() => {
+     
+   })) */
+
+  /*   useOnWindow('load',$(async() => {
+         await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_WEBCHATID)
+         //await initializeGenesys(import.meta.env.VITE_MY_PUBLIC_BROWSINGVOZID)
+    })) */
 
 
 
   return (
     <QwikCityProvider>
-    <head>
-      <meta charset="utf-8" />
-      <meta name="attribution-reporting" content="disable" />
-      <meta name="keywords" content="
+      <head>
+        <meta charset="utf-8" />
+        <meta name="attribution-reporting" content="disable" />
+        <meta name="keywords" content="
               seguro, 
               seguro viajes,
               seguro viajeros,
@@ -236,19 +237,20 @@ export default component$(() => {
               precios assistencia viajes internacionales,
               precios assistencia medico viajes,
       " />
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous" />
-      <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin='' />
-      <RouterHead />
-    </head>
-    <body data-so={so.value} data-device={device.value}>
-      <ClarityInit />
-      <GTMInit />
-      <RouterOutlet />
-      <script async type="text/javascript" src='/assets/icons/all.min.js' />
-      <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
-      <script async src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
-      <script async src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
-      <script dangerouslySetInnerHTML={`
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossOrigin="anonymous" />
+        <link rel="preload" href="/assets/fonts/Galano_Grotesque.woff" as="font" type="font/woff" crossOrigin='' />
+        <RouterHead />
+      </head>
+      <body data-so={so.value} data-device={device.value}>
+        <ClarityInit />
+        <GTMInit />
+        <RouterOutlet />
+        <BlackFridayBanner />
+        <script async type="text/javascript" src='/assets/icons/all.min.js' />
+        <script async src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossOrigin="anonymous"></script>
+        <script async src="https://js.openpay.mx/openpay.v1.min.js" defer></script>
+        <script async src="https://js.openpay.mx/openpay-data.v1.min.js" defer></script>
+        <script dangerouslySetInnerHTML={`
           console.log('Attribution Reporting Status:','disable');
           // Verificar si los headers se están aplicando
           fetch(window.location.href, {method: 'HEAD'})
@@ -257,8 +259,8 @@ export default component$(() => {
             })
             .catch(console.error);
       `} />
-      {!isDev && <ServiceWorkerRegister />}
-    </body>
+        {!isDev && <ServiceWorkerRegister />}
+      </body>
     </QwikCityProvider>
   );
 });

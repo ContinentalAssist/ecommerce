@@ -1,5 +1,7 @@
 import { $, component$ } from '@builder.io/qwik';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
+import BFridayImage from '~/media/quotes-engine/BFdifuminado.png?jsx';
+import BFridayImageMobile from '~/media/quotes-engine/BFridayCA.png?jsx';
 
 export interface HomeHeaderProps {
     modeResumeStep: any;
@@ -11,20 +13,24 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
     return (
         <div class='home'>
             <div class='bg-home-header position-absolute' />
-            <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-screen position-top-home'>
-                <div id='container-quote' class='row align-content-center justify-content-center'
-                     style={{minHeight: '80vh'}}>
+            <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-[85vh] position-top-home'>
+                <div id='container-quote' class='row align-content-center justify-content-center'>
                     <div class='col-xl-12 text-center home-magin'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
-                                <h1 class="color-text-blue-primary mt-3">
-                                    Viaja con tranquilidad,<br/> <span
-                                    class="text-bold ">protegido</span> en todo <br/>momento
+                                <h1 class="text-white">
+                                    Viaja con tranquilidad,<br /> <span
+                                        class="text-bold ">protegido</span> en todo <br />momento
                                 </h1>
                             </div>
                         </div>
-                        <div class="card card-body border-none shadow-lg mt-4">
-                            <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep}/>
+                        <div class="col-12 text-center  justify-content-center">
+                            <div class="d-block d-md-none margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
+                                <BFridayImageMobile alt="mujer-header" class="img-fluid-mujer-BF" />
+                            </div>
+                        </div>
+                        <div class="card card-body border-none shadow-lg">
+                            <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep} />
                         </div>
                         <div class="d-flex " id="banner-text-mobile">
 
@@ -38,26 +44,20 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                    Viaja con tranquilidad,<br/> <span
-                                        class="text-bold color-text-blue-home">protegido</span> en todo <br/>momento
+                                        Viaja con tranquilidad,<br /> <span
+                                            class="text-bold color-text-blue-home">protegido</span> en todo <br />momento
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
-                                    <span style={{fontSize:'25px', marginRight:'13px'}}>⭐⭐⭐⭐⭐</span> Más de <span class='text-bold'>10 millones de viajeros </span> han
-                                        confiado en nuestras asistencias en <br/>todo el mundo
+                                        <span style={{ fontSize: '25px', marginRight: '13px' }}>⭐⭐⭐⭐⭐</span> Más de <span class='text-bold'>10 millones de viajeros </span> han
+                                        confiado en nuestras asistencias en <br />todo el mundo
                                     </h2>
                                 </div>
                             </div>
-                            <div class="show margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
-                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/imagen-header-familia_Eco.png"
-                                     alt="mujer-header" class="img-family"/>
+                            <div class="d-none d-md-block margin-header col-md-6 image-mujer" id="collapseQuotesEngine-desktop">
+                                <BFridayImage alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
-                        <div class="col-12 text-center  justify-content-center">
-                            <div class="show margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
-                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/imagen-header-familia_Eco.png"
-                                     alt="mujer-header" class="img-family"/>
-                            </div>
-                        </div>
+
                         {/*<div class='position-absolute' style={{left: 0, right: 0, bottom: 0, zIndex: 1}}>*/}
                         {/*    <div class='text-center justify-content-center scroll-indicator'>*/}
                         {/*        <p class='text-blue text-tin mb-0'>Desliza para ver más</p>*/}
