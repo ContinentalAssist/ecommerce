@@ -20,6 +20,7 @@ import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/contin
 import ImgContinentalAssistBagEssential from "../../../media/icons/continental-assist-bag-essential.webp?jsx";
 import ImgContinentalAssistBagComplete from "../../../media/icons/continental-assist-bag-complete.webp?jsx";
 import ImgContinentalAssistBagElite from "../../../media/icons/continental-assist-bag-elite.webp?jsx";
+import BannerCupon from "../../../media/quotes-engine/BannerCupon.png?jsx";
 import { Form } from "../form/Form";
 //import ImgOpenpayLogo from "../../../media/banks/LogotipoOpenpay.webp?jsx";
 export const CardPaymentResume = component$(() => {
@@ -112,7 +113,7 @@ export const CardPaymentResume = component$(() => {
       );
 
       // Verificar si aplica promoción menor (plan familiar + edad 0-24)
-      const aplicaPromocionMenor = 
+      const aplicaPromocionMenor =
         stateContext.value?.planfamiliar === "t" && pax.edad >= 0 && pax.edad <= 24;
 
       // Si aplica promoción menor, solo cobrar beneficios adicionales
@@ -152,9 +153,9 @@ export const CardPaymentResume = component$(() => {
     const formattedPrice = contextDivisa.divisaUSD
       ? CurrencyFormatter(stateContext.value?.total?.divisa, precioBase)
       : CurrencyFormatter(
-          stateContext?.value?.currentRate?.code,
-          precioBase * stateContext?.value?.currentRate?.rate
-        );
+        stateContext?.value?.currentRate?.code,
+        precioBase * stateContext?.value?.currentRate?.rate
+      );
 
     return formattedPrice;
   }
@@ -169,7 +170,7 @@ export const CardPaymentResume = component$(() => {
     );
 
     // Verificar si aplica promoción menor (plan familiar + edad 0-24)
-    const aplicaPromocionMenor = 
+    const aplicaPromocionMenor =
       stateContext.value?.planfamiliar === "t" && pax.edad >= 0 && pax.edad <= 24;
 
     // Si aplica promoción menor, solo cobrar beneficios adicionales
@@ -316,8 +317,8 @@ export const CardPaymentResume = component$(() => {
   const getCupon$ = $(async () => {
     // Detectar si estamos en móvil de forma más robusta
     const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    const input = isMobile 
+
+    const input = isMobile
       ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
       : (document.querySelector("#input-cupon") as HTMLInputElement);
 
@@ -345,15 +346,15 @@ export const CardPaymentResume = component$(() => {
         };
 
         //loading.value = true;
-        
+
           const resCuponValid = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCupon", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dataRequest),
-          });
-          const dataCupon = await resCuponValid.json();
-          resCupon = dataCupon;
-        
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataRequest),
+        });
+        const dataCupon = await resCuponValid.json();
+        resCupon = dataCupon;
+
         if (
           resCupon.error == false &&
           Number(resCupon.resultado[0]?.porcentaje) > 0
@@ -433,8 +434,8 @@ export const CardPaymentResume = component$(() => {
 
     // Detectar si estamos en móvil de forma más robusta
     const isMobile = window.innerWidth <= 991 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    const input = isMobile 
+
+    const input = isMobile
       ? (document.querySelector("#input-cupon-mobile") as HTMLInputElement)
       : (document.querySelector("#input-cupon") as HTMLInputElement);
 
@@ -537,7 +538,7 @@ export const CardPaymentResume = component$(() => {
           {/* Header del formulario de pago */}
           <div class="row justify-content-center">
             {stateContext?.value?.total?.total > 0 &&
-            !location.url.pathname.includes("/step-4") ? (
+              !location.url.pathname.includes("/step-4") ? (
               <div class="col-lg-10 text-center mb-3">
                 <h3 class="text-semi-bold text-blue">
                   Todo listo para tu viaje
@@ -580,7 +581,7 @@ export const CardPaymentResume = component$(() => {
 
                   <div class="flex-shrink-0">
                     {messageCupon.value.aplicado == false &&
-                    messageCupon.value.cupon.codigocupon == "" ? (
+                      messageCupon.value.cupon.codigocupon == "" ? (
                       <button
                         type="button"
                         class="btn btn-primary btn_cotizar_1"
@@ -639,6 +640,22 @@ export const CardPaymentResume = component$(() => {
                     )}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Banner Cupón - Mobile */}
+          {!location.url.pathname.includes("/step-4") && (
+            <div
+              class="card mb-3 shadow-sm border-0 d-lg-none"
+              style={{ borderRadius: "15px !important" }}
+            >
+              <div class="card-body p-0">
+                <BannerCupon
+                  class="img-fluid"
+                  style={{ borderRadius: "15px", width: "100%" }}
+                  alt="Banner Cupón"
+                />
               </div>
             </div>
           )}
@@ -862,7 +879,7 @@ export const CardPaymentResume = component$(() => {
                                 </div>
                                 <div class="col-6 ps-0">
                                   {stateContext.value?.planfamiliar == "t" &&
-                                  pax.edad <= 23 ? (
+                                    pax.edad <= 23 ? (
                                     <p
                                       class="text-bold text-dark-blue text-end"
                                       style={{ fontSize: "0.875rem" }}
@@ -878,88 +895,88 @@ export const CardPaymentResume = component$(() => {
 
                                 {pax.beneficiosadicionalesSeleccionados.length >
                                   0 && (
-                                  <div class="beneficios-adicionales-container">
-                                    <div class="col-lg-12 col-xs-12">
-                                      <div class="input-group">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <span
-                                            class="icon-container"
+                                    <div class="beneficios-adicionales-container">
+                                      <div class="col-lg-12 col-xs-12">
+                                        <div class="input-group">
+                                          <div
                                             style={{
                                               display: "flex",
                                               alignItems: "center",
-                                              justifyContent: "center",
-                                              marginRight: "0.2rem",
                                             }}
                                           >
-                                            <img
-                                              src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-beneficios.png"
-                                              alt="Beneficios"
-                                              style="width: 1.8rem; height: 1.8rem;"
-                                            />
-                                          </span>
-                                          <p class="label-resume">
-                                            <span class="text-tin text-dark-gray ps-0">
-                                              Beneficios adicionales
+                                            <span
+                                              class="icon-container"
+                                              style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                marginRight: "0.2rem",
+                                              }}
+                                            >
+                                              <img
+                                                src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-beneficios.png"
+                                                alt="Beneficios"
+                                                style="width: 1.8rem; height: 1.8rem;"
+                                              />
                                             </span>
-                                          </p>
+                                            <p class="label-resume">
+                                              <span class="text-tin text-dark-gray ps-0">
+                                                Beneficios adicionales
+                                              </span>
+                                            </p>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
 
-                                    <ul>
-                                      {pax.beneficiosadicionalesSeleccionados.map(
-                                        (benefit: any, iBenefit: number) => {
-                                          return (
-                                            <li
-                                              key={iBenefit}
-                                              class="text-semi-bold text-blue"
-                                              style={{ fontSize: "0.875rem" }}
-                                            >
-                                              <div class="row">
-                                                <div
-                                                  class="col-lg-8 col-xs-6 text-medium"
-                                                  style={{ fontSize: "0.875rem" }}
-                                                >
-                                                  {
-                                                    benefit.nombrebeneficioadicional
-                                                  }
-                                                </div>
-                                                <div class="col-lg-4 col-xs-6">
-                                                  <h4
-                                                    class="divisa-beneficio text-medium mb-2"
-                                                    style={{
-                                                      fontSize: "0.875rem",
-                                                    }}
+                                      <ul>
+                                        {pax.beneficiosadicionalesSeleccionados.map(
+                                          (benefit: any, iBenefit: number) => {
+                                            return (
+                                              <li
+                                                key={iBenefit}
+                                                class="text-semi-bold text-blue"
+                                                style={{ fontSize: "0.875rem" }}
+                                              >
+                                                <div class="row">
+                                                  <div
+                                                    class="col-lg-8 col-xs-6 text-medium"
+                                                    style={{ fontSize: "0.875rem" }}
                                                   >
-                                                    {contextDivisa.divisaUSD ==
-                                                    true
-                                                      ? CurrencyFormatter(
+                                                    {
+                                                      benefit.nombrebeneficioadicional
+                                                    }
+                                                  </div>
+                                                  <div class="col-lg-4 col-xs-6">
+                                                    <h4
+                                                      class="divisa-beneficio text-medium mb-2"
+                                                      style={{
+                                                        fontSize: "0.875rem",
+                                                      }}
+                                                    >
+                                                      {contextDivisa.divisaUSD ==
+                                                        true
+                                                        ? CurrencyFormatter(
                                                           benefit.codigomonedapago,
                                                           benefit.precio
                                                         )
-                                                      : CurrencyFormatter(
+                                                        : CurrencyFormatter(
                                                           stateContext.value
                                                             ?.currentRate?.code,
                                                           benefit.precio *
-                                                            stateContext.value
-                                                              ?.currentRate
-                                                              ?.rate
+                                                          stateContext.value
+                                                            ?.currentRate
+                                                            ?.rate
                                                         )}
-                                                  </h4>
+                                                    </h4>
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </li>
-                                          );
-                                        }
-                                      )}
-                                    </ul>
-                                  </div>
-                                )}
+                                              </li>
+                                            );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
                               </div>
 
                               <hr class="hr-gray mt-0 mx-2" />
@@ -981,14 +998,14 @@ export const CardPaymentResume = component$(() => {
                                       {stateContext.value?.total &&
                                         (contextDivisa.divisaUSD == true
                                           ? CurrencyFormatter(
-                                              stateContext.value?.total.divisa,
-                                              calculateIndividualSubTotal(pax)
-                                            )
+                                            stateContext.value?.total.divisa,
+                                            calculateIndividualSubTotal(pax)
+                                          )
                                           : CurrencyFormatter(
-                                              stateContext.value?.currentRate
-                                                ?.code,
-                                              calculateIndividualSubTotal(pax)
-                                            ))}
+                                            stateContext.value?.currentRate
+                                              ?.code,
+                                            calculateIndividualSubTotal(pax)
+                                          ))}
                                     </h4>
                                   </div>
                                 </div>
@@ -997,10 +1014,10 @@ export const CardPaymentResume = component$(() => {
                           </div>
                           {index <
                             stateContext.value?.asegurados.length - 1 && (
-                            <div class="col-12 px-2 pb-2">
-                              <hr class="hr-gray" />
-                            </div>
-                          )}
+                              <div class="col-12 px-2 pb-2">
+                                <hr class="hr-gray" />
+                              </div>
+                            )}
                         </li>
                       );
                     }
@@ -1017,36 +1034,36 @@ export const CardPaymentResume = component$(() => {
                       {stateContext.value?.plan?.nombreplan
                         ?.toLowerCase()
                         .includes("essential") && (
-                        <ImgContinentalAssistBagEssential
-                          class="img-fluid"
-                          loading="lazy"
-                          title="continental-assist-bag-essential"
-                          alt="continental-assist-bag-essential"
-                          style={{ maxWidth: "50px", height: "auto" }}
-                        />
-                      )}
+                          <ImgContinentalAssistBagEssential
+                            class="img-fluid"
+                            loading="lazy"
+                            title="continental-assist-bag-essential"
+                            alt="continental-assist-bag-essential"
+                            style={{ maxWidth: "50px", height: "auto" }}
+                          />
+                        )}
                       {stateContext.value?.plan?.nombreplan
                         ?.toLowerCase()
                         .includes("complete") && (
-                        <ImgContinentalAssistBagComplete
-                          class="img-fluid"
-                          loading="lazy"
-                          title="continental-assist-bag-complete"
-                          alt="continental-assist-bag-complete"
-                          style={{ maxWidth: "50px", height: "auto" }}
-                        />
-                      )}
+                          <ImgContinentalAssistBagComplete
+                            class="img-fluid"
+                            loading="lazy"
+                            title="continental-assist-bag-complete"
+                            alt="continental-assist-bag-complete"
+                            style={{ maxWidth: "50px", height: "auto" }}
+                          />
+                        )}
                       {stateContext.value?.plan?.nombreplan
                         ?.toLowerCase()
                         .includes("elite") && (
-                        <ImgContinentalAssistBagElite
-                          class="img-fluid"
-                          loading="lazy"
-                          title="continental-assist-bag-elite"
-                          alt="continental-assist-bag-elite"
-                          style={{ maxWidth: "50px", height: "auto" }}
-                        />
-                      )}
+                          <ImgContinentalAssistBagElite
+                            class="img-fluid"
+                            loading="lazy"
+                            title="continental-assist-bag-elite"
+                            alt="continental-assist-bag-elite"
+                            style={{ maxWidth: "50px", height: "auto" }}
+                          />
+                        )}
                     </div>
                     <div class="col-3 col-xs-3 col-md-3 d-flex flex-column ">
                       <label class="label-resume text-dark-gray">
@@ -1069,14 +1086,14 @@ export const CardPaymentResume = component$(() => {
                                 {stateContext.value?.total &&
                                   (contextDivisa.divisaUSD == true
                                     ? CurrencyFormatter(
-                                        stateContext.value?.total?.divisa,
-                                        stateContext.value?.subTotal
-                                      )
+                                      stateContext.value?.total?.divisa,
+                                      stateContext.value?.subTotal
+                                    )
                                     : CurrencyFormatter(
-                                        stateContext.value?.currentRate?.code,
-                                        stateContext.value?.subTotal *
-                                          stateContext.value?.currentRate?.rate
-                                      ))}
+                                      stateContext.value?.currentRate?.code,
+                                      stateContext.value?.subTotal *
+                                      stateContext.value?.currentRate?.rate
+                                    ))}
                               </strike>
                               <br />
                             </>
@@ -1085,16 +1102,16 @@ export const CardPaymentResume = component$(() => {
                           /* totalPay.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) :
                                 CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate)) */
                           stateContext.value?.total &&
-                            (contextDivisa.divisaUSD == true
-                              ? CurrencyFormatter(
-                                  stateContext.value?.total?.divisa,
-                                  stateContext.value?.total?.total
-                                )
-                              : CurrencyFormatter(
-                                  stateContext.value?.currentRate?.code,
-                                  stateContext.value?.total?.total *
-                                    stateContext.value?.currentRate?.rate
-                                ))
+                          (contextDivisa.divisaUSD == true
+                            ? CurrencyFormatter(
+                              stateContext.value?.total?.divisa,
+                              stateContext.value?.total?.total
+                            )
+                            : CurrencyFormatter(
+                              stateContext.value?.currentRate?.code,
+                              stateContext.value?.total?.total *
+                              stateContext.value?.currentRate?.rate
+                            ))
                         }
                       </h6>
                     </div>
@@ -1172,7 +1189,7 @@ export const CardPaymentResume = component$(() => {
 
                   <div class="flex-shrink-0">
                     {messageCupon.value.aplicado == false &&
-                    messageCupon.value.cupon.codigocupon == "" ? (
+                      messageCupon.value.cupon.codigocupon == "" ? (
                       <button
                         type="button"
                         class="btn btn-primary btn_cotizar_1"
@@ -1231,6 +1248,22 @@ export const CardPaymentResume = component$(() => {
                     )}
                   </div>
                 )}
+              </div>
+            </div>
+          )}
+
+          {/* Banner Cupón - Desktop */}
+          {!location.url.pathname.includes("/step-4") && (
+            <div
+              class="card mb-3 shadow-sm border-0 d-none d-lg-block"
+              style={{ borderRadius: "15px !important" }}
+            >
+              <div class="card-body p-0">
+                <BannerCupon
+                  class="img-fluid"
+                  style={{ borderRadius: "15px", width: "100%" }}
+                  alt="Banner Cupón"
+                />
               </div>
             </div>
           )}
@@ -1481,7 +1514,7 @@ export const CardPaymentResume = component$(() => {
                                 </div>
                                 <div class="col-6 ps-0">
                                   {stateContext.value?.planfamiliar == "t" &&
-                                  pax.edad >= 0 && pax.edad <= 24 ? (
+                                    pax.edad >= 0 && pax.edad <= 24 ? (
                                     <p
                                       class="text-bold text-dark-blue text-end"
                                       style={{ fontSize: "0.875rem" }}
@@ -1498,89 +1531,89 @@ export const CardPaymentResume = component$(() => {
 
                                 {pax.beneficiosadicionalesSeleccionados.length >
                                   0 && (
-                                  <div class="beneficios-adicionales-container">
-                                    <div class="col-lg-12 col-xs-12">
-                                      <div class="input-group">
-                                        <div
-                                          style={{
-                                            display: "flex",
-                                            alignItems: "center",
-                                          }}
-                                        >
-                                          <span
-                                            class="icon-container"
+                                    <div class="beneficios-adicionales-container">
+                                      <div class="col-lg-12 col-xs-12">
+                                        <div class="input-group">
+                                          <div
                                             style={{
                                               display: "flex",
                                               alignItems: "center",
-                                              justifyContent: "center",
-                                              marginRight: "0.2rem",
                                             }}
                                           >
-                                            <img
-                                              src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-beneficios.png"
-                                              alt="Beneficios"
-                                              style="width: 1.8rem; height: 1.8rem;"
-                                            />
-                                          </span>
-                                          <p class="label-resume">
-                                            <span class="text-tin text-dark-gray ps-0">
-                                              Beneficios adicionales
+                                            <span
+                                              class="icon-container"
+                                              style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                marginRight: "0.2rem",
+                                              }}
+                                            >
+                                              <img
+                                                src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/icon-beneficios.png"
+                                                alt="Beneficios"
+                                                style="width: 1.8rem; height: 1.8rem;"
+                                              />
                                             </span>
-                                            <br />
-                                          </p>
+                                            <p class="label-resume">
+                                              <span class="text-tin text-dark-gray ps-0">
+                                                Beneficios adicionales
+                                              </span>
+                                              <br />
+                                            </p>
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
 
-                                    <ul>
-                                      {pax.beneficiosadicionalesSeleccionados.map(
-                                        (benefit: any, iBenefit: number) => {
-                                          return (
-                                            <li
-                                              key={iBenefit}
-                                              class="text-semi-bold text-blue"
-                                              style={{ fontSize: "0.875rem" }}
-                                            >
-                                              <div class="row">
-                                                <div
-                                                  class="col-lg-8 col-xs-6 text-medium"
-                                                  style={{ fontSize: "0.875rem" }}
-                                                >
-                                                  {
-                                                    benefit.nombrebeneficioadicional
-                                                  }
-                                                </div>
-                                                <div class="col-lg-4 col-xs-6">
-                                                  <h4
-                                                    class="divisa-beneficio text-medium mb-2"
-                                                    style={{
-                                                      fontSize: "0.80rem",
-                                                    }}
+                                      <ul>
+                                        {pax.beneficiosadicionalesSeleccionados.map(
+                                          (benefit: any, iBenefit: number) => {
+                                            return (
+                                              <li
+                                                key={iBenefit}
+                                                class="text-semi-bold text-blue"
+                                                style={{ fontSize: "0.875rem" }}
+                                              >
+                                                <div class="row">
+                                                  <div
+                                                    class="col-lg-8 col-xs-6 text-medium"
+                                                    style={{ fontSize: "0.875rem" }}
                                                   >
-                                                    {contextDivisa.divisaUSD ==
-                                                    true
-                                                      ? CurrencyFormatter(
+                                                    {
+                                                      benefit.nombrebeneficioadicional
+                                                    }
+                                                  </div>
+                                                  <div class="col-lg-4 col-xs-6">
+                                                    <h4
+                                                      class="divisa-beneficio text-medium mb-2"
+                                                      style={{
+                                                        fontSize: "0.80rem",
+                                                      }}
+                                                    >
+                                                      {contextDivisa.divisaUSD ==
+                                                        true
+                                                        ? CurrencyFormatter(
                                                           benefit.codigomonedapago,
                                                           benefit.precio
                                                         )
-                                                      : CurrencyFormatter(
+                                                        : CurrencyFormatter(
                                                           stateContext.value
                                                             ?.currentRate?.code,
                                                           benefit.precio *
-                                                            stateContext.value
-                                                              ?.currentRate
-                                                              ?.rate
+                                                          stateContext.value
+                                                            ?.currentRate
+                                                            ?.rate
                                                         )}
-                                                  </h4>
+                                                    </h4>
+                                                  </div>
                                                 </div>
-                                              </div>
-                                            </li>
-                                          );
-                                        }
-                                      )}
-                                    </ul>
-                                  </div>
-                                )}
+                                              </li>
+                                            );
+                                          }
+                                        )}
+                                      </ul>
+                                    </div>
+                                  )}
                               </div>
 
                               <hr class="hr-gray mt-3 mx-2" />
@@ -1602,14 +1635,14 @@ export const CardPaymentResume = component$(() => {
                                       {stateContext.value?.total &&
                                         (contextDivisa.divisaUSD == true
                                           ? CurrencyFormatter(
-                                              stateContext.value?.total.divisa,
-                                              calculateIndividualSubTotal(pax)
-                                            )
+                                            stateContext.value?.total.divisa,
+                                            calculateIndividualSubTotal(pax)
+                                          )
                                           : CurrencyFormatter(
-                                              stateContext.value?.currentRate
-                                                ?.code,
-                                              calculateIndividualSubTotal(pax)
-                                            ))}
+                                            stateContext.value?.currentRate
+                                              ?.code,
+                                            calculateIndividualSubTotal(pax)
+                                          ))}
                                     </h4>
                                   </div>
                                 </div>
@@ -1618,10 +1651,10 @@ export const CardPaymentResume = component$(() => {
                           </div>
                           {index <
                             stateContext.value?.asegurados.length - 1 && (
-                            <div class="col-12 px-2 pb-2">
-                              <hr class="hr-gray" />
-                            </div>
-                          )}
+                              <div class="col-12 px-2 pb-2">
+                                <hr class="hr-gray" />
+                              </div>
+                            )}
                         </li>
                       );
                     }
@@ -1640,48 +1673,48 @@ export const CardPaymentResume = component$(() => {
                     {stateContext.value?.plan?.nombreplan
                       ?.toLowerCase()
                       .includes("essential") && (
-                      <ImgContinentalAssistBagEssential
-                        class="img-fluid"
-                        loading="lazy"
-                        title="continental-assist-bag-essential"
-                        alt="continental-assist-bag-essential"
-                        style={{
-                          maxWidth: "120px",
-                          height: "auto",
-                          paddingBottom: "30px",
-                        }}
-                      />
-                    )}
+                        <ImgContinentalAssistBagEssential
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-essential"
+                          alt="continental-assist-bag-essential"
+                          style={{
+                            maxWidth: "120px",
+                            height: "auto",
+                            paddingBottom: "30px",
+                          }}
+                        />
+                      )}
                     {stateContext.value?.plan?.nombreplan
                       ?.toLowerCase()
                       .includes("complete") && (
-                      <ImgContinentalAssistBagComplete
-                        class="img-fluid"
-                        loading="lazy"
-                        title="continental-assist-bag-complete"
-                        alt="continental-assist-bag-complete"
-                        style={{
-                          maxWidth: "120px",
-                          height: "auto",
-                          paddingBottom: "30px",
-                        }}
-                      />
-                    )}
+                        <ImgContinentalAssistBagComplete
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-complete"
+                          alt="continental-assist-bag-complete"
+                          style={{
+                            maxWidth: "120px",
+                            height: "auto",
+                            paddingBottom: "30px",
+                          }}
+                        />
+                      )}
                     {stateContext.value?.plan?.nombreplan
                       ?.toLowerCase()
                       .includes("elite") && (
-                      <ImgContinentalAssistBagElite
-                        class="img-fluid"
-                        loading="lazy"
-                        title="continental-assist-bag-elite"
-                        alt="continental-assist-bag-elite"
-                        style={{
-                          maxWidth: "120px",
-                          height: "auto",
-                          paddingBottom: "30px",
-                        }}
-                      />
-                    )}
+                        <ImgContinentalAssistBagElite
+                          class="img-fluid"
+                          loading="lazy"
+                          title="continental-assist-bag-elite"
+                          alt="continental-assist-bag-elite"
+                          style={{
+                            maxWidth: "120px",
+                            height: "auto",
+                            paddingBottom: "30px",
+                          }}
+                        />
+                      )}
                   </div>
                   <div
                     class="col-3 col-xs-12 d-flex flex-column justify-content-center align-items-center text-center"
@@ -1714,14 +1747,14 @@ export const CardPaymentResume = component$(() => {
                               {stateContext.value?.total &&
                                 (contextDivisa.divisaUSD == true
                                   ? CurrencyFormatter(
-                                      stateContext.value?.total?.divisa,
-                                      stateContext.value?.subTotal
-                                    )
+                                    stateContext.value?.total?.divisa,
+                                    stateContext.value?.subTotal
+                                  )
                                   : CurrencyFormatter(
-                                      stateContext.value?.currentRate?.code,
-                                      stateContext.value?.subTotal *
-                                        stateContext.value?.currentRate?.rate
-                                    ))}
+                                    stateContext.value?.currentRate?.code,
+                                    stateContext.value?.subTotal *
+                                    stateContext.value?.currentRate?.rate
+                                  ))}
                             </strike>
                             <br />
                           </>
@@ -1730,16 +1763,16 @@ export const CardPaymentResume = component$(() => {
                         /* totalPay.value.total && (contextDivisa.divisaUSD == true ? CurrencyFormatter(totalPay.value.divisa,totalPay.value.total) :
                             CurrencyFormatter(stateContext.value.currentRate.code,totalPay.value.total * stateContext.value.currentRate.rate)) */
                         stateContext.value?.total &&
-                          (contextDivisa.divisaUSD == true
-                            ? CurrencyFormatter(
-                                stateContext.value?.total?.divisa,
-                                stateContext.value?.total?.total
-                              )
-                            : CurrencyFormatter(
-                                stateContext.value?.currentRate?.code,
-                                stateContext.value?.total?.total *
-                                  stateContext.value?.currentRate?.rate
-                              ))
+                        (contextDivisa.divisaUSD == true
+                          ? CurrencyFormatter(
+                            stateContext.value?.total?.divisa,
+                            stateContext.value?.total?.total
+                          )
+                          : CurrencyFormatter(
+                            stateContext.value?.currentRate?.code,
+                            stateContext.value?.total?.total *
+                            stateContext.value?.currentRate?.rate
+                          ))
                       }
                     </h3>
                   </div>

@@ -17,14 +17,14 @@
    Reglas base y generales
    ===================== */
 @media (min-width: 769px) {
-.bg-home-header {
-    background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    width: 100%;
-    height: 100%;
-}
+    .bg-home-header {
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bg-mejoradoBF.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 .bg-home-header .img-fluid {
@@ -196,7 +196,7 @@
 }
 
 .home {
-    min-height: 85vh;
+    min-height: auto;
     position: relative;
     margin-top: 70px;
 }
@@ -586,7 +586,7 @@
         font-size: 2.2rem;
         font-weight: 400;
     }
-    
+
     .text-sub-while{
         padding-left: 40px;
         color: white;
@@ -613,7 +613,7 @@
     .mensaje-familiar{
         margin: 1% 10% 1% 6%;
     }
-    
+
 }
 
 .text-bold-metric{
@@ -672,20 +672,20 @@
 /* Mobile Portrait */
 @media (max-width: 575.98px) {
     .bg-home-header {
-        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bgBF-Mobile.png");
         background-size: cover;
         background-position: center;
     }
 
     .metrics-section-mobile {
-        margin: 30px 0 !important;
+        margin: 60px 0 30px 0 !important;
     }
 
-    #collapseQuotesEngine-moblie{
+    #collapseQuotesEngine-moblie {
         display: flex !important;
     }
 
-    #banner-text-mobile{
+    #banner-text-mobile {
         display: none !important;
     }
 
@@ -744,6 +744,7 @@
 
 /* Small Mobile */
 @media (max-width: 640px) {
+
     .qd-metrics-top,
     .qd-metrics-bottom {
         grid-template-columns: 1fr;
@@ -896,50 +897,62 @@
         margin: 30px 0 !important;
     }
 
-    #banner-text-mobile{
+    #metrics-section-mobile {
+        margin-top: 60px;
+    }
+
+    #banner-text-mobile {
         display: none !important;
     }
 
     #collapseQuotesEngine-moblie{
         display: flex !important;
     }
-    
+
     .image-mujer {
         position: relative !important;
-        top: -42px !important;
+        top: 0px !important;
         right: auto !important;
         text-align: center;
-        margin-top: 20px;
-    }
-    
-    .image-mujer .img-family {
-        width: 85% !important;
-        height: auto !important;
-       
+        margin-bottom: 0 !important;
+        margin-top: 0 !important;
     }
 
-    .margin-header{
-        margin: 20px 0!important;
+    .image-mujer .img-family {
+        width: 20vw !important;
+        height: auto !important;
+
+    }
+
+    .margin-header {
+        margin: 0 !important;
     }
 
     .bg-home-header {
-        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
-        background-size: auto;
+        background: src;
+        background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
-        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
-        mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 93%, rgba(0,0,0,0) 100%);
         width: 100%;
-        height: 100%;
+        height: 970px !important;
+        min-height: 970px !important;
     }
-   
+
     .qs-bg-left,
     .qd-bg-left {
         width: 8%;
     }
 
-    .padignt-top{
-        padding-top: 2rem !important;
+    .padignt-top {
+        padding-top: 16px !important;
+    }
+
+    #container-quote {
+        min-height: 900px !important;
+    }
+
+    .home {
+        padding-bottom: 32px;
     }
 
     .qs-bg-left {
@@ -1824,24 +1837,56 @@
 
 @media (min-width: 769px) {
     .card_cotizar{
-    margin-bottom: 20px !important;
+        margin-bottom: 20px !important;
+    }
+
+    .qoutes-card{
+        margin-top: 20px !important;
     }
 }
 
 @media (max-width: 1230px) {
 .container-resume-1{
-    padding: 103px 0 10px 0;
-}
+        padding: 103px 0 10px 0;
+    }
 }
 
 @media (max-width: 930px) {
     .container-resume-1{
         padding: 80px 0 10px 0;
     }
+
+    .img-fluid-mujer-BF {
+        width: 95% !important;
+        height: auto;
+        max-width: 95% !important;
     }
 
-@media (min-width: 1231px) {
-.container-resume-1{
-    padding: 110px 6% 9px 6%;
+    .card.card-body.border-none.shadow-lg.mt-4 {
+        margin-top: 8px !important;
+    }
 }
+
+.img-fluid-mujer-BF {
+    max-width: 70%;
+    height: auto;
+}
+
+@media (min-width: 1231px) {
+    .container-resume-1 {
+        padding: 110px 6% 9px 6%;
+    }
+}
+
+.segunda-Section {
+    margin-top: 60px;
+}
+
+#messageCookies {
+    z-index: 10000 !important;
+    position: relative;
+}
+
+.qoutes-card{
+    margin-top: 0 !important;
 }
