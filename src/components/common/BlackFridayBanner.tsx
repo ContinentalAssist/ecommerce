@@ -52,20 +52,22 @@ export const BlackFridayBanner = component$(() => {
                         <h3 class="banner-title">Asegura tu viaje antes de que el <span class="color-white"><strong>tiempo se agote:</strong></span></h3>
                         <p class="banner-subtitle">Exclusivo online. <span class="color-white" style={{ textDecoration: 'underline' }}>*Aplican términos y condiciones</span></p>
                     </div>
-
                     <div class="countdown-container">
                         <div class="countdown-item">
                             <div class="countdown-value">{days.value.toString().padStart(2, '0')}</div>
                             <div class="countdown-label">días</div>
                         </div>
+                        <span class="countdown-separator">:</span>
                         <div class="countdown-item">
                             <div class="countdown-value">{hours.value.toString().padStart(2, '0')}</div>
                             <div class="countdown-label">horas</div>
                         </div>
+                        <span class="countdown-separator">:</span>
                         <div class="countdown-item">
                             <div class="countdown-value">{minutes.value.toString().padStart(2, '0')}</div>
                             <div class="countdown-label">minutos</div>
                         </div>
+                        <span class="countdown-separator">:</span>
                         <div class="countdown-item">
                             <div class="countdown-value">{seconds.value.toString().padStart(2, '0')}</div>
                             <div class="countdown-label">segundos</div>
@@ -175,6 +177,18 @@ export const BlackFridayBanner = component$(() => {
                     font-weight: 500;
                 }
 
+                .countdown-separator {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: rgba(255, 255, 255, 0.4);
+                    display: flex;
+                    align-items: center;
+                    margin: 0 0.15rem;
+                    align-self: center;
+                    margin-bottom: 1.2rem;
+                    animation: pulse 2s ease-in-out infinite;
+                }
+
                 .close-button {
                     position: absolute;
                     top: 0.5rem;
@@ -251,6 +265,12 @@ export const BlackFridayBanner = component$(() => {
 
                     .countdown-label {
                         font-size: 0.6rem;
+                    }
+
+                    .countdown-separator {
+                        font-size: 1.2rem;
+                        margin: 0 0.1rem;
+                        margin-bottom: 1rem;
                     }
 
                     .close-button {

@@ -15,7 +15,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
             <div class='bg-home-header position-absolute' />
             <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-[85vh] position-top-home'>
                 <div id='container-quote' class='row align-content-center justify-content-center'>
-                    <div class='col-xl-12 text-center home-magin'>
+                    <div class='col-xl-12 text-center home-magin pt-0 md:pt-12 mt-6 md:mt-6'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="text-white">
@@ -29,12 +29,12 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 <BFridayImageMobile alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
-                        <div class="card card-body border-none shadow-lg">
+                        <div class="card card-body border-none shadow-lg mt-4">
                             <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep} />
                         </div>
                         <div class="d-flex " id="banner-text-mobile">
 
-                            <div class="collapse margin-header col-md-6" id="collapseBtnQuotesEngine">
+                            <div class="collapse d-none margin-header col-md-6" id="collapseBtnQuotesEngine">
 
                                 <button type="button" class="btn btn-primary btn-lg mt-4" onClick$={() => {
                                     props.openQuotesEngine$(true)
