@@ -50,7 +50,7 @@ export const BlackFridayBanner = component$(() => {
                 <div class="banner-content">
                     <div class="banner-text">
                         <h3 class="banner-title">Asegura tu viaje antes de que el <span class="color-white"><strong>tiempo se agote:</strong></span></h3>
-                        <p class="banner-subtitle">Exclusivo online. <span class="color-white" style={{ textDecoration: 'underline' }}>*Aplican términos y condiciones</span></p>
+                        <p class="banner-subtitle">*Aplica solamente para compras hechas en www.continentalassist.com <br /><span class="color-white" style={{ textDecoration: 'underline' }}>*Aplican términos y condiciones</span></p>
                     </div>
                     <div class="countdown-container">
                         <div class="countdown-item">
