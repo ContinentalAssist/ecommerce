@@ -19,7 +19,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="text-white">
-                                    Viaja con tranquilidad,<br /> <span
+                                        Viaja con tranquilidad,<br /> <span
                                         class="text-bold ">protegido</span> en todo <br />momento
                                 </h1>
                             </div>
@@ -49,7 +49,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
                                         <span style={{ fontSize: '25px', marginRight: '13px' }}>⭐⭐⭐⭐⭐</span> Más de <span class='text-bold'>10 millones de viajeros </span> han
-                                        confiado en nuestras asistencias en <br />todo el mundo
+                                        confiado en nuestras asistencias en todo el mundo
                                     </h2>
                                 </div>
                             </div>

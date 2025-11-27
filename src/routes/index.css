@@ -18,7 +18,7 @@
    ===================== */
 @media (min-width: 769px) {
     .bg-home-header {
-        background: url("src/media/quotes-engine/bg-mejoradoBF.png");
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bg-mejoradoBF.png");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -672,7 +672,7 @@
 /* Mobile Portrait */
 @media (max-width: 575.98px) {
     .bg-home-header {
-        background: url("src/media/quotes-engine/bgBF-Mobile.png");
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bgBF-Mobile.png");
         background-size: cover;
         background-position: center;
     }
