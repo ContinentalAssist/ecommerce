@@ -29,7 +29,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 <BFridayImageMobile alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
-                        <div class="card card-body border-none shadow-lg mt-4">
+                        <div class="card card-body border-none shadow-lg qoutes-card">
                             <QuotesEngine modeResumeStep={props.modeResumeStep} headerStep={props.headerStep} />
                         </div>
                         <div class="d-flex " id="banner-text-mobile">

@@ -1839,6 +1839,10 @@
     .card_cotizar{
         margin-bottom: 20px !important;
     }
+
+    .qoutes-card{
+        margin-top: 20px !important;
+    }
 }
 
 @media (max-width: 1230px) {
@@ -1881,4 +1885,8 @@
 #messageCookies {
     z-index: 10000 !important;
     position: relative;
+}
+
+.qoutes-card{
+    margin-top: 0 !important;
 }
