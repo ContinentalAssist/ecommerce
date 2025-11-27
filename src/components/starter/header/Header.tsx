@@ -290,7 +290,7 @@ export const Header = component$(() => {
                         <a onClick$={() => {
                             const el = document.getElementById('container-quote');
                             el?.scrollIntoView({ behavior: 'smooth' });
-                        }} title='Quiero Comprar' href='/' type='button' id='btn-quotes-header' class="btn btn-primary" >¡Quiero comprar!</a>
+                        }} title='Quiero Comprar' href='/' type='button' id='btn-quotes-header' class="btn btn-primary d-none" >¡Quiero comprar!</a>
                     }
                     {
                         showBtn.value
@@ -298,7 +298,7 @@ export const Header = component$(() => {
                         <button onClick$={() => {
                             const el = document.getElementById('container-quote');
                             el?.scrollIntoView({ behavior: 'smooth' });
-                        }} type='button' id='btn-quotes-header' class="btn btn-primary" >¡Quiero comprar!</button>
+                        }} type='button' id='btn-quotes-header' class="btn btn-primary d-none" >¡Quiero comprar!</button>
 
                     }
                     
