@@ -14,7 +14,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
             <div class='bg-home-header position-absolute' />
             <div class='container position-relative min-h-[75vh] md:min-h-[75vh] min-[0px]:min-h-[85vh] position-top-home'>
                 <div id='container-quote' class='row align-content-center justify-content-center'>
-                    <div class='col-xl-12 text-center home-magin pt-0 md:pt-12 mt-6 md:mt-6'>
+                    <div class='col-xl-12 col-lg-6 text-center home-magin pt-0 md:pt-12 mt-6 md:mt-6'>
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="text-white">
@@ -24,7 +24,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             </div>
                         </div>
                         <div class="col-12 text-center  justify-content-center">
-                            <div class="d-block d-md-none margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
+                            <div class="d-block d-md-none margin-header col-md-6 image-mujer-mobile" id="collapseQuotesEngine">
                                 <MujerNavidad alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
@@ -53,20 +53,11 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                                 </div>
                             </div>
                         </div>
-
-                        {/*<div class='position-absolute' style={{left: 0, right: 0, bottom: 0, zIndex: 1}}>*/}
-                        {/*    <div class='text-center justify-content-center scroll-indicator'>*/}
-                        {/*        <p class='text-blue text-tin mb-0'>Desliza para ver más</p>*/}
-                        {/*        <span id='scrollIndicatorDown' class='mb-3'>*/}
-                        {/*            <i class="fas fa-chevron-down"></i>*/}
-                        {/*            <i class="fas fa-chevron-down fa-xl"></i>*/}
-                        {/*        </span>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
                     </div>
-                    <div class="d-none d-md-block col-md-6 image-mujer" id="collapseQuotesEngine-desktop">
-                        <MujerNavidad alt="mujer-header" class="img-fluid-mujer-BF" />
-                    </div>
+                </div>
+                {/* Imagen MujerNavidad para Desktop - Dentro del container para alinearse con el layout */}
+                <div class="d-none d-md-block image-mujer" id="collapseQuotesEngine-desktop">
+                    <MujerNavidad alt="mujer-header" class="img-fluid-mujer-BF" />
                 </div>
             </div>
         </div>

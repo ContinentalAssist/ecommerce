@@ -21,9 +21,13 @@
         background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/BG-Navidad.svg");
         background-size: cover;
         background-repeat: no-repeat;
-        background-position: center;
+        background-position: center bottom;
         width: 100%;
         height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
     }
 }
 
@@ -196,9 +200,11 @@
 }
 
 .home {
-    min-height: auto;
     position: relative;
     margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    min-height: fit-content;
 }
 
 .text-bold-pq{
@@ -543,10 +549,24 @@
     line-height: 1.4;
 }
 
+/* Desktop: Imagen MujerNavidad siempre en el bottom-right del container */
 .image-mujer{
     position: absolute;
     right: 0;
     bottom: 0;
+    width: 46%;
+    height: auto;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Mobile: Imagen MujerNavidad fluida dentro del contenido */
+.image-mujer-mobile {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .text-Familiar{
@@ -567,12 +587,6 @@
 }
 
 @media (max-width: 1400px) {
-
-    .image-mujer{
-        position: absolute;
-        right: 0;
-        bottom: 0;
-    }
 
     .img-family{
         width: 70%;
@@ -602,12 +616,6 @@
         color: var(--ca-blue);
         margin-bottom: 0;
         text-align: left;
-    }
-
-    .home {
-        min-height: 95vh;
-        position: relative;
-        margin-top: 70px;
     }
 
     .mensaje-familiar{
@@ -909,19 +917,16 @@
         display: flex !important;
     }
 
-    .image-mujer {
+    /* En tablet/mobile la imagen desktop está oculta con d-none d-md-block */
+    .image-mujer-mobile {
         position: relative !important;
-        top: 0px !important;
-        right: auto !important;
         text-align: center;
-        margin-bottom: 0 !important;
-        margin-top: 0 !important;
+        margin: 0 auto !important;
     }
 
-    .image-mujer .img-family {
+    .image-mujer-mobile .img-family {
         width: 20vw !important;
         height: auto !important;
-
     }
 
     .margin-header {
@@ -1085,14 +1090,7 @@
         font-size: 1rem;
     }
 
-    .image-mujer {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-    }
-
     .home {
-        min-height: 100vh;
         position: relative;
         margin-top: 120px;
     }
@@ -1116,12 +1114,6 @@
     }
     .text-sub-while{
         font-size: 1rem;
-    }
-
-    .image-mujer {
-        position: absolute;
-        right: 0;
-        bottom: 0;
     }
 
     .mensaje-familiar{
@@ -1868,8 +1860,35 @@
 }
 
 .img-fluid-mujer-BF {
-    max-width: 90%;
+    max-width: 100%;
     height: auto;
+    max-height: 400px;
+    object-fit: contain;
+}
+
+/* Ajuste de tamaño de imagen MujerNavidad según breakpoint */
+@media (min-width: 769px) and (max-width: 991px) {
+    .img-fluid-mujer-BF {
+        max-height: 300px;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .img-fluid-mujer-BF {
+        max-height: 320px;
+    }
+}
+
+@media (min-width: 1201px) and (max-width: 1400px) {
+    .img-fluid-mujer-BF {
+        max-height: 350px;
+    }
+}
+
+@media (min-width: 1401px) {
+    .img-fluid-mujer-BF {
+        max-height: 450px;
+    }
 }
 
 @media (min-width: 1231px) {
