@@ -18,7 +18,7 @@
    ===================== */
 @media (min-width: 769px) {
     .bg-home-header {
-        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bg-mejoradoBF.png");
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/BG-Navidad.svg");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -546,7 +546,7 @@
 .image-mujer{
     position: absolute;
     right: 0;
-    top: 27%;
+    bottom: 0;
 }
 
 .text-Familiar{
@@ -571,7 +571,7 @@
     .image-mujer{
         position: absolute;
         right: 0;
-        top: 30%;
+        bottom: 0;
     }
 
     .img-family{
@@ -672,7 +672,7 @@
 /* Mobile Portrait */
 @media (max-width: 575.98px) {
     .bg-home-header {
-        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/bgBF-Mobile.png");
+        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/BG-MOBILE-Navidad1.svg");
         background-size: cover;
         background-position: center;
     }
@@ -1088,7 +1088,7 @@
     .image-mujer {
         position: absolute;
         right: 0;
-        top: 41%;
+        bottom: 0;
     }
 
     .home {
@@ -1121,7 +1121,7 @@
     .image-mujer {
         position: absolute;
         right: 0;
-        top: 41%;
+        bottom: 0;
     }
 
     .mensaje-familiar{
@@ -1145,7 +1145,7 @@
 
 
     .home{
-        margin-top: 0px !important;
+        margin-top: 70px !important;
     }
 
     .padignt-top{
@@ -1868,7 +1868,7 @@
 }
 
 .img-fluid-mujer-BF {
-    max-width: 70%;
+    max-width: 90%;
     height: auto;
 }
 

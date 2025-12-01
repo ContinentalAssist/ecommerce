@@ -644,8 +644,8 @@ export const CardPaymentResume = component$(() => {
             </div>
           )}
 
-          {/* Banner Cupón - Mobile */}
-          {!location.url.pathname.includes("/step-4") && (
+          {/* Banner Cupón - Mobile (OCULTO TEMPORALMENTE) */}
+          {false && !location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-lg-none"
               style={{ borderRadius: "15px !important" }}
@@ -1252,8 +1252,8 @@ export const CardPaymentResume = component$(() => {
             </div>
           )}
 
-          {/* Banner Cupón - Desktop */}
-          {!location.url.pathname.includes("/step-4") && (
+          {/* Banner Cupón - Desktop (OCULTO TEMPORALMENTE) */}
+          {false && !location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-none d-lg-block"
               style={{ borderRadius: "15px !important" }}

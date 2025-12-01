@@ -1,13 +1,12 @@
 import { $, component$ } from '@builder.io/qwik';
 import { QuotesEngine } from '~/components/starter/quotes-engine/QuotesEngine';
-import BFridayImage from '~/media/quotes-engine/BFdifuminado.png?jsx';
-import BFridayImageMobile from '~/media/quotes-engine/BFridayCA.png?jsx';
-
+import MujerNavidad from '~/media/quotes-engine/Woman-Navidad.png?jsx';
 export interface HomeHeaderProps {
     modeResumeStep: any;
     headerStep: boolean;
     openQuotesEngine$: any;
 }
+
 
 export const HomeHeader = component$((props: HomeHeaderProps) => {
     return (
@@ -19,14 +18,14 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                         <div class="col-md-12 text-center d-none justify-content-center" id="collapseQuotesEngine-moblie">
                             <div>
                                 <h1 class="text-white">
-                                        Viaja con tranquilidad,<br /> <span
-                                        class="text-bold ">protegido</span> en todo <br />momento
+                                        Regálate un viaje <br />seguro <span
+                                        class="text-bold ">esta Navidad</span>
                                 </h1>
                             </div>
                         </div>
                         <div class="col-12 text-center  justify-content-center">
                             <div class="d-block d-md-none margin-header col-md-6 image-mujer" id="collapseQuotesEngine">
-                                <BFridayImageMobile alt="mujer-header" class="img-fluid-mujer-BF" />
+                                <MujerNavidad alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
                         <div class="card card-body border-none shadow-lg qoutes-card">
@@ -44,17 +43,14 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div class="collapse show mt-8 margin-header col-md-6" id="collapseQuotesEngine">
                                 <div>
                                     <h1 class='text-while'>
-                                        Viaja con tranquilidad,<br /> <span
-                                            class="text-bold color-text-blue-home">protegido</span> en todo <br />momento
+                                    Regálate un viaje<br />seguro <span
+                                            class="text-bold color-text-blue-home">esta Navidad</span>
                                     </h1>
                                     <h2 class='h5 text-regular text-sub-while'>
                                         <span style={{ fontSize: '25px', marginRight: '13px' }}>⭐⭐⭐⭐⭐</span> Más de <span class='text-bold'>10 millones de viajeros </span> han
                                         confiado en nuestras asistencias en todo el mundo
                                     </h2>
                                 </div>
-                            </div>
-                            <div class="d-none d-md-block margin-header col-md-6 image-mujer" id="collapseQuotesEngine-desktop">
-                                <BFridayImage alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
 
@@ -67,6 +63,9 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                         {/*        </span>*/}
                         {/*    </div>*/}
                         {/*</div>*/}
+                    </div>
+                    <div class="d-none d-md-block col-md-6 image-mujer" id="collapseQuotesEngine-desktop">
+                        <MujerNavidad alt="mujer-header" class="img-fluid-mujer-BF" />
                     </div>
                 </div>
             </div>
