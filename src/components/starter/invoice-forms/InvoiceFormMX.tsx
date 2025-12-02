@@ -3,7 +3,6 @@ import styles from './invoiceForm.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
 import { LoadingContext } from "~/root";
-import { isGeneratorFunction } from "util/types";
 
 
 export const InvoiceFormMX = component$((props:any) => {
@@ -60,8 +59,7 @@ export const InvoiceFormMX = component$((props:any) => {
 
         useTask$(({ track })=>{
                 const value = track(()=>stateContext.value.infopayment);   
-            
-              if (value != undefined &&JSON.stringify(value) !== JSON.stringify(infoVoucher.value) ) {
+              if (value != undefined &&JSON.stringify(value) !== JSON.stringify(infoVoucher.value) ) {                
                 infoVoucher.value = value;
                 paymentValue.value = value.preciototal;
                 if (value?.referenciapagofactura !== undefined &&value?.referenciapagofactura !== '' 
@@ -328,89 +326,11 @@ export const InvoiceFormMX = component$((props:any) => {
     })
 
     const getExchangeRate$ = $(async(e:any) =>{
-
+        console.log("cambie");
+        
         selectedCurrency.value = e.label;
-       // paymentValue.value = null;
-        if (e.label == 'MXN' && infoVoucher.value.codigomoneda == 'USD') {
-            const conversion = Math.round((infoVoucher.value.preciototal * infoVoucher.value.tasacambio) * 100) / 100;
-            
-            paymentValue.value =conversion
-             disabledInputPaymentValue.value = false;
-        }
-        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'MXN'){
-
-            const conversion = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
-            paymentValue.value =conversion
-
-            disabledInputPaymentValue.value = false;
-            
-
-        }        
-        else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
-            infoVoucher.value.referenciapagofactura != null) {
-            paymentValue.value =infoVoucher.value.preciototal
-            disabledInputPaymentValue.value = true;
-        }
-         else if (e.label == 'USD' && infoVoucher.value.codigomoneda == 'USD' && 
-            infoVoucher.value.referenciapagofactura == null) {
-            paymentValue.value =infoVoucher.value.preciototal
-            disabledInputPaymentValue.value = false;
-        }
-        
-        
-
+        stateContext.value = { ...stateContext.value, changeCurrency:e.label }
     })
-
-
-    const validatePayment$ = $(async (e: any) => {
-        e.preventDefault();
-
-        const porcentaje = 0.05;
-        const bs = (window as any)['bootstrap'];
-        const toastError = new bs.Toast('#toast-invoicemx-error', {});
-
-        // Obtener valor numérico ingresado
-        const valorIngresado = Number(e.target.value);
-
-        // Validar que sea número válido
-        if (isNaN(valorIngresado)) {
-            toastError.show();
-            paymentValue.value = null;
-            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
-            if (valorpagado) valorpagado.value = '';
-            return;
-        }
-
-        // Calcular precio base según moneda y tasa de cambio
-        let precioBase= 0;
-
-        if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'MXN') {
-            precioBase = Math.round(infoVoucher.value.preciototal * infoVoucher.value.tasacambio * 100) / 100;
-        } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'USD') {
-            precioBase = Math.round((infoVoucher.value.preciototal / infoVoucher.value.tasacambio) * 100) / 100;
-        } else if (
-            (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency.value === 'MXN') ||
-            (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency.value === 'USD')
-        ) {
-            precioBase = Math.round(infoVoucher.value.preciototal * 100) / 100;
-        }/*  else {
-            precioBase = 0;
-        } */
-
-        // Calcular rango permitido
-        const minimo = Math.round(precioBase * (1 - porcentaje) * 100) / 100;
-        const maximo = Math.round(precioBase * (1 + porcentaje) * 100) / 100;
-
-        // Validar valor ingresado dentro del rango
-        if (valorIngresado >= minimo && valorIngresado <= maximo) {
-            paymentValue.value = valorIngresado;
-        } else {
-            toastError.show();
-            paymentValue.value = null;
-            const valorpagado = document.querySelector('input[name="valorpagadofactura"]') as HTMLInputElement;
-            if (valorpagado) valorpagado.value = '';
-        }
-        });
 
 
     
@@ -479,12 +399,12 @@ export const InvoiceFormMX = component$((props:any) => {
 
                             {row:[
                                 {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
+                               /*  {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+ */                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
                                 options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
-                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
-
+                               /*  {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+ */
                             ]},
 
                             {row:[                                                            
@@ -539,11 +459,11 @@ export const InvoiceFormMX = component$((props:any) => {
 
                             {row:[
                                 {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
-                                {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
+                                //{size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                                 {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
                                 options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
-                                {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
+                               /// {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
 
                             ]},
 
