@@ -326,7 +326,6 @@ export const InvoiceFormMX = component$((props:any) => {
     })
 
     const getExchangeRate$ = $(async(e:any) =>{
-        console.log("cambie");
         
         selectedCurrency.value = e.label;
         stateContext.value = { ...stateContext.value, changeCurrency:e.label }
