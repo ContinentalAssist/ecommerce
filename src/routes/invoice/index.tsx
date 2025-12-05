@@ -57,7 +57,7 @@ export default component$(() =>{
     const msgTost =useSignal('')
     const infoVoucher = useSignal(objectInfo)
     const montototalvoucher = useSignal(0);
-    const grupoOriginal = useSignal([]);
+    const monedaseleccionada = useSignal('');
     const grupoDOM = useSignal(array);
     const datosOriginales = useSignal({precioOriginal:0, moneda:''})
     const objectItem=  { 
@@ -198,7 +198,8 @@ export default component$(() =>{
 
      useTask$(({ track }) => {
           const changeCurrency = track(() => stateContext.value.changeCurrency);          
-          if (changeCurrency) {
+          if (changeCurrency !=undefined&&changeCurrency != monedaseleccionada.value) {
+            monedaseleccionada.value =changeCurrency;
               getExchangeRate$(changeCurrency);
           }
         });
