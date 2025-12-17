@@ -20,7 +20,6 @@ import ImgContinentalAssistPrintTicket from "../../../media/quotes-engine/contin
 import ImgContinentalAssistBagEssential from "../../../media/icons/continental-assist-bag-essential.webp?jsx";
 import ImgContinentalAssistBagComplete from "../../../media/icons/continental-assist-bag-complete.webp?jsx";
 import ImgContinentalAssistBagElite from "../../../media/icons/continental-assist-bag-elite.webp?jsx";
-import BannerCupon from "../../../media/quotes-engine/BannerCupon.png?jsx";
 import { Form } from "../form/Form";
 //import ImgOpenpayLogo from "../../../media/banks/LogotipoOpenpay.webp?jsx";
 export const CardPaymentResume = component$(() => {
@@ -644,14 +643,15 @@ export const CardPaymentResume = component$(() => {
             </div>
           )}
 
-          {/* Banner Cupón - Mobile (OCULTO TEMPORALMENTE) */}
-          {false && !location.url.pathname.includes("/step-4") && (
+          {/* Banner Cupón - Mobile */}
+          {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-lg-none"
               style={{ borderRadius: "15px !important" }}
             >
               <div class="card-body p-0">
-                <BannerCupon
+                <img
+                  src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-navidad.png"
                   class="img-fluid"
                   style={{ borderRadius: "15px", width: "100%" }}
                   alt="Banner Cupón"
@@ -1252,14 +1252,15 @@ export const CardPaymentResume = component$(() => {
             </div>
           )}
 
-          {/* Banner Cupón - Desktop (OCULTO TEMPORALMENTE) */}
-          {false && !location.url.pathname.includes("/step-4") && (
+          {/* Banner Cupón - Desktop */}
+          {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-none d-lg-block"
               style={{ borderRadius: "15px !important" }}
             >
               <div class="card-body p-0">
-                <BannerCupon
+                <img
+                  src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Banner-navidad.png"
                   class="img-fluid"
                   style={{ borderRadius: "15px", width: "100%" }}
                   alt="Banner Cupón"
