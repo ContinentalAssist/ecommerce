@@ -552,7 +552,7 @@
 /* Desktop: Imagen MujerNavidad siempre en el bottom-right del container */
 .image-mujer{
     position: absolute;
-    right: 0;
+    right: -4%;
     bottom: 0;
     width: 46%;
     height: auto;
@@ -906,7 +906,7 @@
     }
 
     #metrics-section-mobile {
-        margin-top: 60px;
+        margin-top: 90px;
     }
 
     #banner-text-mobile {
