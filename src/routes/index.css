@@ -906,7 +906,7 @@
     }
 
     #metrics-section-mobile {
-        margin-top: 90px;
+        margin-top: 125px;
     }
 
     #banner-text-mobile {
@@ -1134,7 +1134,6 @@
     #metrics-section-mobile{
         display: block !important;
     }
-
 
     .home{
         margin-top: 70px !important;
