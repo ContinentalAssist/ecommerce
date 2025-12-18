@@ -24,7 +24,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                         </div>
                         <div class="col-12 text-center  justify-content-center">
                             <div class="d-block d-md-none margin-header col-md-6 image-mujer-mobile" id="collapseQuotesEngine">
-                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Img-navidad-home.png" alt="mujer-header" class="img-fluid-mujer-BF" />
+                                <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/navidadImagenCupon.png" alt="mujer-header" class="img-fluid-mujer-BF" />
                             </div>
                         </div>
                         <div class="card card-body border-none shadow-lg qoutes-card">
@@ -56,7 +56,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                 </div>
                 {/* Imagen MujerNavidad para Desktop - Dentro del container para alinearse con el layout */}
                 <div class="d-none d-md-block image-mujer" id="collapseQuotesEngine-desktop">
-                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/Img-navidad-home-difuminado.png" alt="mujer-header" class="img-fluid-mujer-BF" />
+                    <img src="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/navidadImagenCuponDifuminado.png" alt="mujer-header" class="img-fluid-mujer-BF" />
                 </div>
             </div>
         </div>
