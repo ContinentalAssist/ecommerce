@@ -1,641 +1,370 @@
-import { $, component$, useContext, useSignal, useStylesScoped$, Signal,useTask$, useVisibleTask$ } from "@builder.io/qwik";
-import { WEBContext } from "~/root";
-
-
+import { $, component$, useContext, useSignal, useStylesScoped$, Signal, useTask$, useVisibleTask$ } from "@builder.io/qwik";
+import { WEBContext, LoadingContext } from "~/root";
 import styles from './index.css?inline'
-import { LoadingContext } from "~/root";
 import { InvoiceFormCO } from "~/components/starter/invoice-forms/InvoiceFormCO";
 import { InvoiceFormMX } from "~/components/starter/invoice-forms/InvoiceFormMX";
 import dayjs from "dayjs";
 
-// 1. Definición de la estructura de datos para cada fila
+// 1. Estructura de datos por fila
 interface ItemDetalle {
-  id: number;
-  voucher: string;
-  referencia: string;
-  montoPagado: string;
-  precioOriginal: string; 
-  idagencia: number;
-  fechacreacion: string;
+    id: number;
+    voucher: string;
+    referencia: string;
+    montoPagado: string;
+    precioOriginal: string; // Precio base
+    idagencia: number;
+    fechacreacion: string;
+    tasacambio: number;
+    codigomoneda: string;
 }
-    interface InfoVoucher {
-      created_at: string;
-      preciototal: number;
-      codigomoneda: string;
-      referenciapagofactura: string;
-      valorpagadofactura: number;
-      fechapagofactura: string;
-      idformapagofactura: number;
-      paymentgroupcode: number | null;
-      idmonedafactura: number | null;
-      tasacambio: number;
-      tokenfile: string | null;
-      grupo: any[];
-    }
+    const round2 = (v: number) => Math.round(v * 100) / 100;
 
-export default component$(() =>{
+export default component$(() => {
     useStylesScoped$(styles)
-      const  objectInfo :InfoVoucher= {
-        created_at: '',
-        preciototal: 0,
-        codigomoneda: '',
-        referenciapagofactura:'',
-        valorpagadofactura: 0,
-        fechapagofactura: '',
-        idformapagofactura: 0,
-        paymentgroupcode: null,
-        idmonedafactura: null,
-        tasacambio:0,
-        tokenfile: null,
-        grupo: [],
-
-    }
-    const array : any[] = []
-    const stateContext = useContext(WEBContext)
-    const contextLoading = useContext(LoadingContext)
+    
+    // --- Contextos y Signals ---
+    const stateContext = useContext(WEBContext);
+    const contextLoading = useContext(LoadingContext);
     const country = useSignal('');
-    const msgTost =useSignal('')
-    const infoVoucher = useSignal(objectInfo)
+    const msgTost = useSignal('');
     const montototalvoucher = useSignal(0);
-    const monedaseleccionada = useSignal('');
-    const grupoDOM = useSignal(array);
-    const datosOriginales = useSignal({precioOriginal:0, moneda:''})
-    const objectItem=  { 
-      id: Date.now(), 
-      voucher: '', 
-      referencia: '', 
-      montoPagado: '', 
-      precioOriginal: '', 
-      idagencia: 0,
-      fechacreacion: '',
-    };
-  // 2. Estado reactivo para la lista de ítems (inicializado con una fila)
-  const items: Signal<ItemDetalle[]> = useSignal([
-   objectItem
-  ]);
+    const monedaseleccionada = useSignal(''); 
+    const grupoDOM = useSignal<Record<number, any[]>>({});
 
-    const getExchangeRate$ = $(async (moneda: string) => {
-        // Si no hay información del voucher no hacemos nada
-        if (!infoVoucher.value || !infoVoucher.value.codigomoneda) return;
-    
-        // OBTENEMOS EL ORIGEN Y BASE DEL SIGNAL DE ORIGINALES (FUENTE DE VERDAD)
-        const origen =  datosOriginales.value.moneda; // e.g., 'MXN'
-        const tasa = Number(infoVoucher.value.tasacambio) || 0;
-        const round2 = (v: number) => Math.round(v * 100) / 100;
-    
-        const isGrupo = Array.isArray(infoVoucher.value.grupo) && infoVoucher.value.grupo.length > 0;
-        
-        // La sumaOriginalGrupo SIEMPRE será el valor original en la moneda de ORIGEN
-        const sumaOriginalGrupo = datosOriginales.value.precioOriginal; 
-        
-        
-        // -------------------------------------------------------------
-        // 1. CONVERSIÓN Y ACTUALIZACIÓN DEL ARREGLO PRINCIPAL (items.value)
-        // -------------------------------------------------------------
-        const nuevosItems = items.value.map((it) => {
-            let precioOriginalBase = 0;
-            
-            if (isGrupo && it.id === items.value[0].id) { 
-                // Usar la suma original guardada en el signal
-                precioOriginalBase = sumaOriginalGrupo;
-            } else {
-                // Usar el precioOriginal del ítem (el valor base cargado desde validationCodeVoucher$)
-                precioOriginalBase = Number(it.precioOriginal || '0');
-            }
-    
-            let convertido = precioOriginalBase;
-            
-            // Lógica de Conversión usando precioOriginalBase
-            if (origen === 'USD' && moneda === 'MXN') {
-                convertido = round2(precioOriginalBase * tasa);
-            }
-            else if (origen === 'MXN' && moneda === 'USD') {
-                convertido = tasa > 0 ? round2(precioOriginalBase / tasa) : precioOriginalBase;
-            }
-            else {
-                // Si la moneda es la misma (MXN -> MXN o USD -> USD), se usa el valor base.
-                convertido = round2(precioOriginalBase);
-            }
-     
-            return {
-                ...it,
-                // montoPagado SIEMPRE se actualiza con el valor convertido (en la moneda seleccionada)
-                montoPagado: convertido.toFixed(2).toString(),
-                // ¡IMPORTANTE! NO MODIFICAR precioOriginal AQUÍ. Debe ser el valor base.
-                // Lo dejamos como está, asumiendo que ya tiene el valor base de la API.
-                // Si llegara a estar vacío por alguna razón, usar el valor base calculado.
-                precioOriginal: it.precioOriginal || String(precioOriginalBase), 
-            };
-        });
-        
-        // asignar y recalcular total
-        items.value = nuevosItems;
-        const sumaTotal = items.value.reduce((acum: number, obj: any) => {
+    const objectItem: ItemDetalle = { 
+        id: Date.now(), voucher: '', referencia: '', montoPagado: '', precioOriginal: '', 
+        idagencia: 0, fechacreacion: '', tasacambio: 0, codigomoneda: '' 
+    };
+
+    const items: Signal<ItemDetalle[]> = useSignal([objectItem]);
+
+    // --- Utilidades ---
+
+
+    const updateSumaTotal = $(() => {
+        const sumaTotal = items.value.reduce((acum: number, obj) => {
             const v = parseFloat(obj.montoPagado || '0');
             return acum + (isNaN(v) ? 0 : v);
         }, 0);
         montototalvoucher.value = parseFloat(sumaTotal.toFixed(2));
-
-        if (isGrupo && infoVoucher.value.grupo.length > 0) {
-        
-        // Total Convertido Esperado: El monto que tiene el item principal del grupo (ya convertido)
-        const totalConvertidoEsperado = parseFloat(items.value[0].montoPagado || '0'); 
-        
-        // 2a. Mapear y calcular los precios convertidos individualmente
-        let sumaConvertidaIndividual = 0;
-        const itemsConvertidos = infoVoucher.value.grupo.map((gOriginal: any) => {
-            const precioBaseItem = parseFloat(gOriginal.preciototal || '0'); 
-            let convertidoItem = precioBaseItem;
-
-            // Lógica de Conversión (la misma que tienes)
-            if (origen === 'USD' && moneda === 'MXN') {
-                convertidoItem = round2(precioBaseItem * tasa);
-            }
-            else if (origen === 'MXN' && moneda === 'USD') {
-                convertidoItem = tasa > 0 ? round2(precioBaseItem / tasa) : precioBaseItem;
-            }
-            else {
-                convertidoItem = round2(precioBaseItem);
-            }
-
-            // Acumular la suma individual para calcular el delta
-            sumaConvertidaIndividual = round2(sumaConvertidaIndividual + convertidoItem);
-            
-            // Mantener la estructura base de grupoDOM
-            const itemDOM = grupoDOM.value.find((gDOM: any) => gDOM.codvoucher === gOriginal.codvoucher);
-            
-            return {
-                ...(itemDOM || gOriginal), 
-                // Guardamos el valor convertido (sin el ajuste aún)
-                preciototal: convertidoItem,
-            };
-        });
-
-        // 2b. Calcular el Error Acumulado (Delta)
-        const deltaAcumulado = round2(totalConvertidoEsperado - sumaConvertidaIndividual);
-        
-        // 2c. Aplicar el Delta al Último Ítem
-        const ultimoIndice = itemsConvertidos.length - 1;
-
-        if (Math.abs(deltaAcumulado) > 0.005) { // Si hay un error significativo (más de medio centavo)
-            const valorUltimo = itemsConvertidos[ultimoIndice].preciototal;
-            
-            // Sumar el delta al último ítem
-            const nuevoValorUltimo = round2(valorUltimo + deltaAcumulado); 
-
-            // Aplicar el nuevo valor al último ítem del arreglo
-            itemsConvertidos[ultimoIndice].preciototal = nuevoValorUltimo;
-        }
-        
-        // 2d. Asignar los nuevos valores formateados al signal grupoDOM
-        grupoDOM.value = itemsConvertidos.map(g => ({
-            ...g,
-            // Finalmente, formateamos a string con dos decimales para el DOM
-            preciototal: g.preciototal.toFixed(2), 
-        }));
-    }
     });
 
-     useTask$(({ track }) => {
-          const changeCurrency = track(() => stateContext.value.changeCurrency);          
-          if (changeCurrency !=undefined&&changeCurrency != monedaseleccionada.value) {
-            monedaseleccionada.value =changeCurrency;
-              getExchangeRate$(changeCurrency);
-          }
-        });
+    const updateValue = $((id: number, key: keyof ItemDetalle, val: any) => {
+        items.value = items.value.map(it => it.id === id ? { ...it, [key]: val } : it);
+    });
+
+
+       // --- Acciones de Formulario ---
+    const addInput = $(() => { items.value = [...items.value, { ...objectItem, id: Date.now() }]; });
+    const removeInput = $((id: number) => {
+        items.value = items.value.filter(it => it.id !== id);
+        const copy = { ...grupoDOM.value }; delete copy[id]; grupoDOM.value = copy;
+        updateSumaTotal();
+    });
     
-    useTask$(({ track })=>{
-            const value = track(()=>stateContext.value.country);   
-            country.value = value;
+    // --- Lógica de Conversión ---
+
+    // Convierte SOLO el item actual (usado al validar nuevos vouchers)
+    const convertirSoloUnItem$ = $((id: number, monedaDestino: string) => {
+        if (!monedaDestino) return;
+
+        items.value = items.value.map(it => {
+            if (it.id !== id || !it.tasacambio) return it;
             
-           // contextLoading.value = {status:false, message:''};
-    })
+            const precioBase = parseFloat(it.precioOriginal);
+            let convertido = precioBase;
 
-    useVisibleTask$(()=>{
-        contextLoading.value = {status:false, message:''};
-    })
-
-
-    /**
-       * Agrega un nuevo conjunto de inputs a la lista.
-       */
-      const addInput = $(() => {
-        items.value = [
-          ...items.value,
-          { 
-            id: Date.now(), 
-            voucher: '', 
-            referencia: '', 
-            montoPagado: '', 
-            precioOriginal: '', 
-            idagencia: 0,
-            fechacreacion: '',
-          }
-        ];
-      });
-    
-      /**
-       * Quita un conjunto de inputs de la lista basado en su ID.
-       * @param id El ID del elemento a quitar.
-       */
-      const removeInput = $((id: number) => {
-        items.value = items.value.filter(item => item.id !== id);
-    
-    
-       const sumaTotal = items.value.reduce((acumulador:number, objetoActual:any) => {
-                            return acumulador + parseFloat(objetoActual.montoPagado);
-                        }, 0); 
-        montototalvoucher.value = sumaTotal;
-      });
-    
-      /**
-       * Actualiza el valor de una propiedad específica en un ítem específico.
-       * @param id El ID del ítem a actualizar.
-       * @param key La clave (nombre del campo) a modificar (e.g., 'voucher').
-       * @param newValue El nuevo valor del campo.
-       */
-      const updateValue = $(
-        (id: number, key: keyof Omit<ItemDetalle, 'id'>, newValue: string) => {
-          items.value = items.value.map(item =>
-            item.id === id ? { ...item, [key]: newValue } : item
-          );
+            if (it.codigomoneda === 'USD' && monedaDestino === 'MXN') {
+                convertido = round2(precioBase * it.tasacambio);
+            } else if (it.codigomoneda === 'MXN' && monedaDestino === 'USD') {
+                convertido = it.tasacambio > 0 ? round2(precioBase / it.tasacambio) : precioBase;
+            }
+            return { ...it, montoPagado: convertido.toFixed(2) };
+        });
+        
+        // Convertir también su desglose en grupoDOM
+        if (grupoDOM.value[id]) {
+            const nuevosGrupos = { ...grupoDOM.value };
+            nuevosGrupos[id] = nuevosGrupos[id].map(g => {
+                const precioBase = parseFloat(g.precioOriginalItem || g.preciototal);
+                let convertido = precioBase;
+                const itPadre = items.value.find(i => i.id === id);
+                if (itPadre && itPadre.codigomoneda === 'USD' && monedaDestino === 'MXN') {
+                    convertido = round2(precioBase * itPadre.tasacambio);
+                } else if (itPadre && itPadre.codigomoneda === 'MXN' && monedaDestino === 'USD') {
+                    convertido = itPadre.tasacambio > 0 ? round2(precioBase / itPadre.tasacambio) : precioBase;
+                }
+                return { ...g, preciototal: convertido.toFixed(2), precioOriginalItem: precioBase };
+            });
+            grupoDOM.value = nuevosGrupos;
         }
-      );
-    
-    
-    const getToastInstance = $(() => {
+        updateSumaTotal();
+    });
+
+    // Conversión masiva (cuando cambia el selector global)
+    const getExchangeRate$ = $(async (monedaDestino: string) => {
+        if (!monedaDestino) return;
+        
+        items.value = items.value.map((it) => {
+            if (!it.fechacreacion || !it.tasacambio) return it;
+            const precioBase = parseFloat(it.precioOriginal);
+            let convertido = precioBase;
+
+            if (it.codigomoneda === 'USD' && monedaDestino === 'MXN') {
+                convertido = round2(precioBase * it.tasacambio);
+            } else if (it.codigomoneda === 'MXN' && monedaDestino === 'USD') {
+                convertido = it.tasacambio > 0 ? round2(precioBase / it.tasacambio) : precioBase;
+            }
+            return { ...it, montoPagado: convertido.toFixed(2) };
+        });
+
+        const nuevosGrupos = { ...grupoDOM.value };
+        for (const id in nuevosGrupos) {
+            const itemPadre = items.value.find(it => it.id === Number(id));
+            if (!itemPadre) continue;
+            nuevosGrupos[id] = nuevosGrupos[id].map((g: any) => {
+                const precioBase = parseFloat(g.precioOriginalItem || g.preciototal);
+                let convertido = precioBase;
+                if (itemPadre.codigomoneda === 'USD' && monedaDestino === 'MXN') {
+                    convertido = round2(precioBase * itemPadre.tasacambio);
+                } else if (itemPadre.codigomoneda === 'MXN' && monedaDestino === 'USD') {
+                    convertido = itemPadre.tasacambio > 0 ? round2(precioBase / itemPadre.tasacambio) : precioBase;
+                }
+                return { ...g, preciototal: convertido.toFixed(2), precioOriginalItem: precioBase };
+            });
+        }
+        grupoDOM.value = nuevosGrupos;
+        updateSumaTotal();
+    });
+
+    // --- Tasks de Reactividad ---
+    useTask$(({ track }) => {
+        const changeCurrency = track(() => stateContext.value.changeCurrency);
+        
+        if (changeCurrency != undefined && changeCurrency !== monedaseleccionada.value) {
+            monedaseleccionada.value = changeCurrency;
+            getExchangeRate$(changeCurrency);
+        }
+    });
+
+    useTask$(({ track }) => {
+        country.value = track(() => stateContext.value.country);
+    });
+
+    useVisibleTask$(() => {
+        contextLoading.value = { status: false, message: '' };
+    });
+
+    // --- Handlers de Validación ---
+
+    const validatePayment$ = $(async (e: any, id: number, index: number) => {
+        const valorIngresado = Number((e.target.value as string).trim());
+        const item = items.value[index];
         const bs = (window as any)['bootstrap'];
-        return new bs.Toast('#toast-validation-error', {});
+
+        if (isNaN(valorIngresado) || valorIngresado <= 0) {
+            (e.target as HTMLInputElement).value = item.montoPagado;
+            return;
+        }
+
+        const monedaActual = monedaseleccionada.value || item.codigomoneda;
+        let precioBaseRef = parseFloat(item.precioOriginal);
+        if (item.codigomoneda === 'USD' && monedaActual === 'MXN') {
+            precioBaseRef = round2(precioBaseRef * item.tasacambio);
+        } else if (item.codigomoneda === 'MXN' && monedaActual === 'USD') {
+            precioBaseRef = item.tasacambio > 0 ? round2(precioBaseRef / item.tasacambio) : precioBaseRef;
+        }
+
+        const porcentaje = 0.05;
+        const min = round2(precioBaseRef * (1 - porcentaje));
+        const max = round2(precioBaseRef * (1 + porcentaje));
+
+        if (valorIngresado >= min && valorIngresado <= max) {
+            // 1. Persistencia: Actualizar precioOriginal (fuente de verdad) para que no se resetee
+            let nuevoPrecioOriginal = item.precioOriginal;
+            if (monedaActual === item.codigomoneda) {
+                nuevoPrecioOriginal = valorIngresado.toFixed(2);
+            } else {
+                if (item.codigomoneda === 'USD' && monedaActual === 'MXN') {
+                    nuevoPrecioOriginal = (valorIngresado / item.tasacambio).toFixed(2);
+                } else if (item.codigomoneda === 'MXN' && monedaActual === 'USD') {
+                    nuevoPrecioOriginal = (valorIngresado * item.tasacambio).toFixed(2);
+                }
+            }
+
+            items.value = items.value.map(it => it.id === id ? { 
+                ...it, 
+                montoPagado: valorIngresado.toFixed(2),
+                precioOriginal: nuevoPrecioOriginal 
+            } : it);
+
+            // 2. Sincronizar tabla de grupo (Delta)
+            if (grupoDOM.value[id]) {
+                const grupoActual = [...grupoDOM.value[id]];
+                const sumaHijos = grupoActual.reduce((acc, g) => acc + parseFloat(g.preciototal), 0);
+                const delta = round2(valorIngresado - sumaHijos);
+                if (Math.abs(delta) > 0) {
+                    const lastIdx = grupoActual.length - 1;
+                    const valAnterior = parseFloat(grupoActual[lastIdx].preciototal);
+                    grupoActual[lastIdx] = { ...grupoActual[lastIdx], preciototal: round2(valAnterior + delta).toFixed(2) };
+                    grupoDOM.value = { ...grupoDOM.value, [id]: grupoActual };
+                }
+            }
+            updateSumaTotal();
+        } else {
+            msgTost.value = `Error: El monto está fuera del rango permitido (${min} - ${max}).`;
+            new bs.Toast('#toast-validation-error').show();
+            (e.target as HTMLInputElement).value = item.montoPagado;
+        }
     });
-    
-    const validationCodeVoucher$ = $(async(e:any, id:number,index: number) => {
-        e.preventDefault();
-        
+
+    const validationCodeVoucher$ = $(async (e: any, id: number, index: number) => {
         const nuevoVoucher = (e.target.value as string).toUpperCase().trim();
-        if (nuevoVoucher === '') {
-        return; 
+        if (!nuevoVoucher) return;
+
+        const duplicado = items.value.some(it => it.id !== id && it.voucher.toUpperCase() === nuevoVoucher) ||
+                         Object.values(grupoDOM.value).flat().some((g: any) => g.codvoucher.toUpperCase() === nuevoVoucher);
+
+        if (duplicado) {
+            msgTost.value = `ERROR: El voucher ${nuevoVoucher} ya ha sido ingresado o forma parte de un grupo.`;
+            new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
+            updateValue(id, 'voucher', '');
+            return;
         }
 
-        const voucherDuplicado = items.value.some(item => 
-        // 1. Excluimos el ítem actual (item.id !== id)
-        // 2. Comparamos el voucher (en mayúsculas)
-        item.id !== id && item.voucher.toUpperCase().trim() === nuevoVoucher
-    );
-        if (voucherDuplicado) {
-        msgTost.value = `ERROR: El voucher ${nuevoVoucher} ya ha sido ingresado previamente.`;
-        // toastError.show();
-        
-        // Limpiamos el campo voucher que causó el conflicto
-        updateValue(id, 'voucher', ''); 
-        
-        // Limpiamos los demás campos asociados si es necesario
-        updateValue(id, 'montoPagado', '');
-        updateValue(id, 'referencia', '');
-        
-        return;
+        contextLoading.value = { status: true, message: 'Validando voucher...' };
+        try {
+            const resp = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE + "/api/getValidationVoucher", {
+                method: "POST", headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigovoucher: nuevoVoucher, codigopais: country.value })
+            });
+            const data = await resp.json();
 
-        }
-        
-        
-        if (e.target.value != '') {
-            const bs = (window as any)['bootstrap']
-            const toastError = new bs.Toast('#toast-validation-error', {});
-            //const toastSuccess = new bs.Toast('#toast-success',{})
-            //contextLoading.value = {status:true, message:''}
-            const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getValidationVoucher",
-                    {method:"POST",headers: { 'Content-Type': 'application/json' },body:JSON.stringify({codigovoucher:e.target.value,codigopais:country.value})});
-            const data =await response.json();
-            //var sumaTotal = 0;
-                if (data.error) 
-                {
-                        updateValue(id, 'voucher', ''); 
-                        updateValue(id, 'montoPagado', '');
-                        updateValue(id, 'referencia', '');
-                    //contextLoading.value = {status:false, message:''}
-                    msgTost.value = data.mensaje || 'Ocurrió un error';
-                    toastError.show()
-
-                }
-                else{
-
-                const isGroupToken = data.resultado?.grupo.length > 0;
-                const tieneMultiplesLineas = items.value.length > 1;
-
-                if (isGroupToken && tieneMultiplesLineas) {
-                    // Si es un voucher de grupo, pero ya hay más de una fila, forzamos el error.
-                    updateValue(id, 'voucher', ''); 
-                    updateValue(id, 'montoPagado', '');
-                    updateValue(id, 'referencia', '');
-                    
-                    msgTost.value = `ERROR: El voucher ${nuevoVoucher} es parte de un grupo y solo puede facturarse de forma individual. Por favor, elimine los otros vouchers.`;
-                    toastError.show();
-                    return;
-                }
-                //contextLoading.value = {status:false, message:''}
-                //data.resultado.preciototal = parseFloat(data.resultado.preciototal);
+            if (data.error) {
+                msgTost.value = data.mensaje;
+                new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
+                updateValue(id, 'voucher', '');
+            } else {
+                const r = data.resultado;
+                const esG = r.grupo?.length > 0;
                 const fechaA = data.resultado.created_at;
                 const fechaB = items.value[0].fechacreacion;
 
                 // Convertir ambas fechas a objetos Day.js
                 const dayjsA = dayjs(fechaA);
                 const dayjsB = dayjs(fechaB);
-                if (items.value.length>0&&items.value[0].idagencia !=0 && (data.resultado.idagencia != items.value[0].idagencia||
-                    !dayjsA.isSame(dayjsB, 'day'))
+
+                if (items.value.length>1 && !dayjsA.isSame(dayjsB, 'month')
                 ){
                     removeInput(id);
                     
-                    msgTost.value = 'Para solicitar una factura con más de un voucher este debe ser de la misma agencia y  fecha de emision.';
-                    toastError.show()
+                    msgTost.value = 'Para solicitar una factura con más de un voucher este debe ser del mismo mes de emision.';
+                    new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                     return;
                 }
 
-                stateContext.value = { ...stateContext.value, infopayment: data.resultado }
-                infoVoucher.value =data.resultado
+
                 
-                    if (data.resultado?.grupo.length >0){ 
-                    // grupoOriginal.value=data.resultado?.grupo;
-                    grupoDOM.value = data.resultado?.grupo;
-                    // Suma el preciototal de todos los objetos en el array
-                    const  sumaTotal = data.resultado?.grupo.reduce((acumulador:number, objetoActual:any) => {
-                            // 1. Tomamos el acumulador (la suma hasta el momento)
-                            // 2. Le sumamos el preciototal del objeto actual
-                            return acumulador + parseFloat(objetoActual.preciototal);
-                        }, 0); // El '0' es el valor inicial del acumulador
-                            montototalvoucher.value = sumaTotal.toFixed(2)  as number;
-                            
-                            items.value[index].montoPagado =parseFloat(sumaTotal.toFixed(2)).toString();
-                            items.value[index].referencia = data.resultado.referenciapagofactura ?? '';
-                            items.value[index].idagencia =  data.resultado.idagencia;
-                            items.value[index].fechacreacion =  data.resultado.created_at;
-                            items.value[index].precioOriginal = parseFloat(sumaTotal.toFixed(2)).toString();
-                            datosOriginales.value={precioOriginal:parseFloat(sumaTotal.toFixed(2)),moneda: data.resultado.codigomoneda}
-                            
-                    }else{
-                    
-                    montototalvoucher.value += parseFloat(data.resultado.preciototal);
-                    items.value[index].montoPagado = parseFloat(data.resultado.preciototal).toString();
-                    items.value[index].referencia = data.resultado.referenciapagofactura ?? '';
-                    items.value[index].idagencia =  data.resultado.idagencia;
-                    items.value[index].fechacreacion =  data.resultado.created_at;
-                    items.value[index].precioOriginal = parseFloat(data.resultado.preciototal).toString();
-                        datosOriginales.value={precioOriginal:parseFloat(data.resultado.preciototal),moneda: data.resultado.codigomoneda}
-                    }
-                    
-                
-                }                
+                // Si es el primer voucher, establece la moneda base de la sesión
+                if (items.value.filter(it => it.fechacreacion !== '').length === 0) {                    
+                    monedaseleccionada.value =   monedaseleccionada.value == ''? r.codigomoneda :monedaseleccionada.value;
+                }
+
+                const totalOriginal = esG ? r.grupo.reduce((a:any, b:any) => a + parseFloat(b.preciototal), 0) : r.preciototal;
+
+                items.value = items.value.map(it => it.id === id ? {
+                    ...it,
+                    voucher: r.codigovoucher || nuevoVoucher,
+                    montoPagado: parseFloat(totalOriginal).toFixed(2),
+                    precioOriginal: parseFloat(totalOriginal).toFixed(2),
+                    referencia: r.referenciapagofactura || '',
+                    idagencia: r.idagencia,
+                    fechacreacion: r.created_at,
+                    tasacambio: r.tasacambio,
+                    codigomoneda: r.codigomoneda
+                } : it);
+
+                if (esG) {
+                    grupoDOM.value = { 
+                        ...grupoDOM.value, 
+                        [id]: r.grupo.map((g:any)=>({...g, precioOriginalItem: g.preciototal})) 
+                    };
+                }
+
+                // Convierte solo este nuevo item a la moneda activa
+                convertirSoloUnItem$(id, monedaseleccionada.value);
+            }
+        } finally {
+            contextLoading.value = { status: false, message: '' };
         }
-    
-    
     });
 
-    const updateSumaTotal = $(() => {
-        const sumaTotal = items.value.reduce((acumulador: number, objetoActual) => {
-            const monto = parseFloat(objetoActual.montoPagado);
-            return acumulador + (isNaN(monto) ? 0 : monto);
-        }, 0);
-        montototalvoucher.value = parseFloat(sumaTotal.toFixed(2));
-    });
-    
-    const validatePayment$ = $(async (e: any, id: number, index: number) => {
+ 
+
+    const saveRelationOrderInvoice$ = $(async (e: any) => {
         e.preventDefault();
-
-        const porcentaje = 0.05;
-        const toastError = await getToastInstance();
-        
-        // 1. Obtener el valor ingresado por el usuario (sin actualizar el Signal aún)
-        const valorIngresado = Number((e.target.value as string).trim());
-        const itemActual = items.value[index];
-        
-        // 2. Validación numérica inicial
-        if (isNaN(valorIngresado) || valorIngresado <= 0) {
-            msgTost.value = `ERROR: El valor ingresado no es un número válido.`;
-            toastError.show();
-            (e.target as HTMLInputElement).value = itemActual.montoPagado; 
-            return;
-        }
-
-        // 3. Calcular precio base según si hay grupo (tokenfile) o item individual
-        let precioBase = 0;
-        const selectedCurrencyEl = document.querySelector('input[name="idmonedafactura"]') as HTMLInputElement;
-        const selectedCurrency = selectedCurrencyEl ? selectedCurrencyEl.value : '';
-
-        const tasa = Number(infoVoucher.value?.tasacambio || 0);
-
-        let sumaOriginal = 0;
-        const isGrupo = Array.isArray(infoVoucher.value?.grupo) && infoVoucher.value.grupo.length > 0;
-
-        if (isGrupo) {
-            // Suma original del grupo en moneda origen
-            sumaOriginal = infoVoucher.value.grupo.reduce((acc: number, g: any) => acc + (parseFloat(g.preciototal || 0)), 0);
-            
-            if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency === 'MXN') {
-                precioBase = Math.round(sumaOriginal * tasa * 100) / 100;
-            } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency === 'USD') {
-                precioBase = tasa > 0 ? Math.round((sumaOriginal / tasa) * 100) / 100 : sumaOriginal;
-            } else {
-                precioBase = Math.round(sumaOriginal * 100) / 100;
-            }
-        } else {
-            const originalPrice = parseFloat(items.value[index].precioOriginal || '0');
-
-            if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency === 'MXN') {
-                precioBase = Math.round(originalPrice * tasa * 100) / 100;
-            } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency === 'USD') {
-                precioBase = Math.round((originalPrice / tasa) * 100) / 100;
-            } else {
-                precioBase = Math.round(originalPrice * 100) / 100;
-            }
-        }
-
-        // 4. Calcular rango permitido
-        const minimo = Math.round(precioBase * (1 - porcentaje) * 100) / 100;
-        const maximo = Math.round(precioBase * (1 + porcentaje) * 100) / 100;
-
-        // 5. Validar valor ingresado dentro del rango
-        if (valorIngresado >= minimo && valorIngresado <= maximo) {
-            // VÁLIDO
-            if (isGrupo) {
-                // El input representa el total del grupo. Distribuir delta proporcionalmente entre líneas.
-                const sumaOrig = sumaOriginal;
-                const delta = Number((valorIngresado - sumaOrig).toFixed(2)); // puede ser positivo/negativo
-
-                // Si delta == 0 sólo actualizar total y item visible
-                if (Math.abs(delta) < 0.005) {
-                    updateValue(id, 'montoPagado', valorIngresado.toFixed(2));
-                    montototalvoucher.value = parseFloat(valorIngresado.toFixed(2));
-                    return;
-                }
-
-                // Grupo original como números
-                const grupoNum = infoVoucher.value.grupo.map((g: any) => ({ ...g, preciototal: parseFloat(g.preciototal || 0) }));
-                const suma = grupoNum.reduce((s: number, x: any) => s + x.preciototal, 0) || 1;
-
-                // asignaciones proporcionales (pueden sumar ligeramente distinto por redondeo)
-                const asignaciones = grupoNum.map(g =>
-                    Math.round((delta * (g.preciototal / suma)) * 100) / 100
-                );
-
-                // aplicar asignaciones y contabilizar aplicado
-                let aplicado = 0;
-                const nuevoGrupo = grupoNum.map((g: any, i: number) => {
-                    const adj = asignaciones[i];
-                    aplicado += adj;
-                    const nuevo = Number((g.preciototal + adj).toFixed(2));
-                    return { ...g, preciototal: nuevo };
-                });
-
-                // corregir resto por redondeo en la última línea
-                const resto = Number((delta - aplicado).toFixed(2));
-                if (resto !== 0) {
-                    const li = nuevoGrupo.length - 1;
-                    nuevoGrupo[li].preciototal = Number((nuevoGrupo[li].preciototal + resto).toFixed(2));
-                }
-
-                // validar que no haya precios <= 0
-                const tieneNegativo = nuevoGrupo.some((g: any) => g.preciototal <= 0);
-                if (tieneNegativo) {
-                    // fallback: aplicar delta sólo a la última línea
-                    const lastIndex = grupoNum.length - 1;
-                    const newLast = Number((grupoNum[lastIndex].preciototal + delta).toFixed(2));
-                    if (newLast <= 0) {
-                        msgTost.value = 'ERROR: Ajuste inválido; distribución produciría valor negativo.';
-                        toastError.show();
-                        (e.target as HTMLInputElement).value = sumaOriginal.toFixed(2);
-                        updateValue(id, 'montoPagado', sumaOriginal.toFixed(2));
-                        montototalvoucher.value = parseFloat(sumaOriginal.toFixed(2));
-                        return;
-                    }
-                    grupoNum[lastIndex].preciototal = newLast;
-                    grupoDOM.value =nuevoGrupo.map(g => ({ ...g, preciototal: g.preciototal.toFixed(2) })); 
-                } else {
-                    grupoDOM.value =nuevoGrupo.map(g => ({ ...g, preciototal: g.preciototal.toFixed(2) })); 
-                }
-
-                // actualizar item visible (total) y montos
-                updateValue(id, 'montoPagado', valorIngresado.toFixed(2));
-                // si quieres mantener precioOriginal del item como suma original:
-                updateValue(id, 'precioOriginal', sumaOriginal.toFixed(2));
-                montototalvoucher.value = parseFloat(valorIngresado.toFixed(2));
-
-                // Si tienes una sincronización que mapea infoVoucher.grupo -> items, esa tarea actualizará las líneas visibles.
-                return;
-            } else {
-                // individual
-                updateValue(id, 'montoPagado', valorIngresado.toFixed(2));
-                updateSumaTotal();
-                return;
-            }
-        } else {
-            // INVÁLIDO: restaurar valor original convertido según moneda seleccionada
-            let displayOriginal = 0;
-            if (isGrupo) {
-                if (infoVoucher.value.codigomoneda === 'USD' && selectedCurrency === 'MXN') {
-                    displayOriginal = Math.round(sumaOriginal * tasa * 100) / 100;
-                } else if (infoVoucher.value.codigomoneda === 'MXN' && selectedCurrency === 'USD') {
-                    displayOriginal = tasa > 0 ? Math.round((sumaOriginal / tasa) * 100) / 100 : sumaOriginal;
-                } else {
-                    displayOriginal = Math.round(sumaOriginal * 100) / 100;
-                }
-                msgTost.value = `ERROR: El valor (${valorIngresado.toFixed(2)}) está fuera del rango permitido (${minimo} - ${maximo}). Se restauró el valor original.`;
-                toastError.show();
-                (e.target as HTMLInputElement).value = displayOriginal.toFixed(2);
-                updateValue(id, 'montoPagado', displayOriginal.toFixed(2));
-                montototalvoucher.value = parseFloat(displayOriginal.toFixed(2));
-                return;
-            } else {
-                const originalPrice = parseFloat(itemActual.precioOriginal || '0');
-                if (infoVoucher.value?.codigomoneda === 'USD' && selectedCurrency === 'MXN') {
-                    displayOriginal = Math.round(originalPrice * tasa * 100) / 100;
-                } else if (infoVoucher.value?.codigomoneda === 'MXN' && selectedCurrency === 'USD') {
-                    displayOriginal = tasa > 0 ? Math.round((originalPrice / tasa) * 100) / 100 : originalPrice;
-                } else {
-                    displayOriginal = Math.round(originalPrice * 100) / 100;
-                }
-                msgTost.value = `ERROR: El valor (${valorIngresado.toFixed(2)}) está fuera del rango permitido (${minimo} - ${maximo}). Se restauró el valor original.`;
-                toastError.show();
-                (e.target as HTMLInputElement).value = displayOriginal.toFixed(2);
-                updateValue(id, 'montoPagado', displayOriginal.toFixed(2));
-                updateSumaTotal();
-                return;
-            }
-        }
-    });
-
-
-
-
-    const saveRelationOrderInvoice$ = $(async(e:any) => {
-        e.preventDefault();
-        
-            const toastError = await getToastInstance();
-            const radios = Array.from(document.querySelectorAll('input[name="radiotipogrupo"]')) as HTMLInputElement[];
-            const radiosExist = radios.length > 0;
-            const checked = radiosExist ? radios.find(r => r.checked) ?? null : null;
-            if (radiosExist && !checked) {
+        const radios = Array.from(document.querySelectorAll('input[name="radiotipogrupo"]')) as HTMLInputElement[];
+        const radiosExist = radios.length > 0;
+        const checked = radiosExist ? radios.find(r => r.checked) ?? null : null;
+        let radioGroupValue: number | null = checked ? Number(checked.value) : null;
+        if (radiosExist && !checked) {
                 msgTost.value = `ERROR: Selecciona un tipo de facturación.`;
-                toastError.show();
+                new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                 contextLoading.value = {status:false, message:''};
                 return;
+        }
+        let facturaAplanada: any[] = [];
+        items.value.forEach(it => {
+            if (grupoDOM.value[it.id]) {
+                grupoDOM.value[it.id].forEach(g => {
+                    facturaAplanada.push({ voucher: g.codvoucher, montoPagado: g.preciototal, referencia: it.referencia });
+                });
+            } else {
+                facturaAplanada.push({ voucher: it.voucher, montoPagado: it.montoPagado, referencia: it.referencia });
             }
-        for (let i = 0; i < items.value.length; i++) {
+        });
+        
+        if (Object.keys(grupoDOM.value).length > 0 ) {
+             radioGroupValue = 3;
+        }else if (items.value.length == 1 && Object.keys(grupoDOM.value).length == 0){
+             radioGroupValue = 1;
+        }
+
+         for (let i = 0; i < items.value.length; i++) {
                 const it = items.value[i];
                 const fila = i + 1;
 
                 if (!it.voucher || it.voucher.trim() === '') {
                     msgTost.value = `ERROR: Voucher vacío en la fila ${fila}.`;
-                    toastError.show();
+                   new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                     return;
                 }
 
                 if (!it.referencia || it.referencia.trim() === '') {
                     msgTost.value = `ERROR: Referencia vacía en la fila ${fila}.`;
-                    toastError.show();
+                   new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                     return;
                 }
 
                 const monto = parseFloat((it.montoPagado || '').toString());
                 if (isNaN(monto) || monto <= 0) {
                     msgTost.value = `ERROR: Monto inválido en la fila ${fila}.`;
-                    toastError.show();
+                   new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                     return;
                 }
             }
-            
-            let radioGroupValue: number | null = checked ? Number(checked.value) : null;
-            const isGroupToken = infoVoucher.value?.tokenfile != null && infoVoucher.value?.grupo.length > 0;
-            // Forzar valores según tokenfile / cantidad de items (mantener reglas previas)
-            if (isGroupToken) {
-             radioGroupValue = 3; // Forzar valor de grupo si viene con tokenfile
-            } else if (items.value.length == 1 && infoVoucher.value?.tokenfile == null) {
-             radioGroupValue = 1; // Forzar valor individual si solo hay un voucher
-            }
-        
 
         const bs = (window as any)['bootstrap']
-        const toastSuccess = new bs.Toast('#toast-success',{})
         // const toastError = new bs.Toast('#toast-error',{})
         const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
         const dataFormInvoicing : {[key:string]:any} = {}
         const radioTypePerson = document.querySelector('input[name="radiotipofactura"]:checked') as HTMLInputElement;
         let errorInvoicing = false;
-            
         let factura: any[] = [];
 
-        if (isGroupToken) {
-            const referenciaUnica = items.value[0].referencia;
 
-            factura = grupoDOM.value.map((g: any) => ({
-                voucher: g.codvoucher, 
-                montoPagado: g.preciototal, 
-                referencia: referenciaUnica 
-            }));
 
-        } else {
-            factura = [...items.value];
-        }
-        
-            
-        contextLoading.value = {status:true, message:''}        
+       //  contextLoading.value = {status:true, message:''}        
         if(country.value === 'MX' )
         {
             if(!formInvoicing.checkValidity())
@@ -710,10 +439,10 @@ export default component$(() =>{
             
             dataFormInvoicing.tipoPersona = radioTypePerson.value;
             dataFormInvoicing.origenFactura = country.value;
-            dataFormInvoicing.facturar = factura;
+            dataFormInvoicing.facturar = facturaAplanada;
             dataFormInvoicing.idtipoagrupacionfactura = radioGroupValue;
         }    
-        
+
         if(errorInvoicing == false )
         {        
 
@@ -722,260 +451,192 @@ export default component$(() =>{
 
             if (!data.error) 
             {
-                    // Limpiamos el campo voucher que causó el conflicto
+                    // Limpiamos los campos
                 items.value =[objectItem];
             
                 //(document.querySelector('#input-voucher') as HTMLInputElement).value = '';
                 (formInvoicing as HTMLFormElement).reset(); 
                 contextLoading.value = {status:false, message:''}
                 
-                    infoVoucher.value = objectInfo
-                stateContext.value = { ...stateContext.value, infopayment: objectInfo}
-                
-                    toastSuccess.show()
+                    msgTost.value = '¡Solicitud de facturación enviada con éxito!';
+                    new (window as any)['bootstrap'].Toast('#toast-success').show();
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
             }
             else{
                 msgTost.value = data.mensaje || 'Ocurrió un error';
-                toastError.show()
+               new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
                 contextLoading.value = {status:false, message:''}
             }
         }
 
 
-
-
-            
-    })
+       
+    });
 
     return (
-        <div class='container-fluid'>
-                             
-                <div class='row bg-image bg-contact-us-option-1 mt-5'>
-                    <div class='col-xl-12 mt-5'>
-                        <div class='container'>
-                            <div class='row'>
-                                <div class='col-lg-12 text-center'>
-                                    <h2 class='h1 text-semi-bold text-dark-blue mb-3'>Facturación</h2>
-                                    <hr class='divider my-5'></hr>
-                                    <h3 class='h5 text-dark-gray'>¡Importante antes de enviar el formulario, verifica tus datos de facturación!</h3>
-                                    <h3 class='h5 text-dark-gray'>Todos los campos son requeridos</h3>
-                                    <div class='card mt-5 pt-3 pb-4 px-lg-5 shadow-lg'>
-                                        <div class='card-body px-5 text-start'>
-
-                                            <div class='row'>
-                                                    <h6 class="text-semi-bold text-dark-blue">Ingrese los vouchers que requiere facturar </h6>
-                                                    
-                                            
-                                            <div class="container mt-5 mb-0">
-                                                {
-                                                    infoVoucher.value.created_at &&
-                                                    <ul class="list-group list-group-horizontal pb-4 align-items-center justify-content-center">
-                                                        <li class="list-group-item list-group-item-light"><b>Fecha de emisión:</b> {infoVoucher.value.created_at}</li>
-                                                        <li class="list-group-item list-group-item-light"><b>Tasa de Cambio:</b> {infoVoucher.value.tasacambio}</li>
-                                                        <li class="list-group-item list-group-item-light"><b>Total :</b> ${montototalvoucher.value} {stateContext.value.changeCurrency||infoVoucher.value.codigomoneda} </li>
-                                                    </ul>
-                                                }
-
-                                                {/* Títulos de las Columnas */}
-                                                <div class="row d-none d-md-flex fw-bold text-secondary mb-2 border-bottom pb-1">
-                                                    <div class="col-md-1">#</div>
-                                                    <div class="col-md-4">Voucher</div>
-                                                    {/* <div class="col-md-2">Tasa de Cambio</div> */}
-                                                    <div class="col-md-3">Referencia</div>
-                                                    <div class="col-md-3">Valor Pagado</div>
-                                                    <div class="col-md-1"></div>
-                                                </div>
-
-                                                {/* Mapeo de la lista de filas de inputs */}
-                                                {items.value.map((item, index) => (
-                                                    <div key={item.id} class="row g-2 align-items-center mb-3">
-                                                      <div class="col-md-1">{`# ${index + 1}`}</div>
-                                                    {/* Columna: Voucher */}
-                                                    <div class="col-12 col-md-4">
-                                                        <label class="d-md-none">Voucher:</label>
-                                                        <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder={`Voucher ${index + 1}`}
-                                                        value={item.voucher}
-                                                        onInput$={(e) => updateValue(item.id, 'voucher', (e.target as HTMLInputElement).value)}
-                                                        onBlur$={(e) =>validationCodeVoucher$(e, item.id,index)}
-                                                        required={true}
-                                                        />
-                                                    </div>
-
-                                                    
-
-                                                    {/* Columna: Referencia */}
-                                                    <div class="col-12 col-md-3">
-                                                        <label class="d-md-none">Referencia:</label>
-                                                        <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Referencia"
-                                                        required={true}
-                                                        value={item.referencia}
-                                                        onInput$={(e) => updateValue(item.id, 'referencia', (e.target as HTMLInputElement).value)}
-                                                        />
-                                                    </div>
-
-                                                    {/* Columna: Monto Pagado */}
-                                                    <div class="col-12 col-md-3">
-                                                        <label class="d-md-none">Monto Pagado:</label>
-                                                        <input
-                                                        type="text"
-                                                        class="form-control"
-                                                        placeholder="Valor Pagado"
-                                                        //defaultValue={montototalvoucher.value.toString()}
-                                                        value={item.montoPagado}
-                                                        required={true}
-                                                        //onInput$={(e) => updateValue(item.id, 'montoPagado', (e.target as HTMLInputElement).value)}
-                                                        onChange$={(e)=>validatePayment$(e, item.id,index)}
-                                                        
-                                                        />
-                                                    </div>
-
-                                                    {/* Columna: Botón Quitar */}
-                                                    <div class="col-12 col-md-1 d-grid">
-                                                        {
-                                                        infoVoucher.value?.tokenfile == null &&  items.value.length >1 &&
-                                                        <button
-                                                            class="btn btn-outline-danger btn-sm"
-                                                            type="button"
-                                                            onClick$={() => removeInput(item.id)}
-                                                            // Deshabilita si es el único elemento
-                                                            disabled={items.value.length === 1}
-                                                        >
-                                                            Quitar
-                                                        </button>
-                                                        }
-                                                    
-                                                    </div>
-                                                    </div>
-                                                ))}
-
-                                                {
-                                                    infoVoucher.value?.tokenfile != null && infoVoucher.value?.grupo &&
-                                                    <a class="btn btn-primary mb-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Ver Grupo</a>
-                                                }
-                                                {
-                                                    infoVoucher.value?.tokenfile != null &&infoVoucher.value?.grupo &&
-                                                    grupoDOM.value.map((itemg:any, indexg:number) => (
-                                                    <div key={indexg} class="row g-2 align-items-center my-1">
-                                                        <div class="collapse" id="collapseExample">
-                                                        <div class="card card-body py-1  my-1">
-                                                            <table class="table-responsive table-sm">
-                                                                <tbody>
-                                                                <tr>
-                                                                    <th scope="row" style={{ width: '80px' }}>{indexg}</th>
-                                                                    <td style={{ width: '120px' }}>{itemg.codvoucher}</td>              
-                                                                    <td style={{ width: '100px' }}>{itemg.preciototal}</td>
-                                                                </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                        </div>
-                                                        </div>
-                                                    ))
-                                                }
-
-                                                {/* Botón principal para AGREGAR filas */}
-                                                <div class="mt-4">
-                                                    {
-                                                    infoVoucher.value?.tokenfile == null &&
-                                                    <button
-                                                    class="btn btn-primary"
-                                                    type="button"
-                                                    onClick$={addInput}
-                                                    >
-                                                    ➕ Agregar Voucher
-                                                    </button>
-                                                    }
-                                                    
-                                                </div>
-                                                    {
-                                                    infoVoucher.value?.tokenfile == null && items.value.length >1 &&
-                                                    <div class="col-12 mb-1 my-3">
-                                                            <hr/>
-                                                            <h6 class="text-semi-bold text-dark-blue">Tipo de facturación</h6>
-                                                            <div class="row">    
-                                                                <div class="col-6">
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="radiotipogrupo" title='Genera una factura individual por voucher'
-                                                                id="radiotipogrupo1" value={1}  />
-                                                                <label class="form-check-label text-semi-bold text-dark-blue" for="radiotipogrupo1" >
-                                                                    Individual por cada voucher
-                                                                    </label>
-                                                                </div>
-                                                            </div>
-                                                    
-                                                            <div class="col-6 ">
-                                                                <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="radiotipogrupo" title='Genera una solo factura con los vouchers solicitados'
-                                                                id="radiotipogrupo2" value={3} />
-                                                                <label class="form-check-label text-semi-bold text-dark-blue" for="radiotipogrupo2" >
-                                                                    Una sola factura con el desglose por voucher
-                                                                </label>
-                                                                </div>
-                                                            </div>
-                                                            </div>
-                                                                
-
-                                                    </div>
-
-                                                    }
-
-                                                    <div id='toast-validation-error' class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                                                                    <div class="d-flex">
-                                                                        <div class="toast-body">
-                                                                            <div class='message'>
-                                                                                <i class="fas fa-times-circle"/>
-                                                                                <span class='text-start mx-2'>
-                                                                                    <b>{msgTost.value}</b>
-                                                                                {/*   <br/>
-                                                                                    <small>Si el error persiste llama a nuestros números de contacto.</small> */}
-                                                                                </span>
-                                                                            </div>
-                                                                        </div>
-                                                                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                                                                    </div>
-                                                    </div>
-                                                
-
-                                            </div>
-                                               
-                                                        
-                                            </div>
-                                            {
-                                               country.value === 'CO'&&
-                                                <InvoiceFormCO/>
-                                                
-                                            }
-                                            {
-                                                country.value === 'MX'&&
-                                                <InvoiceFormMX/>
-                                            }
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <div class='container mb-5'>
-                                        <div class='row justify-content-center'>
-                                            <div class='col-lg-2 col-sm-12'>
-                                                <div class='d-grid gap-2'>
-                                                    <button class='btn btn-primary btn-lg'  onClick$={(e)=>saveRelationOrderInvoice$(e)} >Enviar</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <div class="container-fluid py-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 mt-5 text-center">
+                    <h2 class='h1 text-semi-bold text-dark-blue mb-3'>Facturación</h2>
+                    <hr class='divider my-5'></hr>
+                    <h3 class='h5 text-dark-gray'>¡Importante antes de enviar el formulario, verifica tus datos de facturación!</h3>
+                    <h3 class='h5 text-dark-gray'>Todos los campos son requeridos</h3>        
+                </div>
+                
+                <div class='col-lg-10'>
+                    <div class='card shadow-lg border-0 mt-4'>
+                        <div class='card-body p-lg-5'>
+                            <div class="d-flex justify-content-end mb-4">
+                                <div class="p-3 rounded border text-end shadow-sm">
+                                    <span class="text-muted  d-block">Total a facturar</span>
+                                    <h3 class="fw-bold mb-0 text-primary">
+                                        ${montototalvoucher.value} {monedaseleccionada.value}
+                                    </h3>
                                 </div>
                             </div>
+                             <h6 class="text-semi-bold text-dark-blue">Ingrese los vouchers que requiere facturar </h6>       
+                            {items.value.map((item, index) => (
+                                <div key={item.id} class="card mb-4 bg-white border-light shadow-sm">
+                                    <div class="card-body">
+                                        <div class="row g-3 align-items-center">
+                                             
+                                            <div class="col-auto"><span class="badge bg-dark">#{index + 1}</span></div>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Voucher" 
+                                                    value={item.voucher}
+                                                    onInput$={(e) => updateValue(item.id, 'voucher', (e.target as HTMLInputElement).value)}
+                                                    onBlur$={(e) => validationCodeVoucher$(e, item.id, index)} />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="text" class="form-control" placeholder="Referencia" 
+                                                    value={item.referencia}
+                                                    onInput$={(e) => updateValue(item.id, 'referencia', (e.target as HTMLInputElement).value)} />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group">
+                                                    <span class="input-group-text">$</span>
+                                                    <input type="text" class="form-control" 
+                                                        value={item.montoPagado} 
+                                                        onChange$={(e) => validatePayment$(e, item.id, index)} />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1 text-center">
+                                                {items.value.length > 1 && (
+                                                    <button class="btn btn-outline-danger btn-sm border-0" onClick$={() => removeInput(item.id)}>
+                                                        <i class="fas fa-trash fa-lg"></i>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {item.fechacreacion && (
+                                            <div class="mt-3">
+                                                <a class="btn btn-sm btn-link text-decoration-none p-0 text-muted" type="button" 
+                                                    data-bs-toggle="collapse" href={`#collapse-${item.id}`}>
+                                                    <i class="fas fa-chevron-circle-down me-1"></i> Ver detalles de emisión 
+                                                </a>
+                                                <div class="collapse mt-2" id={`collapse-${item.id}`}>
+                                                    <div class="card card-body bg-light border-0 py-2">
+                                                        <div class="row small mb-2 text-muted">
+                                                            <div class="col-6"><strong>Fecha:</strong> {item.fechacreacion}</div>
+                                                            <div class="col-6 text-end"><strong>Tasa:</strong> {item.tasacambio} </div>
+                                                        </div>
+                                                        {grupoDOM.value[item.id] && (
+                                                            <div class="table-responsive">
+                                                                <table class="table table-sm table-bordered bg-white mb-0 small shadow-sm">
+                                                                    <thead class="table-dark">
+                                                                        <tr><th>Voucher Grupal</th><th class="text-end">Monto ({monedaseleccionada.value})</th></tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {grupoDOM.value[item.id].map((g: any, i: number) => (
+                                                                            <tr key={i}><td>{g.codvoucher}</td><td class="text-end">${g.preciototal}</td></tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+
+                            <button class="btn btn-outline-primary mb-4" type="button" onClick$={addInput}>
+                                <i class="fas fa-plus-circle me-2"></i>Añadir otro Voucher
+                            </button>
+
+
+                       {
+                        Object.keys(grupoDOM.value).length == 0 && items.value.length >1&& 
+                        <div class="col-12 mb-1 my-3">
+                            <hr class="mt-3" />
+                            <h6 class="text-semi-bold text-dark-blue">Tipo de facturación</h6>
+                            <div class="row">    
+                                <div class="col-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radiotipogrupo" title='Genera una factura individual por voucher'
+                                id="radiotipogrupo1" value={1}  />
+                                <label class="form-check-label text-semi-bold text-dark-blue" for="radiotipogrupo1" >
+                                    Individual por cada voucher
+                                    </label>
+                                </div>
+                            </div>
+                    
+                            <div class="col-6 ">
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="radiotipogrupo" title='Genera una solo factura con los vouchers solicitados'
+                                id="radiotipogrupo2" value={3} />
+                                <label class="form-check-label text-semi-bold text-dark-blue" for="radiotipogrupo2" >
+                                    Una sola factura con el desglose por voucher
+                                </label>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                       }      
+
+                           
+                            {country.value === 'CO' ? <InvoiceFormCO /> : <InvoiceFormMX />}
+                            
+                            <div class='row justify-content-center my-5'>
+                                 <div class='col-lg-4 col-sm-12'>
+                                                <div class='d-grid gap-2'>
+                                                    <button class="btn btn-primary btn-lg" onClick$={saveRelationOrderInvoice$}>
+                                            Enviar Solicitud
+                                        </button>
+                                                     </div>
+                                    
+                                        
+                                   
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
-                <div class="toast-container position-fixed bottom-0 p-3">
+            </div>
+
+            <div class="toast-container position-fixed bottom-0 end-0 p-3">
+                <div id='toast-validation-error' class="toast align-items-center text-bg-danger border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body"><i class="fas fa-exclamation-triangle me-2"></i>     
+                            <span class='text-start mx-2'>
+                                <b>
+                                    {msgTost.value}
+                                </b>
+                            </span>
+                            </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            </div>
+
+             <div class="toast-container position-fixed bottom-0 p-3">
                     <div id='toast-success' class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                         <div class="d-flex">
                             <div class="toast-body">
@@ -983,16 +644,13 @@ export default component$(() =>{
                                     <i class="fas fa-check-circle"/>
                                     <span  class='text-start'>
                                         <b>Solicitud de factura enviada, favor de estar atento al correo que proporciono</b>
-                                        {/* <br/>
-                                        <small>En unos minutos responderemos tus dudas.</small> */}
                                     </span>
                                 </div>
                             </div>
                             <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                         </div>
                     </div>
-                  
-                </div>
-            </div>
+             </div>
+        </div>
     )
 })
