@@ -1,4 +1,4 @@
-import { $, component$,useSignal,useContext, useTask$,useStyles$} from "@builder.io/qwik";
+import { $, component$,useSignal,useContext, useVisibleTask$,useTask$,useStyles$} from "@builder.io/qwik";
 import styles from './invoiceForm.css?inline'
 import { WEBContext } from "~/root";
 import { Form } from "~/components/starter/form/Form";
@@ -146,7 +146,7 @@ export const InvoiceFormMX = component$((props:any) => {
         stateContext.value = { ...stateContext.value, listadoTiposPagos:resFormaPago }
     })
     
-    useTask$(() => {
+    useVisibleTask$(() => {
         let observer: MutationObserver;
         
         const setupObserver = () => {
@@ -182,7 +182,7 @@ export const InvoiceFormMX = component$((props:any) => {
         });
     });
 
-    useTask$(() => {
+    useVisibleTask$(() => {
         let observer: MutationObserver;
 
         const setupObserver = () => {
@@ -279,21 +279,21 @@ export const InvoiceFormMX = component$((props:any) => {
             const resultado = data.resultado[0];
 
             typePersonInvoice.value = resultado.tipopersona || 'RS';
-            changeStateMX$(resultado.idestado);
-
+           await changeStateMX$(resultado.idestado);
+            
             if (inputNombres)         inputNombres.value = resultado.nombres || '';
             if (inputApellidos)       inputApellidos.value = resultado.apellidos || '';
             if (inputCorreo)          inputCorreo.value = resultado.email || '';
             if (inputTelefono)        inputTelefono.value = resultado.telefono || '';
             if (inputDireccion)       inputDireccion.value = resultado.direccion || '';
             if (inputCodigoPostal)    inputCodigoPostal.value = resultado.codigopostal || '';
-            if (selectEstado)         selectEstado.value = resultado.nombreestado;
-            if (selectCiudad)         selectCiudad.value = resultado.nombreciudad;
+            if (selectEstado)         selectEstado.value = resultado.nombreestado;            
             if (selectEstado)         selectEstado.dataset.value = resultado.idestado;
-            if (selectCiudad)         selectCiudad.dataset.value = resultado.idciudad;
             if (selectRegimenFiscal)  selectRegimenFiscal.dataset.value = resultado.idregimenfiscal;
             if (selectRegimenFiscal)  selectRegimenFiscal.value = `${resultado.clave} - ${resultado.regimenfiscal}`;
             if (inputRazonSocial)     inputRazonSocial.value = resultado.razonsocial || '';
+            if (selectCiudad)         selectCiudad.value = resultado.nombreciudad;
+            if (selectCiudad)         selectCiudad.dataset.value = resultado.idciudad;
 
             contextLoading.value = { status: false, message: '' };
         } else {
@@ -400,7 +400,7 @@ export const InvoiceFormMX = component$((props:any) => {
                                 {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
                                /*  {size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
  */                                {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
-                                options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                options:listadoMonedas.value,required:requiredReference.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
                                /*  {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
  */
@@ -420,7 +420,7 @@ export const InvoiceFormMX = component$((props:any) => {
                                 
                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'estado',
                                 required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateMX$(e.value))},
-                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:stateContext.value.listadociudades},
 
                             ]},
 
@@ -460,7 +460,7 @@ export const InvoiceFormMX = component$((props:any) => {
                                 {size:'col-xl-6 col-xs-12', type: 'date', label: 'Fecha de Pago', placeholder: 'Fecha', name: 'fechapagofactura', required:requiredReference.value, hidden:hideInputDataPayment.value, value: infoVoucher.value.fechapagofactura, disabled:disabledInputDataPayment.value},
                                 //{size:'col-xl-6 col-xs-12', type: 'text', label:'Referencia de Pago', placeholder:'Referencia de Pago', name:'referenciapago', required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.referenciapagofactura,disabled:disabledInputDataPayment.value},
                                 {size:'col-xl-6 col-xs-12', type:'select',label:'Moneda en Factura',placeholder:'Moneda en Factura',name:'idmonedafactura',
-                                options:listadoMonedas.value,required:requiredReference.value,hidden:hideInputDataPayment.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
+                                options:listadoMonedas.value,required:requiredReference.value, value: infoVoucher.value.idmonedafactura,onChange:$((e:any)=>getExchangeRate$(e))
                                 },
                                /// {size:'col-xl-6 col-xs-12', type: 'text', label: 'Valor Pagado', placeholder: 'Valor Pagado', name: 'valorpagadofactura', required:requiredReference.value, step: 'any', min: 0,hidden:hideInputDataPayment.value, value: paymentValue.value,onChange:$((e:any)=>validatePayment$(e)),disabled:disabledInputPaymentValue.value},
 
@@ -480,7 +480,7 @@ export const InvoiceFormMX = component$((props:any) => {
                                 
                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Estados',placeholder:'Estados',name:'estado',
                                 required:true,options:stateContext.value.listadoestados, onChange:$((e:any)=>changeStateMX$(e.value)),},
-                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:listadoCiudades.value,},
+                                {size:'col-xl-6 col-xs-12',type:'select',label:'Ciudad',placeholder:'Ciudad',name:'ciudad',required:true,options:stateContext.value.listadociudades,},
 
                             ]},
 
