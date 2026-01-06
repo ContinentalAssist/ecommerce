@@ -18,7 +18,7 @@ export const HomeHeader = component$((props: HomeHeaderProps) => {
                             <div>
                                 <h1 class="text-blue">
                                         Viaja con tranquilidad,<br /> 
-                                        <span class="text-bold">protegido</span>
+                                        <span class="text-bold">protegido </span>
                                         en todo momento.
                                 </h1>
                             </div>
