@@ -644,7 +644,7 @@ export const CardPaymentResume = component$(() => {
           )}
 
           {/* Banner Cupón - Mobile */}
-          {!location.url.pathname.includes("/step-4") && (
+          {/* {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-lg-none"
               style={{ borderRadius: "15px !important" }}
@@ -658,7 +658,7 @@ export const CardPaymentResume = component$(() => {
                 />
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Card de Resumen de Viajeros - Solo Mobile */}
           <div
@@ -1253,7 +1253,7 @@ export const CardPaymentResume = component$(() => {
           )}
 
           {/* Banner Cupón - Desktop */}
-          {!location.url.pathname.includes("/step-4") && (
+          {/* {!location.url.pathname.includes("/step-4") && (
             <div
               class="card mb-3 shadow-sm border-0 d-none d-lg-block"
               style={{ borderRadius: "15px !important" }}
@@ -1267,7 +1267,7 @@ export const CardPaymentResume = component$(() => {
                 />
               </div>
             </div>
-          )}
+          )} */}
 
           {/* Card de Resumen de Viajeros - Solo Desktop */}
           <div id="card-pax" class="card  mb-3 shadow-sm d-none d-lg-block">

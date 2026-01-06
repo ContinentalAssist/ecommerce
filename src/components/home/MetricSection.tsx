@@ -7,6 +7,9 @@ export const MetricSection = component$(() => {
         <section class="metrics-section">
             <div class="container">
                 <div class="row">
+                <div class="col-md-12 d-flex justify-content-center align-items-center text-center mensaje-familiar">
+                    <h2 class="text-Familiar">Paga solo por 2 adultos y <span class="text-bold">cubre hasta 4 menores de <br />23 años sin costo adicional.</span> Aplican condiciones.</h2>
+                </div>
                     <div class="col-md-12 d-flex justify-content-center align-items-center text-center" id="metrics-section" style={{marginTop: '4%'}}>
                         <div class="col-6 col-md-3 mt-3 p-2 d-flex flex-column align-items-center">
                             <div class='mb-4'>
