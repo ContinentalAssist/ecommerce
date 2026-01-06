@@ -17,17 +17,16 @@
    Reglas base y generales
    ===================== */
 @media (min-width: 769px) {
+
     .bg-home-header {
-        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/BG-Navidad.svg");
-        background-size: cover;
+        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
+        background-size: auto;
         background-repeat: no-repeat;
-        background-position: center bottom;
+        background-position: center;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 91%, rgba(0,0,0,0) 97%);
         width: 100%;
         height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
     }
 }
 
@@ -536,7 +535,7 @@
     padding-left: 40px;
     color: white;
     text-align: left;
-    font-size: 3.2rem;
+    font-size: 3rem;
     font-weight: 400;
 }
 
@@ -680,11 +679,15 @@
 /* Mobile Portrait */
 @media (max-width: 575.98px) {
     .bg-home-header {
-        background: url("https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/imagenes/BG-MOBILE-Navidad1.svg");
-        background-size: cover;
+        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
+        background-size: auto;
+        background-repeat: no-repeat;
         background-position: center;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(0,0,0,0) 94%);
+        width: 100%;
+        height: 100%;
     }
-
     .metrics-section-mobile {
         margin: 60px 0 30px 0 !important;
     }
@@ -934,13 +937,14 @@
     }
 
     .bg-home-header {
-        background: src;
-        background-size: cover;
+        background: url("https://cabiometrics.nyc3.cdn.digitaloceanspaces.com/Header.png");
+        background-size: auto;
         background-repeat: no-repeat;
         background-position: center;
+        -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        mask-image: linear-gradient(to bottom, rgb(0, 0, 0) 90%, rgba(0,0,0,0) 94%);
         width: 100%;
-        height: 970px !important;
-        min-height: 970px !important;
+        height: 100%;
     }
 
     .qs-bg-left,
@@ -1850,6 +1854,7 @@
     .img-fluid-mujer-BF {
         width: 95% !important;
         height: auto;
+        margin-bottom: 30px;
         max-width: 95% !important;
     }
 
