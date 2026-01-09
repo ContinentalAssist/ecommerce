@@ -13,15 +13,30 @@ export const InvoiceFormCO = component$(() => {
     const inputTypeDocument = useSignal('text');
     const showInputInvoiceRS= useSignal(true);
     const disableVerificationCode= useSignal(true);
+    const disableDocument= useSignal(true);
     const array : any[] = []
    // const listadoCiudades = useSignal(array)
     const listadoTiposPagos = useSignal(array)
     const contextLoading = useContext(LoadingContext)
     const dateVoucher= useSignal(dayjs().format('YYYY-MM-DD'));
-    const typeDocument = useSignal([
-        {value:'PASAPORTE',label:'Pasaporte'},
-        {value:'NIT',label:'NIT / CC'},
-    ]);
+    const typeDocument = useSignal(array);
+
+    const nacionalidad = useSignal(null); // Signal para controlar la nacionalidad
+    const listadoNacionalidades = useSignal(array);
+
+    useTask$( async()=>{
+        let resCountry : {[key:string]:any[]} = {}
+        const country : any[] = []
+        const response = await fetch(import.meta.env.VITE_MY_PUBLIC_WEB_ECOMMERCE+"/api/getCountry",{method:"POST"});
+        const data = await response.json()
+        resCountry = data.resultado[0]
+
+        resCountry.paises.map((pais) => {
+                country.push({value:pais.idpais, label:`${pais.nombrepais}`})
+            })
+
+        listadoNacionalidades.value = country;
+    })
 
     useTask$(({ track })=>{
             const value = track(()=>stateContext.value.fechaemision);   
@@ -32,6 +47,37 @@ export const InvoiceFormCO = component$(() => {
             
            // contextLoading.value = {status:false, message:''};
     })
+
+    useTask$(({ track }) => {
+        const nac = track(() => nacionalidad.value);
+
+        if (typePersonInvoice.value === 'RS') {        
+         typeDocument.value = [];
+         /// nacionalidad colombiana 5, otros paises EXT
+            if (nac) 
+            {
+                
+                if (nac === 5) {
+                    typeDocument.value = [{ value: 'NIT', label: 'NIT / CC' }];
+                    const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
+                    const selectEstado = formInvoicing.querySelector('[name="tipoid"]') as HTMLSelectElement;
+                    if (selectEstado) selectEstado.value = '';
+    
+    
+                } else {
+                    const formInvoicing = document.querySelector('#form-invoicing') as HTMLFormElement
+                    const selectEstado = formInvoicing.querySelector('[name="tipoid"]') as HTMLSelectElement;
+                    if (selectEstado)selectEstado.value = '';
+                    
+                    typeDocument.value = [{ value: 'PASAPORTE', label: 'Pasaporte' }];
+                }
+                disableDocument.value = false;
+            }
+            else {
+                disableDocument.value = true;
+            }
+        }
+    });
     
     useTask$(async()=>{
         let resForma : {[key:string]:any[]} = {}
@@ -191,10 +237,11 @@ export const InvoiceFormCO = component$(() => {
 
                             {row:[
                                 /* {size:'col-xl-4 col-xs-12', type: 'date', label: 'Fecha de Emisión', placeholder: 'Fecha', name: 'fechaemision', required: true, value: dateVoucher.value, disabled: true}, */
-                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:typeDocument.value, onChange:$((e:any)=>changeTypeIdPerson$(e))},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Pais de Nacionalidad',placeholder:'Nacionalidad',name:'nacionalidad',required:true,options:listadoNacionalidades.value, onChange:$((e:any) => nacionalidad.value = e.value)},
+                                {size:'col-xl-4 col-xs-12',type:'select',label:'Tipo ID',placeholder:'Tipo ID',name:'tipoid',required:true,options:typeDocument.value, onChange:$((e:any)=>changeTypeIdPerson$(e)),disabled:disableDocument.value},
                             ]}, 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:inputTypeDocument.value,label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},
+                                {size:'col-xl-8 col-xs-12',type:inputTypeDocument.value,label:'ID',placeholder:'ID',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e)),disabled:disableDocument.value},
                                 {size:'col-xl-4 col-xs-12',type:'number',label:'Código Verificación',placeholder:'Código Verificación',name:'codigoverificacion',required:true,disabled:disableVerificationCode.value},
                             ]},
                                                                                 

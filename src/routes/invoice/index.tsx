@@ -340,11 +340,15 @@ export default component$(() => {
                     return;
                 }
 
-                if (!it.referencia || it.referencia.trim() === '') {
-                    msgTost.value = `ERROR: Referencia vacía en la fila ${fila}.`;
-                   new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
-                    return;
+                if (country.value == 'MX') {
+                   if (!it.referencia || it.referencia.trim() === '') {
+                        msgTost.value = `ERROR: Referencia vacía en la fila ${fila}.`;
+                        new (window as any)['bootstrap'].Toast('#toast-validation-error').show();
+                        return;
+                    }
                 }
+
+               
 
                 const monto = parseFloat((it.montoPagado || '').toString());
                 if (isNaN(monto) || monto <= 0) {
@@ -404,6 +408,17 @@ export default component$(() => {
                 dataFormInvoicing.idestado = null //Number(inputState.dataset?.value); 
                 dataFormInvoicing.codigociudad = null //codigoCiudad;
                 dataFormInvoicing.codigoverificacion = Number(dataFormInvoicing.codigoverificacion);
+
+                if (country.value == 'CO')
+                {
+                        const inputNac = document.querySelector('[name="nacionalidad"]') as HTMLSelectElement;
+                        if (inputNac) {
+                        const dataValue = inputNac?.dataset.value;
+                        dataFormInvoicing.idnacionalidad  = Number(dataValue);
+                        }
+                        
+                        
+                }
 
             }
             else if (country.value === 'MX')
@@ -503,17 +518,19 @@ export default component$(() => {
                                         <div class="row g-3 align-items-center">
                                              
                                             <div class="col-auto"><span class="badge bg-dark">#{index + 1}</span></div>
-                                            <div class="col-md-4">
+                                            <div class={country.value === 'CO' ? "col-md-7" : "col-md-4"}>
                                                 <input type="text" class="form-control" placeholder="Voucher" 
                                                     value={item.voucher}
                                                     onInput$={(e) => updateValue(item.id, 'voucher', (e.target as HTMLInputElement).value)}
                                                     onBlur$={(e) => validationCodeVoucher$(e, item.id, index)} />
                                             </div>
-                                            <div class="col-md-3">
-                                                <input type="text" class="form-control" placeholder="Referencia" 
-                                                    value={item.referencia}
-                                                    onInput$={(e) => updateValue(item.id, 'referencia', (e.target as HTMLInputElement).value)} />
-                                            </div>
+                                            {country.value !== 'CO' && (
+                                                <div class="col-md-3">
+                                                    <input type="text" class="form-control" placeholder="Referencia" 
+                                                        value={item.referencia}
+                                                        onInput$={(e) => updateValue(item.id, 'referencia', (e.target as HTMLInputElement).value)} />
+                                                </div>
+                                            )}
                                             <div class="col-md-3">
                                                 <div class="input-group">
                                                     <span class="input-group-text">$</span>
