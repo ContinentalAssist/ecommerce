@@ -70,6 +70,7 @@ export const InvoiceFormCO = component$(() => {
                     if (selectEstado)selectEstado.value = '';
                     
                     typeDocument.value = [{ value: 'PASAPORTE', label: 'Pasaporte' }];
+                    disableVerificationCode.value = true;
                 }
                 disableDocument.value = false;
             }
