@@ -378,7 +378,7 @@ export const InvoiceFormMX = component$((props:any) => {
                         form={[
                             
                             {row:[                                                            
-                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,maxLength:21,onChange:$((e:any)=>getClientInvoice$(e))},  
                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
                                 required:true,options:listadoRegimenesSat.value,},               
 
@@ -426,8 +426,8 @@ export const InvoiceFormMX = component$((props:any) => {
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección', maxLength:21, name:'direccion',required:true},                            
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.', maxLength:21, name:'codigopostal',required:true}
             
                             ]}, 
                         ]}
@@ -438,7 +438,7 @@ export const InvoiceFormMX = component$((props:any) => {
                         id='form-invoicing'
                         form={[
                             {row:[                                                            
-                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,onChange:$((e:any)=>getClientInvoice$(e))},  
+                                {size:'col-xl-6 col-xs-12',type:'text',label:'RFC',placeholder:'RFC',name:'id',required:true,maxLength:21,onChange:$((e:any)=>getClientInvoice$(e))},  
                                 {size:'col-xl-6 col-xs-12',type:'select',label:'Regimen Fiscal',placeholder:'Regimen Fiscal',name:'idregimenfiscal',
                                 required:true,options:listadoRegimenesSat.value,},               
 
@@ -486,8 +486,8 @@ export const InvoiceFormMX = component$((props:any) => {
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',name:'direccion',required:true},                            
-                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',name:'codigopostal',required:true}
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',maxLength:21, name:'direccion',required:true},                            
+                                {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',maxLength:21, name:'codigopostal',required:true}
 
                             ]}, 
                         ]}
