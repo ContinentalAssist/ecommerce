@@ -426,7 +426,7 @@ export const InvoiceFormMX = component$((props:any) => {
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección', maxLength:21, name:'direccion',required:true},                            
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección', name:'direccion',required:true},                            
                                 {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.', maxLength:21, name:'codigopostal',required:true}
             
                             ]}, 
@@ -486,7 +486,7 @@ export const InvoiceFormMX = component$((props:any) => {
 
 
                             {row:[                                                            
-                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección',maxLength:21, name:'direccion',required:true},                            
+                                {size:'col-xl-8 col-xs-12',type:'text',label:'Dirección',placeholder:'Dirección', name:'direccion',required:true},                            
                                 {size:'col-xl-4 col-xs-12',type:'text',label:'C.P.',placeholder:'C.P.',maxLength:21, name:'codigopostal',required:true}
 
                             ]}, 
