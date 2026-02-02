@@ -110,7 +110,7 @@ export const Footer = component$(() => {
                                 <br/>
                                 {/*   <a title='Corporativos' class="text-regular text-white" href="https://www.continentalassist.co/backmin/corp/signin.php" target="_blank">Acceso Corporativo</a>
                                 <br/> */}
-                                <a title='Condiciones' href="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Continental%20Assist%20-%20Condiciones%20Generales%20Enero%202025.pdf" target='_blank' rel="noopener" class='text-regular text-white mb-2'>Condiciones generales para planes emitidos el 13 de enero de 2025 y posteriores.
+                                <a title='Condiciones' href="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Condiciones%20Generales%20-%20Febrero%202026.pdf" target='_blank' rel="noopener" class='text-regular text-white mb-2'>Condiciones generales para planes emitidos el 13 de enero de 2025 y posteriores.
                                 </a>
                                 <br/>
                                 <a title='Condiciones' href="https://evacotizacion.nyc3.cdn.digitaloceanspaces.com/terminosycondiciones/Condiciones%20Generales%20-%20Versi%C3%B3n%203.pdf" target='_blank' rel="noopener" class='text-regular text-white mb-2'>Condiciones generales para planes emitidos el 12 de enero de 2025 y anteriores.</a>
